@@ -36,12 +36,18 @@ public class Account implements toJsonFunctions<Account> {
         this.credit = credit;
     }
 
+    public static void setTotalNumberOfAccountCreated(int totalNumberOfAccountCreated) {
+        Account.totalNumberOfAccountCreated = totalNumberOfAccountCreated;
+    }
+
     /*********************Serialize************************/
 
+    @Override
     public void addToAllAccounts() throws IOException {
         toJsonFunctions.fromJsonArrayToJson(file,addToJsonArray(this));
     }
 
+    @Override
     public void updateInAllAccounts() throws IOException {
         toJsonFunctions.fromJsonArrayToJson(file,updateJsonArray(this));
     }

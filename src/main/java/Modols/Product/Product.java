@@ -12,16 +12,18 @@ public class Product {
     protected StatusTag statusTag;
     protected ProductGeneralSpecifications generalSpecifications;
     protected Category category;
+    protected String descriptions;
     protected double averageScore;
     protected List<Comment> comments;
 
     //
 
-    public Product(int productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, Category category, double averageScore, List<Comment> comments) {
+    public Product(int productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, Category category, String descriptions, double averageScore, List<Comment> comments) {
         this.productId = productId;
         this.statusTag = statusTag;
         this.generalSpecifications = generalSpecifications;
         this.category = category;
+        this.descriptions = descriptions;
         this.averageScore = averageScore;
         this.comments = comments;
     }

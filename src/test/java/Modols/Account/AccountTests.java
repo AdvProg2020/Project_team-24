@@ -174,12 +174,18 @@ public class AccountTests {
         );
     }
 
-    @Test
-    public void addToAllAccounts() throws IOException {
+    public File initialization() throws IOException {
         File file = new File("src/main/resources/allAccounts/allAccount.json");
         FileWriter writer = new FileWriter(file);
         writer.write("[]");
         writer.close();
+        Account.setTotalNumberOfAccountCreated(0);
+        return file;
+    }
+
+    @Test
+    public void addToAllAccounts() throws IOException {
+        File file = initialization();
         List<Account> accountList = setAccountList();
         accountList.forEach(account -> {
             try {
@@ -195,10 +201,7 @@ public class AccountTests {
 
     @Test
     public void updateInAllAccounts() throws IOException {
-        File file = new File("src/main/resources/allAccounts/allAccount.json");
-        FileWriter writer = new FileWriter(file);
-        writer.write("[]");
-        writer.close();
+        File file = initialization();
         List<Account> accountList = setAccountList();
         accountList.forEach(account -> {
             try {

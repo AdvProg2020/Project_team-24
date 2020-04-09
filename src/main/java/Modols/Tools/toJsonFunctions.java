@@ -31,4 +31,8 @@ public interface toJsonFunctions<T> {
     JsonArray updateJsonArray(T object);
 
     JsonElement fromAccountToMiniJson(T object);
+
+    void addToAllAccounts() throws IOException;
+
+    void updateInAllAccounts() throws IOException;
 }

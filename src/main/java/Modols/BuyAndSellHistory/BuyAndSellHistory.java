@@ -7,12 +7,12 @@ import java.util.List;
 public class BuyAndSellHistory {
 
     protected int historyId;
-    protected List<LogHistory> logs;
+    protected List<LogHistory> logHistories;
 
     //
 
-    public BuyAndSellHistory(int historyId, List<LogHistory> logs) {
+    public BuyAndSellHistory(int historyId, List<LogHistory> logHistories) {
         this.historyId = historyId;
-        this.logs = logs;
+        this.logHistories = logHistories;
     }
 }
