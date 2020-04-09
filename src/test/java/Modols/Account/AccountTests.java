@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class AccountTests {
 
     public List<Account> setAccountList() {
-        List<Account> list =  Arrays.asList(
+        return Arrays.asList(
 
                 new Account(
                         Account.StatusTag.Manager,
@@ -172,7 +172,6 @@ public class AccountTests {
                         )
                 )
         );
-        return list;
     }
 
     @Test
@@ -212,7 +211,7 @@ public class AccountTests {
         accountList.forEach(account -> {
             try {
                 account.updateInAllAccounts();
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
