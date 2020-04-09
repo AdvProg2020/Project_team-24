@@ -7,7 +7,7 @@ import com.gilecode.yagson.com.google.gson.JsonParser;
 import java.io.*;
 import java.util.Optional;
 
-public interface toJsonFunctions<T> {
+public interface ToJsonFunctions<T> {
 
     static JsonArray fromJsonToJsonArray(File file) {
         try {
@@ -20,19 +20,27 @@ public interface toJsonFunctions<T> {
         return null;
     }
 
-    static void fromJsonArrayToJson(File file,JsonArray jsonArray) throws IOException {
+    static void fromJsonArrayToJson(File file, JsonArray jsonArray) throws IOException {
         FileWriter writer = new FileWriter(file);
         writer.write(jsonArray.toString());
         writer.close();
     }
 
-    JsonArray addToJsonArray(T object);
+    default JsonArray addToJsonArray(T object) {
+        return null;
+    }
 
-    JsonArray updateJsonArray(T object);
+    default JsonArray updateJsonArray(T object) {
+        return null;
+    }
 
-    JsonElement fromAccountToMiniJson(T object);
+    default JsonElement fromAccountToMiniJson(T object) {
+        return null;
+    }
 
-    void addToAllAccounts() throws IOException;
+    default void addToResources() throws IOException {
+    }
 
-    void updateInAllAccounts() throws IOException;
+    default void updateResources() throws IOException {
+    }
 }

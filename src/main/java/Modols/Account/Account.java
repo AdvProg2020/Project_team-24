@@ -3,8 +3,8 @@ package Modols.Account;
 import Modols.BuyAndSellHistory.BuyAndSellHistory;
 import Modols.DiscountWithCode.DiscountWithCode;
 import Modols.PersonalInformation.PersonalInformation;
-import Modols.Role.Role;
-import Modols.Tools.toJsonFunctions;
+import Modols.Roles.Role;
+import Modols.Tools.ToJsonFunctions;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.com.google.gson.JsonArray;
 import com.gilecode.yagson.com.google.gson.JsonElement;
@@ -13,14 +13,14 @@ import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
-public class Account implements toJsonFunctions<Account> {
+public class Account implements ToJsonFunctions<Account> {
 
     protected static int totalNumberOfAccountCreated;
     protected static File file;
 
     static {
         file = new File("src/main/resources/allAccounts/allAccount.json");
-        Optional<JsonArray> elements = Optional.ofNullable(toJsonFunctions.fromJsonToJsonArray(file));
+        Optional<JsonArray> elements = Optional.ofNullable(ToJsonFunctions.fromJsonToJsonArray(file));
         elements.ifPresent(elem -> totalNumberOfAccountCreated = elem.size());
     }
 
@@ -43,18 +43,18 @@ public class Account implements toJsonFunctions<Account> {
     /*********************Serialize************************/
 
     @Override
-    public void addToAllAccounts() throws IOException {
-        toJsonFunctions.fromJsonArrayToJson(file,addToJsonArray(this));
+    public void addToResources() throws IOException {
+        ToJsonFunctions.fromJsonArrayToJson(file,addToJsonArray(this));
     }
 
     @Override
-    public void updateInAllAccounts() throws IOException {
-        toJsonFunctions.fromJsonArrayToJson(file,updateJsonArray(this));
+    public void updateResources() throws IOException {
+        ToJsonFunctions.fromJsonArrayToJson(file,updateJsonArray(this));
     }
 
     @Override
     public JsonArray addToJsonArray(Account object) {
-        Optional<JsonArray> jsonArray = Optional.ofNullable(toJsonFunctions.fromJsonToJsonArray(file));
+        Optional<JsonArray> jsonArray = Optional.ofNullable(ToJsonFunctions.fromJsonToJsonArray(file));
         JsonElement jsonElement = fromAccountToMiniJson(object);
         jsonArray.ifPresent(jsons ->  jsons.add(jsonElement));
         return jsonArray.orElse(null);
@@ -62,7 +62,7 @@ public class Account implements toJsonFunctions<Account> {
 
     @Override
     public JsonArray updateJsonArray(Account object) {
-        Optional<JsonArray> jsonArray = Optional.ofNullable(toJsonFunctions.fromJsonToJsonArray(file));
+        Optional<JsonArray> jsonArray = Optional.ofNullable(ToJsonFunctions.fromJsonToJsonArray(file));
         JsonElement jsonElement = fromAccountToMiniJson(object);
         jsonArray.ifPresent(jsons ->  jsons.set(accountId,jsonElement));
         return jsonArray.orElse(null);
@@ -71,7 +71,7 @@ public class Account implements toJsonFunctions<Account> {
     @Override
     public JsonElement fromAccountToMiniJson(Account object) {
         Account.MiniAccount miniAccount = new Account.MiniAccount(object);
-        return new YaGson().toJsonTree(miniAccount.toJson());
+        return new YaGson().toJsonTree(miniAccount);
     }
 
     /******************************************************/
@@ -103,10 +103,6 @@ public class Account implements toJsonFunctions<Account> {
             this.personalInformationId = account.personalInformation.getPersonalInformationId();
             this.credit = account.credit;
             this.statusTag = account.statusTag;
-        }
-
-        public String toJson() {
-            return new YaGson().toJson(this, MiniAccount.class);
         }
     }
 
