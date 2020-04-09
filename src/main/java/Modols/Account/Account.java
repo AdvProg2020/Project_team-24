@@ -44,10 +44,7 @@ public class Account {
     @org.jetbrains.annotations.Nullable
     public static JsonArray getJsonArray() throws FileNotFoundException {
         Optional<JsonElement> jsonElement = Optional.ofNullable(new JsonParser().parse(new FileReader(file)));
-        if (jsonElement.isPresent()) {
-            return jsonElement.get().getAsJsonArray();
-        }
-        return null;
+        return jsonElement.map(JsonElement::getAsJsonArray).orElse(null);
     }
 
     protected JsonArray updateJsonArray(@NotNull JsonArray jsonArray) {
