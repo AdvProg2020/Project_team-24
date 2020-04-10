@@ -44,9 +44,7 @@ public class Account implements PackClass {
 
 
 
-
     enum StatusTag {
         Manager, Seller, Buyer, Guest;
-
     }
 }
