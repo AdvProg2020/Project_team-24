@@ -34,3 +34,8 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 .flattened-pom.xml
+# Default ignored files
+/workspace.xml
+
+# Datasource local storage ignored files
+/dataSources.local.xml
