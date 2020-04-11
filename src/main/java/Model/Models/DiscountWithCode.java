@@ -5,17 +5,12 @@ import java.util.List;
 
 public class DiscountWithCode {
 
-    public long discountWithCodeId;
-    private String discountCode;
+    public String discountCode;
     private Date start;
     private Date end;
     private Discount discount;
-    private int FrequentUse;
-    private List<Account> accounts;
-
-    public String getDiscountCode() {
-        return discountCode;
-    }
+    private int frequentUse;
+    private List<Account> accountList;
 
     public Date getStart() {
         return start;
@@ -30,21 +25,20 @@ public class DiscountWithCode {
     }
 
     public int getFrequentUse() {
-        return FrequentUse;
+        return frequentUse;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public List<Account> getAccountList() {
+        return accountList;
     }
 
-    public DiscountWithCode(long discountWithCodeId, String discountCode, Date start, Date end, Discount discount, int frequentUse, List<Account> accounts) {
-        this.discountWithCodeId = discountWithCodeId;
+    public DiscountWithCode(String discountCode, Date start, Date end, Discount discount, int frequentUse, List<Account> accountList) {
         this.discountCode = discountCode;
         this.start = start;
         this.end = end;
         this.discount = discount;
-        FrequentUse = frequentUse;
-        this.accounts = accounts;
+        this.frequentUse = frequentUse;
+        this.accountList = accountList;
     }
 }
 

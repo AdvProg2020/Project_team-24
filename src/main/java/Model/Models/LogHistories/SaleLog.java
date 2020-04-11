@@ -8,20 +8,20 @@ import java.util.List;
 
 public class SaleLog extends LogHistory {
 
-    protected String buyerUserName;
-    protected double amountDeductedForAuction;
+    private String customerName;
+    private double amountDeductedForAuction;
 
-    public String getBuyerUserName() {
-        return buyerUserName;
+    public String getCustomerName() {
+        return customerName;
     }
 
     public double getAmountDeductedForAuction() {
         return amountDeductedForAuction;
     }
 
-    public SaleLog(int logId, Date localDateTime, double amount, double discountAmount, List<Product> products, DeliveryStatus deliveryStatus, TypeLog type, String buyerUserName, double amountDeductedForAuction) {
+    public SaleLog(int logId, Date localDateTime, double amount, double discountAmount, List<Product> products, DeliveryStatus deliveryStatus, TypeLog type, String customerName, double amountDeductedForAuction) {
         super(logId, localDateTime, amount, discountAmount, products, deliveryStatus, type);
-        this.buyerUserName = buyerUserName;
+        this.customerName = customerName;
         this.amountDeductedForAuction = amountDeductedForAuction;
     }
 }

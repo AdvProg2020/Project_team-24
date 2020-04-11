@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ShoppingLog extends LogHistory {
 
-    protected String sellerUserName;
+    private String sellerUserName;
 
     //
 

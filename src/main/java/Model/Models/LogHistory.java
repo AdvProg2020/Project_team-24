@@ -13,16 +13,16 @@ public abstract class LogHistory {
         SaleLog,ShoppingLog
     }
 
-    protected long logId;
-    protected Date localDateTime;
+    public long logId;
+    protected Date date;
     protected double amount;
     protected double discountAmount;
-    protected List<Product> products;
+    protected List<Product> productList;
     protected DeliveryStatus deliveryStatus;
     protected TypeLog typeLog;
 
-    public Date getLocalDateTime() {
-        return localDateTime;
+    public Date getDate() {
+        return date;
     }
 
     public double getAmount() {
@@ -33,8 +33,8 @@ public abstract class LogHistory {
         return discountAmount;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Product> getProductList() {
+        return productList;
     }
 
     public DeliveryStatus getDeliveryStatus() {
@@ -45,12 +45,12 @@ public abstract class LogHistory {
         return typeLog;
     }
 
-    protected LogHistory(long logId, Date localDateTime, double amount, double discountAmount, List<Product> products, DeliveryStatus deliveryStatus, TypeLog typeLog) {
+    protected LogHistory(long logId, Date date, double amount, double discountAmount, List<Product> productList, DeliveryStatus deliveryStatus, TypeLog typeLog) {
         this.logId = logId;
-        this.localDateTime = localDateTime;
+        this.date = date;
         this.amount = amount;
         this.discountAmount = discountAmount;
-        this.products = products;
+        this.productList = productList;
         this.deliveryStatus = deliveryStatus;
         this.typeLog = typeLog;
     }

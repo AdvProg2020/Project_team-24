@@ -11,7 +11,7 @@ public class Product {
     public long productId;
     private StatusTag statusTag;
     private ProductGeneralSpecifications generalSpecifications;
-    private Category category;
+    private List<Category> categoryList;
     private String descriptions;
     private double averageScore;
     private List<Comment> comments;
@@ -24,8 +24,8 @@ public class Product {
         return generalSpecifications;
     }
 
-    public Category getCategory() {
-        return category;
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
     public String getDescriptions() {
@@ -40,11 +40,11 @@ public class Product {
         return comments;
     }
 
-    public Product(long productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, Category category, String descriptions, double averageScore, List<Comment> comments) {
+    public Product(long productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, List<Category> category, String descriptions, double averageScore, List<Comment> comments) {
         this.productId = productId;
         this.statusTag = statusTag;
         this.generalSpecifications = generalSpecifications;
-        this.category = category;
+        this.categoryList = category;
         this.descriptions = descriptions;
         this.averageScore = averageScore;
         this.comments = comments;

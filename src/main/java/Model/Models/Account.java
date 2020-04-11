@@ -9,15 +9,15 @@ import java.util.List;
 public class Account implements PackClass {
 
     public enum StatusTag {
-        Manager, Seller, Buyer, Guest;
+        Manager, Seller, Customer, Guest;
     }
 
-    private String userName;
+    public String userName;
     private String password;
     private StatusTag statusTag;
     private PersonalInformation personalInformation;
     private Role role;
-    private List<DiscountWithCode> discounts;
+    private List<DiscountWithCode> discountWithCodeList;
     private double credit;
     private BuyAndSellHistory buyAndSellHistory;
 
@@ -33,8 +33,8 @@ public class Account implements PackClass {
         return role;
     }
 
-    public List<DiscountWithCode> getDiscounts() {
-        return discounts;
+    public List<DiscountWithCode> getDiscountWithCodeList() {
+        return discountWithCodeList;
     }
 
     public double getCredit() {
@@ -45,25 +45,21 @@ public class Account implements PackClass {
         return buyAndSellHistory;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public List<Object> getParam() {
+    public List<Object> getParametersForPack() {
         return Arrays.asList(userName,password,statusTag,personalInformation.personalInformationId,credit,buyAndSellHistory.historyId);
     }
 
-    public Account(String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Role role, List<DiscountWithCode> discounts, double credit, BuyAndSellHistory buyAndSellHistory) {
+    public Account(String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Role role, List<DiscountWithCode> discountWithCodeList, double credit, BuyAndSellHistory buyAndSellHistory) {
         this.userName = userName;
         this.password = password;
         this.statusTag = statusTag;
         this.personalInformation = personalInformation;
         this.role = role;
-        this.discounts = discounts;
+        this.discountWithCodeList = discountWithCodeList;
         this.credit = credit;
         this.buyAndSellHistory = buyAndSellHistory;
     }

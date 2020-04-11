@@ -5,14 +5,14 @@ import java.util.List;
 public class BuyAndSellHistory {
 
     public long historyId;
-    private List<LogHistory> logHistories;
+    private List<LogHistory> logHistoryList;
 
-    public List<LogHistory> getLogHistories() {
-        return logHistories;
+    public List<LogHistory> getLogHistoryList() {
+        return logHistoryList;
     }
 
-    public BuyAndSellHistory(long historyId, List<LogHistory> logHistories) {
+    public BuyAndSellHistory(long historyId, List<LogHistory> logHistoryList) {
         this.historyId = historyId;
-        this.logHistories = logHistories;
+        this.logHistoryList = logHistoryList;
     }
 }

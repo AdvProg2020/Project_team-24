@@ -59,7 +59,7 @@ public class Preprocessor implements PackClass, FileHandler {
 
     public static void addAccountToFile(@NotNull List<Account> accountList) {
         List<String> strings = accountList.stream()
-                .map(Account::getParam)
+                .map(Account::getParametersForPack)
                 .map(Pack::new)
                 .map(PackClass::pack)
                 .collect(Collectors.toList());
