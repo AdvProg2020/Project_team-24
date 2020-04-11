@@ -1,18 +1,25 @@
 package Model.Models;
 
-import Model.ModelUnit.Account;
-import Model.ModelUnit.Product;
-
 public class Score {
 
-    protected int scoreId;
-    protected Account user;
-    protected int score;
-    protected Product good;
+    public long scoreId;
+    private Account user;
+    private int score;
+    private Product good;
 
-    //
+    public Account getUser() {
+        return user;
+    }
 
-    public Score(int scoreId, Account user, int score, Product good) {
+    public int getScore() {
+        return score;
+    }
+
+    public Product getGood() {
+        return good;
+    }
+
+    public Score(long scoreId, Account user, int score, Product good) {
         this.scoreId = scoreId;
         this.user = user;
         this.score = score;

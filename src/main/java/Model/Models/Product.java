@@ -4,17 +4,43 @@ import java.util.List;
 
 public class Product {
 
-    protected int productId;
-    protected StatusTag statusTag;
-    protected ProductGeneralSpecifications generalSpecifications;
-    protected Category category;
-    protected String descriptions;
-    protected double averageScore;
-    protected List<Comment> comments;
+    public enum StatusTag {
+        Pending,Editing,Confirmed
+    }
 
-    //
+    public long productId;
+    private StatusTag statusTag;
+    private ProductGeneralSpecifications generalSpecifications;
+    private Category category;
+    private String descriptions;
+    private double averageScore;
+    private List<Comment> comments;
 
-    public Product(int productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, Category category, String descriptions, double averageScore, List<Comment> comments) {
+    public StatusTag getStatusTag() {
+        return statusTag;
+    }
+
+    public ProductGeneralSpecifications getGeneralSpecifications() {
+        return generalSpecifications;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public String getDescriptions() {
+        return descriptions;
+    }
+
+    public double getAverageScore() {
+        return averageScore;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public Product(long productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, Category category, String descriptions, double averageScore, List<Comment> comments) {
         this.productId = productId;
         this.statusTag = statusTag;
         this.generalSpecifications = generalSpecifications;
@@ -22,9 +48,5 @@ public class Product {
         this.descriptions = descriptions;
         this.averageScore = averageScore;
         this.comments = comments;
-    }
-
-    enum StatusTag {
-        Pending,Editing,Confirmed
     }
 }

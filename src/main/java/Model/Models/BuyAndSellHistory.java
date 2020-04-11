@@ -1,17 +1,17 @@
 package Model.Models;
 
-import Model.ModelUnit.LogHistory.LogHistory;
-
 import java.util.List;
 
 public class BuyAndSellHistory {
 
-    protected int historyId;
-    protected List<LogHistory> logHistories;
+    public long historyId;
+    private List<LogHistory> logHistories;
 
-    //
+    public List<LogHistory> getLogHistories() {
+        return logHistories;
+    }
 
-    public BuyAndSellHistory(int historyId, List<LogHistory> logHistories) {
+    public BuyAndSellHistory(long historyId, List<LogHistory> logHistories) {
         this.historyId = historyId;
         this.logHistories = logHistories;
     }

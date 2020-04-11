@@ -4,14 +4,20 @@ import java.util.List;
 
 public class Category {
 
-    protected int categoryId;
-    protected String name;
-    protected List<Category> subCategories;
-    protected List<Product> products;
+    public long categoryId;
+    private String name;
+    private List<Category> subCategories;
+    private List<Product> products;
 
-    //
+    public List<Category> getSubCategories() {
+        return subCategories;
+    }
 
-    public Category(int categoryId, String name, List<Category> subCategories, List<Product> products) {
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public Category(long categoryId, String name, List<Category> subCategories, List<Product> products) {
         this.categoryId = categoryId;
         this.name = name;
         this.subCategories = subCategories;
