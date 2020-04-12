@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public class SortSource {
 
-    private HashMap<String, Comparator> sortList;
+    private static HashMap<String, Comparator> sortList;
 
-    public HashMap<String, Comparator> getSortList() {
-        return sortList;
+    static {
+
     }
 
-    public SortSource(HashMap<String, Comparator> sortList) {
-        this.sortList = sortList;
+    public static HashMap<String, Comparator> getSortList() {
+        return sortList;
     }
 }

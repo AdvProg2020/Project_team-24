@@ -9,13 +9,13 @@ public class CategorySource {
 
     private static File categoryList_File = new File("src/main/resources/allCategories");
 
-    private List<Category> categoryList;
+    private static List<Category> categoryList;
 
-    public List<Category> getCategoryList() {
-        return categoryList;
+    static {
+
     }
 
-    public CategorySource(List<Category> categoryList) {
-        this.categoryList = categoryList;
+    public static List<Category> getCategoryList() {
+        return categoryList;
     }
 }

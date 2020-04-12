@@ -9,13 +9,13 @@ public class ProductSource {
 
     private static File productList_File = new File("src/main/resources/allProducts");
 
-    private List<Product> productList;
+    private static List<Product> productList;
 
-    public List<Product> getProductList() {
-        return productList;
+    static {
+
     }
 
-    public ProductSource(List<Product> productList) {
-        this.productList = productList;
+    public static List<Product> getProductList() {
+        return productList;
     }
 }

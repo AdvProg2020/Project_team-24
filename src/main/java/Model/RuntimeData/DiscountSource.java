@@ -9,13 +9,13 @@ public class DiscountSource {
 
     private static File discountList_File = new File("src/main/resources/allDiscounts");
 
-    private List<Discount> discountList;
+    private static List<Discount> discountList;
 
-    public List<Discount> getDiscountList() {
-        return discountList;
+    static {
+
     }
 
-    public DiscountSource(List<Discount> discountList) {
-        this.discountList = discountList;
+    public static List<Discount> getDiscountList() {
+        return discountList;
     }
 }

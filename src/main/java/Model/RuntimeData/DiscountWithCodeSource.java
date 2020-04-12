@@ -9,13 +9,13 @@ public class DiscountWithCodeSource {
 
     private static File discountWithCodeList_File = new File("src/main/resources/allDiscountWithCodes");
 
-    private List<DiscountWithCode> discountWithCodeList;
+    private static List<DiscountWithCode> discountWithCodeList;
 
-    public List<DiscountWithCode> getDiscountWithCodeList() {
-        return discountWithCodeList;
+    static {
+
     }
 
-    public DiscountWithCodeSource(List<DiscountWithCode> discountWithCodeList) {
-        this.discountWithCodeList = discountWithCodeList;
+    public static List<DiscountWithCode> getDiscountWithCodeList() {
+        return discountWithCodeList;
     }
 }

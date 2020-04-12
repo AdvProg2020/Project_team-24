@@ -9,13 +9,13 @@ public class ScoreSource {
 
     private static File scoreList_File = new File("src/main/resources/allScores");
 
-    private List<Score> scoreList;
+    private static List<Score> scoreList;
 
-    public List<Score> getScoreList() {
-        return scoreList;
+    static {
+
     }
 
-    public ScoreSource(List<Score> scoreList) {
-        this.scoreList = scoreList;
+    public static List<Score> getScoreList() {
+        return scoreList;
     }
 }

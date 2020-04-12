@@ -9,13 +9,13 @@ public class PersonalInformationSource {
 
     private static File personalInformationList_File = new File("src/main/resources/allPersonalInformation");
 
-    private List<PersonalInformation> personalInformationList;
+    private static List<PersonalInformation> personalInformationList;
 
-    public List<PersonalInformation> getPersonalInformationList() {
-        return personalInformationList;
+    static {
+
     }
 
-    public PersonalInformationSource(List<PersonalInformation> personalInformationList) {
-        this.personalInformationList = personalInformationList;
+    public static List<PersonalInformation> getPersonalInformationList() {
+        return personalInformationList;
     }
 }

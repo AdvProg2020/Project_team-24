@@ -9,13 +9,13 @@ public class AuctionSource {
 
     private static File auctionList_File = new File("src/main/resources/allAuctions");
 
-    private List<Auction> auctionList;
+    private static List<Auction> auctionList;
 
-    public List<Auction> getAuctionList() {
-        return auctionList;
+    static {
+
     }
 
-    public AuctionSource(List<Auction> auctionList) {
-        this.auctionList = auctionList;
+    public static List<Auction> getAuctionList() {
+        return auctionList;
     }
 }

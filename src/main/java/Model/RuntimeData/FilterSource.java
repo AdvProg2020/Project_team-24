@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public class FilterSource {
 
-    private HashMap<String, Predicate> filterList;
+    private static HashMap<String, Predicate> filterList;
 
-    public HashMap<String, Predicate> getFilterList() {
-        return filterList;
+    static {
+
     }
 
-    public FilterSource(HashMap<String, Predicate> filterList) {
-        this.filterList = filterList;
+    public static HashMap<String, Predicate> getFilterList() {
+        return filterList;
     }
 }

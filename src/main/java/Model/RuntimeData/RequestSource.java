@@ -9,13 +9,13 @@ public class RequestSource {
 
     private static File requestList_File = new File("src/main/resources/allRequests");
 
-    private List<Request> requestList;
+    private static List<Request> requestList;
 
-    public List<Request> getRequestList() {
-        return requestList;
+    static {
+
     }
 
-    public RequestSource(List<Request> requestList) {
-        this.requestList = requestList;
+    public static List<Request> getRequestList() {
+        return requestList;
     }
 }

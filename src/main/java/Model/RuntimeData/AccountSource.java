@@ -11,13 +11,13 @@ public class AccountSource implements PackClass, FileHandler {
 
     private static File accountList_File = new File("src/main/resources/allAccounts");
 
-    private List<Account> accountList;
+    private static List<Account> accountList;
 
-    public List<Account> getAccountList() {
-        return accountList;
+    static {
+
     }
 
-    public AccountSource(List<Account> accountList) {
-        this.accountList = accountList;
+    public static List<Account> getAccountList() {
+        return accountList;
     }
 }
