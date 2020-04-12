@@ -10,7 +10,7 @@ public class Category implements Packable {
     public long categoryId;
     private String name;
     private List<String> categorySpecifications;
-    private List<Category> subCategories;
+    private List<Category> subCategoryList;
 
     public String getName() {
         return name;
@@ -20,19 +20,19 @@ public class Category implements Packable {
         return categorySpecifications;
     }
 
-    public List<Category> getSubCategories() {
-        return subCategories;
+    public List<Category> getSubCategoryList() {
+        return subCategoryList;
     }
 
     @Override
     public List<Object> getParametersForPack() {
-        return Arrays.asList(categoryId, categorySpecifications, subCategories);
+        return Arrays.asList(categoryId, categorySpecifications, subCategoryList);
     }
 
-    public Category(long categoryId, String name, List<String> categorySpecifications, List<Category> subCategories) {
+    public Category(long categoryId, String name, List<String> categorySpecifications, List<Category> subCategoryList) {
         this.categoryId = categoryId;
         this.name = name;
         this.categorySpecifications = categorySpecifications;
-        this.subCategories = subCategories;
+        this.subCategoryList = subCategoryList;
     }
 }

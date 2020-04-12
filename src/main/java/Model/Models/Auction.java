@@ -13,14 +13,14 @@ public class Auction implements Packable {
     }
 
     public long auctionId;
-    private List<Product> products;
+    private List<Product> productList;
     private StatusTag statusTag;
     private Date start;
     private Date end;
     private Discount discount;
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Product> getProductList() {
+        return productList;
     }
 
     public StatusTag getStatusTag() {
@@ -41,12 +41,12 @@ public class Auction implements Packable {
 
     @Override
     public List<Object> getParametersForPack() {
-        return Arrays.asList(auctionId, statusTag, products, start, end, discount);
+        return Arrays.asList(auctionId, statusTag, productList, start, end, discount);
     }
 
-    public Auction(long auctionId, List<Product> products, StatusTag statusTag, Date start, Date end, Discount discount) {
+    public Auction(long auctionId, List<Product> productList, StatusTag statusTag, Date start, Date end, Discount discount) {
         this.auctionId = auctionId;
-        this.products = products;
+        this.productList = productList;
         this.statusTag = statusTag;
         this.start = start;
         this.end = end;

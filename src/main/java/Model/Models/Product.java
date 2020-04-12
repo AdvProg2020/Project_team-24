@@ -3,7 +3,6 @@ package Model.Models;
 import Model.Tools.Packable;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class Product implements Packable {
