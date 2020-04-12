@@ -5,7 +5,7 @@ import com.gilecode.yagson.YaGson;
 import java.util.Collections;
 import java.util.List;
 
-public interface PackClass<T> {
+public interface PackClass {
 
     YaGson packer = new YaGson();
 
@@ -29,8 +29,6 @@ public interface PackClass<T> {
     static Pack unpack(String json) {
         return packer.fromJson(json,Pack.class);
     }
-
-    List<Object> getParametersForPack();
 }
 
 

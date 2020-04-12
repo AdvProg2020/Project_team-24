@@ -1,12 +1,12 @@
 package Model.Models;
 
-import Model.Tools.PackClass;
+import Model.Tools.Packable;
 
 import java.util.Arrays;
 import java.util.List;
 
 
-public class Account implements PackClass {
+public class Account implements Packable {
 
     public enum StatusTag {
         Manager, Seller, Customer, Guest;
