@@ -1,8 +1,11 @@
 package Model.Models;
 
+import Model.Tools.Packable;
+
+import java.util.Arrays;
 import java.util.List;
 
-public class ProductGeneralSpecifications {
+public class ProductGeneralSpecifications implements Packable {
 
     public enum InventoryStatus {
         InSock,Purchased,ToReceive,Sold,ToShip
@@ -33,6 +36,11 @@ public class ProductGeneralSpecifications {
 
     public InventoryStatus getInventoryStatus() {
         return inventoryStatus;
+    }
+
+    @Override
+    public List<Object> getParametersForPack() {
+        return Arrays.asList(generalSpecificationId, inventoryStatus, name, brand, price, sellers);
     }
 
     public ProductGeneralSpecifications(long generalSpecificationId, String name, String brand, double price, List<Account> sellers, InventoryStatus inventoryStatus) {

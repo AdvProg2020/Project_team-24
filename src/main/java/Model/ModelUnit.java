@@ -17,8 +17,6 @@ public class ModelUnit {
     private PersonalInformationSource personalInformationSource;
     private DiscountWithCodeSource discountWithCodeSource;
     private BuyAndSellHistorySource buyAndSellHistorySource;
-    private SaleLogSource saleLogSource;
-    private ShoppingLogSource shoppingLogSource;
 
     public ControllerUnit getControllerUnit() {
         return controllerUnit;
@@ -106,22 +104,6 @@ public class ModelUnit {
 
     public void setBuyAndSellHistorySource(BuyAndSellHistorySource buyAndSellHistorySource) {
         this.buyAndSellHistorySource = buyAndSellHistorySource;
-    }
-
-    public SaleLogSource getSaleLogSource() {
-        return saleLogSource;
-    }
-
-    public void setSaleLogSource(SaleLogSource saleLogSource) {
-        this.saleLogSource = saleLogSource;
-    }
-
-    public ShoppingLogSource getShoppingLogSource() {
-        return shoppingLogSource;
-    }
-
-    public void setShoppingLogSource(ShoppingLogSource shoppingLogSource) {
-        this.shoppingLogSource = shoppingLogSource;
     }
 
     public ModelUnit(ControllerUnit controllerUnit) {
