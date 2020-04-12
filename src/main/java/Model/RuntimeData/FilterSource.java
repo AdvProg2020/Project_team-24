@@ -1,17 +1,17 @@
 package Model.RuntimeData;
 
 import javax.sql.rowset.Predicate;
-import java.util.List;
+import java.util.HashMap;
 
 public class FilterSource {
 
-    private List<Predicate> filterList;
+    private HashMap<String, Predicate> filterList;
 
-    public List<Predicate> getFilterList() {
+    public HashMap<String, Predicate> getFilterList() {
         return filterList;
     }
 
-    public FilterSource(List<Predicate> filterList) {
+    public FilterSource(HashMap<String, Predicate> filterList) {
         this.filterList = filterList;
     }
 }

@@ -1,20 +1,17 @@
 package Model.RuntimeData;
 
-import java.io.File;
 import java.util.Comparator;
-import java.util.List;
+import java.util.HashMap;
 
 public class SortSource {
 
-    private static File scoreList_File = new File("src/main/resources/allScores");
+    private HashMap<String, Comparator> sortList;
 
-    private List<Comparator> sortList;
-
-    public List<Comparator> getSortList() {
+    public HashMap<String, Comparator> getSortList() {
         return sortList;
     }
 
-    public SortSource(List<Comparator> sortList) {
+    public SortSource(HashMap<String, Comparator> sortList) {
         this.sortList = sortList;
     }
 }
