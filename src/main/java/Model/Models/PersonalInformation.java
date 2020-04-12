@@ -7,10 +7,7 @@ public class PersonalInformation {
     private String lastName;
     private String email;
     private String phoneNumber;
-
-    public long getPersonalInformationId() {
-        return personalInformationId;
-    }
+    private String factoryName;
 
     public String getFirstName() {
         return firstName;
@@ -28,11 +25,16 @@ public class PersonalInformation {
         return phoneNumber;
     }
 
-    public PersonalInformation(long personalInformationId, String firstName, String lastName, String email, String phoneNumber) {
+    public String getFactoryName() {
+        return factoryName;
+    }
+
+    public PersonalInformation(long personalInformationId, String firstName, String lastName, String email, String phoneNumber, String factoryName) {
         this.personalInformationId = personalInformationId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.factoryName = factoryName;
     }
 }

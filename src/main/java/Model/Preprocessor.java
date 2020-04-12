@@ -1,6 +1,7 @@
 package Model;
 
 import Model.Models.Account;
+import Model.Models.PersonalInformation;
 import Model.Tools.FileHandler;
 import Model.Tools.PackClass;
 import org.jetbrains.annotations.NotNull;
@@ -14,32 +15,14 @@ import java.util.stream.Collectors;
 
 public class Preprocessor implements PackClass, FileHandler {
 
-    private static File accountList_File;
-    private static File productList_File;
-    private static File auctionList_File;
-    private static File categoryList_File;
-    private static File buyAndSellHistoryList_File;
-    private static File discountWithCodeList_File;
-    private static File saleLogList_File;
-    private static File shoppingLogList_File;
-    private static File personalInformationList_File;
-    private static File discountList_File;
+    private ModelUnit modelUnit;
 
-    static {
-        accountList_File = new File("src/main/resources/allAccounts");
-        productList_File = new File("src/main/resources/allProducts");
-        auctionList_File = new File("src/main/resources/allAuctions");
-        categoryList_File = new File("src/main/resources/allCategories");
-        buyAndSellHistoryList_File = new File("src/main/resources/allBuyAndSellHistories");
-        discountWithCodeList_File = new File("src/main/resources/allDiscountWithCodes");
-        saleLogList_File = new File("src/main/resources/allSaleLogs");
-        shoppingLogList_File = new File("src/main/resources/allShoppingLogs");
-        personalInformationList_File = new File("src/main/resources/allPersonalInformation");
-        discountList_File = new File("src/main/resources/allDiscounts");
+    public Preprocessor(ModelUnit modelUnit) {
+        this.modelUnit = modelUnit;
     }
 
     @Nullable
-    private static List<Pack> getPackList(File file) {
+    private List<Pack> getPackList(File file) {
         try {
             return FileHandler.fileToStrings(file).stream()
                     .map(PackClass::unpack)
@@ -50,26 +33,25 @@ public class Preprocessor implements PackClass, FileHandler {
         return null;
     }
 
-//    public static List<Account> getAccountList() {
-//        List<Pack> packList = getPackList(accountList_File);
-//        return packList.stream().map(pack -> {
-//            ?
-//        }).collect(Collectors.toList());
-//    }
-
-    public static void addAccountToFile(@NotNull List<Account> accountList) {
-        List<String> strings = accountList.stream()
-                .map(Account::getParametersForPack)
-                .map(Pack::new)
-                .map(PackClass::pack)
-                .collect(Collectors.toList());
-
-        Function<String,String> nameSupplier = s -> {
-            Pack pack = PackClass.unpack(s);
-            return String.valueOf(pack.getParam().get(0));
-        };
-
-        FileHandler.StringsToFile(accountList_File,strings,nameSupplier);
+    public List<Account> getAccountList() {
+        List<Pack> packList = getPackList(accountList_File);
+        return packList.stream().map(pack -> {
+            return
+        }).collect(Collectors.toList());
     }
 
+    public Account accountFromPack(Pack pack) {
+        return new Account(
+                (Integer) pack.getParam().get(0),
+                String.valueOf(pack.getParam().get(1)),
+                String.valueOf(pack.getParam().get(2)),
+                (Account.StatusTag) pack.getParam().get(3),
+
+        )
+    }
+
+    @Override
+    public List<Object> getParametersForPack() {
+        return null;
+    }
 }

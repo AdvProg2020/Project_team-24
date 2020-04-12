@@ -12,12 +12,14 @@ public class Account implements PackClass {
         Manager, Seller, Customer, Guest;
     }
 
-    public String userName;
+    public long accountId;
+    private String userName;
     private String password;
     private StatusTag statusTag;
     private PersonalInformation personalInformation;
     private Role role;
     private List<DiscountWithCode> discountWithCodeList;
+    private Cart cart;
     private double credit;
     private BuyAndSellHistory buyAndSellHistory;
 
@@ -49,17 +51,24 @@ public class Account implements PackClass {
         return password;
     }
 
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(userName,password,statusTag,personalInformation.personalInformationId,credit,buyAndSellHistory.historyId);
+    public Cart getCart() {
+        return cart;
     }
 
-    public Account(String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Role role, List<DiscountWithCode> discountWithCodeList, double credit, BuyAndSellHistory buyAndSellHistory) {
+    @Override
+    public List<Object> getParametersForPack() {
+        return Arrays.asList(accountId, userName, password, statusTag, personalInformation.personalInformationId, credit, buyAndSellHistory.historyId, cart.cartId);
+    }
+
+    public Account(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Role role, List<DiscountWithCode> discountWithCodeList, Cart cart, double credit, BuyAndSellHistory buyAndSellHistory) {
+        this.accountId = accountId;
         this.userName = userName;
         this.password = password;
         this.statusTag = statusTag;
         this.personalInformation = personalInformation;
         this.role = role;
         this.discountWithCodeList = discountWithCodeList;
+        this.cart = cart;
         this.credit = credit;
         this.buyAndSellHistory = buyAndSellHistory;
     }

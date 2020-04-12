@@ -2,11 +2,10 @@ package Model.Tools;
 
 import com.gilecode.yagson.YaGson;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public interface PackClass {
+public interface PackClass<T> {
 
     YaGson packer = new YaGson();
 
@@ -30,6 +29,8 @@ public interface PackClass {
     static Pack unpack(String json) {
         return packer.fromJson(json,Pack.class);
     }
+
+    List<Object> getParametersForPack();
 }
 
 
