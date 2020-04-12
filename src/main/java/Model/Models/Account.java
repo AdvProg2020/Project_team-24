@@ -57,7 +57,7 @@ public class Account implements Packable {
 
     @Override
     public List<Object> getParametersForPack() {
-        return Arrays.asList(accountId, userName, password, statusTag, personalInformation.personalInformationId, credit, buyAndSellHistory.historyId, cart.cartId);
+        return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId, credit, buyAndSellHistory.historyId, cart.cartId);
     }
 
     public Account(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Role role, List<DiscountWithCode> discountWithCodeList, Cart cart, double credit, BuyAndSellHistory buyAndSellHistory) {

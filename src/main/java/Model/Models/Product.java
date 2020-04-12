@@ -12,6 +12,7 @@ public class Product {
     private StatusTag statusTag;
     private ProductGeneralSpecifications generalSpecifications;
     private List<Category> categoryList;
+    //?
     private String descriptions;
     private long numberOfBuyers;
     private double averageScore;

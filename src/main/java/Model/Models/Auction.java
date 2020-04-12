@@ -9,7 +9,7 @@ import java.util.List;
 public class Auction implements Packable {
 
     public enum StatusTag {
-        Pending,Editing,Confirmed
+        Pending, Editing, Confirmed
     }
 
     public long auctionId;
@@ -41,7 +41,7 @@ public class Auction implements Packable {
 
     @Override
     public List<Object> getParametersForPack() {
-//        return Arrays.asList(auctionId, ); ?
+        return Arrays.asList(auctionId, statusTag, products, start, end, discount);
     }
 
     public Auction(long auctionId, List<Product> products, StatusTag statusTag, Date start, Date end, Discount discount) {

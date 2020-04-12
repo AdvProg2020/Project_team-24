@@ -1,24 +1,29 @@
 package Model.Models;
 
-public class Comment {
+import Model.Tools.Packable;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Comment implements Packable {
 
     public enum StatusTag {
         Pending,Editing,Confirmed
     }
 
-    public long CommentId;
-    private Account UserComments;
-    private Product PurchasedGoods;
+    public long commentId;
+    private Account userComments;
+    private Product purchasedGood;
     private String comment;
     private StatusTag statusTag;
-    private boolean DidThisUserBuyThisProduct;
+    private boolean didThisUserBuyThisProduct;
 
     public Account getUserComments() {
-        return UserComments;
+        return userComments;
     }
 
-    public Product getPurchasedGoods() {
-        return PurchasedGoods;
+    public Product getPurchasedGood() {
+        return purchasedGood;
     }
 
     public String getComment() {
@@ -30,15 +35,20 @@ public class Comment {
     }
 
     public boolean isDidThisUserBuyThisProduct() {
-        return DidThisUserBuyThisProduct;
+        return didThisUserBuyThisProduct;
     }
 
-    public Comment(long commentId, Account userComments, Product purchasedGoods, String comment, StatusTag statusTag, boolean didThisUserBuyThisProduct) {
-        CommentId = commentId;
-        UserComments = userComments;
-        PurchasedGoods = purchasedGoods;
+    @Override
+    public List<Object> getParametersForPack() {
+        return Arrays.asList(commentId,statusTag,didThisUserBuyThisProduct,comment,userComments.accountId, purchasedGood.productId);
+    }
+
+    public Comment(long commentId, Account userComments, Product purchasedGood, String comment, StatusTag statusTag, boolean didThisUserBuyThisProduct) {
+        this.commentId = commentId;
+        this.userComments = userComments;
+        this.purchasedGood = purchasedGood;
         this.comment = comment;
         this.statusTag = statusTag;
-        DidThisUserBuyThisProduct = didThisUserBuyThisProduct;
+        this.didThisUserBuyThisProduct = didThisUserBuyThisProduct;
     }
 }
