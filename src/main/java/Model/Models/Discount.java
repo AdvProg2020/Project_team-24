@@ -2,7 +2,6 @@ package Model.Models;
 
 public class Discount {
 
-    public long discountId;
     private double percent;
     private double amount;
 
@@ -14,8 +13,11 @@ public class Discount {
         return amount;
     }
 
-    public Discount(long discountId, double percent, double amount) {
-        this.discountId = discountId;
+    public double getDiscountAmount(double price) {
+        return (price = percent * price / 100) < amount ? price : amount;
+    }
+
+    public Discount(double percent, double amount) {
         this.percent = percent;
         this.amount = amount;
     }

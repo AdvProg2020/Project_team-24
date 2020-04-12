@@ -1,9 +1,12 @@
 package Model.Models;
 
+import Model.Tools.Packable;
+
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class DiscountWithCode {
+public class DiscountWithCode implements Packable {
 
     public String discountCode;
     private Date start;
@@ -30,6 +33,11 @@ public class DiscountWithCode {
 
     public List<Account> getAccountList() {
         return accountList;
+    }
+
+    @Override
+    public List<Object> getParametersForPack() {
+        return Arrays.asList(discountCode,start,end,discount,frequentUse,accountList);
     }
 
     public DiscountWithCode(String discountCode, Date start, Date end, Discount discount, int frequentUse, List<Account> accountList) {
