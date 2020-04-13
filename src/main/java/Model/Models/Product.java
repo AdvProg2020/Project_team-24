@@ -7,17 +7,14 @@ import java.util.List;
 
 public class Product implements Packable {
 
-    public enum StatusTag {
-        Pending,Editing,Confirmed
-    }
-
     public long productId;
     private StatusTag statusTag;
     private ProductGeneralSpecifications generalSpecifications;
-    private List<Category> categoryList;
+    private Category category;
     private GoodSpecifications goodSpecifications;
     private String descriptions;
     private long numberOfBuyers;
+    private long numberOfThis;
     private double averageScore;
     private List<Comment> commentList;
 
@@ -29,8 +26,8 @@ public class Product implements Packable {
         return generalSpecifications;
     }
 
-    public List<Category> getCategoryList() {
-        return categoryList;
+    public Category getCategory() {
+        return category;
     }
 
     public String getDescriptions() {
@@ -53,19 +50,24 @@ public class Product implements Packable {
         return goodSpecifications;
     }
 
-    @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(productId, statusTag, generalSpecifications.generalSpecificationId, categoryList, goodSpecifications.goodSpecificationId, descriptions, numberOfBuyers, averageScore, commentList);
+    public long getNumberOfThis() {
+        return numberOfThis;
     }
 
-    public Product(long productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, List<Category> categoryList, GoodSpecifications goodSpecifications, String descriptions, long numberOfBuyers, double averageScore, List<Comment> commentList) {
+    @Override
+    public List<Object> getParametersForPack() {
+        return Arrays.asList(productId, statusTag, generalSpecifications.generalSpecificationId, category, goodSpecifications.goodSpecificationId, descriptions, numberOfBuyers, numberOfThis, averageScore, commentList);
+    }
+
+    public Product(long productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, Category category, GoodSpecifications goodSpecifications, String descriptions, long numberOfBuyers, long numberOfThis, double averageScore, List<Comment> commentList) {
         this.productId = productId;
         this.statusTag = statusTag;
         this.generalSpecifications = generalSpecifications;
-        this.categoryList = categoryList;
+        this.category = category;
         this.goodSpecifications = goodSpecifications;
         this.descriptions = descriptions;
         this.numberOfBuyers = numberOfBuyers;
+        this.numberOfThis = numberOfThis;
         this.averageScore = averageScore;
         this.commentList = commentList;
     }

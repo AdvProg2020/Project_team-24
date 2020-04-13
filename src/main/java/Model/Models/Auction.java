@@ -8,10 +8,6 @@ import java.util.List;
 
 public class Auction implements Packable {
 
-    public enum StatusTag {
-        Pending, Editing, Confirmed
-    }
-
     public long auctionId;
     private List<Product> productList;
     private StatusTag statusTag;

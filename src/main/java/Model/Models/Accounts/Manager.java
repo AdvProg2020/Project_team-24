@@ -39,7 +39,7 @@ public class Manager extends Account {
         return categoryList;
     }
 
-    //?
+    // ?
 
     @Override
     public List<Object> getParametersForPack() {

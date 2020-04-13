@@ -19,9 +19,9 @@ public class LogHistory {
     private Date date;
     private double amount;
     private double discountAmount;
-    private double AuctionDiscount;
+    private double auctionDiscount;
     private List<Product> productList;
-    private String CustomerName;
+    private String customerName;
     private String SellerName;
     private DeliveryStatus deliveryStatus;
 
@@ -50,7 +50,7 @@ public class LogHistory {
     }
 
     public String getCustomerName() {
-        return CustomerName;
+        return customerName;
     }
 
     public String getSellerName() {
@@ -58,7 +58,7 @@ public class LogHistory {
     }
 
     public double getAuctionDiscount() {
-        return AuctionDiscount;
+        return auctionDiscount;
     }
 
     public LogHistory(long logId, Date date, double amount, double discountAmount, double auctionDiscount, List<Product> productList, String customerName, String sellerName, DeliveryStatus deliveryStatus, TypeLog typeLog) {
@@ -66,9 +66,9 @@ public class LogHistory {
         this.date = date;
         this.amount = amount;
         this.discountAmount = discountAmount;
-        AuctionDiscount = auctionDiscount;
+        this.auctionDiscount = auctionDiscount;
         this.productList = productList;
-        CustomerName = customerName;
+        this.customerName = customerName;
         SellerName = sellerName;
         this.deliveryStatus = deliveryStatus;
         this.typeLog = typeLog;

@@ -12,7 +12,6 @@ public class PersonalInformation implements Packable {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String factoryName;
 
     public String getFirstName() {
         return firstName;
@@ -30,21 +29,16 @@ public class PersonalInformation implements Packable {
         return phoneNumber;
     }
 
-    public String getFactoryName() {
-        return factoryName;
-    }
-
     @Override
     public List<Object> getParametersForPack() {
-        return Arrays.asList(personalInformationId, firstName, lastName, email, phoneNumber, factoryName);
+        return Arrays.asList(personalInformationId, firstName, lastName, email, phoneNumber);
     }
 
-    public PersonalInformation(long personalInformationId, String firstName, String lastName, String email, String phoneNumber, String factoryName) {
+    public PersonalInformation(long personalInformationId, String firstName, String lastName, String email, String phoneNumber) {
         this.personalInformationId = personalInformationId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.factoryName = factoryName;
     }
 }

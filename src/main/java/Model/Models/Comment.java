@@ -7,10 +7,6 @@ import java.util.List;
 
 public class Comment implements Packable {
 
-    public enum StatusTag {
-        Pending,Editing,Confirmed
-    }
-
     public long commentId;
     private Account userComments;
     private Product purchasedGood;

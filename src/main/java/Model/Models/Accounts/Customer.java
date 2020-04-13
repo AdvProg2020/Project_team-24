@@ -10,10 +10,20 @@ import java.util.List;
 
 public class Customer extends Guest {
 
+    protected List<DiscountWithCode> discountWithCodeList;
+    protected double credit;
     protected BuyAndSellHistory buyAndSellHistory;
 
     public BuyAndSellHistory getBuyAndSellHistory() {
         return buyAndSellHistory;
+    }
+
+    public List<DiscountWithCode> getDiscountWithCodeList() {
+        return discountWithCodeList;
+    }
+
+    public double getCredit() {
+        return credit;
     }
 
     // Just purchase
@@ -23,8 +33,10 @@ public class Customer extends Guest {
         return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId, credit, buyAndSellHistory.historyId, cart.cartId);
     }
 
-    public Customer(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, List<DiscountWithCode> discountWithCodeList, double credit, Cart cart, BuyAndSellHistory buyAndSellHistory) {
-        super(accountId, userName, password, statusTag, personalInformation, discountWithCodeList, credit, cart);
+    public Customer(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Cart cart, List<DiscountWithCode> discountWithCodeList, double credit, BuyAndSellHistory buyAndSellHistory) {
+        super(accountId, userName, password, statusTag, personalInformation, cart);
+        this.discountWithCodeList = discountWithCodeList;
+        this.credit = credit;
         this.buyAndSellHistory = buyAndSellHistory;
     }
 }
