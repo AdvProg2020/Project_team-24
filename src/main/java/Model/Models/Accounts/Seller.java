@@ -28,6 +28,8 @@ public class Seller extends Account {
         return auctionList;
     }
 
+    //?
+
     @Override
     public List<Object> getParametersForPack() {
         return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId, buyAndSellHistory.historyId, productList, companyInformation.companyId, auctionList);

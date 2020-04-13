@@ -1,11 +1,13 @@
 package Model.RuntimeData;
 
 import Model.Models.Product;
+import Model.Tools.FileHandler;
+import Model.Tools.PackClass;
 
 import java.io.File;
 import java.util.List;
 
-public class ProductSource {
+public class ProductSource implements PackClass, FileHandler {
 
     private static File productList_File = new File("src/main/resources/allProducts");
 

@@ -24,6 +24,8 @@ public class Guest extends Account {
         return cart;
     }
 
+    //?
+
     @Override
     public List<Object> getParametersForPack() {
         return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId, credit, cart.cartId);

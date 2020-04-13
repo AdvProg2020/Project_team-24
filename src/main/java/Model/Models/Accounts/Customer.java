@@ -16,6 +16,8 @@ public class Customer extends Guest {
         return buyAndSellHistory;
     }
 
+    // Just purchase
+
     @Override
     public List<Object> getParametersForPack() {
         return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId, credit, buyAndSellHistory.historyId, cart.cartId);

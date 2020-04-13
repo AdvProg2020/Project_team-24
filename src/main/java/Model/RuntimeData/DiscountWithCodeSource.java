@@ -1,11 +1,13 @@
 package Model.RuntimeData;
 
 import Model.Models.DiscountWithCode;
+import Model.Tools.FileHandler;
+import Model.Tools.PackClass;
 
 import java.io.File;
 import java.util.List;
 
-public class DiscountWithCodeSource {
+public class DiscountWithCodeSource implements PackClass, FileHandler {
 
     private static File discountWithCodeList_File = new File("src/main/resources/allDiscountWithCodes");
 

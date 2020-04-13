@@ -1,11 +1,13 @@
 package Model.RuntimeData;
 
 import Model.Models.Request;
+import Model.Tools.FileHandler;
+import Model.Tools.PackClass;
 
 import java.io.File;
 import java.util.List;
 
-public class RequestSource {
+public class RequestSource implements PackClass, FileHandler {
 
     private static File requestList_File = new File("src/main/resources/allRequests");
 

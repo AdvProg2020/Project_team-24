@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="723.5" y="129.0">Model.Models.DiscountWithCode</node>
+    <node x="2173.5" y="129.0">Model.Models.Cart</node>
+    <node x="132.0" y="361.0">Model.Tools.FileHandler</node>
+    <node x="114.5" y="129.0">Model.Models.Account</node>
+    <node x="232.5" y="129.0">Model.Models.Product</node>
+    <node x="0.0" y="287.0">Model.Models.Accounts.Customer</node>
+    <node x="172.0" y="514.0">Model.Models.LogHistory</node>
+    <node x="454.5" y="129.0">Model.Models.ProductGeneralSpecifications</node>
+    <node x="1099.0" y="361.0">Model.RuntimeData.DiscountWithCodeSource</node>
+    <node x="0.0" y="514.0">Model.RuntimeData.ScoreSource</node>
+    <node x="1103.5" y="129.0">Model.Models.PersonalInformation</node>
+    <node x="2101.0" y="361.0">Model.RuntimeData.FilterSource</node>
+    <node x="10.5" y="208.0">Model.Models.Accounts.Guest</node>
+    <node x="2055.5" y="129.0">Model.Models.Comment</node>
+    <node x="1550.5" y="129.0">Model.Models.Auction</node>
+    <node x="0.0" y="361.0">Model.Tools.PackClass</node>
+    <node x="659.0" y="514.0">Model.Models.Discount</node>
+    <node x="1915.0" y="361.0">Model.RuntimeData.RequestSource</node>
+    <node x="576.0" y="361.0">Model.RuntimeData.CompanyInformationSource</node>
+    <node x="1307.5" y="129.0">Model.Models.Category</node>
+    <node x="1225.25" y="0.0">Model.Tools.Packable</node>
+    <node x="232.5" y="208.0">Model.Models.Accounts.Seller</node>
+    <node x="350.5" y="129.0">Model.Models.Score</node>
+    <node x="1729.0" y="361.0">Model.RuntimeData.AuctionSource</node>
+    <node x="1432.5" y="129.0">Model.Models.Request</node>
+    <node x="114.5" y="208.0">Model.Models.Accounts.Manager</node>
+    <node x="502.0" y="514.0">MainClass</node>
+    <node x="337.0" y="514.0">Model.RuntimeData.SortSource</node>
+    <node x="841.0" y="361.0">Model.RuntimeData.BuyAndSellHistorySource</node>
+    <node x="906.5" y="129.0">Model.Models.CompanyInformation</node>
+    <node x="1668.5" y="129.0">Model.Models.GoodSpecifications</node>
+    <node x="1865.5" y="129.0">Model.Models.BuyAndSellHistory</node>
+    <node x="1543.0" y="361.0">Model.RuntimeData.ProductSource</node>
+    <node x="1350.0" y="361.0">Model.RuntimeData.CategorySource</node>
+    <node x="304.0" y="361.0">Model.RuntimeData.PersonalInformationSource</node>
+    <node x="55.25" y="440.0">Model.RuntimeData.AccountSource</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Model.Models.ProductGeneralSpecifications" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="579.0" y="79.0" />
+      <point x="1251.5" y="79.0" />
+      <point x="-26.25" y="14.5" />
+    </edge>
+    <edge source="Model.Models.BuyAndSellHistory" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="1950.5" y="69.0" />
+      <point x="1311.5" y="69.0" />
+      <point x="33.75" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Request" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="1481.5" y="99.0" />
+      <point x="1289.0" y="99.0" />
+      <point x="11.25" y="14.5" />
+    </edge>
+    <edge source="Model.RuntimeData.AccountSource" target="Model.Tools.FileHandler">
+      <point x="35.25" y="-14.5" />
+      <point x="161.0" y="415.0" />
+      <point x="195.5" y="415.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Accounts.Seller" target="Model.Models.Account">
+      <point x="0.0" y="-14.5" />
+      <point x="278.0" y="183.0" />
+      <point x="196.16666666666663" y="183.0" />
+      <point x="32.66666666666666" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Product" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="281.5" y="59.0" />
+      <point x="1236.5" y="59.0" />
+      <point x="-41.25" y="14.5" />
+    </edge>
+    <edge source="Model.RuntimeData.AccountSource" target="Model.Tools.PackClass">
+      <point x="-35.25" y="-14.5" />
+      <point x="90.5" y="415.0" />
+      <point x="56.0" y="415.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Accounts.Customer" target="Model.Models.Accounts.Guest">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="Model.Models.CompanyInformation" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="995.0" y="99.0" />
+      <point x="1266.5" y="99.0" />
+      <point x="-11.25" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Account" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="163.5" y="49.0" />
+      <point x="1229.0" y="49.0" />
+      <point x="-48.75" y="14.5" />
+    </edge>
+    <edge source="Model.Models.DiscountWithCode" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="805.0" y="89.0" />
+      <point x="1259.0" y="89.0" />
+      <point x="-18.75" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Score" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="392.5" y="69.0" />
+      <point x="1244.0" y="69.0" />
+      <point x="-33.75" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Cart" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="2211.5" y="49.0" />
+      <point x="1326.5" y="49.0" />
+      <point x="48.75" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Comment" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="2104.5" y="59.0" />
+      <point x="1319.0" y="59.0" />
+      <point x="41.25" y="14.5" />
+    </edge>
+    <edge source="Model.Models.PersonalInformation" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="1195.5" y="109.0" />
+      <point x="1274.0" y="109.0" />
+      <point x="-3.75" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Category" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="1360.0" y="109.0" />
+      <point x="1281.5" y="109.0" />
+      <point x="3.75" y="14.5" />
+    </edge>
+    <edge source="Model.Models.GoodSpecifications" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="1757.0" y="79.0" />
+      <point x="1304.0" y="79.0" />
+      <point x="26.25" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Auction" target="Model.Tools.Packable">
+      <point x="0.0" y="-14.5" />
+      <point x="1599.5" y="89.0" />
+      <point x="1296.5" y="89.0" />
+      <point x="18.75" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Accounts.Guest" target="Model.Models.Account">
+      <point x="0.0" y="-14.5" />
+      <point x="52.5" y="183.0" />
+      <point x="130.83333333333337" y="183.0" />
+      <point x="-32.66666666666666" y="14.5" />
+    </edge>
+    <edge source="Model.Models.Accounts.Manager" target="Model.Models.Account">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5000000000000001" x="1154.9999999999995" y="564.5000000000001" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,6 +1,10 @@
 package Model.Models.Accounts;
 
 import Model.Models.*;
+import Model.RuntimeData.AccountSource;
+import Model.RuntimeData.CategorySource;
+import Model.RuntimeData.DiscountWithCodeSource;
+import Model.RuntimeData.RequestSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,8 +17,29 @@ public class Manager extends Account {
     private static List<Category> categoryList;
 
     static {
-        requestList =
+        requestList = RequestSource.getRequestList();
+        discountWithCodeList = DiscountWithCodeSource.getDiscountWithCodeList();
+        accountList = AccountSource.getAccountList();
+        categoryList = CategorySource.getCategoryList();
     }
+
+    public static List<Request> getRequestList() {
+        return requestList;
+    }
+
+    public static List<DiscountWithCode> getDiscountWithCodeList() {
+        return discountWithCodeList;
+    }
+
+    public static List<Account> getAccountList() {
+        return accountList;
+    }
+
+    public static List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    //?
 
     @Override
     public List<Object> getParametersForPack() {

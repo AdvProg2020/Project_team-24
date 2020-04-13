@@ -1,11 +1,13 @@
 package Model.RuntimeData;
 
 import Model.Models.BuyAndSellHistory;
+import Model.Tools.FileHandler;
+import Model.Tools.PackClass;
 
 import java.io.File;
 import java.util.List;
 
-public class BuyAndSellHistorySource {
+public class BuyAndSellHistorySource implements PackClass, FileHandler {
 
     private static File buyAndSellHistoryList_File = new File("src/main/resources/allBuyAndSellHistories");
 
