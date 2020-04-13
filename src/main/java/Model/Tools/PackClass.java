@@ -11,7 +11,7 @@ public interface PackClass {
 
     class Pack {
 
-        List<Object> param;
+        private List<Object> param;
 
         public Pack(List<Object> param) {
             this.param = param;
