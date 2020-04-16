@@ -1,6 +1,6 @@
 package Model.Tools;
 
-public class ForPend {
+public interface ForPend {
 
-
+    //Just as a label ...
 }

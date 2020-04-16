@@ -1,9 +1,11 @@
 package Model.Models;
 
+import java.io.File;
 import java.util.List;
 
 public class LogHistory {
 
+    private static File logHistorySource;
     private static List<LogHistory> logHistoryList;
 
     static {
@@ -11,22 +13,22 @@ public class LogHistory {
     }
 
     public enum DeliveryStatus {
-        Pending,InTransit,OutForDelivery,AttemptFail,Delivered,Exception,Expired,InfoReceived
+        Pending, InTransit, OutForDelivery, AttemptFail, Delivered, Exception, Expired, InfoReceived
     }
 
     public enum TypeLog {
-        SaleLog,ShoppingLog
+        SaleLog, ShoppingLog
     }
 
     private TypeLog typeLog;
 
     private long logId;
-//    Date date
+    //    Date date
 //    double amount
 //    double discountAmount
 //    double auctionDiscount
 //    String customerName
-//    private String SellerName
+//    String SellerName
     private List<Field> fieldList;
     private List<Product> productList;
     private DeliveryStatus deliveryStatus;

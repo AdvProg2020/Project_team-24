@@ -3,10 +3,12 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.File;
 import java.util.List;
 
 public class CompanyInformation implements Packable {
 
+    private static File companyInformationSource;
     private static List<CompanyInformation> companyInformationList;
 
     static {
@@ -14,7 +16,7 @@ public class CompanyInformation implements Packable {
     }
 
     private long companyId;
-//    String name
+    //    String name
 //    String phoneNumber
 //    String email
 //    Date foundation

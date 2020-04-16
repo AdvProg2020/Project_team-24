@@ -1,18 +1,27 @@
 package Model;
 
 import Controller.ControllerUnit;
+import Model.DataBase.DataBase;
 
 public class ModelUnit {
 
     private static ModelUnit modelUnit;
 
+    private static DataBase dataBase;
+
+    static {
+        dataBase = new DataBase();
+    }
+
     private ControllerUnit controllerUnit;
 
-    //
+    // R.
+
 
     public static ModelUnit getInstance(ControllerUnit controllerUnit) {
-        return modelUnit == null ?
-                new ModelUnit(controllerUnit) : modelUnit;
+        if (modelUnit == null)
+            modelUnit = new ModelUnit(controllerUnit);
+        return modelUnit;
     }
 
     private ModelUnit(ControllerUnit controllerUnit) {

@@ -3,10 +3,12 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.File;
 import java.util.List;
 
 public class Comment implements Packable {
 
+    private static File commentSource;
     private static List<Comment> commentList;
 
     static {
@@ -14,7 +16,7 @@ public class Comment implements Packable {
     }
 
     private long commentId;
-//    Account userComments
+    //    Account userComments
 //    Product purchasedGood
 //    String comment
 //    boolean didThisUserBuyThisProduct

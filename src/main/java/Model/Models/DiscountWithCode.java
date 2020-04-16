@@ -3,10 +3,12 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.File;
 import java.util.List;
 
 public class DiscountWithCode implements Packable {
 
+    private static File discountWithCodeSource;
     private static List<DiscountWithCode> discountWithCodeList;
 
     static {
@@ -14,7 +16,7 @@ public class DiscountWithCode implements Packable {
     }
 
     private String discountCode;
-//    Date start
+    //    Date start
 //    Date end
 //    Discount discount
 //    int frequentUse

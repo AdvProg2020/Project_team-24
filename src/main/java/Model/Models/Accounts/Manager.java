@@ -37,7 +37,7 @@ public class Manager extends Account {
                 .addField(accountId)
                 .addField(userName)
                 .addField(password)
-                .addField(personalInformation.personalInformationId);
+                .addField(personalInformation.getPersonalInformationId());
     }
 
     @Override

@@ -4,10 +4,12 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
+import java.io.File;
 import java.util.List;
 
-public class Auction implements Packable , ForPend {
+public class Auction implements Packable, ForPend {
 
+    private static File auctionSource;
     private static List<Auction> auctionList;
 
     static {
@@ -17,7 +19,7 @@ public class Auction implements Packable , ForPend {
     private long auctionId;
     private List<Product> productList;
     private PendStatus status;
-//    Date start;
+    //    Date start;
 //    Date end;
 //    Discount discount;
     private List<Field> fieldList;

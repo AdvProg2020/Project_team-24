@@ -3,10 +3,12 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.File;
 import java.util.List;
 
 public class ProductGeneralSpecifications implements Packable {
 
+    private static File productGeneralSpecificationsSource;
     private static List<ProductGeneralSpecifications> productGeneralSpecificationsList;
 
     static {
@@ -14,11 +16,11 @@ public class ProductGeneralSpecifications implements Packable {
     }
 
     public enum InventoryStatus {
-        InSock,Purchased,ToReceive,Sold,ToShip
+        InSock, Purchased, ToReceive, Sold, ToShip
     }
 
     private long generalSpecificationId;
-//    String name
+    //    String name
 //    String brand
 //    double price
     private List<Field> fieldList;

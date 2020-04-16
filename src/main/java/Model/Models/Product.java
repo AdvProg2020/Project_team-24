@@ -1,12 +1,15 @@
 package Model.Models;
 
 import Model.Tools.Data;
+import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
+import java.io.File;
 import java.util.List;
 
-public class Product implements Packable {
+public class Product implements Packable, ForPend {
 
+    private static File productSource;
     private static List<Product> productList;
 
     static {
@@ -18,7 +21,7 @@ public class Product implements Packable {
     private CategorySpecifications categorySpecifications;
     private ProductGeneralSpecifications generalSpecifications;
     private Category category;
-//    String descriptions
+    //    String descriptions
 //    long numberOfBuyers
 //    long numberOfThis
 //    double averageScore

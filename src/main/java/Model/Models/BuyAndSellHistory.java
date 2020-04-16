@@ -3,10 +3,12 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.File;
 import java.util.List;
 
 public class BuyAndSellHistory implements Packable {
 
+    private static File buyAndSellHistorySource;
     private static List<BuyAndSellHistory> buyAndSellHistoryList;
 
     static {
