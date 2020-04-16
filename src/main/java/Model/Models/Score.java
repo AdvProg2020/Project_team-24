@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Score implements Packable {
 
-    private static File scoreSource;
     private static List<Score> scoreList;
 
     static {

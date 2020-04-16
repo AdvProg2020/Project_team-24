@@ -2,18 +2,18 @@ package Model.Models.Fields;
 
 public class Range {
 
-    private Object high;
-    private Object low;
+    private long high;
+    private long low;
 
-    public Object getHigh() {
+    public long getHigh() {
         return high;
     }
 
-    public Object getLow() {
+    public long getLow() {
         return low;
     }
 
-    public Range(Object high, Object low) {
+    public Range(long high, long low) {
         this.high = high;
         this.low = low;
     }

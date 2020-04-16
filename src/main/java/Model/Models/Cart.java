@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Cart implements Packable {
 
-    private static File cartSource;
     private static List<Cart> cartList;
 
     static {

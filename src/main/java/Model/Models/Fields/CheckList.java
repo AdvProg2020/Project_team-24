@@ -2,13 +2,13 @@ package Model.Models.Fields;
 
 public class CheckList {
 
-    private Object object;
+    private String string;
 
-    public Object getObject() {
-        return object;
+    public String getString() {
+        return string;
     }
 
-    public CheckList(Object object) {
-        this.object = object;
+    public CheckList(String string) {
+        this.string = string;
     }
 }

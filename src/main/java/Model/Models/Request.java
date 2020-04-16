@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Request implements Packable {
 
-    private static File requestSource;
     private static List<Request> requestList;
 
     static {

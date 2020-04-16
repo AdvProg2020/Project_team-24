@@ -8,7 +8,6 @@ import java.util.List;
 
 public class CompanyInformation implements Packable {
 
-    private static File companyInformationSource;
     private static List<CompanyInformation> companyInformationList;
 
     static {

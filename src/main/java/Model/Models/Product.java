@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Product implements Packable, ForPend {
 
-    private static File productSource;
     private static List<Product> productList;
 
     static {
@@ -17,7 +16,7 @@ public class Product implements Packable, ForPend {
     }
 
     private long productId;
-    private PendStatus pendStatus;
+    private Status status;
     private CategorySpecifications categorySpecifications;
     private ProductGeneralSpecifications generalSpecifications;
     private Category category;
@@ -32,8 +31,8 @@ public class Product implements Packable, ForPend {
         return productId;
     }
 
-    public PendStatus getPendStatus() {
-        return pendStatus;
+    public Status getStatus() {
+        return status;
     }
 
     public CategorySpecifications getCategorySpecifications() {
@@ -70,9 +69,9 @@ public class Product implements Packable, ForPend {
         return null;
     }
 
-    public Product(long productId, PendStatus pendStatus, CategorySpecifications categorySpecifications, ProductGeneralSpecifications generalSpecifications, Category category, List<Field> fieldList, List<Comment> commentList) {
+    public Product(long productId, Status status, CategorySpecifications categorySpecifications, ProductGeneralSpecifications generalSpecifications, Category category, List<Field> fieldList, List<Comment> commentList) {
         this.productId = productId;
-        this.pendStatus = pendStatus;
+        this.status = status;
         this.categorySpecifications = categorySpecifications;
         this.generalSpecifications = generalSpecifications;
         this.category = category;

@@ -5,7 +5,6 @@ import java.util.List;
 
 public class LogHistory {
 
-    private static File logHistorySource;
     private static List<LogHistory> logHistoryList;
 
     static {

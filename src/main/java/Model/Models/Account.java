@@ -7,7 +7,6 @@ import java.util.List;
 
 public abstract class Account implements Packable {
 
-    protected static File accountSource;
     protected static List<Account> accountList;
 
     static {

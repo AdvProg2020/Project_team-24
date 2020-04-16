@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Comment implements Packable {
 
-    private static File commentSource;
     private static List<Comment> commentList;
 
     static {
@@ -21,7 +20,7 @@ public class Comment implements Packable {
 //    String comment
 //    boolean didThisUserBuyThisProduct
     private List<Field> fieldList;
-    private PendStatus pendStatus;
+    private Status status;
 
     public static List<Comment> getCommentList() {
         return commentList;
@@ -35,8 +34,8 @@ public class Comment implements Packable {
         return fieldList;
     }
 
-    public PendStatus getPendStatus() {
-        return pendStatus;
+    public Status getStatus() {
+        return status;
     }
 
     @Override
@@ -49,9 +48,9 @@ public class Comment implements Packable {
         return null;
     }
 
-    public Comment(long commentId, List<Field> fieldList, PendStatus pendStatus) {
+    public Comment(long commentId, List<Field> fieldList, Status status) {
         this.commentId = commentId;
         this.fieldList = fieldList;
-        this.pendStatus = pendStatus;
+        this.status = status;
     }
 }

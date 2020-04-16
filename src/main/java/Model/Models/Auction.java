@@ -9,7 +9,6 @@ import java.util.List;
 
 public class Auction implements Packable, ForPend {
 
-    private static File auctionSource;
     private static List<Auction> auctionList;
 
     static {
@@ -18,7 +17,7 @@ public class Auction implements Packable, ForPend {
 
     private long auctionId;
     private List<Product> productList;
-    private PendStatus status;
+    private Status status;
     //    Date start;
 //    Date end;
 //    Discount discount;
@@ -36,7 +35,7 @@ public class Auction implements Packable, ForPend {
         return productList;
     }
 
-    public PendStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -54,7 +53,7 @@ public class Auction implements Packable, ForPend {
         return null;
     }
 
-    public Auction(long auctionId, List<Product> productList, PendStatus status, List<Field> fieldList) {
+    public Auction(long auctionId, List<Product> productList, Status status, List<Field> fieldList) {
         this.auctionId = auctionId;
         this.productList = productList;
         this.status = status;
