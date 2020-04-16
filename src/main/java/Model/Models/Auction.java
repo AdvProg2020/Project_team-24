@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.util.Arrays;
@@ -36,8 +37,13 @@ public class Auction implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(auctionId, statusTag, productList, start, end, discount);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public Auction(long auctionId, List<Product> productList, StatusTag statusTag, Date start, Date end, Discount discount) {

@@ -5,6 +5,7 @@ import Model.RuntimeData.AccountSource;
 import Model.RuntimeData.CategorySource;
 import Model.RuntimeData.DiscountWithCodeSource;
 import Model.RuntimeData.RequestSource;
+import Model.Tools.Data;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,10 +18,7 @@ public class Manager extends Account {
     private static List<Category> categoryList;
 
     static {
-        requestList = RequestSource.getRequestList();
-        discountWithCodeList = DiscountWithCodeSource.getDiscountWithCodeList();
-        accountList = AccountSource.getAccountList();
-        categoryList = CategorySource.getCategoryList();
+
     }
 
     public static List<Request> getRequestList() {
@@ -41,9 +39,15 @@ public class Manager extends Account {
 
     // ?
 
+
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public Manager(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation) {

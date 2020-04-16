@@ -1,6 +1,7 @@
 package Model.Models.Accounts;
 
 import Model.Models.*;
+import Model.Tools.Data;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,9 +16,15 @@ public class Guest extends Account {
 
     //?
 
+
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId, cart.cartId);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public Guest(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Cart cart) {

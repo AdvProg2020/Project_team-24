@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.util.Arrays;
@@ -25,8 +26,13 @@ public class Score implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(scoreId,score,user.accountId,good.productId);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public Score(long scoreId, Account user, int score, Product good) {

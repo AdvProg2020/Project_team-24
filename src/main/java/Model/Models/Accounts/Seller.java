@@ -1,8 +1,8 @@
 package Model.Models.Accounts;
 
 import Model.Models.*;
+import Model.Tools.Data;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Seller extends Account {
@@ -31,8 +31,13 @@ public class Seller extends Account {
     //?
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId, buyAndSellHistory.historyId, productList, companyInformation.companyId, auctionList);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public Seller(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, BuyAndSellHistory buyAndSellHistory, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {

@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.util.Arrays;
@@ -36,8 +37,13 @@ public class DiscountWithCode implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(discountCode,start,end,discount,frequentUse,accountList);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public DiscountWithCode(String discountCode, Date start, Date end, Discount discount, int frequentUse, List<Account> accountList) {

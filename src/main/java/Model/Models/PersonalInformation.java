@@ -1,9 +1,7 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class PersonalInformation implements Packable {
 
@@ -30,8 +28,13 @@ public class PersonalInformation implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(personalInformationId, firstName, lastName, email, phoneNumber);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public PersonalInformation(long personalInformationId, String firstName, String lastName, String email, String phoneNumber) {

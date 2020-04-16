@@ -1,10 +1,9 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 public class CompanyInformation implements Packable {
 
@@ -31,8 +30,13 @@ public class CompanyInformation implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(companyId, name, phoneNumber, email, foundation);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public CompanyInformation(long companyId, String name, String phoneNumber, String email, Date foundation) {

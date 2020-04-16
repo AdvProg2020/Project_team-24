@@ -1,8 +1,8 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Cart implements Packable {
@@ -15,8 +15,13 @@ public class Cart implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(cartId,productList);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public Cart(long cartId, List<Product> productList) {

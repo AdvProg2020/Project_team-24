@@ -13,12 +13,16 @@ public class Data {
         this.className = className;
     }
 
+    public List<Object> getFields() {
+        return Collections.unmodifiableList(this.fields);
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
     public Data addField(Object field) {
         this.fields.add(field);
         return this;
-    }
-
-    public List<Object> getFields() {
-        return Collections.unmodifiableList(this.fields);
     }
 }

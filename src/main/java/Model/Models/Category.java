@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.util.Arrays;
@@ -30,8 +31,13 @@ public class Category implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(categoryId, categorySpecifications, subCategoryList, productList);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public Category(long categoryId, String name, List<Product> productList, List<String> categorySpecifications, List<Category> subCategoryList) {

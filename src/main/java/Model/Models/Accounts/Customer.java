@@ -4,6 +4,7 @@ import Model.Models.BuyAndSellHistory;
 import Model.Models.Cart;
 import Model.Models.DiscountWithCode;
 import Model.Models.PersonalInformation;
+import Model.Tools.Data;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +29,15 @@ public class Customer extends Guest {
 
     // Just purchase
 
+
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(accountId, statusTag, userName, password, personalInformation.personalInformationId, credit, buyAndSellHistory.historyId, cart.cartId);
+    public Data pack(Object object) {
+        return super.pack(object);
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return super.dpkg(data);
     }
 
     public Customer(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Cart cart, List<DiscountWithCode> discountWithCodeList, double credit, BuyAndSellHistory buyAndSellHistory) {

@@ -1,9 +1,7 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class Comment implements Packable {
 
@@ -35,8 +33,13 @@ public class Comment implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(commentId,statusTag,didThisUserBuyThisProduct,comment,userComments.accountId, purchasedGood.productId);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public Comment(long commentId, Account userComments, Product purchasedGood, String comment, StatusTag statusTag, boolean didThisUserBuyThisProduct) {

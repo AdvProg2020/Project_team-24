@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.util.Arrays;
@@ -39,8 +40,13 @@ public class ProductGeneralSpecifications implements Packable {
     }
 
     @Override
-    public List<Object> getParametersForPack() {
-        return Arrays.asList(generalSpecificationId, inventoryStatus, name, brand, price, sellers);
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public ProductGeneralSpecifications(long generalSpecificationId, String name, String brand, double price, List<Account> sellers, InventoryStatus inventoryStatus) {
