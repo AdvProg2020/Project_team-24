@@ -2,7 +2,6 @@ package Model.Models;
 
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public abstract class Account implements Packable {

@@ -1,6 +1,5 @@
 package Model.Models;
 
-import java.io.File;
 import java.util.List;
 
 public class LogHistory {

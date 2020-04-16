@@ -4,7 +4,6 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public class Product implements Packable, ForPend {
