@@ -3,14 +3,27 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.util.List;
+
 public class Comment implements Packable {
 
-    public long commentId;
-    private Account userComments;
-    private Product purchasedGood;
-    private String comment;
-    private StatusTag statusTag;
-    private boolean didThisUserBuyThisProduct;
+    private static List<Comment> commentList;
+
+    static {
+
+    }
+
+    private long commentId;
+//    Account userComments
+//    Product purchasedGood
+//    String comment
+//    boolean didThisUserBuyThisProduct
+    private
+    private PendStatus pendStatus;
+
+    public static List<Comment> getCommentList() {
+        return commentList;
+    }
 
     public Account getUserComments() {
         return userComments;
@@ -24,8 +37,8 @@ public class Comment implements Packable {
         return comment;
     }
 
-    public StatusTag getStatusTag() {
-        return statusTag;
+    public PendStatus getPendStatus() {
+        return pendStatus;
     }
 
     public boolean isDidThisUserBuyThisProduct() {
@@ -42,12 +55,12 @@ public class Comment implements Packable {
         return null;
     }
 
-    public Comment(long commentId, Account userComments, Product purchasedGood, String comment, StatusTag statusTag, boolean didThisUserBuyThisProduct) {
+    public Comment(long commentId, Account userComments, Product purchasedGood, String comment, PendStatus pendStatus, boolean didThisUserBuyThisProduct) {
         this.commentId = commentId;
         this.userComments = userComments;
         this.purchasedGood = purchasedGood;
         this.comment = comment;
-        this.statusTag = statusTag;
+        this.pendStatus = pendStatus;
         this.didThisUserBuyThisProduct = didThisUserBuyThisProduct;
     }
 }

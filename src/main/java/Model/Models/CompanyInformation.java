@@ -3,30 +3,33 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Date;
+import java.util.List;
 
 public class CompanyInformation implements Packable {
 
-    public long companyId;
-    private String name;
-    private String phoneNumber;
-    private String email;
-    private Date foundation;
+    private static List<CompanyInformation> companyInformationList;
 
-    public String getName() {
-        return name;
+    static {
+
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    private long companyId;
+//    String name
+//    String phoneNumber
+//    String email
+//    Date foundation
+    private List<Field> fieldList;
+
+    public List<Field> getFieldList() {
+        return fieldList;
     }
 
-    public String getEmail() {
-        return email;
+    public long getCompanyId() {
+        return companyId;
     }
 
-    public Date getFoundation() {
-        return foundation;
+    public static List<CompanyInformation> getCompanyInformationList() {
+        return companyInformationList;
     }
 
     @Override
@@ -39,11 +42,8 @@ public class CompanyInformation implements Packable {
         return null;
     }
 
-    public CompanyInformation(long companyId, String name, String phoneNumber, String email, Date foundation) {
+    public CompanyInformation(long companyId, List<Field> fieldList) {
         this.companyId = companyId;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.foundation = foundation;
+        this.fieldList = fieldList;
     }
 }

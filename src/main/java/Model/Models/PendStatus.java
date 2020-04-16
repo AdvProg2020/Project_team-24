@@ -1,5 +1,5 @@
 package Model.Models;
 
-public enum StatusTag {
+public enum PendStatus {
     Pending, Editing, Confirmed
 }

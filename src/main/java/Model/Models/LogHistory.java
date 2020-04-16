@@ -5,6 +5,12 @@ import java.util.List;
 
 public class LogHistory {
 
+    private static List<LogHistory> logHistoryList;
+
+    static {
+
+    }
+
     public enum DeliveryStatus {
         Pending,InTransit,OutForDelivery,AttemptFail,Delivered,Exception,Expired,InfoReceived
     }
@@ -59,6 +65,10 @@ public class LogHistory {
 
     public double getAuctionDiscount() {
         return auctionDiscount;
+    }
+
+    public static List<LogHistory> getLogHistoryList() {
+        return logHistoryList;
     }
 
     public LogHistory(long logId, Date date, double amount, double discountAmount, double auctionDiscount, List<Product> productList, String customerName, String sellerName, DeliveryStatus deliveryStatus, TypeLog typeLog) {

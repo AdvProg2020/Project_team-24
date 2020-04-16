@@ -7,11 +7,25 @@ import java.util.List;
 
 public class BuyAndSellHistory implements Packable {
 
-    public long historyId;
+    private static List<BuyAndSellHistory> buyAndSellHistoryList;
+
+    static {
+
+    }
+
+    private long historyId;
     private List<LogHistory> logHistoryList;
+
+    public long getHistoryId() {
+        return historyId;
+    }
 
     public List<LogHistory> getLogHistoryList() {
         return logHistoryList;
+    }
+
+    public static List<BuyAndSellHistory> getBuyAndSellHistoryList() {
+        return buyAndSellHistoryList;
     }
 
     @Override

@@ -3,31 +3,44 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Category implements Packable {
 
-    public long categoryId;
+    private static List<Category> categoryList;
+
+    static {
+
+    }
+
+    private long categoryId;
     private String name;
     private List<Product> productList;
-    private List<String> categorySpecifications;
+    private List<Field> categoryField;
     private List<Category> subCategoryList;
+
+    public long getCategoryId() {
+        return categoryId;
+    }
 
     public String getName() {
         return name;
     }
 
-    public List<String> getCategorySpecifications() {
-        return categorySpecifications;
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public List<Field> getCategoryField() {
+        return categoryField;
     }
 
     public List<Category> getSubCategoryList() {
         return subCategoryList;
     }
 
-    public List<Product> getProductList() {
-        return productList;
+    public static List<Category> getCategoryList() {
+        return categoryList;
     }
 
     @Override
@@ -40,11 +53,11 @@ public class Category implements Packable {
         return null;
     }
 
-    public Category(long categoryId, String name, List<Product> productList, List<String> categorySpecifications, List<Category> subCategoryList) {
+    public Category(long categoryId, String name, List<Product> productList, List<Field> categoryField, List<Category> subCategoryList) {
         this.categoryId = categoryId;
         this.name = name;
         this.productList = productList;
-        this.categorySpecifications = categorySpecifications;
+        this.categoryField = categoryField;
         this.subCategoryList = subCategoryList;
     }
 }

@@ -1,19 +1,15 @@
 package Model.Models.Accounts;
 
-import Model.Models.BuyAndSellHistory;
-import Model.Models.Cart;
-import Model.Models.DiscountWithCode;
-import Model.Models.PersonalInformation;
+import Model.Models.*;
 import Model.Tools.Data;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Customer extends Guest {
 
-    protected List<DiscountWithCode> discountWithCodeList;
-    protected double credit;
-    protected BuyAndSellHistory buyAndSellHistory;
+    private List<DiscountWithCode> discountWithCodeList;
+    private double credit;
+    private BuyAndSellHistory buyAndSellHistory;
 
     public BuyAndSellHistory getBuyAndSellHistory() {
         return buyAndSellHistory;
@@ -27,8 +23,9 @@ public class Customer extends Guest {
         return credit;
     }
 
-    // Just purchase
-
+    public void setCredit(double credit) {
+        this.credit = credit;
+    }
 
     @Override
     public Data pack(Object object) {
@@ -40,8 +37,8 @@ public class Customer extends Guest {
         return super.dpkg(data);
     }
 
-    public Customer(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Cart cart, List<DiscountWithCode> discountWithCodeList, double credit, BuyAndSellHistory buyAndSellHistory) {
-        super(accountId, userName, password, statusTag, personalInformation, cart);
+    public Customer(long accountId, String userName, String password, PersonalInformation personalInformation, Cart cart, List<DiscountWithCode> discountWithCodeList, double credit, BuyAndSellHistory buyAndSellHistory) {
+        super(accountId, userName, password, personalInformation, cart);
         this.discountWithCodeList = discountWithCodeList;
         this.credit = credit;
         this.buyAndSellHistory = buyAndSellHistory;

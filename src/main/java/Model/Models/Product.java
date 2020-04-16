@@ -3,24 +3,39 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Product implements Packable {
 
-    public long productId;
-    private StatusTag statusTag;
+    private static List<Product> productList;
+
+    static {
+
+    }
+
+    private long productId;
+    private PendStatus pendStatus;
+    private GoodSpecifications goodSpecifications;
     private ProductGeneralSpecifications generalSpecifications;
     private Category category;
-    private GoodSpecifications goodSpecifications;
-    private String descriptions;
-    private long numberOfBuyers;
-    private long numberOfThis;
-    private double averageScore;
+//    String descriptions
+//    long numberOfBuyers
+//    long numberOfThis
+//    double averageScore
+    private List<Field> fieldList;
+    private List<Field> categoryField;
     private List<Comment> commentList;
 
-    public StatusTag getStatusTag() {
-        return statusTag;
+    public long getProductId() {
+        return productId;
+    }
+
+    public PendStatus getPendStatus() {
+        return pendStatus;
+    }
+
+    public GoodSpecifications getGoodSpecifications() {
+        return goodSpecifications;
     }
 
     public ProductGeneralSpecifications getGeneralSpecifications() {
@@ -31,28 +46,20 @@ public class Product implements Packable {
         return category;
     }
 
-    public String getDescriptions() {
-        return descriptions;
+    public List<Field> getFieldList() {
+        return fieldList;
     }
 
-    public long getNumberOfBuyers() {
-        return numberOfBuyers;
-    }
-
-    public double getAverageScore() {
-        return averageScore;
+    public List<Field> getCategoryField() {
+        return categoryField;
     }
 
     public List<Comment> getCommentList() {
         return commentList;
     }
 
-    public GoodSpecifications getGoodSpecifications() {
-        return goodSpecifications;
-    }
-
-    public long getNumberOfThis() {
-        return numberOfThis;
+    public static List<Product> getProductList() {
+        return productList;
     }
 
     @Override
@@ -65,16 +72,14 @@ public class Product implements Packable {
         return null;
     }
 
-    public Product(long productId, StatusTag statusTag, ProductGeneralSpecifications generalSpecifications, Category category, GoodSpecifications goodSpecifications, String descriptions, long numberOfBuyers, long numberOfThis, double averageScore, List<Comment> commentList) {
+    public Product(long productId, PendStatus pendStatus, GoodSpecifications goodSpecifications, ProductGeneralSpecifications generalSpecifications, Category category, List<Field> fieldList, List<Field> categoryField, List<Comment> commentList) {
         this.productId = productId;
-        this.statusTag = statusTag;
+        this.pendStatus = pendStatus;
+        this.goodSpecifications = goodSpecifications;
         this.generalSpecifications = generalSpecifications;
         this.category = category;
-        this.goodSpecifications = goodSpecifications;
-        this.descriptions = descriptions;
-        this.numberOfBuyers = numberOfBuyers;
-        this.numberOfThis = numberOfThis;
-        this.averageScore = averageScore;
+        this.fieldList = fieldList;
+        this.categoryField = categoryField;
         this.commentList = commentList;
     }
 }

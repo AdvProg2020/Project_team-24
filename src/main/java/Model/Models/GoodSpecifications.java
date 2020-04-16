@@ -3,15 +3,29 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.HashMap;
+import java.util.List;
 
 public class GoodSpecifications implements Packable {
 
-    public long goodSpecificationId;
-    private HashMap<String, String> goodSpecifications;
+    private static List<GoodSpecifications> goodSpecificationsList;
 
-    public HashMap<String, String> getGoodSpecifications() {
-        return goodSpecifications;
+    static {
+
+    }
+
+    private long goodSpecificationId;
+    private List<Field> fieldList;
+
+    public long getGoodSpecificationId() {
+        return goodSpecificationId;
+    }
+
+    public List<Field> getFieldList() {
+        return fieldList;
+    }
+
+    public static List<GoodSpecifications> getGoodSpecificationsList() {
+        return goodSpecificationsList;
     }
 
     @Override
@@ -24,8 +38,8 @@ public class GoodSpecifications implements Packable {
         return null;
     }
 
-    public GoodSpecifications(long goodSpecificationId, HashMap<String, String> goodSpecifications) {
+    public GoodSpecifications(long goodSpecificationId, List<Field> fieldList) {
         this.goodSpecificationId = goodSpecificationId;
-        this.goodSpecifications = goodSpecifications;
+        this.fieldList = fieldList;
     }
 }

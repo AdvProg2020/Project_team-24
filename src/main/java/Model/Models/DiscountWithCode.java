@@ -9,6 +9,12 @@ import java.util.List;
 
 public class DiscountWithCode implements Packable {
 
+    private static List<DiscountWithCode> discountWithCodeList;
+
+    static {
+
+    }
+
     public String discountCode;
     private Date start;
     private Date end;
@@ -34,6 +40,10 @@ public class DiscountWithCode implements Packable {
 
     public List<Account> getAccountList() {
         return accountList;
+    }
+
+    public static List<DiscountWithCode> getDiscountWithCodeList() {
+        return discountWithCodeList;
     }
 
     @Override

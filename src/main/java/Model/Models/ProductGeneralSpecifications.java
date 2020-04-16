@@ -3,32 +3,34 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ProductGeneralSpecifications implements Packable {
+
+    private static List<ProductGeneralSpecifications> productGeneralSpecificationsList;
+
+    static {
+
+    }
 
     public enum InventoryStatus {
         InSock,Purchased,ToReceive,Sold,ToShip
     }
 
-    public long generalSpecificationId;
-    private String name;
-    private String brand;
-    private double price;
+    private long generalSpecificationId;
+//    String name
+//    String brand
+//    double price
+    private List<Field> fieldList;
     private List<Account> sellers;
     private InventoryStatus inventoryStatus;
 
-    public String getName() {
-        return name;
+    public long getGeneralSpecificationId() {
+        return generalSpecificationId;
     }
 
-    public String getBrand() {
-        return brand;
-    }
-
-    public double getPrice() {
-        return price;
+    public List<Field> getFieldList() {
+        return fieldList;
     }
 
     public List<Account> getSellers() {
@@ -37,6 +39,10 @@ public class ProductGeneralSpecifications implements Packable {
 
     public InventoryStatus getInventoryStatus() {
         return inventoryStatus;
+    }
+
+    public static List<ProductGeneralSpecifications> getProductGeneralSpecificationsList() {
+        return productGeneralSpecificationsList;
     }
 
     @Override
@@ -49,11 +55,9 @@ public class ProductGeneralSpecifications implements Packable {
         return null;
     }
 
-    public ProductGeneralSpecifications(long generalSpecificationId, String name, String brand, double price, List<Account> sellers, InventoryStatus inventoryStatus) {
+    public ProductGeneralSpecifications(long generalSpecificationId, List<Field> fieldList, List<Account> sellers, InventoryStatus inventoryStatus) {
         this.generalSpecificationId = generalSpecificationId;
-        this.name = name;
-        this.brand = brand;
-        this.price = price;
+        this.fieldList = fieldList;
         this.sellers = sellers;
         this.inventoryStatus = inventoryStatus;
     }

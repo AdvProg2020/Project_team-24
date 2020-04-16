@@ -3,37 +3,42 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class Auction implements Packable {
 
-    public long auctionId;
+    private static List<Auction> auctionList;
+
+    static {
+
+    }
+
+    private long auctionId;
     private List<Product> productList;
-    private StatusTag statusTag;
-    private Date start;
-    private Date end;
-    private Discount discount;
+    private PendStatus status;
+//    Date start;
+//    Date end;
+//    Discount discount;
+    private List<Field> fieldList;
+
+    public static List<Auction> getAuctionList() {
+        return auctionList;
+    }
+
+    public long getAuctionId() {
+        return auctionId;
+    }
 
     public List<Product> getProductList() {
         return productList;
     }
 
-    public StatusTag getStatusTag() {
-        return statusTag;
+    public PendStatus getStatus() {
+        return status;
     }
 
-    public Date getStart() {
-        return start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public Discount getDiscount() {
-        return discount;
+    public List<Field> getFieldList() {
+        return fieldList;
     }
 
     @Override
@@ -46,12 +51,10 @@ public class Auction implements Packable {
         return null;
     }
 
-    public Auction(long auctionId, List<Product> productList, StatusTag statusTag, Date start, Date end, Discount discount) {
+    public Auction(long auctionId, List<Product> productList, PendStatus status, List<Field> fieldList) {
         this.auctionId = auctionId;
         this.productList = productList;
-        this.statusTag = statusTag;
-        this.start = start;
-        this.end = end;
-        this.discount = discount;
+        this.status = status;
+        this.fieldList = fieldList;
     }
 }

@@ -28,8 +28,6 @@ public class Seller extends Account {
         return auctionList;
     }
 
-    //?
-
     @Override
     public Data pack(Object object) {
         return null;
@@ -40,8 +38,8 @@ public class Seller extends Account {
         return null;
     }
 
-    public Seller(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, BuyAndSellHistory buyAndSellHistory, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {
-        super(accountId, userName, password, statusTag, personalInformation);
+    public Seller(long accountId, String userName, String password, PersonalInformation personalInformation, BuyAndSellHistory buyAndSellHistory, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {
+        super(accountId, userName, password, personalInformation);
         this.buyAndSellHistory = buyAndSellHistory;
         this.productList = productList;
         this.companyInformation = companyInformation;

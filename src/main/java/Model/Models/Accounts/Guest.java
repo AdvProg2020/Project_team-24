@@ -3,9 +3,6 @@ package Model.Models.Accounts;
 import Model.Models.*;
 import Model.Tools.Data;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Guest extends Account {
 
     protected Cart cart;
@@ -13,9 +10,6 @@ public class Guest extends Account {
     public Cart getCart() {
         return cart;
     }
-
-    //?
-
 
     @Override
     public Data pack(Object object) {
@@ -27,8 +21,8 @@ public class Guest extends Account {
         return null;
     }
 
-    public Guest(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation, Cart cart) {
-        super(accountId, userName, password, statusTag, personalInformation);
+    public Guest(long accountId, String userName, String password, PersonalInformation personalInformation, Cart cart) {
+        super(accountId, userName, password, personalInformation);
         this.cart = cart;
     }
 }

@@ -9,7 +9,6 @@ public class Manager extends Account {
 
     private static List<Request> requestList;
     private static List<DiscountWithCode> discountWithCodeList;
-    private static List<Account> accountList;
     private static List<Category> categoryList;
 
     static {
@@ -24,27 +23,34 @@ public class Manager extends Account {
         return discountWithCodeList;
     }
 
-    public static List<Account> getAccountList() {
-        return accountList;
-    }
-
     public static List<Category> getCategoryList() {
         return categoryList;
     }
 
-    // ?
-
     @Override
     public Data pack(Object object) {
-        return null;
+
+        if (object == null)
+            object = this;
+
+        return new Data(object.getClass().toString())
+                .addField(accountId)
+                .addField(userName)
+                .addField(password)
+                .addField(personalInformation.personalInformationId);
     }
 
     @Override
     public Object dpkg(Data data) {
-        return null;
+        return new Manager(
+                (long) data.getFields().get(0),
+                (String) data.getFields().get(1),
+                (String) data.getFields().get(2),
+                null
+        );
     }
 
-    public Manager(long accountId, String userName, String password, StatusTag statusTag, PersonalInformation personalInformation) {
-        super(accountId, userName, password, statusTag, personalInformation);
+    public Manager(long accountId, String userName, String password, PersonalInformation personalInformation) {
+        super(accountId, userName, password, personalInformation);
     }
 }

@@ -3,10 +3,15 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Score implements Packable {
+
+    private static List<Score> scoreList;
+
+    static {
+
+    }
 
     public long scoreId;
     private Account user;
@@ -23,6 +28,10 @@ public class Score implements Packable {
 
     public Product getGood() {
         return good;
+    }
+
+    public static List<Score> getScoreList() {
+        return scoreList;
     }
 
     @Override

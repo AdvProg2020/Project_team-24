@@ -3,13 +3,18 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Request implements Packable {
 
+    private static List<Request> requestList;
+
+    static {
+
+    }
+
     public enum TypeRequest {
-        Product,Auction
+        Edit,New
     }
 
     public long requestId;
@@ -27,6 +32,10 @@ public class Request implements Packable {
 
     public Object getRequestObject() {
         return requestObject;
+    }
+
+    public static List<Request> getRequestList() {
+        return requestList;
     }
 
     @Override
