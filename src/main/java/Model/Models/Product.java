@@ -15,7 +15,7 @@ public class Product implements Packable {
 
     private long productId;
     private PendStatus pendStatus;
-    private GoodSpecifications goodSpecifications;
+    private CategorySpecifications categorySpecifications;
     private ProductGeneralSpecifications generalSpecifications;
     private Category category;
 //    String descriptions
@@ -23,7 +23,6 @@ public class Product implements Packable {
 //    long numberOfThis
 //    double averageScore
     private List<Field> fieldList;
-    private List<Field> categoryField;
     private List<Comment> commentList;
 
     public long getProductId() {
@@ -34,8 +33,8 @@ public class Product implements Packable {
         return pendStatus;
     }
 
-    public GoodSpecifications getGoodSpecifications() {
-        return goodSpecifications;
+    public CategorySpecifications getCategorySpecifications() {
+        return categorySpecifications;
     }
 
     public ProductGeneralSpecifications getGeneralSpecifications() {
@@ -48,10 +47,6 @@ public class Product implements Packable {
 
     public List<Field> getFieldList() {
         return fieldList;
-    }
-
-    public List<Field> getCategoryField() {
-        return categoryField;
     }
 
     public List<Comment> getCommentList() {
@@ -72,14 +67,13 @@ public class Product implements Packable {
         return null;
     }
 
-    public Product(long productId, PendStatus pendStatus, GoodSpecifications goodSpecifications, ProductGeneralSpecifications generalSpecifications, Category category, List<Field> fieldList, List<Field> categoryField, List<Comment> commentList) {
+    public Product(long productId, PendStatus pendStatus, CategorySpecifications categorySpecifications, ProductGeneralSpecifications generalSpecifications, Category category, List<Field> fieldList, List<Comment> commentList) {
         this.productId = productId;
         this.pendStatus = pendStatus;
-        this.goodSpecifications = goodSpecifications;
+        this.categorySpecifications = categorySpecifications;
         this.generalSpecifications = generalSpecifications;
         this.category = category;
         this.fieldList = fieldList;
-        this.categoryField = categoryField;
         this.commentList = commentList;
     }
 }

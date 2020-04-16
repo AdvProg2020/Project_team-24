@@ -3,8 +3,6 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class DiscountWithCode implements Packable {
@@ -15,27 +13,20 @@ public class DiscountWithCode implements Packable {
 
     }
 
-    public String discountCode;
-    private Date start;
-    private Date end;
-    private Discount discount;
-    private int frequentUse;
+    private String discountCode;
+//    Date start
+//    Date end
+//    Discount discount
+//    int frequentUse
+    private List<Field> fieldList;
     private List<Account> accountList;
 
-    public Date getStart() {
-        return start;
+    public String getDiscountCode() {
+        return discountCode;
     }
 
-    public Date getEnd() {
-        return end;
-    }
-
-    public Discount getDiscount() {
-        return discount;
-    }
-
-    public int getFrequentUse() {
-        return frequentUse;
+    public List<Field> getFieldList() {
+        return fieldList;
     }
 
     public List<Account> getAccountList() {
@@ -56,12 +47,9 @@ public class DiscountWithCode implements Packable {
         return null;
     }
 
-    public DiscountWithCode(String discountCode, Date start, Date end, Discount discount, int frequentUse, List<Account> accountList) {
+    public DiscountWithCode(String discountCode, List<Field> fieldList, List<Account> accountList) {
         this.discountCode = discountCode;
-        this.start = start;
-        this.end = end;
-        this.discount = discount;
-        this.frequentUse = frequentUse;
+        this.fieldList = fieldList;
         this.accountList = accountList;
     }
 }

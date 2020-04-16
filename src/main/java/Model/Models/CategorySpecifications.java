@@ -5,9 +5,9 @@ import Model.Tools.Packable;
 
 import java.util.List;
 
-public class GoodSpecifications implements Packable {
+public class CategorySpecifications implements Packable {
 
-    private static List<GoodSpecifications> goodSpecificationsList;
+    private static List<CategorySpecifications> categorySpecificationsList;
 
     static {
 
@@ -24,8 +24,8 @@ public class GoodSpecifications implements Packable {
         return fieldList;
     }
 
-    public static List<GoodSpecifications> getGoodSpecificationsList() {
-        return goodSpecificationsList;
+    public static List<CategorySpecifications> getCategorySpecificationsList() {
+        return categorySpecificationsList;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class GoodSpecifications implements Packable {
         return null;
     }
 
-    public GoodSpecifications(long goodSpecificationId, List<Field> fieldList) {
+    public CategorySpecifications(long goodSpecificationId, List<Field> fieldList) {
         this.goodSpecificationId = goodSpecificationId;
         this.fieldList = fieldList;
     }
