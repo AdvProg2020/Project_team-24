@@ -10,7 +10,7 @@ public class ModelUnit {
     private static DataBase dataBase;
 
     static {
-        dataBase = new DataBase();
+        dataBase = DataBase.getInstance();
     }
 
     private ControllerUnit controllerUnit;
