@@ -1,11 +1,12 @@
 package Model.Models;
 
 import Model.Tools.Data;
+import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
 import java.util.List;
 
-public class Auction implements Packable {
+public class Auction implements Packable , ForPend {
 
     private static List<Auction> auctionList;
 

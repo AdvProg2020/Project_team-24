@@ -1,6 +1,7 @@
 package Model.Models;
 
 import Model.Tools.Data;
+import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class Request implements Packable {
     public long requestId;
     private Account account;
     private TypeRequest typeRequest;
-    private Object requestObject;
+    private ForPend forPend;
 
     public Account getAccount() {
         return account;
@@ -30,8 +31,8 @@ public class Request implements Packable {
         return typeRequest;
     }
 
-    public Object getRequestObject() {
-        return requestObject;
+    public Object getForPend() {
+        return forPend;
     }
 
     public static List<Request> getRequestList() {
@@ -48,10 +49,10 @@ public class Request implements Packable {
         return null;
     }
 
-    public Request(long requestId, Account account, TypeRequest typeRequest, Object requestObject) {
+    public Request(long requestId, Account account, TypeRequest typeRequest, ForPend forPend) {
         this.requestId = requestId;
         this.account = account;
         this.typeRequest = typeRequest;
-        this.requestObject = requestObject;
+        this.forPend = forPend;
     }
 }
