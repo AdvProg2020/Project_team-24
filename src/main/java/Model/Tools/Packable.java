@@ -1,8 +1,8 @@
 package Model.Tools;
 
-import java.util.List;
-
 public interface Packable {
 
-    List<Object> getParametersForPack();
+    Data pack(Object object);
+
+    Object dpkg(Data data);
 }

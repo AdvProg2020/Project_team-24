@@ -1,23 +1,54 @@
 package Model.RuntimeData;
 
 import Model.Models.Account;
-import Model.Tools.FileHandler;
-import Model.Tools.PackClass;
 
 import java.io.File;
-import java.util.List;
+import java.util.HashMap;
 
-public class AccountSource implements PackClass, FileHandler {
+public class AccountSource extends Source<Account> {
 
     private static File accountList_File = new File("src/main/resources/allAccounts");
 
-    private static List<Account> accountList;
+    private static AccountSource accountSource;
 
     static {
+        accountSource = new AccountSource();
+    }
+
+    @Override
+    public void addObj(String name, Account object) {
 
     }
 
-    public static List<Account> getAccountList() {
-        return accountList;
+    @Override
+    public void remove(String name) {
+
+    }
+
+    @Override
+    public void update(String name, Account Object) {
+
+    }
+
+    @Override
+    public HashMap<String, Account> getList() {
+        return super.getList();
+    }
+
+    @Override
+    protected String objectToString(Account Object) {
+        return super.objectToString(Object);
+    }
+
+    @Override
+    protected Account stringToObject(String string) {
+        return super.stringToObject(string);
+    }
+
+    public static AccountSource getInstance() {
+        return accountSource;
+    }
+
+    private AccountSource() {
     }
 }
