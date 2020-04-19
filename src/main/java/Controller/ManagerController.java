@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.Models.Account;
+import Model.Models.Accounts.Customer;
 import Model.Models.Category;
 import Model.Models.Discount;
+import Model.Models.Request;
 import Model.Models.Roles.Buyer;
 
 import java.util.ArrayList;
@@ -21,9 +23,9 @@ public class ManagerController extends AccountController{
     public void viewDiscountCode(long disscoutCodeId){}
     public void editDiscountCode(long discountCodeId){}
     public void removeDiscountCode(long discountCodeId){}
-    private ArrayList<Buyer> findSpecialBuyers(){}
+    private ArrayList<Customer> findSpecialBuyers(){}
     private void setDiscountCodeToSpecials(){}
-    public ArrayList<Buyer> selectRandomBuyers(){}
+    public ArrayList<Customer> selectRandomBuyers(){}
     private void setDiscountCodeToRandoms(){}
     public ArrayList<Request> manageRequests(){}
     public boolean requestAccepted(long registerId , String acceptorDecline){}
