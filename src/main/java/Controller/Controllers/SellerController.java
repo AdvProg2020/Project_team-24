@@ -1,5 +1,6 @@
-package Controller;
+package Controller.Controllers;
 
+import Controller.Controllers.AccountController;
 import Model.Models.*;
 import Model.Models.Roles.Buyer;
 import Model.Models.Roles.Seller;
@@ -7,6 +8,7 @@ import Model.Models.Roles.Seller;
 import java.util.ArrayList;
 
 public class SellerController extends AccountController {
+
     public CompanyInfo viewCompanyInformation() {
     }
 

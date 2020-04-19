@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Controllers;
 
 import Model.Models.Category;
 import Model.Models.Product;
