@@ -1,9 +1,6 @@
 package Controller.Controllers;
 
-import Controller.Controllers.AccountController;
 import Model.Models.*;
-import Model.Models.Roles.Buyer;
-import Model.Models.Roles.Seller;
 
 import java.util.ArrayList;
 
