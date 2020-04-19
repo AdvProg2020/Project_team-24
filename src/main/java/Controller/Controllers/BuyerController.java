@@ -1,5 +1,6 @@
-package Controller;
+package Controller.Controllers;
 
+import Controller.Controllers.AccountController;
 import Model.Models.BuyAndSellHistory;
 import Model.Models.DiscountWithCode;
 import Model.Models.PersonalInformation;
@@ -7,7 +8,7 @@ import Model.Models.Product;
 
 import java.util.ArrayList;
 
-public class BuyerController extends AccountController{
+public class BuyerController extends AccountController {
     public Cart viewCart(){}
     public ArrayList<Product> showProducts(){}
     public String view(long productId){}

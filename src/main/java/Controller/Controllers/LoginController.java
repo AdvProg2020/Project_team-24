@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Controllers;
 
 public class LoginController {
     private void checkPassword(String username , String password) throws LoginPassException{}

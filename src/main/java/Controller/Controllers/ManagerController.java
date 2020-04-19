@@ -1,5 +1,6 @@
-package Controller;
+package Controller.Controllers;
 
+import Controller.Controllers.AccountController;
 import Model.Models.Account;
 import Model.Models.Category;
 import Model.Models.Discount;
@@ -7,7 +8,7 @@ import Model.Models.Roles.Buyer;
 
 import java.util.ArrayList;
 
-public class ManagerController extends AccountController{
+public class ManagerController extends AccountController {
     private void checkInManageUsers() throws invalidCommandException{}
     public ArrayList<Account> view(String username){}
     public void delete(String username){}
