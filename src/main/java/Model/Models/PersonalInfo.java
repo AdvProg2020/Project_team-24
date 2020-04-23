@@ -5,12 +5,12 @@ import Model.Tools.Packable;
 
 import java.util.List;
 
-public class PersonalInformation implements Packable {
+public class PersonalInfo implements Packable {
 
     private static final String source
             = "src/main/resources/allPersonalInformation";
 
-    private static List<PersonalInformation> personalInformationList;
+    private static List<PersonalInfo> personalInfoList;
 
     static {
 
@@ -31,8 +31,8 @@ public class PersonalInformation implements Packable {
         return fieldList;
     }
 
-    public static List<PersonalInformation> getPersonalInformationList() {
-        return personalInformationList;
+    public static List<PersonalInfo> getPersonalInfoList() {
+        return personalInfoList;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PersonalInformation implements Packable {
         return null;
     }
 
-    public PersonalInformation(long personalInformationId, List<Field> fieldList) {
+    public PersonalInfo(long personalInformationId, List<Field> fieldList) {
         this.personalInformationId = personalInformationId;
         this.fieldList = fieldList;
     }

@@ -21,8 +21,8 @@ public class Guest extends Account {
         return null;
     }
 
-    public Guest(long accountId, String userName, String password, PersonalInformation personalInformation, Cart cart) {
-        super(accountId, userName, password, personalInformation);
+    public Guest(long accountId, String userName, String password, PersonalInfo personalInfo, Cart cart) {
+        super(accountId, userName, password, personalInfo);
         this.cart = cart;
     }
 }

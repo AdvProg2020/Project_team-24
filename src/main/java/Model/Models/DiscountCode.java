@@ -5,12 +5,12 @@ import Model.Tools.Packable;
 
 import java.util.List;
 
-public class DiscountWithCode implements Packable {
+public class DiscountCode implements Packable {
 
     private static final String source
             = "src/main/resources/allDiscountWithCodes";
 
-    private static List<DiscountWithCode> discountWithCodeList;
+    private static List<DiscountCode> discountCodeList;
 
     static {
 
@@ -36,8 +36,8 @@ public class DiscountWithCode implements Packable {
         return accountList;
     }
 
-    public static List<DiscountWithCode> getDiscountWithCodeList() {
-        return discountWithCodeList;
+    public static List<DiscountCode> getDiscountCodeList() {
+        return discountCodeList;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class DiscountWithCode implements Packable {
         return null;
     }
 
-    public DiscountWithCode(String discountCode, List<Field> fieldList, List<Account> accountList) {
+    public DiscountCode(String discountCode, List<Field> fieldList, List<Account> accountList) {
         this.discountCode = discountCode;
         this.fieldList = fieldList;
         this.accountList = accountList;

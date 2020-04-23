@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Seller extends Account {
 
-    private BuyAndSellHistory buyAndSellHistory;
+    private List<LogHistory> logHistoryList;
     private List<Product> productList;
     private CompanyInformation companyInformation;
     private List<Auction> auctionList;
 
-    public BuyAndSellHistory getBuyAndSellHistory() {
-        return buyAndSellHistory;
+    public List<LogHistory> getLogHistoryList() {
+        return logHistoryList;
     }
 
     public List<Product> getProductList() {
@@ -38,9 +38,9 @@ public class Seller extends Account {
         return null;
     }
 
-    public Seller(long accountId, String userName, String password, PersonalInformation personalInformation, BuyAndSellHistory buyAndSellHistory, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {
-        super(accountId, userName, password, personalInformation);
-        this.buyAndSellHistory = buyAndSellHistory;
+    public Seller(long id, String userName, String password, PersonalInfo personalInfo, List<LogHistory> logHistoryList, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {
+        super(id, userName, password, personalInfo);
+        this.logHistoryList = logHistoryList;
         this.productList = productList;
         this.companyInformation = companyInformation;
         this.auctionList = auctionList;

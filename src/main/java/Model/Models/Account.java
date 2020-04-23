@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Packable;
 
 import java.util.List;
@@ -9,19 +10,19 @@ public abstract class Account implements Packable {
     protected static final String source
             = "src/main/resources/Account/Accounts";
 
-    protected static List<Account> accountList;
+    protected static List<Account> list;
 
     static {
-
+        DataBase.preprocess(Account.class);
     }
 
-    protected long accountId;
+    protected long id;
     protected String userName;
     protected String password;
-    protected PersonalInformation personalInformation;
+    protected PersonalInfo personalInfo;
 
-    public long getAccountId() {
-        return accountId;
+    public long getId() {
+        return id;
     }
 
     public String getUserName() {
@@ -36,18 +37,18 @@ public abstract class Account implements Packable {
         this.password = password;
     }
 
-    public PersonalInformation getPersonalInformation() {
-        return personalInformation;
+    public PersonalInfo getPersonalInfo() {
+        return personalInfo;
     }
 
-    public static List<Account> getAccountList() {
-        return accountList;
+    public static List<Account> getList() {
+        return list;
     }
 
-    protected Account(long accountId, String userName, String password, PersonalInformation personalInformation) {
-        this.accountId = accountId;
+    protected Account(long id, String userName, String password, PersonalInfo personalInfo) {
+        this.id = id;
         this.userName = userName;
         this.password = password;
-        this.personalInformation = personalInformation;
+        this.personalInfo = personalInfo;
     }
 }

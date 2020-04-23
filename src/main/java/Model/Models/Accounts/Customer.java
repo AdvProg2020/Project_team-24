@@ -7,16 +7,16 @@ import java.util.List;
 
 public class Customer extends Guest {
 
-    private List<DiscountWithCode> discountWithCodeList;
+    private List<DiscountCode> discountCodeList;
     private double credit;
-    private BuyAndSellHistory buyAndSellHistory;
+    private List<LogHistory> logHistoryList;
 
-    public BuyAndSellHistory getBuyAndSellHistory() {
-        return buyAndSellHistory;
+    public List<LogHistory> getLogHistoryList() {
+        return logHistoryList;
     }
 
-    public List<DiscountWithCode> getDiscountWithCodeList() {
-        return discountWithCodeList;
+    public List<DiscountCode> getDiscountCodeList() {
+        return discountCodeList;
     }
 
     public double getCredit() {
@@ -37,10 +37,10 @@ public class Customer extends Guest {
         return super.dpkg(data);
     }
 
-    public Customer(long accountId, String userName, String password, PersonalInformation personalInformation, Cart cart, List<DiscountWithCode> discountWithCodeList, double credit, BuyAndSellHistory buyAndSellHistory) {
-        super(accountId, userName, password, personalInformation, cart);
-        this.discountWithCodeList = discountWithCodeList;
+    public Customer(long accountId, String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, List<LogHistory> logHistoryList) {
+        super(accountId, userName, password, personalInfo, cart);
+        this.discountCodeList = discountCodeList;
         this.credit = credit;
-        this.buyAndSellHistory = buyAndSellHistory;
+        this.logHistoryList = logHistoryList;
     }
 }

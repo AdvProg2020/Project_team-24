@@ -8,7 +8,7 @@ import java.util.List;
 public class Manager extends Account {
 
     private static List<Request> requestList;
-    private static List<DiscountWithCode> discountWithCodeList;
+    private static List<DiscountCode> discountCodeList;
     private static List<Category> categoryList;
 
     static {
@@ -19,8 +19,8 @@ public class Manager extends Account {
         return requestList;
     }
 
-    public static List<DiscountWithCode> getDiscountWithCodeList() {
-        return discountWithCodeList;
+    public static List<DiscountCode> getDiscountCodeList() {
+        return discountCodeList;
     }
 
     public static List<Category> getCategoryList() {
@@ -34,10 +34,10 @@ public class Manager extends Account {
             object = this;
 
         return new Data(object.getClass().toString())
-                .addField(accountId)
+                .addField(id)
                 .addField(userName)
                 .addField(password)
-                .addField(personalInformation.getPersonalInformationId());
+                .addField(personalInfo.getPersonalInformationId());
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Manager extends Account {
         );
     }
 
-    public Manager(long accountId, String userName, String password, PersonalInformation personalInformation) {
-        super(accountId, userName, password, personalInformation);
+    public Manager(long accountId, String userName, String password, PersonalInfo personalInfo) {
+        super(accountId, userName, password, personalInfo);
     }
 }

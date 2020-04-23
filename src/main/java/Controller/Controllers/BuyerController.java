@@ -1,8 +1,7 @@
 package Controller;
 
-import Model.Models.BuyAndSellHistory;
-import Model.Models.DiscountWithCode;
-import Model.Models.PersonalInformation;
+import Model.Models.DiscountCode;
+import Model.Models.PersonalInfo;
 import Model.Models.Product;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class BuyerController extends AccountController{
     private void checkNumOfDiscountUseInOnePurchase() throws cannotUseDiscountException {}
     private void checkEnoughCredit() throws notEnoughCreditException{}
     public void purchase(){}
-    public void receiveInformation(PersonalInformation personalInformation){}
+    public void receiveInformation(PersonalInfo personalInfo){}
     public void discountCode(Long codeId){}
     public void payment() throws purchaseFailException{}
     public ArrayList<BuyAndSellHistory> viewOrders(){}
@@ -25,5 +24,5 @@ public class BuyerController extends AccountController{
     public void rate(long productId , int rateNumber){}
     private void checkIfProductBoughtToRate(long productId) throws cannotRateException{}
     public double viewBalance(){}
-    public DiscountWithCode viewDiscountCodes(){}
+    public DiscountCode viewDiscountCodes(){}
 }
