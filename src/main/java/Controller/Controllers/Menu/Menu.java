@@ -17,7 +17,7 @@ public abstract class Menu {
     }
 
     public Menu enter(Menu subMenu){
-
+        return null;
     }
 
     public boolean init(Menu parentMenu) {
@@ -33,8 +33,7 @@ public abstract class Menu {
     }
 
     public boolean CheckPatternCommand(String command) {
-
-
+        return false;
     }
 
     public void showMenu() {

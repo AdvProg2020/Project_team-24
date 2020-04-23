@@ -8,5 +8,6 @@ public class SignInMenu extends Menu {
     private static MainMenu menu;
 
     public static SignInMenu getMenu() {
+        return null;
     }
 }

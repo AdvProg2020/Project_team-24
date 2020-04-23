@@ -8,5 +8,6 @@ public class ProductsMenu {
     }
 
     public static MainMenu getMenu() {
+        return null;
     }
 }

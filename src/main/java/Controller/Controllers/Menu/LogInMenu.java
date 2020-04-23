@@ -9,7 +9,7 @@ private LogInMenu menu;
     }
 
     public static Menu getMenu() {
-
+        return null;
     }
 
     @Override

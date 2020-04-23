@@ -21,6 +21,4 @@ public class UserAreaMenu extends Menu {
 
     }
     //exceptions
-
-
 }

@@ -1,6 +1,6 @@
 package Controller.Controllers.Menu;
 
-public class DiscountsMenu extends  Menu{
+public class DiscountsMenu extends Menu {
     private static ProductsMenu menu;
 
     private DiscountsMenu(String name) {
@@ -8,8 +8,9 @@ public class DiscountsMenu extends  Menu{
     }
 
     public static MainMenu getMenu() {
-
+        return null;
     }
+
     @Override
     public void help() {
 
