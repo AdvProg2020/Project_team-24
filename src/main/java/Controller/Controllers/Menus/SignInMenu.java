@@ -1,4 +1,4 @@
-package Controller.Controllers.Menu;
+package Controller.Controllers.Menus;
 
 public class SignInMenu extends Menu {
     public SignInMenu(String name) {

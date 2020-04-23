@@ -1,7 +1,7 @@
 package View.Menu;
-import Controller.Controllers.Menu.LoggedInMenu;
-import Controller.Controllers.Menu.Menu;
-import Controller.Controllers.Menu.UserAreaMenu;
+import Controller.Controllers.Menus.LoggedInMenu;
+import Controller.Controllers.Menus.Menu;
+import Controller.Controllers.Menus.UserAreaMenu;
 
 public class MenuHandler {
 

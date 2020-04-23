@@ -1,4 +1,4 @@
-package Controller.Controllers.Menu;
+package Controller.Controllers.Menus;
 
 public class DiscountsMenu extends Menu {
     private static ProductsMenu menu;

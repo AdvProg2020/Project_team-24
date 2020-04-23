@@ -1,4 +1,4 @@
-package Controller.Controllers.Menu;
+package Controller.Controllers.Menus;
 
 import java.util.ArrayList;
 
