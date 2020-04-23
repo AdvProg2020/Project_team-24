@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Request implements Packable {
 
-    private static final String requestSource
+    private static final String source
             = "src/main/resources/allRequests";
 
     private static List<Request> requestList;

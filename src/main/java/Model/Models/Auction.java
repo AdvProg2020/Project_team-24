@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Auction implements Packable, ForPend {
 
-    private static final String auctionSource
+    private static final String source
             = "src/main/resources/allAuctions";
 
     private static List<Auction> auctionList;

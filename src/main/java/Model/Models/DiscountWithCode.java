@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DiscountWithCode implements Packable {
 
-    private static final String discountWithCodeSource
+    private static final String source
             = "src/main/resources/allDiscountWithCodes";
 
     private static List<DiscountWithCode> discountWithCodeList;

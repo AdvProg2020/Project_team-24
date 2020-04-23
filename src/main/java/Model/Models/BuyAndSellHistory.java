@@ -7,9 +7,6 @@ import java.util.List;
 
 public class BuyAndSellHistory implements Packable {
 
-    private static final String buyAndSellHistorySource
-            = "src/main/resources/allBuyAndSellHistories";
-
     private static List<BuyAndSellHistory> buyAndSellHistoryList;
 
     static {
@@ -17,6 +14,7 @@ public class BuyAndSellHistory implements Packable {
     }
 
     private long historyId;
+
     private List<LogHistory> logHistoryList;
 
     public long getHistoryId() {

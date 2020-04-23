@@ -4,7 +4,8 @@ import java.util.List;
 
 public class LogHistory {
 
-//    private static final String logHistorySource;
+    private static final String source
+            = "?";
     private static List<LogHistory> logHistoryList;
 
     static {

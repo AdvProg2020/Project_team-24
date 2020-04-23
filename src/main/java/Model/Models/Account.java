@@ -6,8 +6,8 @@ import java.util.List;
 
 public abstract class Account implements Packable {
 
-    protected static final String accountSource
-            = "src/main/resources/allAccounts";
+    protected static final String source
+            = "src/main/resources/Account/Accounts";
 
     protected static List<Account> accountList;
 

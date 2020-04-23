@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Score implements Packable {
 
-    private static final String scoreSource
+    private static final String source
             = "src/main/resources/allScores";
 
     private static List<Score> scoreList;

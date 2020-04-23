@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PersonalInformation implements Packable {
 
-    private static final String personalInformationSource
+    private static final String source
             = "src/main/resources/allPersonalInformation";
 
     private static List<PersonalInformation> personalInformationList;
