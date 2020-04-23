@@ -3,12 +3,13 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public class PersonalInformation implements Packable {
 
-    private static File personalInformationSource;
+    private static final String personalInformationSource
+            = "src/main/resources/allPersonalInformation";
+
     private static List<PersonalInformation> personalInformationList;
 
     static {

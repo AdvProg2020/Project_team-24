@@ -3,12 +3,13 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public class ProductGeneralSpecifications implements Packable {
 
-    private static File productGeneralSpecificationsSource;
+    private static final String productGeneralSpecificationsSource
+            = "src/main/resources/allProductGeneralSpecifications";
+
     private static List<ProductGeneralSpecifications> productGeneralSpecificationsList;
 
     static {

@@ -4,12 +4,13 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public class Request implements Packable {
 
-    private static File requestSource;
+    private static final String requestSource
+            = "src/main/resources/allRequests";
+
     private static List<Request> requestList;
 
     static {

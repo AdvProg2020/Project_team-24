@@ -1,11 +1,10 @@
 package Model.Models;
 
-import java.io.File;
 import java.util.List;
 
 public class LogHistory {
 
-    private static File logHistorySource;
+//    private static final String logHistorySource;
     private static List<LogHistory> logHistoryList;
 
     static {

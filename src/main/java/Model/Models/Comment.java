@@ -3,12 +3,13 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public class Comment implements Packable {
 
-    private static File commentSource;
+    private static final String commentSource
+            = "src/main/resources/allComments";
+
     private static List<Comment> commentList;
 
     static {

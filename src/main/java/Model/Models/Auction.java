@@ -4,12 +4,13 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public class Auction implements Packable, ForPend {
 
-    private static File auctionSource;
+    private static final String auctionSource
+            = "src/main/resources/allAuctions";
+
     private static List<Auction> auctionList;
 
     static {

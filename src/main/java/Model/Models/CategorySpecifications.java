@@ -3,12 +3,13 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public class CategorySpecifications implements Packable {
 
-    private static File categorySpecificationsSource;
+    private static final String categorySpecificationsSource
+            = "src/main/resources/allCategorySpecifications";
+
     private static List<CategorySpecifications> categorySpecificationsList;
 
     static {

@@ -9,7 +9,9 @@ import java.util.List;
 
 public class Product implements Packable, ForPend {
 
-    private static File productSource;
+    private static final String productSource
+            = "src/main/resources/allProducts";
+
     private static List<Product> productList;
 
     static {
