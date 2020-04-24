@@ -1,6 +1,9 @@
 package Controller.Controllers;
 
 import Controller.Controllers.AccountController;
+import Controller.Exceptions.CreatManagerException;
+import Controller.Exceptions.InvalidCommandException;
+import Controller.Exceptions.InvalidIdException;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Category;
@@ -11,15 +14,15 @@ import Model.Models.Roles.Buyer;
 import java.util.ArrayList;
 
 public class ManagerController extends AccountController {
-    private void checkInManageUsers() throws invalidCommandException{}
+    private void checkInManageUsers() throws InvalidCommandException {}
     public ArrayList<Account> view(String username){}
     public void delete(String username){}
-    public void creatManageProfile() throws creatManagerException{}
-    private void checkInManageAllProducts() throws invalidCommandException{}
+    public void creatManageProfile() throws CreatManagerException {}
+    private void checkInManageAllProducts() throws InvalidCommandException{}
     public void remove(long productId){}
-    private void checkIdExistance(long productId) throws invalidIdException{}
+    private void checkIdExistance(long productId) throws InvalidIdException {}
     public void creatDiscountCode(){}
-    private void checkDisscountInfoValid(Discount discountInfo) throws invalidCommandException{}
+    private void checkDisscountInfoValid(Discount discountInfo) throws InvalidCommandException{}
     public ArrayList<Discount> viewDiscountCodes(){}
     public void viewDiscountCode(long disscoutCodeId){}
     public void editDiscountCode(long discountCodeId){}

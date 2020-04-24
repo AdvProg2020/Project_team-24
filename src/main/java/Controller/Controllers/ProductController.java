@@ -1,5 +1,7 @@
 package Controller.Controllers;
 
+import Controller.Exceptions.AddToCartNotConfirmedException;
+import Controller.Exceptions.CannotShopAsAGuestException;
 import Model.Models.ProductGeneralSpecifications;
 
 import java.util.ArrayList;
@@ -7,8 +9,8 @@ import java.util.ArrayList;
 public class ProductController {
     public ArrayList<ProductGeneralSpecifications> digest(){}
     public void addToCart(){}
-    private void checkConfirmAddToCart() throws addToCartNotConfirmedException {}
-    private void checkIfLogedIn()throws cannotShopAsAGuestException{}
+    private void checkConfirmAddToCart() throws AddToCartNotConfirmedException {}
+    private void checkIfLogedIn()throws CannotShopAsAGuestException {}
     public void selectSeller(String sellerUsername){}
     public ArrayList<String> attributes(){}
     public ArrayList<String> compare(long productId){}
