@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,15 +18,15 @@ public class DataBase {
 
     private static YaGson yaGson = new YaGson();
 
+    private static HashMap<Class<?>,String> Paths = new HashMap<>();
+
     public static void preprocess(Class<?> cls)
             throws NoSuchFieldException
             , IllegalAccessException
             , IOException
             , NoSuchMethodException {
         // get source path.
-        Field source = cls.getField("source");
-        source.setAccessible(true);
-        String path = (String) source.get(null);
+        String path = Paths.get(cls);
         // get dataList.
         List<Data> dataList = dpkg(path);
         // call that class dpkg method and convert data to required type.

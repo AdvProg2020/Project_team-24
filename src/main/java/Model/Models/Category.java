@@ -7,9 +7,6 @@ import java.util.List;
 
 public class Category implements Packable {
 
-    private static final String source
-            = "src/main/resources/allCategories";
-
     private static List<Category> categoryList;
 
     static {

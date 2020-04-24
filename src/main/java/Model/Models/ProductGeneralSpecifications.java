@@ -7,9 +7,6 @@ import java.util.List;
 
 public class ProductGeneralSpecifications implements Packable {
 
-    private static final String source
-            = "src/main/resources/allProductGeneralSpecifications";
-
     private static List<ProductGeneralSpecifications> productGeneralSpecificationsList;
 
     static {

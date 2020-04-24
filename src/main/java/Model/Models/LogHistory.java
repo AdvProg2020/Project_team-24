@@ -1,11 +1,12 @@
 package Model.Models;
 
+import Model.Tools.Data;
+import Model.Tools.Packable;
+
 import java.util.List;
 
-public class LogHistory {
+public class LogHistory implements Packable {
 
-    private static final String source
-            = "?";
     private static List<LogHistory> logHistoryList;
 
     static {
@@ -54,7 +55,17 @@ public class LogHistory {
     }
 
     public DeliveryStatus getDeliveryStatus() {
-        return deliveryStatus;
+        return null;
+    }
+
+    @Override
+    public Data pack(Object object) {
+        return null;
+    }
+
+    @Override
+    public Object dpkg(Data data) {
+        return null;
     }
 
     public LogHistory(TypeLog typeLog, long logId, List<Field> fieldList, List<Product> productList, DeliveryStatus deliveryStatus) {

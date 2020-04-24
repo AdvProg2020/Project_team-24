@@ -7,9 +7,6 @@ import java.util.List;
 
 public class CompanyInformation implements Packable {
 
-    private static final String source
-            = "src/main/resources/allCompanyInformation";
-
     private static List<CompanyInformation> companyInformationList;
 
     static {

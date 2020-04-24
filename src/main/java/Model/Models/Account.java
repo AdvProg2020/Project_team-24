@@ -7,13 +7,10 @@ import java.util.List;
 
 public abstract class Account implements Packable {
 
-    protected static final String source
-            = "src/main/resources/Account/Accounts";
-
     protected static List<Account> list;
 
     static {
-        DataBase.preprocess(Account.class);
+//        DataBase.preprocess(Account.class);
     }
 
     protected long id;

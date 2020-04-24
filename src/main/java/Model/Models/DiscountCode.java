@@ -7,9 +7,6 @@ import java.util.List;
 
 public class DiscountCode implements Packable {
 
-    private static final String source
-            = "src/main/resources/allDiscountWithCodes";
-
     private static List<DiscountCode> discountCodeList;
 
     static {

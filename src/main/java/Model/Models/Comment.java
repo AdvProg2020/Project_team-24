@@ -7,9 +7,6 @@ import java.util.List;
 
 public class Comment implements Packable {
 
-    private static final String source
-            = "src/main/resources/allComments";
-
     private static List<Comment> commentList;
 
     static {

@@ -7,9 +7,6 @@ import java.util.List;
 
 public class Cart implements Packable {
 
-    private static final String source
-            = "src/main/resources/allCarts";
-
     private static List<Cart> cartList;
 
     static {
