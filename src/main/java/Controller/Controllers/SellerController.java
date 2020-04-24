@@ -1,15 +1,17 @@
 package Controller.Controllers;
 
 import Model.Models.*;
+import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Seller;
 
 import java.util.ArrayList;
 
 public class SellerController extends AccountController {
 
-    public CompanyInfo viewCompanyInformation() {
+    public CompanyInformation viewCompanyInformation() {
     }
 
-    public BuyAndSellHistory viewSalesHistory() {
+    public BuyAndSellHistory!! viewSalesHistory() {
     }
 
     public ArrayList<Product> manageProducts() {
@@ -21,13 +23,13 @@ public class SellerController extends AccountController {
     public ProductGeneralSpecifications view(long productId) {
     }
 
-    public ArrayList<Buyer> viewBuyers(long productId) {
+    public ArrayList<Customer> viewBuyers(long productId) {
     }
 
-    public void addProductOfOff(Pendable pendable) {
+    public void addProductOfOff(PendStatus pendable) {
     }
 
-    private void newRequest(Pendable pendable) {
+    private void newRequest(PendStatus pendable) {
     }
 
     public void removeProduct(long productId) {
@@ -45,7 +47,7 @@ public class SellerController extends AccountController {
     public ArrayList<String> view(long offId) {
     }
 
-    public void edit(Pendable pendable) {
+    public void edit(PendStatus pendable) {
     }
 
     public double viewBalance(Seller seller) {

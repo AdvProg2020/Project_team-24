@@ -19,7 +19,7 @@ public class ManagerController extends AccountController {
     public void remove(long productId){}
     private void checkIdExistance(long productId) throws invalidIdException{}
     public void creatDiscountCode(){}
-    private void checkDisscountInfoValid(!!Discount discountInfo) throws invalidCommandException{}
+    private void checkDisscountInfoValid(Discount discountInfo) throws invalidCommandException{}
     public ArrayList<Discount> viewDiscountCodes(){}
     public void viewDiscountCode(long disscoutCodeId){}
     public void editDiscountCode(long discountCodeId){}

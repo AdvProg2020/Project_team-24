@@ -1,6 +1,7 @@
 package Controller.Controllers;
 
 import Model.Models.Category;
+import Model.Models.Filter;
 import Model.Models.Product;
 
 import java.lang.reflect.Field;
