@@ -8,15 +8,11 @@ import Model.Tools.ForPend;
 public class Manager extends Account {
 
     public void setNewManager(Manager manager) {
-        // add this manager to source and list
-        DataBase.addDataToSource(manager, Manager.class);
-        list.add(this);
+
     }
 
     public void removeAccount(Account account) {
-        // remove this account from source and list
-        DataBase.removeDataFromSource(account, Account.class);
-        list.remove(account);
+
     }
 
     public void addToRequestList(Request request) {

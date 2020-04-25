@@ -13,9 +13,7 @@ public class Guest extends Account {
     }
 
     public void setNewAccount(Account account) {
-        // add this account to source and list
-        DataBase.addDataToSource(this, Account.class);
-        list.add(this);
+
     }
 
     public void addToCart(Product product) {
