@@ -1,4 +1,4 @@
-package View.Menu;
+package View.Views.Menus;
 import Controller.Controllers.Menus.LoggedInMenu;
 import Controller.Controllers.Menus.Menu;
 import Controller.Controllers.Menus.UserAreaMenu;

@@ -1,4 +1,4 @@
-package View.Menu;
+package View.Views.Menus;
 
 public class OutPut {
 
