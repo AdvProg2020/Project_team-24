@@ -2,7 +2,8 @@ package View.Views.Menus;
 import Controller.Controllers.Menus.LoggedInMenu;
 import Controller.Controllers.Menus.Menu;
 import Controller.Controllers.Menus.UserAreaMenu;
-
+import java.util.Scanner;
+import java.util.Scanner;
 public class MenuHandler {
 
 
@@ -27,5 +28,8 @@ public class MenuHandler {
 
     }
 
+    public static Scanner getCommand() {
+        return null;
+    }
 
 }
