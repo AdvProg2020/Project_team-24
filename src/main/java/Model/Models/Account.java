@@ -1,12 +1,11 @@
 package Model.Models;
 
 import Model.DataBase.DataBase;
-import Model.Tools.DataBaseInterface;
 import Model.Tools.Packable;
 
 import java.util.List;
 
-public abstract class Account implements Packable, DataBaseInterface {
+public abstract class Account implements Packable {
 
     protected static List<Account> list;
 
@@ -44,26 +43,6 @@ public abstract class Account implements Packable, DataBaseInterface {
                 account -> name.equals(account.getUserName())
 
         ).findFirst().orElse(null);
-    }
-
-    @Override
-    public void remove() {
-        // check is this account saved or not.
-        if (list.stream().noneMatch(account -> account == this)) {
-            // Not exist exception.
-        }
-        // remove this account from source and list
-        DataBase.removeDataFromSource(this, Account.class);
-        list.remove(this);
-    }
-
-    @Override
-    public void update() {
-        // remove this account
-        remove();
-        // add updated account
-        DataBase.addDataToSource(this, Account.class);
-        list.add(this);
     }
 
     protected Account(String userName, String password, PersonalInfo personalInfo) {

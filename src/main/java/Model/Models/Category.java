@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
@@ -10,7 +11,7 @@ public class Category implements Packable {
     private static List<Category> categoryList;
 
     static {
-
+        DataBase.preprocess(Category.class);
     }
 
     private long categoryId;

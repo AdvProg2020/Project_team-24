@@ -17,7 +17,7 @@ public class Product implements Packable, ForPend {
 
     private long productId;
     private PendStatus pendStatus;
-    private CategorySpecifications categorySpecifications;
+    private CategorySpecifications specifications;
     private ProductInfo productInfo;
     private Category category;
     private long numberOfBuyers;
@@ -35,8 +35,8 @@ public class Product implements Packable, ForPend {
         return pendStatus;
     }
 
-    public CategorySpecifications getCategorySpecifications() {
-        return categorySpecifications;
+    public CategorySpecifications getSpecifications() {
+        return specifications;
     }
 
     public ProductInfo getProductInfo() {
@@ -88,10 +88,10 @@ public class Product implements Packable, ForPend {
         return null;
     }
 
-    public Product(long productId, PendStatus pendStatus, CategorySpecifications categorySpecifications, ProductInfo productInfo, Category category, long numberOfBuyers, long numberOfThis, double averageScore, FieldList fieldList, List<Comment> commentList) {
+    public Product(long productId, PendStatus pendStatus, CategorySpecifications specifications, ProductInfo productInfo, Category category, long numberOfBuyers, long numberOfThis, double averageScore, FieldList fieldList, List<Comment> commentList) {
         this.productId = productId;
         this.pendStatus = pendStatus;
-        this.categorySpecifications = categorySpecifications;
+        this.specifications = specifications;
         this.productInfo = productInfo;
         this.category = category;
         this.numberOfBuyers = numberOfBuyers;

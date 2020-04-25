@@ -1,30 +1,46 @@
 package Model.Models.Accounts;
 
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
-
-import java.util.List;
+import Model.Tools.ForPend;
 
 public class Manager extends Account {
 
-    private static List<Request> requestList;
-    private static List<DiscountCode> discountCodeList;
-    private static List<Category> categoryList;
+    public void setNewManager(Manager manager) {
+        // add this manager to source and list
+        DataBase.addDataToSource(manager, Manager.class);
+        list.add(this);
+    }
 
-    static {
+    public void removeAccount(Account account) {
+        // remove this account from source and list
+        DataBase.removeDataFromSource(account, Account.class);
+        list.remove(account);
+    }
+
+    public void addToRequestList(Request request) {
 
     }
 
-    public static List<Request> getRequestList() {
-        return requestList;
+    public void addToDiscountCodeList(DiscountCode discountCode) {
+
     }
 
-    public static List<DiscountCode> getDiscountCodeList() {
-        return discountCodeList;
+    public void addToCategoryList(Category category) {
+
     }
 
-    public static List<Category> getCategoryList() {
-        return categoryList;
+    public void declineRequest(Request request) {
+
+    }
+
+    public void removeFromDiscountCodeList(DiscountCode discountCode) {
+
+    }
+
+    public void removeFromCategoryList(Category category) {
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
@@ -12,7 +13,7 @@ public class Auction implements Packable, ForPend {
     private static List<Auction> auctionList;
 
     static {
-
+        DataBase.preprocess(Auction.class);
     }
 
     private long auctionId;

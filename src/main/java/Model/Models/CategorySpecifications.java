@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
@@ -10,7 +11,7 @@ public class CategorySpecifications implements Packable {
     private static List<CategorySpecifications> categorySpecificationsList;
 
     static {
-
+        DataBase.preprocess(CategorySpecifications.class);
     }
 
     private long goodSpecificationId;

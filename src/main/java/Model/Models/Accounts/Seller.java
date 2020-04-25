@@ -9,10 +9,15 @@ import java.util.stream.Collectors;
 
 public class Seller extends Account {
 
+    private double balance;
     private List<LogHistory> logHistoryList;
     private List<Product> productList;
     private CompanyInformation companyInformation;
     private List<Auction> auctionList;
+
+    public double getBalance() {
+        return balance;
+    }
 
     public List<LogHistory> getLogHistoryList() {
         return logHistoryList;
@@ -36,6 +41,14 @@ public class Seller extends Account {
 
     public void removeFromLogHistoryList(LogHistory logHistory) {
         logHistoryList.remove(logHistory);
+    }
+
+    public void addToAuctionList(Auction auction) {
+        auctionList.add(auction);
+    }
+
+    public void removeFromAuctionList(Auction auction) {
+        auctionList.remove(auction);
     }
 
     public LogHistory getLogHistoryById(long id) {
