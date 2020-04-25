@@ -16,7 +16,7 @@ public class Category implements Packable {
     private long categoryId;
     private String name;
     private List<Product> productList;
-    private List<Field> categoryField;
+    private FieldList categoryField;
     private List<Category> subCategoryList;
 
     public long getCategoryId() {
@@ -31,7 +31,7 @@ public class Category implements Packable {
         return productList;
     }
 
-    public List<Field> getCategoryField() {
+    public FieldList getCategoryField() {
         return categoryField;
     }
 
@@ -53,7 +53,7 @@ public class Category implements Packable {
         return null;
     }
 
-    public Category(long categoryId, String name, List<Product> productList, List<Field> categoryField, List<Category> subCategoryList) {
+    public Category(long categoryId, String name, List<Product> productList, FieldList categoryField, List<Category> subCategoryList) {
         this.categoryId = categoryId;
         this.name = name;
         this.productList = productList;

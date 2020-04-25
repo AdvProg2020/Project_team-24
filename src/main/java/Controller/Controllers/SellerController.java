@@ -18,7 +18,7 @@ public class SellerController extends AccountController {
     private void checkInManageProducts() throws invalidCommandException {
     }
 
-    public ProductGeneralSpecifications view(long productId) {
+    public ProductInfo view(long productId) {
     }
 
     public ArrayList<Buyer> viewBuyers(long productId) {

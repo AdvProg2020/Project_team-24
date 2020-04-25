@@ -1,10 +1,10 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
-import java.io.File;
 import java.util.List;
 
 public class Product implements Packable, ForPend {
@@ -12,19 +12,19 @@ public class Product implements Packable, ForPend {
     private static List<Product> productList;
 
     static {
-
+        DataBase.preprocess(Product.class);
     }
 
     private long productId;
     private PendStatus pendStatus;
     private CategorySpecifications categorySpecifications;
-    private ProductGeneralSpecifications generalSpecifications;
+    private ProductInfo productInfo;
     private Category category;
+    private long numberOfBuyers;
+    private long numberOfThis;
+    private double averageScore;
     //    String descriptions
-//    long numberOfBuyers
-//    long numberOfThis
-//    double averageScore
-    private List<Field> fieldList;
+    private FieldList fieldList;
     private List<Comment> commentList;
 
     public long getProductId() {
@@ -39,15 +39,27 @@ public class Product implements Packable, ForPend {
         return categorySpecifications;
     }
 
-    public ProductGeneralSpecifications getGeneralSpecifications() {
-        return generalSpecifications;
+    public ProductInfo getProductInfo() {
+        return productInfo;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public List<Field> getFieldList() {
+    public long getNumberOfBuyers() {
+        return numberOfBuyers;
+    }
+
+    public long getNumberOfThis() {
+        return numberOfThis;
+    }
+
+    public double getAverageScore() {
+        return averageScore;
+    }
+
+    public FieldList getFieldList() {
         return fieldList;
     }
 
@@ -57,6 +69,13 @@ public class Product implements Packable, ForPend {
 
     public static List<Product> getProductList() {
         return productList;
+    }
+
+    public static Product getProductById(long id) {
+        return productList.stream()
+                .filter(product -> id == product.getProductId())
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
@@ -69,12 +88,15 @@ public class Product implements Packable, ForPend {
         return null;
     }
 
-    public Product(long productId, PendStatus pendStatus, CategorySpecifications categorySpecifications, ProductGeneralSpecifications generalSpecifications, Category category, List<Field> fieldList, List<Comment> commentList) {
+    public Product(long productId, PendStatus pendStatus, CategorySpecifications categorySpecifications, ProductInfo productInfo, Category category, long numberOfBuyers, long numberOfThis, double averageScore, FieldList fieldList, List<Comment> commentList) {
         this.productId = productId;
         this.pendStatus = pendStatus;
         this.categorySpecifications = categorySpecifications;
-        this.generalSpecifications = generalSpecifications;
+        this.productInfo = productInfo;
         this.category = category;
+        this.numberOfBuyers = numberOfBuyers;
+        this.numberOfThis = numberOfThis;
+        this.averageScore = averageScore;
         this.fieldList = fieldList;
         this.commentList = commentList;
     }

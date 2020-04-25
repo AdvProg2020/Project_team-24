@@ -14,11 +14,11 @@ public class Comment implements Packable {
     }
 
     private long commentId;
-    //    Account userComments
-//    Product purchasedGood
-//    String comment
-//    boolean didThisUserBuyThisProduct
-    private List<Field> fieldList;
+    private Account userComments;
+    private Product purchasedGood;
+    private boolean didThisUserBuyThisProduct;
+    //    String comment
+    private FieldList fieldList;
     private PendStatus pendStatus;
 
     public static List<Comment> getCommentList() {
@@ -29,12 +29,24 @@ public class Comment implements Packable {
         return commentId;
     }
 
-    public List<Field> getFieldList() {
+    public FieldList getFieldList() {
         return fieldList;
     }
 
     public PendStatus getPendStatus() {
         return pendStatus;
+    }
+
+    public Account getUserComments() {
+        return userComments;
+    }
+
+    public Product getPurchasedGood() {
+        return purchasedGood;
+    }
+
+    public boolean isDidThisUserBuyThisProduct() {
+        return didThisUserBuyThisProduct;
     }
 
     @Override
@@ -47,8 +59,11 @@ public class Comment implements Packable {
         return null;
     }
 
-    public Comment(long commentId, List<Field> fieldList, PendStatus pendStatus) {
+    public Comment(long commentId, Account userComments, Product purchasedGood, boolean didThisUserBuyThisProduct, FieldList fieldList, PendStatus pendStatus) {
         this.commentId = commentId;
+        this.userComments = userComments;
+        this.purchasedGood = purchasedGood;
+        this.didThisUserBuyThisProduct = didThisUserBuyThisProduct;
         this.fieldList = fieldList;
         this.pendStatus = pendStatus;
     }

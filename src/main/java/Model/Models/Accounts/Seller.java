@@ -1,9 +1,11 @@
 package Model.Models.Accounts;
 
 import Model.Models.*;
+import Model.Models.Fields.Single;
 import Model.Tools.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Seller extends Account {
 
@@ -26,6 +28,40 @@ public class Seller extends Account {
 
     public List<Auction> getAuctionList() {
         return auctionList;
+    }
+
+    public void addToLogHistoryList(LogHistory logHistory) {
+        logHistoryList.add(logHistory);
+    }
+
+    public void removeFromLogHistoryList(LogHistory logHistory) {
+        logHistoryList.remove(logHistory);
+    }
+
+    public LogHistory getLogHistoryById(long id) {
+        return logHistoryList.stream()
+                .filter(logHistory -> id == logHistory.getLogId())
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Product getProductById(long id) {
+        return productList.stream()
+                .filter(product -> id == product.getProductId())
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<Account> getBuyersByProductId(long id) {
+        Product product = getProductById(id);
+        return logHistoryList.stream()
+                .filter(logHistory -> logHistory.getProductList().contains(product))
+                .map(logHistory -> logHistory.getFieldList().getFieldByName("customerName"))
+                .filter(field -> field instanceof Single)
+                .map(field -> (Single) field)
+                .map(Single::getString)
+                .map(Account::findAccountByUserName)
+                .collect(Collectors.toList());
     }
 
     @Override

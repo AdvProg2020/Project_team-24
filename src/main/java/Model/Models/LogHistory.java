@@ -3,6 +3,7 @@ package Model.Models;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.util.Date;
 import java.util.List;
 
 public class LogHistory implements Packable {
@@ -24,13 +25,13 @@ public class LogHistory implements Packable {
     private TypeLog typeLog;
 
     private long logId;
-    //    Date date
-//    double amount
-//    double discountAmount
-//    double auctionDiscount
-//    String customerName
-//    String SellerName
-    private List<Field> fieldList;
+    private Date date;
+    private double amount;
+    private double discountAmount;
+    private double auctionDiscount;
+    //    String customerName
+    //    String SellerName
+    private FieldList fieldList;
     private List<Product> productList;
     private DeliveryStatus deliveryStatus;
 
@@ -46,7 +47,7 @@ public class LogHistory implements Packable {
         return logId;
     }
 
-    public List<Field> getFieldList() {
+    public FieldList getFieldList() {
         return fieldList;
     }
 
@@ -56,6 +57,22 @@ public class LogHistory implements Packable {
 
     public DeliveryStatus getDeliveryStatus() {
         return null;
+    }
+
+    public double getAuctionDiscount() {
+        return auctionDiscount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public double getDiscountAmount() {
+        return discountAmount;
     }
 
     @Override
@@ -68,9 +85,13 @@ public class LogHistory implements Packable {
         return null;
     }
 
-    public LogHistory(TypeLog typeLog, long logId, List<Field> fieldList, List<Product> productList, DeliveryStatus deliveryStatus) {
+    public LogHistory(TypeLog typeLog, long logId, Date date, double amount, double discountAmount, double auctionDiscount, FieldList fieldList, List<Product> productList, DeliveryStatus deliveryStatus) {
         this.typeLog = typeLog;
         this.logId = logId;
+        this.date = date;
+        this.amount = amount;
+        this.discountAmount = discountAmount;
+        this.auctionDiscount = auctionDiscount;
         this.fieldList = fieldList;
         this.productList = productList;
         this.deliveryStatus = deliveryStatus;

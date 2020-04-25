@@ -1,6 +1,8 @@
 package Model.Models.Fields;
 
-public class Range {
+import Model.Models.Field;
+
+public class Range extends Field {
 
     private long high;
 

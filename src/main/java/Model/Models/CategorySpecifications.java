@@ -14,13 +14,13 @@ public class CategorySpecifications implements Packable {
     }
 
     private long goodSpecificationId;
-    private List<Field> fieldList;
+    private FieldList fieldList;
 
     public long getGoodSpecificationId() {
         return goodSpecificationId;
     }
 
-    public List<Field> getFieldList() {
+    public FieldList getFieldList() {
         return fieldList;
     }
 
@@ -38,7 +38,7 @@ public class CategorySpecifications implements Packable {
         return null;
     }
 
-    public CategorySpecifications(long goodSpecificationId, List<Field> fieldList) {
+    public CategorySpecifications(long goodSpecificationId, FieldList fieldList) {
         this.goodSpecificationId = goodSpecificationId;
         this.fieldList = fieldList;
     }

@@ -47,17 +47,6 @@ public abstract class Account implements Packable, DataBaseInterface {
     }
 
     @Override
-    public void save() {
-        // check is this account saved or not.
-        if (list.stream().anyMatch(account -> account == this)) {
-            // Before exist exception.
-        }
-        // add this account from source and list
-        DataBase.addDataToSource(this, Account.class);
-        list.add(this);
-    }
-
-    @Override
     public void remove() {
         // check is this account saved or not.
         if (list.stream().noneMatch(account -> account == this)) {
@@ -73,7 +62,8 @@ public abstract class Account implements Packable, DataBaseInterface {
         // remove this account
         remove();
         // add updated account
-        save();
+        DataBase.addDataToSource(this, Account.class);
+        list.add(this);
     }
 
     protected Account(String userName, String password, PersonalInfo personalInfo) {

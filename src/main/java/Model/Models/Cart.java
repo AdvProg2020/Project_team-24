@@ -24,6 +24,28 @@ public class Cart implements Packable {
         return productList;
     }
 
+    public Product getProductById(long id) {
+        return productList.stream()
+                .filter(product -> id == product.getProductId())
+                .findFirst()
+                .orElse(null);
+    }
+
+    public double getTotalPrice() {
+        return productList.stream()
+                .map(Product::getProductInfo)
+                .map(ProductInfo::getPrice)
+                .reduce(0D, Double::sum);
+    }
+
+    public void addToProductList(Product product) {
+        productList.add(product);
+    }
+
+    public void removeFromProductList(Product product) {
+        productList.remove(product);
+    }
+
     public static List<Cart> getCartList() {
         return cartList;
     }

@@ -32,6 +32,37 @@ public class Customer extends Account {
         this.credit = credit;
     }
 
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public void addToDiscountCodeList(DiscountCode discountCode) {
+        discountCodeList.add(discountCode);
+    }
+
+    public void removeFromDiscountCodeList(DiscountCode discountCode) {
+        discountCodeList.remove(discountCode);
+    }
+
+    public void addToLogHistoryList(LogHistory logHistory) {
+        logHistoryList.add(logHistory);
+    }
+
+    public void removeFromLogHistoryList(LogHistory logHistory) {
+        logHistoryList.remove(logHistory);
+    }
+
+    public void purchase() {
+        // ?
+    }
+
+    public LogHistory getLogHistoryById(long id) {
+        return logHistoryList.stream()
+                .filter(logHistory -> id == logHistory.getLogId())
+                .findFirst()
+                .orElse(null);
+    }
+
     @Override
     public Data pack(Object object) {
         return null;

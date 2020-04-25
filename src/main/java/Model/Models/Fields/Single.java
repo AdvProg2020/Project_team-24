@@ -1,6 +1,8 @@
 package Model.Models.Fields;
 
-public class Single {
+import Model.Models.Field;
+
+public class Single extends Field {
 
     private String string;
 

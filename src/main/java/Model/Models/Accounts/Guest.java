@@ -1,5 +1,6 @@
 package Model.Models.Accounts;
 
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
 
@@ -9,6 +10,20 @@ public class Guest extends Account {
 
     public Cart getCart() {
         return cart;
+    }
+
+    public void setNewAccount(Account account) {
+        // add this account from source and list
+        DataBase.addDataToSource(this, Account.class);
+        list.add(this);
+    }
+
+    public void addToCart(Product product) {
+        cart.addToProductList(product);
+    }
+
+    public void removeFromCart(Product product) {
+        cart.removeFromProductList(product);
     }
 
     @Override
