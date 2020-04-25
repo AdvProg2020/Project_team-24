@@ -1,17 +1,15 @@
 package Model.DataBase;
 
 import Model.Models.Accounts.Manager;
+import Model.Tools.Pack;
 import com.gilecode.yagson.YaGson;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import Model.Tools.Data;
 
@@ -21,11 +19,10 @@ public class DataBase {
 
     private static HashMap<String, String> paths = new HashMap<>();
 
-    public static void preprocess(Class<?> cls) {
+    public static List<Object> preprocess(Pack<?> pack, String className) {
 
         try {
-            Method dpkg = cls.getMethod("dpkg", Data.class);
-            Files.walk(Path.of(paths.get(cls.getName())))
+            return Files.walk(Path.of(paths.get(className)))
                     .filter(Files::isRegularFile)
                     .map(path -> {
                         try {
@@ -35,9 +32,11 @@ public class DataBase {
                             return "BreakTrace";
                         }
                     }).map(s -> yaGson.fromJson(s,Data.class))
-                    .map(data -> dpkg.invoke())
-        } catch (IOException | NoSuchMethodException e) {
+                    .map(data -> pack.getDpkg().apply(data))
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
@@ -48,6 +47,4 @@ public class DataBase {
     public static void remove(Object object) {
 
     }
-
-
 }

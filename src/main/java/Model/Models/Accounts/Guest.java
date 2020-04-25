@@ -1,15 +1,27 @@
 package Model.Models.Accounts;
 
-import Model.DataBase.DataBase;
 import Model.Models.*;
-import Model.Tools.Data;
+import Model.Tools.Pack;
 
 public class Guest extends Account {
+
+    private static Pack<Guest> pack;
+
+    static {
+        pack = new Pack(
+                o -> null,
+                o -> null
+        );
+    }
 
     private Cart cart;
 
     public Cart getCart() {
         return cart;
+    }
+
+    public static Pack<Guest> getPack() {
+        return pack;
     }
 
     public void setNewAccount(Account account) {
@@ -22,16 +34,6 @@ public class Guest extends Account {
 
     public void removeFromCart(Product product) {
         cart.removeFromProductList(product);
-    }
-
-    @Override
-    public Data pack(Object object) {
-        return null;
-    }
-
-    @Override
-    public Object dpkg(Data data) {
-        return null;
     }
 
     public Guest(String userName, String password, PersonalInfo personalInfo, Cart cart) {

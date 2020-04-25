@@ -4,7 +4,7 @@ import Model.DataBase.DataBase;
 
 import java.util.List;
 
-public abstract class Account implements Packable {
+public abstract class Account {
 
     protected static List<Account> list;
 

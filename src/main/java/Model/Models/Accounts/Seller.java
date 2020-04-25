@@ -77,15 +77,15 @@ public class Seller extends Account {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Data pack(Object object) {
-        return null;
-    }
-
-    @Override
-    public Object dpkg(Data data) {
-        return null;
-    }
+//    @Override
+//    public Data pack(Object object) {
+//        return null;
+//    }
+//
+//    @Override
+//    public Object dpkg(Data data) {
+//        return null;
+//    }
 
     public Seller(String userName, String password, PersonalInfo personalInfo, List<LogHistory> logHistoryList, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {
         super(userName, password, personalInfo);

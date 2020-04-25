@@ -63,15 +63,15 @@ public class Customer extends Account {
                 .orElse(null);
     }
 
-    @Override
-    public Data pack(Object object) {
-        return null;
-    }
-
-    @Override
-    public Object dpkg(Data data) {
-        return null;
-    }
+//    @Override
+//    public Data pack(Object object) {
+//        return null;
+//    }
+//
+//    @Override
+//    public Object dpkg(Data data) {
+//        return null;
+//    }
 
     public Customer(String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, List<LogHistory> logHistoryList) {
         super(userName, password, personalInfo);
