@@ -30,11 +30,11 @@ public class Manager extends Account {
     @Override
     public Data pack(Object object) {
 
-        if (object == null)
+        if (object == null) {
             object = this;
+        }
 
         return new Data(object.getClass().toString())
-                .addField(id)
                 .addField(userName)
                 .addField(password)
                 .addField(personalInfo.getPersonalInformationId());
@@ -42,15 +42,15 @@ public class Manager extends Account {
 
     @Override
     public Object dpkg(Data data) {
-        return new Manager(
-                (long) data.getFields().get(0),
-                (String) data.getFields().get(1),
-                (String) data.getFields().get(2),
-                null
-        );
+//        return new Manager(
+//                (String) data.getFields().get(1),
+//                (String) data.getFields().get(2),
+//                (PersonalInfo) new PersonalInfo.?
+//        );
+        return null;
     }
 
-    public Manager(long accountId, String userName, String password, PersonalInfo personalInfo) {
-        super(accountId, userName, password, personalInfo);
+    public Manager(String userName, String password, PersonalInfo personalInfo) {
+        super(userName, password, personalInfo);
     }
 }

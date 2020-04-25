@@ -5,7 +5,7 @@ import Model.Tools.Data;
 
 public class Guest extends Account {
 
-    protected Cart cart;
+    private Cart cart;
 
     public Cart getCart() {
         return cart;
@@ -21,8 +21,8 @@ public class Guest extends Account {
         return null;
     }
 
-    public Guest(long accountId, String userName, String password, PersonalInfo personalInfo, Cart cart) {
-        super(accountId, userName, password, personalInfo);
+    public Guest(String userName, String password, PersonalInfo personalInfo, Cart cart) {
+        super(userName, password, personalInfo);
         this.cart = cart;
     }
 }

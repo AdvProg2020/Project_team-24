@@ -18,49 +18,45 @@ public class DataBase {
 
     private static YaGson yaGson = new YaGson();
 
-    private static HashMap<Class<?>,String> Paths = new HashMap<>();
+    private static HashMap<Class<?>, String> Paths = new HashMap<>();
 
-    public static void preprocess(Class<?> cls)
-            throws NoSuchFieldException
-            , IllegalAccessException
-            , IOException
-            , NoSuchMethodException {
-        // get source path.
+    public static void preprocess(Class<?> cls) {
+
         String path = Paths.get(cls);
-        // get dataList.
-        List<Data> dataList = dpkg(path);
-        // call that class dpkg method and convert data to required type.
-        Method dpkg = cls.getDeclaredMethod("dpkg", Data.class);
-        List<Object> objs = dataList.stream()
-                .map(data -> {
-                    try {
-                        return dpkg.invoke(cls, data);
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                })
-                .collect(Collectors.toList());
-        // set all created objs to that class list.
-        Field list = cls.getField("list");
-        list.setAccessible(true);
-        list.set(null, objs);
-    }
 
-    public static List<Data> dpkg(String path)
-            throws IOException {
-        return Files.walk(Path.of(path))
-                .filter(Files::isRegularFile)
-                .map(aPath -> {
-                    try {
-                        return Files.readString(aPath);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                })
-                .map(s -> yaGson.fromJson(s, Data.class))
-                .collect(Collectors.toList());
+        try {
+
+            List<Data> dataList =  DataBase.dpkg(path);
+
+            Method dpkg = cls.getDeclaredMethod("dpkg", Data.class);
+
+            assert dataList != null;
+
+            assert dpkg != null;
+
+            List<Object> objs = dataList.stream()
+                    .map(data -> {
+                        try {
+
+                            return dpkg.invoke(cls, data);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    })
+                    .collect(Collectors.toList());
+
+            Field list = cls.getField("list");
+
+            assert list != null;
+
+            list.setAccessible(true);
+
+            list.set(null, objs);
+
+        } catch (NoSuchMethodException | IOException | IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void addDataToSource(Object object, Class<?> cls) {
@@ -69,5 +65,20 @@ public class DataBase {
 
     public static void removeDataFromSource(Object object, Class<?> cls) {
 
+    }
+
+    private static List<Data> dpkg(String path) throws IOException {
+        return Files.walk(Path.of(path))
+                .filter(Files::isRegularFile)
+                .map(p -> {
+                    try {
+                        return Files.readString(p);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                })
+                .map(s -> yaGson.fromJson(s, Data.class))
+                .collect(Collectors.toList());
     }
 }

@@ -38,8 +38,8 @@ public class Seller extends Account {
         return null;
     }
 
-    public Seller(long id, String userName, String password, PersonalInfo personalInfo, List<LogHistory> logHistoryList, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {
-        super(id, userName, password, personalInfo);
+    public Seller(String userName, String password, PersonalInfo personalInfo, List<LogHistory> logHistoryList, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {
+        super(userName, password, personalInfo);
         this.logHistoryList = logHistoryList;
         this.productList = productList;
         this.companyInformation = companyInformation;

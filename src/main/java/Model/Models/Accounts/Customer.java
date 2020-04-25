@@ -5,11 +5,16 @@ import Model.Tools.Data;
 
 import java.util.List;
 
-public class Customer extends Guest {
+public class Customer extends Account {
 
+    private Cart cart;
     private List<DiscountCode> discountCodeList;
     private double credit;
     private List<LogHistory> logHistoryList;
+
+    public Cart getCart() {
+        return cart;
+    }
 
     public List<LogHistory> getLogHistoryList() {
         return logHistoryList;
@@ -29,16 +34,17 @@ public class Customer extends Guest {
 
     @Override
     public Data pack(Object object) {
-        return super.pack(object);
+        return null;
     }
 
     @Override
     public Object dpkg(Data data) {
-        return super.dpkg(data);
+        return null;
     }
 
-    public Customer(long accountId, String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, List<LogHistory> logHistoryList) {
-        super(accountId, userName, password, personalInfo, cart);
+    public Customer(String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, List<LogHistory> logHistoryList) {
+        super(userName, password, personalInfo);
+        this.cart = cart;
         this.discountCodeList = discountCodeList;
         this.credit = credit;
         this.logHistoryList = logHistoryList;
