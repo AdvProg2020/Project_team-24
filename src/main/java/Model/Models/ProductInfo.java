@@ -1,19 +1,16 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
-import Model.Tools.Packable;
 
 import java.util.List;
 
-public class ProductGeneralSpecifications implements Packable {
+public class ProductInfo implements Packable {
 
-    private static final String source
-            = "src/main/resources/allProductGeneralSpecifications";
-
-    private static List<ProductGeneralSpecifications> productGeneralSpecificationsList;
+    private static List<ProductInfo> productInfoList;
 
     static {
-
+        DataBase.preprocess(PersonalInfo.class);
     }
 
     public enum InventoryStatus {
@@ -22,9 +19,9 @@ public class ProductGeneralSpecifications implements Packable {
 
     private long generalSpecificationId;
     //    String name
-//    String brand
-//    double price
-    private List<Field> fieldList;
+    //    String brand
+    private double price;
+    private FieldList fieldList;
     private List<Account> sellers;
     private InventoryStatus inventoryStatus;
 
@@ -32,7 +29,7 @@ public class ProductGeneralSpecifications implements Packable {
         return generalSpecificationId;
     }
 
-    public List<Field> getFieldList() {
+    public FieldList getFieldList() {
         return fieldList;
     }
 
@@ -44,8 +41,12 @@ public class ProductGeneralSpecifications implements Packable {
         return inventoryStatus;
     }
 
-    public static List<ProductGeneralSpecifications> getProductGeneralSpecificationsList() {
-        return productGeneralSpecificationsList;
+    public static List<ProductInfo> getProductInfoList() {
+        return productInfoList;
+    }
+
+    public double getPrice() {
+        return price;
     }
 
     @Override
@@ -58,8 +59,9 @@ public class ProductGeneralSpecifications implements Packable {
         return null;
     }
 
-    public ProductGeneralSpecifications(long generalSpecificationId, List<Field> fieldList, List<Account> sellers, InventoryStatus inventoryStatus) {
+    public ProductInfo(long generalSpecificationId, double price, FieldList fieldList, List<Account> sellers, InventoryStatus inventoryStatus) {
         this.generalSpecificationId = generalSpecificationId;
+        this.price = price;
         this.fieldList = fieldList;
         this.sellers = sellers;
         this.inventoryStatus = inventoryStatus;

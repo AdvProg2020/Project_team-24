@@ -1,33 +1,30 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
-import Model.Tools.Packable;
 
 import java.util.List;
 
 public class PersonalInfo implements Packable {
 
-    private static final String source
-            = "src/main/resources/allPersonalInformation";
-
     private static List<PersonalInfo> personalInfoList;
 
     static {
-
+        DataBase.preprocess(PersonalInfo.class);
     }
 
     private long personalInformationId;
     //    String firstName
-//    String lastName
-//    String email
-//    String phoneNumber
-    private List<Field> fieldList;
+    //    String lastName
+    //    String email
+    //    String phoneNumber
+    private FieldList fieldList;
 
     public long getPersonalInformationId() {
         return personalInformationId;
     }
 
-    public List<Field> getFieldList() {
+    public FieldList getFieldList() {
         return fieldList;
     }
 
@@ -45,7 +42,7 @@ public class PersonalInfo implements Packable {
         return null;
     }
 
-    public PersonalInfo(long personalInformationId, List<Field> fieldList) {
+    public PersonalInfo(long personalInformationId, FieldList fieldList) {
         this.personalInformationId = personalInformationId;
         this.fieldList = fieldList;
     }

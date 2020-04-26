@@ -1,29 +1,26 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
-import Model.Tools.Packable;
 
 import java.util.List;
 
 public class CategorySpecifications implements Packable {
 
-    private static final String source
-            = "src/main/resources/allCategorySpecifications";
-
     private static List<CategorySpecifications> categorySpecificationsList;
 
     static {
-
+        DataBase.preprocess(CategorySpecifications.class);
     }
 
     private long goodSpecificationId;
-    private List<Field> fieldList;
+    private FieldList fieldList;
 
     public long getGoodSpecificationId() {
         return goodSpecificationId;
     }
 
-    public List<Field> getFieldList() {
+    public FieldList getFieldList() {
         return fieldList;
     }
 
@@ -41,7 +38,7 @@ public class CategorySpecifications implements Packable {
         return null;
     }
 
-    public CategorySpecifications(long goodSpecificationId, List<Field> fieldList) {
+    public CategorySpecifications(long goodSpecificationId, FieldList fieldList) {
         this.goodSpecificationId = goodSpecificationId;
         this.fieldList = fieldList;
     }

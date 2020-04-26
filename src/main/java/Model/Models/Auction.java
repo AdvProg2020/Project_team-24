@@ -1,29 +1,26 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
-import Model.Tools.Packable;
 
+import java.util.Date;
 import java.util.List;
 
 public class Auction implements Packable, ForPend {
 
-    private static final String source
-            = "src/main/resources/allAuctions";
-
     private static List<Auction> auctionList;
 
     static {
-
+        DataBase.preprocess(Auction.class);
     }
 
     private long auctionId;
     private List<Product> productList;
     private PendStatus status;
-    //    Date start;
-//    Date end;
-//    Discount discount;
-    private List<Field> fieldList;
+    private Date start;
+    private Date end;
+    private Discount discount;
 
     public static List<Auction> getAuctionList() {
         return auctionList;
@@ -41,8 +38,16 @@ public class Auction implements Packable, ForPend {
         return status;
     }
 
-    public List<Field> getFieldList() {
-        return fieldList;
+    public Date getStart() {
+        return start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public Discount getDiscount() {
+        return discount;
     }
 
     @Override
@@ -55,10 +60,12 @@ public class Auction implements Packable, ForPend {
         return null;
     }
 
-    public Auction(long auctionId, List<Product> productList, PendStatus status, List<Field> fieldList) {
+    public Auction(long auctionId, List<Product> productList, PendStatus status, Date start, Date end, Discount discount) {
         this.auctionId = auctionId;
         this.productList = productList;
         this.status = status;
-        this.fieldList = fieldList;
+        this.start = start;
+        this.end = end;
+        this.discount = discount;
     }
 }

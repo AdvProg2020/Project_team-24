@@ -1,14 +1,10 @@
 package Model.Models;
 
 import Model.Tools.Data;
-import Model.Tools.Packable;
 
 import java.util.List;
 
 public class CompanyInformation implements Packable {
-
-    private static final String source
-            = "src/main/resources/allCompanyInformation";
 
     private static List<CompanyInformation> companyInformationList;
 
@@ -18,12 +14,12 @@ public class CompanyInformation implements Packable {
 
     private long companyId;
     //    String name
-//    String phoneNumber
-//    String email
-//    Date foundation
-    private List<Field> fieldList;
+    //    String phoneNumber
+    //    String email
+    //    String foundation
+    private FieldList fieldList;
 
-    public List<Field> getFieldList() {
+    public FieldList getFieldList() {
         return fieldList;
     }
 
@@ -45,7 +41,7 @@ public class CompanyInformation implements Packable {
         return null;
     }
 
-    public CompanyInformation(long companyId, List<Field> fieldList) {
+    public CompanyInformation(long companyId, FieldList fieldList) {
         this.companyId = companyId;
         this.fieldList = fieldList;
     }

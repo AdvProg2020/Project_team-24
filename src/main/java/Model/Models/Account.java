@@ -1,14 +1,10 @@
 package Model.Models;
 
 import Model.DataBase.DataBase;
-import Model.Tools.Packable;
 
 import java.util.List;
 
 public abstract class Account implements Packable {
-
-    protected static final String source
-            = "src/main/resources/Account/Accounts";
 
     protected static List<Account> list;
 
@@ -16,14 +12,9 @@ public abstract class Account implements Packable {
         DataBase.preprocess(Account.class);
     }
 
-    protected long id;
     protected String userName;
     protected String password;
     protected PersonalInfo personalInfo;
-
-    public long getId() {
-        return id;
-    }
 
     public String getUserName() {
         return userName;
@@ -45,8 +36,15 @@ public abstract class Account implements Packable {
         return list;
     }
 
-    protected Account(long id, String userName, String password, PersonalInfo personalInfo) {
-        this.id = id;
+    public static Account findAccountByUserName(String name) {
+        return list.stream().filter(
+                // a Predicate to check userNames.
+                account -> name.equals(account.getUserName())
+
+        ).findFirst().orElse(null);
+    }
+
+    protected Account(String userName, String password, PersonalInfo personalInfo) {
         this.userName = userName;
         this.password = password;
         this.personalInfo = personalInfo;

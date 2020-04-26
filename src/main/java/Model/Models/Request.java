@@ -1,45 +1,57 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
-import Model.Tools.Packable;
 
 import java.util.List;
 
 public class Request implements Packable {
 
-    private static final String source
-            = "src/main/resources/allRequests";
-
     private static List<Request> requestList;
 
     static {
-
+        DataBase.preprocess(Request.class);
     }
 
     public enum TypeRequest {
         Edit, New
     }
 
-    public long requestId;
+    private long requestId;
     private Account account;
-    private TypeRequest typeRequest;
+    private TypeRequest typeOfRequest;
     private ForPend forPend;
+
+    public long getRequestId() {
+        return requestId;
+    }
 
     public Account getAccount() {
         return account;
     }
 
-    public TypeRequest getTypeRequest() {
-        return typeRequest;
+    public TypeRequest getTypeOfRequest() {
+        return typeOfRequest;
     }
 
-    public Object getForPend() {
+    public ForPend getForPend() {
         return forPend;
+    }
+
+    public void acceptRequest() {
+    }
+
+    public void declineRequest() {
+
     }
 
     public static List<Request> getRequestList() {
         return requestList;
+    }
+
+    public static Request getRequestById(long id) {
+        return requestList.stream().filter(request -> id == request.getRequestId()).findFirst().orElse(null);
     }
 
     @Override
@@ -52,10 +64,10 @@ public class Request implements Packable {
         return null;
     }
 
-    public Request(long requestId, Account account, TypeRequest typeRequest, ForPend forPend) {
+    public Request(long requestId, Account account, TypeRequest typeOfRequest, ForPend forPend) {
         this.requestId = requestId;
         this.account = account;
-        this.typeRequest = typeRequest;
+        this.typeOfRequest = typeOfRequest;
         this.forPend = forPend;
     }
 }
