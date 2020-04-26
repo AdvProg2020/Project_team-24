@@ -18,19 +18,29 @@ public class OutPut {
     }
 
     private void commands(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        for (int i = 0; i < currentMenu.getPatternList().length; i++) {
-            Pattern pattern = currentMenu.getPatternList()[i];
+
+        if (command.matches("changeMenu (\\w+)")) {
+//            currentMenu = currentMenu.getSubMenuByName(name);
+//            currentMenu = currentMenu.getSubMenus().get(x);
+            return;
+        }
+
+        for (int i = 0; i < currentMenu.getPatternList().size(); i++) {
+            Pattern pattern = currentMenu.getPatternList().get(0);
             Matcher matcher = pattern.matcher(command);
             if (matcher.find()) {
-                Method method = currentMenu.getClass().getMethod(currentMenu.getMethodsList()[i], ArrayList.class);
+                Method method = currentMenu.getClass().getMethod(currentMenu.getMethodsList().get(0), ArrayList.class);
                 ArrayList<String> param = new ArrayList<>();
                 for (int j = 0; j < matcher.groupCount(); j++) {
                     param.add(matcher.group(j + 1));
                 }
                 method.invoke(currentMenu, param);
+                return;
             }
         }
     }
+
+    private void changeMenu() {
 
 //    private void preProcess() {
 //        regex = new String[]{"create account (\\w+) (\\w+)"};
@@ -38,7 +48,7 @@ public class OutPut {
 //
 //        patterns = new Pattern[regex.length];
 //        for (int i = 0; i < regex.length; i++) patterns[i] = Pattern.compile(regex[i]);
-//    }
+    }
 
     public static void setPatterns() {
 

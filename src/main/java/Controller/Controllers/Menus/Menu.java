@@ -6,13 +6,12 @@ import java.util.regex.Pattern;
 
 public abstract class Menu {
 
-
-    private String name;
-    private Menu parentMenu=null;
-    private List<Menu> subMenus;
-    private List<String> regexList;
-    private List<Pattern> patternList;
-    private List<String> methodsList;
+    protected String name;
+    protected Menu parentMenu;
+    protected List<Menu> subMenus;
+    protected List<String> regexList;
+    protected List<Pattern> patternList;
+    protected List<String> methodsList;
 
     public Menu(String name, Menu parentMenu, List<Menu> subMenus, List<String> regexList, List<Pattern> patternList, List<String> methodsList) {
         this.name = name;
@@ -21,6 +20,26 @@ public abstract class Menu {
         this.regexList = regexList;
         this.patternList = patternList;
         this.methodsList = methodsList;
+    }
+
+    public Menu(String name, Menu parentMenu) {
+        this.name = name;
+        this.parentMenu = parentMenu;
+        preprocess();
+    }
+
+    protected abstract void preprocess();
+
+    public List<String> getRegexList() {
+        return regexList;
+    }
+
+    public List<Pattern> getPatternList() {
+        return patternList;
+    }
+
+    public List<String> getMethodsList() {
+        return methodsList;
     }
 
     public Menu enter(Menu subMenu){

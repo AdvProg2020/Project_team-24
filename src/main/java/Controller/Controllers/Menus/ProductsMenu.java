@@ -4,7 +4,7 @@ public class ProductsMenu {
 
     private static ProductsMenu menu;
 
-    private ProductsMenu(String name) {
+    ProductsMenu(String name, Object o) {
 
     }
 
