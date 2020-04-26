@@ -40,15 +40,8 @@ public class OutPut {
         }
     }
 
-    private void changeMenu() {
+    private void changeMenu() {}
 
-//    private void preProcess() {
-//        regex = new String[]{"create account (\\w+) (\\w+)"};
-//        methods = new String[]{"CreateAccount"};
-//
-//        patterns = new Pattern[regex.length];
-//        for (int i = 0; i < regex.length; i++) patterns[i] = Pattern.compile(regex[i]);
-    }
 
     public static void setPatterns() {
 

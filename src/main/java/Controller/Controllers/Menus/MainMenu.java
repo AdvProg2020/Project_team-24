@@ -31,4 +31,7 @@ public class MainMenu extends Menu {
             getPatternList().add(Pattern.compile(rgx));
         }
     }
+
+    //
+
 }
