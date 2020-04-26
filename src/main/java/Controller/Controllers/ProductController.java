@@ -1,11 +1,11 @@
 package Controller.Controllers;
 
-import Model.Models.ProductInfo;
+import Model.Models.ProductGeneralSpecifications;
 
 import java.util.ArrayList;
 
 public class ProductController {
-    public ArrayList<ProductInfo> digest(){}
+    public ArrayList<ProductGeneralSpecifications> digest(){}
     public void addToCart(){}
     private void checkConfirmAddToCart() throws addToCartNotConfirmedException {}
     private void checkIfLogedIn()throws cannotShopAsAGuestException{}

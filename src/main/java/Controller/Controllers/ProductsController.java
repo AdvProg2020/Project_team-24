@@ -1,6 +1,8 @@
 package Controller.Controllers;
 
+import Controller.Exceptions.NotAvailableSortException;
 import Model.Models.Category;
+import Model.Models.Filter;
 import Model.Models.Product;
 
 import java.lang.reflect.Field;
@@ -13,7 +15,7 @@ public class ProductsController {
     private void checkDisablefilterIsNotVategory(Filter filter){}
     public void sorting(){}
     public ArrayList<Field> showAvailableSorts(){}
-    private void checkSortAvailable()throws notAvailableSortException {}
+    private void checkSortAvailable()throws NotAvailableSortException {}
     public void sort(Filter availableSort){}
     public void currentSort(){}
     public void disableSort(){}
