@@ -2,8 +2,8 @@ package Controller.Controllers.Menus;
 
 public class LogInMenu extends Menu{
 
-
 private LogInMenu menu;
+
     public LogInMenu(String name) {
         super(name);
     }

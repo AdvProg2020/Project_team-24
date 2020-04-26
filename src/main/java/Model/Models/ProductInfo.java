@@ -10,7 +10,7 @@ public class ProductInfo implements Packable {
     private static List<ProductInfo> productInfoList;
 
     static {
-        DataBase.preprocess(PersonalInfo.class);
+        DataBase.loadList(PersonalInfo.class);
     }
 
     public enum InventoryStatus {

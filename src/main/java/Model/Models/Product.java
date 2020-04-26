@@ -11,7 +11,7 @@ public class Product implements Packable, ForPend {
     private static List<Product> productList;
 
     static {
-        DataBase.preprocess(Product.class);
+        DataBase.loadList(Product.class);
     }
 
     private long productId;

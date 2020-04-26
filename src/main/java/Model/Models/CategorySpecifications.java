@@ -10,7 +10,7 @@ public class CategorySpecifications implements Packable {
     private static List<CategorySpecifications> categorySpecificationsList;
 
     static {
-        DataBase.preprocess(CategorySpecifications.class);
+        DataBase.loadList(CategorySpecifications.class);
     }
 
     private long goodSpecificationId;

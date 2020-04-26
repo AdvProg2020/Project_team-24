@@ -4,9 +4,9 @@ import Model.Tools.Data;
 
 import java.util.List;
 
-public class CompanyInformation implements Packable {
+public class CompanyInfo implements Packable {
 
-    private static List<CompanyInformation> companyInformationList;
+    private static List<CompanyInfo> companyInfoList;
 
     static {
 
@@ -27,8 +27,8 @@ public class CompanyInformation implements Packable {
         return companyId;
     }
 
-    public static List<CompanyInformation> getCompanyInformationList() {
-        return companyInformationList;
+    public static List<CompanyInfo> getCompanyInfoList() {
+        return companyInfoList;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CompanyInformation implements Packable {
         return null;
     }
 
-    public CompanyInformation(long companyId, FieldList fieldList) {
+    public CompanyInfo(long companyId, FieldList fieldList) {
         this.companyId = companyId;
         this.fieldList = fieldList;
     }

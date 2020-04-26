@@ -2,7 +2,6 @@ package Model.Models.Accounts;
 
 import Model.Models.*;
 import Model.Models.Fields.Single;
-import Model.Tools.Data;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +11,7 @@ public class Seller extends Account {
     private double balance;
     private List<LogHistory> logHistoryList;
     private List<Product> productList;
-    private CompanyInformation companyInformation;
+    private CompanyInfo companyInfo;
     private List<Auction> auctionList;
 
     public double getBalance() {
@@ -27,8 +26,8 @@ public class Seller extends Account {
         return productList;
     }
 
-    public CompanyInformation getCompanyInformation() {
-        return companyInformation;
+    public CompanyInfo getCompanyInfo() {
+        return companyInfo;
     }
 
     public List<Auction> getAuctionList() {
@@ -77,21 +76,21 @@ public class Seller extends Account {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public Data pack(Object object) {
-        return null;
-    }
+//    @Override
+//    public Data pack(Object object) {
+//        return null;
+//    }
+//
+//    @Override
+//    public Object dpkg(Data data) {
+//        return null;
+//    }
 
-    @Override
-    public Object dpkg(Data data) {
-        return null;
-    }
-
-    public Seller(String userName, String password, PersonalInfo personalInfo, List<LogHistory> logHistoryList, List<Product> productList, CompanyInformation companyInformation, List<Auction> auctionList) {
+    public Seller(String userName, String password, PersonalInfo personalInfo, List<LogHistory> logHistoryList, List<Product> productList, CompanyInfo companyInfo, List<Auction> auctionList) {
         super(userName, password, personalInfo);
         this.logHistoryList = logHistoryList;
         this.productList = productList;
-        this.companyInformation = companyInformation;
+        this.companyInfo = companyInfo;
         this.auctionList = auctionList;
     }
 }

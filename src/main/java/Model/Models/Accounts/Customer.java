@@ -3,6 +3,7 @@ package Model.Models.Accounts;
 import Model.Models.*;
 import Model.Tools.Data;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Customer extends Account {
@@ -56,28 +57,23 @@ public class Customer extends Account {
         // ?
     }
 
-    public LogHistory getLogHistoryById(long id) {
-        return logHistoryList.stream()
-                .filter(logHistory -> id == logHistory.getLogId())
-                .findFirst()
-                .orElse(null);
+    @Override
+    public Data pack() {
+        return super.pack();
     }
 
     @Override
-    public Data pack(Object object) {
-        return null;
+    public void dpkg(Data data) {
+        super.dpkg(data);
     }
 
-    @Override
-    public Object dpkg(Data data) {
-        return null;
-    }
-
-    public Customer(String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, List<LogHistory> logHistoryList) {
-        super(userName, password, personalInfo);
+    public Customer(long id, String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, List<LogHistory> logHistoryList) {
+        super(id, userName, password, personalInfo);
         this.cart = cart;
         this.discountCodeList = discountCodeList;
         this.credit = credit;
         this.logHistoryList = logHistoryList;
     }
+
+    public Customer() {}
 }

@@ -11,7 +11,7 @@ public class Request implements Packable {
     private static List<Request> requestList;
 
     static {
-        DataBase.preprocess(Request.class);
+        DataBase.loadList(Request.class);
     }
 
     public enum TypeRequest {

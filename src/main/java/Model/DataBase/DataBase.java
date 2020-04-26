@@ -21,7 +21,7 @@ public class DataBase {
 
     private static HashMap<String, String> paths = new HashMap<>();
 
-    public static void preprocess(Class<?> cls) {
+    public static void loadList(Class<?> cls) {
 
         try {
             Method dpkg = cls.getMethod("dpkg", Data.class);
@@ -34,11 +34,15 @@ public class DataBase {
                             e.printStackTrace();
                             return "BreakTrace";
                         }
-                    }).map(s -> yaGson.fromJson(s,Data.class))
-                    .map(data -> dpkg.invoke())
+                    }).map(s -> yaGson.fromJson(s,Data.class));
+//                    .map(data -> dpkg.invoke())
         } catch (IOException | NoSuchMethodException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void load(long id) {
+
     }
 
     public static void save(Object object) {
@@ -48,6 +52,4 @@ public class DataBase {
     public static void remove(Object object) {
 
     }
-
-
 }

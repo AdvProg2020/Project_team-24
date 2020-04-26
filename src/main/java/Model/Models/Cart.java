@@ -2,22 +2,23 @@ package Model.Models;
 
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
+import Model.Tools.Packable;
 
 import java.util.List;
 
 public class Cart implements Packable {
 
-    private static List<Cart> cartList;
+    private static List<Cart> list;
 
     static {
-        DataBase.preprocess(Cart.class);
+        DataBase.loadList(Cart.class);
     }
 
-    private long cartId;
+    private long id;
     private List<Product> productList;
 
-    public long getCartId() {
-        return cartId;
+    public long getId() {
+        return id;
     }
 
     public List<Product> getProductList() {
@@ -46,22 +47,22 @@ public class Cart implements Packable {
         productList.remove(product);
     }
 
-    public static List<Cart> getCartList() {
-        return cartList;
+    public static List<Cart> getList() {
+        return list;
     }
 
     @Override
-    public Data pack(Object object) {
+    public Data pack() {
         return null;
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) {
+
     }
 
-    public Cart(long cartId, List<Product> productList) {
-        this.cartId = cartId;
+    public Cart(long id, List<Product> productList) {
+        this.id = id;
         this.productList = productList;
     }
 }

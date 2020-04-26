@@ -14,7 +14,7 @@ public class BuyerController extends AccountController {
     public String view(long productId){}
     public void increase(long productId){}
     public void decrease(long productId){}
-    public double showTotalPrice(){}
+    public double showTotalPrice() {}
     private void checkNumOfDiscountUseInOnePurchase() throws CannotUseDiscountException {}
     private void checkEnoughCredit() throws NotEnoughCreditException{}
     public void purchase(){}

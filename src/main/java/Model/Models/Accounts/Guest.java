@@ -24,15 +24,15 @@ public class Guest extends Account {
         cart.removeFromProductList(product);
     }
 
-    @Override
-    public Data pack(Object object) {
-        return null;
-    }
-
-    @Override
-    public Object dpkg(Data data) {
-        return null;
-    }
+//    @Override
+//    public Data pack(Object object) {
+//        return null;
+//    }
+//
+//    @Override
+//    public Object dpkg(Data data) {
+//        return null;
+//    }
 
     public Guest(String userName, String password, PersonalInfo personalInfo, Cart cart) {
         super(userName, password, personalInfo);

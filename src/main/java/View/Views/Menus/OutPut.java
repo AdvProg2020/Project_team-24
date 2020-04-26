@@ -1,6 +1,44 @@
 package View.Views.Menus;
 
+import Controller.Controllers.Menus.Menu;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class OutPut {
+
+    private Menu currentMenu;
+
+    public OutPut(Menu currentMenu) {
+        this.currentMenu = currentMenu;
+//        preProcess();
+    }
+
+    private void commands(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        for (int i = 0; i < currentMenu.getPatternList().length; i++) {
+            Pattern pattern = currentMenu.getPatternList()[i];
+            Matcher matcher = pattern.matcher(command);
+            if (matcher.find()) {
+                Method method = currentMenu.getClass().getMethod(currentMenu.getMethodsList()[i], ArrayList.class);
+                ArrayList<String> param = new ArrayList<>();
+                for (int j = 0; j < matcher.groupCount(); j++) {
+                    param.add(matcher.group(j + 1));
+                }
+                method.invoke(currentMenu, param);
+            }
+        }
+    }
+
+//    private void preProcess() {
+//        regex = new String[]{"create account (\\w+) (\\w+)"};
+//        methods = new String[]{"CreateAccount"};
+//
+//        patterns = new Pattern[regex.length];
+//        for (int i = 0; i < regex.length; i++) patterns[i] = Pattern.compile(regex[i]);
+//    }
 
     public static void setPatterns() {
 

@@ -1,6 +1,8 @@
 package Model.Models;
 
 import Model.DataBase.DataBase;
+import Model.Tools.Data;
+import Model.Tools.Packable;
 
 import java.util.List;
 
@@ -9,12 +11,17 @@ public abstract class Account implements Packable {
     protected static List<Account> list;
 
     static {
-        DataBase.preprocess(Account.class);
+        DataBase.loadList(Account.class);
     }
 
+    protected long id;
     protected String userName;
     protected String password;
     protected PersonalInfo personalInfo;
+
+    public long getId() {
+        return id;
+    }
 
     public String getUserName() {
         return userName;
@@ -32,21 +39,37 @@ public abstract class Account implements Packable {
         return personalInfo;
     }
 
-    public static List<Account> getList() {
-        return list;
-    }
-
     public static Account findAccountByUserName(String name) {
         return list.stream().filter(
                 // a Predicate to check userNames.
                 account -> name.equals(account.getUserName())
 
-        ).findFirst().orElse(null);
+        ).findFirst().orElseThrow();
     }
 
-    protected Account(String userName, String password, PersonalInfo personalInfo) {
+    @Override
+    public Data pack() {
+        return new Data(Account.class.getName())
+                .addField(id)
+                .addField(userName)
+                .addField(password)
+                .addField(personalInfo.getId());
+    }
+
+    @Override
+    public void dpkg(Data data) {
+        this.id = (long) data.getFields().get(0);
+        this.userName = (String) data.getFields().get(1);
+        this.password = (String) data.getFields().get(2);
+        this.personalInfo = PersonalInfo.getPersonalInfoById((long) data.getFields().get(3));
+    }
+
+    public Account(long id, String userName, String password, PersonalInfo personalInfo) {
+        this.id = id;
         this.userName = userName;
         this.password = password;
         this.personalInfo = personalInfo;
     }
+
+    public Account(){}
 }

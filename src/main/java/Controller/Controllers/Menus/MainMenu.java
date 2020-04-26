@@ -1,7 +1,9 @@
 package Controller.Controllers.Menus;
 
 public class MainMenu extends Menu {
+
     private static MainMenu menu;
+
     private  MainMenu(String name) {
         super(name);
     }
