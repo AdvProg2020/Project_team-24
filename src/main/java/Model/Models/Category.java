@@ -2,6 +2,7 @@ package Model.Models;
 
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
+import Model.Tools.Packable;
 
 import java.util.List;
 
@@ -44,13 +45,13 @@ public class Category implements Packable {
     }
 
     @Override
-    public Data pack(Object object) {
+    public Data pack() {
         return null;
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) {
+
     }
 
     public Category(long categoryId, String name, List<Product> productList, FieldList categoryField, List<Category> subCategoryList) {

@@ -2,12 +2,15 @@ package Model.Models;
 
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
+import Model.Tools.Packable;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 public class ProductInfo implements Packable {
 
-    private static List<ProductInfo> productInfoList;
+    private static List<ProductInfo> list;
 
     static {
         DataBase.loadList(PersonalInfo.class);
@@ -17,7 +20,7 @@ public class ProductInfo implements Packable {
         InSock, Purchased, ToReceive, Sold, ToShip
     }
 
-    private long generalSpecificationId;
+    private long id;
     //    String name
     //    String brand
     private double price;
@@ -25,8 +28,8 @@ public class ProductInfo implements Packable {
     private List<Account> sellers;
     private InventoryStatus inventoryStatus;
 
-    public long getGeneralSpecificationId() {
-        return generalSpecificationId;
+    public long getId() {
+        return id;
     }
 
     public FieldList getFieldList() {
@@ -41,8 +44,8 @@ public class ProductInfo implements Packable {
         return inventoryStatus;
     }
 
-    public static List<ProductInfo> getProductInfoList() {
-        return productInfoList;
+    public static List<ProductInfo> getList() {
+        return list;
     }
 
     public double getPrice() {
@@ -50,20 +53,41 @@ public class ProductInfo implements Packable {
     }
 
     @Override
-    public Data pack(Object object) {
-        return null;
+    public Data pack() {
+        return new Data(ProductInfo.class.getName())
+                .addField(id)
+                .addField(price)
+                .addField(fieldList)
+                .addField(inventoryStatus)
+                .addField(sellers.stream()
+                .map(Account::getId).collect(Collectors.toList()));
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) {
+        this.id = (long) data.getFields().get(0);
+        this.price = (double) data.getFields().get(1);
+        this.fieldList = (FieldList) data.getFields().get(2);
+        this.inventoryStatus = (InventoryStatus) data.getFields().get(3);
+        this.sellers = ((List<Long>) data.getFields().get(4))
+                .stream().map(Account::getAccountById).collect(Collectors.toList());
     }
 
-    public ProductInfo(long generalSpecificationId, double price, FieldList fieldList, List<Account> sellers, InventoryStatus inventoryStatus) {
-        this.generalSpecificationId = generalSpecificationId;
+    public static ProductInfo getProductInfoById(long id) {
+        return list.stream()
+                .filter(productInfo -> id == productInfo.getId())
+                .findFirst()
+                .orElseThrow();
+    }
+
+    public ProductInfo(long id, double price, FieldList fieldList, List<Account> sellers, InventoryStatus inventoryStatus) {
+        this.id = id;
         this.price = price;
         this.fieldList = fieldList;
         this.sellers = sellers;
         this.inventoryStatus = inventoryStatus;
+    }
+
+    public ProductInfo() {
     }
 }

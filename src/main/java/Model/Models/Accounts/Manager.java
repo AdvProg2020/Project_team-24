@@ -1,7 +1,6 @@
 package Model.Models.Accounts;
 
 import Model.Models.*;
-import Model.Tools.Data;
 
 public class Manager extends Account {
 

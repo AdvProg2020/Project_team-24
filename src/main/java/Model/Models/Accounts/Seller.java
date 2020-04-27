@@ -2,6 +2,7 @@ package Model.Models.Accounts;
 
 import Model.Models.*;
 import Model.Models.Fields.Single;
+import Model.Tools.Data;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,32 +66,40 @@ public class Seller extends Account {
     }
 
     public List<Account> getBuyersByProductId(long id) {
-        Product product = getProductById(id);
-        return logHistoryList.stream()
-                .filter(logHistory -> logHistory.getProductList().contains(product))
-                .map(logHistory -> logHistory.getFieldList().getFieldByName("customerName"))
-                .filter(field -> field instanceof Single)
-                .map(field -> (Single) field)
-                .map(Single::getString)
-                .map(Account::findAccountByUserName)
-                .collect(Collectors.toList());
+        return null;
     }
 
-//    @Override
-//    public Data pack(Object object) {
-//        return null;
-//    }
-//
-//    @Override
-//    public Object dpkg(Data data) {
-//        return null;
-//    }
+    @Override
+    public Data pack() {
+        return super.pack()
+                .addField(balance)
+                .addField(companyInfo.getCompanyId())
+                .addField(productList.stream()
+                        .map(Product::getProductId).collect(Collectors.toList()))
+                .addField(auctionList.stream()
+                        .map(Auction::getAuctionId).collect(Collectors.toList()));
+    }
 
-    public Seller(String userName, String password, PersonalInfo personalInfo, List<LogHistory> logHistoryList, List<Product> productList, CompanyInfo companyInfo, List<Auction> auctionList) {
-        super(userName, password, personalInfo);
+    @Override
+    public void dpkg(Data data) {
+        super.dpkg(data);
+        balance = (double) data.getFields().get(4);
+        companyInfo = CompanyInfo.getCompanyInfoById((long) data.getFields().get(5));
+        productList = ((List<Long>) data.getFields().get(6))
+                .stream().map(Product::getProductById).collect(Collectors.toList());
+        auctionList = ((List<Long>) data.getFields().get(7))
+                .stream().map(Auction::getAuctionById).collect(Collectors.toList());
+    }
+
+    public Seller(long id, String userName, String password, PersonalInfo personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, CompanyInfo companyInfo, List<Auction> auctionList) {
+        super(id, userName, password, personalInfo);
+        this.balance = balance;
         this.logHistoryList = logHistoryList;
         this.productList = productList;
         this.companyInfo = companyInfo;
         this.auctionList = auctionList;
+    }
+
+    public Seller() {
     }
 }

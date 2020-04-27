@@ -3,13 +3,15 @@ package Model.Models;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
+import Model.Tools.Packable;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Auction implements Packable, ForPend {
 
-    private static List<Auction> auctionList;
+    private static List<Auction> list;
 
     static {
         DataBase.loadList(Auction.class);
@@ -22,8 +24,8 @@ public class Auction implements Packable, ForPend {
     private Date end;
     private Discount discount;
 
-    public static List<Auction> getAuctionList() {
-        return auctionList;
+    public static List<Auction> getList() {
+        return list;
     }
 
     public long getAuctionId() {
@@ -51,13 +53,33 @@ public class Auction implements Packable, ForPend {
     }
 
     @Override
-    public Data pack(Object object) {
-        return null;
+    public Data pack() {
+        return new Data(Auction.class.getName())
+                .addField(auctionId)
+                .addField(productList.stream()
+                .map(Product::getProductId).collect(Collectors.toList()))
+                .addField(status)
+                .addField(start)
+                .addField(end)
+                .addField(discount);
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) {
+        this.auctionId = (long) data.getFields().get(0);
+        this.productList = ((List<Long>) data.getFields().get(1))
+                .stream().map(Product::getProductById).collect(Collectors.toList());
+        this.status = (PendStatus) data.getFields().get(2);
+        this.start = (Date) data.getFields().get(3);
+        this.end = (Date) data.getFields().get(4);
+        this.discount = (Discount) data.getFields().get(5);
+    }
+
+    public static Auction getAuctionById(long id) {
+        return list.stream()
+                .filter(auction -> id == auction.getAuctionId())
+                .findFirst()
+                .orElseThrow();
     }
 
     public Auction(long auctionId, List<Product> productList, PendStatus status, Date start, Date end, Discount discount) {
@@ -67,5 +89,8 @@ public class Auction implements Packable, ForPend {
         this.start = start;
         this.end = end;
         this.discount = discount;
+    }
+
+    public Auction() {
     }
 }
