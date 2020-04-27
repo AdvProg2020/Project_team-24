@@ -1,18 +1,17 @@
 package Controller.Controllers.Menus;
 
 public class DiscountsMenu extends Menu {
+
     private static ProductsMenu menu;
 
-    private DiscountsMenu(String name) {
-        super(name);
+    private DiscountsMenu(String name, Menu parentMenu) {
+        super(name, parentMenu);
     }
 
-    public static MainMenu getMenu() {
-        return null;
-    }
+
 
     @Override
     public void help() {
-
+        super.help();
     }
 }

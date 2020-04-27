@@ -7,5 +7,4 @@ public class RegisterController {
     public void creatAccount(String type , String username){}
     public void recievePersonalInfo(PersonalInfo personalInfo){}
     public void recieveCompanyInformation(!!!! companyInfo){}
-
 }
