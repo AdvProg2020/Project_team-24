@@ -1,14 +1,24 @@
 package Controller.Controllers.Menus;
 
-public class ProductsMenu {
+public class ProductsMenu extends Menu {
 
     private static ProductsMenu menu;
 
-    ProductsMenu(String name, Object o) {
-
+    private ProductsMenu(String name, Menu parentMenu) {
+        super(name, parentMenu);
     }
 
-    public static MainMenu getMenu() {
-        return null;
+    public static ProductsMenu getInstance(String name, Menu parent) {
+        if (menu == null) {
+            menu = new ProductsMenu(name, parent);
+        }
+        return menu;
+    }
+
+    // Tavabe
+
+    @Override
+    public void help() {
+
     }
 }

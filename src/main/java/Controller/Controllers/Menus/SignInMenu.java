@@ -2,13 +2,23 @@ package Controller.Controllers.Menus;
 
 public class SignInMenu extends Menu {
 
-    public SignInMenu(String name) {
-        super(name);
+    private static SignInMenu menu;
+
+    private SignInMenu(String name, Menu parentMenu) {
+        super(name, parentMenu);
     }
 
-    private static MainMenu menu;
+    public static SignInMenu getInstance(String name, Menu parent) {
+        if (menu == null) {
+            menu = new SignInMenu(name, parent);
+        }
+        return menu;
+    }
 
-    public static SignInMenu getMenu() {
-        return null;
+    // Tavabe
+
+    @Override
+    public void help() {
+
     }
 }

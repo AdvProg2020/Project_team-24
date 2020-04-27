@@ -1,35 +1,24 @@
 package Controller.Controllers.Menus;
 
-import java.util.regex.Pattern;
-
 public class MainMenu extends Menu {
 
     private static MainMenu menu;
 
-    private  MainMenu(String name) {
-        super(name);
+    private MainMenu(String name, Menu parentMenu) {
+        super(name, parentMenu);
     }
 
-    public static MainMenu getMenu(){
-        if(MainMenu.menu==null){
-            MainMenu.menu=new MainMenu("MainMenu");
+    public static MainMenu getInstance(String name, Menu parent) {
+        if (menu == null) {
+            menu = new MainMenu(name, parent);
         }
         return menu;
     }
 
-    @Override
-    protected void preprocess() {
-        subMenus.add(...);
-        addSubMenu(new ProductsMenu("p", null));
-        addSubMenu(new UserAreaMenu("u", null));
-        //
-        getMethodsList().add("DoSomeThing");
-        //
-        getRegexList("DoSomeThing (\\w+)")
-        //
-        for (String rgx:getRegexList()) {
-            getPatternList().add(Pattern.compile(rgx));
-        }
-    }
+    // Tavabe
 
+    @Override
+    public void help() {
+
+    }
 }

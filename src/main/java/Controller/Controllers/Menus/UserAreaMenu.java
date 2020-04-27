@@ -5,20 +5,21 @@ public class UserAreaMenu extends Menu {
 
     private static UserAreaMenu menu;
 
-    private UserAreaMenu(String name) {
-        super(name);
-
+    private UserAreaMenu(String name, Menu parentMenu) {
+        super(name, parentMenu);
     }
 
-    public static UserAreaMenu getMenu(){
-        if(UserAreaMenu.menu==null){
-            UserAreaMenu.menu=new UserAreaMenu("UserArea");
+    public static UserAreaMenu getInstance(String name, Menu parent) {
+        if (menu == null) {
+            menu = new UserAreaMenu(name, parent);
         }
         return menu;
     }
+
+    // Tavabe
+
     @Override
     public void help() {
 
     }
-    //exceptions
 }
