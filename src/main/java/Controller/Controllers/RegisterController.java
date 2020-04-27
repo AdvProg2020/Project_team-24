@@ -13,9 +13,16 @@ public class RegisterController {
             if(registerUserNameMatcher.group(0).matches("^\\w{6,}$")){
                 if(registerTypeMatcher.find()){
                     //+m checkAccountExistance(username) throws .....
-                }else throw new TypeInvalidException("");
-            }else throw new UserNameTooShortExcepton("");
-        }else throw new UserNameInvalidException("");
+                }else throw new TypeInvalidException("TypeInvalidException");
+            }else throw new UserNameTooShortExcepton("UserNameTooShortExcepton");
+        }else throw new UserNameInvalidException("UserNameInvalidException");
+
+    }
+    public void creatPassWordForAccount(String password) throws PasswordInvalidException{
+        Matcher registerPasswordMatcher = EssentialMethods.getMatcher("^\\w+$",password);
+        if(registerPasswordMatcher.find()){
+
+        }else throw new PasswordInvalidException("PasswordInvalidException");
 
     }
     public void savePersonalInfo(String id,String firstName,String lastName,String email,String phoneNumber,FieldList fieldList) throws IdInvalidException,FirstNameInvalidException, LastNameInvalidException,EmailInvalidException, PhoneNumberInvalidException {

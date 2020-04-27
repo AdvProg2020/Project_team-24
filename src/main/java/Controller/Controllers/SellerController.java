@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class SellerController extends AccountController {
 
-    public CompanyInformation viewCompanyInformation() {
+    public CompanyInfo viewCompanyInformation() {
     }
 
     public ArrayList<LogHistory> viewSalesHistory() {
