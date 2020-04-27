@@ -3,6 +3,7 @@ package Model.Models;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
+import Model.Tools.Packable;
 
 import java.util.List;
 
@@ -70,21 +71,21 @@ public class Product implements Packable, ForPend {
         return productList;
     }
 
+    @Override
+    public Data pack() {
+        return null;
+    }
+
+    @Override
+    public void dpkg(Data data) {
+
+    }
+
     public static Product getProductById(long id) {
         return productList.stream()
                 .filter(product -> id == product.getProductId())
                 .findFirst()
-                .orElse(null);
-    }
-
-    @Override
-    public Data pack(Object object) {
-        return null;
-    }
-
-    @Override
-    public Object dpkg(Data data) {
-        return null;
+                .orElseThrow();
     }
 
     public Product(long productId, PendStatus pendStatus, CategorySpecifications specifications, ProductInfo productInfo, Category category, long numberOfBuyers, long numberOfThis, double averageScore, FieldList fieldList, List<Comment> commentList) {
@@ -98,5 +99,8 @@ public class Product implements Packable, ForPend {
         this.averageScore = averageScore;
         this.fieldList = fieldList;
         this.commentList = commentList;
+    }
+
+    public Product() {
     }
 }

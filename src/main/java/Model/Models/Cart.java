@@ -5,6 +5,7 @@ import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Cart implements Packable {
 
@@ -53,16 +54,31 @@ public class Cart implements Packable {
 
     @Override
     public Data pack() {
-        return null;
+        return new Data(Cart.class.getName())
+                .addField(id)
+                .addField(productList.stream()
+                .map(Product::getProductId)
+                .collect(Collectors.toList()));
     }
 
     @Override
     public void dpkg(Data data) {
+        this.id = (long) data.getFields().get(0);
+        this.productList = ((List<Long>) data.getFields().get(1))
+                .stream().map(Product::getProductById).collect(Collectors.toList());
+    }
 
+    public static Cart getCartById(long id) {
+        return list.stream()
+                .filter(cart -> id == cart.getId())
+                .findFirst()
+                .orElseThrow();
     }
 
     public Cart(long id, List<Product> productList) {
         this.id = id;
         this.productList = productList;
     }
+
+    public Cart() {}
 }

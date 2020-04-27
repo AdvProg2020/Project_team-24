@@ -1,16 +1,18 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
+import Model.Tools.Packable;
 
 import java.util.Date;
 import java.util.List;
 
 public class LogHistory implements Packable {
 
-    private static List<LogHistory> logHistoryList;
+    private static List<LogHistory> list;
 
     static {
-
+        DataBase.loadList(LogHistory.class);
     }
 
     public enum DeliveryStatus {
@@ -34,8 +36,8 @@ public class LogHistory implements Packable {
     private List<Product> productList;
     private DeliveryStatus deliveryStatus;
 
-    public static List<LogHistory> getLogHistoryList() {
-        return logHistoryList;
+    public static List<LogHistory> getList() {
+        return list;
     }
 
     public TypeLog getTypeLog() {
@@ -75,13 +77,20 @@ public class LogHistory implements Packable {
     }
 
     @Override
-    public Data pack(Object object) {
+    public Data pack() {
         return null;
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) {
+
+    }
+
+    public static LogHistory getLogHistoryById(long id) {
+        return list.stream()
+                .filter(logHistory -> id == logHistory.getLogId())
+                .findFirst()
+                .orElseThrow();
     }
 
     public LogHistory(TypeLog typeLog, long logId, Date date, double amount, double discountAmount, double auctionDiscount, FieldList fieldList, List<Product> productList, DeliveryStatus deliveryStatus) {
@@ -94,6 +103,9 @@ public class LogHistory implements Packable {
         this.fieldList = fieldList;
         this.productList = productList;
         this.deliveryStatus = deliveryStatus;
+    }
+
+    public LogHistory() {
     }
 }
 

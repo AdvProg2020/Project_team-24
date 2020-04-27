@@ -3,8 +3,8 @@ package Model.Models.Accounts;
 import Model.Models.*;
 import Model.Tools.Data;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Customer extends Account {
 
@@ -59,12 +59,24 @@ public class Customer extends Account {
 
     @Override
     public Data pack() {
-        return super.pack();
+        return super.pack()
+                .addField(cart.getId())
+                .addField(credit)
+                .addField(discountCodeList.stream()
+                        .map(DiscountCode::getId).collect(Collectors.toList()))
+                .addField(logHistoryList.stream()
+                        .map(LogHistory::getLogId).collect(Collectors.toList()));
     }
 
     @Override
     public void dpkg(Data data) {
         super.dpkg(data);
+        this.cart = Cart.getCartById((long) data.getFields().get(4));
+        this.credit = (double) data.getFields().get(5);
+        this.discountCodeList = ((List<Long>) data.getFields().get(6))
+                .stream().map(DiscountCode::getDiscountCodeById).collect(Collectors.toList());
+        this.logHistoryList = ((List<Long>) data.getFields().get(7))
+                .stream().map(LogHistory::getLogHistoryById).collect(Collectors.toList());
     }
 
     public Customer(long id, String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, List<LogHistory> logHistoryList) {
@@ -75,5 +87,6 @@ public class Customer extends Account {
         this.logHistoryList = logHistoryList;
     }
 
-    public Customer() {}
+    public Customer() {
+    }
 }

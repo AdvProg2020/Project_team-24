@@ -39,14 +39,6 @@ public abstract class Account implements Packable {
         return personalInfo;
     }
 
-    public static Account findAccountByUserName(String name) {
-        return list.stream().filter(
-                // a Predicate to check userNames.
-                account -> name.equals(account.getUserName())
-
-        ).findFirst().orElseThrow();
-    }
-
     @Override
     public Data pack() {
         return new Data(Account.class.getName())
@@ -64,6 +56,20 @@ public abstract class Account implements Packable {
         this.personalInfo = PersonalInfo.getPersonalInfoById((long) data.getFields().get(3));
     }
 
+    public static Account getAccountByUserName(String name) {
+        return list.stream()
+                .filter(account -> name.equals(account.getUserName()))
+                .findFirst()
+                .orElseThrow();
+    }
+
+    public static Account getAccountById(long id) {
+        return list.stream()
+                .filter(account -> id == account.getId())
+                .findFirst()
+                .orElseThrow();
+    }
+
     public Account(long id, String userName, String password, PersonalInfo personalInfo) {
         this.id = id;
         this.userName = userName;
@@ -71,5 +77,6 @@ public abstract class Account implements Packable {
         this.personalInfo = personalInfo;
     }
 
-    public Account(){}
+    public Account() {
+    }
 }
