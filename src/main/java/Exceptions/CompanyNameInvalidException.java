@@ -1,4 +1,4 @@
-package Controller.Exceptions;
+package Exceptions;
 
 public class CompanyNameInvalidException extends Exception{
     public CompanyNameInvalidException(String message){

@@ -1,12 +1,11 @@
 package Controller.Controllers;
 
-import Controller.Exceptions.NotAvailableSortException;
+import Exceptions.NotAvailableSortException;
 import Model.Models.Category;
 import Model.Models.Filter;
 import Model.Models.Product;
 
 import java.lang.reflect.Field;
-import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class ProductsController {

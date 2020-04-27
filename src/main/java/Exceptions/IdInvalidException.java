@@ -1,4 +1,4 @@
-package Controller.Exceptions;
+package Exceptions;
 
 public class IdInvalidException extends Exception {
     public IdInvalidException(String message){

@@ -1,4 +1,4 @@
-package Controller.Exceptions;
+package Exceptions;
 
 public class TypeInvalidException extends Exception{
     public TypeInvalidException(String message){

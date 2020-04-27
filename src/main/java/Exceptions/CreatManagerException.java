@@ -1,4 +1,4 @@
-package Controller.Exceptions;
+package Exceptions;
 
 public class CreatManagerException extends Exception{
     public CreatManagerException(String message){

@@ -1,4 +1,4 @@
-package Controller.Exceptions;
+package Exceptions;
 
 public class PhoneNumberInvalidException extends Exception {
     public PhoneNumberInvalidException(String message){

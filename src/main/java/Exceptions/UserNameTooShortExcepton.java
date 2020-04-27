@@ -1,4 +1,4 @@
-package Controller.Exceptions;
+package Exceptions;
 
 public class UserNameTooShortExcepton extends Exception {
     public UserNameTooShortExcepton(String message){

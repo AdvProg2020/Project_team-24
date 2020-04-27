@@ -1,6 +1,6 @@
 package Controller.Controllers;
 
-import Controller.Exceptions.InvalidCommandException;
+import Exceptions.InvalidCommandException;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;

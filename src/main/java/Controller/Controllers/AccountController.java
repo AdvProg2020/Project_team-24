@@ -1,6 +1,6 @@
 package Controller.Controllers;
 
-import Controller.Exceptions.EditFieldException;
+import Exceptions.EditFieldException;
 import Model.Models.PersonalInfo;
 
 import java.lang.reflect.Field;
