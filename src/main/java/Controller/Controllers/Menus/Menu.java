@@ -19,19 +19,20 @@ public abstract class Menu {
         this.parentMenu = parentMenu;
         this.subMenus = new ArrayList<>();
         this.regexList = new ArrayList<>();
-        preprocess();
     }
 
-    protected void preprocess() {
+    protected void setPatterns() {
         patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
     }
 
-    public void addSubMenu(Menu subMenu) {
+    public Menu addSubMenu(Menu subMenu) {
         subMenus.add(subMenu);
+        return this;
     }
 
-    public void addRegex(String regex) {
+    public Menu addRegex(String regex) {
         regexList.add(regex);
+        return this;
     }
 
     public List<String> getRegexList() {
@@ -62,7 +63,5 @@ public abstract class Menu {
         return name;
     }
 
-    public void help() {
-        // sogol khare ...
-    }
+    public abstract void help();
 }
