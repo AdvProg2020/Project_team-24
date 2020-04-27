@@ -1,6 +1,6 @@
-package View.Views.Menus;
+package View.Views;
 
-import Controller.Controllers.Menus.Menu;
+import View.Views.Menus.Menu;
 
 public class OutPut {
 

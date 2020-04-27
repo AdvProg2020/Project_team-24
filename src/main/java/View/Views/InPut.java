@@ -1,4 +1,6 @@
-package View.Views.Menus;
+package View.Views;
+
+import View.Views.OutPut;
 
 public class InPut {
 
