@@ -1,10 +1,9 @@
-package View.Views.Menus;
+package View.Views;
 
-import Controller.Controllers.Menus.LoggedInMenu;
-import Controller.Controllers.Menus.Menu;
-import Controller.Controllers.Menus.UserAreaMenu;
+import View.Views.Menus.Menu;
+import View.Views.Menus.UserAreaMenu;
 import java.util.Scanner;
-import java.util.Scanner;
+
 public class MenuHandler {
 
     public static Menu currentMenu;

@@ -1,21 +1,13 @@
 package View.Views.Menus;
 
 import Controller.Controllers.Menus.Menu;
-import Controller.Controllers.Menus.SignInMenu;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class OutPut {
 
     private Menu currentMenu;
 
     public OutPut(Menu currentMenu) {
-
-//        preProcess();
+        this.currentMenu = currentMenu;
     }
 
     private void commands(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
