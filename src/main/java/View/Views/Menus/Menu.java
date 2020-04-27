@@ -22,13 +22,9 @@ public abstract class Menu {
         this.regexList = new ArrayList<>();
     }
 
-    protected void setPatterns() {
+    public void setPatterns() {
         patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
     }
-    public void addPattern(String pattern) {
-        this.patterns.add(pattern);
-    }
-
 
     public Menu addSubMenu(Menu subMenu) {
         subMenus.add(subMenu);
