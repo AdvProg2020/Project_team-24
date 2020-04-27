@@ -13,6 +13,7 @@ public abstract class Menu {
     protected List<Pattern> patternList;
     protected List<String> regexList;
     protected List<String> methodsList;
+    private ArrayList<String> patterns;
 
     public Menu(String name, Menu parentMenu) {
         this.name = name;
@@ -24,6 +25,10 @@ public abstract class Menu {
     protected void setPatterns() {
         patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
     }
+    public void addPattern(String pattern) {
+        this.patterns.add(pattern);
+    }
+
 
     public Menu addSubMenu(Menu subMenu) {
         subMenus.add(subMenu);

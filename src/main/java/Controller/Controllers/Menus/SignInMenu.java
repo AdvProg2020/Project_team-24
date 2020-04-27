@@ -11,4 +11,11 @@ public class SignInMenu extends Menu {
     public static SignInMenu getMenu() {
         return null;
     }
+    @Override
+    public void help() {
+        super.help();
+        System.out.println("create account [type] [username]");
+        System.out.println("information  :[name] :[lastname] :[email] :[phonenumber] :[ramz]");
+
+    }
 }
