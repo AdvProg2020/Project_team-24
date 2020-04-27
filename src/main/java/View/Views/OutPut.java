@@ -10,13 +10,9 @@ public class OutPut {
         this.currentMenu = currentMenu;
     }
 
-    private void commands(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private void selectMenu(String command) {
 
-        if (command.matches("changeMenu (\\w+)")) {
-//            currentMenu = currentMenu.getSubMenuByName(name);
-//            currentMenu = currentMenu.getSubMenus().get(x);
-            return;
-        }
+    }
 
         for (int i = 0; i < currentMenu.getPatternList().size(); i++) {
             Pattern pattern = currentMenu.getPatternList().get(0);
