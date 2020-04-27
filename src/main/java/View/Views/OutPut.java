@@ -1,7 +1,6 @@
-package View.Views;
+package View.Views.Menus;
 
-import View.Views.Menus.Menu;
-import View.Views.Menus.SignInMenu;
+import Controller.Controllers.Menus.Menu;
 
 public class OutPut {
 
@@ -16,18 +15,35 @@ public class OutPut {
 
     public static void setPatterns() {
         setDiscountMenuMenuPattern();
-        setLoggedInMenuMenuPattern();
+        setManagerMenuPattern();
         setLogInMenuPattern();
         setProductsMenuPattern();
         setUserAreaPatterns();
         setSignInPatterns();
+
+
     }
 
     private static void setDiscountMenuMenuPattern() {
 
     }
 
-    private static void setLoggedInMenuMenuPattern() {
+    private static void setManagerMenuPattern(){
+        ManagerMenu managerMenu =ManagerMenu.getInstance("managerMenu",null);
+        managerMenu.addRegex("view personal info");
+        managerMenu.addRegex("edit (\\w+)");
+        managerMenu.addRegex("manage users");
+        managerMenu.addRegex(" view (\\w+)");
+        managerMenu.addRegex("delete user (\\w+)");
+        managerMenu.addRegex("create manager profile");
+        managerMenu.addRegex("username(\\w+)");
+        managerMenu.addRegex("information(:\\w+)+");
+        managerMenu.addRegex("manage all products");
+        managerMenu.addRegex(" remove (\\d+)");
+        managerMenu.addRegex("create discount code");
+        managerMenu.addRegex("(dd/MM/yyyy)")
+
+
 
     }
 
@@ -69,7 +85,8 @@ public class OutPut {
 
     }
 
-    private static void LoggedInMenuMenuCommandHandler(String[] word) {
+    private static void LoggedInMenuCommandHandler(String[] word) {
+
 
     }
 

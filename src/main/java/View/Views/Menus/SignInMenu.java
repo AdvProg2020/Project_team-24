@@ -19,6 +19,11 @@ public class SignInMenu extends Menu {
 
     @Override
     public void help() {
+        super.help();
+        System.out.println("create account [type] [username]");
+        System.out.println("information  :[name] :[lastname] :[email] :[phonenumber] :[ramz]");
+        System.out.println("password[password with Any word character, short for [a-zA-Z_0-9]]");
+
 
     }
 }

@@ -19,6 +19,9 @@ public class LogInMenu extends Menu {
 
     @Override
     public void help() {
+        super.help();
+        System.out.println("login [username]");
+
 
     }
 }
