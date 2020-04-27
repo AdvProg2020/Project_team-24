@@ -36,12 +36,25 @@ public class OutPut {
         managerMenu.addRegex(" view (\\w+)");
         managerMenu.addRegex("delete user (\\w+)");
         managerMenu.addRegex("create manager profile");
-        managerMenu.addRegex("username(\\w+)");
-        managerMenu.addRegex("information(:\\w+)+");
         managerMenu.addRegex("manage all products");
-        managerMenu.addRegex(" remove (\\d+)");
+        managerMenu.addRegex("remove (\\d+)");
         managerMenu.addRegex("create discount code");
-        managerMenu.addRegex("(dd/MM/yyyy)")
+        managerMenu.addRegex("view discount codes");
+        managerMenu.addRegex("view discount code (\\d+)");
+        managerMenu.addRegex("edit discount code (\\d+)");
+        managerMenu.addRegex("remove discount code (\\d+)");
+        managerMenu.addRegex("manage requests");
+        managerMenu.addRegex("details (\\d+)");
+        managerMenu.addRegex("accept (\\d+)");
+        managerMenu.addRegex("decline (\\d+)");
+        managerMenu.addRegex("manage categories");
+        managerMenu.addRegex("edit [a-zA-Z]");
+        managerMenu.addRegex("add [a-zA-Z]");
+        managerMenu.addRegex("remove [a-zA-Z]");
+        managerMenu.addRegex("exit");
+        managerMenu.addRegex("help");
+        managerMenu.addRegex("back");
+        managerMenu.setPatterns();
 
 
 
@@ -59,7 +72,6 @@ public class OutPut {
         SignInMenu signInMenu = SignInMenu.getInstance("signInMenu", null);
         signInMenu.addRegex("create account (\\w+)(\\w+)");
         signInMenu.addRegex("exit");
-        signInMenu.addRegex("information(:\\w+)+");
         signInMenu.addRegex("help");
         signInMenu.addRegex("back");
         signInMenu.setPatterns();
