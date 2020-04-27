@@ -1,6 +1,5 @@
 package Model.Models.Accounts;
 
-import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
 
@@ -24,18 +23,23 @@ public class Guest extends Account {
         cart.removeFromProductList(product);
     }
 
-//    @Override
-//    public Data pack(Object object) {
-//        return null;
-//    }
-//
-//    @Override
-//    public Object dpkg(Data data) {
-//        return null;
-//    }
+    @Override
+    public Data pack() {
+        return super.pack()
+            .addField(cart.getId());
+    }
 
-    public Guest(String userName, String password, PersonalInfo personalInfo, Cart cart) {
-        super(userName, password, personalInfo);
+    @Override
+    public void dpkg(Data data) {
+        super.dpkg(data);
+        this.cart = Cart.getCartById((long) data.getFields().get(4));
+    }
+
+    public Guest(long id, String userName, String password, PersonalInfo personalInfo, Cart cart) {
+        super(id, userName, password, personalInfo);
         this.cart = cart;
+    }
+
+    public Guest() {
     }
 }
