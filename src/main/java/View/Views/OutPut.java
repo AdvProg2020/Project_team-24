@@ -1,6 +1,10 @@
-package View.Views.Menus;
+package View.Views;
 
-import Controller.Controllers.Menus.Menu;
+import View.Views.Menus.ManagerMenu;
+import View.Views.Menus.Menu;
+import View.Views.Menus.SignInMenu;
+
+// sogolism.03
 
 public class OutPut {
 
