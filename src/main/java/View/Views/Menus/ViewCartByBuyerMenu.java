@@ -1,7 +1,7 @@
 package View.Views.Menus;
 
 public class ViewCartByBuyerMenu extends Menu{
-        private static ViewOffsBySellerMenu menu;
+        private static ViewCartByBuyerMenu menu;
         public ViewCartByBuyerMenu(String name, Menu parentMenu) {
             super(name, parentMenu);
         }
