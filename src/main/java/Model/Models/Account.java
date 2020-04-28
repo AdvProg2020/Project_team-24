@@ -4,10 +4,13 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-// Accounts.02
+// Accounts.03
 
 public abstract class Account implements Packable {
 
@@ -100,6 +103,22 @@ public abstract class Account implements Packable {
                 .max(Long::compareTo)
                 .orElse(0L) + 1;
 
+    }
+
+    public static Field getClassFieldByName(String name) throws NoSuchFieldException {
+        List<String> invalids = Arrays.stream(Account.class.getFields())
+                .map(Field::getName).collect(Collectors.toList());
+
+        invalids.remove("password");
+        if (invalids.contains(name)) {
+            throw new NoSuchFieldException();
+        }
+
+        return Account.class.getField(name);
+    }
+
+    public FieldList getPersonalListField() {
+        return personalInfo.getFieldList();
     }
 
     public Account(long id, String userName, String password, PersonalInfo personalInfo) {
