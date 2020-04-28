@@ -15,7 +15,7 @@ public abstract class Menu {
     protected List<String> regexList;
     protected List<String> methodsList;
     protected ArrayList<String> patterns;
-    protected static Scanner scanner=new Scanner(System.in);
+    protected static Scanner scanner = new Scanner(System.in);
 
     public Menu(String name, Menu parentMenu) {
         this.name = name;
@@ -66,7 +66,7 @@ public abstract class Menu {
         return name;
     }
 
-    public void help(){
+    public void help() {
         System.out.println("type back for return");
         System.out.println("type exit to quit");
     }

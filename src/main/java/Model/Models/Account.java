@@ -7,6 +7,8 @@ import Model.Tools.Packable;
 import java.util.ArrayList;
 import java.util.List;
 
+// Accounts.02
+
 public abstract class Account implements Packable {
 
     protected static List<Account> list;

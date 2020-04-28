@@ -20,31 +20,24 @@ public class OutPut {
         setProductsMenuPattern();
         setUserAreaPatterns();
         setSignInPatterns();
-
-
     }
 
     private static void setDiscountMenuMenuPattern() {
 
     }
 
-    private static void setManagerMenuPattern(){
-        ManagerMenu managerMenu =ManagerMenu.getInstance("managerMenu",null);
-        managerMenu.addRegex("view personal info");
-        managerMenu.addRegex("edit (\\w+)");
-        managerMenu.addRegex("manage users");
-        managerMenu.addRegex(" view (\\w+)");
-        managerMenu.addRegex("delete user (\\w+)");
-        managerMenu.addRegex("create manager profile");
-        managerMenu.addRegex("username(\\w+)");
-        managerMenu.addRegex("information(:\\w+)+");
-        managerMenu.addRegex("manage all products");
-        managerMenu.addRegex(" remove (\\d+)");
-        managerMenu.addRegex("create discount code");
-        managerMenu.addRegex("(dd/MM/yyyy)")
-
-
-
+    private static void setManagerMenuPattern() {
+        ManagerMenu managerMenu = ManagerMenu.getInstance("managerMenu", null);
+        managerMenu.addRegex("view personal info")
+                .addRegex("edit (\\w+)")
+                .addRegex("manage users")
+                .addRegex("view (\\w+)")
+                .addRegex("delete user (\\w+)")
+                .addRegex("create manager profile")
+                .addRegex("manage all products")
+                .addRegex("remove (\\d+)")
+                .addRegex("create discount code");
+        managerMenu.setPatterns();
     }
 
     private static void setLogInMenuPattern() {
@@ -57,11 +50,11 @@ public class OutPut {
 
     public static void setSignInPatterns() {
         SignInMenu signInMenu = SignInMenu.getInstance("signInMenu", null);
-        signInMenu.addRegex("create account (\\w+)(\\w+)");
-        signInMenu.addRegex("exit");
-        signInMenu.addRegex("information(:\\w+)+");
-        signInMenu.addRegex("help");
-        signInMenu.addRegex("back");
+        signInMenu.addRegex("create account (\\w+)(\\w+)")
+                .addRegex("exit")
+                .addRegex("information(:\\w+)+")
+                .addRegex("help")
+                .addRegex("back");
         signInMenu.setPatterns();
     }
 
