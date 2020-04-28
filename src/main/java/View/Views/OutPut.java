@@ -158,7 +158,7 @@ public class OutPut {
 
     }
 
-    private void setViewOffsBySellerMenu() {
+    private void setViewOffsBySellerMenuPattern() {
         ViewOffsBySellerMenu.getInstance("View Offs By Seller Menu", null)
                 .addRegex("￼view offs")
                 .addRegex(" view (\\d+)")
@@ -169,7 +169,22 @@ public class OutPut {
                 .addRegex("back")
                 .setPatterns();
     }
-    private static void setM
+    private static void setBuyerMenuPattern(){
+        BuyerMenu.getInstance("Buyer Menu")
+                .addRegex("￼view company information")
+                .addRegex("￼view sales history")
+                .addRegex()
+    }
+
+    private static void setManageInfoByBuyerMenuPattern() {
+        ManageInfoByBuyerMenu.getInstance("Manage Info By Buyer Menu", null)
+                .addRegex("￼view personal info")
+                .addRegex(" edit (\\w+)")
+                .addRegex("back")
+                .addRegex("exit")
+                .addRegex("help")
+                .setPatterns();
+    }
 
 
     private static void setBuyerMenuPattern() {
@@ -182,7 +197,6 @@ public class OutPut {
     private static void setProductsMenuPattern() {
 
     }
-
 
 
     public static void setUserAreaPatterns() {
