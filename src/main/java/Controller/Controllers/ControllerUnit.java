@@ -3,5 +3,10 @@ package Controller.Controllers;
 import Model.Models.Account;
 
 public class ControllerUnit {
-    protected Account account;
+
+    private Account account;
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }
