@@ -10,11 +10,11 @@ public class AccountController {
 
     private ControllerUnit controllerUnit;
 
-    private void checkValidFieldToEdit(Field field) throws EditFieldInvalidException {
-        if (!!!!!!!!!!!) {
-
-        } else throw new EditFieldInvalidException("EditFieldInvalidException");
-    }
+//    private void checkValidFieldToEdit(Field field) throws EditFieldInvalidException {
+//        if (!!!!!!!!!!!) {
+//
+//        } else throw new EditFieldInvalidException("EditFieldInvalidException");
+//    }
 
     public void editField(String fieldName, String newField) throws NoSuchFieldException, IllegalAccessException {
 
