@@ -4,6 +4,7 @@ import Model.Models.*;
 import Model.Models.Fields.Single;
 import Model.Tools.Data;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,20 +20,20 @@ public class Seller extends Account {
         return balance;
     }
 
-    public List<LogHistory> getLogHistoryList() {
-        return logHistoryList;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
-    public List<Product> getProductList() {
-        return productList;
+    public void setCompanyInfo(CompanyInfo companyInfo) {
+        this.companyInfo = companyInfo;
     }
 
     public CompanyInfo getCompanyInfo() {
         return companyInfo;
     }
 
-    public List<Auction> getAuctionList() {
-        return auctionList;
+    public List<LogHistory> getLogHistoryList() {
+        return Collections.unmodifiableList(logHistoryList);
     }
 
     public void addToLogHistoryList(LogHistory logHistory) {
@@ -43,6 +44,22 @@ public class Seller extends Account {
         logHistoryList.remove(logHistory);
     }
 
+    public List<Product> getProductList() {
+        return Collections.unmodifiableList(productList);
+    }
+
+    public void addToProductList(Product product) {
+        productList.add(product);
+    }
+
+    public void removeFromProductList(Product product) {
+        productList.remove(product);
+    }
+
+    public List<Auction> getAuctionList() {
+        return Collections.unmodifiableList(auctionList);
+    }
+
     public void addToAuctionList(Auction auction) {
         auctionList.add(auction);
     }
@@ -51,18 +68,25 @@ public class Seller extends Account {
         auctionList.remove(auction);
     }
 
-    public LogHistory getLogHistoryById(long id) {
-        return logHistoryList.stream()
-                .filter(logHistory -> id == logHistory.getLogId())
-                .findFirst()
-                .orElse(null);
-    }
-
     public Product getProductById(long id) {
         return productList.stream()
                 .filter(product -> id == product.getProductId())
                 .findFirst()
-                .orElse(null);
+                .orElseThrow();
+    }
+
+    public LogHistory getLogHistoryById(long id) {
+        return logHistoryList.stream()
+                .filter(logHistory -> id == logHistory.getLogId())
+                .findFirst()
+                .orElseThrow();
+    }
+
+    public Auction getAuctionById(long id) {
+        return auctionList.stream()
+                .filter(auction -> id == auction.getAuctionId())
+                .findFirst()
+                .orElseThrow();
     }
 
     public List<Account> getBuyersByProductId(long id) {

@@ -4,7 +4,7 @@ import Model.Models.*;
 
 public class Manager extends Account {
 
-    public void setNewManager(Manager manager) {
+    public void addNewManager(Manager manager) {
 
     }
 
@@ -21,6 +21,10 @@ public class Manager extends Account {
     }
 
     public void addToCategoryList(Category category) {
+
+    }
+
+    public void acceptRequest(Request request) {
 
     }
 

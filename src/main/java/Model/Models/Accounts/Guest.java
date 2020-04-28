@@ -11,8 +11,8 @@ public class Guest extends Account {
         return cart;
     }
 
-    public void setNewAccount(Account account) {
-
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public void addToCart(Product product) {

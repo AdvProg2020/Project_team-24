@@ -3,6 +3,7 @@ package Model.Models.Accounts;
 import Model.Models.*;
 import Model.Tools.Data;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,32 +18,16 @@ public class Customer extends Account {
         return cart;
     }
 
+    public void addToCart(Product product) {
+        cart.addToProductList(product);
+    }
+
+    public void removeFromCart(Product product) {
+        cart.removeFromProductList(product);
+    }
+
     public List<LogHistory> getLogHistoryList() {
-        return logHistoryList;
-    }
-
-    public List<DiscountCode> getDiscountCodeList() {
-        return discountCodeList;
-    }
-
-    public double getCredit() {
-        return credit;
-    }
-
-    public void setCredit(double credit) {
-        this.credit = credit;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-    public void addToDiscountCodeList(DiscountCode discountCode) {
-        discountCodeList.add(discountCode);
-    }
-
-    public void removeFromDiscountCodeList(DiscountCode discountCode) {
-        discountCodeList.remove(discountCode);
+        return Collections.unmodifiableList(logHistoryList);
     }
 
     public void addToLogHistoryList(LogHistory logHistory) {
@@ -53,8 +38,32 @@ public class Customer extends Account {
         logHistoryList.remove(logHistory);
     }
 
+    public List<DiscountCode> getDiscountCodeList() {
+        return Collections.unmodifiableList(discountCodeList);
+    }
+
+    public void addToDiscountCodeList(DiscountCode discountCode) {
+        discountCodeList.add(discountCode);
+    }
+
+    public void removeFromDiscountCodeList(DiscountCode discountCode) {
+        discountCodeList.remove(discountCode);
+    }
+
+    public void setCredit(double credit) {
+        this.credit = credit;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
     public void purchase() {
         // ?
+    }
+
+    public double getCredit() {
+        return credit;
     }
 
     @Override
