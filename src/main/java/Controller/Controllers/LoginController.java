@@ -1,7 +1,9 @@
 package Controller.Controllers;
 
-import Exceptions.LoginAccountException;
-import Exceptions.LoginPassException;
+import Controller.ControllerUnit;
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.PassIncorrectException;
+import Model.Models.Account;
 
 public class LoginController {
 
@@ -13,14 +15,14 @@ public class LoginController {
         this.controllerUnit = controllerUnit;
     }
 
-    public void login(String username, String password) throws LoginAccountException, LoginPassException {
+    public void login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
 
         Account account = null;
 
         account = Account.getAccountByUserName(username);
 
         if (!password.equals(account.getPassword())) {
-            throw new LoginPassException(account.getUserName() + " entered wrong password ... why!");
+            throw new PassIncorrectException("PassIncorrectException");
         }
 
         controllerUnit.setAccount(account);

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FilterController {
+
     public void filtering(){}
     public ArrayList<Filter> showAvailableFilters(){}
     public void filter(Filter filter){}

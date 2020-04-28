@@ -9,6 +9,7 @@ import Model.Models.*;
 import java.util.ArrayList;
 
 public class BuyerController extends AccountController {
+    private ControllerUnit controllerUnit;
     public Cart viewCart(){}
     public ArrayList<Product> showProducts(){}
     public String view(long productId){}

@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 //moshtarak kardane chand ta matcher
 public class RegisterController {
 
-    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortExcepton, TypeInvalidException, AccountExistanceException{
+    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortExcepton, TypeInvalidException, AccountDoesNotExistException{
         Matcher registerUserNameMatcher = EssentialMethods.getMatcher("^\\w+$",username);
         Matcher registerTypeMatcher = EssentialMethods.getMatcher("^Customer$|^Guest$|^Manager$|^Seller$",type);
         if(registerUserNameMatcher.find()){
