@@ -16,6 +16,9 @@ public class CustomerMenu extends Menu{
     }
 
     // Tavabe
+    public void addProduct(){
+
+    }
 
     @Override
     public void help() {
