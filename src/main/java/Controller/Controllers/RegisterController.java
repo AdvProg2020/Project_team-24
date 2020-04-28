@@ -14,6 +14,7 @@ public class RegisterController {
             if(registerUserNameMatcher.group(0).matches("^\\w{6,}$")){
                 if(registerTypeMatcher.find()){
                     //+m checkAccountExistance(username) throws .....
+
                 }else throw new TypeInvalidException("TypeInvalidException");
             }else throw new UserNameTooShortExcepton("UserNameTooShortExcepton");
         }else throw new UserNameInvalidException("UserNameInvalidException");

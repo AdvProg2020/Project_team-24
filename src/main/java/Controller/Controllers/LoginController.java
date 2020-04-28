@@ -2,7 +2,6 @@ package Controller.Controllers;
 
 import Exceptions.LoginAccountException;
 import Exceptions.LoginPassException;
-import Model.Models.Account;
 
 public class LoginController {
 
