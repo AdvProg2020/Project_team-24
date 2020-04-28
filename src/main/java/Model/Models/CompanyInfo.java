@@ -1,15 +1,17 @@
 package Model.Models;
 
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
+import Model.Tools.Packable;
 
 import java.util.List;
 
 public class CompanyInfo implements Packable {
 
-    private static List<CompanyInfo> companyInfoList;
+    private static List<CompanyInfo> list;
 
     static {
-
+        DataBase.loadList(CompanyInfo.class);
     }
 
     private long companyId;
@@ -27,18 +29,18 @@ public class CompanyInfo implements Packable {
         return companyId;
     }
 
-    public static List<CompanyInfo> getCompanyInfoList() {
-        return companyInfoList;
+    public static List<CompanyInfo> getList() {
+        return list;
     }
 
     @Override
-    public Data pack(Object object) {
+    public Data pack() {
         return null;
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) {
+
     }
 
     public CompanyInfo(long companyId, FieldList fieldList) {

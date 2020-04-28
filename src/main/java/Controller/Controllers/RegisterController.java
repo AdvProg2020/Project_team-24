@@ -7,6 +7,7 @@ import Model.Models.FieldList;
 import java.util.regex.Matcher;
 //moshtarak kardane chand ta matcher
 public class RegisterController {
+
     public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortExcepton, TypeInvalidException, AccountExistanceException{
         Matcher registerUserNameMatcher = EssentialMethods.getMatcher("^\\w+$",username);
         Matcher registerTypeMatcher = EssentialMethods.getMatcher("^Customer$|^Guest$|^Manager$|^Seller$",type);

@@ -9,4 +9,8 @@ public class ControllerUnit {
     public void setAccount(Account account) {
         this.account = account;
     }
+
+    public Account getAccount() {
+        return account;
+    }
 }

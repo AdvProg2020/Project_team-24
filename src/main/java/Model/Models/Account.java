@@ -4,6 +4,7 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 public abstract class Account implements Packable {
@@ -68,6 +69,10 @@ public abstract class Account implements Packable {
                 .filter(account -> id == account.getId())
                 .findFirst()
                 .orElseThrow();
+    }
+
+    public static Field getFieldByName(String name) throws NoSuchFieldException {
+        return Account.class.getField(name);
     }
 
     public Account(long id, String userName, String password, PersonalInfo personalInfo) {
