@@ -11,6 +11,7 @@ public class OutPut {
     }
 
     private void selectMenu(String command) {
+
     }
 
     public void setPatterns() {
