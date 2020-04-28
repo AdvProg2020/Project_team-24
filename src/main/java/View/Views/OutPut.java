@@ -161,7 +161,7 @@ public class OutPut {
         viewOffsBySellerMenu.addRegex("back");
         viewOffsBySellerMenu.setPatterns();
     }
-    private static void set
+    private static void setM
 
 
     private static void setBuyerMenuPattern(){
