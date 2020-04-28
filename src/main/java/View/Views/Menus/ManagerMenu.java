@@ -1,8 +1,7 @@
 package View.Views.Menus;
 
-import Controller.Controllers.ManagerController;
+import Model.Models.Accounts.Manager;
 
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,28 +20,29 @@ public class ManagerMenu extends Menu {
         return menu;
     }
 
-    // Tavabe
-    public void createNewManager(){
+    public void createNewManager() {
 
-        System.out.print("enter Information in correct pattern :");
-        String info = scanner.nextLine().trim();
-        Matcher matcher = Pattern.compile("information  :(\\w+) :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(info);
+    }
+
+    public void createDiscount() {
+
+        System.out.println("Enter discountCode information :" + System.lineSeparator() +
+                "Enter information in this format :" + System.lineSeparator() +
+                "DiscountCode :[start date] :[end data] :[percent] :[max amount] :[frequent]");
+
+        String command = scanner.nextLine().trim();
+
+        Matcher matcher = Pattern
+                .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}) :(\\d+) :(\\d+)")
+                .matcher(command);
+
         if (!matcher.find()) {
-            System.out.println("Sogol khare ...");
+            System.out.println("Sogol : Enter information in correct format.");
             return;
         }
-        String f_name = matcher.group(1);
-        String l_name = matcher.group(2);
-        String email = matcher.group(3);
-        String pNumber = matcher.group(4);
-        String pass = matcher.group(5);
 
-//        try {
-//        new ManagerController().creatManageProfile(f_name,l_name,email,pNumber,pass);
-//        } catch (ManagerRidException e) {
-//            System.out.println("Chon sogol khare dlil nmishe manager gand bzane ...");
-//            System.out.println("Rasti chone sogol jooosh zade");
-//        }
+        // controller manager . . .
+
     }
 
     @Override
