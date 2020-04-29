@@ -24,6 +24,8 @@ public abstract class Menu {
         this.regexList = new ArrayList<>();
     }
 
+    public abstract void patternToCommand(String command);
+
     public void setPatterns() {
         patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
     }

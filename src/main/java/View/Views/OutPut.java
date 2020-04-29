@@ -2,16 +2,28 @@ package View.Views;
 
 import View.Views.Menus.*;
 
+import java.lang.reflect.Method;
+
 public class OutPut {
 
-    private Menu currentMenu;
+    private static OutPut outPut;
 
-    public OutPut(Menu currentMenu) {
-        this.currentMenu = currentMenu;
+    public OutPut() {
+        setPatterns();
+        setParents();
     }
 
-    private void selectMenu(String command){
+    public void handleCommand(String command) {
 
+        try {
+
+            Method patternToCommand = MenuHandler.getCurrentMenu().getClass().getMethod("patternToCommand", String.class);
+            patternToCommand.invoke(MenuHandler.getCurrentMenu(), command);
+
+        } catch (Exception e) {
+            System.out.println("Sogol : exception accrued while running");
+            e.printStackTrace();
+        }
     }
 
     public void setPatterns() {
@@ -45,8 +57,9 @@ public class OutPut {
         setUserAreaMenuPattern();
 
     }
-    private void setMainMenuPattern(){
-        MainMenu.getInstance("Main Menu",null)
+
+    private void setMainMenuPattern() {
+        MainMenu.getInstance("Main Menu", null)
                 .addRegex("User Area Menu")
                 .addRegex("Products Menu")
                 .addRegex("Discounts Menu")
@@ -55,8 +68,9 @@ public class OutPut {
                 .setPatterns();
 
     }
-    private void setUserAreaMenuPattern(){
-        UserAreaMenu.getInstance("UserAreaMenu",null)
+
+    private void setUserAreaMenuPattern() {
+        UserAreaMenu.getInstance("UserAreaMenu", null)
                 .addRegex("login")
                 .addRegex("sign up")
                 .addRegex("exit")
@@ -111,6 +125,7 @@ public class OutPut {
 
     private void setManageUsersByManagerMenuPattern() {
         ManageUsersByManagerMenu.getInstance("Manage Users By Manager Menu", null)
+                .addRegex("manage users")
                 .addRegex(" view (\\w+)")
                 .addRegex("delete user (\\w+)")
                 .addRegex("create manager profile")
@@ -122,6 +137,7 @@ public class OutPut {
 
     private void setManageProductsByManageMenuPattern() {
         ManageProductsByManagerMenu.getInstance("Manage Products By Manager", null)
+                .addRegex("manage all products")
                 .addRegex("remove (\\d+)")
                 .addRegex("exit")
                 .addRegex("help")
@@ -132,6 +148,7 @@ public class OutPut {
 
     private void setViewDiscountsCodeMenuPattern() {
         ViewDiscountCodesByManagerMenu.getInstance("View Discounts Code", null)
+                .addRegex("view discount code (\\d+)")
                 .addRegex("edit discount code (\\d+)")
                 .addRegex("remove discount code (\\d+)")
                 .addRegex("exit")
@@ -155,6 +172,7 @@ public class OutPut {
 
     private void setManageCategoriesByManagerMenuPattern() {
         ManageCategoriesByManagerMenu.getInstance("Manage Categories By Manager", null)
+                .addRegex("manage categories")
                 .addRegex("edit [a-zA-Z]")
                 .addRegex("add [a-zA-Z]")
                 .addRegex("remove [a-zA-Z]")
@@ -171,10 +189,10 @@ public class OutPut {
                 .addRegex("view sales history")
                 .addRegex("manage products")
                 .addRegex("add product")
-                .addRegex("￼remove product (\\d+)")
-                .addRegex("￼show categories")
-                .addRegex("￼view offs")
-                .addRegex("￼view balance")
+                .addRegex("remove product (\\d+)")
+                .addRegex("show categories")
+                .addRegex("view offs")
+                .addRegex("view balance")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -195,7 +213,7 @@ public class OutPut {
         ManageProductsBySellerMenu.getInstance("Manage Products By Seller Menu", null)
 
                 .addRegex("view (\\d+)")
-                .addRegex(" view buyers (\\d+)")
+                .addRegex("view buyers (\\d+)")
                 .addRegex("edit (\\d+)")
                 .addRegex("exit")
                 .addRegex("help")
@@ -207,8 +225,8 @@ public class OutPut {
     private void setViewOffsBySellerMenuPattern() {
         ViewOffsBySellerMenu.getInstance("View Offs By Seller Menu", null)
 
-                .addRegex(" view (\\d+)")
-                .addRegex(" edit (\\d+)")
+                .addRegex("view (\\d+)")
+                .addRegex("edit (\\d+)")
                 .addRegex("add off")
                 .addRegex("exit")
                 .addRegex("help")
@@ -218,7 +236,7 @@ public class OutPut {
 
     private void setBuyerMenuPattern() {
         BuyerMenu.getInstance("Buyer Menu", null)
-                .addRegex("￼view personal info")
+                .addRegex("view personal info")
                 .addRegex("view cart")
                 .addRegex("view balance")
                 .addRegex("view discount codes")
@@ -316,8 +334,8 @@ public class OutPut {
 
     }
 
-    private void setFilteringProductsMenuPattern(){
-        FilteringProductsMenu.getInstance("Filtering Products Menu",null)
+    private void setFilteringProductsMenuPattern() {
+        FilteringProductsMenu.getInstance("Filtering Products Menu", null)
                 .addRegex("show available filters")
                 .addRegex("filter (\\w+)")
                 .addRegex("current filters")
@@ -327,8 +345,9 @@ public class OutPut {
                 .addRegex("back")
                 .setPatterns();
     }
-    private void setSortingProductsMenuPattern(){
-        SortingProductsMenu.getInstance("Sorting Produc tMenu",null)
+
+    private void setSortingProductsMenuPattern() {
+        SortingProductsMenu.getInstance("Sorting Produc tMenu", null)
                 .addRegex("show available sorts")
                 .addRegex("sort (\\w+)")
                 .addRegex("current sort")
@@ -340,8 +359,8 @@ public class OutPut {
 
     }
 
-    private void setDigestProductMenuPattern(){
-        DigestProductMenu.getInstance("Digest Product Menu",null)
+    private void setDigestProductMenuPattern() {
+        DigestProductMenu.getInstance("Digest Product Menu", null)
                 .addRegex("add to cart")
                 .addRegex("select seller (\\w+)")
                 .addRegex("exit")
@@ -349,16 +368,18 @@ public class OutPut {
                 .addRegex("back")
                 .setPatterns();
     }
-    private void setCommentProductMenuPattern(){
-        CommentProductMenu.getInstance("Comment Menu",null)
+
+    private void setCommentProductMenuPattern() {
+        CommentProductMenu.getInstance("Comment Menu", null)
                 .addRegex("Add comment")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
     }
-    private void setDiscountsMenuPattern(){
-        DiscountsMenu.getInstance("Discounts Menu",null)
+
+    private void setDiscountsMenuPattern() {
+        DiscountsMenu.getInstance("Discounts Menu", null)
                 .addRegex("offs")
                 .addRegex("￼show product (\\d+)")
                 .addRegex("exit")
@@ -367,7 +388,8 @@ public class OutPut {
                 .setPatterns();
 
     }
-    public void setParent(){
+
+    public void setParents() {
         MainMenu.getMenu().setParentMenu(null);
         UserAreaMenu.getMenu().setParentMenu(MainMenu.getMenu());
         SignInMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
@@ -398,7 +420,6 @@ public class OutPut {
         DigestProductMenu.getMenu().setParentMenu(ProductMenu.getMenu());
         DiscountsMenu.getMenu().setParentMenu(MainMenu.getMenu());
     }
-
 }
 
 

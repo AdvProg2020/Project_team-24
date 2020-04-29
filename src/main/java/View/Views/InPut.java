@@ -1,17 +1,26 @@
 package View.Views;
 
-import View.Views.OutPut;
+import java.util.Scanner;
 
 public class InPut {
 
-    protected OutPut consoleOutput = new OutPut();
+    private OutPut output = new OutPut();
 
-    public void start(){
+    private static boolean isRunning = true;
 
-
-    }
-    public void preproceesjlkfnjg() {
-
+    public static void setIsRunning(boolean isRunning) {
+        InPut.isRunning = isRunning;
     }
 
+    public void start() {
+
+        Scanner scanner = MenuHandler.getScanner();
+
+        while (isRunning) {
+
+            String command = scanner.nextLine().trim();
+
+            output.handleCommand(command);
+        }
+    }
 }

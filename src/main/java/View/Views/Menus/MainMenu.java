@@ -15,6 +15,10 @@ public class MainMenu extends Menu {
         return menu;
     }
 
+    @Override
+    public void patternToCommand(String command) {
+
+    }
 
     // Tavabe
 
