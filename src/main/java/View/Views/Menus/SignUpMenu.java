@@ -1,9 +1,12 @@
 package View.Views.Menus;
 
+import View.Views.MenuHandler;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUpMenu extends Menu {
 
@@ -41,15 +44,32 @@ public class SignUpMenu extends Menu {
     }
 
     public void createAccount(String type, String username) {
-
+        //
+        // set information.
+        //
+        MenuHandler.setCurrentMenu(LogInMenu.getMenu());
     }
 
     public void createPersonalInfo() {
-
+        System.out.println("Enter information in this pattern :" + System.lineSeparator() +
+            "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
+        );
+        Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine());
+        if (!matcher.find()) {
+            // throw new Exception.
+        }
+        //
     }
 
     public void createCompanyInfo() {
-
+        System.out.println("Enter information in this pattern :" + System.lineSeparator() +
+                "CompanyInfo :[companyName] :[email] :[phoneNumber] :[foundation]"
+        );
+        Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine());
+        if (!matcher.find()) {
+            // throw new Exception.
+        }
+        //
     }
 
     public static Menu getMenu() {
