@@ -36,7 +36,7 @@ public abstract class Menu {
                 return;
             }
         }
-        // throw new invalidCommand
+        System.out.println("Lanat Sogol bar to bad (Invalid command).");
     }
 
     public abstract void show();

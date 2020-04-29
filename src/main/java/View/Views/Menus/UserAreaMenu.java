@@ -26,7 +26,8 @@ public class UserAreaMenu extends Menu {
     @Override
     public void show() {
         System.out.println(
-                "-------------------SubMenus-------------------" + System.lineSeparator() +
+                "You're in UserAreaMenu" + System.lineSeparator() +
+                        "-------------------SubMenus-------------------" + System.lineSeparator() +
                         "1.LoginMenu" + System.lineSeparator() +
                         "2.ProductsMenu" + System.lineSeparator() +
                         "3.AuctionsMenu" + System.lineSeparator() +
@@ -34,20 +35,21 @@ public class UserAreaMenu extends Menu {
         );
     }
 
-    private void openLoginMenu() {
+    public void openLoginMenu() {
         MenuHandler.setCurrentMenu(LogInMenu.getMenu());
     }
 
-    private void openSignUpMenu() {
+    public void openSignUpMenu() {
         MenuHandler.setCurrentMenu(SignUpMenu.getMenu());
     }
 
-    private void openGuestMenu() {
+    public void openGuestMenu() {
         MenuHandler.setCurrentMenu(GuestMenu.getMenu());
     }
 
     @Override
     public void help() {
+        super.help();
         System.out.println(
                 "openLoginMenu : To open Login Menu" + System.lineSeparator() +
                         "openSignUpMenu : To open Sign Up Menu" + System.lineSeparator() +

@@ -22,6 +22,11 @@ public class MainMenu extends Menu {
         return menu;
     }
 
+    @Override
+    public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        super.patternToCommand(command);
+    }
+
     public static Menu getMenu() {
         return Optional.ofNullable(menu).orElseThrow();
     }
@@ -29,7 +34,8 @@ public class MainMenu extends Menu {
     @Override
     public void show() {
         System.out.println(
-                "-------------------SubMenus-------------------" + System.lineSeparator() +
+                "You're in MainMenu" + System.lineSeparator() +
+                        "-------------------SubMenus-------------------" + System.lineSeparator() +
                         "1.UserArea" + System.lineSeparator() +
                         "2.ProductsArea" + System.lineSeparator() +
                         "3.AuctionsArea" + System.lineSeparator() +
@@ -37,20 +43,21 @@ public class MainMenu extends Menu {
         );
     }
 
-    private void openUserArea() {
+    public void openUserArea() {
         MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
     }
 
-    private void openProductsArea() {
+    public void openProductsArea() {
         MenuHandler.setCurrentMenu(ProductsMenu.getMenu());
     }
 
-    private void openAuctionsArea() {
+    public void openAuctionsArea() {
         MenuHandler.setCurrentMenu(AuctionsMenu.getMenu());
     }
 
     @Override
     public void help() {
+        super.help();
         System.out.println(
                 "openUserArea : To enter user area" + System.lineSeparator() +
                         "openProductsArea : To enter products area" + System.lineSeparator() +

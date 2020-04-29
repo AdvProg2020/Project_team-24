@@ -34,7 +34,7 @@ public class OutPut {
         setManagerMenuPattern();
         setLogInMenuPattern();
         setProductsMenuPattern();
-        setSignInPatterns();
+        setSignUpPatterns();
         setSellerMenuPattern();
         setBuyerMenuPattern();
         setManageUsersByManagerMenuPattern();
@@ -90,9 +90,9 @@ public class OutPut {
 
     }
 
-    public void setSignInPatterns() {
+    public void setSignUpPatterns() {
         SignUpMenu.getInstance("signInMenu", null)
-                .addRegex("create account (\\w+)(\\w+)")
+                .addRegex("create account (\\w+) (\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")

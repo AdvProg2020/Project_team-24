@@ -1,5 +1,10 @@
 package View.Views.Menus;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Optional;
+import java.util.regex.Matcher;
+
 public class SignUpMenu extends Menu {
 
     private static SignUpMenu menu;
@@ -15,22 +20,54 @@ public class SignUpMenu extends Menu {
         return menu;
     }
 
-    // Tavabe
-    public void createAccount(){
-        System.out.println("Enter your type and your username");
-        String command = scanner.nextLine().trim();
+    @Override
+    public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        for (int i = 0; i < patternList.size(); i++) {
+            Matcher matcher = patternList.get(i).matcher(command);
+            if (matcher.find()) {
+                if (matcher.groupCount() == 0) {
+                    Method method = MainMenu.class.getMethod(methodsList.get(i));
+                    method.invoke(this);
+                    return;
+                } else if (matcher.groupCount() == 2) {
+                    Method method = MainMenu.class.getMethod(methodsList.get(i), String.class, String.class);
+                    method.invoke(this, matcher.group(1), matcher.group(2));
+                    return;
+                }
+            }
+        }
+        System.out.println("Lanat Sogol bar to bad (Invalid command).");
+    }
+
+    public void createAccount(String type, String username) {
 
     }
-    public static Menu getMenu(){
-        return menu;
+
+    public void createPersonalInfo() {
+
     }
+
+    public void createCompanyInfo() {
+
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow();
+    }
+
+    @Override
+    public void show() {
+        System.out.println("You're in SignUpMenu");
+    }
+
     @Override
     public void help() {
         super.help();
-        System.out.println("create account [type] [username]");
-        System.out.println("information  :[name] :[lastname] :[email] :[phonenumber] :[ramz]");
-        System.out.println("password[password with Any word character, short for [a-zA-Z_0-9]]");
-
-
+        System.out.println(
+                "createAccount [type] [userName] : that type can be manager, customer, seller and " +
+                        "userName can contain a-z , A-Z , _ (@_@)" + System.lineSeparator() +
+                        "----------------------------------------------"
+        );
     }
 }
