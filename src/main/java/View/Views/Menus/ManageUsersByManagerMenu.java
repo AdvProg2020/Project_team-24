@@ -15,6 +15,9 @@ public class ManageUsersByManagerMenu extends Menu {
     }
 
     // Tavabe
+    public static Menu getMenu(){
+        return menu;
+    }
     public void addProduct(){
 
     }

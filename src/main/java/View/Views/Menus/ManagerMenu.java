@@ -19,7 +19,9 @@ public class ManagerMenu extends Menu {
         }
         return menu;
     }
-
+    public static Menu getMenu(){
+        return menu;
+    }
     public void createNewManager() {
 
     }

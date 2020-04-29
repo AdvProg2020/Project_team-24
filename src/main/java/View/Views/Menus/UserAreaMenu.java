@@ -17,7 +17,9 @@ public class UserAreaMenu extends Menu {
     }
 
     // Tavabe
-
+    public static Menu getMenu(){
+        return menu;
+    }
     @Override
     public void help() {
 

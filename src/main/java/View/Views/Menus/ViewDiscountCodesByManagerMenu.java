@@ -18,7 +18,9 @@ public class ViewDiscountCodesByManagerMenu extends Menu{
     public void addProduct(){
 
     }
-
+    public static Menu getMenu(){
+        return menu;
+    }
     @Override
     public void help() {
 

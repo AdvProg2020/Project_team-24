@@ -14,8 +14,9 @@ public class ViewOffsBySellerMenu extends Menu{
     }
 
     // Tavabe
-
-    @Override
+    public static Menu getMenu(){
+        return menu;
+    }    @Override
     public void help() {
 
     }

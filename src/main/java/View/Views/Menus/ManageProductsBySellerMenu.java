@@ -14,7 +14,9 @@ public class ManageProductsBySellerMenu extends Menu {
     }
 
     // Tavabe
-
+    public static Menu getMenu(){
+        return menu;
+    }
     @Override
     public void help() {
 
