@@ -34,7 +34,7 @@ public class OutPut {
         setManagerMenuPattern();
         setLogInMenuPattern();
         setProductsMenuPattern();
-        setSignInPatterns();
+        setSignUpPatterns();
         setSellerMenuPattern();
         setBuyerMenuPattern();
         setManageUsersByManagerMenuPattern();
@@ -60,12 +60,14 @@ public class OutPut {
 
     }
 
+
     private void setMainMenuPattern() {
         MainMenu.getInstance("Main Menu", null)
                 .addRegex("openUserArea")
                 .addRegex("openProductsArea")
                 .addRegex("openAuctionsArea")
                 .addRegex("exit")
+                .addRegex("back")
                 .addRegex("help")
                 .setPatterns();
     }
@@ -75,22 +77,32 @@ public class OutPut {
                 .addMethod("openProductsArea")
                 .addMethod("openAuctionsArea")
                 .addMethod("exit")
-                .addMethod("back");
+                .addMethod("back")
+                .addMethod("help");
 
     }
     private void setUserAreaMenuPattern() {
         UserAreaMenu.getInstance("UserAreaMenu", null)
-                .addRegex("login")
-                .addRegex("sign up")
-                .addRegex("Guest Menu")
+                .addRegex("openLoginMenu")
+                .addRegex("openSignUpMenu")
+                .addRegex("openGuestMenu")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
 
     }
+    private void setUserAreaMenuMethod(){
+        UserAreaMenu.getMenu().addMethod("openLoginMenu")
+                .addMethod("openSignUpMenu")
+                .addMethod("penGuestMenu")
+                .addMethod("exit")
+                .addMethod("help")
+                .addRegex("back");
 
-    public void setSignInPatterns() {
+    }
+
+    public void setSignUpPatterns() {
         SignUpMenu.getInstance("signInMenu", null)
                 .addRegex("create account (\\w+)(\\w+)")
                 .addRegex("exit")
@@ -106,6 +118,12 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+    private void setLogInMenuMethod(){
+        LogInMenu.getMenu().addMethod("login")
+                .addMethod("exit")
+                .addMethod("help")
+                .addRegex("back");
     }
 
 

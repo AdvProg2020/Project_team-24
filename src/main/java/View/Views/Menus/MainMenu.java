@@ -51,6 +51,7 @@ public class MainMenu extends Menu {
 
     @Override
     public void help() {
+        super.help();
         System.out.println(
                 "openUserArea : To enter user area" + System.lineSeparator() +
                         "openProductsArea : To enter products area" + System.lineSeparator() +

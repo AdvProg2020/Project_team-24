@@ -1,5 +1,6 @@
 package View.Views.Menus;
 
+
 import View.Views.MenuHandler;
 
 import java.util.Optional;
@@ -11,6 +12,13 @@ public class UserAreaMenu extends Menu {
     private UserAreaMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
+
+    @Override
+    public void patternToCommand(String command) {
+    }
+
+
+
 
     public static UserAreaMenu getInstance(String name, Menu parent) {
         if (menu == null) {
