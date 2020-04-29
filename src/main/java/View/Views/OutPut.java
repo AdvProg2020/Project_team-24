@@ -82,6 +82,7 @@ public class OutPut {
         UserAreaMenu.getInstance("UserAreaMenu", null)
                 .addRegex("login")
                 .addRegex("sign up")
+                .addRegex("Guest Menu")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -246,17 +247,6 @@ public class OutPut {
                 .addRegex("back")
                 .setPatterns();
     }
-
-
-
-
-
-
-
-
-
-
-
     private void setViewCartByBuyerMenuPattern() {
         ViewCartByBuyerMenu.getInstance("View Cart By Buyer Menu", null)
 
