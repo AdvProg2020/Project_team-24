@@ -20,8 +20,6 @@ public abstract class Menu {
     public Menu(String name, Menu parentMenu) {
         this.name = name;
         this.parentMenu = parentMenu;
-        this.subMenus = new ArrayList<>();
-        this.regexList = new ArrayList<>();
     }
 
     public abstract void patternToCommand(String command);
@@ -31,11 +29,17 @@ public abstract class Menu {
     }
 
     public Menu addSubMenu(Menu subMenu) {
+        if (subMenu == null) {
+            this.subMenus = new ArrayList<>();
+        }
         subMenus.add(subMenu);
         return this;
     }
 
     public Menu addRegex(String regex) {
+        if (regexList == null) {
+            this.regexList = new ArrayList<>();
+        }
         regexList.add(regex);
         return this;
     }

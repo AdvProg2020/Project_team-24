@@ -6,9 +6,13 @@ import java.lang.reflect.Method;
 
 public class OutPut {
 
-    private static OutPut outPut;
+    private static OutPut outPut = new OutPut();
 
-    public OutPut() {
+    public static OutPut getInstance() {
+        return outPut;
+    }
+
+    private OutPut() {
         setPatterns();
         setParents();
     }
@@ -30,7 +34,6 @@ public class OutPut {
         setManagerMenuPattern();
         setLogInMenuPattern();
         setProductsMenuPattern();
-        setManageInfoByManagerPattern();
         setSignInPatterns();
         setSellerMenuPattern();
         setBuyerMenuPattern();
@@ -81,7 +84,7 @@ public class OutPut {
     }
 
     public void setSignInPatterns() {
-        SignInMenu.getInstance("signInMenu", null)
+        SignUpMenu.getInstance("signInMenu", null)
                 .addRegex("create account (\\w+)(\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
@@ -114,19 +117,10 @@ public class OutPut {
                 .setPatterns();
     }
 
-    private void setManageInfoByManagerPattern() {
-        ManageInfoByManagerMenu.getInstance("Manage Info By Manager", null)
-                .addRegex("edit (\\w+)")
-                .addRegex("exit")
-                .addRegex("help")
-                .addRegex("back")
-                .setPatterns();
-    }
-
     private void setManageUsersByManagerMenuPattern() {
         ManageUsersByManagerMenu.getInstance("Manage Users By Manager Menu", null)
                 .addRegex("manage users")
-                .addRegex(" view (\\w+)")
+                .addRegex("view (\\w+)")
                 .addRegex("delete user (\\w+)")
                 .addRegex("create manager profile")
                 .addRegex("exit")
@@ -200,9 +194,8 @@ public class OutPut {
     }
 
     private void setManageInfoBySellerMenuPattern() {
-        ManageInfoBySellerMenu.getInstance("Manage Info By Seller Menu", null)
-
-                .addRegex("edit [a-zA-Z]")
+        ManageInfoMenu.getInstance("Manage Info By Seller Menu", null)
+                .addRegex("edit (\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -249,7 +242,7 @@ public class OutPut {
     }
 
     private void setManageInfoByBuyerMenuPattern() {
-        ManageInfoByBuyerMenu.getInstance(" Manage Info By Buyer Menu", null)
+        ManageInfoMenu.getInstance(" Manage Info By Buyer Menu", null)
 
                 .addRegex("edit (\\w+)")
                 .addRegex("exit")
@@ -392,22 +385,22 @@ public class OutPut {
     public void setParents() {
         MainMenu.getMenu().setParentMenu(null);
         UserAreaMenu.getMenu().setParentMenu(MainMenu.getMenu());
-        SignInMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
-        LogInMenu.getMenu().setParentMenu(SignInMenu.getMenu());
+        SignUpMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
+        LogInMenu.getMenu().setParentMenu(SignUpMenu.getMenu());
         LogInMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
         GuestMenu.getMenu().setParentMenu(LogInMenu.getMenu());
         ViewCartByGuestMenu.getMenu().setParentMenu(GuestMenu.getMenu());
         BuyerMenu.getMenu().setParentMenu(LogInMenu.getMenu());
-        ManageInfoByBuyerMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
+        ManageInfoMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
         ViewOrdersByBuyerMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
         ViewOrdersByBuyerMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
         SellerMenu.getMenu().setParentMenu(LogInMenu.getMenu());
         ManageProductsBySellerMenu.getMenu().setParentMenu(SellerMenu.getMenu());
-        ManageInfoBySellerMenu.getMenu().setParentMenu(SellerMenu.getMenu());
+        ManageInfoMenu.getMenu().setParentMenu(SellerMenu.getMenu());
         ViewOffsBySellerMenu.getMenu().setParentMenu(SellerMenu.getMenu());
         ManagerMenu.getMenu().setParentMenu(LogInMenu.getMenu());
         ManageCategoriesByManagerMenu.getMenu().setParentMenu(ManagerMenu.getMenu());
-        ManageInfoBySellerMenu.getMenu().setParentMenu(ManagerMenu.getMenu());
+        ManageInfoMenu.getMenu().setParentMenu(ManagerMenu.getMenu());
         ManageProductsByManagerMenu.getMenu().setParentMenu(ManagerMenu.getMenu());
         ManageRequestsByManagerMenu.getMenu().setParentMenu(ManagerMenu.getMenu());
         ManageUsersByManagerMenu.getMenu().setParentMenu(ManagerMenu.getMenu());

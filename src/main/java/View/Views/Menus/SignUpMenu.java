@@ -1,16 +1,16 @@
 package View.Views.Menus;
 
-public class SignInMenu extends Menu {
+public class SignUpMenu extends Menu {
 
-    private static SignInMenu menu;
+    private static SignUpMenu menu;
 
-    private SignInMenu(String name, Menu parentMenu) {
+    private SignUpMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
 
-    public static SignInMenu getInstance(String name, Menu parent) {
+    public static SignUpMenu getInstance(String name, Menu parent) {
         if (menu == null) {
-            menu = new SignInMenu(name, parent);
+            menu = new SignUpMenu(name, parent);
         }
         return menu;
     }

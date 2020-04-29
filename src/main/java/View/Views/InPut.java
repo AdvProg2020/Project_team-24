@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class InPut {
 
-    private OutPut output = new OutPut();
+    private OutPut output = OutPut.getInstance();
 
     private static boolean isRunning = true;
 
