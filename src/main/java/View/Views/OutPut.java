@@ -368,7 +368,7 @@ public class OutPut {
     }
 
     private void setDiscountsMenuPattern() {
-        DiscountsMenu.getInstance("Discounts Menu", null)
+        AuctionsMenu.getInstance("Discounts Menu", null)
                 .addRegex("offs")
                 .addRegex("￼show product (\\d+)")
                 .addRegex("exit")
@@ -407,7 +407,7 @@ public class OutPut {
         ProductMenu.getMenu().setParentMenu(ProductsMenu.getMenu());
         CommentProductMenu.getMenu().setParentMenu(ProductMenu.getMenu());
         DigestProductMenu.getMenu().setParentMenu(ProductMenu.getMenu());
-        DiscountsMenu.getMenu().setParentMenu(MainMenu.getMenu());
+        AuctionsMenu.getMenu().setParentMenu(MainMenu.getMenu());
     }
 
 }

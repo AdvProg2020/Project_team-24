@@ -1,5 +1,9 @@
 package View.Views.Menus;
 
+import View.Views.MenuHandler;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
@@ -33,24 +37,16 @@ public class MainMenu extends Menu {
         );
     }
 
-    @Override
-    public void patternToCommand(String command) {
-
-        for (int i = 0; i < patternList.size(); i++) {
-            Matcher matcher =
-        }
-    }
-
     private void openUserArea() {
-
+        MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
     }
 
     private void openProductsArea() {
-
+        MenuHandler.setCurrentMenu(ProductsMenu.getMenu());
     }
 
     private void openAuctionsArea() {
-
+        MenuHandler.setCurrentMenu(AuctionsMenu.getMenu());
     }
 
     @Override

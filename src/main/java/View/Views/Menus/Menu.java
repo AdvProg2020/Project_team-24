@@ -2,9 +2,12 @@ package View.Views.Menus;
 
 import View.Views.MenuHandler;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -23,7 +26,18 @@ public abstract class Menu {
         this.parentMenu = parentMenu;
     }
 
-    public abstract void patternToCommand(String command);
+    public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        for (int i = 0; i < patternList.size(); i++) {
+            Matcher matcher = patternList.get(i).matcher(command);
+            if (matcher.find()) {
+                Method method = MainMenu.class.getMethod(methodsList.get(i));
+                method.invoke(this);
+                return;
+            }
+        }
+        // throw new invalidCommand
+    }
 
     public abstract void show();
 

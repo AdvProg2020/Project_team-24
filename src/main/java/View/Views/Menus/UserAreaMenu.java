@@ -1,5 +1,8 @@
 package View.Views.Menus;
 
+import View.Views.MenuHandler;
+
+import java.util.Optional;
 
 public class UserAreaMenu extends Menu {
 
@@ -9,18 +12,6 @@ public class UserAreaMenu extends Menu {
         super(name, parentMenu);
     }
 
-    @Override
-    public void patternToCommand(String command) {
-        System.out.println(
-
-
-        );
-
-    }
-    @Override
-
-
-
     public static UserAreaMenu getInstance(String name, Menu parent) {
         if (menu == null) {
             menu = new UserAreaMenu(name, parent);
@@ -28,18 +19,40 @@ public class UserAreaMenu extends Menu {
         return menu;
     }
 
-
-    // Tavabe
     public static Menu getMenu() {
-        return menu;
+        return Optional.ofNullable(menu).orElseThrow();
     }
+
+    @Override
+    public void show() {
+        System.out.println(
+                "-------------------SubMenus-------------------" + System.lineSeparator() +
+                        "1.LoginMenu" + System.lineSeparator() +
+                        "2.ProductsMenu" + System.lineSeparator() +
+                        "3.AuctionsMenu" + System.lineSeparator() +
+                        "----------------------------------------------"
+        );
+    }
+
+    private void openLoginMenu() {
+        MenuHandler.setCurrentMenu(LogInMenu.getMenu());
+    }
+
+    private void openSignUpMenu() {
+        MenuHandler.setCurrentMenu(SignUpMenu.getMenu());
+    }
+
+    private void openGuestMenu() {
+        MenuHandler.setCurrentMenu(GuestMenu.getMenu());
+    }
+
     @Override
     public void help() {
         System.out.println(
-               "login for open Login Menu"+
-                       System.lineSeparator()+ "sign up for open Sign Up Menu"+
-                       System.lineSeparator()+"Guest Menu"
-
+                "openLoginMenu : To open Login Menu" + System.lineSeparator() +
+                        "openSignUpMenu : To open Sign Up Menu" + System.lineSeparator() +
+                        "openGuestMenu : To open guest Menu" + System.lineSeparator() +
+                        "----------------------------------------------"
         );
     }
 }
