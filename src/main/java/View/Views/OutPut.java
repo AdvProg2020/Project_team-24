@@ -63,15 +63,22 @@ public class OutPut {
 
     private void setMainMenuPattern() {
         MainMenu.getInstance("Main Menu", null)
-                .addRegex("User Area Menu")
-                .addRegex("Products Menu")
-                .addRegex("Discounts Menu")
+                .addRegex("openUserArea")
+                .addRegex("openProductsArea")
+                .addRegex("openAuctionsArea")
                 .addRegex("exit")
                 .addRegex("help")
                 .setPatterns();
-
     }
 
+    private void setMainMenuMethod() {
+        MainMenu.getMenu().addMethod("openUserArea")
+                .addMethod("openProductsArea")
+                .addMethod("openAuctionsArea")
+                .addMethod("exit")
+                .addMethod("back");
+
+    }
     private void setUserAreaMenuPattern() {
         UserAreaMenu.getInstance("UserAreaMenu", null)
                 .addRegex("login")

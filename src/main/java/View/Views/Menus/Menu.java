@@ -1,5 +1,7 @@
 package View.Views.Menus;
 
+import View.Views.MenuHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +16,6 @@ public abstract class Menu {
     protected List<Pattern> patternList;
     protected List<String> regexList;
     protected List<String> methodsList;
-    protected ArrayList<String> patterns;
     protected static Scanner scanner = new Scanner(System.in);
 
     public Menu(String name, Menu parentMenu) {
@@ -23,6 +24,8 @@ public abstract class Menu {
     }
 
     public abstract void patternToCommand(String command);
+
+    public abstract void show();
 
     public void setPatterns() {
         patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
@@ -41,6 +44,14 @@ public abstract class Menu {
             this.regexList = new ArrayList<>();
         }
         regexList.add(regex);
+        return this;
+    }
+
+    public Menu addMethod(String name) {
+        if (methodsList == null) {
+            methodsList = new ArrayList<>();
+        }
+        methodsList.add(name);
         return this;
     }
 
@@ -72,9 +83,19 @@ public abstract class Menu {
         return name;
     }
 
+    public void back() {
+        MenuHandler.setCurrentMenu(parentMenu);
+    }
+
+    public void exit() {
+        System.exit(0);
+    }
 
     public void help() {
-        System.out.println("type back for return");
-        System.out.println("type exit to quit");
+        System.out.println(
+                "---------------------Help---------------------" + System.lineSeparator() +
+                "exit : To exit program" + System.lineSeparator() +
+                "back : To back to previous menu"
+        );
     }
 }

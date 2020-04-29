@@ -49,6 +49,10 @@ public class MenuHandler {
         return currentMenu;
     }
 
+    public static void setCurrentMenu(Menu currentMenu) {
+        MenuHandler.currentMenu = currentMenu;
+    }
+
     public static Scanner getScanner() {
         return scanner;
     }

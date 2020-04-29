@@ -18,6 +18,8 @@ public class InPut {
 
         while (isRunning) {
 
+            MenuHandler.getCurrentMenu().;
+
             String command = scanner.nextLine().trim();
 
             output.handleCommand(command);
