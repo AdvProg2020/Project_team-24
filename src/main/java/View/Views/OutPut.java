@@ -42,10 +42,9 @@ public class OutPut {
         setViewDiscountsCodeMenuPattern();
         setManageRequestsByManagerMenuPattern();
         setManageCategoriesByManagerMenuPattern();
-        setManageInfoBySellerMenuPattern();
+        setManageInfoMenuPattern();
         setManageProductsBySellerMenuPattern();
         setViewOffsBySellerMenuPattern();
-        setManageInfoByBuyerMenuPattern();
         setViewCartByBuyerMenuPattern();
         setViewOrdersByBuyerMenuPattern();
         setDiscountsMenuPattern();
@@ -200,7 +199,7 @@ public class OutPut {
                 .setPatterns();
     }
 
-    private void setManageInfoBySellerMenuPattern() {
+    private void setManageInfoMenuPattern() {
         ManageInfoMenu.getInstance("Manage Info By Seller Menu", null)
                 .addRegex("edit (\\w+)")
                 .addRegex("exit")
@@ -248,15 +247,15 @@ public class OutPut {
                 .setPatterns();
     }
 
-    private void setManageInfoByBuyerMenuPattern() {
-        ManageInfoMenu.getInstance(" Manage Info By Buyer Menu", null)
 
-                .addRegex("edit (\\w+)")
-                .addRegex("exit")
-                .addRegex("help")
-                .addRegex("back")
-                .setPatterns();
-    }
+
+
+
+
+
+
+
+
 
     private void setViewCartByBuyerMenuPattern() {
         ViewCartByBuyerMenu.getInstance("View Cart By Buyer Menu", null)
@@ -420,6 +419,7 @@ public class OutPut {
         DigestProductMenu.getMenu().setParentMenu(ProductMenu.getMenu());
         DiscountsMenu.getMenu().setParentMenu(MainMenu.getMenu());
     }
+
 }
 
 

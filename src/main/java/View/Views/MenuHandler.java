@@ -1,7 +1,7 @@
 package View.Views;
 
-import View.Views.Menus.*;
-
+import View.Views.Menus.Menu;
+import View.Views.Menus.UserAreaMenu;
 import java.util.Scanner;
 
 public class MenuHandler {
@@ -56,4 +56,5 @@ public class MenuHandler {
     public static Scanner getScanner() {
         return scanner;
     }
+
 }
