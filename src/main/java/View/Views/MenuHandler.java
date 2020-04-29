@@ -1,7 +1,7 @@
 package View.Views;
 
-import View.Views.Menus.Menu;
-import View.Views.Menus.UserAreaMenu;
+import View.Views.Menus.*;
+
 import java.util.Scanner;
 
 public class MenuHandler {
