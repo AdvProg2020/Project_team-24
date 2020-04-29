@@ -15,10 +15,13 @@ public class MainMenu extends Menu {
         return menu;
     }
 
+
     // Tavabe
+
     public static Menu getMenu(){
         return menu;
     }
+
     @Override
     public void help() {
 

@@ -16,6 +16,11 @@ public class SignInMenu extends Menu {
     }
 
     // Tavabe
+    public void createAccount(){
+        System.out.println("Enter your type and your username");
+        String command = scanner.nextLine().trim();
+
+    }
     public static Menu getMenu(){
         return menu;
     }

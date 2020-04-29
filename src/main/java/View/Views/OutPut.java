@@ -10,7 +10,7 @@ public class OutPut {
         this.currentMenu = currentMenu;
     }
 
-    private void selectMenu(String command) {
+    private void selectMenu(String command){
 
     }
 
