@@ -1,11 +1,9 @@
-package View.Views.Menus;
+package View.Menus;
 
-import View.Views.MenuHandler;
+import View.MenuHandler;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Optional;
-import java.util.regex.Matcher;
 
 public class MainMenu extends Menu {
 

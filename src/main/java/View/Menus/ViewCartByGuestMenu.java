@@ -1,4 +1,4 @@
-package View.Views.Menus;
+package View.Menus;
 
 public class ViewCartByGuestMenu extends Menu {
     private static ViewCartByGuestMenu menu;

@@ -1,4 +1,4 @@
-package View.Views.Menus;
+package View.Menus;
 
 public class ViewDiscountCodesByManagerMenu extends Menu{
     private static ViewDiscountCodesByManagerMenu menu;

@@ -1,5 +1,6 @@
-package View.Views;
+package View;
 
+import View.Menus.*;
 import View.Views.Menus.*;
 
 import java.lang.reflect.Method;
@@ -86,7 +87,6 @@ public class OutPut {
                 .addMethod("exit")
                 .addMethod("back")
                 .addMethod("help");
-
     }
 
     private void setUserAreaMenuPattern() {
@@ -98,7 +98,6 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
-
     }
 
     private void setUserAreaMenuMethods() {

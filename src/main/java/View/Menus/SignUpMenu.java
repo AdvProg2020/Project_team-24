@@ -1,6 +1,6 @@
-package View.Views.Menus;
+package View.Menus;
 
-import View.Views.MenuHandler;
+import View.MenuHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

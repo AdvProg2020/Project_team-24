@@ -1,7 +1,7 @@
-package View.Views.Menus;
+package View.Menus;
 
 
-import View.Views.MenuHandler;
+import View.MenuHandler;
 
 import java.util.Optional;
 

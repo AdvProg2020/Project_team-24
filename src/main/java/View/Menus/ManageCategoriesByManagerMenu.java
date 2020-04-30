@@ -1,4 +1,4 @@
-package View.Views.Menus;
+package View.Menus;
 
 public class ManageCategoriesByManagerMenu extends Menu {
     private static ManageCategoriesByManagerMenu menu;

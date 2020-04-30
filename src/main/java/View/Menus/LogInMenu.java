@@ -1,16 +1,25 @@
-package View.Views.Menus;
+package View.Menus;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 public class LogInMenu extends Menu {
 
     private static LogInMenu menu;
 
+    public static LogInMenu getInstance(String name, Menu parent) {
+        if (menu == null) {
+            menu = new LogInMenu(name, parent);
+        }
+        return menu;
+    }
+
     private LogInMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
+
     @Override
     public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
@@ -20,43 +29,35 @@ public class LogInMenu extends Menu {
                 Method method = MainMenu.class.getMethod(methodsList.get(i));
                 method.invoke(this);
                 return;
-            }else if(matcher.groupCount()==2){
+            }else if(matcher.groupCount() == 2){
                 Method method =MainMenu.class.getMethod(methodsList.get(i));
                 method.invoke(this);
                 return;
             }
         }
-        // throw new invalidCommand
+        System.out.println("Lanat Sogol bar to bad (Invalid command).");
     }
 
     @Override
     public void show() {
-        System.out.println(
+        System.out.println("You're in LogInMenu");
 
-                "you are in login menu"
-        );
-
-    }
-
-    public static LogInMenu getInstance(String name, Menu parent) {
-        if (menu == null) {
-            menu = new LogInMenu(name, parent);
-        }
-        return menu;
     }
     public void login(String username,String password ){
+        //
     }
-
 
     public static Menu getMenu(){
-        return menu;
+        return Optional.ofNullable(menu).orElseThrow();
     }
+
     @Override
     public void help() {
         super.help();
-        System.out.println("use 'login [username]' to login to your account");
-
-
+        System.out.println(
+                "use 'login [username]' to login to your account"+ System.lineSeparator() +
+                        "----------------------------------------------"
+        );
     }
 
 }

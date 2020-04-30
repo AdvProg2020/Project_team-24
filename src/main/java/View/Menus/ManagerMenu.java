@@ -1,6 +1,4 @@
-package View.Views.Menus;
-
-import Model.Models.Accounts.Manager;
+package View.Menus;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
