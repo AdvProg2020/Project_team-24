@@ -6,6 +6,11 @@ public class ManageCategoriesByManagerMenu extends Menu {
         super(name, parentMenu);
     }
 
+    @Override
+    public void show() {
+
+    }
+
     public static ManageCategoriesByManagerMenu getInstance(String name, Menu parent) {
         if (menu == null) {
             menu = new ManageCategoriesByManagerMenu(name, parent);
