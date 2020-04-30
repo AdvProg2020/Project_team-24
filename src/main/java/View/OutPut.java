@@ -173,15 +173,26 @@ public class OutPut {
 
     private void setManageUsersByManagerMenuPattern() {
         ManageUsersByManagerMenu.getInstance("Manage Users By Manager Menu", null)
-                .addRegex("manage users")
+                .addRegex("manageUsers")
                 .addRegex("view (\\w+)")
-                .addRegex("delete user (\\w+)")
-                .addRegex("create manager profile")
+                .addRegex("deleteUser (\\w+)")
+                .addRegex("createManagerProfile")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
     }
+    private void setManagerUsersByManagerMenuMethod(){
+         ManageUsersByManagerMenu.getMenu()
+                 .addMethod("manageUsers")
+                 .addMethod("view (\\w+)")
+                 .addMethod("deleteUser (\\w+)")
+                 .addMethod("createManagerProfile")
+                 .addMethod("exit")
+                 .addMethod("help")
+                 .addMethod("back");
+    }
+
 
     private void setManageProductsByManageMenuPattern() {
         ManageProductsByManagerMenu.getInstance("Manage Products By Manager", null)
@@ -344,13 +355,21 @@ public class OutPut {
 
     private void setViewOrdersByBuyerMenuPattern() {
         ViewOrdersByBuyerMenu.getInstance(" View Orders By Buye rMenu", null)
-                .addRegex("show order (\\d+)")
+                .addRegex("showOrder (\\d+)")
                 .addRegex("rate (\\d+) [1-5]")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
 
+    }
+    private void setViewOrdersByBuyerMenuMethod(){
+        ViewOrdersByBuyerMenu.getMenu()
+                     .addMethod("showOrder (\\d+)")
+                     .addMethod("rate (\\d+) [1-5]")
+                     .addMethod("exit")
+                     .addMethod("help")
+                     .addMethod("back");
     }
 
     private void setGuestMenuPatterns() {
