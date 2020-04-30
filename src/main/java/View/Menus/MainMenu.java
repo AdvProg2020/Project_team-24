@@ -2,7 +2,6 @@ package View.Menus;
 
 import View.MenuHandler;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 public class MainMenu extends Menu {
@@ -20,25 +19,8 @@ public class MainMenu extends Menu {
         return menu;
     }
 
-    @Override
-    public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        super.patternToCommand(command);
-    }
-
     public static Menu getMenu() {
         return Optional.ofNullable(menu).orElseThrow();
-    }
-
-    @Override
-    public void show() {
-        System.out.println(
-                "You're in MainMenu" + System.lineSeparator() +
-                        "-------------------SubMenus-------------------" + System.lineSeparator() +
-                        "1.UserArea" + System.lineSeparator() +
-                        "2.ProductsArea" + System.lineSeparator() +
-                        "3.AuctionsArea" + System.lineSeparator() +
-                        "----------------------------------------------"
-        );
     }
 
     public void openUserArea() {
@@ -51,6 +33,18 @@ public class MainMenu extends Menu {
 
     public void openAuctionsArea() {
         MenuHandler.setCurrentMenu(AuctionsMenu.getMenu());
+    }
+
+    @Override
+    public void show() {
+        System.out.println(
+                "You're in MainMenu" + System.lineSeparator() +
+                        "-------------------SubMenus-------------------" + System.lineSeparator() +
+                        "1.UserArea" + System.lineSeparator() +
+                        "2.ProductsArea" + System.lineSeparator() +
+                        "3.AuctionsArea" + System.lineSeparator() +
+                        "----------------------------------------------"
+        );
     }
 
     @Override

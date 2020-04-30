@@ -1,5 +1,7 @@
 package View.Menus;
 
+import java.util.Optional;
+
 public class GuestMenu extends Menu{
 
     private static GuestMenu menu;
@@ -15,12 +17,18 @@ public class GuestMenu extends Menu{
         return menu;
     }
 
-    // Tavabe
+    @Override
+    public void show() {
+
+    }
+
     public static Menu getMenu(){
-        return menu;
+        return Optional.ofNullable(menu).orElseThrow();
     }
     @Override
     public void help() {
-
+        System.out.println(
+                "----------------------------------------------"
+        );
     }
 }

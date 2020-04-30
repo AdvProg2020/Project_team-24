@@ -13,13 +13,6 @@ public class UserAreaMenu extends Menu {
         super(name, parentMenu);
     }
 
-    @Override
-    public void patternToCommand(String command) {
-    }
-
-
-
-
     public static UserAreaMenu getInstance(String name, Menu parent) {
         if (menu == null) {
             menu = new UserAreaMenu(name, parent);
@@ -29,18 +22,6 @@ public class UserAreaMenu extends Menu {
 
     public static Menu getMenu() {
         return Optional.ofNullable(menu).orElseThrow();
-    }
-
-    @Override
-    public void show() {
-        System.out.println(
-                "You're in UserAreaMenu" + System.lineSeparator() +
-                        "-------------------SubMenus-------------------" + System.lineSeparator() +
-                        "1.LoginMenu" + System.lineSeparator() +
-                        "2.ProductsMenu" + System.lineSeparator() +
-                        "3.AuctionsMenu" + System.lineSeparator() +
-                        "----------------------------------------------"
-        );
     }
 
     public void openLoginMenu() {
@@ -53,6 +34,18 @@ public class UserAreaMenu extends Menu {
 
     public void openGuestMenu() {
         MenuHandler.setCurrentMenu(GuestMenu.getMenu());
+    }
+
+    @Override
+    public void show() {
+        System.out.println(
+                "You're in UserAreaMenu" + System.lineSeparator() +
+                        "-------------------SubMenus-------------------" + System.lineSeparator() +
+                        "1.LoginMenu" + System.lineSeparator() +
+                        "2.ProductsMenu" + System.lineSeparator() +
+                        "3.AuctionsMenu" + System.lineSeparator() +
+                        "----------------------------------------------"
+        );
     }
 
     @Override

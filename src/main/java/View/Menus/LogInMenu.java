@@ -1,5 +1,6 @@
 package View.Menus;
 
+import Controller.Controllers.LoginController;
 import Controller.Controllers.ManagerController;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
@@ -7,10 +8,8 @@ import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import View.MenuHandler;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
 
 public class LogInMenu extends Menu {
 
@@ -28,32 +27,14 @@ public class LogInMenu extends Menu {
     }
 
     @Override
-    public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-
-        for (int i = 0; i < patternList.size(); i++) {
-            Matcher matcher = patternList.get(i).matcher(command);
-            if (matcher.find()) {
-                Method method = MainMenu.class.getMethod(methodsList.get(i));
-                method.invoke(this);
-                return;
-            } else if (matcher.groupCount() == 2) {
-                Method method = MainMenu.class.getMethod(methodsList.get(i));
-                method.invoke(this);
-                return;
-            }
-        }
-        System.out.println("Lanat Sogol bar to bad (Invalid command).");
-    }
-
-    @Override
     public void show() {
         System.out.println("You're in LogInMenu");
-
     }
 
-    public void login(String username, String password) {
-        Account account = null;
-        // yac method
+    public void login(List<String> inputs) {
+        Account account = LoginController.getLoginController()
+                .login(inputs.get(1), inputs.get(1));
+
         if (account instanceof Manager) {
             MenuHandler.setCurrentMenu(ManagerMenu.getMenu());
         } else if (account instanceof Customer) {

@@ -66,6 +66,7 @@ public class OutPut {
         setUserAreaMenuMethods();
         setSignUpMethods();
         setLogInMenuMethods();
+        setManagerMenuMethods();
     }
 
 
@@ -154,6 +155,19 @@ public class OutPut {
                     .addRegex("help")
                     .addRegex("back")
                     .setPatterns();
+        }
+
+        private void setManagerMenuMethods() {
+        ManagerMenu.getMenu().addMethod("viewPersonalInfo")
+                .addMethod("openManageUsersMenu")
+                .addMethod("openManageProductsMenu")
+                .addMethod("openManageRequestsMenu")
+                .addMethod("openManageCategoriesMenu")
+                .addMethod("createDiscountCode")
+                .addMethod("viewDiscountCode")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
         }
 
         private void setManageUsersByManagerMenuPattern () {

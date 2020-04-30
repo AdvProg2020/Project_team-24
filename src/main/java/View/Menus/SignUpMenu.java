@@ -4,6 +4,7 @@ import View.MenuHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,27 +24,7 @@ public class SignUpMenu extends Menu {
         return menu;
     }
 
-    @Override
-    public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-
-        for (int i = 0; i < patternList.size(); i++) {
-            Matcher matcher = patternList.get(i).matcher(command);
-            if (matcher.find()) {
-                if (matcher.groupCount() == 0) {
-                    Method method = MainMenu.class.getMethod(methodsList.get(i));
-                    method.invoke(this);
-                    return;
-                } else if (matcher.groupCount() == 2) {
-                    Method method = MainMenu.class.getMethod(methodsList.get(i), String.class, String.class);
-                    method.invoke(this, matcher.group(1), matcher.group(2));
-                    return;
-                }
-            }
-        }
-        System.out.println("Lanat Sogol bar to bad (Invalid command).");
-    }
-
-    public void createAccount(String type, String username) {
+    public void createAccount(List<String> inputs) {
         //
         // set information.
         //

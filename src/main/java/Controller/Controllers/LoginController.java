@@ -1,7 +1,8 @@
 package Controller.Controllers;
 
-import Exceptions.LoginAccountException;
-import Exceptions.LoginPassException;
+import Model.Models.Account;
+
+import java.util.Optional;
 
 public class LoginController {
 
@@ -13,17 +14,16 @@ public class LoginController {
         this.controllerUnit = controllerUnit;
     }
 
-    public void login(String username, String password) throws LoginAccountException, LoginPassException {
+    public Account login(String username, String password) {
 
-        Account account = null;
-
-        account = Account.getAccountByUserName(username);
+        Account account = Account.getAccountByUserName(username);
 
         if (!password.equals(account.getPassword())) {
-            throw new LoginPassException(account.getUserName() + " entered wrong password ... why!");
+            // throw new exception.
         }
-
         controllerUnit.setAccount(account);
+
+        return account;
     }
 
     // more ...
@@ -33,5 +33,9 @@ public class LoginController {
             loginController = new LoginController(controllerUnit);
         }
         return loginController;
+    }
+
+    public static LoginController getLoginController() {
+        return Optional.ofNullable(loginController).orElseThrow();
     }
 }
