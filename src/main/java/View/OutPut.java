@@ -76,6 +76,9 @@ public class OutPut {
         setManageProductsByManagerMenuMethod();
         setViewDiscountsCodeMenuByManagerMethods();
         setViewOffsBySellerMenuMethods();
+        setDigestProductMenuMethods();
+        setFilteringProductsMenuMethods();
+        setSortingProductsMenuMethods();
     }
 
     private void setUserAreaMenuPattern() {
@@ -480,16 +483,38 @@ public class OutPut {
                 .setPatterns();
     }
 
+    private void setFilteringProductsMenuMethods() {
+        FilteringProductsMenu.getMenu()
+                .addMethod("showAvailableFilters")
+                .addMethod("addFilter")
+                .addMethod("currentFilters")
+                .addMethod("disableAFilter")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
+    }
+
     private void setSortingProductsMenuPattern() {
         SortingProductsMenu.getInstance("Sorting Produc tMenu", null)
                 .addRegex("show available sorts")
                 .addRegex("sort (\\w+)")
                 .addRegex("current sort")
-                .addRegex(" disable sort")
+                .addRegex("disable sort")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setSortingProductsMenuMethods() {
+        SortingProductsMenu.getMenu()
+                .addMethod("showAvailableSorts")
+                .addMethod("addSort")
+                .addMethod("currentSorts")
+                .addMethod("disableSorts")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setDigestProductMenuPattern() {
@@ -500,6 +525,16 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setDigestProductMenuMethods() {
+        DigestProductMenu.getMenu()
+                .addMethod("addToCart")
+                .addMethod("selectSeller")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
+
     }
 
     private void setCommentProductMenuPattern() {
