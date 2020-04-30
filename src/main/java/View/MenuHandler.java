@@ -1,13 +1,12 @@
 package View;
 
 import View.Menus.*;
-import View.Views.Menus.*;
 
 import java.util.Scanner;
 
 public class MenuHandler {
 
-    private static Menu currentMenu;
+    private static Menu currentMenu = UserAreaMenu.getInstance("UserAreaMenu", null);
 
     private static Scanner scanner = new Scanner(System.in);
 
@@ -17,9 +16,9 @@ public class MenuHandler {
                 .addSubMenu(ViewCartByBuyerMenu.getMenu())
                 .addSubMenu(ViewOrdersByBuyerMenu.getMenu());
         GuestMenu.getMenu().addSubMenu(ViewCartByGuestMenu.getMenu());
-        MainMenu.getMenu().addSubMenu(UserAreaMenu.getMenu())
-                .addSubMenu(ProductsMenu.getMenu())
-                .addSubMenu(DiscountsMenu.getMenu());
+        MainMenu.getMenu().addSubMenu(ProductsMenu.getMenu())
+                .addSubMenu(AuctionsMenu.getMenu())
+                .addSubMenu(GuestMenu.getMenu());
         ManagerMenu.getMenu().addSubMenu(ManageCategoriesByManagerMenu.getMenu())
                 .addSubMenu(ManageInfoMenu.getMenu())
                 .addSubMenu(ManageProductsByManagerMenu.getMenu())

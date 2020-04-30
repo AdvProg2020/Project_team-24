@@ -28,7 +28,7 @@ public abstract class Menu {
         this.name = name;
         this.parentMenu = parentMenu;
     }
-    /// Behtar nis to MenuHandler bashe?
+
     public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         for (int i = 0; i < patternList.size(); i++) {
@@ -55,7 +55,7 @@ public abstract class Menu {
             method.invoke(currentMenu, inputs);
         }
     }
-    ///
+
     public void setPatterns() {
         patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
     }
@@ -67,6 +67,11 @@ public abstract class Menu {
             this.subMenus = new ArrayList<>();
         }
         subMenus.add(subMenu);
+        return this;
+    }
+
+    public Menu removeSubMenu(Menu subMenu) {
+        subMenus.remove(subMenu);
         return this;
     }
 

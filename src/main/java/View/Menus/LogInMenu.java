@@ -34,13 +34,15 @@ public class LogInMenu extends Menu {
         Account account = LoginController.getLoginController()
                 .login(inputs.get(0), inputs.get(1));
 
+        MainMenu.getMenu().removeSubMenu(GuestMenu.getMenu());
         if (account instanceof Manager) {
-            MenuHandler.setCurrentMenu(ManagerMenu.getMenu());
+            MainMenu.getMenu().addSubMenu(ManagerMenu.getMenu());
         } else if (account instanceof Customer) {
-            MenuHandler.setCurrentMenu(BuyerMenu.getMenu());
+            MainMenu.getMenu().addSubMenu(BuyerMenu.getMenu());
         } else if (account instanceof Seller) {
-            MenuHandler.setCurrentMenu(SellerMenu.getMenu());
+            MainMenu.getMenu().addSubMenu(SellerMenu.getMenu());
         }
+        MenuHandler.setCurrentMenu(MainMenu.getMenu());
     }
 
     public static Menu getMenu() {

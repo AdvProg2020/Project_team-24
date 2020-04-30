@@ -19,7 +19,15 @@ public class GuestMenu extends Menu{
 
     @Override
     public void show() {
-
+        System.out.println(
+                "You're in managerMenu" + System.lineSeparator() +
+                        "-------------------SubMenus-------------------" + System.lineSeparator() +
+                        "1.ManageUsersMenu" + System.lineSeparator() +
+                        "2.ManageProductsMenu" + System.lineSeparator() +
+                        "3.ManageRequestsMenu" + System.lineSeparator() +
+                        "4.ManageCategoriesMenu" + System.lineSeparator() +
+                        "----------------------------------------------"
+        );
     }
 
     public static Menu getMenu(){

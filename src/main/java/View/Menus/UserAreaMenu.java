@@ -32,8 +32,8 @@ public class UserAreaMenu extends Menu {
         MenuHandler.setCurrentMenu(SignUpMenu.getMenu());
     }
 
-    public void openGuestMenu() {
-        MenuHandler.setCurrentMenu(GuestMenu.getMenu());
+    public void EnterAsGuest() {
+        MenuHandler.setCurrentMenu(MainMenu.getMenu());
     }
 
     @Override
@@ -42,8 +42,8 @@ public class UserAreaMenu extends Menu {
                 "You're in UserAreaMenu" + System.lineSeparator() +
                         "-------------------SubMenus-------------------" + System.lineSeparator() +
                         "1.LoginMenu" + System.lineSeparator() +
-                        "2.ProductsMenu" + System.lineSeparator() +
-                        "3.AuctionsMenu" + System.lineSeparator() +
+                        "2.SignUpMenu" + System.lineSeparator() +
+                        "3.MainMenu" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
@@ -54,7 +54,7 @@ public class UserAreaMenu extends Menu {
         System.out.println(
                 "openLoginMenu : To open Login Menu" + System.lineSeparator() +
                         "openSignUpMenu : To open Sign Up Menu" + System.lineSeparator() +
-                        "openGuestMenu : To open guest Menu" + System.lineSeparator() +
+                        "EnterAsGuest : To enter as guest" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

@@ -49,7 +49,7 @@ public class OutPut {
         setViewCartByBuyerMenuPattern();
         setViewOrdersByBuyerMenuPattern();
         setDiscountsMenuPattern();
-        setGuestMenu();
+        setGuestMenuPatterns();
         setFilteringProductsMenuPattern();
         setViewCartByGuestPattern();
         setProductMenuPattern();
@@ -68,32 +68,11 @@ public class OutPut {
         setManagerMenuMethods();
     }
 
-
-    private void setMainMenuPattern() {
-        MainMenu.getInstance("Main Menu", null)
-                .addRegex("openUserArea")
-                .addRegex("openProductsArea")
-                .addRegex("openAuctionsArea")
-                .addRegex("exit")
-                .addRegex("back")
-                .addRegex("help")
-                .setPatterns();
-    }
-
-    private void setMainMenuMethods() {
-        MainMenu.getMenu().addMethod("openUserArea")
-                .addMethod("openProductsArea")
-                .addMethod("openAuctionsArea")
-                .addMethod("exit")
-                .addMethod("back")
-                .addMethod("help");
-    }
-
     private void setUserAreaMenuPattern() {
         UserAreaMenu.getInstance("UserAreaMenu", null)
                 .addRegex("openLoginMenu")
                 .addRegex("openSignUpMenu")
-                .addRegex("openGuestMenu")
+                .addRegex("EnterAsGuest")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -103,10 +82,30 @@ public class OutPut {
     private void setUserAreaMenuMethods() {
         UserAreaMenu.getMenu().addMethod("openLoginMenu")
                 .addMethod("openSignUpMenu")
-                .addMethod("penGuestMenu")
+                .addMethod("EnterAsGuest")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");
+    }
+
+    private void setMainMenuPattern() {
+        MainMenu.getInstance("Main Menu", null)
+                .addRegex("accountAccess")
+                .addRegex("openProductsArea")
+                .addRegex("openAuctionsArea")
+                .addRegex("exit")
+                .addRegex("back")
+                .addRegex("help")
+                .setPatterns();
+    }
+
+    private void setMainMenuMethods() {
+        MainMenu.getMenu().addMethod("accountAccess")
+                .addMethod("openProductsArea")
+                .addMethod("openAuctionsArea")
+                .addMethod("exit")
+                .addMethod("back")
+                .addMethod("help");
     }
 
     public void setSignUpPatterns() {
@@ -138,7 +137,7 @@ public class OutPut {
         LogInMenu.getMenu().addMethod("login")
                 .addMethod("exit")
                 .addMethod("help")
-                .addRegex("back");
+                .addMethod("back");
     }
 
 
@@ -254,7 +253,6 @@ public class OutPut {
 
     private void setManageProductsBySellerMenuPattern() {
         ManageProductsBySellerMenu.getInstance("Manage Products By Seller Menu", null)
-
                 .addRegex("view (\\d+)")
                 .addRegex("view buyers (\\d+)")
                 .addRegex("edit (\\d+)")
@@ -267,7 +265,6 @@ public class OutPut {
 
     private void setViewOffsBySellerMenuPattern() {
         ViewOffsBySellerMenu.getInstance("View Offs By Seller Menu", null)
-
                 .addRegex("view (\\d+)")
                 .addRegex("edit (\\d+)")
                 .addRegex("add off")
@@ -293,7 +290,6 @@ public class OutPut {
 
     private void setViewCartByBuyerMenuPattern() {
         ViewCartByBuyerMenu.getInstance("View Cart By Buyer Menu", null)
-
                 .addRegex("show products")
                 .addRegex("view (\\d+)")
                 .addRegex("increase (\\d+)")
@@ -317,7 +313,7 @@ public class OutPut {
 
     }
 
-    private void setGuestMenu() {
+    private void setGuestMenuPatterns() {
         GuestMenu.getInstance("Guest Menu", null)
                 .addRegex("view cart")
                 .addRegex("exit")
@@ -326,13 +322,17 @@ public class OutPut {
                 .setPatterns();
     }
 
+    private void setGuestMenuMethods() {
+
+    }
+
     private void setViewCartByGuestPattern() {
         ViewCartByGuestMenu.getInstance(" View Cart By Guest Menu", null)
                 .addRegex("show products")
                 .addRegex("view (\\d+)")
                 .addRegex("increase (\\d+)")
                 .addRegex("decrease (\\d+)")
-                .addRegex(" show total price")
+                .addRegex("show total price")
                 .addRegex("purchase")
                 .addRegex("exit")
                 .addRegex("help")
@@ -413,31 +413,29 @@ public class OutPut {
     private void setDiscountsMenuPattern() {
         AuctionsMenu.getInstance("Discounts Menu", null)
                 .addRegex("offs")
-                .addRegex("￼show product (\\d+)")
+                .addRegex("show product (\\d+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
-
     }
 
     public void setParents() {
-        MainMenu.getMenu().setParentMenu(null);
-        UserAreaMenu.getMenu().setParentMenu(MainMenu.getMenu());
+        MainMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
         SignUpMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
         LogInMenu.getMenu().setParentMenu(SignUpMenu.getMenu());
         LogInMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
-        GuestMenu.getMenu().setParentMenu(LogInMenu.getMenu());
+        GuestMenu.getMenu().setParentMenu(MainMenu.getMenu());
         ViewCartByGuestMenu.getMenu().setParentMenu(GuestMenu.getMenu());
-        BuyerMenu.getMenu().setParentMenu(LogInMenu.getMenu());
+        BuyerMenu.getMenu().setParentMenu(MainMenu.getMenu());
         ManageInfoMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
         ViewOrdersByBuyerMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
         ViewOrdersByBuyerMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
-        SellerMenu.getMenu().setParentMenu(LogInMenu.getMenu());
+        SellerMenu.getMenu().setParentMenu(MainMenu.getMenu());
         ManageProductsBySellerMenu.getMenu().setParentMenu(SellerMenu.getMenu());
         ManageInfoMenu.getMenu().setParentMenu(SellerMenu.getMenu());
         ViewOffsBySellerMenu.getMenu().setParentMenu(SellerMenu.getMenu());
-        ManagerMenu.getMenu().setParentMenu(LogInMenu.getMenu());
+        ManagerMenu.getMenu().setParentMenu(MainMenu.getMenu());
         ManageCategoriesByManagerMenu.getMenu().setParentMenu(ManagerMenu.getMenu());
         ManageInfoMenu.getMenu().setParentMenu(ManagerMenu.getMenu());
         ManageProductsByManagerMenu.getMenu().setParentMenu(ManagerMenu.getMenu());
