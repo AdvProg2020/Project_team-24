@@ -1,5 +1,6 @@
 package View.Menus;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ManageInfoMenu extends Menu {
@@ -17,7 +18,7 @@ public class ManageInfoMenu extends Menu {
         return menu;
     }
 
-    public void edit(String fieldName) {
+    public void edit(List<String> inputs) {
         // yac
     }
 
