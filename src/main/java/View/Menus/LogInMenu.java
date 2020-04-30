@@ -1,5 +1,12 @@
 package View.Menus;
 
+import Controller.Controllers.ManagerController;
+import Model.Models.Account;
+import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Manager;
+import Model.Models.Accounts.Seller;
+import View.MenuHandler;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -29,8 +36,8 @@ public class LogInMenu extends Menu {
                 Method method = MainMenu.class.getMethod(methodsList.get(i));
                 method.invoke(this);
                 return;
-            }else if(matcher.groupCount() == 2){
-                Method method =MainMenu.class.getMethod(methodsList.get(i));
+            } else if (matcher.groupCount() == 2) {
+                Method method = MainMenu.class.getMethod(methodsList.get(i));
                 method.invoke(this);
                 return;
             }
@@ -43,11 +50,20 @@ public class LogInMenu extends Menu {
         System.out.println("You're in LogInMenu");
 
     }
-    public void login(String username,String password ){
-        //
+
+    public void login(String username, String password) {
+        Account account = null;
+        // yac method
+        if (account instanceof Manager) {
+            MenuHandler.setCurrentMenu(ManagerMenu.getMenu());
+        } else if (account instanceof Customer) {
+            MenuHandler.setCurrentMenu(BuyerMenu.getMenu());
+        } else if (account instanceof Seller) {
+            MenuHandler.setCurrentMenu(SellerMenu.getMenu());
+        }
     }
 
-    public static Menu getMenu(){
+    public static Menu getMenu() {
         return Optional.ofNullable(menu).orElseThrow();
     }
 
@@ -55,7 +71,7 @@ public class LogInMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
-                "use 'login [username]' to login to your account"+ System.lineSeparator() +
+                "use 'login [username]' to login to your account" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
