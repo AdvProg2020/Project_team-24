@@ -17,6 +17,8 @@ public class OutPut {
         setParents();
         setSetMethods();
         setGuestMenuMethods();
+        setManageCategoriesByManagerMenuMethods();
+        setViewCartByBuyerMenuMethods();
     }
 
     public void handleCommand(String command) {
@@ -233,14 +235,22 @@ public class OutPut {
 
     private void setManageCategoriesByManagerMenuPattern() {
         ManageCategoriesByManagerMenu.getInstance("Manage Categories By Manager", null)
-                .addRegex("manage categories")
-                .addRegex("edit [a-zA-Z]")
-                .addRegex("add [a-zA-Z]")
-                .addRegex("remove [a-zA-Z]")
+                .addRegex("edit (\\w+)")
+                .addRegex("add (\\w+)")
+                .addRegex("remove (\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setManageCategoriesByManagerMenuMethods() {
+        ManageCategoriesByManagerMenu.getMenu().addMethod("editCategory")
+                .addMethod("addCategory")
+                .addMethod("removeCategory")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     public void setSellerMenuPattern() {
@@ -342,15 +352,27 @@ public class OutPut {
     private void setViewCartByBuyerMenuPattern() {
         ViewCartByBuyerMenu.getInstance("View Cart By Buyer Menu", null)
                 .addRegex("show products")
-                .addRegex("view (\\d+)")
+                .addRegex("viewCart (\\d+)")
                 .addRegex("increase (\\d+)")
                 .addRegex("decrease (\\d+)")
-                .addRegex(" show total price")
+                .addRegex("show total price")
                 .addRegex("purchase")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setViewCartByBuyerMenuMethods() {
+        ViewCartByBuyerMenu.getMenu().addMethod("showProducts")
+                .addMethod("viewCart")
+                .addMethod("increase")
+                .addMethod("decrease")
+                .addMethod("showTotalPrice")
+                .addMethod("purchase")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setViewOrdersByBuyerMenuPattern() {
@@ -418,8 +440,8 @@ public class OutPut {
 
     private void setProductsMenuPattern() {
         ProductsMenu.getInstance("Products Menu", null)
-                .addRegex("￼products")
-                .addRegex("￼view categories")
+                .addRegex("products")
+                .addRegex("view categories")
                 .addRegex("filtering")
                 .addRegex("sorting")
                 .addRegex("show products")
