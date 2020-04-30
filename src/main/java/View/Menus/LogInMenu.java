@@ -25,11 +25,6 @@ public class LogInMenu extends Menu {
         super(name, parentMenu);
     }
 
-    @Override
-    public void show() {
-        System.out.println("You're in LogInMenu");
-    }
-
     public void login(List<String> inputs) {
         Account account = LoginController.getLoginController()
                 .login(inputs.get(0), inputs.get(1));
@@ -47,6 +42,11 @@ public class LogInMenu extends Menu {
 
     public static Menu getMenu() {
         return Optional.ofNullable(menu).orElseThrow();
+    }
+
+    @Override
+    public void show() {
+        System.out.println("You're in LogInMenu");
     }
 
     @Override

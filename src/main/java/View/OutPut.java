@@ -16,6 +16,7 @@ public class OutPut {
         setPatterns();
         setParents();
         setSetMethods();
+        setGuestMenuMethods();
     }
 
     public void handleCommand(String command) {
@@ -139,7 +140,6 @@ public class OutPut {
                 .addMethod("help")
                 .addMethod("back");
     }
-
 
     private void setManagerMenuPattern() {
         ManagerMenu.getInstance("manager Menu", null)
@@ -288,6 +288,18 @@ public class OutPut {
                 .setPatterns();
     }
 
+    private void setBuyerMenuMethods() {
+        BuyerMenu.getMenu().addMethod("viewPersonalInfo")
+                .addMethod("viewCart")
+                .addMethod("viewBalance")
+                .addMethod("viewDiscountCodes")
+                .addMethod("purchase")
+                .addMethod("viewOrders")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
+    }
+
     private void setViewCartByBuyerMenuPattern() {
         ViewCartByBuyerMenu.getInstance("View Cart By Buyer Menu", null)
                 .addRegex("show products")
@@ -316,6 +328,7 @@ public class OutPut {
     private void setGuestMenuPatterns() {
         GuestMenu.getInstance("Guest Menu", null)
                 .addRegex("view cart")
+                .addRegex("UserArea")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -323,7 +336,11 @@ public class OutPut {
     }
 
     private void setGuestMenuMethods() {
-
+        GuestMenu.getMenu().addMethod("OpenViewCart")
+                .addMethod("OpenUserArea")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setViewCartByGuestPattern() {

@@ -27,7 +27,7 @@ public class ManagerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
-        // yac method
+        MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
     public void openManageUsersMenu() {
@@ -76,6 +76,7 @@ public class ManagerMenu extends Menu {
                         "2.ManageProductsMenu" + System.lineSeparator() +
                         "3.ManageRequestsMenu" + System.lineSeparator() +
                         "4.ManageCategoriesMenu" + System.lineSeparator() +
+                        "5.ManageIfo" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
@@ -84,7 +85,7 @@ public class ManagerMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
-                "viewPersonalInfo : To show your personal information" + System.lineSeparator() +
+                "viewPersonalInfo : To open manageInfo menu" + System.lineSeparator() +
                         "openManageUsersMenu : To open users menu" + System.lineSeparator() +
                         "openManageProductsMenu : To open products menu" + System.lineSeparator() +
                         "createDiscountCode : To create new discount code" + System.lineSeparator() +
