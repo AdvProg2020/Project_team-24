@@ -6,6 +6,11 @@ public class ProductMenu extends Menu{
         super(name, parentMenu);
     }
 
+    @Override
+    public void show() {
+
+    }
+
     public static ProductMenu getInstance(String name, Menu parent) {
         if (menu == null) {
             menu = new ProductMenu(name, parent);

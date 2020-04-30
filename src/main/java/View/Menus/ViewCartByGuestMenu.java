@@ -1,5 +1,6 @@
 package View.Menus;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ViewCartByGuestMenu extends Menu {
@@ -18,19 +19,23 @@ public class ViewCartByGuestMenu extends Menu {
     }
 
     public void showProducts() {
-        // yac
+        //yasi
     }
 
-    public void viewCart() {
-        // yac
+    public void viewCart(List<String> inputs) {
+        long id = Long.parseLong(inputs.get(0));
+        //yasi
     }
 
-    public void increase() {
-        // yac
+
+    public void increase(List<String> inputs) {
+        long id = Long.parseLong(inputs.get(0));
+        //yasi
     }
 
-    public void decrease() {
-        // yac
+    public void decrease(List<String> inputs) {
+        long id = Long.parseLong(inputs.get(0));
+        //yasi
     }
 
     public void showTotalPrice() {

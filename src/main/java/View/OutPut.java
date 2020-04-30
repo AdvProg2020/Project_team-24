@@ -192,15 +192,16 @@ public class OutPut {
                 .addRegex("back")
                 .setPatterns();
     }
-    private void setManagerUsersByManagerMenuMethod(){
-         ManageUsersByManagerMenu.getMenu()
-                 .addMethod("manageUsers")
-                 .addMethod("view (\\w+)")
-                 .addMethod("deleteUser (\\w+)")
-                 .addMethod("createManagerProfile")
-                 .addMethod("exit")
-                 .addMethod("help")
-                 .addMethod("back");
+
+    private void setManagerUsersByManagerMenuMethod() {
+        ManageUsersByManagerMenu.getMenu()
+                .addMethod("manageUsers")
+                .addMethod("view (\\w+)")
+                .addMethod("deleteUser (\\w+)")
+                .addMethod("createManagerProfile")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
 
@@ -213,7 +214,7 @@ public class OutPut {
                 .setPatterns();
     }
 
-    private void setManageProductsByManagerMenuMethod(){
+    private void setManageProductsByManagerMenuMethod() {
         ManageProductsByManagerMenu.getMenu().addMethod("remove")
                 .addMethod("exit")
                 .addMethod("help")
@@ -298,7 +299,7 @@ public class OutPut {
                 .setPatterns();
     }
 
-    public void setSellerMenuMethods(){
+    public void setSellerMenuMethods() {
         SellerMenu.getMenu().addMethod("viewPersonalInfo")
                 .addMethod("viewCompanyInformation")
                 .addMethod("viewSalesHistory")
@@ -423,13 +424,14 @@ public class OutPut {
                 .setPatterns();
 
     }
-    private void setViewOrdersByBuyerMenuMethod(){
+
+    private void setViewOrdersByBuyerMenuMethod() {
         ViewOrdersByBuyerMenu.getMenu()
-                     .addMethod("showOrder (\\d+)")
-                     .addMethod("rate (\\d+) [1-5]")
-                     .addMethod("exit")
-                     .addMethod("help")
-                     .addMethod("back");
+                .addMethod("showOrder (\\d+)")
+                .addMethod("rate (\\d+) [1-5]")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setGuestMenuPatterns() {
@@ -478,17 +480,28 @@ public class OutPut {
 
     private void setProductsMenuPattern() {
         ProductsMenu.getInstance("Products Menu", null)
-                .addRegex("products")
-                .addRegex("view categories")
+                .addRegex("viewCategories")
                 .addRegex("filtering")
                 .addRegex("sorting")
-                .addRegex("show products")
-                .addRegex("show product (\\d+)")
+                .addRegex("showProducts")
+                .addRegex("showProduct (\\d+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
 
+    }
+
+    private void setProductsMenuMethod() {
+        ProductsMenu.getMenu()
+                .addMethod("viewCategories")
+                .addMethod("filtering")
+                .addMethod("sorting")
+                .addMethod("showProducts")
+                .addMethod("showProduct (\\d+)")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setFilteringProductsMenuPattern() {
@@ -539,8 +552,8 @@ public class OutPut {
 
     private void setDigestProductMenuPattern() {
         DigestProductMenu.getInstance("Digest Product Menu", null)
-                .addRegex("add to cart")
-                .addRegex("select seller (\\w+)")
+                .addRegex("addToCart")
+                .addRegex("selectSeller (\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -569,11 +582,20 @@ public class OutPut {
     private void setDiscountsMenuPattern() {
         AuctionsMenu.getInstance("Discounts Menu", null)
                 .addRegex("offs")
-                .addRegex("show product (\\d+)")
+                .addRegex("showProduct (\\d+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setDiscountsMenuMethod() {
+        AuctionsMenu.getMenu()
+                .addMethod("offs")
+                .addMethod("showProduct")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     public void setParents() {
