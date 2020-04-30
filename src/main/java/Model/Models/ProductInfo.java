@@ -6,7 +6,6 @@ import Model.Tools.Packable;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 public class ProductInfo implements Packable {
 
@@ -31,6 +30,8 @@ public class ProductInfo implements Packable {
     public long getId() {
         return id;
     }
+
+    // add seller method.
 
     public FieldList getFieldList() {
         return fieldList;
@@ -72,6 +73,8 @@ public class ProductInfo implements Packable {
         this.sellers = ((List<Long>) data.getFields().get(4))
                 .stream().map(Account::getAccountById).collect(Collectors.toList());
     }
+
+    // override clone. for all.
 
     public static ProductInfo getProductInfoById(long id) {
         return list.stream()

@@ -67,6 +67,8 @@ public class OutPut {
         setSignUpMethods();
         setLogInMenuMethods();
         setManagerMenuMethods();
+        setBuyerMenuMethods();
+        setManageInfoMenuMethods();
     }
 
     private void setUserAreaMenuPattern() {
@@ -249,6 +251,13 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setManageInfoMenuMethods() {
+        MainMenu.getMenu().addMethod("edit")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setManageProductsBySellerMenuPattern() {

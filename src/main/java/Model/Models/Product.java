@@ -23,8 +23,6 @@ public class Product implements Packable, ForPend {
     private long numberOfBuyers;
     private long numberOfThis;
     private double averageScore;
-    //    String descriptions
-    private FieldList fieldList;
     private List<Comment> commentList;
 
     public long getProductId() {
@@ -59,10 +57,6 @@ public class Product implements Packable, ForPend {
         return averageScore;
     }
 
-    public FieldList getFieldList() {
-        return fieldList;
-    }
-
     public List<Comment> getCommentList() {
         return commentList;
     }
@@ -88,7 +82,7 @@ public class Product implements Packable, ForPend {
                 .orElseThrow();
     }
 
-    public Product(long productId, PendStatus pendStatus, CategorySpecifications specifications, ProductInfo productInfo, Category category, long numberOfBuyers, long numberOfThis, double averageScore, FieldList fieldList, List<Comment> commentList) {
+    public Product(long productId, PendStatus pendStatus, CategorySpecifications specifications, ProductInfo productInfo, Category category, long numberOfBuyers, long numberOfThis, double averageScore, List<Comment> commentList) {
         this.productId = productId;
         this.pendStatus = pendStatus;
         this.specifications = specifications;
@@ -97,7 +91,6 @@ public class Product implements Packable, ForPend {
         this.numberOfBuyers = numberOfBuyers;
         this.numberOfThis = numberOfThis;
         this.averageScore = averageScore;
-        this.fieldList = fieldList;
         this.commentList = commentList;
     }
 

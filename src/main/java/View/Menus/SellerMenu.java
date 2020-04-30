@@ -4,7 +4,7 @@ import Model.Models.Category;
 import View.MenuHandler;
 
 import java.util.List;
-import java.util.Scanner;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +14,67 @@ public class SellerMenu extends Menu {
 
     private SellerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
+    }
+
+    public static SellerMenu getInstance(String name, Menu parent) {
+        if (menu == null) {
+            menu = new SellerMenu(name, parent);
+        }
+        return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow();
+    }
+
+    public void viewPersonalInfo() {
+        MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
+    }
+
+    public void viewCompanyInformation() {
+        //yac
+    }
+
+    public void viewSalesHistory() {
+        //yac
+    }
+
+    public void manageProducts() {
+        MenuHandler.setCurrentMenu(ManageProductsBySellerMenu.getMenu());
+    }
+
+    public void addProduct() {
+        System.out.println("Enter product information :" + System.lineSeparator() +
+                "Enter information in this format :" + System.lineSeparator() +
+                "product :[nameOfProduct] :[numberOfThis] :[brand] :[category] ");
+        Matcher matcher = Pattern
+                .compile("product :(\\w+) :(\\d+) :(\\w+) :(\\w+)")
+                .matcher(scanner.nextLine().trim().toLowerCase());
+        System.out.println("these are fields");
+        //namayeshe fields ha
+        //gereftn fields ha
+        if (!matcher.find()) {
+            System.out.println("Sogol : Enter information in correct format.");
+            return;
+        }
+        // controller manager . . .
+    }
+
+    public void removeProduct(List<String> inputs) {
+        long id = Long.parseLong(inputs.get(0));
+    }
+
+    public void showCategories() {
+        System.out.println("these are categories");
+        Category.getCategoryList().stream().map(Category::getName).forEach(System.out::println);
+    }
+
+    public void viewOffs() {
+        MenuHandler.setCurrentMenu(ViewOffsBySellerMenu.getMenu());
+    }
+
+    public void viewBalance() {
+        //yac
     }
 
     @Override
@@ -26,65 +87,6 @@ public class SellerMenu extends Menu {
                         "3.ViewOffsMenu" + System.lineSeparator() +
                         "----------------------------------------------"
         );
-    }
-
-    public static SellerMenu getInstance(String name, Menu parent) {
-        if (menu == null) {
-            menu = new SellerMenu(name, parent);
-        }
-        return menu;
-    }
-
-
-    public static Menu getMenu() {
-        return menu;
-    }
-    public void viewPersonalInfo(){
-        MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
-    }
-    public void viewCompanyInformation(){
-        //yasi
-    }
-    public void viewSalesHistory(){
-        //yasi
-    }
-    public void manageProducts(){
-        MenuHandler.setCurrentMenu(ManageProductsBySellerMenu.getMenu());
-    }
-    public void addProduct(){
-
-
-            System.out.println("Enter product information :" + System.lineSeparator()+
-                    "Enter information in this format :" + System.lineSeparator() +
-                    "product :[nameOfProduct] :[numberOfThis] :[brand] :[category] ");
-        Matcher matcher = Pattern
-                .compile("product :(\\w+) :(\\d+) :(\\w+) :(\\w+)")
-                .matcher(scanner.nextLine().trim().toLowerCase());
-        System.out.println("these are fields");
-        //namayeshe fields ha
-        //gereftn fields ha
-
-        if (!matcher.find()) {
-            System.out.println("Sogol : Enter information in correct format.");
-            return;
-        }
-        // controller manager . . .
-
-
-    }
-
-    public void removeProduct(List<String> inputs ){
-        long id = Long.parseLong(inputs.get(0));
-    }
-    public void showCategories(){
-        System.out.println("these are categories");
-        Category.getCategoryList().stream().map(Category::getName).forEach(System.out::println);
-    }
-    public void viewOffs(){
-        MenuHandler.setCurrentMenu(ViewOffsBySellerMenu.getMenu());
-    }
-    public void viewBalance(){
-        //yasi
     }
 
     @Override
