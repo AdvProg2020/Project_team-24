@@ -1,7 +1,12 @@
 package View.Menus;
 
-public class ManageRequestsByManagerMenu extends Menu{
+import java.util.List;
+import java.util.Optional;
+
+public class ManageRequestsByManagerMenu extends Menu {
+
     private static ManageRequestsByManagerMenu menu;
+
     public ManageRequestsByManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
@@ -13,13 +18,35 @@ public class ManageRequestsByManagerMenu extends Menu{
         return menu;
     }
 
-    // Tavabe
-    public static Menu getMenu(){
-        return menu;
+    public void showDetails(List<String> inputs) {
+        // yac
     }
+
+    public void acceptRequest(List<String> inputs) {
+        // yac
+    }
+
+    public void declineRequest(List<String> inputs) {
+        // yac
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow();
+    }
+
+    @Override
+    public void show() {
+        System.out.println("You're in ManageRequestsByManagerMenu");
+    }
+
     @Override
     public void help() {
-
+        super.help();
+        System.out.println(
+                "showDetails [requestId]: To show details" + System.lineSeparator() +
+                "acceptRequest [requestId]: To accept request" + System.lineSeparator() +
+                "declineRequest [requestId]: To decline request" + System.lineSeparator() +
+                        "----------------------------------------------"
+        );
     }
-
 }

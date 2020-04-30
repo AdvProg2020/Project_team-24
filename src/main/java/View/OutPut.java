@@ -19,6 +19,8 @@ public class OutPut {
         setGuestMenuMethods();
         setManageCategoriesByManagerMenuMethods();
         setViewCartByBuyerMenuMethods();
+        setSellerMenuMethods();
+        setManagerRequestsByManagerMenuMethods();
     }
 
     public void handleCommand(String command) {
@@ -43,7 +45,7 @@ public class OutPut {
         setBuyerMenuPattern();
         setManageUsersByManagerMenuPattern();
         setManageProductsByManageMenuPattern();
-        setViewDiscountsCodeMenuPattern();
+        setViewDiscountsCodeMenuByManagerPatterns();
         setManageRequestsByManagerMenuPattern();
         setManageCategoriesByManagerMenuPattern();
         setManageInfoMenuPattern();
@@ -71,6 +73,9 @@ public class OutPut {
         setManagerMenuMethods();
         setBuyerMenuMethods();
         setManageInfoMenuMethods();
+        setManageProductsByManagerMenuMethod();
+        setViewDiscountsCodeMenuByManagerMethods();
+        setViewOffsBySellerMenuMethods();
     }
 
     private void setUserAreaMenuPattern() {
@@ -204,6 +209,7 @@ public class OutPut {
                 .addRegex("back")
                 .setPatterns();
     }
+
     private void setManageProductsByManagerMenuMethod(){
         ManageProductsByManagerMenu.getMenu().addMethod("remove")
                 .addMethod("exit")
@@ -211,7 +217,7 @@ public class OutPut {
                 .addMethod("back");
     }
 
-    private void setViewDiscountsCodeMenuPattern() {
+    private void setViewDiscountsCodeMenuByManagerPatterns() {
         ViewDiscountCodesByManagerMenu.getInstance("View Discounts Code", null)
                 .addRegex("view discount code (\\d+)")
                 .addRegex("edit discount code (\\d+)")
@@ -220,6 +226,16 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setViewDiscountsCodeMenuByManagerMethods() {
+        ViewDiscountCodesByManagerMenu.getMenu()
+                .addMethod("viewDiscountCode")
+                .addMethod("editDiscountCode")
+                .addMethod("removeDiscountCode")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setManageRequestsByManagerMenuPattern() {
@@ -231,6 +247,15 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setManagerRequestsByManagerMenuMethods() {
+        ManageRequestsByManagerMenu.getMenu().addMethod("showDetails")
+                .addMethod("acceptRequest")
+                .addMethod("declineRequest")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setManageCategoriesByManagerMenuPattern() {
@@ -269,7 +294,8 @@ public class OutPut {
                 .addRegex("back")
                 .setPatterns();
     }
-    public void setSellerMenuMethod(){
+
+    public void setSellerMenuMethods(){
         SellerMenu.getMenu().addMethod("viewPersonalInfo")
                 .addMethod("viewCompanyInformation")
                 .addMethod("viewSalesHistory")
@@ -321,6 +347,15 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setViewOffsBySellerMenuMethods() {
+        ViewOffsBySellerMenu.getMenu().addMethod("viewOff")
+                .addMethod("editOff")
+                .addMethod("addOff")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setBuyerMenuPattern() {
@@ -458,7 +493,7 @@ public class OutPut {
                 .addRegex("show available filters")
                 .addRegex("filter (\\w+)")
                 .addRegex("current filters")
-                .addRegex("disable filter (\\w+)")
+                .addRegex("disable a filter (\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")

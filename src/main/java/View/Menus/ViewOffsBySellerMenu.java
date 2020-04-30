@@ -1,7 +1,12 @@
 package View.Menus;
 
-public class ViewOffsBySellerMenu extends Menu{
+import java.util.List;
+import java.util.Optional;
+
+public class ViewOffsBySellerMenu extends Menu {
+
     private static ViewOffsBySellerMenu menu;
+
     public ViewOffsBySellerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
@@ -13,11 +18,35 @@ public class ViewOffsBySellerMenu extends Menu{
         return menu;
     }
 
-    // Tavabe
-    public static Menu getMenu(){
-        return menu;
-    }    @Override
-    public void help() {
+    public void viewOff(List<String> inputs) {
+        // yac
+    }
 
+    public void editOff(List<String> inputs) {
+        // yac
+    }
+
+    public void addOff() {
+        // yac
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow();
+    }
+
+    @Override
+    public void show() {
+        System.out.println("You're in ViewOffsBySellerMenu");
+    }
+
+    @Override
+    public void help() {
+        super.help();
+        System.out.println(
+                "viewOff [OffId] : To show off by id" + System.lineSeparator() +
+                "editOff [OffId] : To edit an off" + System.lineSeparator() +
+                "addOff : To add an off" + System.lineSeparator() +
+                        "----------------------------------------------"
+        );
     }
 }
