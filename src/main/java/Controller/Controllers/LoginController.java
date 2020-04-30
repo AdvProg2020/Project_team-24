@@ -26,8 +26,6 @@ public class LoginController {
         return account;
     }
 
-    // more ...
-
     public static LoginController getInstance(ControllerUnit controllerUnit) {
         if (loginController == null) {
             loginController = new LoginController(controllerUnit);

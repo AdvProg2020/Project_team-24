@@ -18,9 +18,9 @@ public class InPut {
 
         while (isRunning) {
 
-            MenuHandler.getCurrentMenu().;
+            MenuHandler.getCurrentMenu().show();
 
-            String command = scanner.nextLine().trim();
+            String command = scanner.nextLine().trim().toLowerCase();
 
             output.handleCommand(command);
         }

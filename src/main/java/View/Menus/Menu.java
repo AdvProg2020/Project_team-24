@@ -2,6 +2,8 @@ package View.Menus;
 
 import View.MenuHandler;
 
+// sogolism.17
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public abstract class Menu {
         this.name = name;
         this.parentMenu = parentMenu;
     }
-
+    /// Behtar nis to MenuHandler bashe?
     public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         for (int i = 0; i < patternList.size(); i++) {
@@ -53,7 +55,7 @@ public abstract class Menu {
             method.invoke(currentMenu, inputs);
         }
     }
-
+    ///
     public void setPatterns() {
         patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
     }

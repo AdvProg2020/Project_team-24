@@ -2,8 +2,6 @@ package View.Menus;
 
 import View.MenuHandler;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -28,14 +26,18 @@ public class SignUpMenu extends Menu {
         //
         // set information.
         //
+        createPersonalInfo();
+        if (inputs.get(0).equals("seller")) {
+            createCompanyInfo();
+        }
         MenuHandler.setCurrentMenu(LogInMenu.getMenu());
     }
 
     public void createPersonalInfo() {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
-            "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
+                "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
         );
-        Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine());
+        Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
         if (!matcher.find()) {
             // throw new Exception.
         }
@@ -46,7 +48,7 @@ public class SignUpMenu extends Menu {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "CompanyInfo :[companyName] :[email] :[phoneNumber] :[foundation]"
         );
-        Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine());
+        Matcher matcher = Pattern.compile("CompanyInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
         if (!matcher.find()) {
             // throw new Exception.
         }

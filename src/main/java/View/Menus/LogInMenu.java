@@ -1,7 +1,6 @@
 package View.Menus;
 
 import Controller.Controllers.LoginController;
-import Controller.Controllers.ManagerController;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
@@ -33,7 +32,7 @@ public class LogInMenu extends Menu {
 
     public void login(List<String> inputs) {
         Account account = LoginController.getLoginController()
-                .login(inputs.get(1), inputs.get(1));
+                .login(inputs.get(0), inputs.get(1));
 
         if (account instanceof Manager) {
             MenuHandler.setCurrentMenu(ManagerMenu.getMenu());
