@@ -1,9 +1,8 @@
 package Controller.Controllers;
 
-import Controller.Controllers.AccountController;
-import Controller.Exceptions.CreatManagerException;
-import Controller.Exceptions.InvalidCommandException;
-import Controller.Exceptions.InvalidIdException;
+import Exceptions.CreatManagerException;
+import Exceptions.InvalidCommandException;
+import Exceptions.InvalidIdException;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Category;

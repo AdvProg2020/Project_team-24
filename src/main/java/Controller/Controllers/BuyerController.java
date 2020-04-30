@@ -1,9 +1,9 @@
 package Controller;
 
 import Controller.Controllers.AccountController;
-import Controller.Exceptions.CannotRateException;
-import Controller.Exceptions.CannotUseDiscountException;
-import Controller.Exceptions.PurchaseFailException;
+import Exceptions.CannotRateException;
+import Exceptions.CannotUseDiscountException;
+import Exceptions.PurchaseFailException;
 import Model.Models.*;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package Controller.Exceptions;
+package Exceptions;
 
 public class InvalidFilterException extends Exception{
     public InvalidFilterException(String message){

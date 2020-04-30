@@ -1,6 +1,6 @@
 package Controller.Controllers;
 
-import Controller.Exceptions.InvalidFilterException;
+import Exceptions.InvalidFilterException;
 import Model.Models.Filter;
 import Model.Models.Product;
 
