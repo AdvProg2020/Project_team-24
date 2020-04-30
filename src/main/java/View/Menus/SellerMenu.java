@@ -66,7 +66,8 @@ public class SellerMenu extends Menu {
 
     public void showCategories() {
         System.out.println("these are categories");
-        Category.getCategoryList().stream().map(Category::getName).forEach(System.out::println);
+       // Category.getCategoryList().stream().map(Category::getName).forEach(System.out::println);
+        //yasi
     }
 
     public void viewOffs() {

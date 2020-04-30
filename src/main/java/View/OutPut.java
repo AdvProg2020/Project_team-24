@@ -185,12 +185,17 @@ public class OutPut {
 
     private void setManageProductsByManageMenuPattern() {
         ManageProductsByManagerMenu.getInstance("Manage Products By Manager", null)
-                .addRegex("manage all products")
                 .addRegex("remove (\\d+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+    private void setManageProductsByManagerMenuMethod(){
+        ManageProductsByManagerMenu.getMenu().addMethod("remove")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setViewDiscountsCodeMenuPattern() {
@@ -243,6 +248,20 @@ public class OutPut {
                 .addRegex("back")
                 .setPatterns();
     }
+    public void setSellerMenuMethod(){
+        SellerMenu.getMenu().addMethod("viewPersonalInfo")
+                .addMethod("viewCompanyInformation")
+                .addMethod("viewSalesHistory")
+                .addMethod("manageProducts")
+                .addMethod("addProduct")
+                .addMethod("removeProduct (\\d+)")
+                .addMethod("showCategories")
+                .addMethod("viewOffs")
+                .addMethod("viewBalance")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
+    }
 
     private void setManageInfoMenuPattern() {
         ManageInfoMenu.getInstance("Manage Info", null)
@@ -285,12 +304,12 @@ public class OutPut {
 
     private void setBuyerMenuPattern() {
         BuyerMenu.getInstance("Buyer Menu", null)
-                .addRegex("view personal info")
-                .addRegex("view cart")
-                .addRegex("view balance")
-                .addRegex("view discount codes")
+                .addRegex("viewPersonalInfo")
+                .addRegex("viewCart")
+                .addRegex("viewBalance")
+                .addRegex("viewDiscountCodes")
                 .addRegex("purchase")
-                .addRegex("view orders")
+                .addRegex("viewOrders")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
