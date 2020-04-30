@@ -70,7 +70,7 @@ public class ManagerMenu extends Menu {
     @Override
     public void show() {
         System.out.println(
-                "You're in managerMenu" + System.lineSeparator() +
+                "You are in managerMenu" + System.lineSeparator() +
                         "-------------------SubMenus-------------------" + System.lineSeparator() +
                         "1.ManageUsersMenu" + System.lineSeparator() +
                         "2.ManageProductsMenu" + System.lineSeparator() +
