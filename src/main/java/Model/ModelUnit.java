@@ -1,6 +1,6 @@
 package Model;
 
-import Controller.Controllers.ControllerUnit;
+import Controller.ControllerUnit;
 import Model.DataBase.DataBase;
 
 public class ModelUnit {

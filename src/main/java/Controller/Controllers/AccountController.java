@@ -1,12 +1,21 @@
 package Controller.Controllers;
 
-import Controller.Exceptions.EditFieldException;
+import Controller.ControllerUnit;
+import Model.Models.Account;
 import Model.Models.PersonalInfo;
 
-import java.lang.reflect.Field;
-
 public class AccountController {
-    private void checkValidFieldToEdit(Field field) throws EditFieldException {}
-    public void editField(Field field){}
-    public PersonalInfo viewPersonalInfo(long accountId){}
+
+    private ControllerUnit controllerUnit;
+
+    public void editField(String fieldName, String newField) throws NoSuchFieldException, IllegalAccessException {
+        //+m checkValidfieldtoedit throws NosuchfieldException.........
+        //check if pattern is valid else throw exception
+        Account.getFieldByName(fieldName).set(controllerUnit.getAccount(),newField);
+
+    }
+
+    public PersonalInfo viewPersonalInfo(long accountId) {
+        return Account.getAccountById(accountId).getPersonalInfo();
+    }
 }

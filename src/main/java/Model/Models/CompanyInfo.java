@@ -35,29 +35,16 @@ public class CompanyInfo implements Packable {
 
     @Override
     public Data pack() {
-        return new Data(CompanyInfo.class.getName())
-                .addField(companyId)
-                .addField(fieldList);
+        return null;
     }
 
     @Override
     public void dpkg(Data data) {
-        this.companyId = (long) data.getFields().get(0);
-        this.fieldList = (FieldList) data.getFields().get(2);
-    }
 
-    public static CompanyInfo getCompanyInfoById(long id) {
-        return list.stream()
-                .filter(companyInfo -> id == companyInfo.companyId)
-                .findFirst()
-                .orElseThrow();
     }
 
     public CompanyInfo(long companyId, FieldList fieldList) {
         this.companyId = companyId;
         this.fieldList = fieldList;
-    }
-
-    public CompanyInfo() {
     }
 }

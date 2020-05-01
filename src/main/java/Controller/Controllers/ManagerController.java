@@ -1,9 +1,9 @@
 package Controller.Controllers;
 
-import Controller.Controllers.AccountController;
-import Controller.Exceptions.CreatManagerException;
-import Controller.Exceptions.InvalidCommandException;
-import Controller.Exceptions.InvalidIdException;
+import Controller.ControllerUnit;
+import Exceptions.CreatManagerException;
+import Exceptions.InvalidCommandException;
+import Exceptions.InvalidIdException;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Category;
@@ -14,6 +14,7 @@ import Model.Models.Roles.Buyer;
 import java.util.ArrayList;
 
 public class ManagerController extends AccountController {
+    private ControllerUnit controllerUnit;
     private void checkInManageUsers() throws InvalidCommandException {}
     public ArrayList<Account> view(String username){}
     public void delete(String username){}

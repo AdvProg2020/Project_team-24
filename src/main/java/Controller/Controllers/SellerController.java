@@ -1,6 +1,7 @@
 package Controller.Controllers;
 
-import Controller.Exceptions.InvalidCommandException;
+import Controller.ControllerUnit;
+import Exceptions.InvalidCommandException;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
@@ -8,8 +9,9 @@ import Model.Models.Accounts.Seller;
 import java.util.ArrayList;
 
 public class SellerController extends AccountController {
+    private ControllerUnit controllerUnit;
 
-    public CompanyInformation viewCompanyInformation() {
+    public CompanyInfo viewCompanyInformation() {
     }
 
     public ArrayList<LogHistory> viewSalesHistory() {

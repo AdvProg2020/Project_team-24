@@ -1,14 +1,15 @@
 package Controller;
 
 import Controller.Controllers.AccountController;
-import Controller.Exceptions.CannotRateException;
-import Controller.Exceptions.CannotUseDiscountException;
-import Controller.Exceptions.PurchaseFailException;
+import Exceptions.CannotRateException;
+import Exceptions.CannotUseDiscountException;
+import Exceptions.PurchaseFailException;
 import Model.Models.*;
 
 import java.util.ArrayList;
 
 public class BuyerController extends AccountController {
+    private ControllerUnit controllerUnit;
     public Cart viewCart(){}
     public ArrayList<Product> showProducts(){}
     public String view(long productId){}
