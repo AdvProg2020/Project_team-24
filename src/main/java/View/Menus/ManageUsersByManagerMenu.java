@@ -69,9 +69,9 @@ public class ManageUsersByManagerMenu extends Menu {
     @Override
     public void help() {
         super.help();
-        System.out.println(
+        System.out.println("manageUsers" + System.lineSeparator() +
                 "view [username]:to view account" + System.lineSeparator() +
-                        "deleteUser [username]:to delete an user" + System.lineSeparator() +
-                        "createManagerProfile");
+                "deleteUser [username]:to delete an user" + System.lineSeparator() +
+                "createManagerProfile");
     }
 }

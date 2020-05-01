@@ -3,6 +3,7 @@ package View.Menus;
 import java.util.List;
 
 public class ManageProductsByManagerMenu extends Menu {
+
     private static ManageProductsByManagerMenu menu;
 
     public ManageProductsByManagerMenu(String name, Menu parentMenu) {

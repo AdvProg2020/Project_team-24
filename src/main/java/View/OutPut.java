@@ -191,7 +191,6 @@ public class OutPut {
 
     private void setManageUsersByManagerMenuPattern() {
         ManageUsersByManagerMenu.getInstance("Manage Users By Manager Menu", null)
-                .addRegex("manageUsers")
                 .addRegex("view (\\w+)")
                 .addRegex("deleteUser (\\w+)")
                 .addRegex("createManagerProfile")
@@ -203,7 +202,6 @@ public class OutPut {
 
     private void setManagerUsersByManagerMenuMethod() {
         ManageUsersByManagerMenu.getMenu()
-                .addMethod("manageUsers")
                 .addMethod("view (\\w+)")
                 .addMethod("deleteUser (\\w+)")
                 .addMethod("createManagerProfile")
@@ -211,7 +209,6 @@ public class OutPut {
                 .addMethod("help")
                 .addMethod("back");
     }
-
 
     private void setManageProductsByManageMenuPattern() {
         ManageProductsByManagerMenu.getInstance("Manage Products By Manager", null)

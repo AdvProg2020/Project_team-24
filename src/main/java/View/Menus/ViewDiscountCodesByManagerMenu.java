@@ -23,15 +23,29 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
     }
 
     public void viewDiscountCode(List<String> inputs) {
-
+        try {
+            long id = Long.parseLong(inputs.get(0));
+        } catch (NumberFormatException e) {
+            System.out.println("Sogol : Na ... In addade ?");
+        }
         // yac
     }
 
     public void editDiscountCode(List<String> inputs) {
+        try {
+            long id = Long.parseLong(inputs.get(0));
+        } catch (NumberFormatException e) {
+            System.out.println("Sogol : Na ... In addade ?");
+        }
         // yac
     }
 
     public void removeDiscountCode(List<String> inputs) {
+        try {
+            long id = Long.parseLong(inputs.get(0));
+        } catch (NumberFormatException e) {
+            System.out.println("Sogol : Na ... In addade ?");
+        }
         // yac
     }
 

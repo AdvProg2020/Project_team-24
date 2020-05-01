@@ -27,13 +27,12 @@ public class ManagerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
-        //yac-namayesh etelaat
+        // yac - show information
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
-
     }
 
     public void openManageUsersMenu() {
-        //yac-list karbara
+        // yac - show information
         MenuHandler.setCurrentMenu(ManageUsersByManagerMenu.getMenu());
     }
 
@@ -42,19 +41,19 @@ public class ManagerMenu extends Menu {
     }
 
     public void openManageRequestsMenu() {
-        //namayesh req ha
+        // yac - show information
         MenuHandler.setCurrentMenu(ManageRequestsByManagerMenu.getMenu());
     }
 
     public void openManageCategoriesMenu() {
-        // namayesh cat
+        // yac - show information
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
 
     public void viewDiscountCode() {
-        //namayeshe dicount ha
-        MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu()); }
-
+        // yac - show information
+        MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
+    }
 
     public void createDiscountCode() {
         System.out.println("Enter discountCode information :" + System.lineSeparator() +
@@ -83,6 +82,7 @@ public class ManagerMenu extends Menu {
                         "3.ManageRequestsMenu" + System.lineSeparator() +
                         "4.ManageCategoriesMenu" + System.lineSeparator() +
                         "5.ManageIfo" + System.lineSeparator() +
+                        "6.ViewDiscountCodesByManagerMenu" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
