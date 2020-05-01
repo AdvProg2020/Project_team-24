@@ -26,15 +26,12 @@ public class RegisterController {
         }else throw new PasswordInvalidException("PasswordInvalidException");
 
     }
-    public void savePersonalInfo(String id,String firstName,String lastName,String email,String phoneNumber,FieldList fieldList) throws IdInvalidException,FirstNameInvalidException, LastNameInvalidException,EmailInvalidException, PhoneNumberInvalidException {
-        Matcher registerIdMatcher = EssentialMethods.getMatcher("^\\d+$",id);
+    public void savePersonalInfo(String firstName,String lastName,String email,String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException,EmailInvalidException, PhoneNumberInvalidException {
         Matcher registerFirstNameMatcher = EssentialMethods.getMatcher("^\\w+$",firstName);
         Matcher registerLastNameMatcher = EssentialMethods.getMatcher("^\\w+$",lastName);
         Matcher registerEmailMatcher = EssentialMethods.getMatcher("^\\w+@(gmail|yahoo)\\.com$",email);
         Matcher registerPhoneNumMatcher = EssentialMethods.getMatcher("^\\d{11}$",phoneNumber);
-        if(registerIdMatcher.find()){
-            // Account.personalinfo.setid....
-        }else throw new IdInvalidException("IdInvalidException");
+
         if(registerFirstNameMatcher.find()){
             // Account.personalinfo.setFirstname....
         }else throw new FirstNameInvalidException("FirstNameInvalidException");
@@ -50,7 +47,7 @@ public class RegisterController {
         //save fieldlist
     }
 
-    public void saveCompanyInfo(String name,String phoneNumber,String email,String foundation,FieldList fieldList) throws CompanyIdInvalidException,CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
+    public void saveCompanyInfo(String name,String phoneNumber,String email,String foundation) throws CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
         Matcher registerNameMatcher = EssentialMethods.getMatcher("^\\w+$",name);
         Matcher registerEmailMatcher = EssentialMethods.getMatcher("^\\w+@(gmail|yahoo)\\.com$",email);
         Matcher registerPhoneNumMatcher = EssentialMethods.getMatcher("^\\d{8}$",phoneNumber);
