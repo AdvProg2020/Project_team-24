@@ -79,6 +79,11 @@ public class OutPut {
         setDigestProductMenuMethods();
         setFilteringProductsMenuMethods();
         setSortingProductsMenuMethods();
+        setDiscountsMenuMethod();
+        setViewOrdersByBuyerMenuMethod();
+        setManagerUsersByManagerMenuMethod();
+        setProductsMenuMethod();
+        setProductMenuMethods();
     }
 
     private void setUserAreaMenuPattern() {
@@ -468,14 +473,24 @@ public class OutPut {
 
     private void setProductMenuPattern() {
         ProductMenu.getInstance("Product Menu", null)
-                .addRegex("￼digest")
-                .addRegex("￼attributes")
-                .addRegex("￼compare [productID]")
+                .addRegex("digest")
+                .addRegex("attributes")
+                .addRegex("compare (\\w+)")
                 .addRegex("Comments")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setProductMenuMethods() {
+        ProductMenu.getMenu().addMethod("digest")
+                .addMethod("attributes")
+                .addMethod("compare")
+                .addMethod("Comments")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setProductsMenuPattern() {

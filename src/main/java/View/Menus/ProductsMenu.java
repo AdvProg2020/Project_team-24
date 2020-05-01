@@ -1,8 +1,10 @@
 package View.Menus;
 
+import Model.Models.Product;
 import View.MenuHandler;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductsMenu extends Menu {
 
@@ -12,17 +14,6 @@ public class ProductsMenu extends Menu {
         super(name, parentMenu);
     }
 
-    @Override
-    public void show() {
-        System.out.println("you are in products menu" + System.lineSeparator() +
-
-                "-------------------SubMenus-------------------" + System.lineSeparator() +
-                "1.FilteringMenu" + System.lineSeparator() +
-                "2.SortingMenu" + System.lineSeparator() +
-                "3.productMenu" + System.lineSeparator() +
-                "----------------------------------------------");
-    }
-
     public static ProductsMenu getInstance(String name, Menu parent) {
         if (menu == null) {
             menu = new ProductsMenu(name, parent);
@@ -30,12 +21,12 @@ public class ProductsMenu extends Menu {
         return menu;
     }
 
-//    public void products() {
+//    public void products() { // bdn ...
 //        MenuHandler.setCurrentMenu(ProductsMenu.getMenu());
 //    }
 
     public void viewCategories() {
-        //yasi
+        //yac
     }
 
     public void filtering() {
@@ -47,27 +38,38 @@ public class ProductsMenu extends Menu {
     }
 
     public void showProducts() {
-        //yasi
+        //yac
     }
 
     public void showProduct(List<String> inputs) {
         long id = Long.parseLong(inputs.get(0));
-        MenuHandler.setCurrentMenu(ProductMenu.getMenu());
+        Product product = Product.getProductById(id);
+        MenuHandler.setCurrentMenu(ProductMenu.getMenu().setProduct(product));
     }
 
     public static Menu getMenu() {
-        return menu;
+        return Optional.ofNullable(menu).orElseThrow();
+    }
+
+    @Override
+    public void show() {
+        System.out.println("you are in products menu" + System.lineSeparator() +
+                "-------------------SubMenus-------------------" + System.lineSeparator() +
+                "1.FilteringMenu" + System.lineSeparator() +
+                "2.SortingMenu" + System.lineSeparator() +
+                "3.productMenu" + System.lineSeparator() +
+                "----------------------------------------------");
     }
 
     @Override
     public void help() {
         super.help();
-        System.out.println("products:to show products" + System.lineSeparator() +
-                "viewCategories" + System.lineSeparator() +
-                "filtering" + System.lineSeparator() +
-                "sorting" + System.lineSeparator() +
-                "showProducts" + System.lineSeparator() +
-                "showProduct [productId]"
+        System.out.println("products:To show products" + System.lineSeparator() +
+                "viewCategories : --" + System.lineSeparator() +
+                "filtering : --" + System.lineSeparator() +
+                "sorting : --" + System.lineSeparator() +
+                "showProducts : --" + System.lineSeparator() +
+                "----------------------------------------------"
         );
     }
 }
