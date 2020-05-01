@@ -63,6 +63,7 @@ public class OutPut {
         setSortingProductsMenuPattern();
         setMainMenuPattern();
         setUserAreaMenuPattern();
+        setViewCartByGuestMethod();
     }
 
     public void setSetMethods() {
@@ -83,7 +84,9 @@ public class OutPut {
         setViewOrdersByBuyerMenuMethod();
         setManagerUsersByManagerMenuMethod();
         setProductsMenuMethod();
-        setProductMenuMethods();
+        setProductMenuMethod();
+        setManageProductsBySellerMenuMethod();
+        setCommentProductMenuMethod();
     }
 
     private void setUserAreaMenuPattern() {
@@ -347,11 +350,25 @@ public class OutPut {
 
     }
 
+     private void setManageProductsBySellerMenuMethod() {
+         ManageProductsBySellerMenu.getMenu()
+                 .addMethod("view (\\d+)")
+                 .addMethod("view buyers (\\d+)")
+                 .addMethod("edit (\\d+)")
+                 .addMethod("exit")
+                 .addMethod("help")
+                 .addMethod("back");
+
+
+     }
+
+
+
     private void setViewOffsBySellerMenuPattern() {
         ViewOffsBySellerMenu.getInstance("View Offs By Seller Menu", null)
-                .addRegex("view (\\d+)")
-                .addRegex("edit (\\d+)")
-                .addRegex("add off")
+                .addRegex("viewOff (\\d+)")
+                .addRegex("editOff (\\d+)")
+                .addRegex("addOff")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -471,6 +488,21 @@ public class OutPut {
                 .setPatterns();
     }
 
+    private void setViewCartByGuestMethod() {
+        ViewCartByGuestMenu.getMenu()
+                .addMethod("show products")
+                .addMethod("view (\\d+)")
+                .addMethod("increase (\\d+)")
+                .addMethod("decrease (\\d+)")
+                .addMethod("show total price")
+                .addMethod("purchase")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
+
+    }
+
+
     private void setProductMenuPattern() {
         ProductMenu.getInstance("Product Menu", null)
                 .addRegex("digest")
@@ -483,16 +515,18 @@ public class OutPut {
                 .setPatterns();
     }
 
-    private void setProductMenuMethods() {
-        ProductMenu.getMenu().addMethod("digest")
+    private void setProductMenuMethod() {
+        ProductMenu.getMenu()
+                .addMethod("digest")
                 .addMethod("attributes")
-                .addMethod("compare")
+                .addMethod("compare (\\w+)")
                 .addMethod("Comments")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");
-    }
 
+
+    }
     private void setProductsMenuPattern() {
         ProductsMenu.getInstance("Products Menu", null)
                 .addRegex("viewCategories")
@@ -592,6 +626,14 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
+    }
+
+    private void setCommentProductMenuMethod() {
+        CommentProductMenu.getMenu()
+                .addMethod("Add comment")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
     }
 
     private void setDiscountsMenuPattern() {
