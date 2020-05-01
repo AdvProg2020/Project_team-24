@@ -9,9 +9,6 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Category;
 import Model.Models.Discount;
 import Model.Models.Request;
-import Model.Models.Roles.Buyer;
-
-import java.util.ArrayList;
 
 public class ManagerController extends AccountController {
     private ControllerUnit controllerUnit;
