@@ -5,6 +5,7 @@ import Exceptions.InvalidCommandException;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
+import Model.Tools.ForPend;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class SellerController extends AccountController {
     public ArrayList<Customer> viewBuyers(long productId) {
     }
 
-    public void addProductOfOff(PendStatus pendable) {
+    public void addProductOrOff(ForPend pendable) {
     }
 
     private void newRequest(PendStatus pendable) {

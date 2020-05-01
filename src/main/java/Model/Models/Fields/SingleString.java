@@ -2,7 +2,7 @@ package Model.Models.Fields;
 
 import Model.Models.Field;
 
-public class Single extends Field {
+public class SingleString extends Field {
 
     private String string;
 
@@ -10,7 +10,7 @@ public class Single extends Field {
         return string;
     }
 
-    public Single(String string) {
+    public SingleString(String string) {
         this.string = string;
     }
 }

@@ -7,4 +7,8 @@ public class Field {
     public String getFieldName() {
         return fieldName;
     }
+
+    public Field(String fieldName) {
+        this.fieldName = fieldName;
+    }
 }

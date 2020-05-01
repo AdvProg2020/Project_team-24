@@ -61,4 +61,7 @@ public class Category implements Packable {
         this.categoryField = categoryField;
         this.subCategoryList = subCategoryList;
     }
+
+    public Category() {
+    }
 }
