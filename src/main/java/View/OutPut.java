@@ -16,11 +16,6 @@ public class OutPut {
         setPatterns();
         setParents();
         setSetMethods();
-        setGuestMenuMethods();
-        setManageCategoriesByManagerMenuMethods();
-        setViewCartByBuyerMenuMethods();
-        setSellerMenuMethods();
-        setManagerRequestsByManagerMenuMethods();
     }
 
     public void handleCommand(String command) {
@@ -87,6 +82,11 @@ public class OutPut {
         setProductMenuMethod();
         setManageProductsBySellerMenuMethod();
         setCommentProductMenuMethod();
+        setGuestMenuMethods();
+        setManageCategoriesByManagerMenuMethods();
+        setViewCartByBuyerMenuMethods();
+        setSellerMenuMethods();
+        setManagerRequestsByManagerMenuMethods();
     }
 
     private void setUserAreaMenuPattern() {

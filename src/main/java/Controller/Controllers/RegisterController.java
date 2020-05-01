@@ -1,32 +1,32 @@
 package Controller.Controllers;
 
-import Controller.Tools.EssentialMethods;
 import Exceptions.*;
-import Model.Models.FieldList;
-
-import java.lang.reflect.Type;
-import java.util.regex.Matcher;
 
 public class RegisterController {
+
+    private static RegisterController registerController = new RegisterController();
+
+    public static RegisterController getInstance() {
+        return registerController;
+    }
+
     public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortExcepton, TypeInvalidException, AccountExistanceException{
         if(!username.matches("^\\w+$")){
             throw new UserNameInvalidException("UserNameInvalidException");
         }
-        if(!username.matches("^\\w{6,}$")){
-            throw new UserNameTooShortExcepton("UserNameTooShortExcepton");
+        if(username.toCharArray().length < 6){
+            throw new UserNameTooShortExcepton("UserNameTooShortException");
         }
-        if(!type.matches("^Customer$|^Guest$|^Manager$|^Seller$")){
+        if(!type.matches("^(Customer|Guest|Manager|Seller)$")){
             throw new TypeInvalidException("TypeInvalidException");
         }
-        //+m checkAccountExistance(username) throws .....
-
+        // Qre
     }
     public void creatPassWordForAccount(String password) throws PasswordInvalidException{
         if(!password.matches("^\\w+$")){
             throw new PasswordInvalidException("PasswordInvalidException");
         }
-        //+m set pass
-
+        // Qre
     }
     public void savePersonalInfo(String firstName,String lastName,String email,String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException,EmailInvalidException, PhoneNumberInvalidException {
         if(!firstName.matches("^\\w+$")){
@@ -38,25 +38,23 @@ public class RegisterController {
         if(!email.matches("^\\w+@(gmail|yahoo)\\.com$")){
             throw new EmailInvalidException("EmailInvalidException");
         }
-        if(!phoneNumber.matches("^\\d{11}$")){
-            throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
+        if(phoneNumber.toCharArray().length != 11){
+            throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
         }
-        ///+m
-
+        // Qre
     }
 
-    public void saveCompanyInfo(String name,String phoneNumber,String email,String foundation) throws CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
+    public void saveCompanyInfo(String name,String phoneNumber,String email) throws CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
         if(!name.matches("^\\w+$")){
             throw new CompanyNameInvalidException("CompanyNameInvalidException");
         }
-        if(!phoneNumber.matches("^\\w+@(gmail|yahoo)\\.com$")){
+        if(!email.matches("^\\w+@(gmail|yahoo)\\.com$")){
             throw new EmailInvalidException("EmailInvalidException");
         }
-        if(!phoneNumber.matches("^\\d{8}$")){
+        if(phoneNumber.toCharArray().length != 11){
             throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
         }
-        ///+m
-
+        // Qre
     }
 
 
