@@ -9,50 +9,53 @@ import java.util.regex.Matcher;
 
 public class RegisterController {
     public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortExcepton, TypeInvalidException, AccountExistanceException{
-        Matcher registerUserNameMatcher = EssentialMethods.getMatcher("^\\w+$",username);
-        Matcher registerTypeMatcher = EssentialMethods.getMatcher("^Customer$|^Guest$|^Manager$|^Seller$",type);
-        if(!registerUserNameMatcher.find()){
-        }else throw new UserNameInvalidException("UserNameInvalidException");
-        if(registerUserNameMatcher.group(0).matches("^\\w{6,}$")){
-        }else throw new UserNameTooShortExcepton("UserNameTooShortExcepton");
-        if(registerTypeMatcher.find()){
-            //+m checkAccountExistance(username) throws .....
-        }else throw new TypeInvalidException("TypeInvalidException");
+        if(!username.matches("^\\w+$")){
+            throw new UserNameInvalidException("UserNameInvalidException");
+        }
+        if(!username.matches("^\\w{6,}$")){
+            throw new UserNameTooShortExcepton("UserNameTooShortExcepton");
+        }
+        if(!type.matches("^Customer$|^Guest$|^Manager$|^Seller$")){
+            throw new TypeInvalidException("TypeInvalidException");
+        }
+        //+m checkAccountExistance(username) throws .....
 
     }
     public void creatPassWordForAccount(String password) throws PasswordInvalidException{
-        Matcher registerPasswordMatcher = EssentialMethods.getMatcher("^\\w+$",password);
-        if(registerPasswordMatcher.find()){
-
-        }else throw new PasswordInvalidException("PasswordInvalidException");
+        if(!password.matches("^\\w+$")){
+            throw new PasswordInvalidException("PasswordInvalidException");
+        }
+        //+m set pass
 
     }
     public void savePersonalInfo(String firstName,String lastName,String email,String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException,EmailInvalidException, PhoneNumberInvalidException {
-        if(firstName.matches("^\\w+$")){
-            // Account.personalinfo.setFirstname....
-        }else throw new FirstNameInvalidException("FirstNameInvalidException");
-        if(lastName.matches("^\\w+$")){
-            // Account.personalinfo.setlastname....
-        }else throw new LastNameInvalidException("LastNameInvalidException");
-        if(email.matches("^\\w+@(gmail|yahoo)\\.com$")){
-            // Account.personalinfo.setemail....
-        }else throw new EmailInvalidException("EmailInvalidException");
-        if(phoneNumber.matches("^\\d{11}$")){
-            // Account.personalinfo.setphonenum....
-        }else throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
+        if(!firstName.matches("^\\w+$")){
+            throw new FirstNameInvalidException("FirstNameInvalidException");
+        }
+        if(!lastName.matches("^\\w+$")){
+            throw new LastNameInvalidException("LastNameInvalidException");
+        }
+        if(!email.matches("^\\w+@(gmail|yahoo)\\.com$")){
+            throw new EmailInvalidException("EmailInvalidException");
+        }
+        if(!phoneNumber.matches("^\\d{11}$")){
+            throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
+        }
+        ///+m
 
     }
 
     public void saveCompanyInfo(String name,String phoneNumber,String email,String foundation) throws CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
-        if(name.matches("^\\w+$")){
+        if(!name.matches("^\\w+$")){
             throw new CompanyNameInvalidException("CompanyNameInvalidException");
         }
-        if(phoneNumber.matches("^\\w+@(gmail|yahoo)\\.com$")){
+        if(!phoneNumber.matches("^\\w+@(gmail|yahoo)\\.com$")){
             throw new EmailInvalidException("EmailInvalidException");
         }
-        if(phoneNumber.matches("^\\d{8}$")){
+        if(!phoneNumber.matches("^\\d{8}$")){
             throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
         }
+        ///+m
 
     }
 
