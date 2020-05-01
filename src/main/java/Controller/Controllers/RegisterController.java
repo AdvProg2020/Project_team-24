@@ -50,14 +50,10 @@ public class RegisterController {
         //save fieldlist
     }
 
-    public void saveCompanyInfo(String companyId,String name,String phoneNumber,String email,String foundation,FieldList fieldList) throws CompanyIdInvalidException,CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
-        Matcher registerCompanyIdMatcher = EssentialMethods.getMatcher("^\\d+$",companyId);
+    public void saveCompanyInfo(String name,String phoneNumber,String email,String foundation,FieldList fieldList) throws CompanyIdInvalidException,CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
         Matcher registerNameMatcher = EssentialMethods.getMatcher("^\\w+$",name);
         Matcher registerEmailMatcher = EssentialMethods.getMatcher("^\\w+@(gmail|yahoo)\\.com$",email);
         Matcher registerPhoneNumMatcher = EssentialMethods.getMatcher("^\\d{8}$",phoneNumber);
-        if(registerCompanyIdMatcher.find()){
-            // Account.personalinfo.setid....
-        }else throw new CompanyIdInvalidException("CompanyIdInvalidException");
         if(registerNameMatcher.find()){
             // Account.personalinfo.setname....
         }else throw new CompanyNameInvalidException("CompanyNameInvalidException");
