@@ -12,13 +12,13 @@ import java.util.ArrayList;
 public class SellerController extends AccountController {
     private ControllerUnit controllerUnit;
 
-    public CompanyInfo viewCompanyInformation() {
+    public CompanyInfo viewCompanyInformation() {return null;
     }
 
-    public ArrayList<LogHistory> viewSalesHistory() {
+    public ArrayList<LogHistory> viewSalesHistory() {return null;
     }
 
-    public ArrayList<Product> manageProducts() {
+    public ArrayList<Product> manageProducts() {return null;
     }
 
     private void checkInManageProducts() throws InvalidCommandException {
@@ -28,7 +28,7 @@ public class SellerController extends AccountController {
         return null;
     }
 
-    public ArrayList<Customer> viewBuyers(long productId) {
+    public ArrayList<Customer> viewBuyers(long productId) {return null;
     }
 
     public void addProductOrOff(ForPend pendable) {
@@ -40,10 +40,10 @@ public class SellerController extends AccountController {
     public void removeProduct(long productId) {
     }
 
-    public ArrayList<Category> showCategories() {
+    public ArrayList<Category> showCategories() {return null;
     }
 
-    public ArrayList<Discount> viewOff() {
+    public ArrayList<Discount> viewOff() {return null;
     }
 
     private void checkInViewOff() throws InvalidCommandException {
@@ -56,6 +56,6 @@ public class SellerController extends AccountController {
     public void edit(PendStatus pendable) {
     }
 
-    public double viewBalance(Seller seller) {
+    public double viewBalance(Seller seller) {return 0;
     }
 }

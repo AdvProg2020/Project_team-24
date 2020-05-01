@@ -10,16 +10,15 @@ import java.util.ArrayList;
 
 public class ProductsController {
     public void products(){}
-    public ArrayList<Category> viewCategories(){}
+    public ArrayList<Category> viewCategories(){return null;}
     private void checkDisablefilterIsNotVategory(Filter filter){}
     public void sorting(){}
-    public ArrayList<Field> showAvailableSorts(){}
+    public ArrayList<Field> showAvailableSorts(){return null;}
     private void checkSortAvailable()throws NotAvailableSortException {}
     public void sort(Filter availableSort){}
     public void currentSort(){}
     public void disableSort(){}
-    public ArrayList<Product> showProducts(){}
+    public ArrayList<Product> showProducts(){return null;}
     private void checkIfSortChosen(){}
-    public ArrayList<Product> showProducts(){}
     public void showProduct(long productId){}
 }
