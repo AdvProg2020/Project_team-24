@@ -2,6 +2,8 @@ package View;
 
 import java.util.Scanner;
 
+// start
+
 public class InPut {
 
     private OutPut output = OutPut.getInstance();

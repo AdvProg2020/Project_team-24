@@ -5,7 +5,7 @@ import Exceptions.*;
 import Model.Models.FieldList;
 
 import java.util.regex.Matcher;
-//moshtarak kardane chand ta matcher
+
 public class RegisterController {
     public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortExcepton, TypeInvalidException, AccountExistanceException{
         Matcher registerUserNameMatcher = EssentialMethods.getMatcher("^\\w+$",username);
@@ -48,8 +48,8 @@ public class RegisterController {
             // Account.personalinfo.setphonenum....
         }else throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
         //save fieldlist
-
     }
+
     public void saveCompanyInfo(String companyId,String name,String phoneNumber,String email,String foundation,FieldList fieldList) throws CompanyIdInvalidException,CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
         Matcher registerCompanyIdMatcher = EssentialMethods.getMatcher("^\\d+$",companyId);
         Matcher registerNameMatcher = EssentialMethods.getMatcher("^\\w+$",name);
