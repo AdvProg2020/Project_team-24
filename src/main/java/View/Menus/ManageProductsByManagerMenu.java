@@ -22,12 +22,18 @@ public class ManageProductsByManagerMenu extends Menu {
     }
 
     public void remove(List<String> inputs) {
-        long id = Long.parseLong(inputs.get(0));
+        try {
+            long id = Long.parseLong(inputs.get(0));
+        } catch (NumberFormatException e) {
+            System.out.println("Sogol : Na ... In addade ?");
+        }
         //yasi
     }
+
     public static Menu getMenu() {
         return menu;
     }
+
     @Override
     public void help() {
         super.help();

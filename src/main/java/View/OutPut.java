@@ -167,7 +167,7 @@ public class OutPut {
                 .addRegex("openManageUsersMenu")
                 .addRegex("openManageProductsMenu")
                 .addRegex("createDiscountCode")
-                .addRegex("viewDiscountCode (\\d+)")
+                .addRegex("viewDiscountCode")
                 .addRegex("openManageRequestsMenu")
                 .addRegex("openManageCategoriesMenu")
                 .addRegex("exit")

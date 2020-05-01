@@ -19,6 +19,9 @@ public class ManageInfoMenu extends Menu {
     }
 
     public void edit(List<String> inputs) {
+        String fieldName=inputs.get(0);
+        System.out.print("Enter a new field :");
+        String newField = scanner.nextLine();
         // yac
     }
 

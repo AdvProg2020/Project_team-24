@@ -27,10 +27,13 @@ public class ManagerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
+        //yac-namayesh etelaat
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
+
     }
 
     public void openManageUsersMenu() {
+        //yac-list karbara
         MenuHandler.setCurrentMenu(ManageUsersByManagerMenu.getMenu());
     }
 
@@ -39,12 +42,19 @@ public class ManagerMenu extends Menu {
     }
 
     public void openManageRequestsMenu() {
+        //namayesh req ha
         MenuHandler.setCurrentMenu(ManageRequestsByManagerMenu.getMenu());
     }
 
     public void openManageCategoriesMenu() {
+        // namayesh cat
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
+
+    public void viewDiscountCode() {
+        //namayeshe dicount ha
+        MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu()); }
+
 
     public void createDiscountCode() {
         System.out.println("Enter discountCode information :" + System.lineSeparator() +
@@ -53,7 +63,7 @@ public class ManagerMenu extends Menu {
 
         Matcher matcher = Pattern
                 .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}) :(\\d+) :(\\d+)")
-                .matcher(scanner.nextLine().trim().toLowerCase());
+                .matcher(scanner.nextLine().trim());
 
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
@@ -62,10 +72,6 @@ public class ManagerMenu extends Menu {
         // controller manager . . .
     }
 
-    public void viewDiscountCode(List<String> inputs) {
-        long id = Long.parseLong(inputs.get(0));
-        // yac method
-    }
 
     @Override
     public void show() {
@@ -89,7 +95,7 @@ public class ManagerMenu extends Menu {
                         "openManageUsersMenu : To open users menu" + System.lineSeparator() +
                         "openManageProductsMenu : To open products menu" + System.lineSeparator() +
                         "createDiscountCode : To create new discount code" + System.lineSeparator() +
-                        "viewDiscountCode [discountCodeId]: To view a discount code" + System.lineSeparator() +
+                        "viewDiscountCode : To open discount code menu" + System.lineSeparator() +
                         "openManageRequestsMenu : To open request menu" + System.lineSeparator() +
                         "openManageCategoriesMenu : To open categories menu" + System.lineSeparator() +
                         "----------------------------------------------"

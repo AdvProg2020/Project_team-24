@@ -23,6 +23,7 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
     }
 
     public void viewDiscountCode(List<String> inputs) {
+
         // yac
     }
 
