@@ -45,14 +45,14 @@ public class RegisterController {
 
     public void saveCompanyInfo(String name,String phoneNumber,String email,String foundation) throws CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
         if(name.matches("^\\w+$")){
-            // Account.personalinfo.setname....
-        }else throw new CompanyNameInvalidException("CompanyNameInvalidException");
+            throw new CompanyNameInvalidException("CompanyNameInvalidException");
+        }
         if(phoneNumber.matches("^\\w+@(gmail|yahoo)\\.com$")){
-            // Account.personalinfo.setemail....
-        }else throw new EmailInvalidException("EmailInvalidException");
+            throw new EmailInvalidException("EmailInvalidException");
+        }
         if(phoneNumber.matches("^\\d{8}$")){
-            // Account.personalinfo.setphonenum....
-        }else throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
+            throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
+        }
 
     }
 
