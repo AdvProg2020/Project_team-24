@@ -2,7 +2,7 @@ package View;
 
 import java.util.Scanner;
 
-// start
+// start.
 
 public class InPut {
 

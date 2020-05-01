@@ -1,6 +1,8 @@
 package View.Menus;
 
 import Controller.Controllers.LoginController;
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.PassIncorrectException;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
@@ -26,8 +28,15 @@ public class LogInMenu extends Menu {
     }
 
     public void login(List<String> inputs) {
-        Account account = LoginController.getLoginController()
-                .login(inputs.get(0), inputs.get(1));
+
+        Account account = null;
+
+        try {
+            account = LoginController.getLoginController()
+                    .login(inputs.get(0), inputs.get(1));
+        } catch (PassIncorrectException | AccountDoesNotExistException e) {
+            e.printStackTrace();
+        }
 
         MainMenu.getMenu().removeSubMenu(GuestMenu.getMenu());
         if (account instanceof Manager) {

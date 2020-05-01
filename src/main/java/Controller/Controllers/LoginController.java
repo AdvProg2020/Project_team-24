@@ -5,6 +5,8 @@ import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
 import Model.Models.Account;
 
+import java.util.Optional;
+
 public class LoginController {
 
     private ControllerUnit controllerUnit;
@@ -15,17 +17,21 @@ public class LoginController {
         this.controllerUnit = controllerUnit;
     }
 
-    public void login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
+    public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
 
-        Account account = null;
-
-        account = Account.getAccountByUserName(username);
+        Account account = Account.getAccountByUserName(username);
 
         if (!password.equals(account.getPassword())) {
             throw new PassIncorrectException("PassIncorrectException");
         }
 
         controllerUnit.setAccount(account);
+
+        return account;
+    }
+
+    public static LoginController getLoginController() {
+        return Optional.ofNullable(loginController).orElseThrow();
     }
 
     // more ...
