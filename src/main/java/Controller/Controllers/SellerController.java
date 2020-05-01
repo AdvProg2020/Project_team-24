@@ -23,7 +23,8 @@ public class SellerController extends AccountController {
     private void checkInManageProducts() throws InvalidCommandException {
     }
 
-    public ProductInfo view(long productId) {
+    public ProductInfo viewProduct(long productId) {
+        return null;
     }
 
     public ArrayList<Customer> viewBuyers(long productId) {
@@ -47,7 +48,8 @@ public class SellerController extends AccountController {
     private void checkInViewOff() throws InvalidCommandException {
     }
 
-    public ArrayList<String> view(long offId) {
+    public ArrayList<String> viewOff(long offId) {
+        return null;
     }
 
     public void edit(PendStatus pendable) {
