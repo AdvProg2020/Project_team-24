@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.NoSuchProductExistsException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
@@ -95,5 +96,11 @@ public class Product implements Packable, ForPend {
     }
 
     public Product() {
+    }
+    //////////////yac
+    public static void removeProduct(Product product) throws NoSuchProductExistsException {
+        //ham delete az database /ham az all product
+        ///+m private void checkIdExistance(long productId) throws NoSuchProductExistsException { }
+
     }
 }

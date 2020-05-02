@@ -127,7 +127,18 @@ public abstract class Account implements Packable {
         this.password = password;
         this.personalInfo = personalInfo;
     }
-
     public Account() {
     }
+///////////////////////////yac
+    public static List<Account> getList() {
+        return list;
+    }
+    public static void deleteAccount(Account account){
+        //...
+        //tooyye in tabe bayad ham az all acccount reamove beshe ham az data base
+    }
+
+
+
+
 }
