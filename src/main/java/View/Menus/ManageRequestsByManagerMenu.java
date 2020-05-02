@@ -1,11 +1,15 @@
 package View.Menus;
 
+import Controller.Controllers.ManagerController;
+import Exceptions.RequesDoesNotExistException;
+
 import java.util.List;
 import java.util.Optional;
 
 public class ManageRequestsByManagerMenu extends Menu {
 
     private static ManageRequestsByManagerMenu menu;
+    private static ManagerController managerController = ManagerController.getInstance();
 
     public ManageRequestsByManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -19,12 +23,17 @@ public class ManageRequestsByManagerMenu extends Menu {
     }
 
     public void showDetails(List<String> inputs) {
+        long id = 0;
         try {
-            long id = Long.parseLong(inputs.get(0));
+             id = Long.parseLong(inputs.get(0));
         } catch (NumberFormatException e) {
             System.out.println("Sogol : Na ... In addade ?");
         }
-        // yac
+        try {
+            managerController.detailsOfRequest(id);
+        } catch (RequesDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
     public void acceptRequest(List<String> inputs) {
@@ -33,7 +42,7 @@ public class ManageRequestsByManagerMenu extends Menu {
         } catch (NumberFormatException e) {
             System.out.println("Sogol : Na ... In addade ?");
         }
-        // yac
+        //yac
     }
 
     public void declineRequest(List<String> inputs) {

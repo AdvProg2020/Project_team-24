@@ -15,6 +15,11 @@ import java.util.Random;
 //coment ha barrasid
 public class ManagerController extends AccountController {
     private ControllerUnit controllerUnit;
+    private  static ManagerController managerController = new ManagerController();
+
+    public static ManagerController getInstance() {
+        return managerController;
+    }
 
 
     public List<Account> viewAllAccounts() {
@@ -29,7 +34,7 @@ public class ManagerController extends AccountController {
         Account.deleteAccount(Account.getAccountByUserName(username));
     }
 
-    public void remove(long productId) throws NoSuchProductExistsException {
+    public void removeProduct(long productId) throws NoSuchProductExistsException {
         Product.removeProduct(Product.getProductById(productId));
     }
 
@@ -50,7 +55,7 @@ public class ManagerController extends AccountController {
         return DiscountCode.getDiscountCodeById(disscoutCodeId);
     }
 
-    public void editDiscountCode(long discountCodeId,String field) {
+    public void editDiscountCode(long discountCodeId,String field) throws InvalidFieldToEdit{
         //+m DiscountCode.getfieldByName(field)......
     }
 
@@ -86,7 +91,7 @@ public class ManagerController extends AccountController {
     public List<Request> manageRequests() {
         return Request.getRequestList();
     }
-    public ArrayList<String> detailsOfRequest(long requestId){
+    public ArrayList<String> detailsOfRequest(long requestId) throws RequesDoesNotExistException{
         Request request = Request.getRequestById(requestId);
         ArrayList<String> detailsOfRequest = new ArrayList<String>();
         detailsOfRequest.add(request.getAccount().toString());
@@ -114,14 +119,24 @@ public class ManagerController extends AccountController {
         return Category.getCategoryList();
     }
 
-    public void editCategory(Category category,String field) {
+    public void editCategory(String categoryname,String field) {
+        Category category1 = Category.getCategoryByName(category);
         //kodoom field??
         //+m mitoonim mesle onn yeki class method tooye model dashte bashim barash
     }
 
-    public void removeCategory(Category category) {
+    public void removeCategory(String categoryName) {
+        Category category = Category.getCategoryByName(categoryName);
         Category.getCategoryList().remove(category);
     }
+    public void addCategory(String categoryName) {
+        Category category = Category.getCategoryByName(categoryName);
+        Category.getCategoryList().add(category);
+    }
+    public void createManagerProfileBaseAccount(String username ){
+        //inja bayad ooon boolean ro bezari
 
-
+    }
+    public List<Request> showAllRequests(){return Request.getRequestList();}
+    public List<Category> showAllCategories(){return Category.getCategoryList();}
 }

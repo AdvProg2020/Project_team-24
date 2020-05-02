@@ -1,5 +1,8 @@
 package View.Menus;
 
+import Controller.ControllerUnit;
+import Controller.Controllers.ManagerController;
+import Model.Models.Account;
 import View.MenuHandler;
 
 import java.util.List;
@@ -10,6 +13,7 @@ import java.util.regex.Pattern;
 public class ManagerMenu extends Menu {
 
     private static ManagerMenu menu;
+    private static ManagerController managerController = ManagerController.getInstance();
 
     private ManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -27,12 +31,13 @@ public class ManagerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
-        // yac - show information
+        Account accountLogedIn = ControllerUnit.getAccount();
+        managerController.viewPersonalInfo(accountLogedIn.getId());
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
     public void openManageUsersMenu() {
-        // yac - show information
+        managerController.viewAllAccounts();
         MenuHandler.setCurrentMenu(ManageUsersByManagerMenu.getMenu());
     }
 
@@ -41,17 +46,17 @@ public class ManagerMenu extends Menu {
     }
 
     public void openManageRequestsMenu() {
-        // yac - show information
+        managerController.showAllRequests();
         MenuHandler.setCurrentMenu(ManageRequestsByManagerMenu.getMenu());
     }
 
     public void openManageCategoriesMenu() {
-        // yac - show information
+        managerController.showAllCategories();
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
 
     public void viewDiscountCode() {
-        // yac - show information
+        managerController.viewDiscountCodes();
         MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
     }
 

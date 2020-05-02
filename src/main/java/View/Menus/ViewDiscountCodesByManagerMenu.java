@@ -1,11 +1,16 @@
 package View.Menus;
 
+import Controller.Controllers.ManagerController;
+import Exceptions.InvalidFieldToEdit;
+import Model.Models.Field;
+
 import java.util.List;
 import java.util.Optional;
 
 public class ViewDiscountCodesByManagerMenu extends Menu {
 
     private static ViewDiscountCodesByManagerMenu menu;
+    private static ManagerController managerController = ManagerController.getInstance();
 
     public ViewDiscountCodesByManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -23,30 +28,39 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
     }
 
     public void viewDiscountCode(List<String> inputs) {
+        long id = 0;
         try {
-            long id = Long.parseLong(inputs.get(0));
+             id = Long.parseLong(inputs.get(0));
         } catch (NumberFormatException e) {
             System.out.println("Sogol : Na ... In addade ?");
         }
-        // yac
+        managerController.viewDiscountCode(id);
     }
 
     public void editDiscountCode(List<String> inputs) {
+        long id = 0;
         try {
-            long id = Long.parseLong(inputs.get(0));
+            id = Long.parseLong(inputs.get(0));
+
         } catch (NumberFormatException e) {
             System.out.println("Sogol : Na ... In addade ?");
         }
-        // yac
+        String newField = scanner.nextLine();
+        try {
+            managerController.editDiscountCode(id,newField);
+        } catch (InvalidFieldToEdit invalidFieldToEdit) {
+            invalidFieldToEdit.printStackTrace();
+        }
     }
 
     public void removeDiscountCode(List<String> inputs) {
+        long id = 0;
         try {
-            long id = Long.parseLong(inputs.get(0));
+            id = Long.parseLong(inputs.get(0));
         } catch (NumberFormatException e) {
             System.out.println("Sogol : Na ... In addade ?");
         }
-        // yac
+        managerController.removeDiscountCode(id);
     }
 
     @Override

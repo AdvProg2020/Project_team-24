@@ -1,10 +1,14 @@
 package View.Menus;
 
+import Controller.Controllers.ManagerController;
+import Exceptions.NoSuchProductExistsException;
+
 import java.util.List;
 
 public class ManageProductsByManagerMenu extends Menu {
 
     private static ManageProductsByManagerMenu menu;
+    private static ManagerController managerController = ManagerController.getInstance();
 
     public ManageProductsByManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -23,12 +27,17 @@ public class ManageProductsByManagerMenu extends Menu {
     }
 
     public void remove(List<String> inputs) {
+        long id = 0;
         try {
-            long id = Long.parseLong(inputs.get(0));
+             id = Long.parseLong(inputs.get(0));
         } catch (NumberFormatException e) {
             System.out.println("Sogol : Na ... In addade ?");
         }
-        //yasi
+        try {
+            managerController.removeProduct(id);
+        } catch (NoSuchProductExistsException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Menu getMenu() {

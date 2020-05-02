@@ -1,9 +1,12 @@
 package View.Menus;
 
+import Controller.Controllers.ManagerController;
+
 import java.util.List;
 
 public class ManageProductsBySellerMenu extends Menu {
     private static ManageProductsBySellerMenu menu;
+
     public ManageProductsBySellerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
