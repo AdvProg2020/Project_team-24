@@ -27,10 +27,12 @@ public class ManagerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
+        // yac - show information
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
     public void openManageUsersMenu() {
+        // yac - show information
         MenuHandler.setCurrentMenu(ManageUsersByManagerMenu.getMenu());
     }
 
@@ -39,11 +41,18 @@ public class ManagerMenu extends Menu {
     }
 
     public void openManageRequestsMenu() {
+        // yac - show information
         MenuHandler.setCurrentMenu(ManageRequestsByManagerMenu.getMenu());
     }
 
     public void openManageCategoriesMenu() {
+        // yac - show information
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
+    }
+
+    public void viewDiscountCode() {
+        // yac - show information
+        MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
     }
 
     public void createDiscountCode() {
@@ -53,7 +62,7 @@ public class ManagerMenu extends Menu {
 
         Matcher matcher = Pattern
                 .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}) :(\\d+) :(\\d+)")
-                .matcher(scanner.nextLine().trim().toLowerCase());
+                .matcher(scanner.nextLine().trim());
 
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
@@ -62,10 +71,6 @@ public class ManagerMenu extends Menu {
         // controller manager . . .
     }
 
-    public void viewDiscountCode(List<String> inputs) {
-        long id = Long.parseLong(inputs.get(0));
-        // yac method
-    }
 
     @Override
     public void show() {
@@ -77,6 +82,7 @@ public class ManagerMenu extends Menu {
                         "3.ManageRequestsMenu" + System.lineSeparator() +
                         "4.ManageCategoriesMenu" + System.lineSeparator() +
                         "5.ManageIfo" + System.lineSeparator() +
+                        "6.ViewDiscountCodesByManagerMenu" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
@@ -89,7 +95,7 @@ public class ManagerMenu extends Menu {
                         "openManageUsersMenu : To open users menu" + System.lineSeparator() +
                         "openManageProductsMenu : To open products menu" + System.lineSeparator() +
                         "createDiscountCode : To create new discount code" + System.lineSeparator() +
-                        "viewDiscountCode [discountCodeId]: To view a discount code" + System.lineSeparator() +
+                        "viewDiscountCode : To open discount code menu" + System.lineSeparator() +
                         "openManageRequestsMenu : To open request menu" + System.lineSeparator() +
                         "openManageCategoriesMenu : To open categories menu" + System.lineSeparator() +
                         "----------------------------------------------"

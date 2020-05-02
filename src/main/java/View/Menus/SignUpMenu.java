@@ -1,5 +1,7 @@
 package View.Menus;
 
+import Controller.Controllers.RegisterController;
+import Exceptions.*;
 import View.MenuHandler;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.regex.Pattern;
 public class SignUpMenu extends Menu {
 
     private static SignUpMenu menu;
+
+    private static RegisterController registerController = RegisterController.getInstance();
 
     private SignUpMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -23,9 +27,18 @@ public class SignUpMenu extends Menu {
     }
 
     public void createAccount(List<String> inputs) {
-        //
-        // set information.
-        //
+        try {
+            registerController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
+        } catch (UserNameInvalidException | AccountExistanceException | TypeInvalidException | UserNameTooShortExcepton e) {
+            e.printStackTrace();
+        }
+        System.out.println("Get password :");
+        String password = scanner.nextLine();
+        try {
+            registerController.creatPassWordForAccount(password);
+        } catch (PasswordInvalidException e) {
+            e.printStackTrace();
+        }
         createPersonalInfo();
         if (inputs.get(0).equals("seller")) {
             createCompanyInfo();
@@ -39,9 +52,13 @@ public class SignUpMenu extends Menu {
         );
         Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
         if (!matcher.find()) {
-            // throw new Exception.
+            System.out.println("Incorrect format");
         }
-        //
+        try {
+            registerController.savePersonalInfo(matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
+        } catch (FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
+            e.printStackTrace();
+        }
     }
 
     public void createCompanyInfo() {
@@ -50,9 +67,13 @@ public class SignUpMenu extends Menu {
         );
         Matcher matcher = Pattern.compile("CompanyInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
         if (!matcher.find()) {
-            // throw new Exception.
+            System.out.println("Incorrect format");
         }
-        //
+        try {
+            registerController.saveCompanyInfo(matcher.group(0), matcher.group(1), matcher.group(2));
+        } catch (CompanyNameInvalidException | PhoneNumberInvalidException | EmailInvalidException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Menu getMenu() {

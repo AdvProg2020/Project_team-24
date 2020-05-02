@@ -19,14 +19,17 @@ public class ManageCategoriesByManagerMenu extends Menu {
     }
 
     public void editCategory(List<String> inputs) {
+        String categoryName = inputs.get(0);
         // yac
     }
 
     public void addCategory(List<String> inputs) {
+        String categoryName = inputs.get(0);
         // yac
     }
 
     public void removeCategory(List<String> inputs) {
+        String categoryName = inputs.get(0);
         // yac
     }
 

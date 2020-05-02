@@ -22,7 +22,7 @@ public class InPut {
 
             MenuHandler.getCurrentMenu().show();
 
-            String command = scanner.nextLine().trim().toLowerCase();
+            String command = scanner.nextLine().trim();
 
             output.handleCommand(command);
         }

@@ -16,11 +16,6 @@ public class OutPut {
         setPatterns();
         setParents();
         setSetMethods();
-        setGuestMenuMethods();
-        setManageCategoriesByManagerMenuMethods();
-        setViewCartByBuyerMenuMethods();
-        setSellerMenuMethods();
-        setManagerRequestsByManagerMenuMethods();
     }
 
     public void handleCommand(String command) {
@@ -87,6 +82,11 @@ public class OutPut {
         setProductMenuMethod();
         setManageProductsBySellerMenuMethod();
         setCommentProductMenuMethod();
+        setGuestMenuMethods();
+        setManageCategoriesByManagerMenuMethods();
+        setViewCartByBuyerMenuMethods();
+        setSellerMenuMethods();
+        setManagerRequestsByManagerMenuMethods();
     }
 
     private void setUserAreaMenuPattern() {
@@ -167,7 +167,7 @@ public class OutPut {
                 .addRegex("openManageUsersMenu")
                 .addRegex("openManageProductsMenu")
                 .addRegex("createDiscountCode")
-                .addRegex("viewDiscountCode (\\d+)")
+                .addRegex("viewDiscountCode")
                 .addRegex("openManageRequestsMenu")
                 .addRegex("openManageCategoriesMenu")
                 .addRegex("exit")
@@ -191,7 +191,6 @@ public class OutPut {
 
     private void setManageUsersByManagerMenuPattern() {
         ManageUsersByManagerMenu.getInstance("Manage Users By Manager Menu", null)
-                .addRegex("manageUsers")
                 .addRegex("view (\\w+)")
                 .addRegex("deleteUser (\\w+)")
                 .addRegex("createManagerProfile")
@@ -203,7 +202,6 @@ public class OutPut {
 
     private void setManagerUsersByManagerMenuMethod() {
         ManageUsersByManagerMenu.getMenu()
-                .addMethod("manageUsers")
                 .addMethod("view (\\w+)")
                 .addMethod("deleteUser (\\w+)")
                 .addMethod("createManagerProfile")
@@ -211,7 +209,6 @@ public class OutPut {
                 .addMethod("help")
                 .addMethod("back");
     }
-
 
     private void setManageProductsByManageMenuPattern() {
         ManageProductsByManagerMenu.getInstance("Manage Products By Manager", null)
