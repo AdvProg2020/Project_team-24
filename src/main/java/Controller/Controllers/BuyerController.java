@@ -33,7 +33,7 @@ public class BuyerController extends AccountController {
         viewCart().addToProductList(productClone);
     }
 
-    public void decrease(long productId) {
+    public void decrease(long productId) throws ProductDoesNotExistException {
         viewCart().removeFromProductList(Product.getProductById(productId));
     }
 
