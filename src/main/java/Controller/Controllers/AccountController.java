@@ -14,7 +14,6 @@ public class AccountController {
         Account.getFieldByName(fieldName).set(controllerUnit.getAccount(),newField);
 
     }
-
     public PersonalInfo viewPersonalInfo(long accountId) {
         return Account.getAccountById(accountId).getPersonalInfo();
     }

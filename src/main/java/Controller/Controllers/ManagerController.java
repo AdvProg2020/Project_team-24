@@ -14,8 +14,10 @@ import java.util.Random;
 //list ha behtar nist beshe aray list?
 //coment ha barrasid
 public class ManagerController extends AccountController {
+
     private ControllerUnit controllerUnit;
-    private  static ManagerController managerController = new ManagerController();
+
+    private static ManagerController managerController = new ManagerController();
 
     public static ManagerController getInstance() {
         return managerController;
@@ -25,6 +27,7 @@ public class ManagerController extends AccountController {
     public List<Account> viewAllAccounts() {
         return Account.getList();
     }
+
     public Account viewAccount(String username) {
         return Account.getAccountByUserName(username);
     }
@@ -39,8 +42,7 @@ public class ManagerController extends AccountController {
     }
 
 
-
-    public void creatDiscountCode(Date start, Date end,double percent,double maxAmount, int frequentUse){
+    public void creatDiscountCode(Date start, Date end, double percent, double maxAmount, int frequentUse) {
         //check kardane inke end bade start bashe tarikhesh
         //har do az tarikjhe rooz bishtar bashan
         //+m creat disscoiunt code
@@ -55,7 +57,7 @@ public class ManagerController extends AccountController {
         return DiscountCode.getDiscountCodeById(disscoutCodeId);
     }
 
-    public void editDiscountCode(long discountCodeId,String field) throws InvalidFieldToEdit{
+    public void editDiscountCode(long discountCodeId, String field) {
         //+m DiscountCode.getfieldByName(field)......
     }
 
@@ -65,7 +67,7 @@ public class ManagerController extends AccountController {
 
     private ArrayList<Customer> findSpecialBuyers() {
 
-       // yek halghe for darim ke beyne tamame customer ha miyad migarde onn hayi ke bish az i mill kharid kardan ro peyda mikone
+        // yek halghe for darim ke beyne tamame customer ha miyad migarde onn hayi ke bish az i mill kharid kardan ro peyda mikone
         //+m neveshtane yek motheod baraye gereftane hameye customer va barresi 1mil bishter va tashkil list moshtari makhsoos
         return null;
     }
@@ -78,7 +80,7 @@ public class ManagerController extends AccountController {
         Random randomAccount = new Random();
         int listSize = Account.getList().size();
         int randomIndex = randomAccount.nextInt(listSize);
-        return Customer.getList().get(randomIndex);
+        return (Customer) Customer.getList().get(randomIndex);
         //+m estefade az hamoon method bala baraye gerefteane list customer
         ///yek list az tamame moshtari ha mikhaym
     }
@@ -91,7 +93,8 @@ public class ManagerController extends AccountController {
     public List<Request> manageRequests() {
         return Request.getRequestList();
     }
-    public ArrayList<String> detailsOfRequest(long requestId) throws RequesDoesNotExistException{
+
+    public ArrayList<String> detailsOfRequest(long requestId) {
         Request request = Request.getRequestById(requestId);
         ArrayList<String> detailsOfRequest = new ArrayList<String>();
         detailsOfRequest.add(request.getAccount().toString());
@@ -102,16 +105,16 @@ public class ManagerController extends AccountController {
         return detailsOfRequest;
     }
 
-    public void requestAcceptedOrDeclined(long requestId, String acceptorDecline) throws InvalidStateOfRequest{
+    public void requestAcceptedOrDeclined(long requestId, String acceptorDecline) throws InvalidStateOfRequest {
         //accept/decine ro do tike kon
         //+m yek state bayad baraye request bashe ke begim Declined ya na ke vaghti tabe ro call kardam state ro moshakhas kone
-        if(acceptorDecline.equals("Accept")){
+        if (acceptorDecline.equals("Accept")) {
             Request.getRequestById(requestId).acceptRequest();
 
-        }else if(acceptorDecline.equals("Decline")){
+        } else if (acceptorDecline.equals("Decline")) {
             Request.getRequestById(requestId).declineRequest();
 
-        }else throw new InvalidStateOfRequest("InvalidStateOfRequest");
+        } else throw new InvalidStateOfRequest("InvalidStateOfRequest");
 
     }
 
@@ -119,7 +122,7 @@ public class ManagerController extends AccountController {
         return Category.getCategoryList();
     }
 
-    public void editCategory(String categoryname,String field) {
+    public void editCategory(String categoryname, String field) {
         Category category1 = Category.getCategoryByName(category);
         //kodoom field??
         //+m mitoonim mesle onn yeki class method tooye model dashte bashim barash
@@ -129,14 +132,22 @@ public class ManagerController extends AccountController {
         Category category = Category.getCategoryByName(categoryName);
         Category.getCategoryList().remove(category);
     }
+
     public void addCategory(String categoryName) {
         Category category = Category.getCategoryByName(categoryName);
         Category.getCategoryList().add(category);
     }
-    public void createManagerProfileBaseAccount(String username ){
+
+    public void createManagerProfileBaseAccount(String username) {
         //inja bayad ooon boolean ro bezari
 
     }
-    public List<Request> showAllRequests(){return Request.getRequestList();}
-    public List<Category> showAllCategories(){return Category.getCategoryList();}
+
+    public List<Request> showAllRequests() {
+        return Request.getRequestList();
+    }
+
+    public List<Category> showAllCategories() {
+        return Category.getCategoryList();
+    }
 }
