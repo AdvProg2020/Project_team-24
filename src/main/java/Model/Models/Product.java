@@ -30,6 +30,7 @@ public class Product implements Packable, ForPend ,Cloneable {
     private double averageScore;
     private List<Comment> commentList;
 
+
     public long getProductId() {
         return productId;
     }

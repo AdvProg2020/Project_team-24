@@ -10,6 +10,19 @@ import java.util.List;
 
 public class BuyerController extends AccountController {
     private ControllerUnit controllerUnit;
+    //singleTone
+    private static  BuyerController buyerController;
+
+    private  BuyerController(ControllerUnit controllerUnit) {
+        this.controllerUnit = controllerUnit;
+    }
+
+    public static AccountController getInstance(ControllerUnit controllerUnit) {
+        if (buyerController == null) {
+            buyerController = new  BuyerController(controllerUnit);
+        }
+        return buyerController;
+    }
     String buyerUserName = controllerUnit.getAccount().getUserName();
     Customer customer = (Customer) Customer.getAccountByUserName(buyerUserName);
 

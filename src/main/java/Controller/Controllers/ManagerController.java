@@ -16,13 +16,16 @@ import java.util.Random;
 public class ManagerController extends AccountController {
 
     private ControllerUnit controllerUnit;
-
-    private static ManagerController managerController = new ManagerController();
-
-    public static ManagerController getInstance() {
+    private ManagerController  managerController;
+    private ManagerController(ControllerUnit controllerUnit){
+        this.controllerUnit = controllerUnit;
+    }
+    public static ManagerController getInstance(ControllerUnit controllerUnit){
+        if(managerController==null){
+            managerController = new ManagerController(controllerUnit);
+        }
         return managerController;
     }
-
 
     public List<Account> viewAllAccounts() {
         return Account.getList();

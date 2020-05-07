@@ -1,15 +1,24 @@
 package Controller.Controllers;
 
+import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 
 public class RegisterController {
+    private ControllerUnit controllerUnit;
 
-    private static RegisterController registerController = new RegisterController();
+    private static RegisterController registerController ;
 
-    public static RegisterController getInstance() {
+    public RegisterController(ControllerUnit controllerUnit) {
+        this.controllerUnit = controllerUnit;
+    }
+
+    public static RegisterController getInstance(ControllerUnit controllerUnit) {
+        if(registerController==null){
+            registerController = new RegisterController(controllerUnit);
+        }
         return registerController;
     }
 
