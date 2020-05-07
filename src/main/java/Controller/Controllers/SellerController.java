@@ -14,7 +14,22 @@ import java.util.List;
 
 public class SellerController extends AccountController {
     private ControllerUnit controllerUnit;
+    //singleTone
+    private static SellerController sellerController;
+
+    private SellerController(ControllerUnit controllerUnit) {
+        this.controllerUnit = controllerUnit;
+    }
+
+    public static SellerController getInstance(ControllerUnit controllerUnit) {
+        if (sellerController == null) {
+            sellerController = new SellerController(controllerUnit);
+        }
+        return sellerController;
+    }
+
     String sellerUserName = controllerUnit.getAccount().getUserName();
+
     Seller seller = (Seller) Seller.getAccountByUserName(sellerUserName);
 
     public CompanyInfo viewCompanyInformation() {
@@ -41,19 +56,20 @@ public class SellerController extends AccountController {
 
     }
 
-    public void addProductOrOff(ForPend pendable) {
-        ///???
+    public void addProductOrOff(ForPend forPend) {
+        ///forpend:request--->negah dashtane haraj ya mahsool
 
     }
 
-    private void newRequest(PendStatus pendable) {
+    private void newRequest(PendStatus pendStatus) {
     }
 
     public void removeProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         seller.getProductList().remove(product);
         Product.getProductList().remove(product);
-;    }
+        ;
+    }
 
     public List<Category> showCategories() {
         return Category.getCategoryList();
@@ -62,6 +78,7 @@ public class SellerController extends AccountController {
     public ArrayList<Discount> viewAllOffs() {
         return null;//Discount.getDiscount;
     }
+
     public ArrayList<Discount> viewOffInFilter() {
         return null; //Discount.Disc;
     }
