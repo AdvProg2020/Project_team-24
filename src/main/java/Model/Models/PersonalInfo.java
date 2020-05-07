@@ -19,6 +19,8 @@ public class PersonalInfo implements Packable {
     //    String lastName
     //    String email
     //    String phoneNumber
+    private String address;
+    private String postCode;
     private FieldList fieldList;
 
     public long getId() {
@@ -55,4 +57,13 @@ public class PersonalInfo implements Packable {
     }
 
     public PersonalInfo(){}
+    ///yac
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
 }

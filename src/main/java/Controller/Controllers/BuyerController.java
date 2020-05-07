@@ -5,7 +5,7 @@ import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 public class BuyerController extends AccountController {
@@ -24,26 +24,25 @@ public class BuyerController extends AccountController {
 
     public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
         //toozihat gofte vorod be sfhe mahsool...yani menu mikhad...man String kol etelat ro bedam ya chi?
+        ///+m tostring koore baraye hame chi
         return Product.getProductById(productId);
     }
 
     public void increase(long productId) throws CloneNotSupportedException {
         Product productClone = (Product) viewCart().getProductById(productId).clone();
-        //niyaze be allproduct in cart add konam ya ba clone add mishe?
         viewCart().addToProductList(productClone);
+        customer.getCart().addToProductList(productClone);
     }
 
     public void decrease(long productId) throws ProductDoesNotExistException {
-        viewCart().removeFromProductList(Product.getProductById(productId));
+        Product product = Product.getProductById(productId);
+        viewCart().removeFromProductList(product);
     }
 
     public double showTotalPrice() {
         return viewCart().getTotalPrice();
     }
 
-    private void checkNumOfDiscountUseInOnePurchase() throws CannotUseDiscountException {
-        //!!!yek addad mikhaym baraye tedad estefade az coe takhfif
-    }
 
     private void checkEnoughCredit() throws NotEnoughCreditException {
         if(customer.getCredit()<viewCart().getTotalPrice()){
@@ -51,23 +50,51 @@ public class BuyerController extends AccountController {
         }
     }
 
-    public void purchase() {
+    public void receiveInformation(String postCode,String address) throws PostCodeInvalidexception,AddresInvalidException{
+        if(!postCode.matches("\\d{10}")){
+            throw new PostCodeInvalidexception("PostCodeInvalidexception");
+        }
+        if(!address.matches("\\w+")){
+            throw new AddresInvalidException("AddresInvalidException");
+        }
+        customer.getPersonalInfo().setPostCode(postCode);
+        customer.getPersonalInfo().setAddress(address);
+
     }
 
-    public void receiveInformation(PersonalInfo personalInfo) {
-    }
+    public void discountCode(Long codeId) throws InvalidDiscountCodeException,DiscountCodeExpiredExcpetion{
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
+        if(!customer.getDiscountCodeList().contains(discountCode)){
+            throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
+        }
+        if(discountCode.getEnd().before(LocalDate)){
+            throw new DiscountCodeExpiredExcpetion("DiscountCodeExpiredExcpetion");
+        }
+        ///moghe kharid dar lahze az coe estefade kon
+         customer.getCart().setTotalPrice -= (customer.getCart().getTotalPrice()*discountCode.getDiscount().getPercent())/100;
 
-    public void discountCode(Long codeId) {
     }
+    public void payment() throws PurchaseFailException, NotEnoughCreditException {
+        //haraj koja emal mishe?
+        checkEnoughCredit();
+        customer.setCredit( customer.getCredit() - customer.getCart().getTotalPrice()) ;
 
-    public void payment() throws PurchaseFailException {
+
+    }
+    public void buyProductsOfCart(Cart cart) throws NotEnoughCreditException, PurchaseFailException {
+        payment();
+        for(Product product : customer.getCart().getProductList()){
+            customer.getCart().removeFromProductList(product);
+            customer.getLogHistoryList().add(product);
+        }
+
     }
 
     public List<LogHistory> viewOrders() {
         return customer.getLogHistoryList();
     }
-
-    public Product showOrder(long orderId) throws HaveNotBBoughtThisProductException, ProductDoesNotExistException {
+/////log history.........
+    public LogHistory showOrder(long orderId) throws HaveNotBBoughtThisProductException, ProductDoesNotExistException {
         ////tavajoh ! ProduxtDoesNotExistException bayad tooye model handel beshe.
         //manzoor az order hamoon mahsoole dige??
         Product product = Product.getProductById(orderId);

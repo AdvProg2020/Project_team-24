@@ -125,4 +125,7 @@ public class Seller extends Account {
 
     public Seller() {
     }
+    ///yac
+    private List<Discount> sellersDiscounts;
+
 }
