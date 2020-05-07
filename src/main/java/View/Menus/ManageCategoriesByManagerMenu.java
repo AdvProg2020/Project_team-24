@@ -1,11 +1,16 @@
 package View.Menus;
 
+import Controller.ControllerUnit;
+import Controller.Controllers.ManagerController;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class ManageCategoriesByManagerMenu extends Menu {
 
     private static ManageCategoriesByManagerMenu menu;
+    private static ManagerController managerController = ManagerController.getInstance();
 
     public ManageCategoriesByManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -19,15 +24,20 @@ public class ManageCategoriesByManagerMenu extends Menu {
     }
 
     public void editCategory(List<String> inputs) {
-        // yac
+        String categoryName = inputs.get(0);
+        System.out.println("Enter new field category");
+        String newField = scanner.nextLine();
+        managerController.editCategory(categoryName,newField);
     }
 
     public void addCategory(List<String> inputs) {
-        // yac
+        String categoryName = inputs.get(0);
+        managerController.addCategory(categoryName);
     }
 
     public void removeCategory(List<String> inputs) {
-        // yac
+        String categoryName = inputs.get(0);
+        managerController.removeCategory(categoryName);
     }
 
     public static Menu getMenu() {

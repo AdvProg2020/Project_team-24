@@ -1,5 +1,6 @@
 package View.Menus;
 
+import Controller.Controllers.ManagerController;
 import Controller.Controllers.RegisterController;
 import Exceptions.*;
 import View.MenuHandler;
@@ -10,6 +11,8 @@ import java.util.regex.Pattern;
 
 public class ManageUsersByManagerMenu extends Menu {
     private static ManageUsersByManagerMenu menu;
+    private static ManagerController managerController = ManagerController.getInstance();
+    private static RegisterController registerController = RegisterController.getInstance();
 
     private ManageUsersByManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -37,9 +40,14 @@ public class ManageUsersByManagerMenu extends Menu {
         String username=scanner.nextLine();
         System.out.println("enter password :");
         String password = scanner.nextLine();
-        //yac
+        managerController.createManagerProfileBaseAccount(username);
         createPersonalInfo();
-       //yac
+        try {
+            registerController.creatPassWordForAccount(password);
+        } catch (PasswordInvalidException e) {
+            e.printStackTrace();
+        }
+
 
     }
     public void createPersonalInfo() {
@@ -63,15 +71,15 @@ public class ManageUsersByManagerMenu extends Menu {
 
     public void view(List<String> inputs) {
         String username = inputs.get(0);
-        //yac
+        managerController.viewAccount(username);
     }
 
     @Override
     public void help() {
         super.help();
-        System.out.println(
+        System.out.println("manageUsers" + System.lineSeparator() +
                 "view [username]:to view account" + System.lineSeparator() +
-                        "deleteUser [username]:to delete an user" + System.lineSeparator() +
-                        "createManagerProfile");
+                "deleteUser [username]:to delete an user" + System.lineSeparator() +
+                "createManagerProfile");
     }
 }

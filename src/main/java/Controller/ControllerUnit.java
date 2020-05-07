@@ -3,6 +3,7 @@ package Controller;
 import Model.Models.Account;
 
 public class ControllerUnit {
+    //singletone
 
     private Account account;
 

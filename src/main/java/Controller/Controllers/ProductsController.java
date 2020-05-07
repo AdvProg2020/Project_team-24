@@ -7,11 +7,12 @@ import Model.Models.Product;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductsController {
-    public void products(){}
-    public ArrayList<Category> viewCategories(){return null;}
-    private void checkDisablefilterIsNotVategory(Filter filter){}
+
+    public List<Category> viewCategories(){return Category.getCategoryList();}
+    private void checkDisablefilterIsNotCategory(Filter filter){}
     public void sorting(){}
     public ArrayList<Field> showAvailableSorts(){return null;}
     private void checkSortAvailable()throws NotAvailableSortException {}

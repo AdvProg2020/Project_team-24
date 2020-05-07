@@ -1,11 +1,14 @@
 package View.Menus;
 
+import Controller.Controllers.ManagerController;
+
 import java.util.List;
 import java.util.Optional;
 
 public class ManageInfoMenu extends Menu {
 
     private static ManageInfoMenu menu;
+    private static ManagerController managerController = ManagerController.getInstance();
 
     public ManageInfoMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -22,7 +25,13 @@ public class ManageInfoMenu extends Menu {
         String fieldName=inputs.get(0);
         System.out.print("Enter a new field :");
         String newField = scanner.nextLine();
-        // yac
+        try {
+            managerController.editField(fieldName,newField);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Menu getMenu() {

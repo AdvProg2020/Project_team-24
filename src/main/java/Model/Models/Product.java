@@ -1,5 +1,7 @@
 package Model.Models;
 
+import Exceptions.NoSuchProductExistsException;
+import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
@@ -7,7 +9,7 @@ import Model.Tools.Packable;
 
 import java.util.List;
 
-public class Product implements Packable, ForPend {
+public class Product implements Packable, ForPend ,Cloneable{
 
     private static List<Product> productList;
 
@@ -75,7 +77,7 @@ public class Product implements Packable, ForPend {
 
     }
 
-    public static Product getProductById(long id) {
+    public static Product getProductById(long id) throws ProductDoesNotExistException {
         return productList.stream()
                 .filter(product -> id == product.getProductId())
                 .findFirst()
@@ -95,5 +97,15 @@ public class Product implements Packable, ForPend {
     }
 
     public Product() {
+    }
+    //////////////yac
+    public static void removeProduct(Product product) throws NoSuchProductExistsException {
+        //ham delete az database /ham az all product
+        ///+m private void checkIdExistance(long productId) throws NoSuchProductExistsException { }
+
+    }
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

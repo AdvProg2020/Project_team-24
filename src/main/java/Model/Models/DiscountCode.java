@@ -109,5 +109,8 @@ public class DiscountCode implements Packable {
 
     public DiscountCode() {
     }
+    /////yac
+    public static void removeDiscountCode(DiscountCode discountCode){
+    }
 }
 
