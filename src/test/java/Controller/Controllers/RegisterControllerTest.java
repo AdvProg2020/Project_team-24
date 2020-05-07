@@ -22,7 +22,7 @@ import java.util.Random;
 @RunWith(Arquillian.class)
 public class RegisterControllerTest {
 
-    private RegisterController registerController = new RegisterController();
+    private RegisterController registerController = new RegisterController(null);
 
     @Deployment
     public static JavaArchive createDeployment() {
