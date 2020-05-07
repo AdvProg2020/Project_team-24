@@ -1,6 +1,9 @@
 package Model.Models;
 
+import Exceptions.ProductDoesNotExistException;
+import Model.DataBase.DataBase;
 import Model.Tools.Data;
+import Model.Tools.Packable;
 
 import java.util.List;
 
@@ -9,7 +12,7 @@ public class Comment implements Packable {
     private static List<Comment> commentList;
 
     static {
-
+        DataBase.loadList(Comment.class);
     }
 
     private long commentId;
@@ -49,13 +52,13 @@ public class Comment implements Packable {
     }
 
     @Override
-    public Data pack(Object object) {
+    public Data pack() {
         return null;
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) throws ProductDoesNotExistException {
+
     }
 
     public Comment(long commentId, Account userComments, Product purchasedGood, boolean didThisUserBuyThisProduct, FieldList fieldList, PendStatus pendStatus) {

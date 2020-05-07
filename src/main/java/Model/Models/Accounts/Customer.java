@@ -1,6 +1,7 @@
 package Model.Models.Accounts;
 
 import Exceptions.ProductDoesNotExistException;
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
 
@@ -107,6 +108,12 @@ public class Customer extends Account {
         this.credit = credit;
         this.totalPurchase = totalPurchase;
         this.logHistoryList = logHistoryList;
+    }
+
+    public Customer(String username) {
+        this.userName = username;
+        inRegistering.add(this);
+        DataBase.save(this);
     }
 
     public Customer() {

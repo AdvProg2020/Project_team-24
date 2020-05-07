@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.AccountDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -80,11 +81,11 @@ public abstract class Account implements Packable {
         inRegistering.remove(account);
     }
 
-    public static Account getAccountByUserNameFromInRegistering(String userName) {
+    public static Account getAccountByUserNameFromInRegistering(String userName) throws AccountDoesNotExistException {
         return inRegistering.stream()
                 .filter(account -> userName.equals(account.getUserName()))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new AccountDoesNotExistException("this user not exist"));
     }
 
     public static Account getAccountByUserName(String name) {
@@ -125,11 +126,14 @@ public abstract class Account implements Packable {
         // DataBase.remove(account,Account.class);
     }
 
-    public Account(long id, String userName, String password, PersonalInfo personalInfo) {
+    protected Account(long id, String userName, String password, PersonalInfo personalInfo) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.personalInfo = personalInfo;
+    }
+
+    public Account(String username) {
     }
 
     public Account() {

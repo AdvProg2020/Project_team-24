@@ -1,8 +1,10 @@
 package Model.Models.Accounts;
 
 import Exceptions.ProductDoesNotExistException;
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
+import Model.Tools.ForPend;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +16,7 @@ public class Seller extends Account {
     private double balance;
     private List<LogHistory> logHistoryList;
     private List<Product> productList;
+    private List<ForPend> forPendList;
     private CompanyInfo companyInfo;
     private List<Auction> auctionList;
 
@@ -43,6 +46,18 @@ public class Seller extends Account {
 
     public void removeFromLogHistoryList(LogHistory logHistory) {
         logHistoryList.remove(logHistory);
+    }
+
+    public List<ForPend> getForPendList() {
+        return Collections.unmodifiableList(forPendList);
+    }
+
+    public void addToPendList(ForPend forPend) {
+        forPendList.add(forPend);
+    }
+
+    public void removeFromPendList(ForPend forPend) {
+        forPendList.remove(forPend);
     }
 
     public List<Product> getProductList() {
@@ -127,6 +142,12 @@ public class Seller extends Account {
         this.productList = productList;
         this.companyInfo = companyInfo;
         this.auctionList = auctionList;
+    }
+
+    public Seller(String username) {
+        this.userName = username;
+        inRegistering.add(this);
+        DataBase.save(this);
     }
 
     public Seller() {

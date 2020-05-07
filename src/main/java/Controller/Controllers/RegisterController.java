@@ -1,6 +1,9 @@
 package Controller.Controllers;
 
 import Exceptions.*;
+import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Manager;
+import Model.Models.Accounts.Seller;
 
 public class RegisterController {
 
@@ -10,53 +13,55 @@ public class RegisterController {
         return registerController;
     }
 
-    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortExcepton, TypeInvalidException, AccountExistanceException{
-        if(!username.matches("^\\w+$")){
+    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException {
+        if (!username.matches("^(\\w+)$")) {
             throw new UserNameInvalidException("UserNameInvalidException");
-        }
-        if(username.toCharArray().length < 6){
-            throw new UserNameTooShortExcepton("UserNameTooShortException");
-        }
-        if(!type.matches("^(Customer|Guest|Manager|Seller)$")){
-            throw new TypeInvalidException("TypeInvalidException");
-        }
-        // Qre
+        } else if (username.toCharArray().length < 6) {
+            throw new UserNameTooShortException("UserNameTooShortException");
+        } else if (type.equals("Seller")) {
+            new Seller(username);
+        } else if (type.equals("Manager")) {
+            new Manager(username);
+        } else if (type.equals("Customer")) {
+            new Customer(username);
+        } else throw new TypeInvalidException("TypeInvalidException");
     }
-    public void creatPassWordForAccount(String password) throws PasswordInvalidException{
-        if(!password.matches("^\\w+$")){
+
+    public void creatPassWordForAccount(String password) throws PasswordInvalidException {
+        if (!password.matches("^\\w+$")) {
             throw new PasswordInvalidException("PasswordInvalidException");
         }
         // Qre
     }
-    public void savePersonalInfo(String firstName,String lastName,String email,String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException,EmailInvalidException, PhoneNumberInvalidException {
-        if(!firstName.matches("^\\w+$")){
+
+    public void savePersonalInfo(String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException {
+        if (!firstName.matches("^\\w+$")) {
             throw new FirstNameInvalidException("FirstNameInvalidException");
         }
-        if(!lastName.matches("^\\w+$")){
+        if (!lastName.matches("^\\w+$")) {
             throw new LastNameInvalidException("LastNameInvalidException");
         }
-        if(!email.matches("^\\w+@(gmail|yahoo)\\.com$")){
+        if (!email.matches("^\\w+@(gmail|yahoo)\\.com$")) {
             throw new EmailInvalidException("EmailInvalidException");
         }
-        if(phoneNumber.toCharArray().length != 11){
+        if (phoneNumber.toCharArray().length != 11) {
             throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
         }
         // Qre
     }
 
-    public void saveCompanyInfo(String name,String phoneNumber,String email) throws CompanyNameInvalidException,PhoneNumberInvalidException,EmailInvalidException{
-        if(!name.matches("^\\w+$")){
+    public void saveCompanyInfo(String name, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException {
+        if (!name.matches("^\\w+$")) {
             throw new CompanyNameInvalidException("CompanyNameInvalidException");
         }
-        if(!email.matches("^\\w+@(gmail|yahoo)\\.com$")){
+        if (!email.matches("^\\w+@(gmail|yahoo)\\.com$")) {
             throw new EmailInvalidException("EmailInvalidException");
         }
-        if(phoneNumber.toCharArray().length != 11){
-            throw  new PhoneNumberInvalidException("PhoneNumberInvalidException");
+        if (phoneNumber.toCharArray().length != 11) {
+            throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
         }
         // Qre
     }
-
 
 
 }

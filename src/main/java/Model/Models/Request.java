@@ -1,9 +1,13 @@
 package Model.Models;
 
+import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
+import Model.Tools.Packable;
 
+import javax.swing.table.AbstractTableModel;
+import java.util.Collections;
 import java.util.List;
 
 public class Request implements Packable {
@@ -15,11 +19,12 @@ public class Request implements Packable {
     }
 
     public enum TypeRequest {
-        Edit, New
+        Edit, New, Remove
     }
 
     private long requestId;
     private Account account;
+    private String information;
     private TypeRequest typeOfRequest;
     private ForPend forPend;
 
@@ -39,7 +44,12 @@ public class Request implements Packable {
         return forPend;
     }
 
+    public String getInformation() {
+        return information;
+    }
+
     public void acceptRequest() {
+
     }
 
     public void declineRequest() {
@@ -47,29 +57,43 @@ public class Request implements Packable {
     }
 
     public static List<Request> getRequestList() {
-        return requestList;
+        return Collections.unmodifiableList(requestList);
+    }
+
+    @Override
+    public Data pack() {
+        return new Data(Request.class.getName())
+                .addField(requestId)
+                .addField(account.getId())
+                .addField(information)
+                .addField(typeOfRequest)
+                .addField(forPend);
+    }
+
+    @Override
+    public void dpkg(Data data) throws ProductDoesNotExistException {
+        this.requestId = (long) data.getFields().get(0);
+        this.account = Account.getAccountById((long) data.getFields().get(1));
+        this.information = (String) data.getFields().get(2);
+        this.typeOfRequest = (TypeRequest) data.getFields().get(3);
+        this.forPend = (ForPend) data.getFields().get(4);
     }
 
     public static Request getRequestById(long id) {
-        return requestList.stream().filter(request -> id == request.getRequestId()).findFirst().orElse(null);
+        return requestList.stream()
+                .filter(request -> id == request.getRequestId())
+                .findFirst()
+                .orElseThrow();
     }
 
-    @Override
-    public Data pack(Object object) {
-        return null;
-    }
-
-    @Override
-    public Object dpkg(Data data) {
-        return null;
-    }
-
-    public Request(long requestId, Account account, TypeRequest typeOfRequest, ForPend forPend) {
+    public Request(long requestId, Account account, String information, TypeRequest typeOfRequest, ForPend forPend) {
         this.requestId = requestId;
         this.account = account;
+        this.information = information;
         this.typeOfRequest = typeOfRequest;
         this.forPend = forPend;
     }
-    /////yac
 
+    public Request() {
+    }
 }
