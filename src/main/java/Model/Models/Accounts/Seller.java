@@ -1,8 +1,10 @@
 package Model.Models.Accounts;
 
+import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
 import Model.Tools.Data;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -104,12 +106,16 @@ public class Seller extends Account {
     }
 
     @Override
-    public void dpkg(Data data) {
+    public void dpkg(Data data) throws ProductDoesNotExistException {
         super.dpkg(data);
         balance = (double) data.getFields().get(4);
         companyInfo = CompanyInfo.getCompanyInfoById((long) data.getFields().get(5));
-        productList = ((List<Long>) data.getFields().get(6))
-                .stream().map(Product::getProductById).collect(Collectors.toList());
+        List<Product> result = new ArrayList<>();
+        for (Long aLong : ((List<Long>) data.getFields().get(6))) {
+            Product productById = Product.getProductById(aLong);
+            result.add(productById);
+        }
+        productList = result;
         auctionList = ((List<Long>) data.getFields().get(7))
                 .stream().map(Auction::getAuctionById).collect(Collectors.toList());
     }

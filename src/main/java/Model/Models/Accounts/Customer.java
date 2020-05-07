@@ -1,5 +1,6 @@
 package Model.Models.Accounts;
 
+import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
 import Model.Tools.Data;
 
@@ -12,10 +13,19 @@ public class Customer extends Account {
     private Cart cart;
     private List<DiscountCode> discountCodeList;
     private double credit;
+    private double totalPurchase;
     private List<LogHistory> logHistoryList;
 
     public Cart getCart() {
         return cart;
+    }
+
+    public double getTotalPurchase() {
+        return totalPurchase;
+    }
+
+    public double getCredit() {
+        return credit;
     }
 
     public void addToCart(Product product) {
@@ -62,15 +72,12 @@ public class Customer extends Account {
         // ?
     }
 
-    public double getCredit() {
-        return credit;
-    }
-
     @Override
     public Data pack() {
         return super.pack()
                 .addField(cart.getId())
                 .addField(credit)
+                .addField(totalPurchase)
                 .addField(discountCodeList.stream()
                         .map(DiscountCode::getId).collect(Collectors.toList()))
                 .addField(logHistoryList.stream()
@@ -78,21 +85,27 @@ public class Customer extends Account {
     }
 
     @Override
-    public void dpkg(Data data) {
+    public void dpkg(Data data) throws ProductDoesNotExistException {
         super.dpkg(data);
         this.cart = Cart.getCartById((long) data.getFields().get(4));
         this.credit = (double) data.getFields().get(5);
-        this.discountCodeList = ((List<Long>) data.getFields().get(6))
+        this.totalPurchase = (double) data.getFields().get(6);
+        this.discountCodeList = ((List<Long>) data.getFields().get(7))
                 .stream().map(DiscountCode::getDiscountCodeById).collect(Collectors.toList());
-        this.logHistoryList = ((List<Long>) data.getFields().get(7))
+        this.logHistoryList = ((List<Long>) data.getFields().get(8))
                 .stream().map(LogHistory::getLogHistoryById).collect(Collectors.toList());
     }
 
-    public Customer(long id, String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, List<LogHistory> logHistoryList) {
+    public static List<Account> getAllCustomers() {
+        return list.stream().filter(account -> account instanceof Customer).collect(Collectors.toUnmodifiableList());
+    }
+
+    public Customer(long id, String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, double totalPurchase, List<LogHistory> logHistoryList) {
         super(id, userName, password, personalInfo);
         this.cart = cart;
         this.discountCodeList = discountCodeList;
         this.credit = credit;
+        this.totalPurchase = totalPurchase;
         this.logHistoryList = logHistoryList;
     }
 
