@@ -1,5 +1,6 @@
 package Model.Models.Accounts;
 
+import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
 import Model.Tools.Data;
 
@@ -30,7 +31,7 @@ public class Guest extends Account {
     }
 
     @Override
-    public void dpkg(Data data) {
+    public void dpkg(Data data) throws ProductDoesNotExistException {
         super.dpkg(data);
         this.cart = Cart.getCartById((long) data.getFields().get(4));
     }

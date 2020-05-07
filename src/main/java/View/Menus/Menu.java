@@ -22,7 +22,7 @@ public abstract class Menu {
     protected List<Pattern> patternList;
     protected List<String> regexList;
     protected List<String> methodList;
-    protected static Scanner scanner = new Scanner(System.in);
+    protected Scanner scanner = new Scanner(System.in);
 
     public Menu(String name, Menu parentMenu) {
         this.name = name;
@@ -57,7 +57,13 @@ public abstract class Menu {
     }
 
     public void setPatterns() {
-        patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
+        patternList = regexList.stream()
+                .map(Pattern::compile)
+                .collect(Collectors.toList());
+    }
+
+    public String getName() {
+        return name;
     }
 
     public abstract void show();
@@ -91,32 +97,16 @@ public abstract class Menu {
         return this;
     }
 
-    public List<String> getRegexList() {
-        return Collections.unmodifiableList(regexList);
-    }
-
-    public List<Pattern> getPatternList() {
-        return Collections.unmodifiableList(patternList);
-    }
-
-    public List<String> getMethodList() {
-        return Collections.unmodifiableList(methodList);
-    }
-
-    public List<Menu> getSubMenus() {
-        return Collections.unmodifiableList(subMenus);
-    }
-
     public void setParentMenu(Menu parentMenu) {
         this.parentMenu = parentMenu;
     }
 
-    public Menu getParentMenu() {
-        return parentMenu;
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
     }
 
-    public String getName() {
-        return name;
+    public Menu getParentMenu() {
+        return parentMenu;
     }
 
     public void back() {
