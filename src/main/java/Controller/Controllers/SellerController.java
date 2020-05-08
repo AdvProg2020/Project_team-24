@@ -28,9 +28,7 @@ public class SellerController extends AccountController {
         return sellerController;
     }
 
-    String sellerUserName = controllerUnit.getAccount().getUserName();
-
-    Seller seller = (Seller) Seller.getAccountByUserName(sellerUserName);
+    Seller seller = (Seller) controllerUnit.getAccount();
 
     public CompanyInfo viewCompanyInformation() {
         return seller.getCompanyInfo();

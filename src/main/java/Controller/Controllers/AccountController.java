@@ -23,7 +23,7 @@ public class AccountController {
 
     public void editField(String fieldName, String newField) throws NoSuchFieldException, IllegalAccessException {
         //+m checkValidfieldtoedit throws NosuchfieldException.........
-        //check if pattern is valid else throw exception
+        //check if pattern is valid else throw exceptiond
         Account.getFieldByName(fieldName).set(controllerUnit.getAccount(),newField);
 
     }

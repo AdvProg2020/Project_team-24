@@ -7,6 +7,7 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
+import java.sql.Time;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,8 @@ public class Product implements Packable, ForPend ,Cloneable {
     private long numberOfThis;
     private double averageScore;
     private List<Comment> commentList;
+    ///yac
+    private Time timeOfUpload;
 
 
     public long getProductId() {
@@ -73,6 +76,16 @@ public class Product implements Packable, ForPend ,Cloneable {
 
     public static List<Product> getProductList() {
         return Collections.unmodifiableList(productList);
+    }
+    //yac
+
+
+    public Time getTimeOfUpload() {
+        return timeOfUpload;
+    }
+
+    public void setTimeOfUpload(Time timeOfUpload) {
+        this.timeOfUpload = timeOfUpload;
     }
 
     @Override

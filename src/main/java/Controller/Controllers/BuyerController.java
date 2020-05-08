@@ -23,8 +23,7 @@ public class BuyerController extends AccountController {
         }
         return buyerController;
     }
-    String buyerUserName = controllerUnit.getAccount().getUserName();
-    Customer customer = (Customer) Customer.getAccountByUserName(buyerUserName);
+    Customer customer = (Customer) controllerUnit.getAccount();
 
     public Cart viewCart() {
 
@@ -56,6 +55,7 @@ public class BuyerController extends AccountController {
         return viewCart().getTotalPrice();
     }
 
+////inke check konim ke quest nabashe ro koja check konim???
 
     private void checkEnoughCredit() throws NotEnoughCreditException {
         if(customer.getCredit()<viewCart().getTotalPrice()){

@@ -25,4 +25,8 @@ public class Discount {
     }
     ////yac
     private List<Discount> discountList ;
+
+    public List<Discount> getDiscountList() {
+        return discountList;
+    }
 }
