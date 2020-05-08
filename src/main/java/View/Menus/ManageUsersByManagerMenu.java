@@ -1,9 +1,8 @@
 package View.Menus;
 
 import Controller.Controllers.ManagerController;
-import Controller.Controllers.RegisterController;
+import Controller.Controllers.SignUpController;
 import Exceptions.*;
-import View.MenuHandler;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -12,7 +11,7 @@ import java.util.regex.Pattern;
 public class ManageUsersByManagerMenu extends Menu {
     private static ManageUsersByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
-    private static RegisterController registerController = RegisterController.getInstance();
+    private static SignUpController registerController = SignUpController.getInstance();
 
     private ManageUsersByManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -59,7 +58,7 @@ public class ManageUsersByManagerMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            RegisterController.getInstance().savePersonalInfo(matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
+            SignUpController.getInstance().savePersonalInfo(matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
         } catch (FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
             e.printStackTrace();
         }

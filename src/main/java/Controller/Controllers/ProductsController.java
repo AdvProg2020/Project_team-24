@@ -1,18 +1,32 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
+import Controller.Tools.SortByNumberOfVisits;
+import Controller.Tools.SortByPoint;
+import Controller.Tools.SortByTime;
 import Exceptions.NotAvailableSortException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Category;
 import Model.Models.FieldList;
 import Model.Models.Filter;
 import Model.Models.Product;
+import org.apache.maven.lifecycle.LifeCyclePluginAnalyzer;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProductsController {
+    private enum sortElements {
+        TIME,
+        POINT,
+        NUMBEROFVISITS
+
+    }
+    private List<Product> productList = Product.getProductList();
+
+    private String currentSortEelement;
 
     private ControllerUnit controllerUnit;
 
@@ -33,42 +47,53 @@ public class ProductsController {
         return Category.getCategoryList();
     }
 
-    private void checkDisablefilterIsNotCategory(Filter filter) {
-    }
-
     public String showAvailableSorts() {
-        ////time/point/tedad/bazdid
+
         String availableSorts = "The available sort elements are : Time/Point/NumberOfVisits";
         return availableSorts;
     }
 
     private void checkSortAvailable(String filter) throws NotAvailableSortException {
-        if(!filter.matches("Time|Point|NumberOfVisits")){
+        if (!(filter.equals(sortElements.TIME) || filter.equals(sortElements.POINT)) || filter.equals(sortElements.NUMBEROFVISITS)) {
             throw new NotAvailableSortException("NotAvailableSortException");
         }
     }
 
-    public void sort(Filter availableSort) throws NotAvailableSortException {
-        checkSortAvailable(availableSort.toString());
-        //...farayande sort?
+    public List<Product> sort(String sortElement) throws NotAvailableSortException {
+        checkSortAvailable(sortElement);
+
+        if (sortElement.equals(sortElements.TIME)) {
+            Collections.sort(productList , new SortByTime());
+            currentSortEelement = "TIME";
+        }
+        if (sortElement.equals(sortElements.POINT)) {
+            Collections.sort(productList , new SortByPoint());
+            currentSortEelement = "POINT";
+        }
+        if (sortElement.equals(sortElements.NUMBEROFVISITS)) {
+            Collections.sort(productList, new SortByNumberOfVisits());
+            currentSortEelement = "NUMBEROFVISITS";
+        }
+        return productList;
     }
 
-    public void currentSort() {
+    public String currentSort() {
+        return currentSortEelement;
     }
 
-    public void disableSort() {
+    public List<Product> disableSort() {
+        Collections.sort(productList, new SortByNumberOfVisits());
+        currentSortEelement = "NUMBEROFVISITS";
+        return productList;
     }
 
-    public ArrayList<Product> showProducts() {
-        return null;
+    public List<Product> showProducts() {
+        return Product.getProductList();
     }
 
-    private void checkIfSortChosen() {
-    }
-
-    public void showProduct(long productId) throws ProductDoesNotExistException {
+    public Product showProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
-        product.g
-
+        controllerUnit.setProduct(product);
+        return product;
     }
 }
