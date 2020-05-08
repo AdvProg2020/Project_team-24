@@ -6,18 +6,18 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 
-public class RegisterController {
+public class SignUpController {
     private ControllerUnit controllerUnit;
 
-    private static RegisterController registerController ;
+    private static SignUpController registerController ;
 
-    public RegisterController(ControllerUnit controllerUnit) {
+    public SignUpController(ControllerUnit controllerUnit) {
         this.controllerUnit = controllerUnit;
     }
 
-    public static RegisterController getInstance(ControllerUnit controllerUnit) {
+    public static SignUpController getInstance(ControllerUnit controllerUnit) {
         if(registerController==null){
-            registerController = new RegisterController(controllerUnit);
+            registerController = new SignUpController(controllerUnit);
         }
         return registerController;
     }

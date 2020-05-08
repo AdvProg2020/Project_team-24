@@ -10,6 +10,7 @@ import Model.Models.Category;
 import Model.Models.FieldList;
 import Model.Models.Filter;
 import Model.Models.Product;
+import org.apache.maven.lifecycle.LifeCyclePluginAnalyzer;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class ProductsController {
         NUMBEROFVISITS
 
     }
+    private List<Product> productList = Product.getProductList();
 
     private String currentSortEelement;
 
@@ -46,7 +48,6 @@ public class ProductsController {
     }
 
     public String showAvailableSorts() {
-        ////+m time /point/tedad/bazdid
 
         String availableSorts = "The available sort elements are : Time/Point/NumberOfVisits";
         return availableSorts;
@@ -58,46 +59,41 @@ public class ProductsController {
         }
     }
 
-    public void sort(String sortElement) throws NotAvailableSortException {
+    public List<Product> sort(String sortElement) throws NotAvailableSortException {
         checkSortAvailable(sortElement);
-        ///sort ke kardam bayad zakhire konam?
+
         if (sortElement.equals(sortElements.TIME)) {
-            Collections.sort(Product.getProductList(), new SortByTime());
+            Collections.sort(productList , new SortByTime());
             currentSortEelement = "TIME";
-
-
         }
         if (sortElement.equals(sortElements.POINT)) {
-            Collections.sort(Product.getProductList(), new SortByPoint());
+            Collections.sort(productList , new SortByPoint());
             currentSortEelement = "POINT";
         }
         if (sortElement.equals(sortElements.NUMBEROFVISITS)) {
-            Collections.sort(Product.getProductList(), new SortByNumberOfVisits());
+            Collections.sort(productList, new SortByNumberOfVisits());
             currentSortEelement = "NUMBEROFVISITS";
         }
+        return productList;
     }
 
     public String currentSort() {
-        ///yadoone moteghayer haminja gozashtam oke ? ya na behtare bere tooye model?
         return currentSortEelement;
     }
 
-    public void disableSort() {
-        Collections.sort(Product.getProductList(), new SortByNumberOfVisits());
+    public List<Product> disableSort() {
+        Collections.sort(productList, new SortByNumberOfVisits());
         currentSortEelement = "NUMBEROFVISITS";
+        return productList;
     }
 
     public List<Product> showProducts() {
         return Product.getProductList();
     }
 
-    public String showProduct(long productId) throws ProductDoesNotExistException {
+    public Product showProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         controllerUnit.setProduct(product);
-        return product.toString();
-
-        ///faekr konam behtare be jaye inke man doone doone pas bedam , to string ro yekdamfe bedam...
-        //dar natije koore bayad to String shamel tamame vizhegi ha bashe
-
+        return product;
     }
 }

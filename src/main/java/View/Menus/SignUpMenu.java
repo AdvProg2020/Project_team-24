@@ -1,6 +1,6 @@
 package View.Menus;
 
-import Controller.Controllers.RegisterController;
+import Controller.Controllers.SignUpController;
 import Exceptions.*;
 import View.MenuHandler;
 
@@ -13,7 +13,7 @@ public class SignUpMenu extends Menu {
 
     private static SignUpMenu menu;
 
-    private static RegisterController registerController = RegisterController.getInstance();
+    private static SignUpController registerController = SignUpController.getInstance();
 
     private SignUpMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
