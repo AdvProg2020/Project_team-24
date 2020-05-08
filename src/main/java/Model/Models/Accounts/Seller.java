@@ -135,11 +135,12 @@ public class Seller extends Account {
                 .stream().map(Auction::getAuctionById).collect(Collectors.toList());
     }
 
-    public Seller(long id, String userName, String password, PersonalInfo personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, CompanyInfo companyInfo, List<Auction> auctionList) {
+    public Seller(long id, String userName, String password, PersonalInfo personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, List<ForPend> forPendList, CompanyInfo companyInfo, List<Auction> auctionList) {
         super(id, userName, password, personalInfo);
         this.balance = balance;
         this.logHistoryList = logHistoryList;
         this.productList = productList;
+        this.forPendList = forPendList;
         this.companyInfo = companyInfo;
         this.auctionList = auctionList;
     }
@@ -147,12 +148,8 @@ public class Seller extends Account {
     public Seller(String username) {
         this.userName = username;
         inRegistering.add(this);
-        DataBase.save(this);
     }
 
     public Seller() {
     }
-    ///yac
-    private List<Discount> sellersDiscounts;
-
 }

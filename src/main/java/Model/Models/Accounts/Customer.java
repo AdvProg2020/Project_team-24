@@ -113,7 +113,6 @@ public class Customer extends Account {
     public Customer(String username) {
         this.userName = username;
         inRegistering.add(this);
-        DataBase.save(this);
     }
 
     public Customer() {

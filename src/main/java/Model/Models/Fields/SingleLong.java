@@ -10,7 +10,8 @@ public class SingleLong extends Field {
         return num;
     }
 
-    public SingleLong(long num) {
+    public SingleLong(String fieldName, long num) {
+        super(fieldName);
         this.num = num;
     }
 }

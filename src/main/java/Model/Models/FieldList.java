@@ -10,7 +10,7 @@ public class FieldList {
         return fieldList.stream()
                 .filter(field -> name.equals(field.getFieldName()))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow();
     }
 
     public FieldList removeField(Field field) {
@@ -19,7 +19,6 @@ public class FieldList {
             // throw exception
         }
         fieldList.remove(field);
-
         return this;
     }
 
@@ -29,7 +28,6 @@ public class FieldList {
             // throw exception
         }
         fieldList.add(field);
-
         return this;
     }
 
@@ -38,7 +36,6 @@ public class FieldList {
         removeField(field);
         // add newField to list
         addFiled(field);
-
         return this;
     }
 }

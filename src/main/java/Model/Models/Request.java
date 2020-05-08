@@ -6,13 +6,12 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
-import javax.swing.table.AbstractTableModel;
 import java.util.Collections;
 import java.util.List;
 
 public class Request implements Packable {
 
-    private static List<Request> requestList;
+    private static List<Request> list;
 
     static {
         DataBase.loadList(Request.class);
@@ -56,8 +55,13 @@ public class Request implements Packable {
 
     }
 
-    public static List<Request> getRequestList() {
-        return Collections.unmodifiableList(requestList);
+    public static List<Request> getList() {
+        return Collections.unmodifiableList(list);
+    }
+
+    public static void addRequest(Request request) {
+        list.add(request);
+        DataBase.save(request);
     }
 
     @Override
@@ -80,7 +84,7 @@ public class Request implements Packable {
     }
 
     public static Request getRequestById(long id) {
-        return requestList.stream()
+        return list.stream()
                 .filter(request -> id == request.getRequestId())
                 .findFirst()
                 .orElseThrow();

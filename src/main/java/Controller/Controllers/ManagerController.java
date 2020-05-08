@@ -94,7 +94,7 @@ public class ManagerController extends AccountController {
     }
 
     public List<Request> manageRequests() {
-        return Request.getRequestList();
+        return Request.getList();
     }
 
     public ArrayList<String> detailsOfRequest(long requestId) {
@@ -147,7 +147,7 @@ public class ManagerController extends AccountController {
     }
 
     public List<Request> showAllRequests() {
-        return Request.getRequestList();
+        return Request.getList();
     }
 
     public List<Category> showAllCategories() {

@@ -19,6 +19,7 @@ public class Comment implements Packable {
     private Account userComments;
     private Product purchasedGood;
     private boolean didThisUserBuyThisProduct;
+    //    String tittle
     //    String comment
     private FieldList fieldList;
     private PendStatus pendStatus;

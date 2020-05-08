@@ -7,6 +7,7 @@ import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 
 public class RegisterController {
+
     private ControllerUnit controllerUnit;
 
     private static RegisterController registerController ;
@@ -29,7 +30,7 @@ public class RegisterController {
             throw new UserNameTooShortException("UserNameTooShortException");
         } else if (type.equals("Seller")) {
             new Seller(username);
-        } else if (type.equals("Manager")) {
+        } else if (type.equals("Manager") /* && !firstManager*/) {
             new Manager(username);
         } else if (type.equals("Customer")) {
             new Customer(username);
@@ -71,6 +72,4 @@ public class RegisterController {
         }
         // Qre
     }
-
-
 }

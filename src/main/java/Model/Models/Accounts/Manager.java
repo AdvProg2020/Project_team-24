@@ -6,11 +6,13 @@ import Model.Models.*;
 public class Manager extends Account {
 
     public void addNewManager(Manager manager) {
-
+        list.add(manager);
+        DataBase.save(manager);
     }
 
     public void removeAccount(Account account) {
-
+        list.remove(account);
+        DataBase.remove(account);
     }
 
     public void addToRequestList(Request request) {
@@ -48,7 +50,6 @@ public class Manager extends Account {
     public Manager(String username) {
         this.userName = username;
         inRegistering.add(this);
-        DataBase.save(this);
     }
 
     public Manager() {
