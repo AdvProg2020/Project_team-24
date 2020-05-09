@@ -7,6 +7,7 @@ import Model.Models.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FilterController {
     private ControllerUnit controllerUnit;
@@ -23,9 +24,10 @@ public class FilterController {
         }
         return filterController;
     }
+    private List<Filter> listOfFilters;
 
     public void filtering(){}
-    public ArrayList<Filter> showAvailableFilters(){return null;}
+    public List<Filter> showAvailableFilters(){return listOfFilters;}
     public void filter(Filter filter){}
     private void checkFilterValid(Filter filter) throws InvalidFilterException {}
     public ArrayList<Filter> currentFilters(){return null;}

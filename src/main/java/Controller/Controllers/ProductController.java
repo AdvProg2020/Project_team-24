@@ -43,8 +43,6 @@ public class ProductController {
     }
 
     public void selectSeller(String sellerUsername) {
-        /// bahs...
-        customer.getLogHistoryList().
 
     }
 

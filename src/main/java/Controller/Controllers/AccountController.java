@@ -4,22 +4,10 @@ import Controller.ControllerUnit;
 import Model.Models.Account;
 import Model.Models.PersonalInfo;
 
-public class AccountController {
+public abstract class AccountController {
 
     private ControllerUnit controllerUnit;
-    //singleTone
-    private static AccountController accountController;
 
-    private AccountController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
-    }
-
-    public static AccountController getInstance(ControllerUnit controllerUnit) {
-        if (accountController == null) {
-            accountController = new AccountController(controllerUnit);
-        }
-        return accountController;
-    }
 
     public void editField(String fieldName, String newField) throws NoSuchFieldException, IllegalAccessException {
         //+m checkValidfieldtoedit throws NosuchfieldException.........

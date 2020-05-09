@@ -94,6 +94,6 @@ public class Request implements Packable {
         this.forPend = forPend;
     }
 
-    public Request() {
+    public Request(ForPend pendStatus) {
     }
 }

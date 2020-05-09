@@ -13,7 +13,7 @@ public class Manager extends Account {
 
     }
 
-    public void addToRequestList(Request request) {
+    public static void addToRequestList(Request request) {
 
     }
 
