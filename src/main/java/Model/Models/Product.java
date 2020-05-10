@@ -30,6 +30,7 @@ public class Product implements Packable, ForPend ,Cloneable {
     private long numberOfVisitors;
     private long numberOfBuyers;
     private double averageScore;
+    private String stateForPend;
     private List<Comment> commentList;
     private List<Account> buyerList;
     private List<Account> sellerList;
@@ -68,6 +69,10 @@ public class Product implements Packable, ForPend ,Cloneable {
         return averageScore;
     }
 
+    public String getStateForPend() {
+        return stateForPend;
+    }
+
     public List<Comment> getCommentList() {
         return Collections.unmodifiableList(commentList);
     }
@@ -82,6 +87,40 @@ public class Product implements Packable, ForPend ,Cloneable {
 
     public List<Account> getSellerList() {
         return Collections.unmodifiableList(sellerList);
+    }
+
+    /*****************************************************setters*******************************************************/
+
+    public void setProductInfo(Info productInfo) {
+        this.productInfo = productInfo;
+    }
+
+    public void setCategoryInfo(Info categoryInfo) {
+        this.categoryInfo = categoryInfo;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setNumberOfThis(long numberOfThis) {
+        this.numberOfThis = numberOfThis;
+    }
+
+    public void setNumberOfVisitors(long numberOfVisitors) {
+        this.numberOfVisitors = numberOfVisitors;
+    }
+
+    public void setNumberOfBuyers(long numberOfBuyers) {
+        this.numberOfBuyers = numberOfBuyers;
+    }
+
+    public void setAverageScore(double averageScore) {
+        this.averageScore = averageScore;
+    }
+
+    public void setStateForPend(String stateForPend) {
+        this.stateForPend = stateForPend;
     }
 
     /**************************************************addAndRemove*****************************************************/

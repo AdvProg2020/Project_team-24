@@ -5,6 +5,7 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.nio.file.ProviderNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,17 +40,21 @@ public class Cart implements Packable {
     }
 
     public static List<Cart> getList() {
-        return list;
+        return Collections.unmodifiableList(list);
     }
+
+    /**************************************************addAndRemove*****************************************************/
 
     public void addProductToCart(long sellerId, Product product) {
         productSellerIds.add(sellerId);
         productList.add(product);
+        DataBase.save(this);
     }
 
     public void removeProductFromCart(long sellerId, Product product) {
         productSellerIds.remove(sellerId);
         productList.remove(product);
+        DataBase.save(this);
     }
 
     /***************************************************otherMethods****************************************************/
@@ -58,7 +63,7 @@ public class Cart implements Packable {
         return productList.stream()
                 .filter(product -> id == product.getProductId())
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new ProviderNotFoundException("product with this id not exist in this cart."));
     }
 
     public double getTotalPrice() {
@@ -69,7 +74,7 @@ public class Cart implements Packable {
         return list.stream()
                 .filter(cart -> id == cart.getId())
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(); // need cart does not exist.
     }
 
     /***************************************************packAndDpkg*****************************************************/

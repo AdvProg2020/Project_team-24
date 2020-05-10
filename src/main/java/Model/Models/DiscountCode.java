@@ -20,6 +20,8 @@ public class DiscountCode implements Packable {
         DataBase.loadList(DiscountCode.class);
     }
 
+    /*****************************************************fields*******************************************************/
+
     private long id;
     private String discountCode;
     private Date start;
@@ -28,6 +30,8 @@ public class DiscountCode implements Packable {
     private long frequentUse;
     private FieldList fieldList;
     private List<Account> accountList;
+
+    /*****************************************************getters*******************************************************/
 
     public long getId() {
         return id;
@@ -61,6 +65,12 @@ public class DiscountCode implements Packable {
         return Collections.unmodifiableList(accountList);
     }
 
+    public static List<DiscountCode> getList() {
+        return Collections.unmodifiableList(list);
+    }
+
+    /**************************************************addAndRemove*****************************************************/
+
     public void addAccount(Account account) {
         accountList.add(account);
         DataBase.save(this);
@@ -69,10 +79,6 @@ public class DiscountCode implements Packable {
     public void removeAccount(Account account) {
         accountList.remove(account);
         DataBase.save(this);
-    }
-
-    public static List<DiscountCode> getList() {
-        return Collections.unmodifiableList(list);
     }
 
     public static void addDiscountCode(DiscountCode discountCode) {
@@ -84,6 +90,8 @@ public class DiscountCode implements Packable {
         list.remove(discountCode);
         DataBase.remove(discountCode);
     }
+
+    /***************************************************packAndDpkg*****************************************************/
 
     @Override
     public Data pack() {
@@ -118,12 +126,16 @@ public class DiscountCode implements Packable {
         this.accountList = result;
     }
 
+    /***************************************************otherMethods****************************************************/
+
     public static DiscountCode getDiscountCodeById(long id) throws DiscountCodeExpiredExcpetion {
         return list.stream()
                 .filter(code -> id == code.getId())
                 .findFirst()
                 .orElseThrow(() -> new DiscountCodeExpiredExcpetion("DiscountCode with this id does not exist."));
     }
+
+    /**************************************************constructors*****************************************************/
 
     public DiscountCode(long id, String discountCode, Date start, Date end, Discount discount, int frequentUse, FieldList fieldList, List<Account> accountList) {
         this.id = id;
@@ -138,6 +150,8 @@ public class DiscountCode implements Packable {
 
     public DiscountCode() {
     }
+
+    /****************************************************overrides******************************************************/
 
     @Override
     public String toString() {

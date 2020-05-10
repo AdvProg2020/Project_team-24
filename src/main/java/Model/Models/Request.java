@@ -18,15 +18,15 @@ public class Request implements Packable {
         DataBase.loadList(Request.class);
     }
 
-    public enum TypeRequest {
-        Edit, New, Remove
-    }
+    /*****************************************************fields*******************************************************/
 
     private long requestId;
     private Account account;
     private String information;
-    private TypeRequest typeOfRequest;
+    private String typeOfRequest;
     private ForPend forPend;
+
+    /*****************************************************getters*******************************************************/
 
     public long getRequestId() {
         return requestId;
@@ -36,7 +36,7 @@ public class Request implements Packable {
         return account;
     }
 
-    public TypeRequest getTypeOfRequest() {
+    public String getTypeOfRequest() {
         return typeOfRequest;
     }
 
@@ -48,17 +48,25 @@ public class Request implements Packable {
         return information;
     }
 
-    public void acceptRequest() {
-        //
-    }
-
-    public void declineRequest() {
-        //
-    }
-
     public static List<Request> getList() {
         return Collections.unmodifiableList(list);
     }
+
+    /***************************************************otherMethods****************************************************/
+
+    public void acceptRequest() {
+        // add to all product or auction
+        list.remove(this);
+        DataBase.remove(this);
+    }
+
+    public void declineRequest() {
+        // remove from all product or auction
+        list.remove(this);
+        DataBase.remove(this);
+    }
+
+    /**************************************************addAndRemove*****************************************************/
 
     public static void addRequest(Request request) {
         list.add(request);
@@ -69,6 +77,8 @@ public class Request implements Packable {
         list.remove(request);
         DataBase.remove(request);
     }
+
+    /***************************************************packAndDpkg*****************************************************/
 
     @Override
     public Data pack() {
@@ -85,9 +95,11 @@ public class Request implements Packable {
         this.requestId = (long) data.getFields().get(0);
         this.account = Account.getAccountById((long) data.getFields().get(1));
         this.information = (String) data.getFields().get(2);
-        this.typeOfRequest = (TypeRequest) data.getFields().get(3);
+        this.typeOfRequest = (String) data.getFields().get(3);
         this.forPend = (ForPend) data.getFields().get(4);
     }
+
+    /***************************************************otherMethods****************************************************/
 
     public static Request getRequestById(long id) throws RequesDoesNotExistException {
         return list.stream()
@@ -96,7 +108,9 @@ public class Request implements Packable {
                 .orElseThrow(() -> new RequesDoesNotExistException("Request with this id does not exist."));
     }
 
-    public Request(long requestId, Account account, String information, TypeRequest typeOfRequest, ForPend forPend) {
+    /**************************************************constructors*****************************************************/
+
+    public Request(long requestId, Account account, String information, String typeOfRequest, ForPend forPend) {
         this.requestId = requestId;
         this.account = account;
         this.information = information;
@@ -105,5 +119,18 @@ public class Request implements Packable {
     }
 
     public Request() {
+    }
+
+    /****************************************************overrides******************************************************/
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "requestId=" + requestId +
+                ", account=" + account +
+                ", information='" + information + '\'' +
+                ", typeOfRequest='" + typeOfRequest + '\'' +
+                ", forPend=" + forPend +
+                '}';
     }
 }

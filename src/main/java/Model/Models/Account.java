@@ -67,6 +67,10 @@ public abstract class Account implements Packable {
         return personalInfo;
     }
 
+    public static List<Account> getList() {
+        return Collections.unmodifiableList(list);
+    }
+
     /****************************************************setters********************************************************/
 
     public void setPassword(String password) {
@@ -102,10 +106,6 @@ public abstract class Account implements Packable {
         if (!fieldNames.contains(name)) {
             throw new NoSuchFieldException();
         } else return this.getClass().getField(name);
-    }
-
-    public static List<Account> getList() {
-        return Collections.unmodifiableList(list);
     }
 
     public static long getRegisteringId() {

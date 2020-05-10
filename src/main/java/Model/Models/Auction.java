@@ -24,7 +24,7 @@ public class Auction implements Packable, ForPend {
 
     private long auctionId;
     private List<Product> productList;
-    private String status;
+    private String stateForPend;
     private Date start;
     private Date end;
     private Discount discount;
@@ -44,7 +44,7 @@ public class Auction implements Packable, ForPend {
     }
 
     public String getStatus() {
-        return status;
+        return stateForPend;
     }
 
     public Date getStart() {
@@ -57,6 +57,28 @@ public class Auction implements Packable, ForPend {
 
     public Discount getDiscount() {
         return discount;
+    }
+
+    /*****************************************************setters*******************************************************/
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
+    public void setStateForPend(String stateForPend) {
+        this.stateForPend = stateForPend;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 
     /**************************************************addAndRemove*****************************************************/
@@ -98,7 +120,7 @@ public class Auction implements Packable, ForPend {
                 .addField(auctionId)
                 .addField(productList.stream()
                         .map(Product::getProductId).collect(Collectors.toList()))
-                .addField(status)
+                .addField(stateForPend)
                 .addField(start)
                 .addField(end)
                 .addField(discount);
@@ -113,7 +135,7 @@ public class Auction implements Packable, ForPend {
             result.add(productById);
         }
         this.productList = result;
-        this.status = (String) data.getFields().get(2);
+        this.stateForPend = (String) data.getFields().get(2);
         this.start = (Date) data.getFields().get(3);
         this.end = (Date) data.getFields().get(4);
         this.discount = (Discount) data.getFields().get(5);
@@ -124,7 +146,7 @@ public class Auction implements Packable, ForPend {
     public Auction(long auctionId, List<Product> productList, String status, Date start, Date end, Discount discount) {
         this.auctionId = auctionId;
         this.productList = productList;
-        this.status = status;
+        this.stateForPend = status;
         this.start = start;
         this.end = end;
         this.discount = discount;
@@ -140,7 +162,7 @@ public class Auction implements Packable, ForPend {
         return "Auction{" +
                 "auctionId=" + auctionId +
                 ", productList=" + productList +
-                ", status=" + status +
+                ", status=" + stateForPend +
                 ", start=" + start +
                 ", end=" + end +
                 ", discount=" + discount +
