@@ -80,7 +80,7 @@ public class SellerController extends AccountController {
     }
 
     public List<Category> showCategories() {
-        return Category.getCategoryList();
+        return Category.getList();
     }
 
     public ArrayList<Auction> viewAllOffs() {

@@ -1,9 +1,13 @@
 package Model.Models;
 
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.DiscountCodeExpiredExcpetion;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,14 +41,6 @@ public class DiscountCode implements Packable {
         return fieldList;
     }
 
-    public List<Account> getAccountList() {
-        return accountList;
-    }
-
-    public static List<DiscountCode> getList() {
-        return list;
-    }
-
     public Date getStart() {
         return start;
     }
@@ -59,6 +55,34 @@ public class DiscountCode implements Packable {
 
     public long getFrequentUse() {
         return frequentUse;
+    }
+
+    public List<Account> getAccountList() {
+        return Collections.unmodifiableList(accountList);
+    }
+
+    public void addAccount(Account account) {
+        accountList.add(account);
+        DataBase.save(this);
+    }
+
+    public void removeAccount(Account account) {
+        accountList.remove(account);
+        DataBase.save(this);
+    }
+
+    public static List<DiscountCode> getList() {
+        return Collections.unmodifiableList(list);
+    }
+
+    public static void addDiscountCode(DiscountCode discountCode) {
+        list.add(discountCode);
+        DataBase.save(discountCode);
+    }
+
+    public static void removeFromDiscountCode(DiscountCode discountCode) {
+        list.remove(discountCode);
+        DataBase.remove(discountCode);
     }
 
     @Override
@@ -77,7 +101,7 @@ public class DiscountCode implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) {
+    public void dpkg(Data data) throws AccountDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         this.discountCode = (String) data.getFields().get(1);
         this.start = (Date) data.getFields().get(2);
@@ -85,15 +109,20 @@ public class DiscountCode implements Packable {
         this.discount = (Discount) data.getFields().get(4);
         this.frequentUse = (long) data.getFields().get(5);
         this.fieldList = (FieldList) data.getFields().get(6);
-        this.accountList = ((List<Long>) data.getFields().get(7))
-                .stream().map(Account::getAccountById).collect(Collectors.toList());
+
+        List<Account> result = new ArrayList<>();
+        for (Long aLong : Collections.unmodifiableList((List<Long>) data.getFields().get(7))) {
+            Account accountById = Account.getAccountById(aLong);
+            result.add(accountById);
+        }
+        this.accountList = result;
     }
 
-    public static DiscountCode getDiscountCodeById(long id) {
+    public static DiscountCode getDiscountCodeById(long id) throws DiscountCodeExpiredExcpetion {
         return list.stream()
                 .filter(code -> id == code.getId())
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new DiscountCodeExpiredExcpetion("DiscountCode with this id does not exist."));
     }
 
     public DiscountCode(long id, String discountCode, Date start, Date end, Discount discount, int frequentUse, FieldList fieldList, List<Account> accountList) {
@@ -109,8 +138,19 @@ public class DiscountCode implements Packable {
 
     public DiscountCode() {
     }
-    /////yac
-    public static void removeDiscountCode(DiscountCode discountCode){
+
+    @Override
+    public String toString() {
+        return "DiscountCode{" +
+                "id=" + id +
+                ", discountCode='" + discountCode + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                ", discount=" + discount +
+                ", frequentUse=" + frequentUse +
+                ", fieldList=" + fieldList +
+                ", accountList=" + accountList +
+                '}';
     }
 }
 

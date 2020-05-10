@@ -1,6 +1,9 @@
 package Model.Models;
 
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
 import Model.Tools.Data;
+import Model.Tools.Packable;
 
 import java.util.List;
 
@@ -34,13 +37,13 @@ public class Score implements Packable {
     }
 
     @Override
-    public Data pack(Object object) {
+    public Data pack() {
         return null;
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException {
+
     }
 
     public Score(long scoreId, Account user, int score, Product good) {

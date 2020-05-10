@@ -1,5 +1,6 @@
 package Model.Models.Accounts;
 
+import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Models.*;
@@ -121,7 +122,7 @@ public class Seller extends Account {
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         super.dpkg(data);
         balance = (double) data.getFields().get(4);
         companyInfo = CompanyInfo.getCompanyInfoById((long) data.getFields().get(5));
@@ -135,11 +136,12 @@ public class Seller extends Account {
                 .stream().map(Auction::getAuctionById).collect(Collectors.toList());
     }
 
-    public Seller(long id, String userName, String password, PersonalInfo personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, CompanyInfo companyInfo, List<Auction> auctionList) {
+    public Seller(long id, String userName, String password, PersonalInfo personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, List<ForPend> forPendList, CompanyInfo companyInfo, List<Auction> auctionList) {
         super(id, userName, password, personalInfo);
         this.balance = balance;
         this.logHistoryList = logHistoryList;
         this.productList = productList;
+        this.forPendList = forPendList;
         this.companyInfo = companyInfo;
         this.auctionList = auctionList;
     }
@@ -147,12 +149,24 @@ public class Seller extends Account {
     public Seller(String username) {
         this.userName = username;
         inRegistering.add(this);
-        DataBase.save(this);
     }
 
     public Seller() {
     }
-    ///yac
-    private List<Discount> sellersDiscounts;
 
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "balance=" + balance +
+                ", logHistoryList=" + logHistoryList +
+                ", productList=" + productList +
+                ", forPendList=" + forPendList +
+                ", companyInfo=" + companyInfo +
+                ", auctionList=" + auctionList +
+                ", id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", personalInfo=" + personalInfo +
+                '}';
+    }
 }

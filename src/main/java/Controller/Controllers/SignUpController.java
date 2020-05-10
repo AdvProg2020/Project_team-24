@@ -29,7 +29,7 @@ public class SignUpController {
             throw new UserNameTooShortException("UserNameTooShortException");
         } else if (type.equals("Seller")) {
             new Seller(username);
-        } else if (type.equals("Manager")) {
+        } else if (type.equals("Manager") /* && !firstManager*/) {
             new Manager(username);
         } else if (type.equals("Customer")) {
             new Customer(username);

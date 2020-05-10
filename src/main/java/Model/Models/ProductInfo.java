@@ -1,9 +1,12 @@
 package Model.Models;
 
+import Exceptions.AccountDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,13 +68,17 @@ public class ProductInfo implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) {
+    public void dpkg(Data data) throws AccountDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         this.price = (double) data.getFields().get(1);
         this.fieldList = (FieldList) data.getFields().get(2);
         this.inventoryStatus = (InventoryStatus) data.getFields().get(3);
-        this.sellers = ((List<Long>) data.getFields().get(4))
-                .stream().map(Account::getAccountById).collect(Collectors.toList());
+        List<Account> result = new ArrayList<>();
+        for (Long aLong : Collections.unmodifiableList((List<Long>) data.getFields().get(4))) {
+            Account accountById = Account.getAccountById(aLong);
+            result.add(accountById);
+        }
+        this.sellers = result;
     }
 
     // override clone. for all.

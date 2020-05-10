@@ -7,12 +7,10 @@ import Controller.Tools.SortByTime;
 import Exceptions.NotAvailableSortException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Category;
-import Model.Models.FieldList;
 import Model.Models.Filter;
 import Model.Models.Product;
 import org.apache.maven.lifecycle.LifeCyclePluginAnalyzer;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +42,7 @@ public class ProductsController {
     }
 
     public List<Category> viewCategories() {
-        return Category.getCategoryList();
+        return Category.getList();
     }
 
     public String showAvailableSorts() {

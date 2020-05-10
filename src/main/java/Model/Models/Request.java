@@ -1,18 +1,18 @@
 package Model.Models;
 
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.RequesDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
-import javax.swing.table.AbstractTableModel;
 import java.util.Collections;
 import java.util.List;
 
 public class Request implements Packable {
 
-    private static List<Request> requestList;
+    private static List<Request> list;
 
     static {
         DataBase.loadList(Request.class);
@@ -49,15 +49,25 @@ public class Request implements Packable {
     }
 
     public void acceptRequest() {
-
+        //
     }
 
     public void declineRequest() {
-
+        //
     }
 
-    public static List<Request> getRequestList() {
-        return Collections.unmodifiableList(requestList);
+    public static List<Request> getList() {
+        return Collections.unmodifiableList(list);
+    }
+
+    public static void addRequest(Request request) {
+        list.add(request);
+        DataBase.save(request);
+    }
+
+    public static void removeRequest(Request request) {
+        list.remove(request);
+        DataBase.remove(request);
     }
 
     @Override
@@ -71,7 +81,7 @@ public class Request implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public void dpkg(Data data) throws AccountDoesNotExistException {
         this.requestId = (long) data.getFields().get(0);
         this.account = Account.getAccountById((long) data.getFields().get(1));
         this.information = (String) data.getFields().get(2);
@@ -79,11 +89,11 @@ public class Request implements Packable {
         this.forPend = (ForPend) data.getFields().get(4);
     }
 
-    public static Request getRequestById(long id) {
-        return requestList.stream()
+    public static Request getRequestById(long id) throws RequesDoesNotExistException {
+        return list.stream()
                 .filter(request -> id == request.getRequestId())
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new RequesDoesNotExistException("Request with this id does not exist."));
     }
 
     public Request(long requestId, Account account, String information, TypeRequest typeOfRequest, ForPend forPend) {

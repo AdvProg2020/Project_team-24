@@ -1,9 +1,13 @@
 package Model.Models;
 
 import Model.DataBase.DataBase;
+import Model.Models.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PersonalInfo implements Packable {
@@ -19,8 +23,9 @@ public class PersonalInfo implements Packable {
     //    String lastName
     //    String email
     //    String phoneNumber
-    private String address;
-    private String postCode;
+    //    String address;
+    //    String postCode;
+    //    String date
     private FieldList fieldList;
 
     public long getId() {
@@ -29,6 +34,12 @@ public class PersonalInfo implements Packable {
 
     public FieldList getFieldList() {
         return fieldList;
+    }
+
+    public Date getDataOfUpload() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+        SingleString singleString = (SingleString) fieldList.getFieldByName("date");
+        return formatter.parse(singleString.getString());
     }
 
     @Override
@@ -56,14 +67,6 @@ public class PersonalInfo implements Packable {
         this.fieldList = fieldList;
     }
 
-    public PersonalInfo(){}
-    ///yac
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
+    public PersonalInfo(){
     }
 }

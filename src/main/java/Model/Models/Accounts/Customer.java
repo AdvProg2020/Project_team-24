@@ -1,10 +1,12 @@
 package Model.Models.Accounts;
 
+import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,10 +71,6 @@ public class Customer extends Account {
         this.cart = cart;
     }
 
-    public void purchase() {
-        // ?
-    }
-
     @Override
     public Data pack() {
         return super.pack()
@@ -86,13 +84,17 @@ public class Customer extends Account {
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         super.dpkg(data);
         this.cart = Cart.getCartById((long) data.getFields().get(4));
         this.credit = (double) data.getFields().get(5);
         this.totalPurchase = (double) data.getFields().get(6);
-        this.discountCodeList = ((List<Long>) data.getFields().get(7))
-                .stream().map(DiscountCode::getDiscountCodeById).collect(Collectors.toList());
+        List<DiscountCode> result = new ArrayList<>();
+        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
+            DiscountCode discountCodeById = DiscountCode.getDiscountCodeById(aLong);
+            result.add(discountCodeById);
+        }
+        this.discountCodeList = result;
         this.logHistoryList = ((List<Long>) data.getFields().get(8))
                 .stream().map(LogHistory::getLogHistoryById).collect(Collectors.toList());
     }
@@ -113,9 +115,23 @@ public class Customer extends Account {
     public Customer(String username) {
         this.userName = username;
         inRegistering.add(this);
-        DataBase.save(this);
     }
 
     public Customer() {
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "cart=" + cart +
+                ", discountCodeList=" + discountCodeList +
+                ", credit=" + credit +
+                ", totalPurchase=" + totalPurchase +
+                ", logHistoryList=" + logHistoryList +
+                ", id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", personalInfo=" + personalInfo +
+                '}';
     }
 }
