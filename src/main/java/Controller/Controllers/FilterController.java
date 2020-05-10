@@ -4,10 +4,15 @@ import Controller.ControllerUnit;
 import Exceptions.InvalidFilterException;
 import Model.Models.Filter;
 import Model.Models.Product;
+import Model.Models.ProductInfo;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FilterController {
     private ControllerUnit controllerUnit;
@@ -24,19 +29,32 @@ public class FilterController {
         }
         return filterController;
     }
-    private List<Filter> listOfFilters;
+    private List<Product> listOfProductsFiltered = Product.getProductList();
+    private List<Filter>  listOfFiltersNowRunning ;
+    public List<Field> showAvailableFilters(){
+        //inke filter ha faghat esme khoe=de field ha bashe
+        List<Field> productFieldList = Arrays.asList(Product.class.getFields());
+        List<Field> productinfoFieldList = Arrays.asList(ProductInfo.class.getFields());
+        List<Field> fields = Stream.of(productFieldList, productinfoFieldList).collect(ArrayList::new, List::addAll, List::addAll);
+        //ya inke khodemoon yek mahdoodde filtei specifik besazim??
+        return fields;
+    }
+    private void checkFilterValid(Filter filter) throws InvalidFilterException {
+        if (!showAvailableFilters().contains(filter)){
+            throw new InvalidFilterException("InvalidFilterException");
+        }
+    }
+    public void filter(Filter filter) throws InvalidFilterException {
+        checkFilterValid(filter);
+        if(filter.equals()){List<Product> productsFiltered = Product.getProductList().stream()
+                .filter(p -> p.getAverageScore() > 4).collect(Collectors.toList());
+        }
+        // for dar list products ... if filter add to listof products
+    }
 
-    public void filtering(){}
-    public List<Filter> showAvailableFilters(){return listOfFilters;}
-    public void filter(Filter filter){}
-    private void checkFilterValid(Filter filter) throws InvalidFilterException {}
-    public ArrayList<Filter> currentFilters(){return null;}
+    public List<Filter> currentFilters(){return listOfFiltersNowRunning;}
     public void disableFilter(Filter filter){}
     public void searchForProduct(Product product , long productId){}
-    public void addfilter(Filter filter){}
-    public void removefilter(Filter filter){}
-    public void addSortElement(String sortaElement){}
-    public void removeSortElement(String sortaElement){}
-    public HashMap<String,String> categoryFilter(){return null;}
-    public HashMap<String,String> sortElement(){return null;}
+
+    //فیلتر کردن بر اساس product va productinfo???/
 }
