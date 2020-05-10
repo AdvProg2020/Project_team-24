@@ -1,6 +1,7 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
+import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -56,6 +57,11 @@ public abstract class Account implements Packable {
         return Collections.unmodifiableList(list);
     }
 
+    public static void addToAllAccounts(Account account) {
+        list.add(account);
+        DataBase.save(account);
+    }
+
     @Override
     public Data pack() {
         return new Data(Account.class.getName())
@@ -66,7 +72,7 @@ public abstract class Account implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
@@ -85,21 +91,21 @@ public abstract class Account implements Packable {
         return inRegistering.stream()
                 .filter(account -> userName.equals(account.getUserName()))
                 .findFirst()
-                .orElseThrow(() -> new AccountDoesNotExistException("this user not exist"));
+                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in Registering list."));
     }
 
-    public static Account getAccountByUserName(String name) {
+    public static Account getAccountByUserName(String name) throws AccountDoesNotExistException {
         return list.stream()
                 .filter(account -> name.equals(account.getUserName()))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
     }
 
-    public static Account getAccountById(long id) {
+    public static Account getAccountById(long id) throws AccountDoesNotExistException {
         return list.stream()
                 .filter(account -> id == account.getId())
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
     }
 
     public static long getIdForNewAccount() {
@@ -137,5 +143,15 @@ public abstract class Account implements Packable {
     }
 
     public Account() {
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", personalInfo=" + personalInfo +
+                '}';
     }
 }

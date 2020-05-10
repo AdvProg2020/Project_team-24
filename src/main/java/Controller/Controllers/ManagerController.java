@@ -122,7 +122,7 @@ public class ManagerController extends AccountController {
     }
 
     public List<Category> manageCategories() {
-        return Category.getCategoryList();
+        return Category.getList();
     }
 
     public void editCategory(String categoryname, String field) {
@@ -133,12 +133,12 @@ public class ManagerController extends AccountController {
 
     public void removeCategory(String categoryName) {
         Category category = Category.getCategoryByName(categoryName);
-        Category.getCategoryList().remove(category);
+        Category.getList().remove(category);
     }
 
     public void addCategory(String categoryName) {
         Category category = Category.getCategoryByName(categoryName);
-        Category.getCategoryList().add(category);
+        Category.getList().add(category);
     }
 
     public void createManagerProfileBaseAccount(String username) {
@@ -151,6 +151,6 @@ public class ManagerController extends AccountController {
     }
 
     public List<Category> showAllCategories() {
-        return Category.getCategoryList();
+        return Category.getList();
     }
 }

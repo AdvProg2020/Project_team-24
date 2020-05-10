@@ -1,5 +1,6 @@
 package Model.Models.Accounts;
 
+import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Models.*;
@@ -121,7 +122,7 @@ public class Seller extends Account {
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         super.dpkg(data);
         balance = (double) data.getFields().get(4);
         companyInfo = CompanyInfo.getCompanyInfoById((long) data.getFields().get(5));
@@ -151,5 +152,21 @@ public class Seller extends Account {
     }
 
     public Seller() {
+    }
+
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "balance=" + balance +
+                ", logHistoryList=" + logHistoryList +
+                ", productList=" + productList +
+                ", forPendList=" + forPendList +
+                ", companyInfo=" + companyInfo +
+                ", auctionList=" + auctionList +
+                ", id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", personalInfo=" + personalInfo +
+                '}';
     }
 }

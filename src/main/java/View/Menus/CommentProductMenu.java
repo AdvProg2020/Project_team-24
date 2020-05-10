@@ -20,14 +20,16 @@ public class CommentProductMenu extends Menu {
         }
         return menu;
     }
-public void addComment(List<String> inputs) {
-    String title = inputs.get(0);
-    String content =inputs.get(1);
-}
 
-    public static Menu getMenu(){
+    public void addComment(List<String> inputs) {
+        String title = inputs.get(0);
+        String content = inputs.get(1);
+    }
+
+    public static Menu getMenu() {
         return menu;
     }
+
     @Override
     public void help() {
         super.help();

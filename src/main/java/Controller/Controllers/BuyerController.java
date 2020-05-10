@@ -5,16 +5,14 @@ import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class BuyerController extends AccountController {
-    private ControllerUnit controllerUnit;
     //singleTone
     private static  BuyerController buyerController;
 
-    private  BuyerController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
+    public BuyerController(Customer customer) {
+        this.customer = customer;
     }
 
     public static AccountController getInstance(ControllerUnit controllerUnit) {
@@ -31,7 +29,7 @@ public class BuyerController extends AccountController {
     }
 
     public List<Product> showProducts() {
-        return viewCart().getProductList();
+        return viewCart().getProductHashMap();
     }
 
     public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
@@ -96,7 +94,7 @@ public class BuyerController extends AccountController {
     }
     public void buyProductsOfCart(Cart cart) throws NotEnoughCreditException, PurchaseFailException {
         payment();
-        for(Product product : customer.getCart().getProductList()){
+        for(Product product : customer.getCart().getProductHashMap()){
             customer.getCart().removeFromProductList(product);
             customer.getLogHistoryList().add(product);
         }

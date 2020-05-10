@@ -1,13 +1,11 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
-import Exceptions.InvalidCommandException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Tools.ForPend;
-import org.w3c.dom.css.DOMImplementationCSS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +68,7 @@ public class SellerController extends AccountController {
     }
 
     public List<Category> showCategories() {
-        return Category.getCategoryList();
+        return Category.getList();
     }
 
     public ArrayList<Discount> viewAllOffs() {

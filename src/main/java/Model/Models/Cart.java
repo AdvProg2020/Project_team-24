@@ -1,9 +1,15 @@
 package Model.Models;
 
+import Exceptions.IdInvalidException;
+import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.awt.image.AreaAveragingScaleFilter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +22,7 @@ public class Cart implements Packable {
     }
 
     private long id;
+    private List<Long> productSellerIds;
     private List<Product> productList;
 
     public long getId() {
@@ -23,7 +30,25 @@ public class Cart implements Packable {
     }
 
     public List<Product> getProductList() {
-        return productList;
+        return Collections.unmodifiableList(productList);
+    }
+
+    public List<Long> getProductSellerIds() {
+        return Collections.unmodifiableList(productSellerIds);
+    }
+
+    public void addProductToCart(long sellerId, Product product) {
+        productSellerIds.add(sellerId);
+        productList.add(product);
+    }
+
+    public void removeProductFromCart(long sellerId, Product product) throws IdInvalidException {
+        long id = productSellerIds.stream()
+                .dropWhile(i -> i == sellerId)
+                .count();
+        if (id == productSellerIds.size() + 1) {
+
+        }
     }
 
     public Product getProductById(long id) {
@@ -40,14 +65,6 @@ public class Cart implements Packable {
                 .reduce(0D, Double::sum);
     }
 
-    public void addToProductList(Product product) {
-        productList.add(product);
-    }
-
-    public void removeFromProductList(Product product) {
-        productList.remove(product);
-    }
-
     public static List<Cart> getList() {
         return list;
     }
@@ -58,14 +75,20 @@ public class Cart implements Packable {
                 .addField(id)
                 .addField(productList.stream()
                 .map(Product::getProductId)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()))
+                .addField(productSellerIds);
     }
 
     @Override
-    public void dpkg(Data data) {
+    public void dpkg(Data data) throws ProductDoesNotExistException {
         this.id = (long) data.getFields().get(0);
-        this.productList = ((List<Long>) data.getFields().get(1))
-                .stream().map(Product::getProductById).collect(Collectors.toList());
+        List<Product> result = new ArrayList<>();
+        for (Long aLong : (List<Long>) data.getFields().get(1)) {
+            Product productById = Product.getProductById(aLong);
+            result.add(productById);
+        }
+        this.productList = result;
+        this.productSellerIds = (List<Long>) data.getFields().get(2);
     }
 
     public static Cart getCartById(long id) {
@@ -75,12 +98,12 @@ public class Cart implements Packable {
                 .orElseThrow();
     }
 
-    public Cart(long id, List<Product> productList) {
+    public Cart(long id, List<Long> productSellerIds, List<Product> productList) {
         this.id = id;
+        this.productSellerIds = productSellerIds;
         this.productList = productList;
     }
 
-    public Cart() {}
-    ////yac
-
+    public Cart() {
+    }
 }
