@@ -18,11 +18,15 @@ public class Category implements Packable {
         DataBase.loadList(Category.class);
     }
 
+    /*****************************************************fields*******************************************************/
+
     private long categoryId;
     private String name;
-    private List<Product> productList;
     private FieldList categoryField;
+    private List<Product> productList;
     private List<Category> subCategoryList;
+
+    /*****************************************************getters*******************************************************/
 
     public long getCategoryId() {
         return categoryId;
@@ -40,6 +44,16 @@ public class Category implements Packable {
         return Collections.unmodifiableList(productList);
     }
 
+    public List<Category> getSubCategoryList() {
+        return Collections.unmodifiableList(subCategoryList);
+    }
+
+    public static List<Category> getList() {
+        return Collections.unmodifiableList(list);
+    }
+
+    /**************************************************addAndRemove*****************************************************/
+
     public void addToProductList(Product product) {
         productList.add(product);
         DataBase.save(this);
@@ -48,10 +62,6 @@ public class Category implements Packable {
     public void removeFromProductList(Product product) {
         productList.remove(product);
         DataBase.remove(this);
-    }
-
-    public List<Category> getSubCategoryList() {
-        return Collections.unmodifiableList(subCategoryList);
     }
 
     public void addToSubCategoryList(Category category) {
@@ -64,10 +74,6 @@ public class Category implements Packable {
         DataBase.remove(category);
     }
 
-    public static List<Category> getList() {
-        return Collections.unmodifiableList(list);
-    }
-
     public static void addCategory(Category category) {
         list.add(category);
         DataBase.save(category);
@@ -77,6 +83,17 @@ public class Category implements Packable {
         list.remove(category);
         DataBase.remove(category);
     }
+
+    /***************************************************otherMethods****************************************************/
+
+    public static Category getCategoryById(long id) {
+        return list.stream()
+                .filter(category -> id == category.getCategoryId())
+                .findFirst()
+                .orElseThrow(); // need category not found exception.
+    }
+
+    /***************************************************packAndDpkg*****************************************************/
 
     @Override
     public Data pack() {
@@ -111,12 +128,7 @@ public class Category implements Packable {
         this.subCategoryList = result_2;
     }
 
-    public static Category getCategoryById(long id) {
-        return list.stream()
-                .filter(category -> id == category.getCategoryId())
-                .findFirst()
-                .orElseThrow(); // need category not found exception.
-    }
+    /**************************************************constructors*****************************************************/
 
     public Category(long categoryId, String name, List<Product> productList, FieldList categoryField, List<Category> subCategoryList) {
         this.categoryId = categoryId;
@@ -128,6 +140,8 @@ public class Category implements Packable {
 
     public Category() {
     }
+
+    /****************************************************overrides******************************************************/
 
     @Override
     public String toString() {

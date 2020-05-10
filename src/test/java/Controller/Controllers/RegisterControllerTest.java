@@ -43,7 +43,7 @@ public class RegisterControllerTest {
             state = 1;
         } else if (user.toCharArray().length < 6) {
             state = 2;
-        } else if (type.matches("^(Manager|Customer|Seller)$")) {
+        } else if (!type.matches("^(Manager|Customer|Seller)$")) {
             state = 3;
         }
 
@@ -55,6 +55,10 @@ public class RegisterControllerTest {
             Assert.assertEquals(2,state);
         } catch (TypeInvalidException e) {
             Assert.assertEquals(3,state);
+        }
+
+        if (state != 0) {
+            Assert.fail();
         }
 
         try {

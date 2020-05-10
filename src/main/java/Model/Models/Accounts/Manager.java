@@ -49,7 +49,7 @@ public class Manager extends Account {
     }
 
     public Manager(String username) {
-        this.userName = username;
+        super(username);
         inRegistering.add(this);
     }
 

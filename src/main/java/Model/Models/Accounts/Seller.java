@@ -105,21 +105,21 @@ public class Seller extends Account {
         return productList.stream()
                 .filter(product -> id == product.getProductId())
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(); // need product does not exist exception.
     }
 
     public LogHistory getLogHistoryById(long id) {
         return logHistoryList.stream()
                 .filter(logHistory -> id == logHistory.getLogId())
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(); // need logHistory does not exist exception.
     }
 
     public Auction getAuctionById(long id) {
         return auctionList.stream()
                 .filter(auction -> id == auction.getAuctionId())
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(); // need Auction does not exist exception.
     }
 
     public List<Account> getBuyersByProductId(long id) {
@@ -167,7 +167,7 @@ public class Seller extends Account {
     }
 
     public Seller(String username) {
-        this.userName = username;
+        super(username);
         inRegistering.add(this);
     }
 

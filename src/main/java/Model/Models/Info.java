@@ -8,12 +8,12 @@ public class Info {
 
     private String subject;
 
-    private FieldList fieldList;
+    private FieldList list;
 
     private Date uploadDate;
 
-    private Field getFieldByName(String name) {
-        return fieldList.getFieldList().stream()
+    public Field getFieldByName(String name) {
+        return list.getFieldList().stream()
                 .filter(field -> name.equals(field.getFieldName()))
                 .findFirst()
                 .orElseThrow(); // need field does not exist exception.
@@ -23,17 +23,17 @@ public class Info {
         return subject;
     }
 
-    public FieldList getFieldList() {
-        return fieldList;
+    public FieldList getList() {
+        return list;
     }
 
     public Date getUploadDate() {
         return uploadDate;
     }
 
-    public Info(String subject, FieldList fieldList, Date uploadDate) {
+    public Info(String subject, FieldList list, Date uploadDate) {
         this.subject = subject;
-        this.fieldList = fieldList;
+        this.list = list;
         this.uploadDate = uploadDate;
     }
 }

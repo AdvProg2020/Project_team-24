@@ -65,7 +65,7 @@ public class SellerController extends AccountController {
     public void removeProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         seller.getProductList().remove(product);
-        Product.getProductList().remove(product);
+        Product.getList().remove(product);
         ;
     }
 

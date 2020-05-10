@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Comment implements Packable {
 
-    private static List<Comment> commentList;
+    private static List<Comment> list;
 
     static {
         DataBase.loadList(Comment.class);
@@ -22,10 +22,10 @@ public class Comment implements Packable {
     //    String tittle
     //    String comment
     private FieldList fieldList;
-    private PendStatus pendStatus;
+    private String pendStatus;
 
-    public static List<Comment> getCommentList() {
-        return commentList;
+    public static List<Comment> getList() {
+        return list;
     }
 
     public long getCommentId() {
@@ -36,7 +36,7 @@ public class Comment implements Packable {
         return fieldList;
     }
 
-    public PendStatus getPendStatus() {
+    public String getPendStatus() {
         return pendStatus;
     }
 
@@ -52,6 +52,13 @@ public class Comment implements Packable {
         return didThisUserBuyThisProduct;
     }
 
+    public static Comment getCommentById(long id)  {
+        return list.stream()
+                .filter(comment -> id == comment.getCommentId())
+                .findFirst()
+                .orElseThrow(); // need comment does not exist exception.
+    }
+
     @Override
     public Data pack() {
         return null;
@@ -62,12 +69,15 @@ public class Comment implements Packable {
 
     }
 
-    public Comment(long commentId, Account userComments, Product purchasedGood, boolean didThisUserBuyThisProduct, FieldList fieldList, PendStatus pendStatus) {
+    public Comment(long commentId, Account userComments, Product purchasedGood, boolean didThisUserBuyThisProduct, FieldList fieldList, String pendStatus) {
         this.commentId = commentId;
         this.userComments = userComments;
         this.purchasedGood = purchasedGood;
         this.didThisUserBuyThisProduct = didThisUserBuyThisProduct;
         this.fieldList = fieldList;
         this.pendStatus = pendStatus;
+    }
+
+    public Comment() {
     }
 }

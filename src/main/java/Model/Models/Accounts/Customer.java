@@ -133,7 +133,7 @@ public class Customer extends Account {
     }
 
     public Customer(String username) {
-        this.userName = username;
+        super(username);
         inRegistering.add(this);
     }
 

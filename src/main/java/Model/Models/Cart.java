@@ -1,6 +1,5 @@
 package Model.Models;
 
-import Exceptions.IdInvalidException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -19,9 +18,13 @@ public class Cart implements Packable {
         DataBase.loadList(Cart.class);
     }
 
+    /*****************************************************fields*******************************************************/
+
     private long id;
     private List<Long> productSellerIds;
     private List<Product> productList;
+
+    /*****************************************************getters*******************************************************/
 
     public long getId() {
         return id;
@@ -35,6 +38,10 @@ public class Cart implements Packable {
         return Collections.unmodifiableList(productSellerIds);
     }
 
+    public static List<Cart> getList() {
+        return list;
+    }
+
     public void addProductToCart(long sellerId, Product product) {
         productSellerIds.add(sellerId);
         productList.add(product);
@@ -45,6 +52,8 @@ public class Cart implements Packable {
         productList.remove(product);
     }
 
+    /***************************************************otherMethods****************************************************/
+
     public Product getProductById(long id) {
         return productList.stream()
                 .filter(product -> id == product.getProductId())
@@ -52,16 +61,18 @@ public class Cart implements Packable {
                 .orElse(null);
     }
 
-//    public double getTotalPrice() {
-//        return productList.stream()
-//                .map(Product::getProductInfo)
-//                .map(Info::getPrice)
-//                .reduce(0D, Double::sum);
-//    }
-
-    public static List<Cart> getList() {
-        return list;
+    public double getTotalPrice() {
+        return productList.stream().map(Product::getPrice).reduce(0D, Double::sum);
     }
+
+    public static Cart getCartById(long id) {
+        return list.stream()
+                .filter(cart -> id == cart.getId())
+                .findFirst()
+                .orElseThrow();
+    }
+
+    /***************************************************packAndDpkg*****************************************************/
 
     @Override
     public Data pack() {
@@ -85,12 +96,7 @@ public class Cart implements Packable {
         this.productSellerIds = (List<Long>) data.getFields().get(2);
     }
 
-    public static Cart getCartById(long id) {
-        return list.stream()
-                .filter(cart -> id == cart.getId())
-                .findFirst()
-                .orElseThrow();
-    }
+    /**************************************************constructors*****************************************************/
 
     public Cart(long id, List<Long> productSellerIds, List<Product> productList) {
         this.id = id;
@@ -99,5 +105,16 @@ public class Cart implements Packable {
     }
 
     public Cart() {
+    }
+
+    /****************************************************overrides******************************************************/
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", productSellerIds=" + productSellerIds +
+                ", productList=" + productList +
+                '}';
     }
 }
