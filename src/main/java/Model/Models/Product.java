@@ -1,8 +1,9 @@
 package Model.Models;
 
-import Exceptions.NoSuchProductExistsException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
+import Model.Models.Info.CategoryInfo;
+import Model.Models.Info.ProductInfo;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
@@ -22,7 +23,7 @@ public class Product implements Packable, ForPend ,Cloneable {
 
     private long productId;
     private PendStatus pendStatus;
-    private CategorySpecifications specifications;
+    private CategoryInfo specifications;
     private ProductInfo productInfo;
     private Category category;
     private long numberOfVisitors;
@@ -42,7 +43,7 @@ public class Product implements Packable, ForPend ,Cloneable {
         return pendStatus;
     }
 
-    public CategorySpecifications getSpecifications() {
+    public CategoryInfo getSpecifications() {
         return specifications;
     }
 
@@ -115,7 +116,7 @@ public class Product implements Packable, ForPend ,Cloneable {
                 .orElseThrow();
     }
 
-    public Product(long productId, PendStatus pendStatus, CategorySpecifications specifications, ProductInfo productInfo, Category category, long numberOfVisitors, long numberOfBuyers, long numberOfThis, double averageScore, List<Comment> commentList) {
+    public Product(long productId, PendStatus pendStatus, CategoryInfo specifications, ProductInfo productInfo, Category category, long numberOfVisitors, long numberOfBuyers, long numberOfThis, double averageScore, List<Comment> commentList) {
         this.productId = productId;
         this.pendStatus = pendStatus;
         this.specifications = specifications;

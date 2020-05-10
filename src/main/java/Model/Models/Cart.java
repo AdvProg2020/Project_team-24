@@ -3,13 +3,12 @@ package Model.Models;
 import Exceptions.IdInvalidException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
+import Model.Models.Info.ProductInfo;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 

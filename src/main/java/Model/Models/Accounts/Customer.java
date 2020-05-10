@@ -2,8 +2,8 @@ package Model.Models.Accounts;
 
 import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
-import Model.DataBase.DataBase;
 import Model.Models.*;
+import Model.Models.Info.PersonalInfo;
 import Model.Tools.Data;
 
 import java.util.ArrayList;
@@ -103,7 +103,7 @@ public class Customer extends Account {
         return list.stream().filter(account -> account instanceof Customer).collect(Collectors.toUnmodifiableList());
     }
 
-    public Customer(long id, String userName, String password, PersonalInfo personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, double totalPurchase, List<LogHistory> logHistoryList) {
+    public Customer(long id, String userName, String password, Info personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, double totalPurchase, List<LogHistory> logHistoryList) {
         super(id, userName, password, personalInfo);
         this.cart = cart;
         this.discountCodeList = discountCodeList;

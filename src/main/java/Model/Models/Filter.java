@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Model.Models.Field.Field;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;

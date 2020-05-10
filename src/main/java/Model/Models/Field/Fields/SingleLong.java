@@ -1,6 +1,6 @@
-package Model.Models.Fields;
+package Model.Models.Field.Fields;
 
-import Model.Models.Field;
+import Model.Models.Field.Field;
 
 public class SingleLong extends Field {
 

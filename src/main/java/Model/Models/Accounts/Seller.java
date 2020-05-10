@@ -2,8 +2,9 @@ package Model.Models.Accounts;
 
 import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
-import Model.DataBase.DataBase;
 import Model.Models.*;
+import Model.Models.Info.CompanyInfo;
+import Model.Models.Info.PersonalInfo;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 

@@ -1,4 +1,4 @@
-package Model.Models;
+package Model.Models.Field;
 
 public class Field {
 

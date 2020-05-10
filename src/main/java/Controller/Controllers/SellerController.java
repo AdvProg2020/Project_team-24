@@ -5,6 +5,8 @@ import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
+import Model.Models.Info.CompanyInfo;
+import Model.Models.Info.ProductInfo;
 import Model.Tools.ForPend;
 
 import java.util.ArrayList;

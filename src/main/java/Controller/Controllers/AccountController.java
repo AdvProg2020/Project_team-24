@@ -3,7 +3,7 @@ package Controller.Controllers;
 import Controller.ControllerUnit;
 import Exceptions.AccountDoesNotExistException;
 import Model.Models.Account;
-import Model.Models.PersonalInfo;
+import Model.Models.Info.PersonalInfo;
 
 public class AccountController {
 

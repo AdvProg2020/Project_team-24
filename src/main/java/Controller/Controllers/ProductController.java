@@ -3,10 +3,9 @@ package Controller.Controllers;
 
 import Controller.ControllerUnit;
 import Exceptions.AcountHasNotLogedIn;
-import Exceptions.ProductDoesNotExistException;
 import Model.Models.Accounts.Customer;
 import Model.Models.Product;
-import Model.Models.ProductInfo;
+import Model.Models.Info.ProductInfo;
 
 import java.util.List;
 

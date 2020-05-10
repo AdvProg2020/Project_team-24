@@ -58,7 +58,7 @@ public class RegisterControllerTest {
         }
 
         try {
-            Account.getAccountByUserNameFromInRegistering(user);
+            Account.getAccountInRegistering(user);
         } catch (AccountDoesNotExistException e) {
             Assert.fail();
         }
