@@ -1,5 +1,8 @@
 package Model.Models;
 
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.DiscountCodeExpiredExcpetion;
+import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
@@ -7,10 +10,9 @@ import Model.Tools.Packable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-// Accounts.03
 
 public abstract class Account implements Packable {
 
@@ -51,6 +53,15 @@ public abstract class Account implements Packable {
         return personalInfo;
     }
 
+    public static List<Account> getList() {
+        return Collections.unmodifiableList(list);
+    }
+
+    public static void addToAllAccounts(Account account) {
+        list.add(account);
+        DataBase.save(account);
+    }
+
     @Override
     public Data pack() {
         return new Data(Account.class.getName())
@@ -61,25 +72,11 @@ public abstract class Account implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) {
+    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
         this.personalInfo = PersonalInfo.getPersonalInfoById((long) data.getFields().get(3));
-    }
-
-    public static Account getAccountByUserName(String name) {
-        return list.stream()
-                .filter(account -> name.equals(account.getUserName()))
-                .findFirst()
-                .orElseThrow();
-    }
-
-    public static Account getAccountById(long id) {
-        return list.stream()
-                .filter(account -> id == account.getId())
-                .findFirst()
-                .orElseThrow();
     }
 
     public static void addToInRegisteringList(Account account) {
@@ -90,11 +87,25 @@ public abstract class Account implements Packable {
         inRegistering.remove(account);
     }
 
-    public static Account getAccountByUserNameFromInRegistering(String userName) {
+    public static Account getAccountByUserNameFromInRegistering(String userName) throws AccountDoesNotExistException {
         return inRegistering.stream()
                 .filter(account -> userName.equals(account.getUserName()))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in Registering list."));
+    }
+
+    public static Account getAccountByUserName(String name) throws AccountDoesNotExistException {
+        return list.stream()
+                .filter(account -> name.equals(account.getUserName()))
+                .findFirst()
+                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
+    }
+
+    public static Account getAccountById(long id) throws AccountDoesNotExistException {
+        return list.stream()
+                .filter(account -> id == account.getId())
+                .findFirst()
+                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
     }
 
     public static long getIdForNewAccount() {
@@ -102,7 +113,6 @@ public abstract class Account implements Packable {
                 .map(Account::getId)
                 .max(Long::compareTo)
                 .orElse(0L) + 1;
-
     }
 
     public static Field getClassFieldByName(String name) throws NoSuchFieldException {
@@ -117,28 +127,31 @@ public abstract class Account implements Packable {
         return Account.class.getField(name);
     }
 
-    public FieldList getPersonalListField() {
-        return personalInfo.getFieldList();
+    public static void deleteAccount(Account account) {
+        list.remove(account);
+        // DataBase.remove(account,Account.class);
     }
 
-    public Account(long id, String userName, String password, PersonalInfo personalInfo) {
+    protected Account(long id, String userName, String password, PersonalInfo personalInfo) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.personalInfo = personalInfo;
     }
+
+    public Account(String username) {
+    }
+
     public Account() {
     }
-///////////////////////////yac
-    public static List<Account> getList() {
-        return list;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", personalInfo=" + personalInfo +
+                '}';
     }
-    public static void deleteAccount(Account account){
-        //...
-        //tooyye in tabe bayad ham az all acccount reamove beshe ham az data base
-    }
-
-
-
-
 }

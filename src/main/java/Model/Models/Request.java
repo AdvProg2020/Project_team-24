@@ -1,25 +1,30 @@
 package Model.Models;
 
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.RequesDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
+import Model.Tools.Packable;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Request implements Packable {
 
-    private static List<Request> requestList;
+    private static List<Request> list;
 
     static {
         DataBase.loadList(Request.class);
     }
 
     public enum TypeRequest {
-        Edit, New
+        Edit, New, Remove
     }
 
     private long requestId;
     private Account account;
+    private String information;
     private TypeRequest typeOfRequest;
     private ForPend forPend;
 
@@ -39,37 +44,66 @@ public class Request implements Packable {
         return forPend;
     }
 
+    public String getInformation() {
+        return information;
+    }
+
     public void acceptRequest() {
+        //
     }
 
     public void declineRequest() {
-
+        //
     }
 
-    public static List<Request> getRequestList() {
-        return requestList;
+    public static List<Request> getList() {
+        return Collections.unmodifiableList(list);
     }
 
-    public static Request getRequestById(long id) {
-        return requestList.stream().filter(request -> id == request.getRequestId()).findFirst().orElse(null);
+    public static void addRequest(Request request) {
+        list.add(request);
+        DataBase.save(request);
+    }
+
+    public static void removeRequest(Request request) {
+        list.remove(request);
+        DataBase.remove(request);
     }
 
     @Override
-    public Data pack(Object object) {
-        return null;
+    public Data pack() {
+        return new Data(Request.class.getName())
+                .addField(requestId)
+                .addField(account.getId())
+                .addField(information)
+                .addField(typeOfRequest)
+                .addField(forPend);
     }
 
     @Override
-    public Object dpkg(Data data) {
-        return null;
+    public void dpkg(Data data) throws AccountDoesNotExistException {
+        this.requestId = (long) data.getFields().get(0);
+        this.account = Account.getAccountById((long) data.getFields().get(1));
+        this.information = (String) data.getFields().get(2);
+        this.typeOfRequest = (TypeRequest) data.getFields().get(3);
+        this.forPend = (ForPend) data.getFields().get(4);
     }
 
-    public Request(long requestId, Account account, TypeRequest typeOfRequest, ForPend forPend) {
+    public static Request getRequestById(long id) throws RequesDoesNotExistException {
+        return list.stream()
+                .filter(request -> id == request.getRequestId())
+                .findFirst()
+                .orElseThrow(() -> new RequesDoesNotExistException("Request with this id does not exist."));
+    }
+
+    public Request(long requestId, Account account, String information, TypeRequest typeOfRequest, ForPend forPend) {
         this.requestId = requestId;
         this.account = account;
+        this.information = information;
         this.typeOfRequest = typeOfRequest;
         this.forPend = forPend;
     }
-    /////yac
 
+    public Request() {
+    }
 }

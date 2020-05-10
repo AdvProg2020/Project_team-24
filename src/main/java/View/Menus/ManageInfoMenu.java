@@ -27,9 +27,7 @@ public class ManageInfoMenu extends Menu {
         String newField = scanner.nextLine();
         try {
             managerController.editField(fieldName,newField);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

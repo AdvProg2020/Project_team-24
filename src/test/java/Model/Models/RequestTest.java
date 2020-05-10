@@ -1,31 +1,52 @@
-package view.Menus;
+package Model.Models;
 
+import Model.Tools.ForPend;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.junit.Assert.*;
+
 @RunWith(Arquillian.class)
-public class SignUpMenuTest {
+public class RequestTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClass(View.Menus.SignUpMenu.class)
+                .addClass(Request.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test
-    public void createAccount() {
+    public void acceptRequest() {
+
     }
 
     @Test
-    public void createPersonalInfo() {
+    public void declineRequest() {
     }
 
     @Test
-    public void createCompanyInfo() {
+    public void addRequest() {
+    }
+
+    @Test
+    public void removeRequest() {
+    }
+
+    @Test
+    public void pack() {
+    }
+
+    @Test
+    public void dpkg() {
+    }
+
+    @Test
+    public void getRequestById() {
     }
 }

@@ -16,6 +16,12 @@ public class LoginController {
     private LoginController(ControllerUnit controllerUnit) {
         this.controllerUnit = controllerUnit;
     }
+    public static LoginController getInstance(ControllerUnit controllerUnit) {
+        if (loginController == null) {
+            loginController = new LoginController(controllerUnit);
+        }
+        return loginController;
+    }
 
     public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
 
@@ -36,10 +42,5 @@ public class LoginController {
 
     // more ...
 
-    public static LoginController getInstance(ControllerUnit controllerUnit) {
-        if (loginController == null) {
-            loginController = new LoginController(controllerUnit);
-        }
-        return loginController;
-    }
+
 }

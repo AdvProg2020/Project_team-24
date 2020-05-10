@@ -16,13 +16,16 @@ import java.util.Random;
 public class ManagerController extends AccountController {
 
     private ControllerUnit controllerUnit;
-
-    private static ManagerController managerController = new ManagerController();
-
-    public static ManagerController getInstance() {
+    private ManagerController  managerController;
+    private ManagerController(ControllerUnit controllerUnit){
+        this.controllerUnit = controllerUnit;
+    }
+    public static ManagerController getInstance(ControllerUnit controllerUnit){
+        if(managerController==null){
+            managerController = new ManagerController(controllerUnit);
+        }
         return managerController;
     }
-
 
     public List<Account> viewAllAccounts() {
         return Account.getList();
@@ -91,7 +94,7 @@ public class ManagerController extends AccountController {
     }
 
     public List<Request> manageRequests() {
-        return Request.getRequestList();
+        return Request.getList();
     }
 
     public ArrayList<String> detailsOfRequest(long requestId) {
@@ -119,7 +122,7 @@ public class ManagerController extends AccountController {
     }
 
     public List<Category> manageCategories() {
-        return Category.getCategoryList();
+        return Category.getList();
     }
 
     public void editCategory(String categoryname, String field) {
@@ -130,12 +133,12 @@ public class ManagerController extends AccountController {
 
     public void removeCategory(String categoryName) {
         Category category = Category.getCategoryByName(categoryName);
-        Category.getCategoryList().remove(category);
+        Category.getList().remove(category);
     }
 
     public void addCategory(String categoryName) {
         Category category = Category.getCategoryByName(categoryName);
-        Category.getCategoryList().add(category);
+        Category.getList().add(category);
     }
 
     public void createManagerProfileBaseAccount(String username) {
@@ -144,10 +147,10 @@ public class ManagerController extends AccountController {
     }
 
     public List<Request> showAllRequests() {
-        return Request.getRequestList();
+        return Request.getList();
     }
 
     public List<Category> showAllCategories() {
-        return Category.getCategoryList();
+        return Category.getList();
     }
 }

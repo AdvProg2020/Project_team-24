@@ -1,5 +1,6 @@
 package Controller.Controllers;
 
+import Controller.ControllerUnit;
 import Exceptions.InvalidFilterException;
 import Model.Models.Filter;
 import Model.Models.Product;
@@ -8,6 +9,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FilterController {
+    private ControllerUnit controllerUnit;
+    //singleTone
+    private static FilterController filterController;
+
+    private FilterController(ControllerUnit controllerUnit) {
+        this.controllerUnit = controllerUnit;
+    }
+
+    public static FilterController getInstance(ControllerUnit controllerUnit) {
+        if (filterController == null) {
+            filterController = new FilterController(controllerUnit);
+        }
+        return filterController;
+    }
 
     public void filtering(){}
     public ArrayList<Filter> showAvailableFilters(){return null;}

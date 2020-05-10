@@ -5,13 +5,23 @@ import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class BuyerController extends AccountController {
-    private ControllerUnit controllerUnit;
-    String buyerUserName = controllerUnit.getAccount().getUserName();
-    Customer customer = (Customer) Customer.getAccountByUserName(buyerUserName);
+    //singleTone
+    private static  BuyerController buyerController;
+
+    public BuyerController(Customer customer) {
+        this.customer = customer;
+    }
+
+    public static AccountController getInstance(ControllerUnit controllerUnit) {
+        if (buyerController == null) {
+            buyerController = new  BuyerController(controllerUnit);
+        }
+        return buyerController;
+    }
+    Customer customer = (Customer) controllerUnit.getAccount();
 
     public Cart viewCart() {
 
@@ -19,7 +29,7 @@ public class BuyerController extends AccountController {
     }
 
     public List<Product> showProducts() {
-        return viewCart().getProductList();
+        return viewCart().getProductHashMap();
     }
 
     public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
@@ -43,6 +53,7 @@ public class BuyerController extends AccountController {
         return viewCart().getTotalPrice();
     }
 
+////inke check konim ke quest nabashe ro koja check konim???
 
     private void checkEnoughCredit() throws NotEnoughCreditException {
         if(customer.getCredit()<viewCart().getTotalPrice()){
@@ -83,7 +94,7 @@ public class BuyerController extends AccountController {
     }
     public void buyProductsOfCart(Cart cart) throws NotEnoughCreditException, PurchaseFailException {
         payment();
-        for(Product product : customer.getCart().getProductList()){
+        for(Product product : customer.getCart().getProductHashMap()){
             customer.getCart().removeFromProductList(product);
             customer.getLogHistoryList().add(product);
         }

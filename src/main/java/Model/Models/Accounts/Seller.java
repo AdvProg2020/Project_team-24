@@ -1,8 +1,13 @@
 package Model.Models.Accounts;
 
+import Exceptions.DiscountCodeExpiredExcpetion;
+import Exceptions.ProductDoesNotExistException;
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
+import Model.Tools.ForPend;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +17,7 @@ public class Seller extends Account {
     private double balance;
     private List<LogHistory> logHistoryList;
     private List<Product> productList;
+    private List<ForPend> forPendList;
     private CompanyInfo companyInfo;
     private List<Auction> auctionList;
 
@@ -41,6 +47,18 @@ public class Seller extends Account {
 
     public void removeFromLogHistoryList(LogHistory logHistory) {
         logHistoryList.remove(logHistory);
+    }
+
+    public List<ForPend> getForPendList() {
+        return Collections.unmodifiableList(forPendList);
+    }
+
+    public void addToPendList(ForPend forPend) {
+        forPendList.add(forPend);
+    }
+
+    public void removeFromPendList(ForPend forPend) {
+        forPendList.remove(forPend);
     }
 
     public List<Product> getProductList() {
@@ -104,28 +122,51 @@ public class Seller extends Account {
     }
 
     @Override
-    public void dpkg(Data data) {
+    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         super.dpkg(data);
         balance = (double) data.getFields().get(4);
         companyInfo = CompanyInfo.getCompanyInfoById((long) data.getFields().get(5));
-        productList = ((List<Long>) data.getFields().get(6))
-                .stream().map(Product::getProductById).collect(Collectors.toList());
+        List<Product> result = new ArrayList<>();
+        for (Long aLong : ((List<Long>) data.getFields().get(6))) {
+            Product productById = Product.getProductById(aLong);
+            result.add(productById);
+        }
+        productList = result;
         auctionList = ((List<Long>) data.getFields().get(7))
                 .stream().map(Auction::getAuctionById).collect(Collectors.toList());
     }
 
-    public Seller(long id, String userName, String password, PersonalInfo personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, CompanyInfo companyInfo, List<Auction> auctionList) {
+    public Seller(long id, String userName, String password, PersonalInfo personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, List<ForPend> forPendList, CompanyInfo companyInfo, List<Auction> auctionList) {
         super(id, userName, password, personalInfo);
         this.balance = balance;
         this.logHistoryList = logHistoryList;
         this.productList = productList;
+        this.forPendList = forPendList;
         this.companyInfo = companyInfo;
         this.auctionList = auctionList;
     }
 
+    public Seller(String username) {
+        this.userName = username;
+        inRegistering.add(this);
+    }
+
     public Seller() {
     }
-    ///yac
-    private List<Discount> sellersDiscounts;
 
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "balance=" + balance +
+                ", logHistoryList=" + logHistoryList +
+                ", productList=" + productList +
+                ", forPendList=" + forPendList +
+                ", companyInfo=" + companyInfo +
+                ", auctionList=" + auctionList +
+                ", id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", personalInfo=" + personalInfo +
+                '}';
+    }
 }
