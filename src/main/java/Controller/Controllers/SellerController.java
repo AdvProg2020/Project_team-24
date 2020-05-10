@@ -4,9 +4,8 @@ import Controller.ControllerUnit;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
-import Model.Models.Info.CompanyInfo;
-import Model.Models.Info.ProductInfo;
 import Model.Tools.ForPend;
 
 import java.util.ArrayList;
@@ -55,17 +54,28 @@ public class SellerController extends AccountController {
     }
 
     public void addProductOrOff(ForPend forPend) {
+        //manager accept kard add mishe
         ///forpend:request--->negah dashtane haraj ya mahsool
+        if(forPend instanceof Product){
+            //+m creat product
+        }
+        if(forPend instanceof Auction){
+            //+m creat auction
+        }
 
     }
 
-    private void newRequest(PendStatus pendStatus) {
+    private  void newRequestForAuction() {
+
+    }
+    private void newRequestForAddPrpoduct(){
+
     }
 
     public void removeProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         seller.getProductList().remove(product);
-        Product.getList().remove(product);
+        Product.getProductList().remove(product);
         ;
     }
 
@@ -73,11 +83,11 @@ public class SellerController extends AccountController {
         return Category.getList();
     }
 
-    public ArrayList<Discount> viewAllOffs() {
+    public ArrayList<Auction> viewAllOffs() {
         return null;//Discount.getDiscount;
     }
 
-    public ArrayList<Discount> viewOffInFilter() {
+    public ArrayList<Auction> viewOffInFilter() {
         return null; //Discount.Disc;
     }
 
@@ -85,9 +95,17 @@ public class SellerController extends AccountController {
         return null; ///seller.getDiscount;
     }
 
-    public void edit(PendStatus pendable) {
-        ///?????
+    public void editAuction(String fieldName,String newInfo) {
+        //field.set
+        Field field = Auction.getFieldByName(fieldName);
+
     }
+
+    public void editProduct(String fieldName,String newInfo) {
+        //field.set
+        Field field = Product.getFieldByName(fieldName);
+    }
+
 
     public double viewBalance() {
         return seller.getBalance();
