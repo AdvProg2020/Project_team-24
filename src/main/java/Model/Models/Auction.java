@@ -19,12 +19,16 @@ public class Auction implements Packable, ForPend {
         DataBase.loadList(Auction.class);
     }
 
+    /*****************************************************fields*******************************************************/
+
     private long auctionId;
     private List<Product> productList;
     private PendStatus status;
     private Date start;
     private Date end;
     private Discount discount;
+
+    /*****************************************************getters*******************************************************/
 
     public static List<Auction> getList() {
         return list;
@@ -54,6 +58,17 @@ public class Auction implements Packable, ForPend {
         return discount;
     }
 
+    /***************************************************otherMethods****************************************************/
+
+    public static Auction getAuctionById(long id) {
+        return list.stream()
+                .filter(auction -> id == auction.getAuctionId())
+                .findFirst()
+                .orElseThrow();
+    }
+
+    /***************************************************packAndDpkg*****************************************************/
+
     @Override
     public Data pack() {
         return new Data(Auction.class.getName())
@@ -81,12 +96,7 @@ public class Auction implements Packable, ForPend {
         this.discount = (Discount) data.getFields().get(5);
     }
 
-    public static Auction getAuctionById(long id) {
-        return list.stream()
-                .filter(auction -> id == auction.getAuctionId())
-                .findFirst()
-                .orElseThrow();
-    }
+    /****************************************************overrides******************************************************/
 
     public Auction(long auctionId, List<Product> productList, PendStatus status, Date start, Date end, Discount discount) {
         this.auctionId = auctionId;

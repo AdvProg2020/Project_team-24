@@ -3,21 +3,57 @@ package Model.Models.Accounts;
 import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
-import Model.Models.Info.PersonalInfo;
 import Model.Tools.Data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Customer extends Account {
 
+    protected static List<String> fieldNames;
+
+    static {
+        fieldNames = Arrays.asList("password", "card", "credit", "totalPurchase", "discountCodeList", "logHistoryList");
+    }
+
+    /*****************************************************fields*******************************************************/
+
     private Cart cart;
-    private List<DiscountCode> discountCodeList;
     private double credit;
     private double totalPurchase;
+    private List<DiscountCode> discountCodeList;
     private List<LogHistory> logHistoryList;
+
+    /**************************************************addAndRemove*****************************************************/
+
+    public void addToCart(Product product, long sellerId) {
+        cart.addProductToCart(sellerId, product);
+    }
+
+    public void removeFromCart(Product product, long sellerId) {
+        cart.removeProductFromCart(sellerId, product);
+    }
+
+    public void addToLogHistoryList(LogHistory logHistory) {
+        logHistoryList.add(logHistory);
+    }
+
+    public void removeFromLogHistoryList(LogHistory logHistory) {
+        logHistoryList.remove(logHistory);
+    }
+
+    public void addToDiscountCodeList(DiscountCode discountCode) {
+        discountCodeList.add(discountCode);
+    }
+
+    public void removeFromDiscountCodeList(DiscountCode discountCode) {
+        discountCodeList.remove(discountCode);
+    }
+
+    /*****************************************************getters*******************************************************/
 
     public Cart getCart() {
         return cart;
@@ -31,37 +67,15 @@ public class Customer extends Account {
         return credit;
     }
 
-    public void addToCart(Product product) {
-        cart.addToProductList(product);
-    }
-
-    public void removeFromCart(Product product) {
-        cart.removeFromProductList(product);
-    }
-
     public List<LogHistory> getLogHistoryList() {
         return Collections.unmodifiableList(logHistoryList);
-    }
-
-    public void addToLogHistoryList(LogHistory logHistory) {
-        logHistoryList.add(logHistory);
-    }
-
-    public void removeFromLogHistoryList(LogHistory logHistory) {
-        logHistoryList.remove(logHistory);
     }
 
     public List<DiscountCode> getDiscountCodeList() {
         return Collections.unmodifiableList(discountCodeList);
     }
 
-    public void addToDiscountCodeList(DiscountCode discountCode) {
-        discountCodeList.add(discountCode);
-    }
-
-    public void removeFromDiscountCodeList(DiscountCode discountCode) {
-        discountCodeList.remove(discountCode);
-    }
+    /****************************************************setters********************************************************/
 
     public void setCredit(double credit) {
         this.credit = credit;
@@ -70,6 +84,8 @@ public class Customer extends Account {
     public void setCart(Cart cart) {
         this.cart = cart;
     }
+
+    /***************************************************packAndDpkg*****************************************************/
 
     @Override
     public Data pack() {
@@ -99,9 +115,13 @@ public class Customer extends Account {
                 .stream().map(LogHistory::getLogHistoryById).collect(Collectors.toList());
     }
 
+    /***************************************************otherMethods****************************************************/
+
     public static List<Account> getAllCustomers() {
         return list.stream().filter(account -> account instanceof Customer).collect(Collectors.toUnmodifiableList());
     }
+
+    /**************************************************constructors*****************************************************/
 
     public Customer(long id, String userName, String password, Info personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, double totalPurchase, List<LogHistory> logHistoryList) {
         super(id, userName, password, personalInfo);
@@ -119,6 +139,8 @@ public class Customer extends Account {
 
     public Customer() {
     }
+
+    /****************************************************overrides******************************************************/
 
     @Override
     public String toString() {

@@ -15,10 +15,12 @@ import java.util.List;
 public abstract class Account implements Packable {
 
     protected static List<Account> list;
+    protected static List<String> fieldNames;
 
     static {
         DataBase.loadList(Account.class);
         inRegistering = new ArrayList<>();
+        fieldNames = Collections.singletonList("password");
     }
 
     /***************************************************inRegistering***************************************************/
@@ -97,14 +99,9 @@ public abstract class Account implements Packable {
     /***************************************************otherMethods****************************************************/
 
     public Field getClassFieldByName(String name) throws NoSuchFieldException {
-
-        List<String> fieldNames = Collections.singletonList("password");
-
         if (!fieldNames.contains(name)) {
             throw new NoSuchFieldException();
-        }
-
-        return Account.class.getField(name);
+        } else return this.getClass().getField(name);
     }
 
     public static List<Account> getList() {

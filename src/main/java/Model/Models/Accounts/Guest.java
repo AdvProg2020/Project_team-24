@@ -2,7 +2,6 @@ package Model.Models.Accounts;
 
 import Model.DataBase.DataBase;
 import Model.Models.*;
-import Model.Models.Info.PersonalInfo;
 
 public class Guest extends Account {
 
@@ -11,12 +10,16 @@ public class Guest extends Account {
         DataBase.save(account);
     }
 
-    public Guest(long id, String userName, String password, PersonalInfo personalInfo) {
+    /**************************************************constructors*****************************************************/
+
+    public Guest(long id, String userName, String password, Info personalInfo) {
         super(id, userName, password, personalInfo);
     }
 
     public Guest() {
     }
+
+    /****************************************************overrides******************************************************/
 
     @Override
     public String toString() {

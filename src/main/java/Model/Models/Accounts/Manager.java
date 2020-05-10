@@ -2,9 +2,10 @@ package Model.Models.Accounts;
 
 import Model.DataBase.DataBase;
 import Model.Models.*;
-import Model.Models.Info.PersonalInfo;
 
 public class Manager extends Account {
+
+    /**************************************************addAndRemove*****************************************************/
 
     public void removeAccount(Account account) {
         list.remove(account);
@@ -31,6 +32,8 @@ public class Manager extends Account {
         Category.removeCategory(category);
     }
 
+    /***************************************************otherMethods****************************************************/
+
     public void acceptRequest(Request request) {
         //
     }
@@ -39,7 +42,9 @@ public class Manager extends Account {
         //
     }
 
-    public Manager(long id, String userName, String password, PersonalInfo personalInfo) {
+    /**************************************************constructors*****************************************************/
+
+    public Manager(long id, String userName, String password, Info personalInfo) {
         super(id, userName, password, personalInfo);
     }
 

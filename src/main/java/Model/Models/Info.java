@@ -2,11 +2,15 @@ package Model.Models;
 
 import Model.Models.Field.Field;
 
+import java.util.Date;
+
 public class Info {
 
     private String subject;
 
     private FieldList fieldList;
+
+    private Date uploadDate;
 
     private Field getFieldByName(String name) {
         return fieldList.getFieldList().stream()
@@ -23,8 +27,13 @@ public class Info {
         return fieldList;
     }
 
-    public Info(String subject, FieldList fieldList) {
+    public Date getUploadDate() {
+        return uploadDate;
+    }
+
+    public Info(String subject, FieldList fieldList, Date uploadDate) {
         this.subject = subject;
         this.fieldList = fieldList;
+        this.uploadDate = uploadDate;
     }
 }

@@ -3,7 +3,6 @@ package Model.Models;
 import Exceptions.IdInvalidException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
-import Model.Models.Info.ProductInfo;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
@@ -41,13 +40,9 @@ public class Cart implements Packable {
         productList.add(product);
     }
 
-    public void removeProductFromCart(long sellerId, Product product) throws IdInvalidException {
-        long id = productSellerIds.stream()
-                .dropWhile(i -> i == sellerId)
-                .count();
-        if (id == productSellerIds.size() + 1) {
-
-        }
+    public void removeProductFromCart(long sellerId, Product product) {
+        productSellerIds.remove(sellerId);
+        productList.remove(product);
     }
 
     public Product getProductById(long id) {
@@ -57,12 +52,12 @@ public class Cart implements Packable {
                 .orElse(null);
     }
 
-    public double getTotalPrice() {
-        return productList.stream()
-                .map(Product::getProductInfo)
-                .map(ProductInfo::getPrice)
-                .reduce(0D, Double::sum);
-    }
+//    public double getTotalPrice() {
+//        return productList.stream()
+//                .map(Product::getProductInfo)
+//                .map(Info::getPrice)
+//                .reduce(0D, Double::sum);
+//    }
 
     public static List<Cart> getList() {
         return list;
