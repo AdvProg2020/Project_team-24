@@ -1,19 +1,17 @@
 package Model.DataBase;
 
-import Model.Models.Accounts.Manager;
 import com.gilecode.yagson.YaGson;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-
-import Model.Tools.Data;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class DataBase {
 
@@ -23,26 +21,14 @@ public class DataBase {
 
     public static void loadList(Class<?> cls) {
 
-        try {
-            Method dpkg = cls.getMethod("dpkg", Data.class);
-            Files.walk(Path.of(paths.get(cls.getName())))
-                    .filter(Files::isRegularFile)
-                    .map(path -> {
-                        try {
-                            return Files.readString(path);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return "BreakTrace";
-                        }
-                    }).map(s -> yaGson.fromJson(s,Data.class));
-//                    .map(data -> dpkg.invoke())
-        } catch (IOException | NoSuchMethodException e) {
+        try (Stream<Path> pathStream  = Files.walk(Path.of(getStringPath(cls.getSimpleName())))){
+
+            Field field = getListOfClass(cls);
+            Constructor<?> constructor = getConstructor(cls);
+
+        } catch (IOException | NoSuchFieldException | NoSuchMethodException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void load(long id) {
-
     }
 
     public static void save(Object object) {
@@ -52,4 +38,17 @@ public class DataBase {
     public static void remove(Object object) {
 
     }
+
+    private static String getStringPath(String className) {
+        return String.format("src/main/resources/%s-src", className);
+    }
+
+    private static Field getListOfClass(Class<?> cls) throws NoSuchFieldException {
+        return cls.getField("list");
+    }
+
+    private static Constructor<?> getConstructor(Class<?> cls) throws NoSuchMethodException {
+        return cls.getConstructor();
+    }
+
 }
