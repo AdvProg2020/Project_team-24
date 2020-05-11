@@ -61,7 +61,8 @@ public class DataBase {
         }
     }
 
-    public static void save(Packable object, boolean New) throws Exception {
+    // ...
+    public static void save(Packable<?> object, boolean New) throws Exception {
         File file = new File(getStringObjPath(object.getClass().getSimpleName(), object.getId()));
         try {
 

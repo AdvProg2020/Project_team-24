@@ -7,6 +7,7 @@ import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 
 public class SignUpController {
+
     private ControllerUnit controllerUnit;
 
     private static SignUpController registerController ;

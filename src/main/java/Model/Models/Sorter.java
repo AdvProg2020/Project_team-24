@@ -13,6 +13,16 @@ public class Sorter implements Comparator<Field> {
         return 0;
     }
 
+    @Override
+    public Comparator<Field> thenComparing(Comparator<? super Field> other) {
+        return null;
+    }
+
+    @Override
+    public Comparator<Field> reversed() {
+        return null;
+    }
+
     public Sorter(Field field) {
         this.field = field;
     }
