@@ -14,11 +14,11 @@ import java.util.List;
 
 public abstract class Account implements Packable <Account>{
 
-    protected static List<Account> list;
+    protected static List<Account> list = null;
     protected static List<String> fieldNames;
 
     static {
-        DataBase.loadList(Account.class);
+        list = (List<Account>) DataBase.loadList(list,"Account");
         inRegistering = new ArrayList<>();
         fieldNames = Collections.singletonList("password");
     }
@@ -85,7 +85,7 @@ public abstract class Account implements Packable <Account>{
 
     @Override
     public Data pack() {
-        return new Data(Account.class.getName())
+        return new Data(Account.class.getName(), null)
                 .addField(id)
                 .addField(userName)
                 .addField(password)

@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 public class Category implements Packable<Category> {
 
-    private static List<Category> list;
+    private static List<Category> list = null;
 
     static {
-        DataBase.loadList(Category.class);
+        list = (List<Category>) DataBase.loadList(list, "Category");
     }
 
     /*****************************************************fields*******************************************************/
@@ -56,7 +56,7 @@ public class Category implements Packable<Category> {
 
     public void addToProductList(Product product) throws Exception {
         productList.add(product);
-        DataBase.save(this, false);
+        DataBase.save(this);
     }
 
     public void removeFromProductList(Product product) throws Exception {
@@ -66,7 +66,7 @@ public class Category implements Packable<Category> {
 
     public void addToSubCategoryList(Category category) throws Exception {
         subCategoryList.add(category);
-        DataBase.save(this, false);
+        DataBase.save(this);
     }
 
     public void removeFromSubCategoryList(Category category) throws Exception {
@@ -97,7 +97,7 @@ public class Category implements Packable<Category> {
 
     @Override
     public Data pack() {
-        return new Data(Category.class.getName())
+        return new Data(Category.class.getName(), new Category())
                 .addField(categoryId)
                 .addField(name)
                 .addField(categoryField)

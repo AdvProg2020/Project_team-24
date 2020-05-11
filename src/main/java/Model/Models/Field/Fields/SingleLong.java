@@ -10,6 +10,10 @@ public class SingleLong extends Field {
         return num;
     }
 
+    public void setNum(long num) {
+        this.num = num;
+    }
+
     public SingleLong(String fieldName, long num) {
         super(fieldName);
         this.num = num;

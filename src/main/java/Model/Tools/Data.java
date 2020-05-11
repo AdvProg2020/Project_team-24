@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Data<T extends Packable<?>> {
+public class Data {
 
     private String className;
-    private T instance;
+    private Packable<?> instance;
     private List<Object> fields = new ArrayList<>();
 
-    public Data(String className, T instance) {
+    public Data(String className, Packable<?> instance) {
         this.className = className;
         this.instance = instance;
     }
@@ -23,12 +23,17 @@ public class Data<T extends Packable<?>> {
         return className;
     }
 
-    public T getInstance() {
+    public Packable<?> getInstance() {
         return instance;
     }
 
-    public Data<T> addField(Object field) {
+    public Data addField(Object field) {
         this.fields.add(field);
+        return this;
+    }
+
+    public Data setInstance(Packable<?> instance) {
+        this.instance = instance;
         return this;
     }
 }

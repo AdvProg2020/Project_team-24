@@ -8,6 +8,10 @@ public class Field {
         return fieldName;
     }
 
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
     public Field(String fieldName) {
         this.fieldName = fieldName;
     }

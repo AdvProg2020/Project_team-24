@@ -10,6 +10,10 @@ public class SingleString extends Field {
         return string;
     }
 
+    public void setString(String string) {
+        this.string = string;
+    }
+
     public SingleString(String fieldName, String string) {
         super(fieldName);
         this.string = string;

@@ -21,7 +21,7 @@ public class DataBase {
 
     private static YaGson yaGson = new YaGson();
 
-    public static List<List<? extends Packable<?>> loadList(List<? extends Packable<?>> packableList, String classSimpleName) {
+    public static List<?> loadList(List<? extends Packable<?>> packableList, String classSimpleName) {
 
         try (Stream<Path> pathStream = Files.walk(Path.of(getStringPath(classSimpleName)))) {
 
@@ -34,7 +34,7 @@ public class DataBase {
                 }
             });
 
-            List<List<? extends Packable<?>> list = stringStream
+            return stringStream
                     .filter(s -> !"Exception".equals(s)).map(s -> yaGson.fromJson(s, Data.class))
                     .map(data -> {
                         try {
@@ -45,11 +45,11 @@ public class DataBase {
                         }
                     }).filter(Objects::nonNull).collect(Collectors.toList());
 
-            return list;
-
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
+
     }
 
     public static void save(Packable<?> object, boolean New) throws Exception {
@@ -59,7 +59,7 @@ public class DataBase {
             File file = new File(getStringObjPath(object));
 
             if (!file.createNewFile()) {
-                throw new Exception("file exist before.");
+                throw new Exception("file exist before."); // need new Exception.
             }
         }
 

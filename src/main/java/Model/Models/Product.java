@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 public class Product implements Packable<Product>, ForPend ,Cloneable {
 
-    private static List<Product> list;
+    private static List<Product> list = null;
 
     static {
-        DataBase.loadList(Product.class);
+        list = (List<Product>) DataBase.loadList(list, "Product");
     }
 
     /*****************************************************fields*******************************************************/
@@ -127,40 +127,40 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
 
     public void addComment(Comment comment) throws Exception {
         commentList.add(comment);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
     public void removeComment(Comment comment) throws Exception {
         commentList.remove(comment);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
     public void addBuyer(Account account) throws Exception {
         buyerList.add(account);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
     public void removeBuyer(Account account) throws Exception {
         buyerList.remove(account);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
     public void addSeller(Account account) throws Exception {
         sellerList.add(account);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
     public void removeSeller(Account account) throws Exception {
         sellerList.remove(account);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
-    public void addProduct(Product product) throws Exception {
+    public static void addProduct(Product product) throws Exception {
         list.add(product);
         DataBase.save(product, true);
     }
 
-    public void removeProduct(Product product) throws Exception {
+    public static void removeProduct(Product product) throws Exception {
         list.remove(product);
         DataBase.remove(product);
     }
@@ -182,7 +182,7 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
 
     @Override
     public Data pack() {
-        return new Data(Product.class.getName())
+        return new Data(Product.class.getName(), new Product())
                 .addField(productId)
                 .addField(productInfo)
                 .addField(categoryInfo)

@@ -11,10 +11,10 @@ import java.util.List;
 
 public class Score implements Packable<Score> {
 
-    private static List<Score> list;
+    private static List<Score> list = null;
 
     static {
-        DataBase.loadList(Score.class);
+        list = (List<Score>) DataBase.loadList(list, "Score");
     }
 
     /******************************************************fields*******************************************************/
@@ -63,7 +63,7 @@ public class Score implements Packable<Score> {
 
     @Override
     public Data pack() {
-        return new Data(Score.class.getName())
+        return new Data(Score.class.getName(), new Score())
                 .addField(scoreId)
                 .addField(user)
                 .addField(good)
@@ -86,6 +86,9 @@ public class Score implements Packable<Score> {
         this.user = user;
         this.score = score;
         this.good = good;
+    }
+
+    public Score() {
     }
 
     /****************************************************overrides******************************************************/

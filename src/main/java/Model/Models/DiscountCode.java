@@ -6,18 +6,16 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DiscountCode implements Packable<DiscountCode> {
 
-    private static List<DiscountCode> list;
+    private static List<DiscountCode> list = null;
 
     static {
-        DataBase.loadList(DiscountCode.class);
+        list = (List<DiscountCode>) DataBase.loadList(list,"DiscountCode");
     }
 
     /*****************************************************fields*******************************************************/
@@ -73,12 +71,12 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     public void addAccount(Account account) throws Exception {
         accountList.add(account);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
     public void removeAccount(Account account) throws Exception {
         accountList.remove(account);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
     public static void addDiscountCode(DiscountCode discountCode) throws Exception {
@@ -95,7 +93,7 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     @Override
     public Data pack() {
-        return new Data(DiscountCode.class.getName())
+        return new Data(DiscountCode.class.getName(), new DiscountCode())
                 .addField(id)
                 .addField(discountCode)
                 .addField(start)
@@ -134,6 +132,10 @@ public class DiscountCode implements Packable<DiscountCode> {
                 .filter(code -> id == code.getId())
                 .findFirst()
                 .orElseThrow(() -> new DiscountCodeExpiredExcpetion("DiscountCode with this id does not exist."));
+    }
+
+    public static String createDiscountCode() {
+        return UUID.randomUUID().toString();
     }
 
     /**************************************************constructors*****************************************************/

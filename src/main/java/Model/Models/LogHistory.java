@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 public class LogHistory implements Packable<LogHistory> {
 
-    private static List<LogHistory> list;
+    private static List<LogHistory> list = null;
 
     static {
-        DataBase.loadList(LogHistory.class);
+        list = (List<LogHistory>) DataBase.loadList(list, "LogHistory");
     }
 
     /*****************************************************fields*******************************************************/
@@ -76,7 +76,7 @@ public class LogHistory implements Packable<LogHistory> {
 
     public void addProduct(Product product) throws Exception {
         productList.add(product);
-        DataBase.save(this,false);
+        DataBase.save(this);
     }
 
     public void removeProduct(Product product) throws Exception {
@@ -87,7 +87,7 @@ public class LogHistory implements Packable<LogHistory> {
     /***************************************************packAndDpkg*****************************************************/
     @Override
     public Data pack() {
-        return new Data(LogHistory.class.getName())
+        return new Data(LogHistory.class.getName(), new LogHistory())
                 .addField(logId)
                 .addField(amount)
                 .addField(discountAmount)

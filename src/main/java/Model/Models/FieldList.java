@@ -30,10 +30,8 @@ public class FieldList {
 
     /**************************************************constructors*****************************************************/
 
-    public FieldList update(Field field) {
-        removeField(field);
-        addFiled(field);
-        return this;
+    public FieldList(List<Field> fieldList) {
+        this.fieldList = fieldList;
     }
 
     /****************************************************overrides******************************************************/

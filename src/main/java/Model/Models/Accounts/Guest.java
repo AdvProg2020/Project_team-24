@@ -2,6 +2,7 @@ package Model.Models.Accounts;
 
 import Model.DataBase.DataBase;
 import Model.Models.*;
+import Model.Tools.Data;
 
 public class Guest extends Account {
 
@@ -20,6 +21,11 @@ public class Guest extends Account {
     }
 
     /****************************************************overrides******************************************************/
+
+    @Override
+    public Data pack() {
+        return super.pack().setInstance(new Guest());
+    }
 
     @Override
     public String toString() {

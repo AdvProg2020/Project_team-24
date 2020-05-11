@@ -12,10 +12,10 @@ import java.util.List;
 
 public class Request implements Packable<Request> {
 
-    private static List<Request> list;
+    private static List<Request> list = null;
 
     static {
-        DataBase.loadList(Request.class);
+        list = (List<Request>) DataBase.loadList(list, "Request");
     }
 
     /*****************************************************fields*******************************************************/
@@ -82,7 +82,7 @@ public class Request implements Packable<Request> {
 
     @Override
     public Data pack() {
-        return new Data(Request.class.getName())
+        return new Data(Request.class.getName(), new Request())
                 .addField(requestId)
                 .addField(account.getId())
                 .addField(information)
@@ -119,7 +119,7 @@ public class Request implements Packable<Request> {
         this.forPend = forPend;
     }
 
-    public Request(ForPend pendStatus) {
+    public Request() {
     }
 
     /****************************************************overrides******************************************************/
