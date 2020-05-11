@@ -25,7 +25,6 @@ public class SignUpMenu extends Menu {
         }
         return menu;
     }
-
     public void createAccount(List<String> inputs) {
         try {
             registerController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
