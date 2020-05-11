@@ -4,7 +4,7 @@ import Exceptions.AccountDoesNotExistException;
 import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 
-public interface Packable <T>{
+public interface Packable <T extends Packable<?>>{
 
     Data pack();
 
