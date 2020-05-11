@@ -45,14 +45,14 @@ public class BuyerController extends AccountController {
     public void increase(long productId) throws CloneNotSupportedException {
         Product productClone = (Product) viewCart().getProductById(productId).clone();
         ///seller ra moshakhas kon!!!!
-        Seller sellerChosen  = ;
+        Seller sellerChosen  = seller;
         viewCart().addProductToCart(sellerChosen.getId(),productClone);
         customer.getCart().addProductToCart(sellerChosen.getId(),productClone);
     }
 
     public void decrease(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
-       Seller sellerChosen  = selectseller;
+       Seller sellerChosen  = selectseller();
         viewCart().removeProductFromCart(sellerChosen.getId(),product);
     }
 
@@ -102,8 +102,8 @@ public class BuyerController extends AccountController {
     public void buyProductsOfCart(Cart cart) throws NotEnoughCreditException, PurchaseFailException {
         payment();
         for(Product product : customer.getCart().getProductList()){
-            customer.getCart().removeProductFromCart(seller,product);
-            customer.getLogHistoryList().add(seller,product);
+            customer.getCart().removeProductFromCart(seller.getId,product);
+            customer.getLogHistoryList().add(seller.getId,product);
         }
 
     }
@@ -118,7 +118,7 @@ public class BuyerController extends AccountController {
         Product product = Product.getProductById(orderId);
         if(!viewOrders().contains(product)){
             throw new HaveNotBBoughtThisProductException("HaveNotBBoughtThisProductException");
-        }else return product;
+        }else return null;//product.;
     }
 
     public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {

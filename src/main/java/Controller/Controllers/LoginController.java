@@ -1,11 +1,9 @@
 package Controller.Controllers;
-
 import Controller.ControllerUnit;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
 import Model.Models.Account;
 
-import java.util.Optional;
 
 public class LoginController {
     /****************************************************fields*******************************************************/
@@ -36,12 +34,5 @@ public class LoginController {
 
         return account;
     }
-
-    public static LoginController getLoginController() {
-        return Optional.ofNullable(loginController).orElseThrow();
-    }
-
-    // more ...
-
 
 }
