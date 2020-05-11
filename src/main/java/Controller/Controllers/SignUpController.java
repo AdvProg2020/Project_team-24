@@ -7,7 +7,9 @@ import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 
 public class SignUpController {
+    /**************************************************fields*********************************************************/
     private ControllerUnit controllerUnit;
+    /**************************************************singleTone*****************************************************/
 
     private static SignUpController registerController ;
 
@@ -21,6 +23,7 @@ public class SignUpController {
         }
         return registerController;
     }
+    /**************************************************methods********************************************************/
 
     public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException {
         if (!username.matches("^(\\w+)$")) {

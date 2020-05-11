@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.CategoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -91,6 +92,14 @@ public class Category implements Packable {
                 .filter(category -> id == category.getCategoryId())
                 .findFirst()
                 .orElseThrow(); // need category not found exception.
+    }
+    ///yac
+    public static Category getCategoryByName(String name){
+        return list.stream()
+                .filter(category -> name == category.getName())
+                .findFirst()
+                .orElseThrow();
+
     }
 
     /***************************************************packAndDpkg*****************************************************/

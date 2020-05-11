@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ProductsController {
+    /****************************************************fields*******************************************************/
     private enum sortElements {
         TIME,
         POINT,
@@ -24,6 +25,7 @@ public class ProductsController {
     private String currentSortEelement;
 
     private ControllerUnit controllerUnit;
+    /****************************************************singleTone***************************************************/
 
     private static ProductsController productsController;
 
@@ -37,7 +39,7 @@ public class ProductsController {
         }
         return productsController;
     }
-
+    /**************************************************methods********************************************************/
     public List<Category> viewCategories() {
         return Category.getList();
     }

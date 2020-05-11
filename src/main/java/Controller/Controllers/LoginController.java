@@ -8,8 +8,9 @@ import Model.Models.Account;
 import java.util.Optional;
 
 public class LoginController {
-
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
+    /****************************************************singleTone***************************************************/
 
     private static LoginController loginController;
 
@@ -22,7 +23,7 @@ public class LoginController {
         }
         return loginController;
     }
-
+    /**************************************************methods********************************************************/
     public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
 
         Account account = Account.getAccountByUserName(username);

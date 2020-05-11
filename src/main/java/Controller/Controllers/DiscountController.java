@@ -7,10 +7,12 @@ import Model.Models.Discount;
 import Model.Models.Product;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DiscountController {
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
-    //singleTone
+    /****************************************************singleTone***************************************************/
     private static DiscountController discountController;
 
     private DiscountController(ControllerUnit controllerUnit) {
@@ -23,11 +25,12 @@ public class DiscountController {
         }
         return  discountController;
     }
+    /**************************************************methods********************************************************/
     //eemale discount tooye gheymate product tooye sabade kharid
-    public ArrayList<Auction> offs() {
+    public List<Auction> offs() {
         //+m discount list
 
-        return Discount.getDiscountList();}
+        return Auction.getList();}
     public String showProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         controllerUnit.setProduct(product);

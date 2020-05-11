@@ -1,7 +1,6 @@
 package View.Menus;
 
 import Controller.Controllers.ManagerController;
-import Exceptions.NoSuchProductExistsException;
 
 import java.util.List;
 

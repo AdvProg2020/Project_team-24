@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuestController {
-
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
-    //singleTone
+    private  Guest guest = (Guest) controllerUnit.getAccount();
+    /****************************************************singleTone***************************************************/
     private static GuestController guestController;
 
     private GuestController(ControllerUnit controllerUnit) {
@@ -28,12 +29,9 @@ public class GuestController {
         return guestController;
     }
 
-    Guest guest = (Guest) controllerUnit.getAccount();
+    /**************************************************methods********************************************************/
 
-    public Cart viewCart() {
-        return guest.getCart();
-    }
-
+   /*   kolan hazf konim in menu guest
     public List<Product> showProducts() {
         return guest.getCart().getProductList();
     }
@@ -58,5 +56,5 @@ public class GuestController {
     public double showTotalPrice() {
         return viewCart().getTotalPrice();
     }
-
+*/
 }

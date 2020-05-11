@@ -6,14 +6,17 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
+import Model.Models.Field.Field;
 import Model.Tools.ForPend;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SellerController extends AccountController {
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
-    //singleTone
+    private Seller seller = (Seller) controllerUnit.getAccount();
+    /****************************************************singleTone***************************************************/
     private static SellerController sellerController;
 
     private SellerController(ControllerUnit controllerUnit) {
@@ -27,9 +30,9 @@ public class SellerController extends AccountController {
         return sellerController;
     }
 
-    Seller seller = (Seller) controllerUnit.getAccount();
+    /**************************************************methods********************************************************/
 
-    public CompanyInfo viewCompanyInformation() {
+    public Info viewCompanyInformation() {
         return seller.getCompanyInfo();
     }
 
@@ -41,7 +44,7 @@ public class SellerController extends AccountController {
         return seller.getProductList();
     }
 
-    public ProductInfo viewProduct(long productId) throws ProductDoesNotExistException {
+    public Info viewProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         return product.getProductInfo();
     }
@@ -75,7 +78,7 @@ public class SellerController extends AccountController {
     public void removeProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         seller.getProductList().remove(product);
-        Product.getProductList().remove(product);
+        Product.getList().remove(product);
         ;
     }
 

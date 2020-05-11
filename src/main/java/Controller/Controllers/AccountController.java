@@ -1,13 +1,15 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
+import Exceptions.AccountDoesNotExistException;
 import Model.Models.Account;
-import Model.Models.Info.PersonalInfo;
+import Model.Models.Info;
+
 
 public abstract class AccountController {
-
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
-
+    /**************************************************methods********************************************************/
 
     public void editField(String fieldName, String newField) throws NoSuchFieldException, IllegalAccessException {
         //+m checkValidfieldtoedit throws NosuchfieldException.........
@@ -15,7 +17,7 @@ public abstract class AccountController {
         Account.getFieldByName(fieldName).set(controllerUnit.getAccount(),newField);
 
     }
-    public PersonalInfo viewPersonalInfo(long accountId) {
+    public Info viewPersonalInfo(long accountId) throws AccountDoesNotExistException {
         return Account.getAccountById(accountId).getPersonalInfo();
     }
 }

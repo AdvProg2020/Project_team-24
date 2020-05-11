@@ -14,8 +14,9 @@ import java.util.Random;
 //list ha behtar nist beshe aray list?
 //coment ha barrasid
 public class ManagerController extends AccountController {
-
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
+    /****************************************************singleTone***************************************************/
     private static ManagerController  managerController;
     private ManagerController(ControllerUnit controllerUnit){
         this.controllerUnit = controllerUnit;
@@ -26,22 +27,23 @@ public class ManagerController extends AccountController {
         }
         return managerController;
     }
-
+    /**************************************************methods********************************************************/
     public List<Account> viewAllAccounts() {
         return Account.getList();
     }
 
-    public Account viewAccount(String username) {
+    public Account viewAccount(String username) throws AccountDoesNotExistException {
         return Account.getAccountByUserName(username);
     }
 
 
-    public void delete(String username) {
+    public void delete(String username) throws AccountDoesNotExistException {
         Account.deleteAccount(Account.getAccountByUserName(username));
     }
 
-    public void removeProduct(long productId) throws NoSuchProductExistsException {
-        Product.removeProduct(Product.getProductById(productId));
+    public void removeProduct(long productId) throws ProductDoesNotExistException {
+        Product product = Product.getProductById(productId);
+        ;
     }
 
 
@@ -56,7 +58,7 @@ public class ManagerController extends AccountController {
         return DiscountCode.getList();
     }
 
-    public DiscountCode viewDiscountCode(long disscoutCodeId) {
+    public DiscountCode viewDiscountCode(long disscoutCodeId) throws DiscountCodeExpiredExcpetion {
         return DiscountCode.getDiscountCodeById(disscoutCodeId);
     }
 
@@ -64,8 +66,9 @@ public class ManagerController extends AccountController {
         //+m DiscountCode.getfieldByName(field)......
     }
 
-    public void removeDiscountCode(long discountCodeId) {
-        DiscountCode.removeDiscountCode(DiscountCode.getDiscountCodeById(discountCodeId));
+    public void removeDiscountCode(long discountCodeId) throws DiscountCodeExpiredExcpetion {
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
+        DiscountCode.removeFromDiscountCode(discountCode);
     }
 
     private ArrayList<Customer> findSpecialBuyers() {
@@ -97,7 +100,7 @@ public class ManagerController extends AccountController {
         return Request.getList();
     }
 
-    public ArrayList<String> detailsOfRequest(long requestId) {
+    public ArrayList<String> detailsOfRequest(long requestId) throws RequesDoesNotExistException {
         Request request = Request.getRequestById(requestId);
         ArrayList<String> detailsOfRequest = new ArrayList<String>();
         detailsOfRequest.add(request.getAccount().toString());
@@ -108,7 +111,7 @@ public class ManagerController extends AccountController {
         return detailsOfRequest;
     }
 
-    public void requestAcceptedOrDeclined(long requestId, String acceptorDecline) throws InvalidStateOfRequest {
+    public void requestAcceptedOrDeclined(long requestId, String acceptorDecline) throws InvalidStateOfRequest, RequesDoesNotExistException {
         //accept/decine ro do tike kon
         //+m yek state bayad baraye request bashe ke begim Declined ya na ke vaghti tabe ro call kardam state ro moshakhas kone
         if (acceptorDecline.equals("Accept")) {
@@ -126,7 +129,7 @@ public class ManagerController extends AccountController {
     }
 
     public void editCategory(String categoryname, String field) {
-        Category category1 = Category.getCategoryByName(category);
+        Category category1 = Category.getCategoryByName(categoryname);
         //kodoom field??
         //+m mitoonim mesle onn yeki class method tooye model dashte bashim barash
     }
