@@ -4,9 +4,11 @@ import Exceptions.AccountDoesNotExistException;
 import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 
-public interface Packable {
+public interface Packable <T extends Packable<?>>{
 
     Data pack();
 
-    void dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredExcpetion;
+    T dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredExcpetion;
+
+    long getId();
 }

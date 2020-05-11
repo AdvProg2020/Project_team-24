@@ -21,4 +21,13 @@ public class Range extends Field {
         this.high = high;
         this.low = low;
     }
+
+    @Override
+    public String toString() {
+        return "Range{" +
+                "high=" + high +
+                ", low=" + low +
+                ", fieldName='" + fieldName + '\'' +
+                '}';
+    }
 }

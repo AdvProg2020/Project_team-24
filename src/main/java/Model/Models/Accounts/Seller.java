@@ -103,21 +103,21 @@ public class Seller extends Account {
 
     public Product getProductById(long id) {
         return productList.stream()
-                .filter(product -> id == product.getProductId())
+                .filter(product -> id == product.getId())
                 .findFirst()
                 .orElseThrow(); // need product does not exist exception.
     }
 
     public LogHistory getLogHistoryById(long id) {
         return logHistoryList.stream()
-                .filter(logHistory -> id == logHistory.getLogId())
+                .filter(logHistory -> id == logHistory.getId())
                 .findFirst()
                 .orElseThrow(); // need logHistory does not exist exception.
     }
 
     public Auction getAuctionById(long id) {
         return auctionList.stream()
-                .filter(auction -> id == auction.getAuctionId())
+                .filter(auction -> id == auction.getId())
                 .findFirst()
                 .orElseThrow(); // need Auction does not exist exception.
     }
@@ -134,13 +134,13 @@ public class Seller extends Account {
                 .addField(balance)
                 .addField(companyInfo)
                 .addField(productList.stream()
-                        .map(Product::getProductId).collect(Collectors.toList()))
+                        .map(Product::getId).collect(Collectors.toList()))
                 .addField(auctionList.stream()
-                        .map(Auction::getAuctionId).collect(Collectors.toList()));
+                        .map(Auction::getId).collect(Collectors.toList()));
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
+    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         super.dpkg(data);
         balance = (double) data.getFields().get(4);
         companyInfo = (Info) data.getFields().get(5);
@@ -152,6 +152,7 @@ public class Seller extends Account {
         productList = result;
         auctionList = ((List<Long>) data.getFields().get(7))
                 .stream().map(Auction::getAuctionById).collect(Collectors.toList());
+        return this;
     }
 
     /**************************************************constructors*****************************************************/

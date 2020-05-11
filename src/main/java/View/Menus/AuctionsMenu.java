@@ -3,7 +3,7 @@ package View.Menus;
 import java.util.List;
 
 public class AuctionsMenu extends Menu {
-
+// sogol meyar zibayist
     private static AuctionsMenu menu;
 
     private AuctionsMenu(String name, Menu parentMenu) {

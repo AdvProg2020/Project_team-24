@@ -29,11 +29,11 @@ public class Customer extends Account {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToCart(Product product, long sellerId) {
+    public void addToCart(Product product, long sellerId) throws Exception {
         cart.addProductToCart(sellerId, product);
     }
 
-    public void removeFromCart(Product product, long sellerId) {
+    public void removeFromCart(Product product, long sellerId) throws Exception {
         cart.removeProductFromCart(sellerId, product);
     }
 
@@ -96,11 +96,11 @@ public class Customer extends Account {
                 .addField(discountCodeList.stream()
                         .map(DiscountCode::getId).collect(Collectors.toList()))
                 .addField(logHistoryList.stream()
-                        .map(LogHistory::getLogId).collect(Collectors.toList()));
+                        .map(LogHistory::getId).collect(Collectors.toList()));
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
+    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         super.dpkg(data);
         this.cart = Cart.getCartById((long) data.getFields().get(4));
         this.credit = (double) data.getFields().get(5);
@@ -113,6 +113,7 @@ public class Customer extends Account {
         this.discountCodeList = result;
         this.logHistoryList = ((List<Long>) data.getFields().get(8))
                 .stream().map(LogHistory::getLogHistoryById).collect(Collectors.toList());
+        return this;
     }
 
     /***************************************************otherMethods****************************************************/

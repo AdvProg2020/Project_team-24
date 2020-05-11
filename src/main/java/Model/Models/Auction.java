@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Auction implements Packable, ForPend {
+public class Auction implements Packable <Auction>, ForPend {
 
     private static List<Auction> list;
 
@@ -39,7 +39,7 @@ public class Auction implements Packable, ForPend {
         return Collections.unmodifiableList(productList);
     }
 
-    public long getAuctionId() {
+    public long getId() {
         return auctionId;
     }
 
@@ -83,31 +83,31 @@ public class Auction implements Packable, ForPend {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAuction(Auction auction) {
+    public void addAuction(Auction auction) throws Exception {
         list.add(auction);
-        DataBase.save(auction);
+        DataBase.save(auction, true);
     }
 
-    public void removeAuction(Auction auction) {
+    public void removeAuction(Auction auction) throws Exception {
         list.remove(auction);
         DataBase.remove(auction);
     }
 
-    public void addProductToAuction(Product product) {
+    public void addProductToAuction(Product product) throws Exception {
         productList.add(product);
-        DataBase.save(this);
+        DataBase.save(this, false);
     }
 
-    public void removeProductFromAuction(Product product) {
+    public void removeProductFromAuction(Product product) throws Exception {
         productList.remove(product);
-        DataBase.save(this);
+        DataBase.save(this, false);
     }
 
     /***************************************************otherMethods****************************************************/
 
     public static Auction getAuctionById(long id) {
         return list.stream()
-                .filter(auction -> id == auction.getAuctionId())
+                .filter(auction -> id == auction.getId())
                 .findFirst()
                 .orElseThrow(); // need auction does not exist exception.
     }
@@ -119,7 +119,7 @@ public class Auction implements Packable, ForPend {
         return new Data(Auction.class.getName())
                 .addField(auctionId)
                 .addField(productList.stream()
-                        .map(Product::getProductId).collect(Collectors.toList()))
+                        .map(Product::getId).collect(Collectors.toList()))
                 .addField(stateForPend)
                 .addField(start)
                 .addField(end)
@@ -127,7 +127,7 @@ public class Auction implements Packable, ForPend {
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public Auction dpkg(Data data) throws ProductDoesNotExistException {
         this.auctionId = (long) data.getFields().get(0);
         List<Product> result = new ArrayList<>();
         for (Long aLong : ((List<Long>) data.getFields().get(1))) {
@@ -139,6 +139,7 @@ public class Auction implements Packable, ForPend {
         this.start = (Date) data.getFields().get(3);
         this.end = (Date) data.getFields().get(4);
         this.discount = (Discount) data.getFields().get(5);
+        return this;
     }
 
     /**************************************************constructors*****************************************************/

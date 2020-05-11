@@ -9,7 +9,7 @@ import Model.Tools.Packable;
 import java.util.Collections;
 import java.util.List;
 
-public class Comment implements Packable {
+public class Comment implements Packable<Comment> {
 
     private static List<Comment> list;
 
@@ -30,7 +30,7 @@ public class Comment implements Packable {
 
     /*****************************************************getters*******************************************************/
 
-    public long getCommentId() {
+    public long getId() {
         return commentId;
     }
 
@@ -60,12 +60,12 @@ public class Comment implements Packable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) {
+    public void addComment(Comment comment) throws Exception {
         list.add(comment);
-        DataBase.save(comment);
+        DataBase.save(comment, true);
     }
 
-    public void removeComment(Comment comment) {
+    public void removeComment(Comment comment) throws Exception {
         list.remove(comment);
         DataBase.remove(comment);
     }
@@ -74,7 +74,7 @@ public class Comment implements Packable {
 
     public static Comment getCommentById(long id)  {
         return list.stream()
-                .filter(comment -> id == comment.getCommentId())
+                .filter(comment -> id == comment.getId())
                 .findFirst()
                 .orElseThrow(); // need comment does not exist exception.
     }
@@ -87,19 +87,20 @@ public class Comment implements Packable {
                 .addField(commentId)
                 .addField(pendStatus)
                 .addField(userComments.getId())
-                .addField(purchasedGood.getProductId())
+                .addField(purchasedGood.getId())
                 .addField(purchasedOrNa)
                 .addField(fieldList);
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException {
+    public Comment dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException {
         this.commentId = (long) data.getFields().get(0);
         this.pendStatus = (String) data.getFields().get(1);
         this.userComments = Account.getAccountById((long) data.getFields().get(2));
         this.purchasedGood = Product.getProductById((long) data.getFields().get(3));
         this.purchasedOrNa = (boolean) data.getFields().get(4);
         this.fieldList = (FieldList) data.getFields().get(5);
+        return this;
     }
 
     /**************************************************constructors*****************************************************/
@@ -123,7 +124,7 @@ public class Comment implements Packable {
         return "Comment{" +
                 "commentId=" + commentId +
                 ", pendStatus='" + pendStatus + '\'' +
-                ", userComments=" + userComments +
+                ", userComments=" + userComments.getUserName() +
                 ", purchasedGood=" + purchasedGood +
                 ", purchasedOrNa=" + purchasedOrNa +
                 ", fieldList=" + fieldList +
