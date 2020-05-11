@@ -4,6 +4,7 @@ import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Manager;
 
 
 import java.lang.reflect.Field;
@@ -41,7 +42,7 @@ public class ManagerController extends AccountController {
     }
 
 
-    public void deleteAccount(String username) throws AccountDoesNotExistException {
+    public void deleteAccount(String username) throws Exception {
         Account account = Account.getAccountByUserName(username);
         Account.deleteAccount(account);
     }
@@ -53,7 +54,7 @@ public class ManagerController extends AccountController {
 
 
     public void creatDiscountCode(LocalDate start, LocalDate end, double percent, double maxAmount, int frequentUse)
-            throws InvalidStartAndEndDateForDiscountCodeException {
+            throws Exception {
         if (start.isBefore(end) && end.isAfter(LocalDate.now())) {
             DiscountCode discountCode = new DiscountCode();
             DiscountCode.addDiscountCode(discountCode);
@@ -81,7 +82,7 @@ public class ManagerController extends AccountController {
 
     }
 
-    public void removeDiscountCode(long discountCodeId) throws DiscountCodeExpiredExcpetion {
+    public void removeDiscountCode(long discountCodeId) throws Exception {
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
         DiscountCode.removeFromDiscountCode(discountCode);
     }
@@ -96,7 +97,7 @@ public class ManagerController extends AccountController {
         //inja miyaym be azaye list bala har koodoom code takhfif mididm/ add to Customer discountcodeList
     }
 
-    public Customer selectRandomBuyers() {
+    public Customer selectRandomBuyer() {
         Random randomAccount = new Random();
         int listSize = Account.getList().size();
         int randomIndex = randomAccount.nextInt(listSize);
@@ -104,8 +105,7 @@ public class ManagerController extends AccountController {
     }
 
     private void setDiscountCodeToRandoms(DiscountCode discountCode) {
-        ///+m method khode qre baraye add
-        selectRandomBuyers().getDiscountCodeList().add(discountCode);
+        selectRandomBuyer().addToDiscountCodeList(discountCode);
 
     }
 
@@ -113,25 +113,17 @@ public class ManagerController extends AccountController {
         return Request.getList();
     }
 
-    public ArrayList<String> detailsOfRequest(long requestId) throws RequesDoesNotExistException {
+    public Request detailsOfRequest(long requestId) throws RequesDoesNotExistException {
         Request request = Request.getRequestById(requestId);
-        ArrayList<String> detailsOfRequest = new ArrayList<String>();
-        detailsOfRequest.add(request.getAccount().toString());
-        detailsOfRequest.add(request.getForPend().toString());
-        detailsOfRequest.add(request.getTypeOfRequest());
-        //+m merthod khode qre baraye add
-        //!!detailsOfRequest.add(request.getRequestId());
-        ///+m field tozihate request
-        return detailsOfRequest;
+        return request;
     }
 
-    public void acceptRequest(long requestId) throws RequesDoesNotExistException {
-        //already accept ya decline bayad chack beshe???
+    public void acceptRequest(long requestId) throws  RequesDoesNotExistException,Exception{
         Request request = Request.getRequestById(requestId);
         request.acceptRequest();
     }
 
-    public void denyRequest(long requestId) throws RequesDoesNotExistException {
+    public void denyRequest(long requestId) throws Exception {
         Request request = Request.getRequestById(requestId);
         request.declineRequest();
     }
@@ -140,24 +132,31 @@ public class ManagerController extends AccountController {
         return Category.getList();
     }
 
-    public void editCategory(String categoryname, String field) {
+    public void editCategory(String categoryname, String newField) {
         Category category = Category.getCategoryByName(categoryname);
-        //+m edit category
+        FieldList fieldList = category.getCategoryField();
+        //edit by feild
     }
 
-    public void removeCategory(String categoryName) {
+    public void removeCategory(String categoryName) throws Exception {
         Category category = Category.getCategoryByName(categoryName);
         Category.removeCategory(category);
     }
 
-    public void addCategory(String categoryName) {
+    public void addCategory(String categoryName) throws Exception {
         Category category = Category.getCategoryByName(categoryName);
         Category.addCategory(category);
     }
 
-    public void createManagerProfileBaseAccount(String username) {
-        //?????????????/
-
+    public void createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException {
+        //BAGHIYE BAKHSH HA HAMOON SIGHN UP
+        if (!username.matches("^(\\w+)$")) {
+            throw new UserNameInvalidException("UserNameInvalidException");
+        } else if (username.toCharArray().length < 6) {
+            throw new UserNameTooShortException("UserNameTooShortException");
+        }
+        Manager manager = new Manager(username);
+        Account.addToInRegisteringList(manager);
     }
 
     public List<Request> showAllRequests() {

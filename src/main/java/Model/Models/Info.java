@@ -2,6 +2,7 @@ package Model.Models;
 
 import Model.Models.Field.Field;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Info {
@@ -37,7 +38,7 @@ public class Info {
 
     /**************************************************constructors*****************************************************/
 
-    public Info(String subject, FieldList list, Date uploadDate) {
+    public Info(String subject, FieldList list, LocalDate uploadDate) {
         this.subject = subject;
         this.list = list;
         this.uploadDate = uploadDate;
