@@ -163,7 +163,6 @@ public class DiscountCode implements Packable {
                 ", discount=" + discount +
                 ", frequentUse=" + frequentUse +
                 ", fieldList=" + fieldList +
-                ", accountList=" + accountList +
                 '}';
     }
 }

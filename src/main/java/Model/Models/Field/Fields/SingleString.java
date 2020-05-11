@@ -14,4 +14,12 @@ public class SingleString extends Field {
         super(fieldName);
         this.string = string;
     }
+
+    @Override
+    public String toString() {
+        return "SingleString{" +
+                "string='" + string + '\'' +
+                ", fieldName='" + fieldName + '\'' +
+                '}';
+    }
 }

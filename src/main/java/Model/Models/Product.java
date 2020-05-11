@@ -236,14 +236,12 @@ public class Product implements Packable, ForPend ,Cloneable {
                 "productId=" + productId +
                 ", productInfo=" + productInfo +
                 ", categoryInfo=" + categoryInfo +
-                ", category=" + category +
+                ", category=" + category.getName() +
                 ", numberOfThis=" + numberOfThis +
                 ", numberOfVisitors=" + numberOfVisitors +
                 ", numberOfBuyers=" + numberOfBuyers +
                 ", averageScore=" + averageScore +
                 ", commentList=" + commentList +
-                ", buyerList=" + buyerList +
-                ", sellerList=" + sellerList +
                 '}';
     }
 }

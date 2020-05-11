@@ -148,7 +148,6 @@ public class Category implements Packable {
         return "Category{" +
                 "categoryId=" + categoryId +
                 ", name='" + name + '\'' +
-                ", productList=" + productList +
                 ", categoryField=" + categoryField +
                 ", subCategoryList=" + subCategoryList +
                 '}';

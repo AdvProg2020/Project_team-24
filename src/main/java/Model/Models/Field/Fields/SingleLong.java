@@ -14,4 +14,12 @@ public class SingleLong extends Field {
         super(fieldName);
         this.num = num;
     }
+
+    @Override
+    public String toString() {
+        return "SingleLong{" +
+                "num=" + num +
+                ", fieldName='" + fieldName + '\'' +
+                '}';
+    }
 }

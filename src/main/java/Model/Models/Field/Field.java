@@ -2,7 +2,7 @@ package Model.Models.Field;
 
 public class Field {
 
-    private String fieldName;
+    protected String fieldName;
 
     public String getFieldName() {
         return fieldName;
@@ -10,5 +10,12 @@ public class Field {
 
     public Field(String fieldName) {
         this.fieldName = fieldName;
+    }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "fieldName='" + fieldName + '\'' +
+                '}';
     }
 }

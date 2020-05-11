@@ -75,8 +75,8 @@ public class Score implements Packable {
     public String toString() {
         return "Score{" +
                 "scoreId=" + scoreId +
-                ", user=" + user +
-                ", good=" + good +
+                ", user=" + user.getUserName() +
+                ", good=" + good.getProductInfo().getFieldByName("name") +
                 ", score=" + score +
                 '}';
     }

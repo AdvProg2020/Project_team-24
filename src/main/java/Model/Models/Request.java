@@ -127,7 +127,7 @@ public class Request implements Packable {
     public String toString() {
         return "Request{" +
                 "requestId=" + requestId +
-                ", account=" + account +
+                ", account=" + account.getUserName() +
                 ", information='" + information + '\'' +
                 ", typeOfRequest='" + typeOfRequest + '\'' +
                 ", forPend=" + forPend +

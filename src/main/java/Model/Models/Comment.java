@@ -123,7 +123,7 @@ public class Comment implements Packable {
         return "Comment{" +
                 "commentId=" + commentId +
                 ", pendStatus='" + pendStatus + '\'' +
-                ", userComments=" + userComments +
+                ", userComments=" + userComments.getUserName() +
                 ", purchasedGood=" + purchasedGood +
                 ", purchasedOrNa=" + purchasedOrNa +
                 ", fieldList=" + fieldList +
