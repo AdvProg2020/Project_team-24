@@ -4,7 +4,6 @@ import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.FieldList;
@@ -39,18 +38,24 @@ public class SignUpController {
             throw new UserNameInvalidException("UserNameInvalidException");
         } else if (username.toCharArray().length < 6) {
             throw new UserNameTooShortException("UserNameTooShortException");
-        } else if (type.equals("Seller")) {
-            Seller seller = new Seller(username);
-            Account.addToInRegisteringList(seller);
-        } else if (type.equals("Manager")) {
-            if (Manager.getList() == null) {
+        } else if(Account.getList().contains(Account.getAccountByUserName(username))) {
+                throw new AccountWithThisUserNameExistsException("AccountWithThisUserNameExistsException");
+            }
+            else if (type.equals("Seller")) {
+                Seller seller = new Seller(username);
+                Account.addToInRegisteringList(seller);
+            } else if (type.equals("Manager")) {
+            /*
+            if (+ qre isthere any manager) {
                 Manager manager = new Manager(username);
                 Account.addToInRegisteringList(manager);
             } else throw new CanNotCreatMoreThanOneMangerBySignUp("CanNotCreatMoreThanOneMangerBySignUp");
-        } else if (type.equals("Customer")) {
-            Customer customer = new Customer(username);
-            Account.addToInRegisteringList(customer);
-        } else throw new TypeInvalidException("TypeInvalidException");
+             */
+            } else if (type.equals("Customer")) {
+                Customer customer = new Customer(username);
+                Account.addToInRegisteringList(customer);
+            } else throw new TypeInvalidException("TypeInvalidException");
+        }
     }
 
     public void creatPassWordForAccount(String username, String password) throws PasswordInvalidException, AccountDoesNotExistException {
@@ -60,7 +65,7 @@ public class SignUpController {
             throw new PasswordInvalidException("PasswordInvalidException");
         } else {
             account.setPassword(password);
-            Account.addAccount(account);
+
         }
     }
 
@@ -77,9 +82,9 @@ public class SignUpController {
         }
         if (phoneNumber.toCharArray().length != 11) {
             throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
-        }else {
-            FieldList personalInfo  = (FieldList) Arrays.asList(new SingleString("FirstName",firstName),new SingleString("LastName",lastName),new SingleString("Email",email),new SingleString("PhoneNumber",phoneNumber));
-            Info info  = new Info(account.getClass().getSimpleName(),personalInfo,LocalDate.now());
+        } else {
+            FieldList personalInfo = (FieldList) Arrays.asList(new SingleString("FirstName", firstName), new SingleString("LastName", lastName), new SingleString("Email", email), new SingleString("PhoneNumber", phoneNumber));
+            Info info = new Info(account.getClass().getSimpleName(), personalInfo, LocalDate.now());
             account.setPersonalInfo(info);
         }
 
@@ -87,7 +92,7 @@ public class SignUpController {
 
     public void saveCompanyInfo(String username, String name, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, AccountDoesNotExistException, YouAreNotASellerToSaveCompanyInfoException {
         Account account = Account.getAccountInRegistering(username);
-        if(!(account instanceof Seller)){
+        if (!(account instanceof Seller)) {
             throw new YouAreNotASellerToSaveCompanyInfoException("YouAreNotASellerToSaveCompanyInfoException");
         }
         if (!name.matches("^\\w+$")) {
@@ -98,9 +103,9 @@ public class SignUpController {
         }
         if (phoneNumber.toCharArray().length != 11) {
             throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
-        }else{
-            FieldList companyinfo = (FieldList) Arrays.asList(new SingleString("CompanyName",name),new SingleString("CompanyPhoneNumber",phoneNumber),new SingleString("CompanyEmail",email));
-            Info info = new Info(account.getClass().getSimpleName(),companyinfo,LocalDate.now());
+        } else {
+            FieldList companyinfo = (FieldList) Arrays.asList(new SingleString("CompanyName", name), new SingleString("CompanyPhoneNumber", phoneNumber), new SingleString("CompanyEmail", email));
+            Info info = new Info(account.getClass().getSimpleName(), companyinfo, LocalDate.now());
             account.setPersonalInfo(info);
         }
     }
