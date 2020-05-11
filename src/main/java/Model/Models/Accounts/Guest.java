@@ -5,17 +5,21 @@ import Model.Models.*;
 
 public class Guest extends Account {
 
-    public void createNewAccount(Account account) {
+    public void createNewAccount(Account account) throws Exception {
         list.add(account);
-        DataBase.save(account);
+        DataBase.save(account, true);
     }
 
-    public Guest(long id, String userName, String password, PersonalInfo personalInfo) {
+    /**************************************************constructors*****************************************************/
+
+    public Guest(long id, String userName, String password, Info personalInfo) {
         super(id, userName, password, personalInfo);
     }
 
     public Guest() {
     }
+
+    /****************************************************overrides******************************************************/
 
     @Override
     public String toString() {

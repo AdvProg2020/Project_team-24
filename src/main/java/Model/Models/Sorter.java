@@ -1,10 +1,8 @@
 package Model.Models;
 
+import Model.Models.Field.Field;
+
 import java.util.Comparator;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
 
 public class Sorter implements Comparator<Field> {
 
@@ -13,6 +11,16 @@ public class Sorter implements Comparator<Field> {
     @Override
     public int compare(Field o1, Field o2) {
         return 0;
+    }
+
+    @Override
+    public Comparator<Field> thenComparing(Comparator<? super Field> other) {
+        return null;
+    }
+
+    @Override
+    public Comparator<Field> reversed() {
+        return null;
     }
 
     public Sorter(Field field) {

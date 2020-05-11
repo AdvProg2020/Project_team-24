@@ -7,11 +7,8 @@ import Controller.Tools.SortByTime;
 import Exceptions.NotAvailableSortException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Category;
-import Model.Models.Filter;
 import Model.Models.Product;
-import org.apache.maven.lifecycle.LifeCyclePluginAnalyzer;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class ProductsController {
         NUMBEROFVISITS
 
     }
-    private List<Product> productList = Product.getProductList();
+    private List<Product> productList = Product.getList();
 
     private String currentSortEelement;
 
@@ -86,7 +83,7 @@ public class ProductsController {
     }
 
     public List<Product> showProducts() {
-        return Product.getProductList();
+        return Product.getList();
     }
 
     public Product showProduct(long productId) throws ProductDoesNotExistException {

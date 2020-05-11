@@ -5,30 +5,34 @@ import Model.Models.*;
 
 public class Manager extends Account {
 
-    public void removeAccount(Account account) {
+    /**************************************************addAndRemove*****************************************************/
+
+    public void removeAccount(Account account) throws Exception {
         list.remove(account);
         DataBase.remove(account);
     }
 
-    public void addToRequestList(Request request) {
+    public void addToRequestList(Request request) throws Exception {
         Request.addRequest(request);
     }
 
-    public void addToDiscountCodeList(DiscountCode discountCode) {
+    public void addToDiscountCodeList(DiscountCode discountCode) throws Exception {
         DiscountCode.addDiscountCode(discountCode);
     }
 
-    public void addToCategoryList(Category category) {
+    public void addToCategoryList(Category category) throws Exception {
         Category.addCategory(category);
     }
 
-    public void removeFromDiscountCodeList(DiscountCode discountCode) {
+    public void removeFromDiscountCodeList(DiscountCode discountCode) throws Exception {
         DiscountCode.removeFromDiscountCode(discountCode);
     }
 
-    public void removeFromCategoryList(Category category) {
+    public void removeFromCategoryList(Category category) throws Exception {
         Category.removeCategory(category);
     }
+
+    /***************************************************otherMethods****************************************************/
 
     public void acceptRequest(Request request) {
         //
@@ -38,12 +42,14 @@ public class Manager extends Account {
         //
     }
 
-    public Manager(long id, String userName, String password, PersonalInfo personalInfo) {
+    /**************************************************constructors*****************************************************/
+
+    public Manager(long id, String userName, String password, Info personalInfo) {
         super(id, userName, password, personalInfo);
     }
 
     public Manager(String username) {
-        this.userName = username;
+        super(username);
         inRegistering.add(this);
     }
 

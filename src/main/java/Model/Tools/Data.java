@@ -7,7 +7,8 @@ import java.util.List;
 public class Data {
 
     private String className;
-    private ArrayList<Object> fields = new ArrayList<>();
+    private Packable<?> instance;
+    private List<Object> fields = new ArrayList<>();
 
     public Data(String className) {
         this.className = className;

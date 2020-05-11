@@ -2,7 +2,6 @@ package View.Menus;
 
 import Controller.Controllers.ManagerController;
 import Exceptions.InvalidFieldToEdit;
-import Model.Models.Field;
 
 import java.util.List;
 import java.util.Optional;

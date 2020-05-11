@@ -1,6 +1,6 @@
-package Model.Models.Fields;
+package Model.Models.Field.Fields;
 
-import Model.Models.Field;
+import Model.Models.Field.Field;
 
 public class Range extends Field {
 
@@ -20,5 +20,14 @@ public class Range extends Field {
         super(fieldName);
         this.high = high;
         this.low = low;
+    }
+
+    @Override
+    public String toString() {
+        return "Range{" +
+                "high=" + high +
+                ", low=" + low +
+                ", fieldName='" + fieldName + '\'' +
+                '}';
     }
 }

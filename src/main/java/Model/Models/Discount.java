@@ -1,7 +1,5 @@
 package Model.Models;
 
-import java.util.List;
-
 public class Discount {
 
     private double percent;
@@ -22,11 +20,5 @@ public class Discount {
     public Discount(double percent, double amount) {
         this.percent = percent;
         this.amount = amount;
-    }
-    ////yac
-    private List<Discount> discountList ;
-
-    public List<Discount> getDiscountList() {
-        return discountList;
     }
 }

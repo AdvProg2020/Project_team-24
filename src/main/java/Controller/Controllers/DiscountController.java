@@ -2,6 +2,7 @@ package Controller.Controllers;
 
 import Controller.ControllerUnit;
 import Exceptions.ProductDoesNotExistException;
+import Model.Models.Auction;
 import Model.Models.Discount;
 import Model.Models.Product;
 
@@ -23,7 +24,7 @@ public class DiscountController {
         return  discountController;
     }
     //eemale discount tooye gheymate product tooye sabade kharid
-    public ArrayList<Discount> offs() {
+    public ArrayList<Auction> offs() {
         //+m discount list
 
         return Discount.getDiscountList();}

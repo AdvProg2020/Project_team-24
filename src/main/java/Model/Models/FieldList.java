@@ -1,41 +1,47 @@
 package Model.Models;
 
+import Model.Models.Field.Field;
+
 import java.util.List;
 
 public class FieldList {
 
+    /*****************************************************fields*******************************************************/
+
     private List<Field> fieldList;
 
-    public Field getFieldByName(String name) {
-        return fieldList.stream()
-                .filter(field -> name.equals(field.getFieldName()))
-                .findFirst()
-                .orElseThrow();
+    /*****************************************************getters*******************************************************/
+
+    public List<Field> getFieldList() {
+        return fieldList;
     }
 
-    public FieldList removeField(Field field) {
+    /**************************************************addAndRemove*****************************************************/
 
-        if (getFieldByName(field.getFieldName()) == null) {
-            // throw exception
-        }
+    public FieldList removeField(Field field) {
         fieldList.remove(field);
         return this;
     }
 
     public FieldList addFiled(Field field) {
-
-        if (getFieldByName(field.getFieldName()) != null) {
-            // throw exception
-        }
         fieldList.add(field);
         return this;
     }
 
+    /**************************************************constructors*****************************************************/
+
     public FieldList update(Field field) {
-        // remove previous field
         removeField(field);
-        // add newField to list
         addFiled(field);
         return this;
+    }
+
+    /****************************************************overrides******************************************************/
+
+    @Override
+    public String toString() {
+        return "FieldList{" +
+                "fieldList=" + fieldList +
+                '}';
     }
 }

@@ -7,11 +7,12 @@ import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Auction implements Packable, ForPend {
+public class Auction implements Packable <Auction>, ForPend {
 
     private static List<Auction> list;
 
@@ -19,27 +20,31 @@ public class Auction implements Packable, ForPend {
         DataBase.loadList(Auction.class);
     }
 
+    /*****************************************************fields*******************************************************/
+
     private long auctionId;
     private List<Product> productList;
-    private PendStatus status;
+    private String stateForPend;
     private Date start;
     private Date end;
     private Discount discount;
 
-    public static List<Auction> getList() {
-        return list;
-    }
+    /*****************************************************getters*******************************************************/
 
-    public long getAuctionId() {
-        return auctionId;
+    public static List<Auction> getList() {
+        return Collections.unmodifiableList(list);
     }
 
     public List<Product> getProductList() {
-        return productList;
+        return Collections.unmodifiableList(productList);
     }
 
-    public PendStatus getStatus() {
-        return status;
+    public long getId() {
+        return auctionId;
+    }
+
+    public String getStatus() {
+        return stateForPend;
     }
 
     public Date getStart() {
@@ -54,20 +59,75 @@ public class Auction implements Packable, ForPend {
         return discount;
     }
 
+    /*****************************************************setters*******************************************************/
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
+    public void setStateForPend(String stateForPend) {
+        this.stateForPend = stateForPend;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    /**************************************************addAndRemove*****************************************************/
+
+    public void addAuction(Auction auction) throws Exception {
+        list.add(auction);
+        DataBase.save(auction, true);
+    }
+
+    public void removeAuction(Auction auction) throws Exception {
+        list.remove(auction);
+        DataBase.remove(auction);
+    }
+
+    public void addProductToAuction(Product product) throws Exception {
+        productList.add(product);
+        DataBase.save(this, false);
+    }
+
+    public void removeProductFromAuction(Product product) throws Exception {
+        productList.remove(product);
+        DataBase.save(this, false);
+    }
+
+    /***************************************************otherMethods****************************************************/
+
+    public static Auction getAuctionById(long id) {
+        return list.stream()
+                .filter(auction -> id == auction.getId())
+                .findFirst()
+                .orElseThrow(); // need auction does not exist exception.
+    }
+
+    /***************************************************packAndDpkg*****************************************************/
+
     @Override
     public Data pack() {
         return new Data(Auction.class.getName())
                 .addField(auctionId)
                 .addField(productList.stream()
-                .map(Product::getProductId).collect(Collectors.toList()))
-                .addField(status)
+                        .map(Product::getId).collect(Collectors.toList()))
+                .addField(stateForPend)
                 .addField(start)
                 .addField(end)
                 .addField(discount);
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public Auction dpkg(Data data) throws ProductDoesNotExistException {
         this.auctionId = (long) data.getFields().get(0);
         List<Product> result = new ArrayList<>();
         for (Long aLong : ((List<Long>) data.getFields().get(1))) {
@@ -75,28 +135,38 @@ public class Auction implements Packable, ForPend {
             result.add(productById);
         }
         this.productList = result;
-        this.status = (PendStatus) data.getFields().get(2);
+        this.stateForPend = (String) data.getFields().get(2);
         this.start = (Date) data.getFields().get(3);
         this.end = (Date) data.getFields().get(4);
         this.discount = (Discount) data.getFields().get(5);
+        return this;
     }
 
-    public static Auction getAuctionById(long id) {
-        return list.stream()
-                .filter(auction -> id == auction.getAuctionId())
-                .findFirst()
-                .orElseThrow();
-    }
+    /**************************************************constructors*****************************************************/
 
-    public Auction(long auctionId, List<Product> productList, PendStatus status, Date start, Date end, Discount discount) {
+    public Auction(long auctionId, List<Product> productList, String status, Date start, Date end, Discount discount) {
         this.auctionId = auctionId;
         this.productList = productList;
-        this.status = status;
+        this.stateForPend = status;
         this.start = start;
         this.end = end;
         this.discount = discount;
     }
 
     public Auction() {
+    }
+
+    /****************************************************overrides******************************************************/
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "auctionId=" + auctionId +
+                ", productList=" + productList +
+                ", status=" + stateForPend +
+                ", start=" + start +
+                ", end=" + end +
+                ", discount=" + discount +
+                '}';
     }
 }
