@@ -45,15 +45,15 @@ public class BuyerController extends AccountController {
     public void increase(long productId) throws CloneNotSupportedException {
         Product productClone = (Product) viewCart().getProductById(productId).clone();
         ///seller ra moshakhas kon!!!!
-        long sellerChosen  = viewCart().getProductById(productId).getSellerList();
-        viewCart().addProductToCart(sellerChosen,productClone);
-        customer.getCart().addProductToCart(sellerChosen,productClone);
+        Seller sellerChosen  = ;
+        viewCart().addProductToCart(sellerChosen.getId(),productClone);
+        customer.getCart().addProductToCart(sellerChosen.getId(),productClone);
     }
 
     public void decrease(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
-        long sellerChosen  = viewCart().getProductById(productId).getSellerList();
-        viewCart().removeProductFromCart(sellerChosen,product);
+       Seller sellerChosen  = selectseller;
+        viewCart().removeProductFromCart(sellerChosen.getId(),product);
     }
 
     public double showTotalPrice() {

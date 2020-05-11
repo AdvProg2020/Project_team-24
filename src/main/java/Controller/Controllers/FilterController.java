@@ -4,7 +4,7 @@ import Controller.ControllerUnit;
 import Exceptions.InvalidFilterException;
 import Model.Models.Filter;
 import Model.Models.Product;
-import Model.Models.ProductInfo;
+
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
