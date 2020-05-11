@@ -11,6 +11,13 @@ public class Guest extends Account {
         DataBase.save(account, true);
     }
 
+    /***************************************************packAndDpkg*****************************************************/
+
+    @Override
+    public Data pack() {
+        return super.pack().setInstance(new Guest());
+    }
+
     /**************************************************constructors*****************************************************/
 
     public Guest(long id, String userName, String password, Info personalInfo) {
@@ -21,11 +28,6 @@ public class Guest extends Account {
     }
 
     /****************************************************overrides******************************************************/
-
-    @Override
-    public Data pack() {
-        return super.pack().setInstance(new Guest());
-    }
 
     @Override
     public String toString() {

@@ -8,10 +8,11 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
 
 @RunWith(Arquillian.class)
 public class SignUpControllerTest {
@@ -25,6 +26,11 @@ public class SignUpControllerTest {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
+    @Before
+    public void doBeforeEveryTest() {
+        Account.setList(new ArrayList<>());
+    }
+
     @Test
     public void creatTheBaseOfAccount1() {
         String type = "manager";
@@ -32,183 +38,257 @@ public class SignUpControllerTest {
         try {
             signUpController.creatTheBaseOfAccount(type, username);
             Account.getAccountInRegistering(username);
-        } catch (UserNameTooShortException | UserNameInvalidException | TypeInvalidException | AccountDoesNotExistException e) {
-            org.junit.Assert.fail();
-        } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-            return;
+        } catch (UserNameTooShortException | UserNameInvalidException | TypeInvalidException | AccountDoesNotExistException | CanNotCreatMoreThanOneMangerBySignUp e) {
+            Assert.fail();
         }
     }
 
     @Test
     public void creatTheBaseOfAccount2() {
+        String type = "buyer";
+        String username = "sogolsdghi";
+        try {
+            signUpController.creatTheBaseOfAccount(type, username);
+            Account.getAccountInRegistering(username);
+        } catch (UserNameTooShortException | UserNameInvalidException | TypeInvalidException | AccountDoesNotExistException | CanNotCreatMoreThanOneMangerBySignUp e) {
+            Assert.fail();
+        }
+    }
+
+    @Test
+    public void creatTheBaseOfAccount3() {
+        String type = "seller";
+        String username = "sogolsdghi";
+        try {
+            signUpController.creatTheBaseOfAccount(type, username);
+            Account.getAccountInRegistering(username);
+        } catch (UserNameTooShortException | UserNameInvalidException | TypeInvalidException | AccountDoesNotExistException | CanNotCreatMoreThanOneMangerBySignUp e) {
+            Assert.fail();
+        }
+    }
+
+    @Test
+    public void creatTheBaseOfAccount4() {
         String type = "manager";
         String username = "sogol";
         try {
             signUpController.creatTheBaseOfAccount(type, username);
             Account.getAccountInRegistering(username);
-        } catch (TypeInvalidException | UserNameInvalidException e) {
+        } catch (TypeInvalidException | UserNameInvalidException | AccountDoesNotExistException | CanNotCreatMoreThanOneMangerBySignUp e) {
             Assert.fail();
-        } catch (UserNameTooShortException | AccountDoesNotExistException e) {
+        } catch (UserNameTooShortException e) {
             return;
-        } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-//qre
         }
-        //? Assert.fail();
+        Assert.fail();
     }
 
     @Test
-    public void creatTheBaseOfAccount3() {
+    public void creatTheBaseOfAccount5() {
         String type = "manager";
         String username = "sogol%$^";
         try {
             signUpController.creatTheBaseOfAccount(type, username);
             Account.getAccountInRegistering(username);
-        } catch (TypeInvalidException | UserNameTooShortException e) {
+        } catch (TypeInvalidException | AccountDoesNotExistException | UserNameTooShortException | CanNotCreatMoreThanOneMangerBySignUp e) {
             Assert.fail();
-        } catch (UserNameInvalidException | AccountDoesNotExistException e) {
+        } catch (UserNameInvalidException e) {
             return;
-        } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-            //qre
         }
-        //? Assert.fail();
-
-    }
-
-    @Test
-    public void creatTheBaseOfAccount4() {
-        String type = "empress";
-        String username = "sogolsdghi";
-        try {
-            signUpController.creatTheBaseOfAccount(type, username);
-            Account.getAccountInRegistering(username);
-        } catch (TypeInvalidException | AccountDoesNotExistException e) {
-            return;
-        } catch (UserNameTooShortException | UserNameInvalidException e) {
-            Assert.fail();
-        } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-            //qre
-        }
-        //? Assert.fail();
-    }
-
-    @Test
-    public void creatTheBaseOfAccount5() {
-        String type = "empress";
-        String username = "sogol%%&^";
-        try {
-            signUpController.creatTheBaseOfAccount(type, username);
-            Account.getAccountInRegistering(username);
-        } catch (TypeInvalidException | UserNameInvalidException | AccountDoesNotExistException e) {
-            return;
-        } catch (UserNameTooShortException e) {
-            Assert.fail();
-        } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-            //qre
-        }
-        //? Assert.fail();
+        Assert.fail();
     }
 
     @Test
     public void creatTheBaseOfAccount6() {
         String type = "empress";
-        String username = "sogol";
+        String username = "sogolsdghi";
         try {
             signUpController.creatTheBaseOfAccount(type, username);
             Account.getAccountInRegistering(username);
-        } catch (TypeInvalidException | AccountDoesNotExistException | UserNameTooShortException e) {
-            return;
-        } catch (UserNameInvalidException e) {
+        } catch (AccountDoesNotExistException | UserNameTooShortException | UserNameInvalidException | CanNotCreatMoreThanOneMangerBySignUp e) {
             Assert.fail();
-        } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-            canNotCreatMoreThanOneMangerBySignUp.printStackTrace();
+        } catch (TypeInvalidException e) {
+            return;
         }
-        //? Assert.fail();
-
+        Assert.fail();
     }
 
     @Test
     public void creatPassWordForAccount1() {
-        String type = "buyer";
-        String username = "sogolsdghi";
+        creatTheBaseOfAccount1();
+        String user = "sogolsdghi";
         String pass = "1";
         try {
-            signUpController.creatTheBaseOfAccount(type, username);
-            signUpController.creatPassWordForAccount(username, pass);
-            Account.getAccountInRegistering(username);
-        } catch (PasswordInvalidException | TypeInvalidException | UserNameTooShortException | CanNotCreatMoreThanOneMangerBySignUp | UserNameInvalidException | AccountDoesNotExistException e) {
+            signUpController.creatPassWordForAccount(user, pass);
+            Assert.assertEquals(Account.getAccountInRegistering(user).getPassword(), pass);
+        } catch (PasswordInvalidException | AccountDoesNotExistException e) {
             Assert.fail();
         }
     }
+
     @Test
-    public void creatPassWordForAccount2(){
-        String type = "buyer";
-        String username = "sogolsdghi";
-        String pass = "1%%";
+    public void creatPassWordForAccount2() {
+        creatTheBaseOfAccount2();
+        String user = "sogolsdghi";
+        String pass = "123";
         try {
-            signUpController.creatTheBaseOfAccount(type, username);
-            signUpController.creatPassWordForAccount(username, pass);
-            Account.getAccountInRegistering(username);
-        } catch ( TypeInvalidException | UserNameTooShortException | CanNotCreatMoreThanOneMangerBySignUp | UserNameInvalidException | AccountDoesNotExistException e) {
+            signUpController.creatPassWordForAccount(user, pass);
+            Assert.assertEquals(Account.getAccountInRegistering(user).getPassword(), pass);
+        } catch (AccountDoesNotExistException e) {
             Assert.fail();
         } catch (PasswordInvalidException e) {
             return;
         }
-        //? Assert.fail();
+        Assert.fail();
+    }
+
+    @Test
+    public void creatPassWordForAccount3() {
+        creatTheBaseOfAccount2();
+        String user = "sogolsdghi";
+        String pass = "1%%";
+        try {
+            signUpController.creatPassWordForAccount(user, pass);
+            Assert.assertEquals(Account.getAccountInRegistering(user).getPassword(), pass);
+        } catch (AccountDoesNotExistException e) {
+            Assert.fail();
+        } catch (PasswordInvalidException e) {
+            return;
+        }
+        Assert.fail();
     }
 
     @Test
     public void savePersonalInfo1() {
-        String type = "buyer";
+        creatPassWordForAccount1();
+        // type = manager
         String username = "sogolsdghi";
-        String pass = "1";
-        String name="sogol";
-        String lastName="sadeghi";
-        String phoneNember="09013337725";
-        String email="sogolsadeghid@gmail.com";
+        String firstName = "sogol";
+        String lastName = "sadeghi";
+        String phoneNumber = "09013337725";
+        String email = "sogolsadeghid@gmail.com";
         try {
-            signUpController.creatTheBaseOfAccount(type, username);
-            signUpController.creatPassWordForAccount(username, pass);
-            signUpController.savePersonalInfo(username,name,lastName,email,phoneNember);
-            Account.getAccountInRegistering(username);
-            Account.getAccountByUserName(username);
-        } catch (PasswordInvalidException | TypeInvalidException | UserNameTooShortException | CanNotCreatMoreThanOneMangerBySignUp | UserNameInvalidException | AccountDoesNotExistException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
+            signUpController.savePersonalInfo(username, firstName, lastName, email, phoneNumber);
+        } catch (EmailInvalidException | LastNameInvalidException | AccountDoesNotExistException | PhoneNumberInvalidException | FirstNameInvalidException e) {
             Assert.fail();
         }
+        // for a manager and buyer must be added now.
+        try {
+            Account.getAccountByUserName(username);
+        } catch (AccountDoesNotExistException e) {
+            Assert.fail();
+        }
+        // for a manager and buyer must be removed now.
+        try {
+            Account.getAccountInRegistering(username);
+        } catch (AccountDoesNotExistException e) {
+            return;
+        }
+        Assert.fail();
     }
+
     @Test
     public void savePersonalInfo2() {
-        String type = "buyer";
+        creatPassWordForAccount2();
+        // type = buyer
         String username = "sogolsdghi";
-        String pass = "1";
-        String name="sogol%";
-        String lastName="sadeghi";
-        String phoneNember="09013337725";
-        String email="sogolsadeghid@gmail.com";
+        String firstName = "sogol";
+        String lastName = "sadeghi";
+        String phoneNumber = "09013337725";
+        String email = "sogolsadeghid@gmail.com";
         try {
-            signUpController.creatTheBaseOfAccount(type, username);
-            signUpController.creatPassWordForAccount(username, pass);
-            signUpController.savePersonalInfo(username,name,lastName,email,phoneNember);
+            signUpController.savePersonalInfo(username, firstName, lastName, email, phoneNumber);
+        } catch (EmailInvalidException | LastNameInvalidException | AccountDoesNotExistException | PhoneNumberInvalidException | FirstNameInvalidException e) {
+            Assert.fail();
+        }
+        // for a manager and buyer must be removed now.
+        try {
             Account.getAccountInRegistering(username);
+        } catch (AccountDoesNotExistException e) {
+            Assert.fail();
+        }
+        // for a manager and buyer must be added now.
+        try {
             Account.getAccountByUserName(username);
-        } catch (PasswordInvalidException | TypeInvalidException | UserNameTooShortException | CanNotCreatMoreThanOneMangerBySignUp | UserNameInvalidException | AccountDoesNotExistException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
+        } catch (AccountDoesNotExistException e) {
+            return;
+        }
+        Assert.fail();
+    }
+
+    @Test
+    public void savePersonalInfo3() {
+        creatPassWordForAccount2();
+        // type = buyer
+        String username = "sogolsdghi";
+        String firstName = "sogol";
+        String lastName = "sadeghi";
+        String phoneNumber = "090133377225";
+        String email = "sogolsadeghid@gmail.com";
+        try {
+            signUpController.savePersonalInfo(username, firstName, lastName, email, phoneNumber);
+        } catch (EmailInvalidException | LastNameInvalidException | AccountDoesNotExistException | FirstNameInvalidException e) {
+            Assert.fail();
+        } catch (PhoneNumberInvalidException e) {
+            return;
+        }
+        Assert.fail();
+    }
+
+    @Test
+    public void savePersonalInfo4() {
+        creatPassWordForAccount2();
+        // type = buyer
+        String username = "sogolsdghi";
+        String firstName = "sogol";
+        String lastName = "sadeghi";
+        String phoneNumber = "09013337725";
+        String email = "sogolsadeghid@gmai.com";
+        try {
+            signUpController.savePersonalInfo(username, firstName, lastName, email, phoneNumber);
+        } catch (PhoneNumberInvalidException | LastNameInvalidException | AccountDoesNotExistException | FirstNameInvalidException e) {
+            Assert.fail();
+        } catch (EmailInvalidException e) {
+            return;
+        }
+        Assert.fail();
+    }
+
+    @Test
+    public void savePersonalInfo5() {
+        creatPassWordForAccount2();
+        // type = buyer
+        String username = "sogolsdghi";
+        String firstName = "sogo#l";
+        String lastName = "sadeghi";
+        String phoneNumber = "09013337725";
+        String email = "sogolsadeghid@gmail.com";
+        try {
+            signUpController.savePersonalInfo(username, firstName, lastName, email, phoneNumber);
+        } catch (PhoneNumberInvalidException | LastNameInvalidException | AccountDoesNotExistException | EmailInvalidException e) {
             Assert.fail();
         } catch (FirstNameInvalidException e) {
             return;
         }
-        //? Assert.fail();
+        Assert.fail();
     }
-    @Test
-    public void savePersonalInfo3() {
 
-    }
     @Test
-    public void savePersonalInfo() {
-    }
-    @Test
-    public void savePersonalInfo() {
-    }
-    @Test
-    public void savePersonalInfo() {
+    public void savePersonalInfo6() {
+        creatPassWordForAccount1();
+        // type = manager
+        String username = "sogolsdghi";
+        String firstName = "sogol";
+        String lastName = "sa#deghi";
+        String phoneNumber = "09013337725";
+        String email = "sogolsadeghid@gmail.com";
+        try {
+            signUpController.savePersonalInfo(username, firstName, lastName, email, phoneNumber);
+        } catch (PhoneNumberInvalidException | FirstNameInvalidException | AccountDoesNotExistException | EmailInvalidException e) {
+            Assert.fail();
+        } catch (LastNameInvalidException e) {
+            return;
+        }
+        Assert.fail();
     }
 
     @Test

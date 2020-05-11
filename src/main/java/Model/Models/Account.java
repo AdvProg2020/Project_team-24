@@ -81,6 +81,10 @@ public abstract class Account implements Packable <Account>{
         this.personalInfo = personalInfo;
     }
 
+    public static void setList(List<Account> list) {
+        Account.list = list;
+    }
+
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
@@ -120,6 +124,10 @@ public abstract class Account implements Packable <Account>{
                 .filter(account -> name.equals(account.getUserName()))
                 .findFirst()
                 .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
+    }
+
+    public static boolean isThereAnyAccountWithThisUsername(String username) {
+        return list.stream().anyMatch(account -> username.equals(account.getUserName()));
     }
 
     public static Account getAccountById(long id) throws AccountDoesNotExistException {
