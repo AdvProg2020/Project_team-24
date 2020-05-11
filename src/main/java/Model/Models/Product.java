@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Product implements Packable, ForPend ,Cloneable {
+public class Product implements Packable<Product>, ForPend ,Cloneable {
 
     private static List<Product> list;
 
@@ -37,7 +37,7 @@ public class Product implements Packable, ForPend ,Cloneable {
 
     /*****************************************************getters*******************************************************/
 
-    public long getProductId() {
+    public long getId() {
         return productId;
     }
 
@@ -125,41 +125,50 @@ public class Product implements Packable, ForPend ,Cloneable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) {
+    public void addComment(Comment comment) throws Exception {
         commentList.add(comment);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
-    public void removeComment(Comment comment) {
+    public void removeComment(Comment comment) throws Exception {
         commentList.remove(comment);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
-    public void addBuyer(Account account) {
+    public void addBuyer(Account account) throws Exception {
         buyerList.add(account);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
-    public void removeBuyer(Account account) {
+    public void removeBuyer(Account account) throws Exception {
         buyerList.remove(account);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
-    public void addSeller(Account account) {
+    public void addSeller(Account account) throws Exception {
         sellerList.add(account);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
-    public void removeSeller(Account account) {
+    public void removeSeller(Account account) throws Exception {
         sellerList.remove(account);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
+    public void addProduct(Product product) throws Exception {
+        list.add(product);
+        DataBase.save(product, true);
+    }
+
+    public void removeProduct(Product product) throws Exception {
+        list.remove(product);
+        DataBase.remove(product);
+    }
     /***************************************************otherMethods****************************************************/
 
     public static Product getProductById(long id) throws ProductDoesNotExistException {
         return list.stream()
-                .filter(product -> id == product.getProductId())
+                .filter(product -> id == product.getId())
                 .findFirst()
                 .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id."));
     }
@@ -181,14 +190,14 @@ public class Product implements Packable, ForPend ,Cloneable {
                 .addField(numberOfBuyers)
                 .addField(numberOfThis)
                 .addField(averageScore)
-                .addField(category.getCategoryId())
+                .addField(category.getId())
                 .addField(commentList.stream().
-                        map(Comment::getCommentId).
+                        map(Comment::getId).
                         collect(Collectors.toList()));
     }
 
     @Override
-    public void dpkg(Data data) {
+    public Product dpkg(Data data) {
         this.productId = (long) data.getFields().get(0);
         this.productInfo = (Info) data.getFields().get(1);
         this.categoryInfo = (Info) data.getFields().get(2);
@@ -202,6 +211,7 @@ public class Product implements Packable, ForPend ,Cloneable {
             result.add(commentById);
         }
         this.commentList = result;
+        return this;
     }
 
     /**************************************************constructors*****************************************************/

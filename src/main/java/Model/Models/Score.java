@@ -6,9 +6,10 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.util.Collections;
 import java.util.List;
 
-public class Score implements Packable {
+public class Score implements Packable<Score> {
 
     private static List<Score> list;
 
@@ -25,6 +26,11 @@ public class Score implements Packable {
 
     /*****************************************************getters*******************************************************/
 
+    @Override
+    public long getId() {
+        return scoreId;
+    }
+
     public Account getUser() {
         return user;
     }
@@ -38,7 +44,19 @@ public class Score implements Packable {
     }
 
     public static List<Score> getList() {
-        return list;
+        return Collections.unmodifiableList(list);
+    }
+
+    /**************************************************addAndRemove*****************************************************/
+
+    public static void addScore(Score score) throws Exception {
+        list.add(score);
+        DataBase.save(score,true);
+    }
+
+    public static void removeScore(Score score) throws Exception {
+        list.remove(score);
+        DataBase.remove(score);
     }
 
     /***************************************************packAndDpkg*****************************************************/
@@ -53,11 +71,12 @@ public class Score implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException {
+    public Score dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException {
         this.scoreId = (long) data.getFields().get(0);
         this.user = (Account) data.getFields().get(1);
         this.good = (Product) data.getFields().get(2);
         this.score = (int) data.getFields().get(3);
+        return this;
     }
 
     /**************************************************constructors*****************************************************/

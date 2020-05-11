@@ -10,7 +10,7 @@ import Model.Tools.Packable;
 import java.util.Collections;
 import java.util.List;
 
-public class Request implements Packable {
+public class Request implements Packable<Request> {
 
     private static List<Request> list;
 
@@ -28,7 +28,7 @@ public class Request implements Packable {
 
     /*****************************************************getters*******************************************************/
 
-    public long getRequestId() {
+    public long getId() {
         return requestId;
     }
 
@@ -54,13 +54,13 @@ public class Request implements Packable {
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest() {
+    public void acceptRequest() throws Exception {
         // add to all product or auction
         list.remove(this);
         DataBase.remove(this);
     }
 
-    public void declineRequest() {
+    public void declineRequest() throws Exception {
         // remove from all product or auction
         list.remove(this);
         DataBase.remove(this);
@@ -68,12 +68,12 @@ public class Request implements Packable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addRequest(Request request) {
+    public static void addRequest(Request request) throws Exception {
         list.add(request);
-        DataBase.save(request);
+        DataBase.save(request,true);
     }
 
-    public static void removeRequest(Request request) {
+    public static void removeRequest(Request request) throws Exception {
         list.remove(request);
         DataBase.remove(request);
     }
@@ -91,19 +91,20 @@ public class Request implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) throws AccountDoesNotExistException {
+    public Request dpkg(Data data) throws AccountDoesNotExistException {
         this.requestId = (long) data.getFields().get(0);
         this.account = Account.getAccountById((long) data.getFields().get(1));
         this.information = (String) data.getFields().get(2);
         this.typeOfRequest = (String) data.getFields().get(3);
         this.forPend = (ForPend) data.getFields().get(4);
+        return this;
     }
 
     /***************************************************otherMethods****************************************************/
 
     public static Request getRequestById(long id) throws RequesDoesNotExistException {
         return list.stream()
-                .filter(request -> id == request.getRequestId())
+                .filter(request -> id == request.getId())
                 .findFirst()
                 .orElseThrow(() -> new RequesDoesNotExistException("Request with this id does not exist."));
     }

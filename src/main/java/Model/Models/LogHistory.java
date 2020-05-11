@@ -7,11 +7,10 @@ import Model.Tools.Packable;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LogHistory implements Packable {
+public class LogHistory implements Packable<LogHistory> {
 
     private static List<LogHistory> list;
 
@@ -39,7 +38,7 @@ public class LogHistory implements Packable {
         return Collections.unmodifiableList(list);
     }
 
-    public long getLogId() {
+    public long getId() {
         return logId;
     }
 
@@ -65,22 +64,22 @@ public class LogHistory implements Packable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addLog(LogHistory logHistory) {
+    public static void addLog(LogHistory logHistory) throws Exception {
         list.add(logHistory);
-        DataBase.save(logHistory);
+        DataBase.save(logHistory,true);
     }
 
-    public static void removeLog(LogHistory logHistory) {
+    public static void removeLog(LogHistory logHistory) throws Exception {
         list.remove(logHistory);
         DataBase.remove(logHistory);
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(Product product) throws Exception {
         productList.add(product);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
-    public void removeProduct(Product product) {
+    public void removeProduct(Product product) throws Exception {
         productList.remove(product);
         DataBase.remove(this);
     }
@@ -95,12 +94,12 @@ public class LogHistory implements Packable {
                 .addField(auctionDiscount)
                 .addField(fieldList)
                 .addField(productList.stream()
-                        .map(Product::getProductId)
+                        .map(Product::getId)
                         .collect(Collectors.toList()));
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public LogHistory dpkg(Data data) throws ProductDoesNotExistException {
         this.logId = (long) data.getFields().get(0);
         this.amount = (double) data.getFields().get(1);
         this.discountAmount = (double) data.getFields().get(2);
@@ -112,13 +111,14 @@ public class LogHistory implements Packable {
             result.add(productById);
         }
         this.productList = result;
+        return this;
     }
 
     /***************************************************otherMethods****************************************************/
 
     public static LogHistory getLogHistoryById(long id) {
         return list.stream()
-                .filter(logHistory -> id == logHistory.getLogId())
+                .filter(logHistory -> id == logHistory.getId())
                 .findFirst()
                 .orElseThrow();
     }

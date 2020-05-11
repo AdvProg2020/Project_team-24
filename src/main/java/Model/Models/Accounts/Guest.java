@@ -5,9 +5,9 @@ import Model.Models.*;
 
 public class Guest extends Account {
 
-    public void createNewAccount(Account account) {
+    public void createNewAccount(Account account) throws Exception {
         list.add(account);
-        DataBase.save(account);
+        DataBase.save(account, true);
     }
 
     /**************************************************constructors*****************************************************/

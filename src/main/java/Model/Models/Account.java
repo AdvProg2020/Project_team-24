@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Account implements Packable {
+public abstract class Account implements Packable <Account>{
 
     protected static List<Account> list;
     protected static List<String> fieldNames;
@@ -93,11 +93,12 @@ public abstract class Account implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
+    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
         this.personalInfo = (Info) data.getFields().get(2);
+        return this;
     }
 
     /***************************************************otherMethods****************************************************/
@@ -128,12 +129,12 @@ public abstract class Account implements Packable {
                 .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
     }
 
-    public static void addAccount(Account account) {
+    public static void addAccount(Account account) throws Exception {
         list.add(account);
-        DataBase.save(account);
+        DataBase.save(account, true);
     }
 
-    public static void deleteAccount(Account account) {
+    public static void deleteAccount(Account account) throws Exception {
         list.remove(account);
         DataBase.remove(account);
     }

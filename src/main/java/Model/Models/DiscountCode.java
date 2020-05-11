@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DiscountCode implements Packable {
+public class DiscountCode implements Packable<DiscountCode> {
 
     private static List<DiscountCode> list;
 
@@ -71,22 +71,22 @@ public class DiscountCode implements Packable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAccount(Account account) {
+    public void addAccount(Account account) throws Exception {
         accountList.add(account);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
-    public void removeAccount(Account account) {
+    public void removeAccount(Account account) throws Exception {
         accountList.remove(account);
-        DataBase.save(this);
+        DataBase.save(this,false);
     }
 
-    public static void addDiscountCode(DiscountCode discountCode) {
+    public static void addDiscountCode(DiscountCode discountCode) throws Exception {
         list.add(discountCode);
-        DataBase.save(discountCode);
+        DataBase.save(discountCode,true);
     }
 
-    public static void removeFromDiscountCode(DiscountCode discountCode) {
+    public static void removeFromDiscountCode(DiscountCode discountCode) throws Exception {
         list.remove(discountCode);
         DataBase.remove(discountCode);
     }
@@ -109,7 +109,7 @@ public class DiscountCode implements Packable {
     }
 
     @Override
-    public void dpkg(Data data) throws AccountDoesNotExistException {
+    public DiscountCode dpkg(Data data) throws AccountDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         this.discountCode = (String) data.getFields().get(1);
         this.start = (Date) data.getFields().get(2);
@@ -124,6 +124,7 @@ public class DiscountCode implements Packable {
             result.add(accountById);
         }
         this.accountList = result;
+        return this;
     }
 
     /***************************************************otherMethods****************************************************/

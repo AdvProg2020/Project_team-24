@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Cart implements Packable {
+public class Cart implements Packable<Cart> {
 
     private static List<Cart> list;
 
@@ -45,23 +45,23 @@ public class Cart implements Packable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addProductToCart(long sellerId, Product product) {
+    public void addProductToCart(long sellerId, Product product) throws Exception {
         productSellerIds.add(sellerId);
         productList.add(product);
-        DataBase.save(this);
+        DataBase.save(this, false);
     }
 
-    public void removeProductFromCart(long sellerId, Product product) {
+    public void removeProductFromCart(long sellerId, Product product) throws Exception {
         productSellerIds.remove(sellerId);
         productList.remove(product);
-        DataBase.save(this);
+        DataBase.save(this, false);
     }
 
     /***************************************************otherMethods****************************************************/
 
     public Product getProductById(long id) {
         return productList.stream()
-                .filter(product -> id == product.getProductId())
+                .filter(product -> id == product.getId())
                 .findFirst()
                 .orElseThrow(() -> new ProviderNotFoundException("product with this id not exist in this cart."));
     }
@@ -84,13 +84,13 @@ public class Cart implements Packable {
         return new Data(Cart.class.getName())
                 .addField(id)
                 .addField(productList.stream()
-                .map(Product::getProductId)
-                .collect(Collectors.toList()))
+                        .map(Product::getId)
+                        .collect(Collectors.toList()))
                 .addField(productSellerIds);
     }
 
     @Override
-    public void dpkg(Data data) throws ProductDoesNotExistException {
+    public Cart dpkg(Data data) throws ProductDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         List<Product> result = new ArrayList<>();
         for (Long aLong : (List<Long>) data.getFields().get(1)) {
@@ -99,6 +99,7 @@ public class Cart implements Packable {
         }
         this.productList = result;
         this.productSellerIds = (List<Long>) data.getFields().get(2);
+        return this;
     }
 
     /**************************************************constructors*****************************************************/
