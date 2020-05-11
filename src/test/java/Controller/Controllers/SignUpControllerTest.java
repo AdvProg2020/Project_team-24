@@ -12,6 +12,9 @@ import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 public class SignUpControllerTest {
+
+    private static SignUpController signUpController = SignUpController.getInstance(null);
+
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
