@@ -4,15 +4,19 @@ package Controller.Controllers;
 import Controller.ControllerUnit;
 import Exceptions.AcountHasNotLogedIn;
 import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Seller;
+import Model.Models.Info;
 import Model.Models.Product;
 import Model.Models.Info.ProductInfo;
 
 import java.util.List;
 
 public class ProductController {
-
-
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
+    private Product product = controllerUnit.getProduct();
+    private Customer customer = (Customer) controllerUnit.getAccount();
+    /****************************************************singleTone***************************************************/
 
     private static ProductController productController;
 
@@ -27,18 +31,17 @@ public class ProductController {
         return productController;
     }
 
-    Product product = controllerUnit.getProduct();
-    Customer customer = (Customer) controllerUnit.getAccount();
-
-    public List<ProductInfo> digest() {
-        return (List<ProductInfo>) product.getProductInfo();
+    /**************************************************methods********************************************************/
+    public List<Info> digest() {
+        return (List<Info>) product.getProductInfo();
     }
 
     public void addToCart() throws AcountHasNotLogedIn {
         if (customer == null) {
             throw new AcountHasNotLogedIn("AcountHasNotLogedIn");
         }
-        customer.getCart().addToProductList(product);
+        Seller seller = selectSeller();
+        customer.getCart().addProductToCart(seller.getId(),product);
     }
 
     public void selectSeller(String sellerUsername) {

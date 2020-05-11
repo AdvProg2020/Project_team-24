@@ -6,49 +6,62 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 
 
+import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-//list ha behtar nist beshe aray list?
-//coment ha barrasid
-public class ManagerController extends AccountController {
 
+public class ManagerController extends AccountController {
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
-    private static ManagerController  managerController;
-    private ManagerController(ControllerUnit controllerUnit){
+    /****************************************************singleTone***************************************************/
+    private static ManagerController managerController;
+
+    private ManagerController(ControllerUnit controllerUnit) {
         this.controllerUnit = controllerUnit;
     }
-    public static ManagerController getInstance(ControllerUnit controllerUnit){
-        if(managerController == null){
+
+    public static ManagerController getInstance(ControllerUnit controllerUnit) {
+        if (managerController == null) {
             managerController = new ManagerController(controllerUnit);
         }
         return managerController;
     }
 
+    /**************************************************methods********************************************************/
     public List<Account> viewAllAccounts() {
         return Account.getList();
     }
 
-    public Account viewAccount(String username) {
+    public Account viewAccount(String username) throws AccountDoesNotExistException {
         return Account.getAccountByUserName(username);
     }
 
 
-    public void delete(String username) {
-        Account.deleteAccount(Account.getAccountByUserName(username));
+    public void deleteAccount(String username) throws AccountDoesNotExistException {
+        Account account = Account.getAccountByUserName(username);
+        Account.deleteAccount(account);
     }
 
-    public void removeProduct(long productId) throws NoSuchProductExistsException {
-        Product.removeProduct(Product.getProductById(productId));
+    public void removeProduct(long productId) throws ProductDoesNotExistException {
+        Product product = Product.getProductById(productId);
+        //Product.removeProduct
     }
 
 
-    public void creatDiscountCode(Date start, Date end, double percent, double maxAmount, int frequentUse) {
-        //check kardane inke end bade start bashe tarikhesh
-        //har do az tarikjhe rooz bishtar bashan
-        //+m creat disscoiunt code
+    public void creatDiscountCode(LocalDate start, LocalDate end, double percent, double maxAmount, int frequentUse)
+            throws InvalidStartAndEndDateForDiscountCodeException {
+        if (start.isBefore(end) && end.isAfter(LocalDate.now())) {
+            DiscountCode discountCode = new DiscountCode();
+            DiscountCode.addDiscountCode(discountCode);
+            //+m creat disscoiunt code
+
+        } else
+            throw new InvalidStartAndEndDateForDiscountCodeException("InvalidStartAndEndDateForDiscountCodeException");
+
 
     }
 
@@ -56,21 +69,25 @@ public class ManagerController extends AccountController {
         return DiscountCode.getList();
     }
 
-    public DiscountCode viewDiscountCode(long disscoutCodeId) {
+    public DiscountCode viewDiscountCode(long disscoutCodeId) throws DiscountCodeExpiredExcpetion {
         return DiscountCode.getDiscountCodeById(disscoutCodeId);
     }
 
-    public void editDiscountCode(long discountCodeId, String field) {
-        //+m DiscountCode.getfieldByName(field)......
+    public void editDiscountCode(long discountCodeId, String field,String newField) {
+        ///check kon ke customer bashe
+        Customer customer = (Customer) controllerUnit.getAccount();
+        //Field field = DiscountCode.getField;
+        //field.set(controllerUnit.getAccount(), newField);
+
     }
 
-    public void removeDiscountCode(long discountCodeId) {
-        DiscountCode.removeDiscountCode(DiscountCode.getDiscountCodeById(discountCodeId));
+    public void removeDiscountCode(long discountCodeId) throws DiscountCodeExpiredExcpetion {
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
+        DiscountCode.removeFromDiscountCode(discountCode);
     }
 
     private ArrayList<Customer> findSpecialBuyers() {
 
-        // yek halghe for darim ke beyne tamame customer ha miyad migarde onn hayi ke bish az i mill kharid kardan ro peyda mikone
         //+m neveshtane yek motheod baraye gereftane hameye customer va barresi 1mil bishter va tashkil list moshtari makhsoos
         return null;
     }
@@ -84,11 +101,10 @@ public class ManagerController extends AccountController {
         int listSize = Account.getList().size();
         int randomIndex = randomAccount.nextInt(listSize);
         return (Customer) Customer.getList().get(randomIndex);
-        //+m estefade az hamoon method bala baraye gerefteane list customer
-        ///yek list az tamame moshtari ha mikhaym
     }
 
     private void setDiscountCodeToRandoms(DiscountCode discountCode) {
+        ///+m method khode qre baraye add
         selectRandomBuyers().getDiscountCodeList().add(discountCode);
 
     }
@@ -97,28 +113,27 @@ public class ManagerController extends AccountController {
         return Request.getList();
     }
 
-    public ArrayList<String> detailsOfRequest(long requestId) {
+    public ArrayList<String> detailsOfRequest(long requestId) throws RequesDoesNotExistException {
         Request request = Request.getRequestById(requestId);
         ArrayList<String> detailsOfRequest = new ArrayList<String>();
         detailsOfRequest.add(request.getAccount().toString());
         detailsOfRequest.add(request.getForPend().toString());
-        detailsOfRequest.add(request.getTypeOfRequest().toString());
+        detailsOfRequest.add(request.getTypeOfRequest());
+        //+m merthod khode qre baraye add
         //!!detailsOfRequest.add(request.getRequestId());
         ///+m field tozihate request
         return detailsOfRequest;
     }
 
-    public void requestAcceptedOrDeclined(long requestId, String acceptorDecline) throws InvalidStateOfRequest {
-        //accept/decine ro do tike kon
-        //+m yek state bayad baraye request bashe ke begim Declined ya na ke vaghti tabe ro call kardam state ro moshakhas kone
-        if (acceptorDecline.equals("Accept")) {
-            Request.getRequestById(requestId).acceptRequest();
+    public void acceptRequest(long requestId) throws RequesDoesNotExistException {
+        //already accept ya decline bayad chack beshe???
+        Request request = Request.getRequestById(requestId);
+        request.acceptRequest();
+    }
 
-        } else if (acceptorDecline.equals("Decline")) {
-            Request.getRequestById(requestId).declineRequest();
-
-        } else throw new InvalidStateOfRequest("InvalidStateOfRequest");
-
+    public void denyRequest(long requestId) throws RequesDoesNotExistException {
+        Request request = Request.getRequestById(requestId);
+        request.declineRequest();
     }
 
     public List<Category> manageCategories() {
@@ -126,23 +141,22 @@ public class ManagerController extends AccountController {
     }
 
     public void editCategory(String categoryname, String field) {
-        Category category1 = Category.getCategoryByName(category);
-        //kodoom field??
-        //+m mitoonim mesle onn yeki class method tooye model dashte bashim barash
+        Category category = Category.getCategoryByName(categoryname);
+        //+m edit category
     }
 
     public void removeCategory(String categoryName) {
         Category category = Category.getCategoryByName(categoryName);
-        Category.getList().remove(category);
+        Category.removeCategory(category);
     }
 
     public void addCategory(String categoryName) {
         Category category = Category.getCategoryByName(categoryName);
-        Category.getList().add(category);
+        Category.addCategory(category);
     }
 
     public void createManagerProfileBaseAccount(String username) {
-        //inja bayad ooon boolean ro bezari
+        //?????????????/
 
     }
 

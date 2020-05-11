@@ -4,7 +4,7 @@ import Controller.ControllerUnit;
 import Exceptions.InvalidFilterException;
 import Model.Models.Filter;
 import Model.Models.Product;
-import Model.Models.ProductInfo;
+
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -15,8 +15,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FilterController {
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
-    //singleTone
+    private List<Product> listOfProductsFiltered = Product.getList();
+    private List<Filter>  listOfFiltersNowRunning ;
+    /****************************************************singleTone***************************************************/
     private static FilterController filterController;
 
     private FilterController(ControllerUnit controllerUnit) {
@@ -29,8 +32,7 @@ public class FilterController {
         }
         return filterController;
     }
-    private List<Product> listOfProductsFiltered = Product.getProductList();
-    private List<Filter>  listOfFiltersNowRunning ;
+    /**************************************************methods********************************************************/
     public List<Field> showAvailableFilters(){
         //inke filter ha faghat esme khoe=de field ha bashe
         List<Field> productFieldList = Arrays.asList(Product.class.getFields());
@@ -46,7 +48,7 @@ public class FilterController {
     }
     public void filter(Filter filter) throws InvalidFilterException {
         checkFilterValid(filter);
-        if(filter.equals()){List<Product> productsFiltered = Product.getProductList().stream()
+        if(filter.equals()){List<Product> productsFiltered = Product.getList().stream()
                 .filter(p -> p.getAverageScore() > 4).collect(Collectors.toList());
         }
         // for dar list products ... if filter add to listof products

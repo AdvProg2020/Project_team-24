@@ -4,11 +4,15 @@ import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Seller;
 
 import java.util.List;
 
 public class BuyerController extends AccountController {
-    //singleTone
+    /****************************************************fields*******************************************************/
+    private ControllerUnit controllerUnit;
+    private Customer customer = (Customer) controllerUnit.getAccount();
+    /****************************************************singleTone***************************************************/
     private static  BuyerController buyerController;
 
     public BuyerController(Customer customer) {
@@ -21,7 +25,7 @@ public class BuyerController extends AccountController {
         }
         return buyerController;
     }
-    Customer customer = (Customer) controllerUnit.getAccount();
+    /**************************************************methods********************************************************/
 
     public Cart viewCart() {
 
@@ -29,7 +33,7 @@ public class BuyerController extends AccountController {
     }
 
     public List<Product> showProducts() {
-        return viewCart().getProductHashMap();
+        return viewCart().getProductList();
     }
 
     public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
@@ -40,13 +44,16 @@ public class BuyerController extends AccountController {
 
     public void increase(long productId) throws CloneNotSupportedException {
         Product productClone = (Product) viewCart().getProductById(productId).clone();
-        viewCart().addToProductList(productClone);
-        customer.getCart().addToProductList(productClone);
+        ///seller ra moshakhas kon!!!!
+        Seller sellerChosen  = seller;
+        viewCart().addProductToCart(sellerChosen.getId(),productClone);
+        customer.getCart().addProductToCart(sellerChosen.getId(),productClone);
     }
 
     public void decrease(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
-        viewCart().removeFromProductList(product);
+       Seller sellerChosen  = selectseller();
+        viewCart().removeProductFromCart(sellerChosen.getId(),product);
     }
 
     public double showTotalPrice() {
@@ -94,9 +101,9 @@ public class BuyerController extends AccountController {
     }
     public void buyProductsOfCart(Cart cart) throws NotEnoughCreditException, PurchaseFailException {
         payment();
-        for(Product product : customer.getCart().getProductHashMap()){
-            customer.getCart().removeFromProductList(product);
-            customer.getLogHistoryList().add(product);
+        for(Product product : customer.getCart().getProductList()){
+            customer.getCart().removeProductFromCart(seller.getId,product);
+            customer.getLogHistoryList().add(seller.getId,product);
         }
 
     }
@@ -111,7 +118,7 @@ public class BuyerController extends AccountController {
         Product product = Product.getProductById(orderId);
         if(!viewOrders().contains(product)){
             throw new HaveNotBBoughtThisProductException("HaveNotBBoughtThisProductException");
-        }else return product;
+        }else return null;//product.;
     }
 
     public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {

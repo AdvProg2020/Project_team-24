@@ -1,15 +1,14 @@
 package Controller.Controllers;
-
 import Controller.ControllerUnit;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
 import Model.Models.Account;
 
-import java.util.Optional;
 
 public class LoginController {
-
+    /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
+    /****************************************************singleTone***************************************************/
 
     private static LoginController loginController;
 
@@ -22,7 +21,7 @@ public class LoginController {
         }
         return loginController;
     }
-
+    /**************************************************methods********************************************************/
     public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
 
         Account account = Account.getAccountByUserName(username);
@@ -35,12 +34,5 @@ public class LoginController {
 
         return account;
     }
-
-    public static LoginController getLoginController() {
-        return Optional.ofNullable(loginController).orElseThrow();
-    }
-
-    // more ...
-
 
 }
