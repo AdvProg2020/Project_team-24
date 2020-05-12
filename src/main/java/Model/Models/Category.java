@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.CategoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -88,18 +89,18 @@ public class Category implements Packable<Category> {
 
     /***************************************************otherMethods****************************************************/
 
-    public static Category getCategoryById(long id) {
+    public static Category getCategoryById(long id) throws CategoryDoesNotExistException {
         return list.stream()
                 .filter(category -> id == category.getId())
                 .findFirst()
-                .orElseThrow(); // need category not found exception.
+                .orElseThrow(() ->  new CategoryDoesNotExistException("CategoryWithThisIdDoesNotExistException"));
     }
 
-    public static Category getCategoryByName(String name){
+    public static Category getCategoryByName(String name) throws CategoryDoesNotExistException {
         return list.stream()
                 .filter(category -> name.equals(category.getName()))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() ->  new CategoryDoesNotExistException("CategoryWithThisIdDoesNotExistException"));
 
     }
 

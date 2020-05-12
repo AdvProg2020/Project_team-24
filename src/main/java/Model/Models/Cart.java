@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.CartDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -72,11 +73,11 @@ public class Cart implements Packable<Cart> {
         return productList.stream().map(Product::getPrice).reduce(0D, Double::sum);
     }
 
-    public static Cart getCartById(long id) {
+    public static Cart getCartById(long id) throws CartDoesNotExistException {
         return list.stream()
                 .filter(cart -> id == cart.getId())
                 .findFirst()
-                .orElseThrow(); // need cart does not exist.
+                .orElseThrow(() -> new CartDoesNotExistException("CartWithThisIdDoesNotExistException"));
     }
 
     /***************************************************packAndDpkg*****************************************************/
