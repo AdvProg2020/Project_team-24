@@ -15,6 +15,8 @@ import Controller.Tools.RegisterValidator.RegisterValidation;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+// Refactored.
+
 public class SignUpController {
 
     /****************************************************fields*********************************************************/
