@@ -2,12 +2,16 @@ package Controller.Controllers;
 
 
 import Controller.ControllerUnit;
+import Exceptions.AccountDoesNotExistException;
 import Exceptions.AcountHasNotLogedIn;
+import Exceptions.ThisSellerDoseNotSellChosenProduct;
+import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
+import Model.Models.Comment;
 import Model.Models.Info;
 import Model.Models.Product;
-import Model.Models.Info.ProductInfo;
+
 
 import java.util.List;
 
@@ -16,6 +20,7 @@ public class ProductController {
     private ControllerUnit controllerUnit;
     private Product product = controllerUnit.getProduct();
     private Customer customer = (Customer) controllerUnit.getAccount();
+    private Seller selectedSeller;
     /****************************************************singleTone***************************************************/
 
     private static ProductController productController;
@@ -36,25 +41,37 @@ public class ProductController {
         return (List<Info>) product.getProductInfo();
     }
 
-    public void addToCart() throws AcountHasNotLogedIn {
+    public List<Account> ListOfSellersOfChosenProsuct() {
+        return product.getSellerList();
+    }
+
+    public Seller selectSellerOFProduct(long sellerId) throws AccountDoesNotExistException, ThisSellerDoseNotSellChosenProduct {
+        Seller seller = (Seller) Seller.getAccountById(sellerId);
+        if (!ListOfSellersOfChosenProsuct().contains(seller)) {
+            throw new ThisSellerDoseNotSellChosenProduct("ThisSellerDoseNotSellChosenProduct");
+        } else selectedSeller = seller;
+        return selectedSeller;
+    }
+
+    public void addToCart() throws Exception {
         if (customer == null) {
             throw new AcountHasNotLogedIn("AcountHasNotLogedIn");
         }
-        Seller seller = selectSeller();
-        customer.getCart().addProductToCart(seller.getId(),product);
+        customer.getCart().addProductToCart(selectedSeller.getId(), product);
     }
 
-    public void selectSeller(String sellerUsername) {
 
-    }
+    public List<Comment> comments() {
 
-    public String comments() {
-
-        return product.getCommentList().toString() + product.getAverageScore();
+        return product.getCommentList();
     }
 
     public void addComment(String title, String content) {
-        // +m product.addComent(title,content);
+        /* +m product.addComent(title,content);
+        product.addComment();
+        Comment.
+        */
+
     }
 
 }

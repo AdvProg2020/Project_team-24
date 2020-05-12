@@ -6,14 +6,16 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class BuyerController extends AccountController {
     /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
     private Customer customer = (Customer) controllerUnit.getAccount();
+    private long totalPriceWithDiscount;
     /****************************************************singleTone***************************************************/
-    private static  BuyerController buyerController;
+    private static BuyerController buyerController;
 
     public BuyerController(Customer customer) {
         this.customer = customer;
@@ -21,10 +23,11 @@ public class BuyerController extends AccountController {
 
     public static AccountController getInstance(ControllerUnit controllerUnit) {
         if (buyerController == null) {
-            buyerController = new  BuyerController(controllerUnit);
+            buyerController = new BuyerController(controllerUnit);
         }
         return buyerController;
     }
+
     /**************************************************methods********************************************************/
 
     public Cart viewCart() {
@@ -37,42 +40,35 @@ public class BuyerController extends AccountController {
     }
 
     public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
-        //toozihat gofte vorod be sfhe mahsool...yani menu mikhad...man String kol etelat ro bedam ya chi?
-        ///+m tostring koore baraye hame chi
         return Product.getProductById(productId);
     }
 
-    public void increase(long productId) throws CloneNotSupportedException {
+    public void increase(long productId, long sellerId) throws Exception {
         Product productClone = (Product) viewCart().getProductById(productId).clone();
-        ///seller ra moshakhas kon!!!!
-        Seller sellerChosen  = seller;
-        viewCart().addProductToCart(sellerChosen.getId(),productClone);
-        customer.getCart().addProductToCart(sellerChosen.getId(),productClone);
+        viewCart().addProductToCart(sellerId, productClone);
     }
 
-    public void decrease(long productId) throws ProductDoesNotExistException {
+    public void decrease(long productId, long sellerId) throws Exception {
         Product product = Product.getProductById(productId);
-       Seller sellerChosen  = selectseller();
-        viewCart().removeProductFromCart(sellerChosen.getId(),product);
+        viewCart().removeProductFromCart(sellerId, product);
     }
 
     public double showTotalPrice() {
         return viewCart().getTotalPrice();
     }
 
-////inke check konim ke quest nabashe ro koja check konim???
 
     private void checkEnoughCredit() throws NotEnoughCreditException {
-        if(customer.getCredit()<viewCart().getTotalPrice()){
+        if (customer.getCredit() < viewCart().getTotalPrice()) {
             throw new NotEnoughCreditException("NotEnoughCreditException");
         }
     }
 
-    public void receiveInformation(String postCode,String address) throws PostCodeInvalidexception,AddresInvalidException{
-        if(!postCode.matches("\\d{10}")){
+    public void receiveInformation(String postCode, String address) throws PostCodeInvalidexception, AddresInvalidException {
+        if (!postCode.matches("\\d{10}")) {
             throw new PostCodeInvalidexception("PostCodeInvalidexception");
         }
-        if(!address.matches("\\w+")){
+        if (!address.matches("\\w+")) {
             throw new AddresInvalidException("AddresInvalidException");
         }
         customer.getPersonalInfo().setPostCode(postCode);
@@ -80,30 +76,36 @@ public class BuyerController extends AccountController {
 
     }
 
-    public void discountCode(Long codeId) throws InvalidDiscountCodeException,DiscountCodeExpiredExcpetion{
+    public void discountCodeUse(Long codeId) throws InvalidDiscountCodeException, DiscountCodeExpiredExcpetion {
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
-        if(!customer.getDiscountCodeList().contains(discountCode)){
+        if (!customer.getDiscountCodeList().contains(discountCode)) {
             throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
         }
-        if(discountCode.getEnd().before(LocalDate)){
+        if (discountCode.getEnd().isBefore(LocalDate.now())) {
             throw new DiscountCodeExpiredExcpetion("DiscountCodeExpiredExcpetion");
         }
-        ///moghe kharid dar lahze az coe estefade kon
-         customer.getCart().setTotalPrice -= (customer.getCart().getTotalPrice()*discountCode.getDiscount().getPercent())/100;
+        totalPriceWithDiscount = (long) (customer.getCart().getTotalPrice()*discountCode.getDiscount().getPercent()/100);
 
     }
+
     public void payment() throws PurchaseFailException, NotEnoughCreditException {
         //haraj koja emal mishe?
-        checkEnoughCredit();
-        customer.setCredit( customer.getCredit() - customer.getCart().getTotalPrice()) ;
+        //bayad tak tak seller haye sabt shode ro begirim va be hesabe onha ezafe konim!!
+        customer.setCredit(customer.getCredit() - totalPriceWithDiscount);
+        //discount code rooye seler tasir nadareha!!
+
+
 
 
     }
-    public void buyProductsOfCart(Cart cart) throws NotEnoughCreditException, PurchaseFailException {
+
+    public void buyProductsOfCart() throws NotEnoughCreditException, PurchaseFailException {
+        checkEnoughCredit();
         payment();
-        for(Product product : customer.getCart().getProductList()){
-            customer.getCart().removeProductFromCart(seller.getId,product);
-            customer.getLogHistoryList().add(seller.getId,product);
+        for (Product product : customer.getCart().getProductList()) {
+            customer.getCart().removeProductFromCart(Product.ge, product);
+            customer.getLogHistoryList().add(seller.getId, product);
+            product.setNumberOfBuyers(product.getNumberOfBuyers()+1);
         }
 
     }
@@ -111,26 +113,27 @@ public class BuyerController extends AccountController {
     public List<LogHistory> viewOrders() {
         return customer.getLogHistoryList();
     }
-/////log history.........
+
+    /////log history.........
     public LogHistory showOrder(long orderId) throws HaveNotBBoughtThisProductException, ProductDoesNotExistException {
-        ////tavajoh ! ProduxtDoesNotExistException bayad tooye model handel beshe.
-        //manzoor az order hamoon mahsoole dige??
         Product product = Product.getProductById(orderId);
-        if(!viewOrders().contains(product)){
+        if (!viewOrders().contains(product)) {
             throw new HaveNotBBoughtThisProductException("HaveNotBBoughtThisProductException");
-        }else return null;//product.;
+        } else return null;//product.;
     }
 
     public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {
         Product product = Product.getProductById(productId);
         checkIfProductBoughtToRate(productId);
-       /// Product.rate  //alave abr getAvarege scre bayad ye rate dashte bashim;
+        long lastScore = (long) (product.getAverageScore()*product.getNumberOfBuyers()-1);
+        product.setAverageScore((lastScore+rateNumber)/(product.getNumberOfBuyers()) ) ;
+        /// Product.rate  //alave abr getAvarege scre bayad ye rate dashte bashim;
 
     }
 
     private void checkIfProductBoughtToRate(long productId) throws CannotRateException, ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
-        if(!customer.getLogHistoryList().contains(product)){
+        if (!customer.getLogHistoryList().contains(product)) {
             throw new CannotRateException("CannotRateException");
         }
     }

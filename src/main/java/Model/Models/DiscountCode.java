@@ -6,6 +6,7 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -45,11 +46,11 @@ public class DiscountCode implements Packable<DiscountCode> {
         return fieldList;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
