@@ -16,6 +16,14 @@ public class Range extends Field {
         return low;
     }
 
+    public void setHigh(long high) {
+        this.high = high;
+    }
+
+    public void setLow(long low) {
+        this.low = low;
+    }
+
     public Range(String fieldName, long high, long low) {
         super(fieldName);
         this.high = high;

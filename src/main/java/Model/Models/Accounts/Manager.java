@@ -2,6 +2,7 @@ package Model.Models.Accounts;
 
 import Model.DataBase.DataBase;
 import Model.Models.*;
+import Model.Tools.Data;
 
 public class Manager extends Account {
 
@@ -40,6 +41,17 @@ public class Manager extends Account {
 
     public void declineRequest(Request request) {
         //
+    }
+
+    public static boolean isThereAnyManager() {
+        return list.stream().anyMatch(account -> account instanceof Manager);
+    }
+
+    /***************************************************packAndDpkg*****************************************************/
+
+    @Override
+    public Data pack() {
+        return super.pack().setInstance(new Manager());
     }
 
     /**************************************************constructors*****************************************************/

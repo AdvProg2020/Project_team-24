@@ -11,10 +11,10 @@ import java.util.List;
 
 public class Comment implements Packable<Comment> {
 
-    private static List<Comment> list;
+    private static List<Comment> list = null;
 
     static {
-        DataBase.loadList(Comment.class);
+        list = (List<Comment>) DataBase.loadList(list, "Comment");
     }
 
     /*****************************************************fields*******************************************************/
@@ -83,7 +83,7 @@ public class Comment implements Packable<Comment> {
 
     @Override
     public Data pack() {
-        return new Data(Comment.class.getName())
+        return new Data(Comment.class.getName(), new Comment())
                 .addField(commentId)
                 .addField(pendStatus)
                 .addField(userComments.getId())

@@ -96,7 +96,8 @@ public class Customer extends Account {
                 .addField(discountCodeList.stream()
                         .map(DiscountCode::getId).collect(Collectors.toList()))
                 .addField(logHistoryList.stream()
-                        .map(LogHistory::getId).collect(Collectors.toList()));
+                        .map(LogHistory::getId).collect(Collectors.toList()))
+                .setInstance(new Customer());
     }
 
     @Override
@@ -119,7 +120,17 @@ public class Customer extends Account {
     /***************************************************otherMethods****************************************************/
 
     public static List<Account> getAllCustomers() {
-        return list.stream().filter(account -> account instanceof Customer).collect(Collectors.toUnmodifiableList());
+        return list.stream()
+                .filter(account -> account instanceof Customer)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    public static List<Account> getSpecialCustomer() {
+        return list.stream()
+                .filter(account -> account instanceof Customer)
+                .map(account -> (Customer) account)
+                .filter(customer -> customer.getTotalPurchase() > 1000000D)
+                .collect(Collectors.toUnmodifiableList());
     }
 
     /**************************************************constructors*****************************************************/

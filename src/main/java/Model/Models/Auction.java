@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 public class Auction implements Packable <Auction>, ForPend {
 
-    private static List<Auction> list;
+    private static List<Auction> list = null;
 
     static {
-        DataBase.loadList(Auction.class);
+        list = (List<Auction>) DataBase.loadList(list, "Auction");
     }
 
     /*****************************************************fields*******************************************************/
@@ -95,12 +95,12 @@ public class Auction implements Packable <Auction>, ForPend {
 
     public void addProductToAuction(Product product) throws Exception {
         productList.add(product);
-        DataBase.save(this, false);
+        DataBase.save(this);
     }
 
     public void removeProductFromAuction(Product product) throws Exception {
         productList.remove(product);
-        DataBase.save(this, false);
+        DataBase.save(this);
     }
 
     /***************************************************otherMethods****************************************************/
@@ -116,7 +116,7 @@ public class Auction implements Packable <Auction>, ForPend {
 
     @Override
     public Data pack() {
-        return new Data(Auction.class.getName())
+        return new Data(Auction.class.getName(), new Auction())
                 .addField(auctionId)
                 .addField(productList.stream()
                         .map(Product::getId).collect(Collectors.toList()))

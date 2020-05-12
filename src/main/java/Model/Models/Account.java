@@ -14,11 +14,11 @@ import java.util.List;
 
 public abstract class Account implements Packable <Account>{
 
-    protected static List<Account> list;
+    protected static List<Account> list = null;
     protected static List<String> fieldNames;
 
     static {
-        DataBase.loadList(Account.class);
+        list = (List<Account>) DataBase.loadList(list,"Account");
         inRegistering = new ArrayList<>();
         fieldNames = Collections.singletonList("password");
     }
@@ -81,11 +81,15 @@ public abstract class Account implements Packable <Account>{
         this.personalInfo = personalInfo;
     }
 
+    public static void setList(List<Account> list) {
+        Account.list = list;
+    }
+
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
     public Data pack() {
-        return new Data(Account.class.getName())
+        return new Data(Account.class.getName(), null)
                 .addField(id)
                 .addField(userName)
                 .addField(password)
@@ -120,6 +124,10 @@ public abstract class Account implements Packable <Account>{
                 .filter(account -> name.equals(account.getUserName()))
                 .findFirst()
                 .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
+    }
+
+    public static boolean isThereAnyAccountWithThisUsername(String username) {
+        return list.stream().anyMatch(account -> username.equals(account.getUserName()));
     }
 
     public static Account getAccountById(long id) throws AccountDoesNotExistException {

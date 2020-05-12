@@ -2,12 +2,20 @@ package Model.Models.Accounts;
 
 import Model.DataBase.DataBase;
 import Model.Models.*;
+import Model.Tools.Data;
 
 public class Guest extends Account {
 
     public void createNewAccount(Account account) throws Exception {
         list.add(account);
         DataBase.save(account, true);
+    }
+
+    /***************************************************packAndDpkg*****************************************************/
+
+    @Override
+    public Data pack() {
+        return super.pack().setInstance(new Guest());
     }
 
     /**************************************************constructors*****************************************************/

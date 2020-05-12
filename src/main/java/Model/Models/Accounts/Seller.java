@@ -136,7 +136,8 @@ public class Seller extends Account {
                 .addField(productList.stream()
                         .map(Product::getId).collect(Collectors.toList()))
                 .addField(auctionList.stream()
-                        .map(Auction::getId).collect(Collectors.toList()));
+                        .map(Auction::getId).collect(Collectors.toList()))
+                .setInstance(new Seller());
     }
 
     @Override

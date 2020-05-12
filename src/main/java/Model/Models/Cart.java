@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
 
 public class Cart implements Packable<Cart> {
 
-    private static List<Cart> list;
+    private static List<Cart> list = null;
 
     static {
-        DataBase.loadList(Cart.class);
+        list = (List<Cart>) DataBase.loadList(list, "Cart");
     }
 
     /*****************************************************fields*******************************************************/
@@ -81,7 +81,7 @@ public class Cart implements Packable<Cart> {
 
     @Override
     public Data pack() {
-        return new Data(Cart.class.getName())
+        return new Data(Cart.class.getName(), new Cart())
                 .addField(id)
                 .addField(productList.stream()
                         .map(Product::getId)
