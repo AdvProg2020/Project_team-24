@@ -1,7 +1,7 @@
 package Model.DataBase;
 
 import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredExcpetion;
+import Exceptions.DiscountCodeExpiredException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Tools.Data;
 import Model.Tools.Packable;
@@ -39,7 +39,7 @@ public class DataBase {
                     .map(data -> {
                         try {
                             return data.getInstance().dpkg(data);
-                        } catch (ProductDoesNotExistException | AccountDoesNotExistException | DiscountCodeExpiredExcpetion e) {
+                        } catch (ProductDoesNotExistException | AccountDoesNotExistException | DiscountCodeExpiredException e) {
                             e.printStackTrace();
                             return null;
                         }

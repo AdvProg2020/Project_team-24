@@ -31,30 +31,4 @@ public class GuestController {
 
     /**************************************************methods********************************************************/
 
-   /*   kolan hazf konim in menu guest
-    public List<Product> showProducts() {
-        return guest.getCart().getProductList();
-    }
-
-    public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
-        //toozihat gofte vorod be sfhe mahsool...yani menu mikhad...man String kol etelat ro bedam ya chi?
-        ///+m tostring koore baraye hame chi
-        return Product.getProductById(productId);
-    }
-
-    public void increase(long productId) throws CloneNotSupportedException {
-        Product productClone = (Product) viewCart().getProductById(productId).clone();
-        viewCart().addToProductList(productClone);
-       guest.getCart().addToProductList(productClone);
-    }
-
-    public void decrease(long productId) throws ProductDoesNotExistException {
-        Product product = Product.getProductById(productId);
-        viewCart().removeFromProductList(product);
-    }
-
-    public double showTotalPrice() {
-        return viewCart().getTotalPrice();
-    }
-*/
 }

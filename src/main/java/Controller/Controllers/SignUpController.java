@@ -8,10 +8,9 @@ import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.FieldList;
 import Model.Models.Info;
-
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
+
 
 public class SignUpController {
     /**************************************************fields*********************************************************/
@@ -33,7 +32,7 @@ public class SignUpController {
 
     /**************************************************methods********************************************************/
 
-    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp {
+    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp, AccountDoesNotExistException {
         if (!username.matches("^(\\w+)$")) {
             throw new UserNameInvalidException("UserNameInvalidException");
         } else if (username.toCharArray().length < 6) {

@@ -58,6 +58,7 @@ public class ProductController {
             throw new AcountHasNotLogedIn("AcountHasNotLogedIn");
         }
         customer.getCart().addProductToCart(selectedSeller.getId(), product);
+        //customer.getCart().setTotalPrice(product.getPrice()+);
     }
 
 
@@ -67,6 +68,7 @@ public class ProductController {
     }
 
     public void addComment(String title, String content) {
+        ///toooye field list ezafe kon
         /* +m product.addComent(title,content);
         product.addComment();
         Comment.

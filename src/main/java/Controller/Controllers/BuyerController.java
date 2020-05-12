@@ -8,12 +8,13 @@ import Model.Models.Accounts.Seller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class BuyerController extends AccountController {
     /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
     private Customer customer = (Customer) controllerUnit.getAccount();
-    private long totalPriceWithDiscount;
+    private DiscountCode discountCodeEntered;
     /****************************************************singleTone***************************************************/
     private static BuyerController buyerController;
 
@@ -43,6 +44,7 @@ public class BuyerController extends AccountController {
         return Product.getProductById(productId);
     }
 
+    //inaj id dobare bedim baraye seler ya hamoon seller ghabli ro bay default bayad set konim??
     public void increase(long productId, long sellerId) throws Exception {
         Product productClone = (Product) viewCart().getProductById(productId).clone();
         viewCart().addProductToCart(sellerId, productClone);
@@ -71,41 +73,54 @@ public class BuyerController extends AccountController {
         if (!address.matches("\\w+")) {
             throw new AddresInvalidException("AddresInvalidException");
         }
-        customer.getPersonalInfo().setPostCode(postCode);
-        customer.getPersonalInfo().setAddress(address);
+        ///qure
 
     }
 
-    public void discountCodeUse(Long codeId) throws InvalidDiscountCodeException, DiscountCodeExpiredExcpetion {
+    public void discountCodeUse(Long codeId) throws InvalidDiscountCodeException, DiscountCodeExpiredException {
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
         if (!customer.getDiscountCodeList().contains(discountCode)) {
             throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
         }
-        if (discountCode.getEnd().isBefore(LocalDate.now())) {
-            throw new DiscountCodeExpiredExcpetion("DiscountCodeExpiredExcpetion");
+        if (discountCode.getEnd().isAfter(LocalDate.now())) {
+            throw new DiscountCodeExpiredException("DiscountCodeExpiredException");
         }
-        totalPriceWithDiscount = (long) (customer.getCart().getTotalPrice()*discountCode.getDiscount().getPercent()/100);
+        discountCodeEntered = discountCode;
 
     }
 
-    public void payment() throws PurchaseFailException, NotEnoughCreditException {
-        //haraj koja emal mishe?
-        //bayad tak tak seller haye sabt shode ro begirim va be hesabe onha ezafe konim!!
+    public void payment() throws PurchaseFailException, NotEnoughCreditException, AccountDoesNotExistException {
+         long totalPriceWithDiscount ;
+       //  totalPriceWithDiscount= method qure getPriceAfterDiscount;
         customer.setCredit(customer.getCredit() - totalPriceWithDiscount);
-        //discount code rooye seler tasir nadareha!!
-
-
-
-
+        List<Product> listOfProduct = showProducts();
+        List<Long> listOfSellers = customer.getCart().getProductSellerIds();
+        //adding to seller banlance
+        for (int i = 0; i < showProducts().size(); i++) {
+            Seller seller = (Seller) Seller.getAccountById(listOfSellers.get(i));
+            Product product = listOfProduct.get(i);
+            seller.setBalance(seller.getBalance() + product.getPrice());
+        }
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, PurchaseFailException {
+    public void buyProductsOfCart() throws Exception {
         checkEnoughCredit();
         payment();
-        for (Product product : customer.getCart().getProductList()) {
-            customer.getCart().removeProductFromCart(Product.ge, product);
-            customer.getLogHistoryList().add(seller.getId, product);
-            product.setNumberOfBuyers(product.getNumberOfBuyers()+1);
+        List<Product> listOfProduct = showProducts();
+        List<Long> listOfSellers = customer.getCart().getProductSellerIds();
+        for (int i = 0; i < showProducts().size(); i++) {
+            Seller seller = (Seller) Seller.getAccountById(listOfSellers.get(i));
+            Product product = listOfProduct.get(i);
+            viewCart().removeProductFromCart(seller.getId(), product);
+            //adding to log histories
+            ///voorodi constructor ro kamel kon
+            LogHistory logHistory = new LogHistory();
+            customer.addToLogHistoryList(logHistory);
+            seller.addToLogHistoryList(logHistory);
+            ///product procedure
+            product.setNumberOfBuyers(product.getNumberOfBuyers() + 1);
+            product.addBuyer(customer);
+            product.addSeller(seller);
         }
 
     }
@@ -122,20 +137,18 @@ public class BuyerController extends AccountController {
         } else return null;//product.;
     }
 
-    public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {
-        Product product = Product.getProductById(productId);
-        checkIfProductBoughtToRate(productId);
-        long lastScore = (long) (product.getAverageScore()*product.getNumberOfBuyers()-1);
-        product.setAverageScore((lastScore+rateNumber)/(product.getNumberOfBuyers()) ) ;
-        /// Product.rate  //alave abr getAvarege scre bayad ye rate dashte bashim;
-
-    }
-
     private void checkIfProductBoughtToRate(long productId) throws CannotRateException, ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         if (!customer.getLogHistoryList().contains(product)) {
             throw new CannotRateException("CannotRateException");
         }
+    }
+
+    public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {
+        Product product = Product.getProductById(productId);
+        checkIfProductBoughtToRate(productId);
+        long lastScore = (long) (product.getAverageScore() * (product.getNumberOfBuyers() - 1));
+        product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
     }
 
     public double viewBalance() {
