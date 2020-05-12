@@ -17,7 +17,6 @@ public class LoginController {
     public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
 
         Account account = Account.getAccountByUserName(username);
-
         RegisterValidation registerValidation = RegisterAndLoginValidator
                 .isCorrectPassword(password, account).get();
 
