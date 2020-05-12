@@ -1,113 +1,153 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
+import Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.*;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.FieldList;
 import Model.Models.Info;
+import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 
+// Refactored.
 
 public class SignUpController {
-    /**************************************************fields*********************************************************/
-    private ControllerUnit controllerUnit;
-    /**************************************************singleTone*****************************************************/
 
-    private static SignUpController registerController;
+    /****************************************************fields*********************************************************/
 
-    public SignUpController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
-    }
+    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
-    public static SignUpController getInstance(ControllerUnit controllerUnit) {
-        if (registerController == null) {
-            registerController = new SignUpController(controllerUnit);
+    private static SignUpController registerController = new SignUpController();
+
+    /**************************************************MainMethods******************************************************/
+
+    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp {
+
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
+
+        switch (registerValidation) {
+            case IS_NOT_A_VALID_USERNAME_CHAR:
+                throw new UserNameInvalidException("UserNameInvalidException");
+            case IS_NOT_A_VALID_USERNAME_TOO_SHORT:
+                throw new UserNameTooShortException("UserNameTooShortException");
         }
-        return registerController;
-    }
 
-    /**************************************************methods********************************************************/
+        try {
+            Account.getAccountByUserName(username);
+        } catch (AccountDoesNotExistException e) {
 
-    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp, AccountDoesNotExistException {
-        if (!username.matches("^(\\w+)$")) {
-            throw new UserNameInvalidException("UserNameInvalidException");
-        } else if (username.toCharArray().length < 6) {
-            throw new UserNameTooShortException("UserNameTooShortException");
-        } else if(Account.getList().contains(Account.getAccountByUserName(username))) {
-                throw new AccountWithThisUserNameExistsException("AccountWithThisUserNameExistsException");
+            switch (type) {
+                case "Seller":
+                    new Seller(username);
+//                    Account.addToInRegisteringList(seller); NOT NEED . DID IT IN THE CONSTRUCTOR.
+                    break;
+                case "Manager":
+
+                    if (Manager.isThereAnyManager()) {
+                        // throw new exception. add new exception for this.
+                    }
+                    new Manager(username); // This step of manager registering is like others.
+                    break;
+                case "Customer":
+                    new Customer(username);
+                    break;
+                default:
+                    throw new TypeInvalidException("Type is invalid.");
             }
-            else if (type.equals("Seller")) {
-                Seller seller = new Seller(username);
-                Account.addToInRegisteringList(seller);
-            } else if (type.equals("Manager")) {
-            /*
-            if (+ qre isthere any manager) {
-                Manager manager = new Manager(username);
-                Account.addToInRegisteringList(manager);
-            } else throw new CanNotCreatMoreThanOneMangerBySignUp("CanNotCreatMoreThanOneMangerBySignUp");
-             */
-            } else if (type.equals("Customer")) {
-                Customer customer = new Customer(username);
-                Account.addToInRegisteringList(customer);
-            } else throw new TypeInvalidException("TypeInvalidException");
         }
+//        throw new AccountWithThisUserNameExistsException("AccountWithThisUserNameExistsException"); // WHAT IS THIS?
     }
 
     public void creatPassWordForAccount(String username, String password) throws PasswordInvalidException, AccountDoesNotExistException {
         Account account = Account.getAccountInRegistering(username);
-        ///remove from registering key etefagh miyafte??  manager va buyer akhare save personal info/seller akhare company + dar akhar add to account ham bezar
-        if (!password.matches("^\\w+$")) {
-            throw new PasswordInvalidException("PasswordInvalidException");
-        } else {
-            account.setPassword(password);
 
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isPassword(password).get();
+
+        switch (registerValidation) {
+            case IS_NOT_A_VALID_PASS:
+                throw new PasswordInvalidException("PasswordInvalidException");
         }
+
+        account.setPassword(password);
     }
 
     public void savePersonalInfo(String username, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, AccountDoesNotExistException {
         Account account = Account.getAccountInRegistering(username);
-        if (!firstName.matches("^\\w+$")) {
-            throw new FirstNameInvalidException("FirstNameInvalidException");
-        }
-        if (!lastName.matches("^\\w+$")) {
-            throw new LastNameInvalidException("LastNameInvalidException");
-        }
-        if (!email.matches("^\\w+@(gmail|yahoo)\\.com$")) {
-            throw new EmailInvalidException("EmailInvalidException");
-        }
-        if (phoneNumber.toCharArray().length != 11) {
-            throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
-        } else {
-            FieldList personalInfo = (FieldList) Arrays.asList(new SingleString("FirstName", firstName), new SingleString("LastName", lastName), new SingleString("Email", email), new SingleString("PhoneNumber", phoneNumber));
-            Info info = new Info(account.getClass().getSimpleName(), personalInfo, LocalDate.now());
-            account.setPersonalInfo(info);
+
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isFirstName(firstName)
+                .and(RegisterAndLoginValidator.isLastName(lastName))
+                .and(RegisterAndLoginValidator.isEmail(email))
+                .and(RegisterAndLoginValidator.isPhoneNumber(phoneNumber)).get();
+
+        switch (registerValidation) {
+            case IS_NOT_A_VALID_NUMB:
+                throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
+            case IS_NOT_A_VALID_FIRST_NAME:
+                throw new FirstNameInvalidException("FirstNameInvalidException");
+            case IS_NOT_A_VALID_LAST_NAME:
+                throw new LastNameInvalidException("LastNameInvalidException");
+            case IS_NOT_A_VALID_EMAIL:
+                throw new EmailInvalidException("EmailInvalidException");
         }
 
+        FieldList personalInfo = new FieldList(Arrays.asList(
+                new SingleString("FirstName", firstName),
+                new SingleString("LastName", lastName),
+                new SingleString("Email", email),
+                new SingleString("PhoneNumber", phoneNumber)
+        ));
+
+        Info info = new Info(account.getClass().getSimpleName(), personalInfo, LocalDate.now());
+
+        account.setPersonalInfo(info);
     }
 
-    public void saveCompanyInfo(String username, String name, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, AccountDoesNotExistException, YouAreNotASellerToSaveCompanyInfoException {
+    public void saveCompanyInfo(String username, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, AccountDoesNotExistException, YouAreNotASellerToSaveCompanyInfoException {
         Account account = Account.getAccountInRegistering(username);
-        if (!(account instanceof Seller)) {
-            throw new YouAreNotASellerToSaveCompanyInfoException("YouAreNotASellerToSaveCompanyInfoException");
+
+//        if (!(account instanceof Seller)) { NOT REQUIRED.
+//            throw new YouAreNotASellerToSaveCompanyInfoException("YouAreNotASellerToSaveCompanyInfoException");
+//        }
+
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isBrand(brand)
+                .and(RegisterAndLoginValidator.isEmail(email))
+                .and(RegisterAndLoginValidator.isPhoneNumber(phoneNumber)).get();
+
+        switch (registerValidation) {
+            case IS_NOT_A_VALID_NUMB:
+                throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
+            case IS_NOT_A_VALID_BRAND:
+                throw new CompanyNameInvalidException("this Company name is invalid.");
+            case IS_NOT_A_VALID_EMAIL:
+                throw new EmailInvalidException("EmailInvalidException");
         }
-        if (!name.matches("^\\w+$")) {
-            throw new CompanyNameInvalidException("CompanyNameInvalidException");
-        }
-        if (!email.matches("^\\w+@(gmail|yahoo)\\.com$")) {
-            throw new EmailInvalidException("EmailInvalidException");
-        }
-        if (phoneNumber.toCharArray().length != 11) {
-            throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
-        } else {
-            FieldList companyinfo = (FieldList) Arrays.asList(new SingleString("CompanyName", name), new SingleString("CompanyPhoneNumber", phoneNumber), new SingleString("CompanyEmail", email));
-            Info info = new Info(account.getClass().getSimpleName(), companyinfo, LocalDate.now());
-            account.setPersonalInfo(info);
-        }
+
+        FieldList companyInfo = new FieldList(Arrays.asList(
+                new SingleString("CompanyName", brand),
+                new SingleString("CompanyPhoneNumber", phoneNumber),
+                new SingleString("CompanyEmail", email)
+        ));
+
+        Info info = new Info(account.getClass().getSimpleName(), companyInfo, LocalDate.now());
+
+        account.setPersonalInfo(info);
     }
 
 
+    /****************************************************singleTone*****************************************************/
+
+    public static SignUpController getInstance() {
+        return registerController;
+    }
+
+    /**************************************************constructors*****************************************************/
+
+    private SignUpController() {
+    }
 }

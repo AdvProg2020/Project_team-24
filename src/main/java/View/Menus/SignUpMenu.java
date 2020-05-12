@@ -13,7 +13,7 @@ public class SignUpMenu extends Menu {
 
     private static SignUpMenu menu;
 
-    private static SignUpController registerController = SignUpController.getInstance();
+    private static SignUpController signUpController = SignUpController.getInstance();
 
     private SignUpMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -27,25 +27,33 @@ public class SignUpMenu extends Menu {
     }
     public void createAccount(List<String> inputs) {
         try {
-            registerController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
-        } catch (UserNameInvalidException | AccountExistanceException | TypeInvalidException | UserNameTooShortExcepton e) {
-            e.printStackTrace();
+            signUpController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
+        } catch (UserNameInvalidException  e) {
+            System.out.println("enter valid username");
+        } catch (TypeInvalidException e) {
+            System.out.println("choose valid type");
+        } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
+            System.out.println("the principal manager is sogol just she can make a new manager not you:|");
+        } catch (UserNameTooShortException e) {
+            System.out.println("your username is too short");
         }
-        System.out.println("Get password :");
+        System.out.println("enter password :");
         String password = scanner.nextLine();
         try {
-            registerController.creatPassWordForAccount(password);
+            signUpController.creatPassWordForAccount(inputs.get(1),password);
         } catch (PasswordInvalidException e) {
-            e.printStackTrace();
+            System.out.println("choose valid password");
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("this account does not exist");
         }
-        createPersonalInfo();
+        createPersonalInfo(inputs.get(1));
         if (inputs.get(0).equals("seller")) {
-            createCompanyInfo();
+            createCompanyInfo(inputs.get(1));
         }
         MenuHandler.setCurrentMenu(LogInMenu.getMenu());
     }
 
-    public void createPersonalInfo() {
+    public void createPersonalInfo(String username) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
         );
@@ -54,13 +62,21 @@ public class SignUpMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            registerController.savePersonalInfo(matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
-        } catch (FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
-            e.printStackTrace();
+            signUpController.savePersonalInfo(username,matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
+        } catch (FirstNameInvalidException  e) {
+            System.out.println("enter valid name");
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("this account does not exist");
+        } catch (EmailInvalidException e) {
+            System.out.println("enter valid email");
+        } catch (PhoneNumberInvalidException e) {
+            System.out.println("enter valid phone number");
+        } catch (LastNameInvalidException e) {
+            System.out.println("enter valid last name");
         }
     }
 
-    public void createCompanyInfo() {
+    public void createCompanyInfo(String username) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "CompanyInfo :[companyName] :[email] :[phoneNumber] :[foundation]"
         );
@@ -69,9 +85,17 @@ public class SignUpMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            registerController.saveCompanyInfo(matcher.group(0), matcher.group(1), matcher.group(2));
-        } catch (CompanyNameInvalidException | PhoneNumberInvalidException | EmailInvalidException e) {
-            e.printStackTrace();
+            signUpController.saveCompanyInfo(username,matcher.group(1), matcher.group(2), matcher.group(3));
+        } catch (CompanyNameInvalidException  e) {
+            System.out.println("enter valid characters for your company's name");
+        } catch (YouAreNotASellerToSaveCompanyInfoException e) {
+            System.out.println("your type is not seller");
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("your account is not exist");;
+        } catch (EmailInvalidException e) {
+            System.out.println("enter valid email");
+        } catch (PhoneNumberInvalidException e) {
+            System.out.println("enter valid phone number");
         }
     }
 

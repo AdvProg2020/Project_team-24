@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class ManageUsersByManagerMenu extends Menu {
     private static ManageUsersByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
-    private static SignUpController registerController = SignUpController.getInstance();
+    private static SignUpController signUpController = SignUpController.getInstance();
 
     private ManageUsersByManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
@@ -29,27 +29,55 @@ public class ManageUsersByManagerMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return menu;
+    }
+
+
+    public void view(List<String> inputs) {
+        String username = inputs.get(0);
+        try {
+            managerController.viewAccount(username);
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("this account dose not exist yet");
+        }
+    }
+
     public void deleteUser(List<String> inputs) {
         String username = inputs.get(0);
+        try {
+            managerController.deleteAccount(username);
+        } catch (Exception e) {
+            //yac va qre
+        }
     }
 
     public void createManagerProfile() {
 
         System.out.println("enter username");
-        String username=scanner.nextLine();
-        System.out.println("enter password :");
-        String password = scanner.nextLine();
-        managerController.createManagerProfileBaseAccount(username);
-        createPersonalInfo();
+        String username = scanner.nextLine();
         try {
-            registerController.creatPassWordForAccount(password);
-        } catch (PasswordInvalidException e) {
-            e.printStackTrace();
+            managerController.createManagerProfileBaseAccount(username);
+        } catch (UserNameInvalidException e) {
+            System.out.println("choose valid characters for your username");
+        } catch (UserNameTooShortException e) {
+            System.out.println("your username should be more than 6 character");
         }
 
 
+        System.out.println("enter password :");
+        String password = scanner.nextLine();
+        try {
+            signUpController.creatPassWordForAccount(username, password);
+        } catch (PasswordInvalidException e) {
+            System.out.println("choose valid characters for your password ");
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("this account is not exist");
+        }
+        createPersonalInfo(username);
     }
-    public void createPersonalInfo() {
+
+    public void createPersonalInfo(String username) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
         );
@@ -58,19 +86,18 @@ public class ManageUsersByManagerMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            SignUpController.getInstance().savePersonalInfo(matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
-        } catch (FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
-            e.printStackTrace();
+            SignUpController.getInstance().savePersonalInfo(username, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
+        } catch (FirstNameInvalidException  e) {
+            System.out.println("enter valid name");
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("this account does not exist");
+        } catch (EmailInvalidException e) {
+            System.out.println("enter valid email");
+        } catch (PhoneNumberInvalidException e) {
+            System.out.println("enter valid phone number");
+        } catch (LastNameInvalidException e) {
+            System.out.println("enter valid last name");
         }
-    }
-
-    public static Menu getMenu() {
-        return menu;
-    }
-
-    public void view(List<String> inputs) {
-        String username = inputs.get(0);
-        managerController.viewAccount(username);
     }
 
     @Override
@@ -81,4 +108,6 @@ public class ManageUsersByManagerMenu extends Menu {
                 "deleteUser [username]:to delete an user" + System.lineSeparator() +
                 "createManagerProfile");
     }
+
+
 }

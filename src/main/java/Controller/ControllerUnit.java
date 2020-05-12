@@ -4,14 +4,22 @@ import Model.Models.Account;
 import Model.Models.Product;
 
 public class ControllerUnit {
-    //singletone
+
+    private static ControllerUnit controllerUnit = new ControllerUnit();
 
     private Account account;
     private Product product;
 
+    public static ControllerUnit getInstance() {
+        return controllerUnit;
+    }
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Account getAccount() {
@@ -22,7 +30,6 @@ public class ControllerUnit {
         return product;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    private ControllerUnit() {
     }
 }

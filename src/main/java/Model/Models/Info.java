@@ -1,9 +1,6 @@
 package Model.Models;
 
-import Model.Models.Field.Field;
-
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Info {
 
@@ -13,16 +10,9 @@ public class Info {
 
     private FieldList list;
 
-    private Date uploadDate;
+    private LocalDate uploadDate;
 
     /*****************************************************getters*******************************************************/
-
-    public Field getFieldByName(String name) {
-        return list.getFieldList().stream()
-                .filter(field -> name.equals(field.getFieldName()))
-                .findFirst()
-                .orElseThrow(); // need field does not exist exception.
-    }
 
     public String getSubject() {
         return subject;
@@ -32,7 +22,7 @@ public class Info {
         return list;
     }
 
-    public Date getUploadDate() {
+    public LocalDate getUploadDate() {
         return uploadDate;
     }
 

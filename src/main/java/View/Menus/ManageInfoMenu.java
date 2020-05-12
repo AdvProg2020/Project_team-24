@@ -28,7 +28,7 @@ public class ManageInfoMenu extends Menu {
         try {
             managerController.editField(fieldName,newField);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            System.out.println("there is no such a field please try again");
         }
     }
 

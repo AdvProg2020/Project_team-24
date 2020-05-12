@@ -1,33 +1,28 @@
 package Controller.Controllers;
 import Controller.ControllerUnit;
+import Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
 import Model.Models.Account;
-
+import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
 public class LoginController {
     /****************************************************fields*******************************************************/
-    private ControllerUnit controllerUnit;
-    /****************************************************singleTone***************************************************/
+
+    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
     private static LoginController loginController;
 
-    private LoginController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
-    }
-    public static LoginController getInstance(ControllerUnit controllerUnit) {
-        if (loginController == null) {
-            loginController = new LoginController(controllerUnit);
-        }
-        return loginController;
-    }
     /**************************************************methods********************************************************/
     public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
 
         Account account = Account.getAccountByUserName(username);
+        RegisterValidation registerValidation = RegisterAndLoginValidator
+                .isCorrectPassword(password, account).get();
 
-        if (!password.equals(account.getPassword())) {
-            throw new PassIncorrectException("PassIncorrectException");
+        switch (registerValidation) {
+            case IS_NOT_A_VALID_PASS_INCORRECT:
+                throw new PassIncorrectException("password is incorrect.");
         }
 
         controllerUnit.setAccount(account);
@@ -35,4 +30,12 @@ public class LoginController {
         return account;
     }
 
+    /****************************************************singleTone***************************************************/
+
+    public static LoginController getInstance() {
+        return loginController;
+    }
+
+    private LoginController() {
+    }
 }

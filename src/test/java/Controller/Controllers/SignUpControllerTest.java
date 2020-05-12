@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @RunWith(Arquillian.class)
 public class SignUpControllerTest {
 
-    private static SignUpController signUpController = SignUpController.getInstance(null);
+    private static SignUpController signUpController = SignUpController.getInstance();
 
     @Deployment
     public static JavaArchive createDeployment() {
@@ -65,6 +65,7 @@ public class SignUpControllerTest {
         } catch (UserNameTooShortException | UserNameInvalidException | TypeInvalidException | AccountDoesNotExistException | CanNotCreatMoreThanOneMangerBySignUp e) {
             Assert.fail();
         }
+
     }
 
     @Test
@@ -133,16 +134,27 @@ public class SignUpControllerTest {
         try {
             signUpController.creatPassWordForAccount(user, pass);
             Assert.assertEquals(Account.getAccountInRegistering(user).getPassword(), pass);
-        } catch (AccountDoesNotExistException e) {
+        } catch (AccountDoesNotExistException | PasswordInvalidException e) {
             Assert.fail();
-        } catch (PasswordInvalidException e) {
-            return;
         }
-        Assert.fail();
+
     }
 
     @Test
     public void creatPassWordForAccount3() {
+        creatTheBaseOfAccount3();
+        String user = "sogolsdghi";
+        String pass = "12345678910";
+        try {
+            signUpController.creatPassWordForAccount(user, pass);
+            Assert.assertEquals(Account.getAccountInRegistering(user).getPassword(), pass);
+        } catch (AccountDoesNotExistException | PasswordInvalidException e) {
+            Assert.fail();
+        }
+    }
+
+    @Test
+    public void creatPassWordForAccount4() {
         creatTheBaseOfAccount2();
         String user = "sogolsdghi";
         String pass = "1%%";
@@ -292,6 +304,61 @@ public class SignUpControllerTest {
     }
 
     @Test
-    public void saveCompanyInfo() {
+    public void saveCompanyInfo1() {
+        creatPassWordForAccount3();
+        String user = "sogolsdghi";
+        String brand = "#brand#";
+        String phone = "01234567891";
+        String email = "SHS.@gmail.com";
+        try {
+            signUpController.saveCompanyInfo(user,brand,phone,email);
+        } catch (EmailInvalidException | AccountDoesNotExistException | PhoneNumberInvalidException | CompanyNameInvalidException | YouAreNotASellerToSaveCompanyInfoException e) {
+            Assert.fail();
+        }
+        try {
+            Account.getAccountByUserName(user);
+        } catch (AccountDoesNotExistException e) {
+            Assert.fail();
+        }
+        try {
+            Account.getAccountInRegistering(user);
+        } catch (AccountDoesNotExistException e) {
+            return;
+        }
+        Assert.fail();
+    }
+
+    @Test
+    public void saveCompanyInfo2() {
+        creatPassWordForAccount3();
+        String user = "sogolsdghi";
+        String brand = "#brand#";
+        String phone = "01234567891";
+        String email = "SHS.gmail.com";
+        try {
+            signUpController.saveCompanyInfo(user,brand,phone,email);
+        } catch (AccountDoesNotExistException | PhoneNumberInvalidException | CompanyNameInvalidException | YouAreNotASellerToSaveCompanyInfoException e) {
+            Assert.fail();
+        } catch (EmailInvalidException e) {
+            return;
+        }
+        Assert.fail();
+    }
+
+    @Test
+    public void saveCompanyInfo3() {
+        creatPassWordForAccount3();
+        String user = "sogolsdghi";
+        String brand = "#brand#";
+        String phone = "01237891";
+        String email = "SHS.@gmail.com";
+        try {
+            signUpController.saveCompanyInfo(user,brand,phone,email);
+        } catch (AccountDoesNotExistException | EmailInvalidException | CompanyNameInvalidException | YouAreNotASellerToSaveCompanyInfoException e) {
+            Assert.fail();
+        } catch (PhoneNumberInvalidException e) {
+            return;
+        }
+        Assert.fail();
     }
 }
