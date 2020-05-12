@@ -21,7 +21,6 @@ public class LoginController {
     public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException, UserNameInvalidException, UserNameTooShortException {
 
         Account account = Account.getAccountByUserName(username);
-
         RegisterValidation registerValidation = RegisterAndLoginValidator
                 .isUsername(username)
                 .and(isCorrectPassword(password, account)).get();

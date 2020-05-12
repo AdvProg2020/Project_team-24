@@ -66,6 +66,7 @@ public class SignUpControllerTest {
         } catch (UserNameTooShortException | UserNameInvalidException | TypeInvalidException | AccountDoesNotExistException | CanNotCreatMoreThanOneMangerBySignUp e) {
             Assert.fail();
         }
+
     }
 
     @Test
@@ -134,12 +135,10 @@ public class SignUpControllerTest {
         try {
             signUpController.creatPassWordForAccount(user, pass);
             Assert.assertEquals(Account.getAccountInRegistering(user).getPassword(), pass);
-        } catch (AccountDoesNotExistException e) {
+        } catch (AccountDoesNotExistException | PasswordInvalidException e) {
             Assert.fail();
-        } catch (PasswordInvalidException e) {
-            return;
         }
-        Assert.fail();
+
     }
 
     @Test
@@ -150,12 +149,9 @@ public class SignUpControllerTest {
         try {
             signUpController.creatPassWordForAccount(user, pass);
             Assert.assertEquals(Account.getAccountInRegistering(user).getPassword(), pass);
-        } catch (AccountDoesNotExistException e) {
+        } catch (AccountDoesNotExistException | PasswordInvalidException e) {
             Assert.fail();
-        } catch (PasswordInvalidException e) {
-            return;
         }
-        Assert.fail();
     }
 
     @Test
