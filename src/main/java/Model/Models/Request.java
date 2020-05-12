@@ -7,15 +7,19 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Request implements Packable<Request> {
 
-    private static List<Request> list = null;
+    private static List<Request> list = new ArrayList<>();
 
     static {
-        list = (List<Request>) DataBase.loadList(list, "Request");
+        list = DataBase.loadList("Request").stream()
+                .map(packable -> (Request) packable)
+                .collect(Collectors.toList());
     }
 
     /*****************************************************fields*******************************************************/
@@ -81,17 +85,18 @@ public class Request implements Packable<Request> {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Request.class.getName(), new Request())
+    public Data<Request> pack() {
+        return new Data<Request>()
                 .addField(requestId)
                 .addField(account.getId())
                 .addField(information)
                 .addField(typeOfRequest)
-                .addField(forPend);
+                .addField(forPend)
+                .setInstance(new Request());
     }
 
     @Override
-    public Request dpkg(Data data) throws AccountDoesNotExistException {
+    public Request dpkg(Data<Request> data) throws AccountDoesNotExistException {
         this.requestId = (long) data.getFields().get(0);
         this.account = Account.getAccountById((long) data.getFields().get(1));
         this.information = (String) data.getFields().get(2);

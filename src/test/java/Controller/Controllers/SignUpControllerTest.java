@@ -29,6 +29,7 @@ public class SignUpControllerTest {
     @Before
     public void doBeforeEveryTest() {
         Account.setList(new ArrayList<>());
+        Account.setInRegistering(new ArrayList<>());
     }
 
     @Test

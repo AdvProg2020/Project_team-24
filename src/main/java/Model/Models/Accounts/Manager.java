@@ -50,7 +50,7 @@ public class Manager extends Account {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
+    public Data<Account> pack() {
         return super.pack().setInstance(new Manager());
     }
 
@@ -62,7 +62,6 @@ public class Manager extends Account {
 
     public Manager(String username) {
         super(username);
-        inRegistering.add(this);
     }
 
     public Manager() {

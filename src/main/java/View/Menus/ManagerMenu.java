@@ -5,6 +5,7 @@ import Controller.Controllers.ManagerController;
 import Model.Models.Account;
 import View.MenuHandler;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -14,7 +15,6 @@ public class ManagerMenu extends Menu {
 
     private static ManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
-
     private ManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
@@ -50,17 +50,24 @@ public class ManagerMenu extends Menu {
                 "DiscountCode :[start date] :[end data] :[percent] :[max amount] :[frequent]");
 
         Matcher matcher = Pattern
-                .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}) :(\\d+) :(\\d+)")
+                .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}(\\.\\d+)?) :(\\d+(\\.\\d+)?) :(\\d+)")
                 .matcher(scanner.nextLine().trim());
+
 
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
             return;
+        }try {
+            managerController.creatDiscountCode(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(5),matcher.group(7));
+        } catch (Exception e) {
+            //yac
         }
-        managerController.createDiscountCode(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5));
-
-
     }
+    public void viewDiscountCode() {
+        managerController.viewDiscountCodes();
+        MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
+    }
+
     public void openManageRequestsMenu() {
         managerController.showAllRequests();
         MenuHandler.setCurrentMenu(ManageRequestsByManagerMenu.getMenu());
@@ -71,10 +78,6 @@ public class ManagerMenu extends Menu {
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
 
-    public void viewDiscountCode() {
-        managerController.viewDiscountCodes();
-        MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
-    }
 
 
 

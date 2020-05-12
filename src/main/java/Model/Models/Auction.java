@@ -12,12 +12,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Auction implements Packable <Auction>, ForPend {
+public class Auction implements Packable<Auction>, ForPend {
 
-    private static List<Auction> list = null;
+    private static List<Auction> list;
 
     static {
-        list = (List<Auction>) DataBase.loadList(list, "Auction");
+        list = DataBase.loadList("Auction").stream()
+                .map(packable -> (Auction) packable)
+                .collect(Collectors.toList());
     }
 
     /*****************************************************fields*******************************************************/
@@ -112,22 +114,30 @@ public class Auction implements Packable <Auction>, ForPend {
                 .orElseThrow(); // need auction does not exist exception.
     }
 
+    public double getPriceAfterAuction(double price) {
+        if (discount.getPercent() * price / 100 < discount.getAmount()) {
+            return (100 - discount.getPercent()) * price / 100;
+        }
+        return price - discount.getAmount();
+    }
+
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Auction.class.getName(), new Auction())
+    public Data<Auction> pack() {
+        return new Data<Auction>()
                 .addField(auctionId)
                 .addField(productList.stream()
                         .map(Product::getId).collect(Collectors.toList()))
                 .addField(stateForPend)
                 .addField(start)
                 .addField(end)
-                .addField(discount);
+                .addField(discount)
+                .setInstance(new Auction());
     }
 
     @Override
-    public Auction dpkg(Data data) throws ProductDoesNotExistException {
+    public Auction dpkg(Data<Auction> data) throws ProductDoesNotExistException {
         this.auctionId = (long) data.getFields().get(0);
         List<Product> result = new ArrayList<>();
         for (Long aLong : ((List<Long>) data.getFields().get(1))) {

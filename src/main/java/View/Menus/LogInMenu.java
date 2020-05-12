@@ -3,6 +3,8 @@ package View.Menus;
 import Controller.Controllers.LoginController;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
+import Exceptions.UserNameInvalidException;
+import Exceptions.UserNameTooShortException;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
@@ -32,9 +34,9 @@ public class LogInMenu extends Menu {
         Account account = null;
 
         try {
-            account = LoginController.getLoginController()
+            account = LoginController.getInstance()
                     .login(inputs.get(0), inputs.get(1));
-        } catch (PassIncorrectException | AccountDoesNotExistException e) {
+        } catch (PassIncorrectException | AccountDoesNotExistException | UserNameInvalidException | UserNameTooShortException e) {
             e.printStackTrace();
         }
 

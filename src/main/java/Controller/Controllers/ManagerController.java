@@ -1,85 +1,107 @@
 package Controller.Controllers;
-
 import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
+import Model.Tools.Packable;
+import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 public class ManagerController extends AccountController {
-    /****************************************************fields*******************************************************/
-    private ControllerUnit controllerUnit;
-    private DiscountCode currentDiscount;
-    /****************************************************singleTone***************************************************/
-    private static ManagerController managerController;
 
-    private ManagerController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
-    }
+    /******************************************************fields*******************************************************/
 
-    public static ManagerController getInstance(ControllerUnit controllerUnit) {
-        if (managerController == null) {
-            managerController = new ManagerController(controllerUnit);
-        }
+    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
+
+    private static ManagerController managerController = new ManagerController();
+
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    /******************************************************singleTone***************************************************/
+
+    public static ManagerController getInstance() {
         return managerController;
     }
 
-    /**************************************************methods********************************************************/
+    private ManagerController() {
+    }
+
+    /****************************************************methods********************************************************/
+
     public List<Account> viewAllAccounts() {
         return Account.getList();
-    }
-
-    public Account viewAccount(String username) throws AccountDoesNotExistException {
-        return Account.getAccountByUserName(username);
-    }
-
-
-    public void deleteAccount(String username) throws Exception {
-        Account account = Account.getAccountByUserName(username);
-        Account.deleteAccount(account);
-    }
-
-    public void removeProduct(long productId) throws ProductDoesNotExistException {
-        Product product = Product.getProductById(productId);
-        //Product.removeProduct
-    }
-
-
-    public void creatDiscountCode(LocalDate start, LocalDate end, double percent, double maxAmount, int frequentUse)
-            throws Exception {
-        if (start.isBefore(end) && end.isAfter(LocalDate.now())) {
-            DiscountCode discountCode = new DiscountCode();
-            DiscountCode.addDiscountCode(discountCode);
-            //+m creat disscoiunt code
-
-        } else
-            throw new InvalidStartAndEndDateForDiscountCodeException("InvalidStartAndEndDateForDiscountCodeException");
-
-
     }
 
     public List<DiscountCode> viewDiscountCodes() {
         return DiscountCode.getList();
     }
 
-    public DiscountCode viewDiscountCode(long disscoutCodeId) throws DiscountCodeExpiredException {
-        return DiscountCode.getDiscountCodeById(disscoutCodeId);
+    public Account viewAccount(String username) throws AccountDoesNotExistException {
+        return Account.getAccountByUserName(username);
     }
 
-    public void editDiscountCode(String field,String newField) {
-        ///check kon ke customer bashe
-        Customer customer = (Customer) controllerUnit.getAccount();
-        //Field field = DiscountCode.getField;
-        //field.set(controllerUnit.getAccount(), newField);
-
+    public void deleteAccount(String username) throws Exception {
+        Account account = Account.getAccountByUserName(username);
+        Account.deleteAccount(account);
     }
 
-    public void removeDiscountCode(long discountCodeId) throws Exception {
+    public void removeProduct(String strProductId) throws Exception {
+        long productId = Long.parseLong(strProductId);
+        Product product = Product.getProductById(productId);
+        Product.removeProduct(product);
+    }
+
+    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws Exception {
+
+        LocalDate start = LocalDate.parse(strStart, formatter);
+        LocalDate end = LocalDate.parse(strEnd, formatter);
+
+        double percent = Double.parseDouble(strPercent);
+        double maxAmount = Double.parseDouble(strMaxAmount);
+        int frequentUse = Integer.parseInt(strFrequentUse);
+
+        if (start.isBefore(end) && end.isAfter(LocalDate.now())) {
+            DiscountCode discountCode = new DiscountCode(
+                    Packable.getRegisteringId(DiscountCode.getList()),
+                    DiscountCode.createDiscountCode(),
+                    start,
+                    end,
+                    new Discount(percent,maxAmount),
+                    frequentUse,
+                    null,
+                    null
+            );
+            DiscountCode.addDiscountCode(discountCode);
+        } else
+            throw new InvalidStartAndEndDateForDiscountCodeException("StartAndEnd date are Invalid.");
+    }
+
+    public DiscountCode viewDiscountCode(String DiscountCodeIdString) throws DiscountCodeExpiredException, NumberFormatException {
+        long discountCodeId = Long.parseLong(DiscountCodeIdString);
+        return DiscountCode.getDiscountCodeById(discountCodeId);
+    }
+
+    public void editDiscountCode(String DiscountCodeIdString, String strField,String newField) throws NumberFormatException, DiscountCodeExpiredException, NoSuchFieldException {
+        long discountCodeId = Long.parseLong(DiscountCodeIdString);
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
+        Field field = DiscountCode.getFieldByName(strField);
+        Class<?> fieldType = field.getType();
+        switch (fieldType.getSimpleName()) {
+            case "LocalDate":
+                field.set(discountCode,LocalDate.parse(newField,formatter));
+                break;
+            case "Integer":
+                break;
+            case "Double":
+        }
+    }
+
+    public void removeDiscountCode(String StrDiscountCodeId) throws Exception {
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
         DiscountCode.removeFromDiscountCode(discountCode);
     }
@@ -103,24 +125,23 @@ public class ManagerController extends AccountController {
 
     private void setDiscountCodeToRandoms(DiscountCode discountCode) {
         selectRandomBuyer().addToDiscountCodeList(discountCode);
-
     }
 
     public List<Request> manageRequests() {
         return Request.getList();
     }
 
-    public Request detailsOfRequest(long requestId) throws RequesDoesNotExistException {
+    public Request detailsOfRequest(String strRequestId) throws RequesDoesNotExistException {
         Request request = Request.getRequestById(requestId);
         return request;
     }
 
-    public void acceptRequest(long requestId) throws  RequesDoesNotExistException,Exception{
+    public void acceptRequest(String strRequestId) throws  RequesDoesNotExistException,Exception{
         Request request = Request.getRequestById(requestId);
         request.acceptRequest();
     }
 
-    public void denyRequest(long requestId) throws Exception {
+    public void denyRequest(String strRequestId) throws Exception {
         Request request = Request.getRequestById(requestId);
         request.declineRequest();
     }
@@ -129,7 +150,7 @@ public class ManagerController extends AccountController {
         return Category.getList();
     }
 
-    public void editCategory(String categoryname, String newField) {
+    public void editCategory(String categoryName, String Field,String newField) {
         Category category = Category.getCategoryByName(categoryname);
         FieldList fieldList = category.getCategoryField();
         //edit by feild

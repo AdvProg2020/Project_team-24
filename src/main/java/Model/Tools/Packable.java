@@ -4,11 +4,19 @@ import Exceptions.AccountDoesNotExistException;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.ProductDoesNotExistException;
 
-public interface Packable <T extends Packable<?>>{
+import java.util.List;
 
-    Data pack();
+public interface Packable <T extends Packable<T>>{
 
-    T dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredException;
+    Data<T> pack();
+
+    T dpkg(Data<T> data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredException;
 
     long getId();
+
+    static long getRegisteringId(List<? extends Packable<?>> list) {
+        return list.stream().map(Packable::getId)
+                .max(Long::compareTo)
+                .orElse(0L) + 1;
+    }
 }

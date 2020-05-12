@@ -11,15 +11,18 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class Account implements Packable <Account>{
+public abstract class Account implements Packable<Account> {
 
-    protected static List<Account> list = null;
+    protected static List<Account> list = new ArrayList<>();
     protected static List<String> fieldNames;
 
     static {
-        list = (List<Account>) DataBase.loadList(list,"Account");
-        inRegistering = new ArrayList<>();
+        list = DataBase.loadList("Account")
+                .stream().map(packable -> (Account)packable)
+                .collect(Collectors.toList());
+
         fieldNames = Collections.singletonList("password");
     }
 
@@ -41,6 +44,10 @@ public abstract class Account implements Packable <Account>{
                 .findFirst()
                 .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in Registering list."));
     }
+
+    public static void setInRegistering(List<Account> inRegistering) {
+        Account.inRegistering = inRegistering;
+    } // just for test.
 
     /*****************************************************fields*******************************************************/
 
@@ -83,13 +90,13 @@ public abstract class Account implements Packable <Account>{
 
     public static void setList(List<Account> list) {
         Account.list = list;
-    }
+    } // just for test.
 
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Account.class.getName(), null)
+    public Data<Account> pack() {
+        return new Data<Account>()
                 .addField(id)
                 .addField(userName)
                 .addField(password)
@@ -97,7 +104,7 @@ public abstract class Account implements Packable <Account>{
     }
 
     @Override
-    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
+    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
@@ -111,12 +118,6 @@ public abstract class Account implements Packable <Account>{
         if (!fieldNames.contains(name)) {
             throw new NoSuchFieldException();
         } else return this.getClass().getField(name);
-    }
-
-    public static long getRegisteringId() {
-        return list.stream().map(Account::getId)
-                .max(Long::compareTo)
-                .orElse(0L) + 1;
     }
 
     public static Account getAccountByUserName(String name) throws AccountDoesNotExistException {

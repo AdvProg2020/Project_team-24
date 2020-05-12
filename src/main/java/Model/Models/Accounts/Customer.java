@@ -88,7 +88,7 @@ public class Customer extends Account {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
+    public Data<Account> pack() {
         return super.pack()
                 .addField(cart.getId())
                 .addField(credit)
@@ -101,7 +101,7 @@ public class Customer extends Account {
     }
 
     @Override
-    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
+    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
         super.dpkg(data);
         this.cart = Cart.getCartById((long) data.getFields().get(4));
         this.credit = (double) data.getFields().get(5);
@@ -146,7 +146,6 @@ public class Customer extends Account {
 
     public Customer(String username) {
         super(username);
-        inRegistering.add(this);
     }
 
     public Customer() {

@@ -1,7 +1,7 @@
 package Model.DataBase;
 
 import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredException;
+import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 import Model.Tools.Data;
 import Model.Tools.Packable;
@@ -12,16 +12,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DataBase {
 
     private static YaGson yaGson = new YaGson();
 
-    public static List<?> loadList(List<? extends Packable<?>> packableList, String classSimpleName) {
+    public static List<Packable<?>> loadList(String classSimpleName) {
+
+        List<Packable<?>> list = new ArrayList<>();
 
         try (Stream<Path> pathStream = Files.walk(Path.of(getStringPath(classSimpleName)))) {
 
@@ -34,22 +36,21 @@ public class DataBase {
                 }
             });
 
-            return stringStream
-                    .filter(s -> !"Exception".equals(s)).map(s -> yaGson.fromJson(s, Data.class))
-                    .map(data -> {
+            stringStream.filter(s -> !"Exception".equals(s)).map(s -> yaGson.fromJson(s, Data.class))
+                    .filter(Objects::nonNull)
+                    .forEach(data -> {
                         try {
-                            return data.getInstance().dpkg(data);
-                        } catch (ProductDoesNotExistException | AccountDoesNotExistException | DiscountCodeExpiredException e) {
+                            list.add(data.getInstance());
+                        } catch (ProductDoesNotExistException | AccountDoesNotExistException | DiscountCodeExpiredExcpetion e) {
                             e.printStackTrace();
-                            return null;
                         }
-                    }).filter(Objects::nonNull).collect(Collectors.toList());
+                    });
 
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
 
+        return list;
     }
 
     public static void save(Packable<?> object, boolean New) throws Exception {

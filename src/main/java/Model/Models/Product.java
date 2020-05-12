@@ -10,14 +10,17 @@ import Model.Tools.Packable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class Product implements Packable<Product>, ForPend ,Cloneable {
+public class Product implements Packable<Product>, ForPend, Cloneable {
 
-    private static List<Product> list = null;
+    private static List<Product> list = new ArrayList<>();
 
     static {
-        list = (List<Product>) DataBase.loadList(list, "Product");
+        list = DataBase.loadList("Product").stream()
+                .map(packable -> (Product) packable)
+                .collect(Collectors.toList());
     }
 
     /*****************************************************fields*******************************************************/
@@ -26,6 +29,7 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
     private Info productInfo;
     private Info categoryInfo;
     private Category category;
+    private Auction auction;
     private long numberOfThis;
     private long numberOfVisitors;
     private long numberOfBuyers;
@@ -73,6 +77,10 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
         return stateForPend;
     }
 
+    public Auction getAuction() {
+        return auction;
+    }
+
     public List<Comment> getCommentList() {
         return Collections.unmodifiableList(commentList);
     }
@@ -105,6 +113,10 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
 
     public void setNumberOfThis(long numberOfThis) {
         this.numberOfThis = numberOfThis;
+    }
+
+    public void setAuction(Auction auction) {
+        this.auction = auction;
     }
 
     public void setNumberOfVisitors(long numberOfVisitors) {
@@ -164,6 +176,7 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
         list.remove(product);
         DataBase.remove(product);
     }
+
     /***************************************************otherMethods****************************************************/
 
     public static Product getProductById(long id) throws ProductDoesNotExistException {
@@ -174,15 +187,23 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
     }
 
     public double getPrice() {
-        SingleString priceField = (SingleString) productInfo.getFieldByName("price");
-        return Double.parseDouble(priceField.getString());
+        try {
+            double price = Double.parseDouble(((SingleString) productInfo.getList().getFieldByName("price")).getString());
+            if (auction != null) {
+                price = auction.getPriceAfterAuction(price);
+            }
+            return price;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0D;
+        }
     }
 
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Product.class.getName(), new Product())
+    public Data<Product> pack() {
+        return new Data<Product>()
                 .addField(productId)
                 .addField(productInfo)
                 .addField(categoryInfo)
@@ -193,7 +214,8 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
                 .addField(category.getId())
                 .addField(commentList.stream().
                         map(Comment::getId).
-                        collect(Collectors.toList()));
+                        collect(Collectors.toList()))
+                .setInstance(new Product());
     }
 
     @Override
@@ -216,15 +238,17 @@ public class Product implements Packable<Product>, ForPend ,Cloneable {
 
     /**************************************************constructors*****************************************************/
 
-    public Product(long productId, Info productInfo, Info categoryInfo, Category category, long numberOfThis, long numberOfVisitors, long numberOfBuyers, double averageScore, List<Comment> commentList, List<Account> buyerList, List<Account> sellerList) {
+    public Product(long productId, Info productInfo, Info categoryInfo, Category category, Auction auction, long numberOfThis, long numberOfVisitors, long numberOfBuyers, double averageScore, String stateForPend, List<Comment> commentList, List<Account> buyerList, List<Account> sellerList) {
         this.productId = productId;
         this.productInfo = productInfo;
         this.categoryInfo = categoryInfo;
         this.category = category;
+        this.auction = auction;
         this.numberOfThis = numberOfThis;
         this.numberOfVisitors = numberOfVisitors;
         this.numberOfBuyers = numberOfBuyers;
         this.averageScore = averageScore;
+        this.stateForPend = stateForPend;
         this.commentList = commentList;
         this.buyerList = buyerList;
         this.sellerList = sellerList;
