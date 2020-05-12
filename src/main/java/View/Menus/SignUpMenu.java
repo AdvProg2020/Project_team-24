@@ -33,7 +33,7 @@ public class SignUpMenu extends Menu {
         } catch (TypeInvalidException e) {
             System.out.println("choose valid type");
         } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-            System.out.println("the principal manager is sogol just she can make new manager not you:|");
+            System.out.println("the principal manager is sogol just she can make a new manager not you:|");
         } catch (UserNameTooShortException e) {
             System.out.println("your username is too short");
         }
