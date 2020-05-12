@@ -42,24 +42,24 @@ public class SignUpController {
             Account.getAccountByUserName(username);
         } catch (AccountDoesNotExistException e) {
 
+            Account account;
             switch (type) {
                 case "Seller":
-                    new Seller(username);
-//                    Account.addToInRegisteringList(seller); NOT NEED . DID IT IN THE CONSTRUCTOR.
+                    account = new Seller(username);
                     break;
                 case "Manager":
-
                     if (Manager.isThereAnyManager()) {
                         // throw new exception. add new exception for this.
                     }
-                    new Manager(username); // This step of manager registering is like others.
+                    account = new Manager(username); // This step of manager registering is like others.
                     break;
                 case "Customer":
-                    new Customer(username);
+                    account = new Customer(username);
                     break;
                 default:
                     throw new TypeInvalidException("Type is invalid.");
             }
+            Account.addToInRegisteringList(account);
         }
 //        throw new AccountWithThisUserNameExistsException("AccountWithThisUserNameExistsException"); // WHAT IS THIS?
     }

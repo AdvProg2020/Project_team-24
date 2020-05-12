@@ -42,6 +42,10 @@ public abstract class Account implements Packable <Account>{
                 .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in Registering list."));
     }
 
+    public static void setInRegistering(List<Account> inRegistering) {
+        Account.inRegistering = inRegistering;
+    } // just for test.
+
     /*****************************************************fields*******************************************************/
 
     protected long id;
@@ -83,7 +87,7 @@ public abstract class Account implements Packable <Account>{
 
     public static void setList(List<Account> list) {
         Account.list = list;
-    }
+    } // just for test.
 
     /***************************************************packAndDpkg*****************************************************/
 

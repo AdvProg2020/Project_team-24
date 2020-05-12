@@ -146,7 +146,6 @@ public class Customer extends Account {
 
     public Customer(String username) {
         super(username);
-        inRegistering.add(this);
     }
 
     public Customer() {

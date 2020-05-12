@@ -3,8 +3,12 @@ import Controller.ControllerUnit;
 import Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
+import Exceptions.UserNameInvalidException;
+import Exceptions.UserNameTooShortException;
 import Model.Models.Account;
 import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
+
+import static Controller.Tools.RegisterAndLoginValidator.isCorrectPassword;
 
 public class LoginController {
     /****************************************************fields*******************************************************/
@@ -14,14 +18,19 @@ public class LoginController {
     private static LoginController loginController;
 
     /**************************************************methods********************************************************/
-    public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException {
+    public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException, UserNameInvalidException, UserNameTooShortException {
 
         Account account = Account.getAccountByUserName(username);
 
         RegisterValidation registerValidation = RegisterAndLoginValidator
-                .isCorrectPassword(password, account).get();
+                .isUsername(username)
+                .and(isCorrectPassword(password, account)).get();
 
         switch (registerValidation) {
+            case IS_NOT_A_VALID_USERNAME_TOO_SHORT:
+                throw new UserNameTooShortException("UserNameTooShortException");
+            case IS_NOT_A_VALID_USERNAME_CHAR:
+                throw new UserNameInvalidException("UserNameInvalidException");
             case IS_NOT_A_VALID_PASS_INCORRECT:
                 throw new PassIncorrectException("password is incorrect.");
         }
