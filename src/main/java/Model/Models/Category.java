@@ -1,6 +1,5 @@
 package Model.Models;
 
-import Exceptions.CategoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -13,10 +12,12 @@ import java.util.stream.Collectors;
 
 public class Category implements Packable<Category> {
 
-    private static List<Category> list = null;
+    private static List<Category> list;
 
     static {
-        list = (List<Category>) DataBase.loadList(list, "Category");
+        list = DataBase.loadList("Category").stream()
+                .map(packable -> (Category) packable)
+                .collect(Collectors.toList());
     }
 
     /*****************************************************fields*******************************************************/
@@ -93,10 +94,10 @@ public class Category implements Packable<Category> {
                 .findFirst()
                 .orElseThrow(); // need category not found exception.
     }
-    ///yac
+
     public static Category getCategoryByName(String name){
         return list.stream()
-                .filter(category -> name == category.getName())
+                .filter(category -> name.equals(category.getName()))
                 .findFirst()
                 .orElseThrow();
 
@@ -105,8 +106,8 @@ public class Category implements Packable<Category> {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Category.class.getName(), new Category())
+    public Data<Category> pack() {
+        return new Data<Category>()
                 .addField(categoryId)
                 .addField(name)
                 .addField(categoryField)
@@ -115,11 +116,12 @@ public class Category implements Packable<Category> {
                 .collect(Collectors.toList()))
                 .addField(subCategoryList.stream()
                 .map(Category::getId)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()))
+                .setInstance(new Category());
     }
 
     @Override
-    public Category dpkg(Data data) throws ProductDoesNotExistException {
+    public Category dpkg(Data<Category> data) throws ProductDoesNotExistException {
         this.categoryId = (long) data.getFields().get(0);
         this.name = (String) data.getFields().get(1);
         this.categoryField = (FieldList) data.getFields().get(2);

@@ -32,12 +32,20 @@ public class ManageCategoriesByManagerMenu extends Menu {
 
     public void addCategory(List<String> inputs) {
         String categoryName = inputs.get(0);
-        managerController.addCategory(categoryName);
+        try {
+            managerController.addCategory(categoryName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void removeCategory(List<String> inputs) {
         String categoryName = inputs.get(0);
-        managerController.removeCategory(categoryName);
+        try {
+            managerController.removeCategory(categoryName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static Menu getMenu() {

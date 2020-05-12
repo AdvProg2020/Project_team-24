@@ -85,7 +85,7 @@ public class SignUpController {
                 .and(RegisterAndLoginValidator.isEmail(email))
                 .and(RegisterAndLoginValidator.isPhoneNumber(phoneNumber)).get();
 
-        switch (registerValidation) {
+            switch (registerValidation) {
             case IS_NOT_A_VALID_NUMB:
                 throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
             case IS_NOT_A_VALID_FIRST_NAME:

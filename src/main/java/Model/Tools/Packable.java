@@ -1,14 +1,14 @@
 package Model.Tools;
 
 import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredException;
+import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 
-public interface Packable <T extends Packable<?>>{
+public interface Packable <T extends Packable<T>>{
 
-    Data pack();
+    Data<T> pack();
 
-    T dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredException;
+    T dpkg(Data<T> data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredExcpetion;
 
     long getId();
 }

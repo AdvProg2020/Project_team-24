@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 
 public class DiscountCode implements Packable<DiscountCode> {
 
-    private static List<DiscountCode> list = null;
+    private static List<DiscountCode> list;
 
     static {
-        list = (List<DiscountCode>) DataBase.loadList(list,"DiscountCode");
+        list = DataBase.loadList("DiscountCode").stream()
+                .map(packable -> (DiscountCode) packable)
+                .collect(Collectors.toList());
     }
 
     /*****************************************************fields*******************************************************/
@@ -92,8 +94,8 @@ public class DiscountCode implements Packable<DiscountCode> {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(DiscountCode.class.getName(), new DiscountCode())
+    public Data<DiscountCode> pack() {
+        return new Data<DiscountCode>()
                 .addField(id)
                 .addField(discountCode)
                 .addField(start)
@@ -103,15 +105,16 @@ public class DiscountCode implements Packable<DiscountCode> {
                 .addField(fieldList)
                 .addField(accountList.stream()
                         .map(Account::getId)
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList()))
+                .setInstance(new DiscountCode());
     }
 
     @Override
-    public DiscountCode dpkg(Data data) throws AccountDoesNotExistException {
+    public DiscountCode dpkg(Data<DiscountCode> data) throws AccountDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         this.discountCode = (String) data.getFields().get(1);
-        this.start = (Date) data.getFields().get(2);
-        this.end = (Date) data.getFields().get(3);
+        this.start = (LocalDate) data.getFields().get(2);
+        this.end = (LocalDate) data.getFields().get(3);
         this.discount = (Discount) data.getFields().get(4);
         this.frequentUse = (long) data.getFields().get(5);
         this.fieldList = (FieldList) data.getFields().get(6);
@@ -138,9 +141,16 @@ public class DiscountCode implements Packable<DiscountCode> {
         return UUID.randomUUID().toString();
     }
 
+    public double getPriceAfterDiscount(double price) {
+        if (discount.getPercent() * price / 100 < discount.getAmount()) {
+            return (100 - discount.getPercent()) * price / 100;
+        }
+        return price - discount.getAmount();
+    }
+
     /**************************************************constructors*****************************************************/
 
-    public DiscountCode(long id, String discountCode, Date start, Date end, Discount discount, int frequentUse, FieldList fieldList, List<Account> accountList) {
+    public DiscountCode(long id, String discountCode, LocalDate start, LocalDate end, Discount discount, int frequentUse, FieldList fieldList, List<Account> accountList) {
         this.id = id;
         this.discountCode = discountCode;
         this.start = start;

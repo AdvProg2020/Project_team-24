@@ -14,7 +14,7 @@ public class Guest extends Account {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
+    public Data<Account> pack() {
         return super.pack().setInstance(new Guest());
     }
 

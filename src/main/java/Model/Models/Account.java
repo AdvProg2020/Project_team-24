@@ -1,7 +1,7 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredException;
+import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -11,15 +11,18 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public abstract class Account implements Packable <Account>{
+public abstract class Account implements Packable<Account> {
 
-    protected static List<Account> list = null;
+    protected static List<Account> list = new ArrayList<>();
     protected static List<String> fieldNames;
 
     static {
-        list = (List<Account>) DataBase.loadList(list,"Account");
-        inRegistering = new ArrayList<>();
+        list = DataBase.loadList("Account")
+                .stream().map(packable -> (Account)packable)
+                .collect(Collectors.toList());
+
         fieldNames = Collections.singletonList("password");
     }
 
@@ -92,8 +95,8 @@ public abstract class Account implements Packable <Account>{
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Account.class.getName(), null)
+    public Data<Account> pack() {
+        return new Data<Account>()
                 .addField(id)
                 .addField(userName)
                 .addField(password)
@@ -101,7 +104,7 @@ public abstract class Account implements Packable <Account>{
     }
 
     @Override
-    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
+    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);

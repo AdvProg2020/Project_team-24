@@ -3,18 +3,24 @@ package Model.Models;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
+import Model.Models.Field.Field;
+import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Score implements Packable<Score> {
 
-    private static List<Score> list = null;
+    private static List<Score> list = new ArrayList<>();
 
     static {
-        list = (List<Score>) DataBase.loadList(list, "Score");
+        list = DataBase.loadList("Score").stream()
+                .map(packable -> (Score) packable)
+                .collect(Collectors.toList());
     }
 
     /******************************************************fields*******************************************************/
@@ -62,16 +68,17 @@ public class Score implements Packable<Score> {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Score.class.getName(), new Score())
+    public Data<Score> pack() {
+        return new Data<Score>()
                 .addField(scoreId)
                 .addField(user)
                 .addField(good)
-                .addField(score);
+                .addField(score)
+                .setInstance(new Score());
     }
 
     @Override
-    public Score dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException {
+    public Score dpkg(Data<Score> data) throws ProductDoesNotExistException, AccountDoesNotExistException {
         this.scoreId = (long) data.getFields().get(0);
         this.user = (Account) data.getFields().get(1);
         this.good = (Product) data.getFields().get(2);
@@ -95,10 +102,17 @@ public class Score implements Packable<Score> {
 
     @Override
     public String toString() {
+        String goodName = "Exception";
+        try {
+            Field field = good.getProductInfo().getList().getFieldByName("name");
+            goodName = ((SingleString) field).getString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "Score{" +
                 "scoreId=" + scoreId +
                 ", user=" + user.getUserName() +
-                ", good=" + good.getProductInfo().getFieldByName("name") +
+                ", good=" + goodName +
                 ", score=" + score +
                 '}';
     }

@@ -44,23 +44,7 @@ public class ManagerMenu extends Menu {
     public void openManageProductsMenu() {
         MenuHandler.setCurrentMenu(ManageProductsByManagerMenu.getMenu());
     }
-    public void createDiscountCode() {
-        System.out.println("Enter discountCode information :" + System.lineSeparator() +
-                "Enter information in this format :" + System.lineSeparator() +
-                "DiscountCode :[start date] :[end data] :[percent] :[max amount] :[frequent]");
 
-        Matcher matcher = Pattern
-                .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}) :(\\d+) :(\\d+)")
-                .matcher(scanner.nextLine().trim());
-
-        if (!matcher.find()) {
-            System.out.println("Sogol : Enter information in correct format.");
-            return;
-        }
-        managerController.createDiscountCode(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5));
-
-
-    }
     public void openManageRequestsMenu() {
         managerController.showAllRequests();
         MenuHandler.setCurrentMenu(ManageRequestsByManagerMenu.getMenu());
@@ -76,7 +60,21 @@ public class ManagerMenu extends Menu {
         MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
     }
 
+    public void createDiscountCode() {
+        System.out.println("Enter discountCode information :" + System.lineSeparator() +
+                "Enter information in this format :" + System.lineSeparator() +
+                "DiscountCode :[start date] :[end data] :[percent] :[max amount] :[frequent]");
 
+        Matcher matcher = Pattern
+                .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}) :(\\d+) :(\\d+)")
+                .matcher(scanner.nextLine().trim());
+
+        if (!matcher.find()) {
+            System.out.println("Sogol : Enter information in correct format.");
+            return;
+        }
+        // controller manager . . .
+    }
 
 
     @Override

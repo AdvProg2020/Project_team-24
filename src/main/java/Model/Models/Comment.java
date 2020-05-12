@@ -6,15 +6,19 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Comment implements Packable<Comment> {
 
-    private static List<Comment> list = null;
+    private static List<Comment> list;
 
     static {
-        list = (List<Comment>) DataBase.loadList(list, "Comment");
+        list = DataBase.loadList("Comment").stream()
+                .map(packable -> (Comment) packable)
+                .collect(Collectors.toList());
     }
 
     /*****************************************************fields*******************************************************/
@@ -82,18 +86,19 @@ public class Comment implements Packable<Comment> {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Comment.class.getName(), new Comment())
+    public Data<Comment> pack() {
+        return new Data<Comment>()
                 .addField(commentId)
                 .addField(pendStatus)
                 .addField(userComments.getId())
                 .addField(purchasedGood.getId())
                 .addField(purchasedOrNa)
-                .addField(fieldList);
+                .addField(fieldList)
+                .setInstance(new Comment());
     }
 
     @Override
-    public Comment dpkg(Data data) throws ProductDoesNotExistException, AccountDoesNotExistException {
+    public Comment dpkg(Data<Comment> data) throws ProductDoesNotExistException, AccountDoesNotExistException {
         this.commentId = (long) data.getFields().get(0);
         this.pendStatus = (String) data.getFields().get(1);
         this.userComments = Account.getAccountById((long) data.getFields().get(2));

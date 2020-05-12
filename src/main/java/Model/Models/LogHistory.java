@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 
 public class LogHistory implements Packable<LogHistory> {
 
-    private static List<LogHistory> list = null;
+    private static List<LogHistory> list = new ArrayList<>();
 
     static {
-        list = (List<LogHistory>) DataBase.loadList(list, "LogHistory");
+        list = DataBase.loadList("LogHistory").stream()
+                .map(packable -> (LogHistory) packable)
+                .collect(Collectors.toList());
     }
 
     /*****************************************************fields*******************************************************/
@@ -86,8 +88,8 @@ public class LogHistory implements Packable<LogHistory> {
 
     /***************************************************packAndDpkg*****************************************************/
     @Override
-    public Data pack() {
-        return new Data(LogHistory.class.getName(), new LogHistory())
+    public Data<LogHistory> pack() {
+        return new Data<LogHistory>()
                 .addField(logId)
                 .addField(amount)
                 .addField(discountAmount)
@@ -95,11 +97,12 @@ public class LogHistory implements Packable<LogHistory> {
                 .addField(fieldList)
                 .addField(productList.stream()
                         .map(Product::getId)
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList()))
+                .setInstance(new LogHistory());
     }
 
     @Override
-    public LogHistory dpkg(Data data) throws ProductDoesNotExistException {
+    public LogHistory dpkg(Data<LogHistory> data) throws ProductDoesNotExistException {
         this.logId = (long) data.getFields().get(0);
         this.amount = (double) data.getFields().get(1);
         this.discountAmount = (double) data.getFields().get(2);

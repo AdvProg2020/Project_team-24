@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 
 public class Cart implements Packable<Cart> {
 
-    private static List<Cart> list = null;
+    private static List<Cart> list;
 
     static {
-        list = (List<Cart>) DataBase.loadList(list, "Cart");
+        list = DataBase.loadList("Cart").stream()
+                .map(packable -> (Cart) packable)
+                .collect(Collectors.toList());
     }
 
     /*****************************************************fields*******************************************************/
@@ -80,17 +82,18 @@ public class Cart implements Packable<Cart> {
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
-    public Data pack() {
-        return new Data(Cart.class.getName(), new Cart())
+    public Data<Cart> pack() {
+        return new Data<Cart>()
                 .addField(id)
                 .addField(productList.stream()
                         .map(Product::getId)
                         .collect(Collectors.toList()))
-                .addField(productSellerIds);
+                .addField(productSellerIds)
+                .setInstance(new Cart());
     }
 
     @Override
-    public Cart dpkg(Data data) throws ProductDoesNotExistException {
+    public Cart dpkg(Data<Cart> data) throws ProductDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         List<Product> result = new ArrayList<>();
         for (Long aLong : (List<Long>) data.getFields().get(1)) {
