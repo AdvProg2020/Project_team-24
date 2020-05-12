@@ -71,8 +71,8 @@ public class BuyerController extends AccountController {
         if (!address.matches("\\w+")) {
             throw new AddresInvalidException("AddresInvalidException");
         }
-        customer.getPersonalInfo().setPostCode(postCode);
-        customer.getPersonalInfo().setAddress(address);
+//        customer.getPersonalInfo().setPostCode(postCode); // in nabayad in ja bashe ...
+//        customer.getPersonalInfo().setAddress(address);
 
     }
 

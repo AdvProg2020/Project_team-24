@@ -52,7 +52,7 @@ public class SignUpController {
                     if (Manager.isThereAnyManager()) {
                         // throw new exception. add new exception for this.
                     }
-                    new Manager(username);
+                    new Manager(username); // This step of manager registering is like others.
                     break;
                 case "Customer":
                     new Customer(username);
