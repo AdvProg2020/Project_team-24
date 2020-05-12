@@ -46,7 +46,13 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
         String field = inputs.get(1);
         String newField = inputs.get(2);
 
-        managerController.editDiscountCode(id, field, newField);
+        try {
+            managerController.editDiscountCode(id, field, newField);
+        } catch (DiscountCodeExpiredException e) {
+            System.out.println("this discount code has expired");
+        } catch (NoSuchFieldException e) {
+            System.out.println("this filed does not exist");
+        }
     }
 
     public void removeDiscountCode(List<String> inputs) {

@@ -2,6 +2,7 @@ package View.Menus;
 
 import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
+import Exceptions.AccountDoesNotExistException;
 import Model.Models.Account;
 import View.MenuHandler;
 
@@ -15,6 +16,7 @@ public class ManagerMenu extends Menu {
 
     private static ManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
+
     private ManagerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
@@ -31,8 +33,7 @@ public class ManagerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
-        Account accountLogedIn = ControllerUnit.getAccount();
-        managerController.viewPersonalInfo(accountLogedIn.getId());
+        System.out.println(managerController.viewPersonalInfo());
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
@@ -44,6 +45,7 @@ public class ManagerMenu extends Menu {
     public void openManageProductsMenu() {
         MenuHandler.setCurrentMenu(ManageProductsByManagerMenu.getMenu());
     }
+
     public void createDiscountCode() {
         System.out.println("Enter discountCode information :" + System.lineSeparator() +
                 "Enter information in this format :" + System.lineSeparator() +
@@ -57,12 +59,14 @@ public class ManagerMenu extends Menu {
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
             return;
-        }try {
-            managerController.creatDiscountCode(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(5),matcher.group(7));
+        }
+        try {
+            managerController.creatDiscountCode(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(7));
         } catch (Exception e) {
             //yac
         }
     }
+
     public void viewDiscountCode() {
         managerController.viewDiscountCodes();
         MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
@@ -77,9 +81,6 @@ public class ManagerMenu extends Menu {
         managerController.showAllCategories();
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
-
-
-
 
 
     @Override
