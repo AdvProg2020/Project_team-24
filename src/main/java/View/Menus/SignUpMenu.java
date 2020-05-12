@@ -62,7 +62,7 @@ public class SignUpMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            signUpController.savePersonalInfo(username,matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
+            signUpController.savePersonalInfo(username,matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
         } catch (FirstNameInvalidException  e) {
             System.out.println("enter valid name");
         } catch (AccountDoesNotExistException e) {
@@ -85,7 +85,7 @@ public class SignUpMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            signUpController.saveCompanyInfo(username,matcher.group(0), matcher.group(1), matcher.group(2));
+            signUpController.saveCompanyInfo(username,matcher.group(1), matcher.group(2), matcher.group(3));
         } catch (CompanyNameInvalidException  e) {
             System.out.println("enter valid characters for your company's name");
         } catch (YouAreNotASellerToSaveCompanyInfoException e) {

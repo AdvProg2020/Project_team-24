@@ -6,6 +6,7 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +15,7 @@ import java.util.Random;
 public class ManagerController extends AccountController {
     /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
+    private static DateTimeFormatter formatter=DateTimeFormatter.ofPattern("d/MM/yyy");
     /****************************************************singleTone***************************************************/
     private static ManagerController managerController;
 
@@ -49,8 +51,9 @@ public class ManagerController extends AccountController {
     }
 
 
-    public void creatDiscountCode(LocalDate start, LocalDate end, double percent, double maxAmount, int frequentUse)
-            throws Exception {
+    public void createDiscountCode(String startString,String  endString, double percent, double maxAmount, int frequentUse) throws Exception {
+        LocalDate start=LocalDate.parse(startString,formatter);
+        LocalDate end=LocalDate.parse(endString,formatter);
         if (start.isBefore(end) && end.isAfter(LocalDate.now())) {
             DiscountCode discountCode = new DiscountCode();
             DiscountCode.addDiscountCode(discountCode);

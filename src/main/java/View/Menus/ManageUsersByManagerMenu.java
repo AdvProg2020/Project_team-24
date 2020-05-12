@@ -86,7 +86,7 @@ public class ManageUsersByManagerMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            SignUpController.getInstance().savePersonalInfo(username, matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
+            SignUpController.getInstance().savePersonalInfo(username, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
         } catch (FirstNameInvalidException  e) {
             System.out.println("enter valid name");
         } catch (AccountDoesNotExistException e) {
