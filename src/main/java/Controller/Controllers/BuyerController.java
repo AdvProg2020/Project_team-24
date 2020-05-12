@@ -93,10 +93,6 @@ public class BuyerController extends AccountController {
         //bayad tak tak seller haye sabt shode ro begirim va be hesabe onha ezafe konim!!
         customer.setCredit(customer.getCredit() - totalPriceWithDiscount);
         //discount code rooye seler tasir nadareha!!
-
-
-
-
     }
 
     public void buyProductsOfCart() throws NotEnoughCreditException, PurchaseFailException {

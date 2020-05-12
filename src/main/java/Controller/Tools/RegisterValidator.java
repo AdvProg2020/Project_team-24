@@ -1,5 +1,7 @@
 package Controller.Tools;
 
+import Model.Models.Account;
+
 import java.util.function.Supplier;
 
 public interface RegisterValidator extends Supplier<RegisterValidator.RegisterValidation> {
@@ -41,6 +43,11 @@ public interface RegisterValidator extends Supplier<RegisterValidator.RegisterVa
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_PASS;
     }
 
+    static RegisterValidator isCorrectPassword(String pass, Account account) {
+        return () -> pass.equals(account.getPassword())
+                ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_PASS_INCORRECT;
+    }
+
     default RegisterValidator and (RegisterValidator after) {
         return () -> {
             RegisterValidation registerValidation = this.get();
@@ -53,6 +60,6 @@ public interface RegisterValidator extends Supplier<RegisterValidator.RegisterVa
         IS_NOT_A_VALID_LAST_NAME, IS_NOT_A_VALID_NUMB,
         IS_NOT_A_VALID_BRAND , IS_NOT_A_VALID_USERNAME_CHAR,
         IS_NOT_A_VALID_USERNAME_TOO_SHORT, IS_NOT_A_VALID_PASS,
-        IS_VALID
+        IS_NOT_A_VALID_PASS_INCORRECT , IS_VALID
     }
 }

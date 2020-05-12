@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @RunWith(Arquillian.class)
 public class SignUpControllerTest {
 
-    private static SignUpController signUpController = SignUpController.getInstance(null);
+    private static SignUpController signUpController = SignUpController.getInstance();
 
     @Deployment
     public static JavaArchive createDeployment() {
