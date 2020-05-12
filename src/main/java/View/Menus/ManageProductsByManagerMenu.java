@@ -27,16 +27,13 @@ public class ManageProductsByManagerMenu extends Menu {
     }
 
     public void remove(List<String> inputs) {
-        long id = 0;
-        try {
-            id = Long.parseLong(inputs.get(0));
-        } catch (NumberFormatException e) {
-            System.out.println("Sogol : Na ... In addade ?");
-        }
+        String id=inputs.get(0);
         try {
             managerController.removeProduct(id);
         } catch (ProductDoesNotExistException e) {
             System.out.println("this product does not exist");
+        } catch (Exception e) {
+            //yac
         }
     }
 

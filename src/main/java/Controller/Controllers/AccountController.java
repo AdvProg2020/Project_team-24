@@ -22,7 +22,7 @@ public abstract class AccountController {
         field.set(account, newField);
     }
 
-    public Info viewPersonalInfo(long accountId) throws AccountDoesNotExistException {
-        return Account.getAccountById(accountId).getPersonalInfo();
+    public Info viewPersonalInfo()  {
+        return controllerUnit.getAccount().getPersonalInfo();
     }
 }
