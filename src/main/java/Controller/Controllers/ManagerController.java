@@ -72,8 +72,8 @@ public class ManagerController extends AccountController {
             throw new InvalidStartAndEndDateForDiscountCodeException("StartAndEnd date are Invalid.");
     }
 
-    public DiscountCode viewDiscountCode(String DisscoutCodeId) throws DiscountCodeExpiredExcpetion {
-        return DiscountCode.getDiscountCodeById(disscoutCodeId);
+    public DiscountCode viewDiscountCode(String discoutCodeId) throws DiscountCodeExpiredException {
+        return DiscountCode.getDiscountCodeById(discoutCodeId);
     }
 
     public void editDiscountCode(String strDiscountCodeId, String field,String newField) {
