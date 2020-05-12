@@ -4,51 +4,51 @@ import Model.Models.Account;
 
 import java.util.function.Supplier;
 
-public interface RegisterValidator extends Supplier<RegisterValidator.RegisterValidation> {
+public interface RegisterAndLoginValidator extends Supplier<RegisterAndLoginValidator.RegisterValidation> {
 
-    static RegisterValidator isFirstName(String name) {
+    static RegisterAndLoginValidator isFirstName(String name) {
         return () -> name.matches("^([a-z A-Z])$")
                     ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_FIRST_NAME;
     }
 
-    static RegisterValidator isLastName(String name) {
+    static RegisterAndLoginValidator isLastName(String name) {
         return () -> name.matches("^([a-z A-Z])$")
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_LAST_NAME;
     }
 
-    static RegisterValidator isPhoneNumber(String numb) {
+    static RegisterAndLoginValidator isPhoneNumber(String numb) {
         return () -> numb.matches("^(\\d{11})$")
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_NUMB;
     }
 
-    static RegisterValidator isBrand(String brand) {
+    static RegisterAndLoginValidator isBrand(String brand) {
         return () -> brand.matches("^(.+)$")
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_BRAND;
     }
 
-    static RegisterValidator isEmail(String email) {
+    static RegisterAndLoginValidator isEmail(String email) {
         return () -> email.matches("^(.+)@(gmail|yahoo)(.+)$")
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_EMAIL;
     }
 
-    static RegisterValidator isUsername(String user) {
+    static RegisterAndLoginValidator isUsername(String user) {
         return () -> user.matches("^(\\w+)$") ?
                 user.matches("^(\\w{6}\\w*)$") ?
                 RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_USERNAME_TOO_SHORT
                 : RegisterValidation.IS_NOT_A_VALID_USERNAME_CHAR;
     }
 
-    static RegisterValidator isPassword(String pass) {
+    static RegisterAndLoginValidator isPassword(String pass) {
         return () -> pass.matches("^(\\w+)$")
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_PASS;
     }
 
-    static RegisterValidator isCorrectPassword(String pass, Account account) {
+    static RegisterAndLoginValidator isCorrectPassword(String pass, Account account) {
         return () -> pass.equals(account.getPassword())
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_PASS_INCORRECT;
     }
 
-    default RegisterValidator and (RegisterValidator after) {
+    default RegisterAndLoginValidator and (RegisterAndLoginValidator after) {
         return () -> {
             RegisterValidation registerValidation = this.get();
             return registerValidation == RegisterValidation.IS_VALID ? after.get() : registerValidation;

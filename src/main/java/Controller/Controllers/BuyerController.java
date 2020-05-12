@@ -5,38 +5,47 @@ import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
+import Model.Models.Field.Fields.SingleString;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class BuyerController extends AccountController {
-    /****************************************************fields*******************************************************/
-    private ControllerUnit controllerUnit;
-    private Customer customer = (Customer) controllerUnit.getAccount();
-    private long totalPriceWithDiscount;
-    /****************************************************singleTone***************************************************/
-    private static BuyerController buyerController;
 
-    public BuyerController(Customer customer) {
+    /*****************************************************fields********************************************************/
+
+    private static BuyerController buyerController = new BuyerController();
+
+    private Customer customer = null;
+
+//    private long totalPriceWithDiscount; // Chra ngahesh midari?
+
+    /****************************************************setters********************************************************/
+
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
-    public static AccountController getInstance(ControllerUnit controllerUnit) {
-        if (buyerController == null) {
-            buyerController = new BuyerController(controllerUnit);
-        }
-        return buyerController;
-    }
-
-    /**************************************************methods********************************************************/
+    /****************************************************methods********************************************************/
 
     public Cart viewCart() {
-
         return customer.getCart();
+    }
+
+    public double viewBalance() {
+        return customer.getCredit();
     }
 
     public List<Product> showProducts() {
         return viewCart().getProductList();
+    }
+
+    public double showTotalPrice() {
+        return viewCart().getTotalPrice();
+    }
+
+    public List<DiscountCode> viewDiscountCodes() {
+        return customer.getDiscountCodeList();
     }
 
     public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
@@ -49,44 +58,38 @@ public class BuyerController extends AccountController {
     }
 
     public void decrease(long productId, long sellerId) throws Exception {
-        Product product = Product.getProductById(productId);
+        Product product = viewCart().getProductById(productId);
         viewCart().removeProductFromCart(sellerId, product);
     }
 
-    public double showTotalPrice() {
-        return viewCart().getTotalPrice();
-    }
-
-
-    private void checkEnoughCredit() throws NotEnoughCreditException {
-        if (customer.getCredit() < viewCart().getTotalPrice()) {
+//    bayad bd emal takhfif barasi bshe ... na qablesh.
+    private void checkEnoughCredit(double totalPrice) throws NotEnoughCreditException {
+        if (customer.getCredit() < totalPrice) {
             throw new NotEnoughCreditException("NotEnoughCreditException");
         }
     }
 
     public void receiveInformation(String postCode, String address) throws PostCodeInvalidexception, AddresInvalidException {
-        if (!postCode.matches("\\d{10}")) {
-            throw new PostCodeInvalidexception("PostCodeInvalidexception");
-        }
-        if (!address.matches("\\w+")) {
-            throw new AddresInvalidException("AddresInvalidException");
-        }
-//        customer.getPersonalInfo().setPostCode(postCode); // in nabayad in ja bashe ...
-//        customer.getPersonalInfo().setAddress(address);
 
+        if (!postCode.matches("^(\\d{10})$")) {
+            throw new PostCodeInvalidexception("PostCode is invalid.");
+        } else if (!address.matches("^(\\w+)$")) {
+            throw new AddresInvalidException("address is Invalid.");
+        }
+        customer.getPersonalInfo().getList().updateField(new SingleString("postCode", postCode));
+        customer.getPersonalInfo().getList().updateField(new SingleString("address", address));
     }
-
-    public void discountCodeUse(Long codeId) throws InvalidDiscountCodeException, DiscountCodeExpiredExcpetion {
-        DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
-        if (!customer.getDiscountCodeList().contains(discountCode)) {
-            throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
-        }
-        if (discountCode.getEnd().isBefore(LocalDate.now())) {
-            throw new DiscountCodeExpiredExcpetion("DiscountCodeExpiredExcpetion");
-        }
-        totalPriceWithDiscount = (long) (customer.getCart().getTotalPrice()*discountCode.getDiscount().getPercent()/100);
-
-    }
+//        mage ... user mikhad takhfif bgire ... nabayad discountCode wared kone ? chra inja (id) migiri ?
+//    public void discountCodeUse(Long codeId) throws InvalidDiscountCodeException, DiscountCodeExpiredExcpetion {
+//        DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
+//        if (!customer.getDiscountCodeList().contains(discountCode)) {
+//            throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
+//        }
+//        if (discountCode.getEnd().isBefore(LocalDate.now())) {
+//            throw new DiscountCodeExpiredExcpetion("DiscountCodeExpiredExcpetion");
+//        }
+//        totalPriceWithDiscount = (long) (customer.getCart().getTotalPrice() * discountCode.getDiscount().getPercent() / 100);
+//    }
 
     public void payment() throws PurchaseFailException, NotEnoughCreditException {
         //haraj koja emal mishe?
@@ -101,9 +104,8 @@ public class BuyerController extends AccountController {
         for (Product product : customer.getCart().getProductList()) {
             customer.getCart().removeProductFromCart(Product.ge, product);
             customer.getLogHistoryList().add(seller.getId, product);
-            product.setNumberOfBuyers(product.getNumberOfBuyers()+1);
+            product.setNumberOfBuyers(product.getNumberOfBuyers() + 1);
         }
-
     }
 
     public List<LogHistory> viewOrders() {
@@ -121,8 +123,8 @@ public class BuyerController extends AccountController {
     public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {
         Product product = Product.getProductById(productId);
         checkIfProductBoughtToRate(productId);
-        long lastScore = (long) (product.getAverageScore()*product.getNumberOfBuyers()-1);
-        product.setAverageScore((lastScore+rateNumber)/(product.getNumberOfBuyers()) ) ;
+        long lastScore = (long) (product.getAverageScore() * product.getNumberOfBuyers() - 1);
+        product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
         /// Product.rate  //alave abr getAvarege scre bayad ye rate dashte bashim;
 
     }
@@ -134,11 +136,12 @@ public class BuyerController extends AccountController {
         }
     }
 
-    public double viewBalance() {
-        return customer.getCredit();
+    /****************************************************singleTone***************************************************/
+
+    public static AccountController getInstance() {
+        return buyerController;
     }
 
-    public List<DiscountCode> viewDiscountCodes() {
-        return customer.getDiscountCodeList();
+    private BuyerController() {
     }
 }

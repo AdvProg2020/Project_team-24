@@ -1,7 +1,7 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
-import Controller.Tools.RegisterValidator;
+import Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.*;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
@@ -10,7 +10,7 @@ import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.FieldList;
 import Model.Models.Info;
-import Controller.Tools.RegisterValidator.RegisterValidation;
+import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class SignUpController {
 
     public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp {
 
-        RegisterValidation registerValidation = RegisterValidator.isUsername(username).get();
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_USERNAME_CHAR:
@@ -67,7 +67,7 @@ public class SignUpController {
     public void creatPassWordForAccount(String username, String password) throws PasswordInvalidException, AccountDoesNotExistException {
         Account account = Account.getAccountInRegistering(username);
 
-        RegisterValidation registerValidation = RegisterValidator.isPassword(password).get();
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isPassword(password).get();
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_PASS:
@@ -80,10 +80,10 @@ public class SignUpController {
     public void savePersonalInfo(String username, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, AccountDoesNotExistException {
         Account account = Account.getAccountInRegistering(username);
 
-        RegisterValidation registerValidation = RegisterValidator.isFirstName(firstName)
-                .and(RegisterValidator.isLastName(lastName))
-                .and(RegisterValidator.isEmail(email))
-                .and(RegisterValidator.isPhoneNumber(phoneNumber)).get();
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isFirstName(firstName)
+                .and(RegisterAndLoginValidator.isLastName(lastName))
+                .and(RegisterAndLoginValidator.isEmail(email))
+                .and(RegisterAndLoginValidator.isPhoneNumber(phoneNumber)).get();
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_NUMB:
@@ -115,9 +115,9 @@ public class SignUpController {
 //            throw new YouAreNotASellerToSaveCompanyInfoException("YouAreNotASellerToSaveCompanyInfoException");
 //        }
 
-        RegisterValidation registerValidation = RegisterValidator.isBrand(brand)
-                .and(RegisterValidator.isEmail(email))
-                .and(RegisterValidator.isPhoneNumber(phoneNumber)).get();
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isBrand(brand)
+                .and(RegisterAndLoginValidator.isEmail(email))
+                .and(RegisterAndLoginValidator.isPhoneNumber(phoneNumber)).get();
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_NUMB:

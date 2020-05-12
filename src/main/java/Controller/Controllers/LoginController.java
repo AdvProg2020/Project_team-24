@@ -1,11 +1,10 @@
 package Controller.Controllers;
 import Controller.ControllerUnit;
-import Controller.Tools.RegisterValidator;
+import Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
-import Exceptions.PasswordInvalidException;
 import Model.Models.Account;
-import Controller.Tools.RegisterValidator.RegisterValidation;
+import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
 public class LoginController {
     /****************************************************fields*******************************************************/
@@ -19,7 +18,7 @@ public class LoginController {
 
         Account account = Account.getAccountByUserName(username);
 
-        RegisterValidation registerValidation = RegisterValidator
+        RegisterValidation registerValidation = RegisterAndLoginValidator
                 .isCorrectPassword(password, account).get();
 
         switch (registerValidation) {
