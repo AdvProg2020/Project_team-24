@@ -33,7 +33,7 @@ public class SignUpMenu extends Menu {
         } catch (TypeInvalidException e) {
             System.out.println("choose valid type");
         } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-            System.out.println("the principal manager is sogol just she can make new manager not you:|");
+            System.out.println("the principal manager is sogol just she can make a new manager not you:|");
         } catch (UserNameTooShortException e) {
             System.out.println("your username is too short");
         }
@@ -62,7 +62,7 @@ public class SignUpMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            signUpController.savePersonalInfo(username,matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
+            signUpController.savePersonalInfo(username,matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
         } catch (FirstNameInvalidException  e) {
             System.out.println("enter valid name");
         } catch (AccountDoesNotExistException e) {
@@ -85,7 +85,7 @@ public class SignUpMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            signUpController.saveCompanyInfo(username,matcher.group(0), matcher.group(1), matcher.group(2));
+            signUpController.saveCompanyInfo(username,matcher.group(1), matcher.group(2), matcher.group(3));
         } catch (CompanyNameInvalidException  e) {
             System.out.println("enter valid characters for your company's name");
         } catch (YouAreNotASellerToSaveCompanyInfoException e) {

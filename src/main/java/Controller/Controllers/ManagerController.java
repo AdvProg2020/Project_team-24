@@ -14,6 +14,7 @@ import java.util.Random;
 public class ManagerController extends AccountController {
     /****************************************************fields*******************************************************/
     private ControllerUnit controllerUnit;
+    private DiscountCode currentDiscount;
     /****************************************************singleTone***************************************************/
     private static ManagerController managerController;
 
@@ -66,11 +67,11 @@ public class ManagerController extends AccountController {
         return DiscountCode.getList();
     }
 
-    public DiscountCode viewDiscountCode(long disscoutCodeId) throws DiscountCodeExpiredExcpetion {
+    public DiscountCode viewDiscountCode(long disscoutCodeId) throws DiscountCodeExpiredException {
         return DiscountCode.getDiscountCodeById(disscoutCodeId);
     }
 
-    public void editDiscountCode(long discountCodeId, String field,String newField) {
+    public void editDiscountCode(String field,String newField) {
         ///check kon ke customer bashe
         Customer customer = (Customer) controllerUnit.getAccount();
         //Field field = DiscountCode.getField;

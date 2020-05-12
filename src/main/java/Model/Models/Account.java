@@ -1,7 +1,7 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredExcpetion;
+import Exceptions.DiscountCodeExpiredException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -101,7 +101,7 @@ public abstract class Account implements Packable <Account>{
     }
 
     @Override
-    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
+    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);

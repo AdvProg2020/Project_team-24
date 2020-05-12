@@ -1,6 +1,6 @@
 package Model.Models.Accounts;
 
-import Exceptions.DiscountCodeExpiredExcpetion;
+import Exceptions.DiscountCodeExpiredException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
 import Model.Tools.Data;
@@ -101,7 +101,7 @@ public class Customer extends Account {
     }
 
     @Override
-    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
+    public Account dpkg(Data data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
         super.dpkg(data);
         this.cart = Cart.getCartById((long) data.getFields().get(4));
         this.credit = (double) data.getFields().get(5);

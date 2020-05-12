@@ -7,9 +7,12 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
+import Model.Models.Field.Fields.SingleString;
 import Model.Tools.ForPend;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SellerController extends AccountController {
@@ -49,64 +52,71 @@ public class SellerController extends AccountController {
         return product.getProductInfo();
     }
 
-    public ArrayList<Customer> viewBuyers(long productId) throws ProductDoesNotExistException {
+    public ArrayList<Account> viewBuyers(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
-        //product.getBuyer.....
-        return null;
+        return (ArrayList<Account>) product.getBuyerList();
 
     }
-
-    public void addProductOrOff(ForPend forPend) {
-        //manager accept kard add mishe
-        ///forpend:request--->negah dashtane haraj ya mahsool
-        if(forPend instanceof Product){
-            //+m creat product
-        }
-        if(forPend instanceof Auction){
-            //+m creat auction
-        }
+/*
+    public Product addProduct() {
+        Product product = new Product();
+        FieldList productInfo = (FieldList) Arrays.asList(new SingleString(//hameye vizhegi ha ke fekr mikoni maloome az aval);
+        Info pinfo = new Info(product.getClass().getSimpleName(), productInfo, LocalDate.now());
+        product.setProductInfo(pinfo);
 
     }
+    public Auction addOff(Info info){
+        Auction auction = new Auction();
+        FieldList auctionInfo = (FieldList) Arrays.asList(new SingleString(//hameye vizhegi ha ke fekr mikoni maloome az aval);
+        Info ainfo = new Info(auction.getClass().getSimpleName(),auctionInfo,LocalDate.now());
+        //+m auction.setAuctionIngo(ainfo);
 
+    }
+*/
     private  void newRequestForAuction() {
+        Request request = new Request();
+        //rabt be method bala
+
 
     }
     private void newRequestForAddPrpoduct(){
-
+        Request request = new Request();
+        //rabt be method bala
     }
 
     public void removeProduct(long productId) throws ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         seller.getProductList().remove(product);
         Product.getList().remove(product);
-        ;
+
     }
 
     public List<Category> showCategories() {
         return Category.getList();
     }
 
-    public ArrayList<Auction> viewAllOffs() {
-        return null;//Discount.getDiscount;
+    public List<Auction> viewAllOffs() {
+        return Auction.getList();
     }
-
+////in method amle chie??????
     public ArrayList<Auction> viewOffInFilter() {
         return null; //Discount.Disc;
     }
 
-    public ArrayList<Discount> viewOff(long offId) {
-        return null; ///seller.getDiscount;
+    public Auction viewOff(long offId) {
+        return Auction.getAuctionById(offId);
     }
 
     public void editAuction(String fieldName,String newInfo) {
         //field.set
-        Field field = Auction.getFieldByName(fieldName);
+        //+m Field field = Auction.getClassFieldByName(fieldName);
 
     }
 
     public void editProduct(String fieldName,String newInfo) {
-        //field.set
-        Field field = Product.getFieldByName(fieldName);
+        //aval bayad  seller bere tooye safhe product bad biyad diage??
+        Product product = controllerUnit.getProduct();
+        //+m Field field = product.getClassFieldByName;
     }
 
 

@@ -1,109 +1,128 @@
 package Controller.Controllers;
 
+import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Seller;
 
-import Model.Models.Field.Fields.SingleString;
-
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class BuyerController extends AccountController {
+    /****************************************************fields*******************************************************/
+    private ControllerUnit controllerUnit;
+    private Customer customer = (Customer) controllerUnit.getAccount();
+    private DiscountCode discountCodeEntered;
+    /****************************************************singleTone***************************************************/
+    private static BuyerController buyerController;
 
-    /*****************************************************fields********************************************************/
-
-    private static BuyerController buyerController = new BuyerController();
-
-    private Customer customer = null;
-
-//    private long totalPriceWithDiscount; // Chra ngahesh midari?
-
-    /****************************************************setters********************************************************/
-
-    public void setCustomer(Customer customer) {
+    public BuyerController(Customer customer) {
         this.customer = customer;
     }
 
-    /****************************************************methods********************************************************/
-
-    public Cart viewCart() {
-        return customer.getCart();
+    public static AccountController getInstance(ControllerUnit controllerUnit) {
+        if (buyerController == null) {
+            buyerController = new BuyerController(controllerUnit);
+        }
+        return buyerController;
     }
 
-    public double viewBalance() {
-        return customer.getCredit();
+    /**************************************************methods********************************************************/
+
+    public Cart viewCart() {
+
+        return customer.getCart();
     }
 
     public List<Product> showProducts() {
         return viewCart().getProductList();
     }
 
-    public double showTotalPrice() {
-        return viewCart().getTotalPrice();
-    }
-
-    public List<DiscountCode> viewDiscountCodes() {
-        return customer.getDiscountCodeList();
-    }
-
     public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
         return Product.getProductById(productId);
     }
 
+    //inaj id dobare bedim baraye seler ya hamoon seller ghabli ro bay default bayad set konim??
     public void increase(long productId, long sellerId) throws Exception {
         Product productClone = (Product) viewCart().getProductById(productId).clone();
         viewCart().addProductToCart(sellerId, productClone);
     }
 
     public void decrease(long productId, long sellerId) throws Exception {
-        Product product = viewCart().getProductById(productId);
+        Product product = Product.getProductById(productId);
         viewCart().removeProductFromCart(sellerId, product);
     }
 
-    //    bayad bd emal takhfif barasi bshe ... na qablesh.
-    private void checkEnoughCredit(double totalPrice) throws NotEnoughCreditException {
-        if (customer.getCredit() < totalPrice) {
+    public double showTotalPrice() {
+        return viewCart().getTotalPrice();
+    }
+
+
+    private void checkEnoughCredit() throws NotEnoughCreditException {
+        if (customer.getCredit() < viewCart().getTotalPrice()) {
             throw new NotEnoughCreditException("NotEnoughCreditException");
         }
     }
 
     public void receiveInformation(String postCode, String address) throws PostCodeInvalidexception, AddresInvalidException {
-
-        if (!postCode.matches("^(\\d{10})$")) {
-            throw new PostCodeInvalidexception("PostCode is invalid.");
-        } else if (!address.matches("^(\\w+)$")) {
-            throw new AddresInvalidException("address is Invalid.");
+        if (!postCode.matches("\\d{10}")) {
+            throw new PostCodeInvalidexception("PostCodeInvalidexception");
         }
-        customer.getPersonalInfo().getList().updateField(new SingleString("postCode", postCode));
-        customer.getPersonalInfo().getList().updateField(new SingleString("address", address));
-    }
-//        mage ... user mikhad takhfif bgire ... nabayad discountCode wared kone ? chra inja (id) migiri ?
-//    public void discountCodeUse(Long codeId) throws InvalidDiscountCodeException, DiscountCodeExpiredExcpetion {
-//        DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
-//        if (!customer.getDiscountCodeList().contains(discountCode)) {
-//            throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
-//        }
-//        if (discountCode.getEnd().isBefore(LocalDate.now())) {
-//            throw new DiscountCodeExpiredExcpetion("DiscountCodeExpiredExcpetion");
-//        }
-//        totalPriceWithDiscount = (long) (customer.getCart().getTotalPrice() * discountCode.getDiscount().getPercent() / 100);
-//    }
+        if (!address.matches("\\w+")) {
+            throw new AddresInvalidException("AddresInvalidException");
+        }
+        ///qure
 
-    public void payment() throws PurchaseFailException, NotEnoughCreditException {
-        //haraj koja emal mishe?
-        //bayad tak tak seller haye sabt shode ro begirim va be hesabe onha ezafe konim!!
+    }
+
+    public void discountCodeUse(Long codeId) throws InvalidDiscountCodeException, DiscountCodeExpiredException {
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
+        if (!customer.getDiscountCodeList().contains(discountCode)) {
+            throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
+        }
+        if (discountCode.getEnd().isAfter(LocalDate.now())) {
+            throw new DiscountCodeExpiredException("DiscountCodeExpiredException");
+        }
+        discountCodeEntered = discountCode;
+
+    }
+
+    public void payment() throws PurchaseFailException, NotEnoughCreditException, AccountDoesNotExistException {
+         long totalPriceWithDiscount ;
+       //  totalPriceWithDiscount= method qure getPriceAfterDiscount;
         customer.setCredit(customer.getCredit() - totalPriceWithDiscount);
-        //discount code rooye seler tasir nadareha!!
+        List<Product> listOfProduct = showProducts();
+        List<Long> listOfSellers = customer.getCart().getProductSellerIds();
+        //adding to seller banlance
+        for (int i = 0; i < showProducts().size(); i++) {
+            Seller seller = (Seller) Seller.getAccountById(listOfSellers.get(i));
+            Product product = listOfProduct.get(i);
+            seller.setBalance(seller.getBalance() + product.getPrice());
+        }
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, PurchaseFailException {
+    public void buyProductsOfCart() throws Exception {
         checkEnoughCredit();
         payment();
-        for (Product product : customer.getCart().getProductList()) {
-            customer.getCart().removeProductFromCart(Product.ge, product);
-            customer.getLogHistoryList().add(seller.getId, product);
+        List<Product> listOfProduct = showProducts();
+        List<Long> listOfSellers = customer.getCart().getProductSellerIds();
+        for (int i = 0; i < showProducts().size(); i++) {
+            Seller seller = (Seller) Seller.getAccountById(listOfSellers.get(i));
+            Product product = listOfProduct.get(i);
+            viewCart().removeProductFromCart(seller.getId(), product);
+            //adding to log histories
+            ///voorodi constructor ro kamel kon
+            LogHistory logHistory = new LogHistory();
+            customer.addToLogHistoryList(logHistory);
+            seller.addToLogHistoryList(logHistory);
+            ///product procedure
             product.setNumberOfBuyers(product.getNumberOfBuyers() + 1);
+            product.addBuyer(customer);
+            product.addSeller(seller);
         }
+
     }
 
     public List<LogHistory> viewOrders() {
@@ -118,15 +137,6 @@ public class BuyerController extends AccountController {
         } else return null;//product.;
     }
 
-    public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {
-        Product product = Product.getProductById(productId);
-        checkIfProductBoughtToRate(productId);
-        long lastScore = (long) (product.getAverageScore() * product.getNumberOfBuyers() - 1);
-        product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
-        /// Product.rate  //alave abr getAvarege scre bayad ye rate dashte bashim;
-
-    }
-
     private void checkIfProductBoughtToRate(long productId) throws CannotRateException, ProductDoesNotExistException {
         Product product = Product.getProductById(productId);
         if (!customer.getLogHistoryList().contains(product)) {
@@ -134,12 +144,18 @@ public class BuyerController extends AccountController {
         }
     }
 
-    /****************************************************singleTone***************************************************/
-
-    public static AccountController getInstance() {
-        return buyerController;
+    public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {
+        Product product = Product.getProductById(productId);
+        checkIfProductBoughtToRate(productId);
+        long lastScore = (long) (product.getAverageScore() * (product.getNumberOfBuyers() - 1));
+        product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
     }
 
-    private BuyerController() {
+    public double viewBalance() {
+        return customer.getCredit();
+    }
+
+    public List<DiscountCode> viewDiscountCodes() {
+        return customer.getDiscountCodeList();
     }
 }

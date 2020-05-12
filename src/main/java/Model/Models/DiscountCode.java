@@ -1,7 +1,7 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredExcpetion;
+import Exceptions.DiscountCodeExpiredException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
@@ -22,8 +22,8 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     private long id;
     private String discountCode;
-    private Date start;
-    private Date end;
+    private LocalDate start;
+    private LocalDate end;
     private Discount discount;
     private long frequentUse;
     private FieldList fieldList;
@@ -43,11 +43,11 @@ public class DiscountCode implements Packable<DiscountCode> {
         return fieldList;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
@@ -127,11 +127,11 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     /***************************************************otherMethods****************************************************/
 
-    public static DiscountCode getDiscountCodeById(long id) throws DiscountCodeExpiredExcpetion {
+    public static DiscountCode getDiscountCodeById(long id) throws DiscountCodeExpiredException {
         return list.stream()
                 .filter(code -> id == code.getId())
                 .findFirst()
-                .orElseThrow(() -> new DiscountCodeExpiredExcpetion("DiscountCode with this id does not exist."));
+                .orElseThrow(() -> new DiscountCodeExpiredException("DiscountCode with this id does not exist."));
     }
 
     public static String createDiscountCode() {
