@@ -1,13 +1,11 @@
 package Controller.Controllers;
 
-import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Seller;
+
 import Model.Models.Field.Fields.SingleString;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class BuyerController extends AccountController {
@@ -62,7 +60,7 @@ public class BuyerController extends AccountController {
         viewCart().removeProductFromCart(sellerId, product);
     }
 
-//    bayad bd emal takhfif barasi bshe ... na qablesh.
+    //    bayad bd emal takhfif barasi bshe ... na qablesh.
     private void checkEnoughCredit(double totalPrice) throws NotEnoughCreditException {
         if (customer.getCredit() < totalPrice) {
             throw new NotEnoughCreditException("NotEnoughCreditException");
