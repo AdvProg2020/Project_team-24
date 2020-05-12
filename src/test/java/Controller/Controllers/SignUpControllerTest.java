@@ -293,5 +293,6 @@ public class SignUpControllerTest {
 
     @Test
     public void saveCompanyInfo() {
+
     }
 }
