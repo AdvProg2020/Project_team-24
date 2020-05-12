@@ -1,7 +1,9 @@
 package View.Menus;
 
 import Controller.Controllers.ManagerController;
+import Exceptions.DiscountCodeExpiredException;
 import Exceptions.InvalidFieldToEdit;
+import Model.Models.DiscountCode;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,39 +29,33 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
     }
 
     public void viewDiscountCode(List<String> inputs) {
-        long id = 0;
+
+        String id = inputs.get(0);
+        DiscountCode discountCode = null;
         try {
-             id = Long.parseLong(inputs.get(0));
-        } catch (NumberFormatException e) {
-            System.out.println("Sogol : Na ... In addade ?");
+            discountCode = managerController.viewDiscountCode(id);
+            System.out.println(discountCode);
+        } catch (DiscountCodeExpiredException discountCodeExpiredException) {
+            System.out.println("this code has expired");
         }
-        managerController.viewDiscountCode(id);
+
     }
 
     public void editDiscountCode(List<String> inputs) {
-        long id = 0;
-        try {
-            id = Long.parseLong(inputs.get(0));
+        String id = inputs.get(0);
+        String field = inputs.get(1);
+        String newField = inputs.get(2);
 
-        } catch (NumberFormatException e) {
-            System.out.println("Sogol : Na ... In addade ?");
-        }
-        String newField = scanner.nextLine();
-        try {
-            managerController.editDiscountCode(id,newField);
-        } catch (InvalidFieldToEdit invalidFieldToEdit) {
-            invalidFieldToEdit.printStackTrace();
-        }
+        managerController.editDiscountCode(id, field, newField);
     }
 
     public void removeDiscountCode(List<String> inputs) {
-        long id = 0;
+        String id=inputs.get(0);
         try {
-            id = Long.parseLong(inputs.get(0));
-        } catch (NumberFormatException e) {
-            System.out.println("Sogol : Na ... In addade ?");
+            managerController.removeDiscountCode(id);
+        } catch (Exception e) {
+           //yac
         }
-        managerController.removeDiscountCode(id);
     }
 
     @Override
@@ -72,8 +68,8 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
         super.help();
         System.out.println(
                 "viewDiscountCode [discountId] : To show a discount code" + System.lineSeparator() +
-                "editDiscountCode [discountId] : To edit a discount code" + System.lineSeparator() +
-                "removeDiscountCode [discountId] : To remove a discount code" + System.lineSeparator() +
+                        "editDiscountCode [discountId] : To edit a discount code" + System.lineSeparator() +
+                        "removeDiscountCode [discountId] : To remove a discount code" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
