@@ -1,7 +1,7 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredExcpetion;
+import Exceptions.DiscountCodeExpiredException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -104,7 +104,7 @@ public abstract class Account implements Packable<Account> {
     }
 
     @Override
-    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
+    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
@@ -118,12 +118,6 @@ public abstract class Account implements Packable<Account> {
         if (!fieldNames.contains(name)) {
             throw new NoSuchFieldException();
         } else return this.getClass().getField(name);
-    }
-
-    public static long getRegisteringId() {
-        return list.stream().map(Account::getId)
-                .max(Long::compareTo)
-                .orElse(0L) + 1;
     }
 
     public static Account getAccountByUserName(String name) throws AccountDoesNotExistException {

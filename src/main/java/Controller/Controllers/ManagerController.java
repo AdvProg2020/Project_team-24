@@ -1,12 +1,12 @@
 package Controller.Controllers;
-
 import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
+import Model.Tools.Packable;
+import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,22 +66,39 @@ public class ManagerController extends AccountController {
         int frequentUse = Integer.parseInt(strFrequentUse);
 
         if (start.isBefore(end) && end.isAfter(LocalDate.now())) {
-            DiscountCode discountCode = new DiscountCode();
+            DiscountCode discountCode = new DiscountCode(
+                    Packable.getRegisteringId(DiscountCode.getList()),
+                    DiscountCode.createDiscountCode(),
+                    start,
+                    end,
+                    new Discount(percent,maxAmount),
+                    frequentUse,
+                    null,
+                    null
+            );
             DiscountCode.addDiscountCode(discountCode);
         } else
             throw new InvalidStartAndEndDateForDiscountCodeException("StartAndEnd date are Invalid.");
     }
 
-    public DiscountCode viewDiscountCode(String DisscoutCodeId) throws DiscountCodeExpiredExcpetion {
-        return DiscountCode.getDiscountCodeById(disscoutCodeId);
+    public DiscountCode viewDiscountCode(String DiscountCodeIdString) throws DiscountCodeExpiredException, NumberFormatException {
+        long discountCodeId = Long.parseLong(DiscountCodeIdString);
+        return DiscountCode.getDiscountCodeById(discountCodeId);
     }
 
-    public void editDiscountCode(String strDiscountCodeId, String field,String newField) {
-        ///check kon ke customer bashe
-        Customer customer = (Customer) controllerUnit.getAccount();
-        //Field field = DiscountCode.getField;
-        //field.set(controllerUnit.getAccount(), newField);
-
+    public void editDiscountCode(String DiscountCodeIdString, String strField,String newField) throws NumberFormatException, DiscountCodeExpiredException, NoSuchFieldException {
+        long discountCodeId = Long.parseLong(DiscountCodeIdString);
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
+        Field field = DiscountCode.getFieldByName(strField);
+        Class<?> fieldType = field.getType();
+        switch (fieldType.getSimpleName()) {
+            case "LocalDate":
+                field.set(discountCode,LocalDate.parse(newField,formatter));
+                break;
+            case "Integer":
+                break;
+            case "Double":
+        }
     }
 
     public void removeDiscountCode(String StrDiscountCodeId) throws Exception {
@@ -133,7 +150,7 @@ public class ManagerController extends AccountController {
         return Category.getList();
     }
 
-    public void editCategory(String categoryname, String newField) {
+    public void editCategory(String categoryName, String Field,String newField) {
         Category category = Category.getCategoryByName(categoryname);
         FieldList fieldList = category.getCategoryField();
         //edit by feild

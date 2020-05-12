@@ -6,6 +6,7 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,10 +15,14 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     private static List<DiscountCode> list;
 
+    private static List<String> fieldNames;
+
     static {
         list = DataBase.loadList("DiscountCode").stream()
                 .map(packable -> (DiscountCode) packable)
                 .collect(Collectors.toList());
+
+        fieldNames = Arrays.asList("start", "end", "discount", "frequentUse");
     }
 
     /*****************************************************fields*******************************************************/
@@ -146,6 +151,13 @@ public class DiscountCode implements Packable<DiscountCode> {
             return (100 - discount.getPercent()) * price / 100;
         }
         return price - discount.getAmount();
+    }
+
+    public static Field getFieldByName(String name) throws NoSuchFieldException {
+        if (!fieldNames.contains(name)) {
+            throw new NoSuchFieldException("does not exist this field in DiscountCode.");
+        }
+        return DiscountCode.class.getField(name);
     }
 
     /**************************************************constructors*****************************************************/
