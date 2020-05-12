@@ -52,17 +52,16 @@ public class ManagerMenu extends Menu {
         Matcher matcher = Pattern
                 .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}(\\.\\d+)?) :(\\d+(\\.\\d+)?) :(\\d+)")
                 .matcher(scanner.nextLine().trim());
-        try {
-            managerController.creatDiscountCode(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(5),matcher.group(7));
-        } catch (Exception e) {
-            //yac
-        }
+
 
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
             return;
+        }try {
+            managerController.creatDiscountCode(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(5),matcher.group(7));
+        } catch (Exception e) {
+            //yac
         }
-        // controller manager . . .
     }
 
     public void openManageRequestsMenu() {
