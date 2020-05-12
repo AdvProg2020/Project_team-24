@@ -23,35 +23,30 @@ public class ManageRequestsByManagerMenu extends Menu {
     }
 
     public void showDetails(List<String> inputs) {
-        long id = 0;
-        try {
-             id = Long.parseLong(inputs.get(0));
-        } catch (NumberFormatException e) {
-            System.out.println("Sogol : Na ... In addade ?");
-        }
+       String id = inputs.get(0);
         try {
             managerController.detailsOfRequest(id);
         } catch (RequesDoesNotExistException e) {
-            e.printStackTrace();
+            System.out.println("this request eith this id does not exist");
         }
     }
 
     public void acceptRequest(List<String> inputs) {
+        String id = inputs.get(0);
         try {
-            long id = Long.parseLong(inputs.get(0));
-        } catch (NumberFormatException e) {
-            System.out.println("Sogol : Na ... In addade ?");
+            managerController.acceptRequest(id);
+        } catch (Exception e) {
+            //yac
         }
-        //yac
     }
 
     public void declineRequest(List<String> inputs) {
+        String id = inputs.get(0);
         try {
-            long id = Long.parseLong(inputs.get(0));
-        } catch (NumberFormatException e) {
-            System.out.println("Sogol : Na ... In addade ?");
+            managerController.denyRequest(id);
+        } catch (Exception e) {
+            //yac
         }
-        // yac
     }
 
     public static Menu getMenu() {

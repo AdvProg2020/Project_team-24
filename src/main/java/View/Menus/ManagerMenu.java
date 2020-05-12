@@ -63,6 +63,10 @@ public class ManagerMenu extends Menu {
             //yac
         }
     }
+    public void viewDiscountCode() {
+        managerController.viewDiscountCodes();
+        MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
+    }
 
     public void openManageRequestsMenu() {
         managerController.showAllRequests();
@@ -74,10 +78,6 @@ public class ManagerMenu extends Menu {
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
 
-    public void viewDiscountCode() {
-        managerController.viewDiscountCodes();
-        MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
-    }
 
 
 

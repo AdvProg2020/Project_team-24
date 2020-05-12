@@ -25,9 +25,9 @@ public class ManageCategoriesByManagerMenu extends Menu {
 
     public void editCategory(List<String> inputs) {
         String categoryName = inputs.get(0);
-        System.out.println("Enter new field category");
-        String newField = scanner.nextLine();
-        managerController.editCategory(categoryName,newField);
+        String field=inputs.get(1);
+        String newField=inputs.get(2);
+        managerController.editCategory(categoryName,field,newField);
     }
 
     public void addCategory(List<String> inputs) {
