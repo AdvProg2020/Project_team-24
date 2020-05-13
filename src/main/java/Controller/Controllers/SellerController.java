@@ -1,6 +1,8 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
+import Exceptions.AuctionDoesNotExistException;
+import Exceptions.IdOnlyContainsNumbersException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
@@ -47,15 +49,20 @@ public class SellerController extends AccountController {
         return seller.getProductList();
     }
 
-    public Info viewProduct(long productId) throws ProductDoesNotExistException {
-        Product product = Product.getProductById(productId);
-        return product.getProductInfo();
+    public Info viewProduct(String productIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException {
+        if(productIdAsString.matches("\\d+")) {
+            Long productId = Long.parseLong(productIdAsString);
+            Product product = Product.getProductById(productId);
+            return product.getProductInfo();
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
-    public ArrayList<Account> viewBuyers(long productId) throws ProductDoesNotExistException {
-        Product product = Product.getProductById(productId);
-        return (ArrayList<Account>) product.getBuyerList();
-
+    public ArrayList<Account> viewBuyers(String productIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException {
+        if(productIdAsString.matches("\\d+")){
+            Long productId = Long.parseLong(productIdAsString);
+            Product product = Product.getProductById(productId);
+            return (ArrayList<Account>) product.getBuyerList();
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 /*
     public Product addProduct() {
@@ -84,10 +91,13 @@ public class SellerController extends AccountController {
         //rabt be method bala
     }
 
-    public void removeProduct(long productId) throws ProductDoesNotExistException {
-        Product product = Product.getProductById(productId);
-        seller.getProductList().remove(product);
-        Product.getList().remove(product);
+    public void removeProduct(String productIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException {
+        if(productIdAsString.matches("\\d+")) {
+            Long productId = Long.parseLong(productIdAsString);
+            Product product = Product.getProductById(productId);
+            seller.getProductList().remove(product);
+            Product.getList().remove(product);
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
 
     }
 
@@ -103,8 +113,11 @@ public class SellerController extends AccountController {
         return null; //Discount.Disc;
     }
 
-    public Auction viewOff(long offId) {
-        return Auction.getAuctionById(offId);
+    public Auction viewOff(String offIdAsString) throws AuctionDoesNotExistException, IdOnlyContainsNumbersException {
+        if(offIdAsString.matches("\\d+")) {
+            Long offId = Long.parseLong(offIdAsString);
+            return Auction.getAuctionById(offId);
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
     public void editAuction(String fieldName,String newInfo) {

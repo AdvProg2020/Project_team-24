@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FilterController {
@@ -43,6 +42,7 @@ public class FilterController {
         return fields;
     }
     private void checkFilterValid(Filter filter) throws InvalidFilterException {
+
         if (!showAvailableFilters().contains(filter)){
             throw new InvalidFilterException("InvalidFilterException");
         }

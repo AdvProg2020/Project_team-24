@@ -1,6 +1,7 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
+import Exceptions.IdOnlyContainsNumbersException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Auction;
 import Model.Models.Product;
@@ -27,9 +28,12 @@ public class DiscountController {
         return Auction.getList();
     }
 
-    public String showProduct(long productId) throws ProductDoesNotExistException {
-        Product product = Product.getProductById(productId);
-        controllerUnit.setProduct(product);
-        return product.toString();
+    public String showProduct(String productIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException {
+        if (productIdAsString.matches("\\d+")) {
+            Long productId = Long.parseLong(productIdAsString);
+            Product product = Product.getProductById(productId);
+            controllerUnit.setProduct(product);
+            return product.toString();
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 }

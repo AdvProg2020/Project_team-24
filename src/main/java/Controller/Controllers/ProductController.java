@@ -4,6 +4,7 @@ package Controller.Controllers;
 import Controller.ControllerUnit;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.AcountHasNotLogedIn;
+import Exceptions.IdOnlyContainsNumbersException;
 import Exceptions.ThisSellerDoseNotSellChosenProduct;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
@@ -45,12 +46,15 @@ public class ProductController {
         return product.getSellerList();
     }
 
-    public Seller selectSellerOFProduct(long sellerId) throws AccountDoesNotExistException, ThisSellerDoseNotSellChosenProduct {
-        Seller seller = (Seller) Seller.getAccountById(sellerId);
-        if (!ListOfSellersOfChosenProsuct().contains(seller)) {
-            throw new ThisSellerDoseNotSellChosenProduct("ThisSellerDoseNotSellChosenProduct");
-        } else selectedSeller = seller;
-        return selectedSeller;
+    public Seller selectSellerOFProduct(String sellerIdAsString) throws AccountDoesNotExistException, ThisSellerDoseNotSellChosenProduct, IdOnlyContainsNumbersException {
+        if(sellerIdAsString.matches("\\d+")) {
+            Long sellerId = Long.parseLong(sellerIdAsString);
+            Seller seller = (Seller) Seller.getAccountById(sellerId);
+            if (!ListOfSellersOfChosenProsuct().contains(seller)) {
+                throw new ThisSellerDoseNotSellChosenProduct("ThisSellerDoseNotSellChosenProduct");
+            } else selectedSeller = seller;
+            return selectedSeller;
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
     public void addToCart() throws Exception {

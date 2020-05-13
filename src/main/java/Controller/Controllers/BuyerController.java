@@ -40,19 +40,31 @@ public class BuyerController extends AccountController {
         return viewCart().getProductList();
     }
 
-    public Product viewProductInCart(long productId) throws ProductDoesNotExistException {
-        return Product.getProductById(productId);
+    public Product viewProductInCart(String productIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException {
+        if(productIdAsString.matches("\\d+")){
+        Long productId = Long.parseLong(productIdAsString);
+            return Product.getProductById(productId);
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
+
     }
 
     //inaj id dobare bedim baraye seler ya hamoon seller ghabli ro bay default bayad set konim??
-    public void increase(long productId, long sellerId) throws Exception {
+    public void increase(String productIdAsString, String sellerIdAsString) throws IdOnlyContainsNumbersException {
+        if(productIdAsString.matches("\\d+") && sellerIdAsString.matches("\\d+")){
+        Long productId = Long.parseLong(productIdAsString);
+        Long sellerId = Long.parseLong(sellerIdAsString);
         Product productClone = (Product) viewCart().getProductById(productId).clone();
         viewCart().addProductToCart(sellerId, productClone);
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
-    public void decrease(long productId, long sellerId) throws Exception {
+    public void decrease(String productIdAsString,String sellerIdAsString) throws Exception {
+        if(productIdAsString.matches("\\d+") && sellerIdAsString.matches("\\d+")){
+        Long productId = Long.parseLong(productIdAsString);
+        Long sellerId = Long.parseLong(sellerIdAsString);
         Product product = Product.getProductById(productId);
         viewCart().removeProductFromCart(sellerId, product);
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
     public double showTotalPrice() {
@@ -77,7 +89,9 @@ public class BuyerController extends AccountController {
 
     }
 
-    public void discountCodeUse(Long codeId) throws InvalidDiscountCodeException, DiscountCodeExpiredException {
+    public void discountCodeUse(String codeIdAsString) throws InvalidDiscountCodeException, DiscountCodeExpiredException, IdOnlyContainsNumbersException {
+        if(codeIdAsString.matches("\\d+")){
+        Long codeId = Long.parseLong(codeIdAsString);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
         if (!customer.getDiscountCodeList().contains(discountCode)) {
             throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
@@ -86,6 +100,7 @@ public class BuyerController extends AccountController {
             throw new DiscountCodeExpiredException("DiscountCodeExpiredException");
         }
         discountCodeEntered = discountCode;
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
 
     }
 
@@ -130,25 +145,36 @@ public class BuyerController extends AccountController {
     }
 
     /////log history.........
-    public LogHistory showOrder(long orderId) throws HaveNotBBoughtThisProductException, ProductDoesNotExistException {
-        Product product = Product.getProductById(orderId);
-        if (!viewOrders().contains(product)) {
-            throw new HaveNotBBoughtThisProductException("HaveNotBBoughtThisProductException");
-        } else return null;//product.;
+    public LogHistory showOrder(String orderIdAsString) throws HaveNotBBoughtThisProductException, ProductDoesNotExistException, IdOnlyContainsNumbersException {
+        if(orderIdAsString.matches("\\d+")) {
+            Long orderId = Long.parseLong(orderIdAsString);
+            Product product = Product.getProductById(orderId);
+            if (!viewOrders().contains(product)) {
+                throw new HaveNotBBoughtThisProductException("HaveNotBBoughtThisProductException");
+            } else return null;//product.;
+
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
-    private void checkIfProductBoughtToRate(long productId) throws CannotRateException, ProductDoesNotExistException {
-        Product product = Product.getProductById(productId);
-        if (!customer.getLogHistoryList().contains(product)) {
-            throw new CannotRateException("CannotRateException");
-        }
+    private void checkIfProductBoughtToRate(String productIdAsString) throws CannotRateException, ProductDoesNotExistException, IdOnlyContainsNumbersException {
+        if(productIdAsString.matches("\\d+")) {
+            Long productId = Long.parseLong(productIdAsString);
+            Product product = Product.getProductById(productId);
+            if (!customer.getLogHistoryList().contains(product)) {
+                throw new CannotRateException("CannotRateException");
+            }
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
-    public void rate(long productId, int rateNumber) throws ProductDoesNotExistException, CannotRateException {
-        Product product = Product.getProductById(productId);
-        checkIfProductBoughtToRate(productId);
-        long lastScore = (long) (product.getAverageScore() * (product.getNumberOfBuyers() - 1));
-        product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
+    public void rate(String productIdAsString,String rateNumberAsString) throws ProductDoesNotExistException, CannotRateException, IdOnlyContainsNumbersException {
+        if(productIdAsString.matches("\\d+") && rateNumberAsString.matches("\\d+")) {
+            Long productId = Long.parseLong(productIdAsString);
+            Long rateNumber = Long.parseLong(rateNumberAsString);
+            Product product = Product.getProductById(productId);
+            checkIfProductBoughtToRate(productIdAsString);
+            long lastScore = (long) (product.getAverageScore() * (product.getNumberOfBuyers() - 1));
+            product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
+        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
     public double viewBalance() {
