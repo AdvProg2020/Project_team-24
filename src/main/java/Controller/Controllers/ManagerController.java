@@ -2,6 +2,7 @@ package Controller.Controllers;
 
 import Controller.ControllerUnit;
 import Controller.Tools.RegisterAndLoginValidator;
+import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
@@ -168,7 +169,7 @@ public class ManagerController extends AccountController {
 
     public void editCategory(String categoryName, String fieldName, String newField) throws Exception {
         Category category = Category.getCategoryByName(categoryName);
-        if (fieldName.matches("FieldList")) {
+        if (fieldName.matches("^FieldList")) {
             Model.Models.Field.Field modelField = category.getCategoryField().getFieldByName(fieldName);
             switch (modelField.getClass().getSimpleName()) {
                 case "Field":
@@ -212,7 +213,7 @@ public class ManagerController extends AccountController {
     }
 
     public void createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException {
-        RegisterAndLoginValidator.RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
+        RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_USERNAME_CHAR:

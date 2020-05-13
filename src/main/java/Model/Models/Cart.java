@@ -1,13 +1,12 @@
 package Model.Models;
 
-import Exceptions.CanNotAddException;
-import Exceptions.CanNotRemoveException;
-import Exceptions.CartDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Accounts.Seller;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.nio.file.ProviderNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +26,7 @@ public class Cart implements Packable<Cart> {
     /*****************************************************fields*******************************************************/
 
     private long id;
-    private List<Long> productSellerIds;
+    private List<Seller> productSellers;
     private List<Product> productList;
 
     /*****************************************************getters*******************************************************/
@@ -40,8 +39,8 @@ public class Cart implements Packable<Cart> {
         return Collections.unmodifiableList(productList);
     }
 
-    public List<Long> getProductSellerIds() {
-        return Collections.unmodifiableList(productSellerIds);
+    public List<Seller> getProductSellers() {
+        return Collections.unmodifiableList(productSellers);
     }
 
     public static List<Cart> getList() {
@@ -50,14 +49,14 @@ public class Cart implements Packable<Cart> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addProductToCart(long sellerId, Product product) throws CanNotAddException {
-        productSellerIds.add(sellerId);
+    public void addProductToCart(Seller seller, Product product) throws CanNotSaveToDataBaseException, IOException {
+        productSellers.add(seller);
         productList.add(product);
         DataBase.save(this, false);
     }
 
-    public void removeProductFromCart(long sellerId, Product product) throws CanNotRemoveException {
-        productSellerIds.remove(sellerId);
+    public void removeProductFromCart(Seller seller, Product product) throws CanNotSaveToDataBaseException, IOException {
+        productSellers.remove(seller);
         productList.remove(product);
         DataBase.save(this, false);
     }
@@ -91,7 +90,9 @@ public class Cart implements Packable<Cart> {
                 .addField(productList.stream()
                         .map(Product::getId)
                         .collect(Collectors.toList()))
-                .addField(productSellerIds)
+                .addField(productSellers.stream()
+                        .map(Account::getId)
+                        .collect(Collectors.toList()))
                 .setInstance(new Cart());
     }
 
@@ -104,15 +105,15 @@ public class Cart implements Packable<Cart> {
             result.add(productById);
         }
         this.productList = result;
-        this.productSellerIds = (List<Long>) data.getFields().get(2);
+        this.productSellers = (List<Seller>) data.getFields().get(2);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Cart(long id, List<Long> productSellerIds, List<Product> productList) {
+    public Cart(long id, List<Seller> productSellers, List<Product> productList) {
         this.id = id;
-        this.productSellerIds = productSellerIds;
+        this.productSellers = productSellers;
         this.productList = productList;
     }
 
@@ -125,7 +126,7 @@ public class Cart implements Packable<Cart> {
     public String toString() {
         return "Cart{" +
                 "id=" + id +
-                ", productSellerIds=" + productSellerIds +
+                ", productSellerIds=" + productSellers +
                 ", productList=" + productList +
                 '}';
     }

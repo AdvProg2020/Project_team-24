@@ -38,6 +38,10 @@ public class FieldList {
                 .orElseThrow(() -> new FieldDoesNotExistException("Does not exist this field."));
     }
 
+    public boolean isFieldWithThisName(String name) {
+        return fieldList.stream().anyMatch(field -> name.equals(field.getFieldName()));
+    }
+
     /**************************************************constructors*****************************************************/
 
     public FieldList(List<Field> fieldList) {
