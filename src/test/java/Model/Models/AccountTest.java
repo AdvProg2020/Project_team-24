@@ -81,17 +81,21 @@ public class AccountTest {
 
     @Test
     public void getAccountById_Success() {
+        Account account = null;
         try {
-            Account account = Account.getAccountById(125);
+            account = Account.getAccountById(125);
         } catch (AccountDoesNotExistException e) {
             Assert.fail();
         }
+        Assert.assertNotNull(account);
+        Assert.assertEquals(125, account.getId());
     }
 
     @Test
     public void getAccountById_Fail() {
+        Account account;
         try {
-            Account account = Account.getAccountById(12225);
+            account = Account.getAccountById(12225);
         } catch (AccountDoesNotExistException e) {
             return;
         }
