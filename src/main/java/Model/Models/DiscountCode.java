@@ -1,12 +1,11 @@
 package Model.Models;
 
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.CanNotAddException;
-import Exceptions.CanNotRemoveException;
-import Exceptions.DiscountCodeExpiredException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.*;
@@ -77,22 +76,22 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAccount(Account account) throws CanNotAddException {
+    public void addAccount(Account account) throws CanNotAddException, IOException {
         accountList.add(account);
         DataBase.save(this);
     }
 
-    public void removeAccount(Account account) throws CanNotRemoveException {
+    public void removeAccount(Account account) throws CanNotRemoveException, IOException {
         accountList.remove(account);
         DataBase.save(this);
     }
 
-    public static void addDiscountCode(DiscountCode discountCode) throws CanNotAddException {
+    public static void addDiscountCode(DiscountCode discountCode) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(discountCode);
         DataBase.save(discountCode,true);
     }
 
-    public static void removeFromDiscountCode(DiscountCode discountCode) throws CanNotRemoveException {
+    public static void removeFromDiscountCode(DiscountCode discountCode) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(discountCode);
         DataBase.remove(discountCode);
     }

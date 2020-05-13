@@ -1,13 +1,11 @@
 package Model.Models;
 
-import Exceptions.CanNotAddException;
-import Exceptions.CanNotRemoveException;
-import Exceptions.LogHistoryDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,22 +67,22 @@ public class LogHistory implements Packable<LogHistory> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addLog(LogHistory logHistory) throws CanNotAddException {
+    public static void addLog(LogHistory logHistory) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(logHistory);
         DataBase.save(logHistory,true);
     }
 
-    public static void removeLog(LogHistory logHistory) throws CanNotRemoveException {
+    public static void removeLog(LogHistory logHistory) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(logHistory);
         DataBase.remove(logHistory);
     }
 
-    public void addProduct(Product product) throws CanNotAddException {
+    public void addProduct(Product product) throws CanNotAddException, IOException {
         productList.add(product);
         DataBase.save(this);
     }
 
-    public void removeProduct(Product product) throws CanNotRemoveException {
+    public void removeProduct(Product product) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         productList.remove(product);
         DataBase.remove(this);
     }

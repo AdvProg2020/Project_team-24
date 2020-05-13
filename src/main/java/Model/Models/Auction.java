@@ -1,14 +1,12 @@
 package Model.Models;
 
-import Exceptions.AuctionDoesNotExistException;
-import Exceptions.CanNotAddException;
-import Exceptions.CanNotRemoveException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -88,22 +86,22 @@ public class Auction implements Packable<Auction>, ForPend {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAuction(Auction auction) throws CanNotAddException {
+    public void addAuction(Auction auction) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(auction);
         DataBase.save(auction, true);
     }
 
-    public void removeAuction(Auction auction) throws CanNotRemoveException {
+    public void removeAuction(Auction auction) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(auction);
         DataBase.remove(auction);
     }
 
-    public void addProductToAuction(Product product) throws CanNotAddException{
+    public void addProductToAuction(Product product) throws CanNotAddException, IOException {
         productList.add(product);
         DataBase.save(this);
     }
 
-    public void removeProductFromAuction(Product product) throws CanNotRemoveException {
+    public void removeProductFromAuction(Product product) throws CanNotRemoveException, IOException {
         productList.remove(product);
         DataBase.save(this);
     }

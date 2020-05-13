@@ -7,6 +7,7 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -137,42 +138,42 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) throws CanNotAddException {
+    public void addComment(Comment comment) throws CanNotAddException, IOException {
         commentList.add(comment);
         DataBase.save(this);
     }
 
-    public void removeComment(Comment comment) throws CanNotRemoveException {
+    public void removeComment(Comment comment) throws CanNotRemoveException, IOException {
         commentList.remove(comment);
         DataBase.save(this);
     }
 
-    public void addBuyer(Account account) throws CanNotAddException {
+    public void addBuyer(Account account) throws CanNotAddException, IOException {
         buyerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeBuyer(Account account) throws CanNotRemoveException {
+    public void removeBuyer(Account account) throws CanNotRemoveException, IOException {
         buyerList.remove(account);
         DataBase.save(this);
     }
 
-    public void addSeller(Account account) throws CanNotAddException {
+    public void addSeller(Account account) throws CanNotAddException, IOException {
         sellerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeSeller(Account account) throws CanNotRemoveException{
+    public void removeSeller(Account account) throws CanNotRemoveException, IOException {
         sellerList.remove(account);
         DataBase.save(this);
     }
 
-    public static void addProduct(Product product) throws CanNotAddException {
+    public static void addProduct(Product product) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(product);
         DataBase.save(product, true);
     }
 
-    public static void removeProduct(Product product) throws CanNotRemoveException{
+    public static void removeProduct(Product product) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(product);
         DataBase.remove(product);
     }

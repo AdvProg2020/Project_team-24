@@ -1,14 +1,12 @@
 package Model.Models;
 
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.CanNotAddException;
-import Exceptions.CanNotRemoveException;
-import Exceptions.RequesDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,12 +72,12 @@ public class Request implements Packable<Request> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addRequest(Request request) throws CanNotAddException {
+    public static void addRequest(Request request) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(request);
         DataBase.save(request,true);
     }
 
-    public static void removeRequest(Request request) throws CanNotRemoveException {
+    public static void removeRequest(Request request) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(request);
         DataBase.remove(request);
     }

@@ -1,15 +1,13 @@
 package Model.Models;
 
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.CanNotAddException;
-import Exceptions.CanNotRemoveException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,12 +55,12 @@ public class Score implements Packable<Score> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addScore(Score score) throws CanNotAddException {
+    public static void addScore(Score score) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(score);
         DataBase.save(score,true);
     }
 
-    public static void removeScore(Score score) throws CanNotRemoveException {
+    public static void removeScore(Score score) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(score);
         DataBase.remove(score);
     }

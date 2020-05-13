@@ -1,12 +1,11 @@
 package Model.Models;
 
-import Exceptions.CanNotAddException;
-import Exceptions.CanNotRemoveException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,32 +60,32 @@ public class Category implements Packable<Category> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToProductList(Product product) throws CanNotAddException {
+    public void addToProductList(Product product) throws CanNotAddException, IOException {
         productList.add(product);
         DataBase.save(this);
     }
 
-    public void removeFromProductList(Product product) throws CanNotRemoveException {
+    public void removeFromProductList(Product product) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         productList.remove(product);
         DataBase.remove(this);
     }
 
-    public void addToSubCategoryList(Category category) throws CanNotAddException {
+    public void addToSubCategoryList(Category category) throws CanNotAddException, IOException {
         subCategoryList.add(category);
         DataBase.save(this);
     }
 
-    public void removeFromSubCategoryList(Category category) throws CanNotRemoveException {
+    public void removeFromSubCategoryList(Category category) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         subCategoryList.remove(category);
         DataBase.remove(category);
     }
 
-    public static void addCategory(Category category) throws CanNotAddException {
+    public static void addCategory(Category category) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(category);
         DataBase.save(category, true);
     }
 
-    public static void removeCategory(Category category) throws CanNotRemoveException{
+    public static void removeCategory(Category category) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(category);
         DataBase.remove(category);
     }

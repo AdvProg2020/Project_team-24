@@ -5,6 +5,7 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,12 +64,12 @@ public class Comment implements Packable<Comment> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) throws CanNotAddException {
+    public void addComment(Comment comment) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(comment);
         DataBase.save(comment, true);
     }
 
-    public void removeComment(Comment comment) throws CanNotRemoveException {
+    public void removeComment(Comment comment) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(comment);
         DataBase.remove(comment);
     }

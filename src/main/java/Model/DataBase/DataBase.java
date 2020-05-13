@@ -1,13 +1,9 @@
 package Model.DataBase;
 
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredException;
-import Exceptions.DiscountCodeExpiredExcpetion;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 import com.gilecode.yagson.YaGson;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,7 +38,7 @@ public class DataBase {
                     .forEach(data -> {
                         try {
                             list.add(data.getInstance());
-                        } catch (ProductDoesNotExistException | AccountDoesNotExistException | DiscountCodeExpiredException e) {
+                        } catch (ProductDoesNotExistException | AccountDoesNotExistException | DiscountCodeExpiredException | CategoryDoesNotExistException | CommentDoesNotExistException e) {
                             e.printStackTrace();
                         }
                     });
@@ -54,14 +50,14 @@ public class DataBase {
         return list;
     }
 
-    public static void save(Packable<?> object, boolean New) throws Exception {
+    public static void save(Packable<?> object, boolean New) throws CanNotSaveToDataBaseException, IOException {
 
         if (New) {
 
             File file = new File(getStringObjPath(object));
 
             if (!file.createNewFile()) {
-                throw new Exception("file exist before."); // need new Exception.
+                throw new CanNotSaveToDataBaseException("file exist before.");
             }
         }
 
@@ -81,12 +77,12 @@ public class DataBase {
         writer.close();
     }
 
-    public static void remove(Packable<?> object) throws Exception {
+    public static void remove(Packable<?> object) throws CanNotRemoveFromDataBase {
 
         File file = new File(getStringObjPath(object));
 
         if (!file.delete()) {
-            throw new Exception("file does not exist."); // need new exception.
+            throw new CanNotRemoveFromDataBase("file does not exist.");
         }
     }
 
