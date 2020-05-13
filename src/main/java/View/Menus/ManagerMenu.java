@@ -32,8 +32,8 @@ public class ManagerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow();
     }
 
-    public void viewPersonalInfo() throws AccountDoesNotExistException {
-        Account accountLogedIn = ControllerUnit.getAccount();
+    public void viewPersonalInfo() {
+        System.out.println(managerController.viewPersonalInfo());
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 

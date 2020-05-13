@@ -1,6 +1,7 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
+import Exceptions.CommentDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -76,11 +77,11 @@ public class Comment implements Packable<Comment> {
 
     /***************************************************otherMethods****************************************************/
 
-    public static Comment getCommentById(long id)  {
+    public static Comment getCommentById(long id) throws CommentDoesNotExistException {
         return list.stream()
                 .filter(comment -> id == comment.getId())
                 .findFirst()
-                .orElseThrow(); // need comment does not exist exception.
+                .orElseThrow(() -> new CommentDoesNotExistException(" CommentDoesNotExistException"));
     }
 
     /***************************************************packAndDpkg*****************************************************/

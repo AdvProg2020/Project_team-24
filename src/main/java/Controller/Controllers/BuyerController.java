@@ -18,8 +18,8 @@ public class BuyerController extends AccountController {
     /****************************************************singleTone***************************************************/
     private static BuyerController buyerController;
 
-    public BuyerController(Customer customer) {
-        this.customer = customer;
+    public BuyerController(ControllerUnit customer) {
+        this.controllerUnit =  controllerUnit;
     }
 
     public static AccountController getInstance(ControllerUnit controllerUnit) {
@@ -92,7 +92,7 @@ public class BuyerController extends AccountController {
     public void payment() throws PurchaseFailException, NotEnoughCreditException, AccountDoesNotExistException {
          long totalPriceWithDiscount ;
        //  totalPriceWithDiscount= method qure getPriceAfterDiscount;
-        customer.setCredit(customer.getCredit() - totalPriceWithDiscount);
+        //customer.setCredit(customer.getCredit() - totalPriceWithDiscount);
         List<Product> listOfProduct = showProducts();
         List<Long> listOfSellers = customer.getCart().getProductSellerIds();
         //adding to seller banlance

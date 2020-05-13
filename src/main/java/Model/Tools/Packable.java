@@ -1,8 +1,6 @@
 package Model.Tools;
 
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 
 import java.util.List;
 
@@ -10,7 +8,7 @@ public interface Packable <T extends Packable<T>>{
 
     Data<T> pack();
 
-    T dpkg(Data<T> data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredException;
+    T dpkg(Data<T> data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredException, CategoryDoesNotExistException, CommentDoesNotExistException;
 
     long getId();
 

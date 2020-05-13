@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -119,11 +120,11 @@ public class LogHistory implements Packable<LogHistory> {
 
     /***************************************************otherMethods****************************************************/
 
-    public static LogHistory getLogHistoryById(long id) {
+    public static LogHistory getLogHistoryById(long id) throws LogHistoryDoesNotExistException {
         return list.stream()
                 .filter(logHistory -> id == logHistory.getId())
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new LogHistoryDoesNotExistException("LogHistoryDoesNotExistException"));
     }
 
     /**************************************************constructors*****************************************************/
