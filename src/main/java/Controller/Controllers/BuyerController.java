@@ -10,6 +10,7 @@ import Model.Models.Field.Fields.SingleString;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 public class BuyerController extends AccountController {
@@ -48,7 +49,7 @@ public class BuyerController extends AccountController {
         return customer.getDiscountCodeList();
     }
 
-    public double showTotalPrice() {
+    public double showTotalPrice() throws FieldDoesNotExistException {
         return viewCart().getTotalPrice();
     }
 
@@ -78,11 +79,11 @@ public class BuyerController extends AccountController {
     }
 
     // chra booolean khoroji nmide bja exception in method?
-    private void checkEnoughCredit() throws NotEnoughCreditException {
-        double price = 0;
+    private void checkEnoughCredit() throws NotEnoughCreditException, FieldDoesNotExistException {
+        double price = viewCart().getTotalPrice();
         if (discountCodeEntered != null) {
-            price = discountCodeEntered.getPriceAfterDiscount(viewCart().getTotalPrice());
-        } else price = viewCart().getTotalPrice();
+            price -= discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice());
+        }
 
         if (customer.getCredit() < price) {
             throw new NotEnoughCreditException("Not Enough Credit.");
@@ -121,10 +122,10 @@ public class BuyerController extends AccountController {
         discountCodeEntered = discountCode;
     }
 
-    public void payment() throws PurchaseFailException, NotEnoughCreditException, AccountDoesNotExistException {
+    private double payment() throws PurchaseFailException, NotEnoughCreditException, AccountDoesNotExistException, FieldDoesNotExistException {
         double price = viewCart().getTotalPrice();
         if (discountCodeEntered != null) {
-            price = discountCodeEntered.getPriceAfterDiscount(price);
+            price -= discountCodeEntered.getDiscountCodeDiscount(price);
         }
         customer.setCredit(customer.getCredit() - price);
         //adding to sellers balance :
@@ -135,61 +136,57 @@ public class BuyerController extends AccountController {
             Product product = listOfProduct.get(i);
             seller.setBalance(seller.getBalance() + product.getPrice());
         }
+        return price;
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, AccountDoesNotExistException, PurchaseFailException, IOException, CanNotAddException {
+    public void buyProductsOfCart() throws NotEnoughCreditException, AccountDoesNotExistException, PurchaseFailException, IOException, CanNotAddException, FieldDoesNotExistException {
         checkEnoughCredit();
-        payment();
+        double price = payment();
         List<Product> listOfProduct = showProducts();
         List<Seller> listOfSellers = viewCart().getProductSellers();
-        listOfProduct.forEach(product -> {
-
-        });
-        for (int i = 0; i < showProducts().size(); i++) {
-            Seller seller = listOfSellers.get(i);
-            Product product = listOfProduct.get(i);
-            //adding to log histories
-            ///voorodi constructor ro kamel kon
-            LogHistory logHistory = new LogHistory();
-            customer.addToLogHistoryList(logHistory);
-            seller.addToLogHistoryList(logHistory);
-            ///product procedure
-            product.setNumberOfBuyers(product.getNumberOfBuyers() + 1);
-            product.addBuyer(customer);
+        for (Product product1 : listOfProduct) {
+            product1.setNumberOfBuyers(product1.getNumberOfBuyers() + 1);
+            product1.addBuyer(customer);
         }
+        LogHistory logHistory = new LogHistory(
+                0, // need new method to get id.
+                price,
+                discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
+                viewCart().getTotalAuctionDiscount(),
+                new FieldList(Arrays.asList()), // I don't know now.
+                viewCart().getProductList(),
+                viewCart().getProductSellers()
+        );
         customer.setCart(new Cart()); // need a method to create new Cart auto.
     }
 
-    /////log history.........
-    public LogHistory showOrder(String orderIdAsString) throws HaveNotBoughtThisProductException, ProductDoesNotExistException, IdOnlyContainsNumbersException {
-        if (orderIdAsString.matches("\\d+")) {
-            Long orderId = Long.parseLong(orderIdAsString);
-            Product product = Product.getProductById(orderId);
-            if (!viewOrders().contains(product)) {
-                throw new HaveNotBoughtThisProductException("HaveNotBBoughtThisProductException");
-            } else return null;//product.;
+//    Game over! method failed.
+//    public LogHistory showOrder(String orderIdString) throws HaveNotBoughtThisProductException, ProductDoesNotExistException, NumberFormatException {
+//        long orderId = Long.parseLong(orderIdString);
+//        Product product = Product.getProductById(orderId);
+//        if (!viewOrders().contains(product)) {
+//            throw new HaveNotBoughtThisProductException("HaveNotBBoughtThisProductException");
+//        } else return null;//product.;
+//    }
 
-        } else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
-    }
+//    private void checkIfProductBoughtToRate(String productIdAsString) throws CannotRateException, ProductDoesNotExistException, IdOnlyContainsNumbersException {
+//        if (productIdAsString.matches("\\d+")) {
+//            Long productId = Long.parseLong(productIdAsString);
+//            Product product = Product.getProductById(productId);
+//            if (!customer.getLogHistoryList().contains(product)) {
+//                throw new CannotRateException("CannotRateException");
+//            }
+//        } else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
+//    }
 
-    private void checkIfProductBoughtToRate(String productIdAsString) throws CannotRateException, ProductDoesNotExistException, IdOnlyContainsNumbersException {
-        if (productIdAsString.matches("\\d+")) {
-            Long productId = Long.parseLong(productIdAsString);
-            Product product = Product.getProductById(productId);
-            if (!customer.getLogHistoryList().contains(product)) {
-                throw new CannotRateException("CannotRateException");
-            }
-        } else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
-    }
-
-    public void rate(String productIdAsString, String rateNumberAsString) throws ProductDoesNotExistException, CannotRateException, IdOnlyContainsNumbersException {
-        if (productIdAsString.matches("\\d+") && rateNumberAsString.matches("\\d+")) {
-            Long productId = Long.parseLong(productIdAsString);
-            Long rateNumber = Long.parseLong(rateNumberAsString);
-            Product product = Product.getProductById(productId);
-            checkIfProductBoughtToRate(productIdAsString);
-            long lastScore = (long) (product.getAverageScore() * (product.getNumberOfBuyers() - 1));
-            product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
-        } else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
-    }
+//    public void rate(String productIdAsString, String rateNumberAsString) throws ProductDoesNotExistException, CannotRateException, IdOnlyContainsNumbersException {
+//        if (productIdAsString.matches("\\d+") && rateNumberAsString.matches("\\d+")) {
+//            Long productId = Long.parseLong(productIdAsString);
+//            Long rateNumber = Long.parseLong(rateNumberAsString);
+//            Product product = Product.getProductById(productId);
+//            checkIfProductBoughtToRate(productIdAsString);
+//            long lastScore = (long) (product.getAverageScore() * (product.getNumberOfBuyers() - 1));
+//            product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
+//        } else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
+//    }
 }

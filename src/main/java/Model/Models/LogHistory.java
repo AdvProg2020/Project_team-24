@@ -2,6 +2,7 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Accounts.Seller;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
@@ -28,12 +29,12 @@ public class LogHistory implements Packable<LogHistory> {
     private double discountAmount;
     private double auctionDiscount;
     //    String customerName
-    //    String SellerName
     //    String typeLog
     //    String deliveryStatus
     //    Date date
     private FieldList fieldList;
     private List<Product> productList;
+    private List<Seller> sellerList;
 
     /*****************************************************getters*******************************************************/
 
@@ -61,6 +62,10 @@ public class LogHistory implements Packable<LogHistory> {
         return discountAmount;
     }
 
+    public List<Seller> getSellerList() {
+        return Collections.unmodifiableList(sellerList);
+    }
+
     public List<Product> getProductList() {
         return Collections.unmodifiableList(productList);
     }
@@ -77,15 +82,16 @@ public class LogHistory implements Packable<LogHistory> {
         DataBase.remove(logHistory);
     }
 
-    public void addProduct(Product product) throws CanNotAddException, IOException {
-        productList.add(product);
-        DataBase.save(this);
-    }
-
-    public void removeProduct(Product product) throws CanNotRemoveException, CanNotRemoveFromDataBase {
-        productList.remove(product);
-        DataBase.remove(this);
-    }
+//    Doesn't need to these.
+//    public void addProduct(Product product) throws CanNotAddException, IOException {
+//        productList.add(product);
+//        DataBase.save(this);
+//    }
+//
+//    public void removeProduct(Product product) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+//        productList.remove(product);
+//        DataBase.remove(this);
+//    }
 
     /***************************************************packAndDpkg*****************************************************/
     @Override
@@ -99,22 +105,31 @@ public class LogHistory implements Packable<LogHistory> {
                 .addField(productList.stream()
                         .map(Product::getId)
                         .collect(Collectors.toList()))
+                .addField(sellerList.stream()
+                        .map(Seller::getId)
+                        .collect(Collectors.toList()))
                 .setInstance(new LogHistory());
     }
 
     @Override
-    public LogHistory dpkg(Data<LogHistory> data) throws ProductDoesNotExistException {
+    public LogHistory dpkg(Data<LogHistory> data) throws ProductDoesNotExistException, AccountDoesNotExistException {
         this.logId = (long) data.getFields().get(0);
         this.amount = (double) data.getFields().get(1);
         this.discountAmount = (double) data.getFields().get(2);
         this.auctionDiscount = (double) data.getFields().get(3);
         this.fieldList = (FieldList) data.getFields().get(0);
-        List<Product> result = new ArrayList<>();
+        List<Product> productResult = new ArrayList<>();
         for (Long aLong : Collections.unmodifiableList((List<Long>) data.getFields().get(7))) {
             Product productById = Product.getProductById(aLong);
-            result.add(productById);
+            productResult.add(productById);
         }
-        this.productList = result;
+        this.productList = productResult;
+        List<Seller> sellerResult = new ArrayList<>();
+        for (Long aLong : Collections.unmodifiableList((List<Long>) data.getFields().get(8))) {
+            Seller sellerById = (Seller) Account.getAccountById(aLong);
+            sellerResult.add(sellerById);
+        }
+        this.sellerList = sellerResult;
         return this;
     }
 
@@ -129,13 +144,14 @@ public class LogHistory implements Packable<LogHistory> {
 
     /**************************************************constructors*****************************************************/
 
-    public LogHistory(long logId, double amount, double discountAmount, double auctionDiscount, FieldList fieldList, List<Product> productList) {
+    public LogHistory(long logId, double amount, double discountAmount, double auctionDiscount, FieldList fieldList, List<Product> productList, List<Seller> sellerList) {
         this.logId = logId;
         this.amount = amount;
         this.discountAmount = discountAmount;
         this.auctionDiscount = auctionDiscount;
         this.fieldList = fieldList;
         this.productList = productList;
+        this.sellerList = sellerList;
     }
 
     public LogHistory() {

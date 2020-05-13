@@ -187,17 +187,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id."));
     }
 
-    public double getPrice() {
-        try {
-            double price = Double.parseDouble(((SingleString) productInfo.getList().getFieldByName("price")).getString());
-            if (auction != null) {
-                price = auction.getPriceAfterAuction(price);
-            }
-            return price;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0D;
-        }
+    public double getPrice() throws FieldDoesNotExistException {
+        return Double.parseDouble(((SingleString) productInfo.getList().getFieldByName("price")).getString());
     }
 
     /***************************************************packAndDpkg*****************************************************/

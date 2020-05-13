@@ -158,12 +158,12 @@ public class ManagerController extends AccountController {
         return Request.getRequestById(requestId);
     }
 
-    public void acceptRequest(String strRequestId) throws RequesDoesNotExistException,  {
+    public void acceptRequest(String strRequestId) throws RequesDoesNotExistException, CanNotRemoveFromDataBase {
         long requestId = Long.parseLong(strRequestId);
         Request.getRequestById(requestId).acceptRequest();
     }
 
-    public void denyRequest(String strRequestId) throws RequesDoesNotExistException {
+    public void denyRequest(String strRequestId) throws RequesDoesNotExistException, CanNotRemoveFromDataBase {
         long requestId = Long.parseLong(strRequestId);
         Request.getRequestById(requestId).declineRequest();
     }

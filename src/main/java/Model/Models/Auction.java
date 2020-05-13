@@ -115,11 +115,8 @@ public class Auction implements Packable<Auction>, ForPend {
                 .orElseThrow(() -> new AuctionDoesNotExistException("AuctionDoesNotExistException"));
     }
 
-    public double getPriceAfterAuction(double price) {
-        if (discount.getPercent() * price / 100 < discount.getAmount()) {
-            return (100 - discount.getPercent()) * price / 100;
-        }
-        return price - discount.getAmount();
+    public double getAuctionDiscount(double price) {
+        return Math.min(discount.getPercent() * price / 100, discount.getAmount());
     }
 
     /***************************************************packAndDpkg*****************************************************/

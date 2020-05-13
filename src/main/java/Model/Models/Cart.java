@@ -63,15 +63,33 @@ public class Cart implements Packable<Cart> {
 
     /***************************************************otherMethods****************************************************/
 
-    public Product getProductById(long id) throws ProviderNotFoundException{
+    public Product getProductById(long id) throws ProviderNotFoundException {
         return productList.stream()
                 .filter(product -> id == product.getId())
                 .findFirst()
                 .orElseThrow(() -> new ProviderNotFoundException("product with this id not exist in this cart."));
     }
 
-    public double getTotalPrice() {
-        return productList.stream().map(Product::getPrice).reduce(0D, Double::sum);
+    public double getTotalPrice() throws FieldDoesNotExistException {
+        double acc = 0D;
+        for (Product product : productList) {
+            double price = product.getPrice();
+            acc = acc + price;
+        }
+        return acc;
+    }
+
+    public double getTotalAuctionDiscount() throws FieldDoesNotExistException {
+        double sum = 0;
+        for (Product product : productList) {
+
+            Auction auction = product.getAuction();
+
+            if (auction != null) {
+                sum += auction.getAuctionDiscount(product.getPrice());
+            }
+        }
+        return sum;
     }
 
     public static Cart getCartById(long id) throws CartDoesNotExistException {

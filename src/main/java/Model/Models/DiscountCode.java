@@ -146,11 +146,8 @@ public class DiscountCode implements Packable<DiscountCode> {
         return UUID.randomUUID().toString();
     }
 
-    public double getPriceAfterDiscount(double price) {
-        if (discount.getPercent() * price / 100 < discount.getAmount()) {
-            return (100 - discount.getPercent()) * price / 100;
-        }
-        return price - discount.getAmount();
+    public double getDiscountCodeDiscount(double price) {
+        return Math.min(discount.getAmount(), discount.getPercent() * price / 100);
     }
 
     public static Field getFieldByName(String name) throws NoSuchFieldException {

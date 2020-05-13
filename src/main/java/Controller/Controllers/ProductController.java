@@ -58,7 +58,7 @@ public class ProductController {
         if (customer == null) {
             throw new AcountHasNotLogedIn("AcountHasNotLogedIn");
         }
-        customer.getCart().addProductToCart(selectedSeller.getId(), product);
+//        customer.getCart().addProductToCart(selectedSeller.getId(), product);
         //customer.getCart().setTotalPrice(product.getPrice()+);
     }
 
