@@ -1,6 +1,7 @@
 package Model.Tools;
 
 import Exceptions.AccountDoesNotExistException;
+import Exceptions.DiscountCodeExpiredException;
 import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 
@@ -17,7 +18,7 @@ public class Data<T extends Packable<T>> {
         return Collections.unmodifiableList(this.fields);
     }
 
-    public T getInstance() throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredExcpetion {
+    public T getInstance() throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredException {
         return instance.dpkg(this);
     }
 

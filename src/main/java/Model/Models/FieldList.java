@@ -1,5 +1,8 @@
 package Model.Models;
 
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveException;
+import Exceptions.FieldDoesNotExistException;
 import Model.Models.Field.Field;
 
 import java.util.List;
@@ -18,21 +21,21 @@ public class FieldList {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public FieldList removeField(Field field) {
+    public FieldList removeField(Field field) throws CanNotRemoveException {
         fieldList.remove(field);
         return this;
     }
 
-    public FieldList addFiled(Field field) {
+    public FieldList addFiled(Field field) throws CanNotAddException {
         fieldList.add(field);
         return this;
     }
 
-    public Field getFieldByName(String name) throws Exception {
+    public Field getFieldByName(String name) throws FieldDoesNotExistException {
         return fieldList.stream()
                 .filter(field -> name.equals(field.getFieldName()))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Does not exist this field.")); // need field does not exist exception.
+                .orElseThrow(() -> new FieldDoesNotExistException("Does not exist this field."));
     }
 
     /**************************************************constructors*****************************************************/

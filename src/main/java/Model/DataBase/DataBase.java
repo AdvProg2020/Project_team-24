@@ -1,6 +1,7 @@
 package Model.DataBase;
 
 import Exceptions.AccountDoesNotExistException;
+import Exceptions.DiscountCodeExpiredException;
 import Exceptions.DiscountCodeExpiredExcpetion;
 import Exceptions.ProductDoesNotExistException;
 import Model.Tools.Data;
@@ -41,7 +42,7 @@ public class DataBase {
                     .forEach(data -> {
                         try {
                             list.add(data.getInstance());
-                        } catch (ProductDoesNotExistException | AccountDoesNotExistException | DiscountCodeExpiredExcpetion e) {
+                        } catch (ProductDoesNotExistException | AccountDoesNotExistException | DiscountCodeExpiredException e) {
                             e.printStackTrace();
                         }
                     });

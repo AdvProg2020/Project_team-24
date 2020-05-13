@@ -1,5 +1,7 @@
 package Model.Models;
 
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveException;
 import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
@@ -67,22 +69,22 @@ public class LogHistory implements Packable<LogHistory> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addLog(LogHistory logHistory) throws Exception {
+    public static void addLog(LogHistory logHistory) throws CanNotAddException {
         list.add(logHistory);
         DataBase.save(logHistory,true);
     }
 
-    public static void removeLog(LogHistory logHistory) throws Exception {
+    public static void removeLog(LogHistory logHistory) throws CanNotRemoveException {
         list.remove(logHistory);
         DataBase.remove(logHistory);
     }
 
-    public void addProduct(Product product) throws Exception {
+    public void addProduct(Product product) throws CanNotAddException {
         productList.add(product);
         DataBase.save(this);
     }
 
-    public void removeProduct(Product product) throws Exception {
+    public void removeProduct(Product product) throws CanNotRemoveException {
         productList.remove(product);
         DataBase.remove(this);
     }

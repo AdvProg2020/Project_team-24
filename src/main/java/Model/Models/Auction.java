@@ -1,6 +1,8 @@
 package Model.Models;
 
 import Exceptions.AuctionDoesNotExistException;
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -86,22 +88,22 @@ public class Auction implements Packable<Auction>, ForPend {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAuction(Auction auction) throws Exception {
+    public void addAuction(Auction auction) throws CanNotAddException {
         list.add(auction);
         DataBase.save(auction, true);
     }
 
-    public void removeAuction(Auction auction) throws Exception {
+    public void removeAuction(Auction auction) throws CanNotRemoveException {
         list.remove(auction);
         DataBase.remove(auction);
     }
 
-    public void addProductToAuction(Product product) throws Exception {
+    public void addProductToAuction(Product product) throws CanNotAddException{
         productList.add(product);
         DataBase.save(this);
     }
 
-    public void removeProductFromAuction(Product product) throws Exception {
+    public void removeProductFromAuction(Product product) throws CanNotRemoveException {
         productList.remove(product);
         DataBase.save(this);
     }

@@ -1,8 +1,6 @@
 package Model.Models;
 
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.CommentDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
@@ -65,12 +63,12 @@ public class Comment implements Packable<Comment> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) throws Exception {
+    public void addComment(Comment comment) throws CanNotAddException {
         list.add(comment);
         DataBase.save(comment, true);
     }
 
-    public void removeComment(Comment comment) throws Exception {
+    public void removeComment(Comment comment) throws CanNotRemoveException {
         list.remove(comment);
         DataBase.remove(comment);
     }

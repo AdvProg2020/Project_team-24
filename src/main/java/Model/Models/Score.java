@@ -1,6 +1,8 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Field;
@@ -55,12 +57,12 @@ public class Score implements Packable<Score> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addScore(Score score) throws Exception {
+    public static void addScore(Score score) throws CanNotAddException {
         list.add(score);
         DataBase.save(score,true);
     }
 
-    public static void removeScore(Score score) throws Exception {
+    public static void removeScore(Score score) throws CanNotRemoveException {
         list.remove(score);
         DataBase.remove(score);
     }

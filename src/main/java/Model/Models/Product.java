@@ -1,8 +1,6 @@
 package Model.Models;
 
-import Exceptions.CategoryDoesNotExistException;
-import Exceptions.CommentDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
@@ -139,42 +137,42 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) throws Exception {
+    public void addComment(Comment comment) throws CanNotAddException {
         commentList.add(comment);
         DataBase.save(this);
     }
 
-    public void removeComment(Comment comment) throws Exception {
+    public void removeComment(Comment comment) throws CanNotRemoveException {
         commentList.remove(comment);
         DataBase.save(this);
     }
 
-    public void addBuyer(Account account) throws Exception {
+    public void addBuyer(Account account) throws CanNotAddException {
         buyerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeBuyer(Account account) throws Exception {
+    public void removeBuyer(Account account) throws CanNotRemoveException {
         buyerList.remove(account);
         DataBase.save(this);
     }
 
-    public void addSeller(Account account) throws Exception {
+    public void addSeller(Account account) throws CanNotAddException {
         sellerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeSeller(Account account) throws Exception {
+    public void removeSeller(Account account) throws CanNotRemoveException{
         sellerList.remove(account);
         DataBase.save(this);
     }
 
-    public static void addProduct(Product product) throws Exception {
+    public static void addProduct(Product product) throws CanNotAddException {
         list.add(product);
         DataBase.save(product, true);
     }
 
-    public static void removeProduct(Product product) throws Exception {
+    public static void removeProduct(Product product) throws CanNotRemoveException{
         list.remove(product);
         DataBase.remove(product);
     }

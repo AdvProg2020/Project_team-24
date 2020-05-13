@@ -8,7 +8,6 @@ import Model.Models.Accounts.Seller;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class BuyerController extends AccountController {
     /****************************************************fields*******************************************************/
@@ -145,12 +144,12 @@ public class BuyerController extends AccountController {
     }
 
     /////log history.........
-    public LogHistory showOrder(String orderIdAsString) throws HaveNotBBoughtThisProductException, ProductDoesNotExistException, IdOnlyContainsNumbersException {
+    public LogHistory showOrder(String orderIdAsString) throws HaveNotBoughtThisProductException, ProductDoesNotExistException, IdOnlyContainsNumbersException {
         if(orderIdAsString.matches("\\d+")) {
             Long orderId = Long.parseLong(orderIdAsString);
             Product product = Product.getProductById(orderId);
             if (!viewOrders().contains(product)) {
-                throw new HaveNotBBoughtThisProductException("HaveNotBBoughtThisProductException");
+                throw new HaveNotBoughtThisProductException("HaveNotBBoughtThisProductException");
             } else return null;//product.;
 
         }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");

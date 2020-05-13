@@ -1,6 +1,8 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveException;
 import Exceptions.RequesDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -72,12 +74,12 @@ public class Request implements Packable<Request> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addRequest(Request request) throws Exception {
+    public static void addRequest(Request request) throws CanNotAddException {
         list.add(request);
         DataBase.save(request,true);
     }
 
-    public static void removeRequest(Request request) throws Exception {
+    public static void removeRequest(Request request) throws CanNotRemoveException {
         list.remove(request);
         DataBase.remove(request);
     }

@@ -1,5 +1,7 @@
 package Model.Models;
 
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveException;
 import Exceptions.CartDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
@@ -48,13 +50,13 @@ public class Cart implements Packable<Cart> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addProductToCart(long sellerId, Product product) throws Exception {
+    public void addProductToCart(long sellerId, Product product) throws CanNotAddException {
         productSellerIds.add(sellerId);
         productList.add(product);
         DataBase.save(this, false);
     }
 
-    public void removeProductFromCart(long sellerId, Product product) throws Exception {
+    public void removeProductFromCart(long sellerId, Product product) throws CanNotRemoveException {
         productSellerIds.remove(sellerId);
         productList.remove(product);
         DataBase.save(this, false);

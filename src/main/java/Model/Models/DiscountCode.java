@@ -1,6 +1,8 @@
 package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveException;
 import Exceptions.DiscountCodeExpiredException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -75,22 +77,22 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAccount(Account account) throws Exception {
+    public void addAccount(Account account) throws CanNotAddException {
         accountList.add(account);
         DataBase.save(this);
     }
 
-    public void removeAccount(Account account) throws Exception {
+    public void removeAccount(Account account) throws CanNotRemoveException {
         accountList.remove(account);
         DataBase.save(this);
     }
 
-    public static void addDiscountCode(DiscountCode discountCode) throws Exception {
+    public static void addDiscountCode(DiscountCode discountCode) throws CanNotAddException {
         list.add(discountCode);
         DataBase.save(discountCode,true);
     }
 
-    public static void removeFromDiscountCode(DiscountCode discountCode) throws Exception {
+    public static void removeFromDiscountCode(DiscountCode discountCode) throws CanNotRemoveException {
         list.remove(discountCode);
         DataBase.remove(discountCode);
     }

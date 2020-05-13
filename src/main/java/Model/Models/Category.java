@@ -1,5 +1,7 @@
 package Model.Models;
 
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -59,32 +61,32 @@ public class Category implements Packable<Category> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToProductList(Product product) throws Exception {
+    public void addToProductList(Product product) throws CanNotAddException {
         productList.add(product);
         DataBase.save(this);
     }
 
-    public void removeFromProductList(Product product) throws Exception {
+    public void removeFromProductList(Product product) throws CanNotRemoveException {
         productList.remove(product);
         DataBase.remove(this);
     }
 
-    public void addToSubCategoryList(Category category) throws Exception {
+    public void addToSubCategoryList(Category category) throws CanNotAddException {
         subCategoryList.add(category);
         DataBase.save(this);
     }
 
-    public void removeFromSubCategoryList(Category category) throws Exception {
+    public void removeFromSubCategoryList(Category category) throws CanNotRemoveException {
         subCategoryList.remove(category);
         DataBase.remove(category);
     }
 
-    public static void addCategory(Category category) throws Exception {
+    public static void addCategory(Category category) throws CanNotAddException {
         list.add(category);
         DataBase.save(category, true);
     }
 
-    public static void removeCategory(Category category) throws Exception {
+    public static void removeCategory(Category category) throws CanNotRemoveException{
         list.remove(category);
         DataBase.remove(category);
     }
