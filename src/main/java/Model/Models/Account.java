@@ -1,11 +1,11 @@
 package Model.Models;
 
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.DiscountCodeExpiredException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
@@ -136,12 +136,12 @@ public abstract class Account implements Packable<Account> {
                 .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
     }
 
-    public static void addAccount(Account account) throws Exception {
+    public static void addAccount(Account account) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(account);
         DataBase.save(account, true);
     }
 
-    public static void deleteAccount(Account account) throws Exception {
+    public static void deleteAccount(Account account) throws CanNotDeleteException,CanNotRemoveFromDataBase {
         list.remove(account);
         DataBase.remove(account);
     }

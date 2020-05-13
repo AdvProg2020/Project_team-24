@@ -10,6 +10,7 @@ import Model.Models.Accounts.Manager;
 import Model.Models.Field.Fields.RangeString;
 import Model.Tools.Packable;
 
+import java.io.IOException;
 import java.lang.IllegalAccessException;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -68,18 +69,18 @@ public class ManagerController extends AccountController {
         return Account.getAccountByUserName(username);
     }
 
-    public void deleteAccount(String username) throws Exception {
+    public void deleteAccount(String username) throws AccountDoesNotExistException, CanNotRemoveFromDataBase, CanNotDeleteException {
         Account account = Account.getAccountByUserName(username);
         Account.deleteAccount(account);
     }
 
-    public void removeProduct(String strProductId) throws Exception {
+    public void removeProduct(String strProductId) throws CanNotRemoveException, CanNotRemoveFromDataBase, ProductDoesNotExistException {
         long productId = Long.parseLong(strProductId);
         Product product = Product.getProductById(productId);
         Product.removeProduct(product);
     }
 
-    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws Exception {
+    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws CanNotAddException, IOException, CanNotSaveToDataBaseException, InvalidStartAndEndDateForDiscountCodeException {
 
         LocalDate start = LocalDate.parse(strStart, formatter);
         LocalDate end = LocalDate.parse(strEnd, formatter);
@@ -125,7 +126,7 @@ public class ManagerController extends AccountController {
         }
     }
 
-    public void removeDiscountCode(String StrDiscountCodeId) throws Exception {
+    public void removeDiscountCode(String StrDiscountCodeId) throws DiscountCodeExpiredException, CanNotRemoveException, CanNotRemoveFromDataBase {
         long discountCodeId = Long.parseLong(StrDiscountCodeId);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
         DiscountCode.removeFromDiscountCode(discountCode);
@@ -157,17 +158,17 @@ public class ManagerController extends AccountController {
         return Request.getRequestById(requestId);
     }
 
-    public void acceptRequest(String strRequestId) throws RequesDoesNotExistException, Exception {
+    public void acceptRequest(String strRequestId) throws RequesDoesNotExistException,  {
         long requestId = Long.parseLong(strRequestId);
         Request.getRequestById(requestId).acceptRequest();
     }
 
-    public void denyRequest(String strRequestId) throws Exception {
+    public void denyRequest(String strRequestId) throws RequesDoesNotExistException {
         long requestId = Long.parseLong(strRequestId);
         Request.getRequestById(requestId).declineRequest();
     }
 
-    public void editCategory(String categoryName, String fieldName, String newField) throws Exception {
+    public void editCategory(String categoryName, String fieldName, String newField) throws FieldDoesNotExistException, NoSuchFieldException, IllegalAccessException {
         Category category = Category.getCategoryByName(categoryName);
         if (fieldName.matches("^FieldList")) {
             Model.Models.Field.Field modelField = category.getCategoryField().getFieldByName(fieldName);
@@ -202,12 +203,12 @@ public class ManagerController extends AccountController {
         }
     }
 
-    public void removeCategory(String categoryName) throws Exception {
+    public void removeCategory(String categoryName) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         Category category = Category.getCategoryByName(categoryName);
         Category.removeCategory(category);
     }
 
-    public void addCategory(String categoryName) throws Exception {
+    public void addCategory(String categoryName) throws CanNotAddException, IOException, CanNotSaveToDataBaseException {
         Category category = Category.getCategoryByName(categoryName);
         Category.addCategory(category);
     }

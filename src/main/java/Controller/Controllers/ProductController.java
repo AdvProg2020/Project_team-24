@@ -2,10 +2,7 @@ package Controller.Controllers;
 
 
 import Controller.ControllerUnit;
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.AcountHasNotLogedIn;
-import Exceptions.IdOnlyContainsNumbersException;
-import Exceptions.ThisSellerDoseNotSellChosenProduct;
+import Exceptions.*;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
@@ -57,7 +54,7 @@ public class ProductController {
         }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
-    public void addToCart() throws Exception {
+    public void addToCart() throws AcountHasNotLogedIn, CanNotAddException {
         if (customer == null) {
             throw new AcountHasNotLogedIn("AcountHasNotLogedIn");
         }

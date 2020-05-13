@@ -58,13 +58,13 @@ public class Request implements Packable<Request> {
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest() throws Exception {
+    public void acceptRequest() throws CanNotRemoveFromDataBase {
         // add to all product or auction
         list.remove(this);
         DataBase.remove(this);
     }
 
-    public void declineRequest() throws Exception {
+    public void declineRequest() throws  CanNotRemoveFromDataBase {
         // remove from all product or auction
         list.remove(this);
         DataBase.remove(this);
