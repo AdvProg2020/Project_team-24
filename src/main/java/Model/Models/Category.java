@@ -5,6 +5,7 @@ import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 public class Category implements Packable<Category> {
 
     private static List<Category> list;
+
+    private static List<String> fieldNames = Collections.singletonList("name");
 
     static {
         list = DataBase.loadList("Category").stream()
@@ -99,8 +102,13 @@ public class Category implements Packable<Category> {
         return list.stream()
                 .filter(category -> name.equals(category.getName()))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(); // need new exception.
+    }
 
+    public Field getClassFieldByName(String name) throws NoSuchFieldException {
+        if (!fieldNames.contains(name)) {
+            throw new NoSuchFieldException();
+        } else return this.getClass().getField(name);
     }
 
     /***************************************************packAndDpkg*****************************************************/

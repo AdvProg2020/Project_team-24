@@ -6,16 +6,14 @@ import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
 import Model.Tools.Packable;
-
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class Account implements Packable<Account> {
 
-    protected static List<Account> list = new ArrayList<>();
+    protected static List<Account> list;
     protected static List<String> fieldNames;
 
     static {

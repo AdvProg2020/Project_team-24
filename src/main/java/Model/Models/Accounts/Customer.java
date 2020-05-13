@@ -119,13 +119,14 @@ public class Customer extends Account {
 
     /***************************************************otherMethods****************************************************/
 
-    public static List<Account> getAllCustomers() {
+    public static List<Customer> getAllCustomers() {
         return list.stream()
                 .filter(account -> account instanceof Customer)
+                .map(account -> (Customer) account)
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public static List<Account> getSpecialCustomer() {
+    public static List<Customer> getSpecialCustomers() {
         return list.stream()
                 .filter(account -> account instanceof Customer)
                 .map(account -> (Customer) account)
