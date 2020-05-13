@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.AuctionDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Tools.Data;
@@ -107,11 +108,11 @@ public class Auction implements Packable<Auction>, ForPend {
 
     /***************************************************otherMethods****************************************************/
 
-    public static Auction getAuctionById(long id) {
+    public static Auction getAuctionById(long id) throws AuctionDoesNotExistException {
         return list.stream()
                 .filter(auction -> id == auction.getId())
                 .findFirst()
-                .orElseThrow(); // need auction does not exist exception.
+                .orElseThrow(() -> new AuctionDoesNotExistException("AuctionDoesNotExistException"));
     }
 
     public double getPriceAfterAuction(double price) {

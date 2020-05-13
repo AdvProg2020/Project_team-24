@@ -62,7 +62,7 @@ public class Cart implements Packable<Cart> {
 
     /***************************************************otherMethods****************************************************/
 
-    public Product getProductById(long id) {
+    public Product getProductById(long id) throws ProviderNotFoundException{
         return productList.stream()
                 .filter(product -> id == product.getId())
                 .findFirst()

@@ -1,5 +1,7 @@
 package Model.Models;
 
+import Exceptions.CategoryDoesNotExistException;
+import Exceptions.CommentDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
@@ -219,7 +221,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     }
 
     @Override
-    public Product dpkg(Data data) {
+    public Product dpkg(Data data) throws CommentDoesNotExistException, CategoryDoesNotExistException {
         this.productId = (long) data.getFields().get(0);
         this.productInfo = (Info) data.getFields().get(1);
         this.categoryInfo = (Info) data.getFields().get(2);

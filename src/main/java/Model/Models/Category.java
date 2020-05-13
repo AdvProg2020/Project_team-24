@@ -122,7 +122,7 @@ public class Category implements Packable<Category> {
     }
 
     @Override
-    public Category dpkg(Data<Category> data) throws ProductDoesNotExistException {
+    public Category dpkg(Data<Category> data) throws ProductDoesNotExistException, CategoryDoesNotExistException {
         this.categoryId = (long) data.getFields().get(0);
         this.name = (String) data.getFields().get(1);
         this.categoryField = (FieldList) data.getFields().get(2);

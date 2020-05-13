@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.FieldDoesNotExistException;
 import Model.Models.Field.Field;
 
 import java.util.List;
@@ -40,11 +41,11 @@ public class FieldList {
         return this;
     }
 
-    public Field getFieldByName(String name) throws Exception {
+    public Field getFieldByName(String name) throws FieldDoesNotExistException  {
         return fieldList.stream()
                 .filter(field -> name.equals(field.getFieldName()))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Does not exist this field.")); // need field does not exist exception.
+                .orElseThrow(() -> new FieldDoesNotExistException("FieldDoesNotExistException "));
     }
 
     /**************************************************constructors*****************************************************/
