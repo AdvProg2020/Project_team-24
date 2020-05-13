@@ -6,6 +6,7 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class BuyerController extends AccountController {
     }
 
     //inaj id dobare bedim baraye seler ya hamoon seller ghabli ro bay default bayad set konim??
-    public void increase(String productIdAsString, String sellerIdAsString) throws IdOnlyContainsNumbersException {
+    public void increase(String productIdAsString, String sellerIdAsString) throws IdOnlyContainsNumbersException, CanNotAddException, CloneNotSupportedException {
         if(productIdAsString.matches("\\d+") && sellerIdAsString.matches("\\d+")){
         Long productId = Long.parseLong(productIdAsString);
         Long sellerId = Long.parseLong(sellerIdAsString);
@@ -57,7 +58,7 @@ public class BuyerController extends AccountController {
         }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
-    public void decrease(String productIdAsString,String sellerIdAsString) throws Exception {
+    public void decrease(String productIdAsString,String sellerIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException, CanNotRemoveException {
         if(productIdAsString.matches("\\d+") && sellerIdAsString.matches("\\d+")){
         Long productId = Long.parseLong(productIdAsString);
         Long sellerId = Long.parseLong(sellerIdAsString);
@@ -117,7 +118,7 @@ public class BuyerController extends AccountController {
         }
     }
 
-    public void buyProductsOfCart() throws Exception {
+    public void buyProductsOfCart() throws AccountDoesNotExistException, NotEnoughCreditException, PurchaseFailException, CanNotRemoveException, IOException, CanNotAddException {
         checkEnoughCredit();
         payment();
         List<Product> listOfProduct = showProducts();
