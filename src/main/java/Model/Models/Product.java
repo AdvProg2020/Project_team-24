@@ -2,6 +2,8 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
@@ -11,7 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Product implements Packable<Product>, ForPend, Cloneable {
@@ -27,6 +28,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     /*****************************************************fields*******************************************************/
 
     private long productId;
+    private String productName;
     private Info productInfo;
     private Info categoryInfo;
     private Category category;
@@ -37,8 +39,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     private double averageScore;
     private String stateForPend;
     private List<Comment> commentList;
-    private List<Account> buyerList;
-    private List<Account> sellerList;
+    private List<Customer> buyerList;
+    private List<Seller> sellerList;
 
     /*****************************************************getters*******************************************************/
 
@@ -82,6 +84,10 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return auction;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
     public List<Comment> getCommentList() {
         return Collections.unmodifiableList(commentList);
     }
@@ -90,15 +96,19 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return Collections.unmodifiableList(list);
     }
 
-    public List<Account> getBuyerList() {
+    public List<Customer> getBuyerList() {
         return Collections.unmodifiableList(buyerList);
     }
 
-    public List<Account> getSellerList() {
+    public List<Seller> getSellerList() {
         return Collections.unmodifiableList(sellerList);
     }
 
     /*****************************************************setters*******************************************************/
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public void setProductInfo(Info productInfo) {
         this.productInfo = productInfo;
@@ -148,22 +158,22 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         DataBase.save(this);
     }
 
-    public void addBuyer(Account account) throws CanNotAddException, IOException {
+    public void addBuyer(Customer account) throws CanNotAddException, IOException {
         buyerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeBuyer(Account account) throws CanNotRemoveException, IOException {
+    public void removeBuyer(Customer account) throws CanNotRemoveException, IOException {
         buyerList.remove(account);
         DataBase.save(this);
     }
 
-    public void addSeller(Account account) throws CanNotAddException, IOException {
+    public void addSeller(Seller account) throws CanNotAddException, IOException {
         sellerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeSeller(Account account) throws CanNotRemoveException, IOException {
+    public void removeSeller(Seller account) throws CanNotRemoveException, IOException {
         sellerList.remove(account);
         DataBase.save(this);
     }
@@ -187,6 +197,13 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id."));
     }
 
+    public static Product getProductByName(String productName) throws ProductDoesNotExistException {
+        return list.stream()
+                .filter(product -> productName.equals(product.getProductName()))
+                .findFirst()
+                .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id."));
+    }
+
     public double getPrice() throws FieldDoesNotExistException {
         return Double.parseDouble(((SingleString) productInfo.getList().getFieldByName("price")).getString());
     }
@@ -204,14 +221,20 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .addField(numberOfThis)
                 .addField(averageScore)
                 .addField(category.getId())
-                .addField(commentList.stream().
-                        map(Comment::getId).
-                        collect(Collectors.toList()))
+                .addField(commentList.stream()
+                        .map(Comment::getId)
+                        .collect(Collectors.toList()))
+                .addField(buyerList.stream()
+                        .map(Account::getId)
+                        .collect(Collectors.toList()))
+                .addField(sellerList.stream()
+                        .map(Account::getId)
+                        .collect(Collectors.toList()))
                 .setInstance(new Product());
     }
 
     @Override
-    public Product dpkg(Data data) throws CommentDoesNotExistException, CategoryDoesNotExistException {
+    public Product dpkg(Data data) throws CommentDoesNotExistException, AccountDoesNotExistException {
         this.productId = (long) data.getFields().get(0);
         this.productInfo = (Info) data.getFields().get(1);
         this.categoryInfo = (Info) data.getFields().get(2);
@@ -219,18 +242,30 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.numberOfThis = (long) data.getFields().get(4);
         this.averageScore = (long) data.getFields().get(5);
         this.category = Category.getCategoryById((long) data.getFields().get(6));
-        List<Comment> result = new ArrayList<>();
+        List<Comment> commentResult = new ArrayList<>();
         for (Long aLong : ((List<Long>) data.getFields().get(7))) {
             Comment commentById = Comment.getCommentById(aLong);
-            result.add(commentById);
+            commentResult.add(commentById);
         }
-        this.commentList = result;
+        this.commentList = commentResult;
+        List<Customer> customerResult = new ArrayList<>();
+        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
+            Customer customerById = (Customer) Account.getAccountById(aLong);
+            customerResult.add(customerById);
+        }
+        this.buyerList = customerResult;
+        List<Seller> sellerResult = new ArrayList<>();
+        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
+            Seller sellerById = (Seller) Account.getAccountById(aLong);
+            sellerResult.add(sellerById);
+        }
+        this.sellerList = sellerResult;
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Product(long productId, Info productInfo, Info categoryInfo, Category category, Auction auction, long numberOfThis, long numberOfVisitors, long numberOfBuyers, double averageScore, String stateForPend, List<Comment> commentList, List<Account> buyerList, List<Account> sellerList) {
+    public Product(long productId, Info productInfo, Info categoryInfo, Category category, Auction auction, long numberOfThis, long numberOfVisitors, long numberOfBuyers, double averageScore, String stateForPend, List<Comment> commentList, List<Customer> buyerList, List<Seller> sellerList) {
         this.productId = productId;
         this.productInfo = productInfo;
         this.categoryInfo = categoryInfo;
@@ -246,7 +281,14 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.sellerList = sellerList;
     }
 
-    public Product() {
+    public Product(String name, Category category, Auction auction, long numberOfThis) {
+        this.productName = name;
+        this.category = category;
+        this.auction = auction;
+        this.numberOfThis = numberOfThis;
+    }
+
+    private Product() {
     }
 
     /****************************************************overrides******************************************************/

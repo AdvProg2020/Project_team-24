@@ -17,17 +17,18 @@ public class BuyerController extends AccountController {
 
     /****************************************************fields*******************************************************/
 
-    private ControllerUnit controllerUnit = ControllerUnit.getInstance();
+    private static BuyerController buyerController = new BuyerController();
+
     private Customer customer = (Customer) controllerUnit.getAccount();
+
     private DiscountCode discountCodeEntered = null;
 
     /****************************************************singleTone***************************************************/
-    private static BuyerController buyerController = new BuyerController();
 
     private BuyerController() {
     }
 
-    public static AccountController getInstance(ControllerUnit controllerUnit) {
+    public static AccountController getInstance() {
         return buyerController;
     }
 
@@ -62,8 +63,6 @@ public class BuyerController extends AccountController {
         return Product.getProductById(productId);
     }
 
-    //inaj id dobare bedim baraye seler ya hamoon seller ghabli ro bay default bayad set konim??
-    // Answer : jadid
     public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
@@ -160,33 +159,34 @@ public class BuyerController extends AccountController {
         customer.setCart(new Cart()); // need a method to create new Cart auto.
     }
 
-//    Game over! method failed.
-//    public LogHistory showOrder(String orderIdString) throws HaveNotBoughtThisProductException, ProductDoesNotExistException, NumberFormatException {
-//        long orderId = Long.parseLong(orderIdString);
-//        Product product = Product.getProductById(orderId);
-//        if (!viewOrders().contains(product)) {
-//            throw new HaveNotBoughtThisProductException("HaveNotBBoughtThisProductException");
-//        } else return null;//product.;
-//    }
 
-//    private void checkIfProductBoughtToRate(String productIdAsString) throws CannotRateException, ProductDoesNotExistException, IdOnlyContainsNumbersException {
-//        if (productIdAsString.matches("\\d+")) {
-//            Long productId = Long.parseLong(productIdAsString);
-//            Product product = Product.getProductById(productId);
-//            if (!customer.getLogHistoryList().contains(product)) {
-//                throw new CannotRateException("CannotRateException");
-//            }
-//        } else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
-//    }
+    public LogHistory showOrder(String orderIdString) throws HaveNotBoughtThisProductException, NumberFormatException, LogHistoryDoesNotExistException {
+        long orderId = Long.parseLong(orderIdString);
+        //        if (!viewOrders().contains(logHistory)) { // what ?
+//            throw new HaveNotBoughtThisProductException("Have Not Bought This Product.");
+//        }
+        return LogHistory.getLogHistoryById(orderId);
+    }
 
-//    public void rate(String productIdAsString, String rateNumberAsString) throws ProductDoesNotExistException, CannotRateException, IdOnlyContainsNumbersException {
-//        if (productIdAsString.matches("\\d+") && rateNumberAsString.matches("\\d+")) {
-//            Long productId = Long.parseLong(productIdAsString);
-//            Long rateNumber = Long.parseLong(rateNumberAsString);
-//            Product product = Product.getProductById(productId);
-//            checkIfProductBoughtToRate(productIdAsString);
-//            long lastScore = (long) (product.getAverageScore() * (product.getNumberOfBuyers() - 1));
-//            product.setAverageScore((lastScore + rateNumber) / (product.getNumberOfBuyers()));
-//        } else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
-//    }
+    private void checkIfProductBoughtToRate(String productIdString) throws CannotRateException, ProductDoesNotExistException, NumberFormatException {
+        long productId = Long.parseLong(productIdString);
+        Product product = Product.getProductById(productId);
+        if (!product.getBuyerList().contains(customer)) {
+            throw new CannotRateException("CannotRateException");
+        }
+    }
+
+    public void rate(String productIdString, String rateNumberString) throws ProductDoesNotExistException, CannotRateException, NumberFormatException {
+        long productId = Long.parseLong(productIdString);
+        long rateNumber = Integer.parseInt(rateNumberString);
+
+        checkIfProductBoughtToRate(productIdString);
+
+        Product product = Product.getProductById(productId);
+
+        long numberOfBuyer = Score.getNumberOfScoreByProductId(productId);
+        long lastScore = (long) product.getAverageScore() * numberOfBuyer;
+        int newScore = (int) ((lastScore + rateNumber) / (numberOfBuyer + 1));
+        product.setAverageScore(newScore);
+    }
 }

@@ -1,9 +1,7 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
-import Exceptions.AuctionDoesNotExistException;
-import Exceptions.IdOnlyContainsNumbersException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
@@ -12,26 +10,30 @@ import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.ForPend;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class SellerController extends AccountController {
-    /****************************************************fields*******************************************************/
-    private ControllerUnit controllerUnit;
-    private Seller seller = (Seller) controllerUnit.getAccount();
-    /****************************************************singleTone***************************************************/
-    private static SellerController sellerController;
 
-    private SellerController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
+    /****************************************************fields*******************************************************/
+
+    private Seller seller = (Seller) controllerUnit.getAccount();
+
+    private static SellerController sellerController = new SellerController();
+
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    /****************************************************singleTone***************************************************/
+
+    private SellerController() {
     }
 
-    public static SellerController getInstance(ControllerUnit controllerUnit) {
-        if (sellerController == null) {
-            sellerController = new SellerController(controllerUnit);
-        }
+    public static SellerController getInstance() {
         return sellerController;
     }
 
@@ -49,56 +51,8 @@ public class SellerController extends AccountController {
         return seller.getProductList();
     }
 
-    public Info viewProduct(String productIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException {
-        if(productIdAsString.matches("\\d+")) {
-            Long productId = Long.parseLong(productIdAsString);
-            Product product = Product.getProductById(productId);
-            return product.getProductInfo();
-        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
-    }
-
-    public ArrayList<Account> viewBuyers(String productIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException {
-        if(productIdAsString.matches("\\d+")){
-            Long productId = Long.parseLong(productIdAsString);
-            Product product = Product.getProductById(productId);
-            return (ArrayList<Account>) product.getBuyerList();
-        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
-    }
-/*
-    public Product addProduct() {
-        Product product = new Product();
-        FieldList productInfo = (FieldList) Arrays.asList(new SingleString(//hameye vizhegi ha ke fekr mikoni maloome az aval);
-        Info pinfo = new Info(product.getClass().getSimpleName(), productInfo, LocalDate.now());
-        product.setProductInfo(pinfo);
-
-    }
-    public Auction addOff(Info info){
-        Auction auction = new Auction();
-        FieldList auctionInfo = (FieldList) Arrays.asList(new SingleString(//hameye vizhegi ha ke fekr mikoni maloome az aval);
-        Info ainfo = new Info(auction.getClass().getSimpleName(),auctionInfo,LocalDate.now());
-        //+m auction.setAuctionIngo(ainfo);
-
-    }
-*/
-    private  void newRequestForAuction() {
-        Request request = new Request();
-        //rabt be method bala
-
-
-    }
-    private void newRequestForAddPrpoduct(){
-        Request request = new Request();
-        //rabt be method bala
-    }
-
-    public void removeProduct(String productIdAsString) throws ProductDoesNotExistException, IdOnlyContainsNumbersException {
-        if(productIdAsString.matches("\\d+")) {
-            Long productId = Long.parseLong(productIdAsString);
-            Product product = Product.getProductById(productId);
-            seller.getProductList().remove(product);
-            Product.getList().remove(product);
-        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
-
+    public double viewBalance() {
+        return seller.getBalance();
     }
 
     public List<Category> showCategories() {
@@ -108,32 +62,87 @@ public class SellerController extends AccountController {
     public List<Auction> viewAllOffs() {
         return Auction.getList();
     }
-////in method amle chie??????
-    public ArrayList<Auction> viewOffInFilter() {
-        return null; //Discount.Disc;
+
+    public Info viewProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
+        long productId = Long.parseLong(productIdString);
+        Product product = Product.getProductById(productId);
+        return product.getProductInfo();
     }
 
-    public Auction viewOff(String offIdAsString) throws AuctionDoesNotExistException, IdOnlyContainsNumbersException {
-        if(offIdAsString.matches("\\d+")) {
-            Long offId = Long.parseLong(offIdAsString);
-            return Auction.getAuctionById(offId);
-        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
+    public List<Customer> viewBuyers(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
+        long productId = Long.parseLong(productIdString);
+        Product product = Product.getProductById(productId);
+        return product.getBuyerList();
     }
 
-    public void editAuction(String fieldName,String newInfo) {
-        //field.set
-        //+m Field field = Auction.getClassFieldByName(fieldName);
-
+    public Product createTheBaseOfProduct(String productName, String strCategoryId, String strAuctionId, String strNumberOfThis) throws AuctionDoesNotExistException {
+        long numberOfThis = Long.parseLong(strNumberOfThis);
+        long categoryId = Long.parseLong(strCategoryId);
+        long auctionId = Long.parseLong(strAuctionId);
+        Category category = Category.getCategoryById(categoryId);
+        Auction auction = Auction.getAuctionById(auctionId);
+        Product product = new Product(productName, category, auction, numberOfThis);
+        return product; // ??
     }
 
-    public void editProduct(String fieldName,String newInfo) {
-        //aval bayad  seller bere tooye safhe product bad biyad diage??
-        Product product = controllerUnit.getProduct();
-        //+m Field field = product.getClassFieldByName;
+    public void saveProductInfo(Product product, List<String> fieldName, List<String> values) {
+        FieldList fieldList = createFieldList(fieldName, values);
+        product.setProductInfo(new Info("product info", fieldList, LocalDate.now()));
     }
 
-
-    public double viewBalance() {
-        return seller.getBalance();
+    public void saveCategoryInfo(Product product, List<String> fieldName, List<String> values) {
+        FieldList fieldList = createFieldList(fieldName, values);
+        product.setCategoryInfo(new Info("category info", fieldList, LocalDate.now()));
     }
+
+    private FieldList createFieldList(List<String> fieldName, List<String> values) {
+        List<Field> fields = new ArrayList<>();
+        for (int i = 0; i < fieldName.size(); i++) {
+            fields.add(new SingleString(fieldName.get(i), values.get(i)));
+        }
+        return new FieldList(fields);
+    }
+
+    public Auction addOff(String auctionName, String strStart, String strEnd, String strPercent, String strMaxAmount) {
+        LocalDate start = LocalDate.parse(strStart, formatter);
+        LocalDate end = LocalDate.parse(strEnd, formatter);
+        double percent = Double.parseDouble(strPercent);
+        double maxAmount = Double.parseDouble(strMaxAmount);
+        Discount discount = new Discount(percent, maxAmount);
+        return new Auction(auctionName, start, end, discount);
+    }
+
+    private void newRequest(ForPend forPend, String information) throws CanNotAddException, IOException, CanNotSaveToDataBaseException {
+        Request request = new Request(0L, seller, information, "new" + forPend.getClass().getSimpleName(), forPend); // need a method to get a new id.
+        Request.addRequest(request);
+    }
+
+    public void removeProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
+        long productId = Long.parseLong(productIdString);
+        Product product = Product.getProductById(productId);
+        seller.removeFromProductList(product);
+    }
+
+    // what ?
+//    public ArrayList<Auction> viewOffInFilter() {
+//        return null; //Discount.Disc;
+//    }
+
+    public Auction viewOff(String offIdString) throws AuctionDoesNotExistException, NumberFormatException {
+        long offId = Long.parseLong(offIdString);
+        return Auction.getAuctionById(offId);
+    }
+
+    // bashe bara farda.
+//    public void editAuction(String fieldName, String newInfo) {
+//        //field.set
+//        //+m Field field = Auction.getClassFieldByName(fieldName);
+//
+//    }
+//
+//    public void editProduct(String fieldName, String newInfo) {
+//        //aval bayad  seller bere tooye safhe product bad biyad diage??
+//        Product product = controllerUnit.getProduct();
+//        //+m Field field = product.getClassFieldByName;
+//    }
 }

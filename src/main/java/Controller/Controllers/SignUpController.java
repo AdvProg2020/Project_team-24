@@ -27,7 +27,7 @@ public class SignUpController {
 
     /**************************************************MainMethods******************************************************/
 
-    public void creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp {
+    public Account creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
 
@@ -38,11 +38,12 @@ public class SignUpController {
                 throw new UserNameTooShortException("UserNameTooShortException");
         }
 
+        Account account = null;
+
         try {
             Account.getAccountByUserName(username);
         } catch (AccountDoesNotExistException e) {
 
-            Account account;
             switch (type) {
                 case "Seller":
                     account = new Seller(username);
@@ -62,23 +63,22 @@ public class SignUpController {
             Account.addToInRegisteringList(account);
         }
 //        throw new AccountWithThisUserNameExistsException("AccountWithThisUserNameExistsException"); // WHAT IS THIS?
+        return account;
     }
 
-    public void creatPassWordForAccount(String username, String password) throws PasswordInvalidException, AccountDoesNotExistException {
-        Account account = Account.getAccountInRegistering(username);
+    public void creatPassWordForAccount(Account account, String password) throws PasswordInvalidException, AccountDoesNotExistException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isPassword(password).get();
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_PASS:
-                throw new PasswordInvalidException("PasswordInvalidException");
+                throw new PasswordInvalidException("Password is Invalid.");
         }
 
         account.setPassword(password);
     }
 
-    public void savePersonalInfo(String username, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, AccountDoesNotExistException {
-        Account account = Account.getAccountInRegistering(username);
+    public void savePersonalInfo(Account account, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, AccountDoesNotExistException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isFirstName(firstName)
                 .and(RegisterAndLoginValidator.isLastName(lastName))
@@ -108,8 +108,7 @@ public class SignUpController {
         account.setPersonalInfo(info);
     }
 
-    public void saveCompanyInfo(String username, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, AccountDoesNotExistException, YouAreNotASellerToSaveCompanyInfoException {
-        Account account = Account.getAccountInRegistering(username);
+    public void saveCompanyInfo(Account account, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, AccountDoesNotExistException, YouAreNotASellerToSaveCompanyInfoException {
 
 //        if (!(account instanceof Seller)) { NOT REQUIRED.
 //            throw new YouAreNotASellerToSaveCompanyInfoException("YouAreNotASellerToSaveCompanyInfoException");

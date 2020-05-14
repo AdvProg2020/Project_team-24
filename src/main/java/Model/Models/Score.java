@@ -8,14 +8,13 @@ import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Score implements Packable<Score> {
 
-    private static List<Score> list = new ArrayList<>();
+    private static List<Score> list;
 
     static {
         list = DataBase.loadList("Score").stream()
@@ -28,7 +27,7 @@ public class Score implements Packable<Score> {
     public long scoreId;
     private Account user;
     private Product good;
-    private int score;
+    private int scoreNum;
 
     /*****************************************************getters*******************************************************/
 
@@ -41,8 +40,8 @@ public class Score implements Packable<Score> {
         return user;
     }
 
-    public int getScore() {
-        return score;
+    public int getScoreNum() {
+        return scoreNum;
     }
 
     public Product getGood() {
@@ -73,7 +72,7 @@ public class Score implements Packable<Score> {
                 .addField(scoreId)
                 .addField(user)
                 .addField(good)
-                .addField(score)
+                .addField(scoreNum)
                 .setInstance(new Score());
     }
 
@@ -82,16 +81,28 @@ public class Score implements Packable<Score> {
         this.scoreId = (long) data.getFields().get(0);
         this.user = (Account) data.getFields().get(1);
         this.good = (Product) data.getFields().get(2);
-        this.score = (int) data.getFields().get(3);
+        this.scoreNum = (int) data.getFields().get(3);
         return this;
+    }
+    /***************************************************otherMethod*****************************************************/
+
+    public static Score getScoreById(long id) {
+        return list.stream()
+                .filter(score -> id == score.getId())
+                .findFirst()
+                .orElseThrow(); // need new Exception. maybe...
+    }
+
+    public static long getNumberOfScoreByProductId(long id) {
+        return list.stream().filter(score -> id == score.getGood().getId()).count();
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Score(long scoreId, Account user, int score, Product good) {
+    public Score(long scoreId, Account user, int scoreNum, Product good) {
         this.scoreId = scoreId;
         this.user = user;
-        this.score = score;
+        this.scoreNum = scoreNum;
         this.good = good;
     }
 
@@ -113,7 +124,7 @@ public class Score implements Packable<Score> {
                 "scoreId=" + scoreId +
                 ", user=" + user.getUserName() +
                 ", good=" + goodName +
-                ", score=" + score +
+                ", score=" + scoreNum +
                 '}';
     }
 }

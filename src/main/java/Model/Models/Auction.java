@@ -7,6 +7,7 @@ import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -26,10 +27,11 @@ public class Auction implements Packable<Auction>, ForPend {
     /*****************************************************fields*******************************************************/
 
     private long auctionId;
+    private String auctionName;
     private List<Product> productList;
     private String stateForPend;
-    private Date start;
-    private Date end;
+    private LocalDate start;
+    private LocalDate end;
     private Discount discount;
 
     /*****************************************************getters*******************************************************/
@@ -50,16 +52,20 @@ public class Auction implements Packable<Auction>, ForPend {
         return stateForPend;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
     public Discount getDiscount() {
         return discount;
+    }
+
+    public String getAuctionName() {
+        return auctionName;
     }
 
     /*****************************************************setters*******************************************************/
@@ -72,16 +78,20 @@ public class Auction implements Packable<Auction>, ForPend {
         this.stateForPend = stateForPend;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 
     public void setDiscount(Discount discount) {
         this.discount = discount;
+    }
+
+    public void setAuctionName(String auctionName) {
+        this.auctionName = auctionName;
     }
 
     /**************************************************addAndRemove*****************************************************/
@@ -144,18 +154,25 @@ public class Auction implements Packable<Auction>, ForPend {
         }
         this.productList = result;
         this.stateForPend = (String) data.getFields().get(2);
-        this.start = (Date) data.getFields().get(3);
-        this.end = (Date) data.getFields().get(4);
+        this.start = (LocalDate) data.getFields().get(3);
+        this.end = (LocalDate) data.getFields().get(4);
         this.discount = (Discount) data.getFields().get(5);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Auction(long auctionId, List<Product> productList, String status, Date start, Date end, Discount discount) {
+    public Auction(long auctionId, List<Product> productList, String status, LocalDate start, LocalDate end, Discount discount) {
         this.auctionId = auctionId;
         this.productList = productList;
         this.stateForPend = status;
+        this.start = start;
+        this.end = end;
+        this.discount = discount;
+    }
+
+    public Auction(String auctionName, LocalDate start, LocalDate end, Discount discount) {
+        this.auctionName = auctionName;
         this.start = start;
         this.end = end;
         this.discount = discount;

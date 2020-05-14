@@ -2,6 +2,7 @@ package View.Menus;
 
 import Controller.Controllers.SignUpController;
 import Exceptions.*;
+import Model.Models.Account;
 import View.MenuHandler;
 
 import java.util.List;
@@ -27,8 +28,9 @@ public class SignUpMenu extends Menu {
     }
 
     public void createAccount(List<String> inputs) {
+        Account account = null;
         try {
-            signUpController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
+            account = signUpController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
         } catch (UserNameInvalidException e) {
             System.out.println("enter valid username");
         } catch (TypeInvalidException e) {
@@ -41,20 +43,20 @@ public class SignUpMenu extends Menu {
         System.out.println("enter a password :");
         String password = scanner.nextLine();
         try {
-            signUpController.creatPassWordForAccount(inputs.get(1), password);
+            signUpController.creatPassWordForAccount(account, password);
         } catch (PasswordInvalidException e) {
             System.out.println("choose valid password");
         } catch (AccountDoesNotExistException e) {
             System.out.println("this account does not exist");
         }
-        createPersonalInfo(inputs.get(1));
+        createPersonalInfo(account);
         if (inputs.get(0).equals("seller")) {
-            createCompanyInfo(inputs.get(1));
+            createCompanyInfo(account);
         }
         MenuHandler.setCurrentMenu(LogInMenu.getMenu());
     }
 
-    public void createPersonalInfo(String username) {
+    public void createPersonalInfo(Account account) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
         );
@@ -63,7 +65,7 @@ public class SignUpMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            signUpController.savePersonalInfo(username, matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
+            signUpController.savePersonalInfo(account, matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
         } catch (FirstNameInvalidException e) {
             System.out.println("enter valid name");
         } catch (AccountDoesNotExistException e) {
@@ -77,7 +79,7 @@ public class SignUpMenu extends Menu {
         }
     }
 
-    public void createCompanyInfo(String username) {
+    public void createCompanyInfo(Account account) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "CompanyInfo :[companyName] :[email] :[phoneNumber] :[foundation]"
         );
@@ -86,7 +88,7 @@ public class SignUpMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            signUpController.saveCompanyInfo(username, matcher.group(0), matcher.group(1), matcher.group(2));
+            signUpController.saveCompanyInfo(account, matcher.group(0), matcher.group(1), matcher.group(2));
         } catch (CompanyNameInvalidException e) {
             System.out.println("enter valid characters for your company's name");
         } catch (YouAreNotASellerToSaveCompanyInfoException e) {

@@ -24,8 +24,6 @@ public class ManagerController extends AccountController {
 
     /******************************************************fields*******************************************************/
 
-    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
-
     private static ManagerController managerController = new ManagerController();
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

@@ -36,13 +36,6 @@ public abstract class Account implements Packable<Account> {
         inRegistering.remove(account);
     }
 
-    public static Account getAccountInRegistering(String userName) throws AccountDoesNotExistException {
-        return inRegistering.stream()
-                .filter(account -> userName.equals(account.getUserName()))
-                .findFirst()
-                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in Registering list."));
-    }
-
     public static void setInRegistering(List<Account> inRegistering) {
         Account.inRegistering = inRegistering;
     } // just for test.

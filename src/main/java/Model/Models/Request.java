@@ -124,7 +124,7 @@ public class Request implements Packable<Request> {
         this.forPend = forPend;
     }
 
-    public Request() {
+    private Request() {
     }
 
     /****************************************************overrides******************************************************/
