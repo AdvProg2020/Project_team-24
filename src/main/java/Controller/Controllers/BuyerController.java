@@ -63,16 +63,16 @@ public class BuyerController extends AccountController {
         return Product.getProductById(productId);
     }
 
-    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException {
+    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException, ProductDoesNotExistException {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         Product productClone = (Product) viewCart().getProductById(productId).clone();
         viewCart().addProductToCart((Seller) Account.getAccountById(sellerId), productClone);
     }
 
-    public void decrease(String productIdAsString, String sellerIdAsString) throws NumberFormatException, ProductDoesNotExistException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException {
-        long productId = Long.parseLong(productIdAsString);
-        long sellerId = Long.parseLong(sellerIdAsString);
+    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException {
+        long productId = Long.parseLong(productIdString);
+        long sellerId = Long.parseLong(sellerIdString);
         Product product = viewCart().getProductById(productId);
         viewCart().addProductToCart((Seller) Account.getAccountById(sellerId), product);
     }
@@ -162,9 +162,6 @@ public class BuyerController extends AccountController {
 
     public LogHistory showOrder(String orderIdString) throws HaveNotBoughtThisProductException, NumberFormatException, LogHistoryDoesNotExistException {
         long orderId = Long.parseLong(orderIdString);
-        //        if (!viewOrders().contains(logHistory)) { // what ?
-//            throw new HaveNotBoughtThisProductException("Have Not Bought This Product.");
-//        }
         return LogHistory.getLogHistoryById(orderId);
     }
 
@@ -172,7 +169,7 @@ public class BuyerController extends AccountController {
         long productId = Long.parseLong(productIdString);
         Product product = Product.getProductById(productId);
         if (!product.getBuyerList().contains(customer)) {
-            throw new CannotRateException("CannotRateException");
+            throw new CannotRateException("Cannot Rate.");
         }
     }
 

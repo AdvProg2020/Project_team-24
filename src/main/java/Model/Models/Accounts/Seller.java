@@ -1,8 +1,8 @@
 package Model.Models.Accounts;
 
-import Exceptions.DiscountCodeExpiredExcpetion;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.Models.*;
+import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 
@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 public class Seller extends Account {
 
-    protected static List<String> fieldNames;
+    protected static List<String> fieldNames = new ArrayList<>(Account.fieldNames);
 
     static {
-        fieldNames = Arrays.asList("password", "balance", "companyInfo", "logHistoryList", "productList", "forPendList", "auctionList");
+        fieldNames.addAll(Arrays.asList("balance", "brand", "companyEmail", "companyPhone"));
     }
 
     /*****************************************************fields*******************************************************/
@@ -101,30 +101,45 @@ public class Seller extends Account {
 
     /***************************************************otherMethods****************************************************/
 
-    public Product getProductById(long id) {
+    @Override
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException {
+        if (!fieldNames.contains(fieldName)) {
+            throw new FieldDoesNotExistException("This field not found in account.");
+        }
+
+        switch (fieldName) {
+            case "password":
+                setPassword(value);
+                break;
+            case "balance":
+                setBalance(Double.parseDouble(value));
+                break;
+            default:
+                SingleString field = (SingleString) personalInfo.getList().getFieldByName(fieldName);
+                field.setString(value);
+        }
+    }
+
+    public Product getProductById(long id) throws ProductDoesNotExistException {
         return productList.stream()
                 .filter(product -> id == product.getId())
                 .findFirst()
-                .orElseThrow(); // need product does not exist exception.
+                .orElseThrow(() -> new ProductDoesNotExistException("In the seller with id:" + getId() + " the product with id:"+  id + " does not exist."));
     }
 
-    public LogHistory getLogHistoryById(long id) {
+    public LogHistory getLogHistoryById(long id) throws LogHistoryDoesNotExistException {
         return logHistoryList.stream()
                 .filter(logHistory -> id == logHistory.getId())
                 .findFirst()
-                .orElseThrow(); // need logHistory does not exist exception.
+                .orElseThrow(() -> new LogHistoryDoesNotExistException("In the seller with id:" + getId() + " the logHistory with id:"+  id + " does not exist."));
     }
 
-    public Auction getAuctionById(long id) {
+    public Auction getAuctionById(long id) throws AuctionDoesNotExistException {
         return auctionList.stream()
                 .filter(auction -> id == auction.getId())
                 .findFirst()
-                .orElseThrow(); // need Auction does not exist exception.
+                .orElseThrow(() -> new AuctionDoesNotExistException("In the seller with id:" + getId() + " the auction with id:"+  id + " does not exist."));
     }
-
-    public List<Account> getBuyersByProductId(long id) {
-        return null;
-    } // add a list of buyer to each product.
 
     /***************************************************packAndDpkg*****************************************************/
 
@@ -141,7 +156,7 @@ public class Seller extends Account {
     }
 
     @Override
-    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredExcpetion {
+    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, AuctionDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException {
         super.dpkg(data);
         balance = (double) data.getFields().get(4);
         companyInfo = (Info) data.getFields().get(5);
@@ -151,28 +166,33 @@ public class Seller extends Account {
             result.add(productById);
         }
         productList = result;
-        auctionList = ((List<Long>) data.getFields().get(7))
-                .stream().map(Auction::getAuctionById).collect(Collectors.toList());
+        List<Auction> list1 = new ArrayList<>();
+        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
+            Auction auctionById = Auction.getAuctionById(aLong);
+            list1.add(auctionById);
+        }
+        auctionList = list1;
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Seller(long id, String userName, String password, Info personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, List<ForPend> forPendList, Info companyInfo, List<Auction> auctionList) {
-        super(id, userName, password, personalInfo);
-        this.balance = balance;
-        this.logHistoryList = logHistoryList;
-        this.productList = productList;
-        this.forPendList = forPendList;
-        this.companyInfo = companyInfo;
-        this.auctionList = auctionList;
-    }
+    // doesn't need!
+//    public Seller(long id, String userName, String password, Info personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, List<ForPend> forPendList, Info companyInfo, List<Auction> auctionList) {
+//        super(id, userName, password, personalInfo);
+//        this.balance = balance;
+//        this.logHistoryList = logHistoryList;
+//        this.productList = productList;
+//        this.forPendList = forPendList;
+//        this.companyInfo = companyInfo;
+//        this.auctionList = auctionList;
+//    }
 
     public Seller(String username) {
         super(username);
     }
 
-    public Seller() {
+    private Seller() {
     }
 
     /****************************************************overrides******************************************************/

@@ -56,14 +56,15 @@ public class Manager extends Account {
 
     /**************************************************constructors*****************************************************/
 
-    public Manager(long id, String userName, String password, Info personalInfo) {
-        super(id, userName, password, personalInfo);
-    }
+    // doesn't need!
+//    public Manager(long id, String userName, String password, Info personalInfo) {
+//        super(id, userName, password, personalInfo);
+//    }
 
     public Manager(String username) {
         super(username);
     }
 
-    public Manager() {
+    private Manager() {
     }
 }

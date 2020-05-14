@@ -13,6 +13,14 @@ public class Discount {
         return amount;
     }
 
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
+
     public double getDiscountAmount(double price) {
         return (price = percent * price / 100) < amount ? price : amount;
     }

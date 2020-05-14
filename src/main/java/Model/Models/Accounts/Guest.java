@@ -1,30 +1,24 @@
 package Model.Models.Accounts;
 
-import Model.DataBase.DataBase;
 import Model.Models.*;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
+
+import java.time.LocalDate;
 
 public class Guest extends Account {
 
-    public void createNewAccount(Account account) throws Exception {
-        list.add(account);
-        DataBase.save(account, true);
-    }
+    /***************************************************otherMethods****************************************************/
 
-    /***************************************************packAndDpkg*****************************************************/
-
-    @Override
-    public Data<Account> pack() {
-        return super.pack().setInstance(new Guest());
+    public static Guest autoCreateGuest() {
+        long id = AddingNew.getRegisteringId().apply(getList());
+        return new Guest(id,"guest " + id, "", new Info("guestInfo", null, LocalDate.now()));
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Guest(long id, String userName, String password, Info personalInfo) {
+    private Guest(long id, String userName, String password, Info personalInfo) {
         super(id, userName, password, personalInfo);
-    }
-
-    public Guest() {
     }
 
     /****************************************************overrides******************************************************/

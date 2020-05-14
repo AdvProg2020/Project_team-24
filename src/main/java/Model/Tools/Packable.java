@@ -8,13 +8,7 @@ public interface Packable <T extends Packable<T>>{
 
     Data<T> pack();
 
-    T dpkg(Data<T> data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredException, CategoryDoesNotExistException, CommentDoesNotExistException;
+    T dpkg(Data<T> data) throws ProductDoesNotExistException, AccountDoesNotExistException, DiscountCodeExpiredException, CategoryDoesNotExistException, CommentDoesNotExistException, CartDoesNotExistException, LogHistoryDoesNotExistException, AuctionDoesNotExistException;
 
     long getId();
-
-    static long getRegisteringId(List<? extends Packable<?>> list) {
-        return list.stream().map(Packable::getId)
-                .max(Long::compareTo)
-                .orElse(0L) + 1;
-    }
 }

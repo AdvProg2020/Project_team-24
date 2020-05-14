@@ -11,18 +11,22 @@ import Model.Tools.Packable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Product implements Packable<Product>, ForPend, Cloneable {
 
-    private static List<Product> list = new ArrayList<>();
+    private static List<Product> list;
+    private static List<String> fieldNames;
 
     static {
         list = DataBase.loadList("Product").stream()
                 .map(packable -> (Product) packable)
                 .collect(Collectors.toList());
+
+        fieldNames = Arrays.asList("productName", "category", "auction", "numberOfThis", "stateForPend", "brand", "price");
     }
 
     /*****************************************************fields*******************************************************/
@@ -190,6 +194,39 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /***************************************************otherMethods****************************************************/
 
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException {
+        if (!fieldNames.contains(fieldName)) {
+            throw new FieldDoesNotExistException("This field not found in account.");
+        }
+
+        switch (fieldName) {
+            case "productName":
+                setProductName(value);
+                break;
+            case "category":
+                setCategory(Category.getCategoryByName(value));
+                break;
+            case "Auction":
+                setAuction(Auction.getAuctionByName(value));
+                break;
+            case "numberOfThis":
+                setNumberOfThis(Long.parseLong(value));
+                break;
+            case "stateForPend":
+                setStateForPend(value);
+                break;
+
+            default:
+                SingleString field;
+                if (productInfo.getList().isFieldWithThisName(fieldName)) {
+                    field = (SingleString) productInfo.getList().getFieldByName(fieldName);
+                } else
+                    field = (SingleString) categoryInfo.getList().getFieldByName(fieldName);
+
+                field.setString(value);
+        }
+    }
+
     public static Product getProductById(long id) throws ProductDoesNotExistException {
         return list.stream()
                 .filter(product -> id == product.getId())
@@ -234,7 +271,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     }
 
     @Override
-    public Product dpkg(Data data) throws CommentDoesNotExistException, AccountDoesNotExistException {
+    public Product dpkg(Data<Product> data) throws CommentDoesNotExistException, AccountDoesNotExistException {
         this.productId = (long) data.getFields().get(0);
         this.productInfo = (Info) data.getFields().get(1);
         this.categoryInfo = (Info) data.getFields().get(2);

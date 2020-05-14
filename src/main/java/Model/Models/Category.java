@@ -2,12 +2,14 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,12 +18,14 @@ public class Category implements Packable<Category> {
 
     private static List<Category> list;
 
-    private static List<String> fieldNames = Collections.singletonList("name");
+    private static List<String> fieldNames;
 
     static {
         list = DataBase.loadList("Category").stream()
                 .map(packable -> (Category) packable)
                 .collect(Collectors.toList());
+
+        fieldNames = Collections.singletonList("name");
     }
 
     /*****************************************************fields*******************************************************/
@@ -31,6 +35,12 @@ public class Category implements Packable<Category> {
     private FieldList categoryField;
     private List<Product> productList;
     private List<Category> subCategoryList;
+
+    /*****************************************************setters*******************************************************/
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /*****************************************************getters*******************************************************/
 
@@ -106,10 +116,11 @@ public class Category implements Packable<Category> {
                 .orElseThrow(); // need category not found exception.
     }
 
-    public Field getClassFieldByName(String name) throws NoSuchFieldException {
-        if (!fieldNames.contains(name)) {
-            throw new NoSuchFieldException();
-        } else return this.getClass().getField(name);
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException {
+        if (!fieldNames.contains(fieldName)) {
+            throw new FieldDoesNotExistException("This field not found in account.");
+        }
+        setName(value);
     }
 
     /***************************************************packAndDpkg*****************************************************/
@@ -159,7 +170,7 @@ public class Category implements Packable<Category> {
         this.subCategoryList = subCategoryList;
     }
 
-    public Category() {
+    private Category() {
     }
 
     /****************************************************overrides******************************************************/

@@ -2,26 +2,29 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Auction implements Packable<Auction>, ForPend {
 
     private static List<Auction> list;
+    private static List<String> fieldNames;
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     static {
         list = DataBase.loadList("Auction").stream()
                 .map(packable -> (Auction) packable)
                 .collect(Collectors.toList());
+
+        fieldNames = Arrays.asList("auctionName", "stateForPend", "start", "end", "discountMaxAmount", "discountPercent");
     }
 
     /*****************************************************fields*******************************************************/
@@ -122,11 +125,45 @@ public class Auction implements Packable<Auction>, ForPend {
         return list.stream()
                 .filter(auction -> id == auction.getId())
                 .findFirst()
-                .orElseThrow(() -> new AuctionDoesNotExistException("AuctionDoesNotExistException"));
+                .orElseThrow(() -> new AuctionDoesNotExistException("Auction whit this id Does Not Exist."));
+    }
+
+    public static Auction getAuctionByName(String name) throws AuctionDoesNotExistException {
+        return list.stream()
+                .filter(auction -> name.equals(auction.getAuctionName()))
+                .findFirst()
+                .orElseThrow(() -> new AuctionDoesNotExistException("Auction whit this name Does Not Exist."));
     }
 
     public double getAuctionDiscount(double price) {
         return Math.min(discount.getPercent() * price / 100, discount.getAmount());
+    }
+
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException {
+        if (!fieldNames.contains(fieldName)) {
+            throw new FieldDoesNotExistException("This field not found in account.");
+        }
+
+        switch (fieldName) {
+            case "auctionName":
+                setAuctionName(value);
+                break;
+            case "start":
+                setStart(LocalDate.parse(value, formatter));
+                break;
+            case "end":
+                setEnd((LocalDate.parse(value, formatter)));
+                break;
+            case "stateForPend":
+                setStateForPend(value);
+                break;
+            case "discountMaxAmount":
+                discount.setAmount(Double.parseDouble(value));
+                break;
+            case "discountPercent":
+                discount.setPercent(Double.parseDouble(value));
+                break;
+        }
     }
 
     /***************************************************packAndDpkg*****************************************************/
@@ -178,7 +215,7 @@ public class Auction implements Packable<Auction>, ForPend {
         this.discount = discount;
     }
 
-    public Auction() {
+    private Auction() {
     }
 
     /****************************************************overrides******************************************************/

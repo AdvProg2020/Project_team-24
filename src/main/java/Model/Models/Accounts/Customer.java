@@ -1,22 +1,21 @@
 package Model.Models.Accounts;
 
-import Exceptions.DiscountCodeExpiredException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.Models.*;
+import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Customer extends Account {
 
-    protected static List<String> fieldNames;
+    protected static List<String> fieldNames = new ArrayList<>(Account.fieldNames);
 
     static {
-        fieldNames = Arrays.asList("password", "card", "credit", "totalPurchase", "discountCodeList", "logHistoryList");
+        fieldNames.add("credit");
     }
 
     /*****************************************************fields*******************************************************/
@@ -29,12 +28,12 @@ public class Customer extends Account {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToCart(Product product, long sellerId) throws Exception {
-        cart.addProductToCart(sellerId, product);
+    public void addToCart(Product product, Seller seller) throws Exception {
+        cart.addProductToCart(seller, product);
     }
 
-    public void removeFromCart(Product product, long sellerId) throws Exception {
-        cart.removeProductFromCart(sellerId, product);
+    public void removeFromCart(Product product, Seller seller) throws Exception {
+        cart.removeProductFromCart(seller, product);
     }
 
     public void addToLogHistoryList(LogHistory logHistory) {
@@ -100,8 +99,9 @@ public class Customer extends Account {
                 .setInstance(new Customer());
     }
 
+    // ask!
     @Override
-    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
+    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException, AuctionDoesNotExistException {
         super.dpkg(data);
         this.cart = Cart.getCartById((long) data.getFields().get(4));
         this.credit = (double) data.getFields().get(5);
@@ -112,8 +112,12 @@ public class Customer extends Account {
             result.add(discountCodeById);
         }
         this.discountCodeList = result;
-        this.logHistoryList = ((List<Long>) data.getFields().get(8))
-                .stream().map(LogHistory::getLogHistoryById).collect(Collectors.toList());
+        List<LogHistory> list1 = new ArrayList<>();
+        for (Long aLong : ((List<Long>) data.getFields().get(8))) {
+            LogHistory logHistoryById = LogHistory.getLogHistoryById(aLong);
+            list1.add(logHistoryById);
+        }
+        this.logHistoryList = list1;
         return this;
     }
 
@@ -134,22 +138,43 @@ public class Customer extends Account {
                 .collect(Collectors.toUnmodifiableList());
     }
 
+    @Override
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
+        if (!fieldNames.contains(fieldName)) {
+            throw new FieldDoesNotExistException("This field not found in account.");
+        }
+
+        switch (fieldName) {
+            case "password":
+                setPassword(value);
+                break;
+            case "credit":
+                setCredit(Double.parseDouble(value));
+                break;
+            default:
+                SingleString field = (SingleString) personalInfo.getList().getFieldByName(fieldName);
+                field.setString(value);
+        }
+    }
+
     /**************************************************constructors*****************************************************/
 
-    public Customer(long id, String userName, String password, Info personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, double totalPurchase, List<LogHistory> logHistoryList) {
-        super(id, userName, password, personalInfo);
-        this.cart = cart;
-        this.discountCodeList = discountCodeList;
-        this.credit = credit;
-        this.totalPurchase = totalPurchase;
-        this.logHistoryList = logHistoryList;
-    }
+    // doesn't need!
+//    public Customer(long id, String userName, String password, Info personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, double totalPurchase, List<LogHistory> logHistoryList) {
+//        super(id, userName, password, personalInfo);
+//        this.cart = cart;
+//        this.discountCodeList = discountCodeList;
+//        this.credit = credit;
+//        this.totalPurchase = totalPurchase;
+//        this.logHistoryList = logHistoryList;
+//    }
 
     public Customer(String username) {
         super(username);
     }
 
-    public Customer() {
+    private Customer() {
+        super();
     }
 
     /****************************************************overrides******************************************************/

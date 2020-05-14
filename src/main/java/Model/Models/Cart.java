@@ -7,7 +7,7 @@ import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.io.IOException;
-import java.nio.file.ProviderNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,11 +63,11 @@ public class Cart implements Packable<Cart> {
 
     /***************************************************otherMethods****************************************************/
 
-    public Product getProductById(long id) throws ProviderNotFoundException {
+    public Product getProductById(long id) throws ProductDoesNotExistException {
         return productList.stream()
                 .filter(product -> id == product.getId())
                 .findFirst()
-                .orElseThrow(() -> new ProviderNotFoundException("product with this id not exist in this cart."));
+                .orElseThrow(() -> new ProductDoesNotExistException("product with this id not exist in this cart."));
     }
 
     public double getTotalPrice() throws FieldDoesNotExistException {
@@ -115,15 +115,20 @@ public class Cart implements Packable<Cart> {
     }
 
     @Override
-    public Cart dpkg(Data<Cart> data) throws ProductDoesNotExistException {
+    public Cart dpkg(Data<Cart> data) throws ProductDoesNotExistException, AccountDoesNotExistException {
         this.id = (long) data.getFields().get(0);
-        List<Product> result = new ArrayList<>();
+        List<Product> ProductResult = new ArrayList<>();
         for (Long aLong : (List<Long>) data.getFields().get(1)) {
             Product productById = Product.getProductById(aLong);
-            result.add(productById);
+            ProductResult.add(productById);
         }
-        this.productList = result;
-        this.productSellers = (List<Seller>) data.getFields().get(2);
+        this.productList = ProductResult;
+        List<Seller> SellerResult = new ArrayList<>();
+        for (Long aLong : (List<Long>) data.getFields().get(2)) {
+            Seller sellerById = (Seller)Account.getAccountById(aLong);
+            SellerResult.add(sellerById);
+        }
+        this.productSellers = SellerResult;
         return this;
     }
 
@@ -135,7 +140,7 @@ public class Cart implements Packable<Cart> {
         this.productList = productList;
     }
 
-    public Cart() {
+    private Cart() {
     }
 
     /****************************************************overrides******************************************************/

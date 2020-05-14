@@ -35,7 +35,7 @@ public class FieldList {
         return fieldList.stream()
                 .filter(field -> name.equals(field.getFieldName()))
                 .findFirst()
-                .orElseThrow(() -> new FieldDoesNotExistException("Does not exist this field."));
+                .orElseThrow(() -> new FieldDoesNotExistException(name + " is not exist."));
     }
 
     public boolean isFieldWithThisName(String name) {

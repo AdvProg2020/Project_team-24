@@ -180,7 +180,6 @@ class SignUpControllerTest {
     @Test
     void saveCompanyInfo2() {
         savePersonalInfo2();
-        String user = "sogolsdghi";
         String brand = "#brand#";
         String phone = "01234567891";
         String email = "SHS.gmail.com";
@@ -190,7 +189,6 @@ class SignUpControllerTest {
     @Test
     void saveCompanyInfo3() {
         savePersonalInfo2();
-        String user = "sogolsdghi";
         String brand = "#brand#";
         String phone = "01237891";
         String email = "SHS.@gmail.com";

@@ -2,11 +2,12 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,10 +19,10 @@ public abstract class Account implements Packable<Account> {
 
     static {
         list = DataBase.loadList("Account")
-                .stream().map(packable -> (Account)packable)
+                .stream().map(packable -> (Account) packable)
                 .collect(Collectors.toList());
 
-        fieldNames = Collections.singletonList("password");
+        fieldNames = Arrays.asList("password", "firstName", "lastName", "email", "phoneNumber");
     }
 
     /***************************************************inRegistering***************************************************/
@@ -104,7 +105,7 @@ public abstract class Account implements Packable<Account> {
     }
 
     @Override
-    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException {
+    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException, AuctionDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
@@ -114,10 +115,17 @@ public abstract class Account implements Packable<Account> {
 
     /***************************************************otherMethods****************************************************/
 
-    public Field getClassFieldByName(String name) throws NoSuchFieldException {
-        if (!fieldNames.contains(name)) {
-            throw new NoSuchFieldException();
-        } else return this.getClass().getField(name);
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException {
+        if (!fieldNames.contains(fieldName)) {
+            throw new FieldDoesNotExistException("This field not found in account.");
+        }
+
+        if ("password".equals(fieldName)) {
+            setPassword(value);
+        } else {
+            SingleString field = (SingleString) personalInfo.getList().getFieldByName(fieldName);
+            field.setString(value);
+        }
     }
 
     public static Account getAccountByUserName(String name) throws AccountDoesNotExistException {
@@ -127,15 +135,15 @@ public abstract class Account implements Packable<Account> {
                 .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
     }
 
-    public static boolean isThereAnyAccountWithThisUsername(String username) {
-        return list.stream().anyMatch(account -> username.equals(account.getUserName()));
-    }
-
     public static Account getAccountById(long id) throws AccountDoesNotExistException {
         return list.stream()
                 .filter(account -> id == account.getId())
                 .findFirst()
-                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
+                .orElseThrow(() -> new AccountDoesNotExistException("This id not exist in all account list."));
+    }
+
+    public static boolean isThereAnyAccountWithThisUsername(String username) {
+        return list.stream().anyMatch(account -> username.equals(account.getUserName()));
     }
 
     public static void addAccount(Account account) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
@@ -143,7 +151,7 @@ public abstract class Account implements Packable<Account> {
         DataBase.save(account, true);
     }
 
-    public static void deleteAccount(Account account) throws CanNotDeleteException,CanNotRemoveFromDataBase {
+    public static void deleteAccount(Account account) throws CanNotDeleteException, CanNotRemoveFromDataBase {
         list.remove(account);
         DataBase.remove(account);
     }
@@ -161,7 +169,7 @@ public abstract class Account implements Packable<Account> {
         this.userName = username;
     }
 
-    public Account() {
+    protected Account() {
     }
 
     /****************************************************overrides******************************************************/

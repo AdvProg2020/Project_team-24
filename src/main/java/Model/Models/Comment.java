@@ -27,7 +27,6 @@ public class Comment implements Packable<Comment> {
     private String pendStatus;
     private Account userComments;
     private Product purchasedGood;
-    private boolean purchasedOrNa;
     //    String tittle
     //    String comment
     private FieldList fieldList;
@@ -52,10 +51,6 @@ public class Comment implements Packable<Comment> {
 
     public Product getPurchasedGood() {
         return purchasedGood;
-    }
-
-    public boolean isPurchasedOrNa() {
-        return purchasedOrNa;
     }
 
     public static List<Comment> getList() {
@@ -92,7 +87,6 @@ public class Comment implements Packable<Comment> {
                 .addField(pendStatus)
                 .addField(userComments.getId())
                 .addField(purchasedGood.getId())
-                .addField(purchasedOrNa)
                 .addField(fieldList)
                 .setInstance(new Comment());
     }
@@ -103,23 +97,21 @@ public class Comment implements Packable<Comment> {
         this.pendStatus = (String) data.getFields().get(1);
         this.userComments = Account.getAccountById((long) data.getFields().get(2));
         this.purchasedGood = Product.getProductById((long) data.getFields().get(3));
-        this.purchasedOrNa = (boolean) data.getFields().get(4);
-        this.fieldList = (FieldList) data.getFields().get(5);
+        this.fieldList = (FieldList) data.getFields().get(4);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Comment(long commentId, Account userComments, Product purchasedGood, boolean purchasedOrNa, FieldList fieldList, String pendStatus) {
+    public Comment(long commentId, Account userComments, Product purchasedGood, FieldList fieldList, String pendStatus) {
         this.commentId = commentId;
         this.userComments = userComments;
         this.purchasedGood = purchasedGood;
-        this.purchasedOrNa = purchasedOrNa;
         this.fieldList = fieldList;
         this.pendStatus = pendStatus;
     }
 
-    public Comment() {
+    private Comment() {
     }
 
     /****************************************************overrides******************************************************/
@@ -131,7 +123,6 @@ public class Comment implements Packable<Comment> {
                 ", pendStatus='" + pendStatus + '\'' +
                 ", userComments=" + userComments.getUserName() +
                 ", purchasedGood=" + purchasedGood +
-                ", purchasedOrNa=" + purchasedOrNa +
                 ", fieldList=" + fieldList +
                 '}';
     }
