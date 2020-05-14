@@ -1,17 +1,20 @@
 package View.Menus;
 
 import Controller.Controllers.BuyerController;
-import Exceptions.FieldDoesNotExistException;
+import Exceptions.*;
 import Model.Models.Product;
+import View.MenuHandler;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public class ViewCartByBuyerMenu extends Menu {
 
     private static ViewCartByBuyerMenu menu;
-    private static BuyerMenu buyerMenu =BuyerMenu.getInstance();
-    private static BuyerController buyerController=BuyerController.getInstance();
+
+    private static BuyerController buyerController = BuyerController.getInstance();
+
     public ViewCartByBuyerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
@@ -25,7 +28,7 @@ public class ViewCartByBuyerMenu extends Menu {
 
     public void showProducts() {
         buyerController.showProducts().forEach(product -> {
-            //System.out.println(product.getName);
+            System.out.println(product.getProductName());
             try {
                 System.out.println(product.getPrice()
                 );
@@ -36,26 +39,59 @@ public class ViewCartByBuyerMenu extends Menu {
     }
 
     public void viewProduct(List<String> inputs) {
-       String id=inputs.get(0);
+        String id = inputs.get(0);
+        try {
+            System.out.println(buyerController.viewProductInCart(id));
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        }
 
     }
 
     public void increase(List<String> inputs) {
-        long id = Long.parseLong(inputs.get(0));
-        //yasi
+        String idProduct = inputs.get(0);
+        System.out.println("please enter seller id of this product");
+        String idSeller = scanner.nextLine();
+
+        try {
+            buyerController.increase(idProduct, idSeller);
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        } catch (ProductIsOutOfStockException e) {
+            System.out.println("sorry product is out of stock");
+        } catch (CloneNotSupportedException | CanNotSaveToDataBaseException | IOException e) {
+            e.printStackTrace();
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("account does not exist");
+        }
+
     }
 
     public void decrease(List<String> inputs) {
-        long id = Long.parseLong(inputs.get(0));
-        //yasi
+        String idProduct = inputs.get(0);
+        System.out.println("please enter seller id of this product");
+        String idSeller = scanner.nextLine();
+        try {
+            buyerController.decrease(idProduct, idSeller);
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("account does not exist");
+        } catch (CanNotSaveToDataBaseException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showTotalPrice() {
-        // yac
+        try {
+            System.out.println(buyerController.showTotalPrice());
+        } catch (FieldDoesNotExistException e) {
+            System.out.println("field does not exist");
+        }
     }
 
     public void purchase() {
-        // yac
+        MenuHandler.setCurrentMenu(PurchaseByBuyerMenu.getMenu());
     }
 
     public static Menu getMenu() {

@@ -7,7 +7,6 @@ import View.MenuHandler;
 import java.util.Optional;
 
 public class BuyerMenu extends Menu{
-    private static BuyerMenu buyerMenu =BuyerMenu.getInstance();
     private static BuyerController buyerController=BuyerController.getInstance();
     private static BuyerMenu menu;
 
@@ -33,22 +32,18 @@ public class BuyerMenu extends Menu{
     public void viewCart() {
         MenuHandler.setCurrentMenu(ViewCartByBuyerMenu.getMenu());
     }
-
+    public void viewOrders() {
+        MenuHandler.setCurrentMenu(ViewOrdersByBuyerMenu.getMenu());
+        System.out.println(buyerController.viewOrders());
+    }
     public void viewBalance() {
-
+        System.out.println(buyerController.viewBalance());
     }
 
     public void viewDiscountCodes() {
-        // yac
+       buyerController.viewDiscountCodes().forEach(discountCode -> { System.out.println(discountCode.getDiscountCode()); });
     }
 
-    public void purchase() {
-        // yac
-    }
-
-    public void viewOrders() {
-        MenuHandler.setCurrentMenu(ViewOrdersByBuyerMenu.getMenu());
-    }
 
     @Override
     public void show() {
