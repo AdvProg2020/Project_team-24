@@ -27,11 +27,11 @@ public class LoginController {
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_USERNAME_TOO_SHORT:
-                throw new UserNameTooShortException("UserNameTooShortException");
+                throw new UserNameTooShortException("Username is too short.");
             case IS_NOT_A_VALID_USERNAME_CHAR:
-                throw new UserNameInvalidException("UserNameInvalidException");
+                throw new UserNameInvalidException("Username is invalid.");
             case IS_NOT_A_VALID_PASS_INCORRECT:
-                throw new PassIncorrectException("password is incorrect.");
+                throw new PassIncorrectException("Password is incorrect.");
         }
 
         controllerUnit.setAccount(account);

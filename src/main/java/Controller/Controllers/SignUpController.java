@@ -33,36 +33,37 @@ public class SignUpController {
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_USERNAME_CHAR:
-                throw new UserNameInvalidException("UserNameInvalidException");
+                throw new UserNameInvalidException("Username is invalid.");
             case IS_NOT_A_VALID_USERNAME_TOO_SHORT:
-                throw new UserNameTooShortException("UserNameTooShortException");
+                throw new UserNameTooShortException("Username is too short.");
         }
 
-        Account account = null;
 
-        try {
-            Account.getAccountByUserName(username);
-        } catch (AccountDoesNotExistException e) {
+        if (Account.isThereAnyAccountWithThisUsername(username)) {
+            // need new exception.
+        }
 
-            switch (type) {
-                case "Seller":
-                    account = new Seller(username);
-                    break;
-                case "Manager":
-                    if (Manager.isThereAnyManager()) {
-                        // throw new exception. add new exception for this.
-                    }
+        Account account;
+
+        switch (type) {
+            case "Seller":
+                account = new Seller(username);
+                break;
+            case "Manager":
+                if (Manager.isThereAnyManager()) {
+                    throw new CanNotCreatMoreThanOneMangerBySignUp("manager Exist!");
+                } else
                     account = new Manager(username); // This step of manager registering is like others.
-                    break;
-                case "Customer":
-                    account = new Customer(username);
-                    break;
-                default:
-                    throw new TypeInvalidException("Type is invalid.");
-            }
-            Account.addToInRegisteringList(account);
+                break;
+            case "Customer":
+                account = new Customer(username);
+                break;
+            default:
+                throw new TypeInvalidException("Type is invalid.");
         }
-//        throw new AccountWithThisUserNameExistsException("AccountWithThisUserNameExistsException"); // WHAT IS THIS?
+
+        Account.addToInRegisteringList(account);
+
         return account;
     }
 
@@ -85,15 +86,15 @@ public class SignUpController {
                 .and(RegisterAndLoginValidator.isEmail(email))
                 .and(RegisterAndLoginValidator.isPhoneNumber(phoneNumber)).get();
 
-            switch (registerValidation) {
+        switch (registerValidation) {
             case IS_NOT_A_VALID_NUMB:
-                throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
+                throw new PhoneNumberInvalidException("Phone number is invalid.");
             case IS_NOT_A_VALID_FIRST_NAME:
-                throw new FirstNameInvalidException("FirstNameInvalidException");
+                throw new FirstNameInvalidException("First name is invalid.");
             case IS_NOT_A_VALID_LAST_NAME:
-                throw new LastNameInvalidException("LastNameInvalidException");
+                throw new LastNameInvalidException("Last name is invalid.");
             case IS_NOT_A_VALID_EMAIL:
-                throw new EmailInvalidException("EmailInvalidException");
+                throw new EmailInvalidException("Email is invalid.");
         }
 
         FieldList personalInfo = new FieldList(Arrays.asList(
@@ -120,11 +121,11 @@ public class SignUpController {
 
         switch (registerValidation) {
             case IS_NOT_A_VALID_NUMB:
-                throw new PhoneNumberInvalidException("PhoneNumberInvalidException");
+                throw new PhoneNumberInvalidException("Phone number is invalid.");
             case IS_NOT_A_VALID_BRAND:
                 throw new CompanyNameInvalidException("this Company name is invalid.");
             case IS_NOT_A_VALID_EMAIL:
-                throw new EmailInvalidException("EmailInvalidException");
+                throw new EmailInvalidException("Email is invalid.");
         }
 
         FieldList companyInfo = new FieldList(Arrays.asList(

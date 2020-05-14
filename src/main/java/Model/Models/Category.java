@@ -99,6 +99,13 @@ public class Category implements Packable<Category> {
                 .orElseThrow(); // need category not found exception.
     }
 
+    public static Category getCategoryByName(String name) {
+        return list.stream()
+                .filter(category -> name.equals(category.getName()))
+                .findFirst()
+                .orElseThrow(); // need category not found exception.
+    }
+
     public Field getClassFieldByName(String name) throws NoSuchFieldException {
         if (!fieldNames.contains(name)) {
             throw new NoSuchFieldException();

@@ -28,12 +28,21 @@ public abstract class Account implements Packable<Account> {
 
     protected static List<Account> inRegistering;
 
+    public static boolean isThisUsernameExist(String username) {
+        return inRegistering.stream().anyMatch(account -> username.equals(account.getUserName()))
+                || list.stream().anyMatch(account -> username.equals(account.getUserName()));
+    }
+
     public static void addToInRegisteringList(Account account) {
         inRegistering.add(account);
     }
 
     public static void removeFromInRegistering(Account account) {
         inRegistering.remove(account);
+    }
+
+    public static List<Account> getInRegistering() {
+        return Collections.unmodifiableList(inRegistering);
     }
 
     public static void setInRegistering(List<Account> inRegistering) {

@@ -6,32 +6,19 @@ import Exceptions.PassIncorrectException;
 import Exceptions.UserNameInvalidException;
 import Exceptions.UserNameTooShortException;
 import Model.Models.Account;
-
 import Model.Models.Accounts.Seller;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 
-@RunWith(Arquillian.class)
-public class LoginControllerTest {
+import static org.junit.jupiter.api.Assertions.*;
+
+class LoginControllerTest {
 
     private LoginController loginController = LoginController.getInstance();
 
     private ControllerUnit controllerUnit = ControllerUnit.getInstance();
-
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(LoginController.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
 
     @Before
     public void doBeforeEveryTest() {
@@ -48,71 +35,37 @@ public class LoginControllerTest {
     public void login1() {
         String user = "usernameSeller";
         String pass = "1234";
-        Account account = null;
-        try {
-            account = loginController.login(user,pass);
-        } catch (AccountDoesNotExistException | PassIncorrectException | UserNameInvalidException | UserNameTooShortException e) {
-            Assert.fail();
-        }
-
-        if (!(account == controllerUnit.getAccount())) {
-            Assert.fail();
-        }
+        assertDoesNotThrow(() -> {
+            Account account = loginController.login(user,pass);
+            assertEquals(account, controllerUnit.getAccount());
+        });
     }
 
     @Test
     public void login2() {
         String user = "user";
         String pass = "1234";
-        try {
-            loginController.login(user,pass);
-        } catch (AccountDoesNotExistException | PassIncorrectException | UserNameInvalidException e) {
-            Assert.fail();
-        } catch (UserNameTooShortException e) {
-            return;
-        }
-        Assert.fail();
+        assertThrows(UserNameTooShortException.class,() -> loginController.login(user,pass), "Username is too short.");
     }
 
     @Test
     public void login3() {
         String user = "username#Seller";
         String pass = "1234";
-        try {
-            loginController.login(user,pass);
-        } catch (AccountDoesNotExistException | PassIncorrectException | UserNameTooShortException e) {
-            Assert.fail();
-        } catch (UserNameInvalidException e) {
-            return;
-        }
-        Assert.fail();
+        assertThrows(UserNameInvalidException.class, () -> loginController.login(user,pass), "Username is invalid.");
     }
 
     @Test
-    public void login4() {
+    void login4() {
         String user = "usernameSeller";
         String pass = "123456";
-        try {
-            loginController.login(user,pass);
-        } catch (AccountDoesNotExistException | UserNameInvalidException | UserNameTooShortException e) {
-            Assert.fail();
-        } catch (PassIncorrectException e) {
-            return;
-        }
-        Assert.fail();
+        assertThrows(PassIncorrectException.class, () -> loginController.login(user,pass), "Password is incorrect.");
     }
 
     @Test
     public void login5() {
         String user = "usernameSellerNot";
         String pass = "1234";
-        try {
-            loginController.login(user,pass);
-        } catch (UserNameInvalidException | PassIncorrectException | UserNameTooShortException e) {
-            Assert.fail();
-        } catch (AccountDoesNotExistException e) {
-            return;
-        }
-        Assert.fail();
+        assertThrows(AccountDoesNotExistException.class, () -> loginController.login(user,pass), "This user not exist in all account list.");
     }
 }
