@@ -28,7 +28,7 @@ public class BuyerController extends AccountController {
     private BuyerController() {
     }
 
-    public static AccountController getInstance() {
+    public static BuyerController getInstance() {
         return buyerController;
     }
 

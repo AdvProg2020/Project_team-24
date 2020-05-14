@@ -410,7 +410,7 @@ public class OutPut {
     private void setViewCartByBuyerMenuPattern() {
         ViewCartByBuyerMenu.getInstance("View Cart By Buyer Menu", null)
                 .addRegex("show products")
-                .addRegex("viewCart (\\d+)")
+                .addRegex("viewProduct (\\d+)")
                 .addRegex("increase (\\d+)")
                 .addRegex("decrease (\\d+)")
                 .addRegex("show total price")
@@ -423,7 +423,7 @@ public class OutPut {
 
     private void setViewCartByBuyerMenuMethods() {
         ViewCartByBuyerMenu.getMenu().addMethod("showProducts")
-                .addMethod("viewCart")
+                .addMethod("viewProduct")
                 .addMethod("increase")
                 .addMethod("decrease")
                 .addMethod("showTotalPrice")

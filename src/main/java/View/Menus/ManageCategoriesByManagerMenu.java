@@ -27,7 +27,11 @@ public class ManageCategoriesByManagerMenu extends Menu {
         String categoryName = inputs.get(0);
         String field=inputs.get(1);
         String newField=inputs.get(2);
-        managerController.editCategory(categoryName,field,newField);
+        try {
+            managerController.editCategory(categoryName,field,newField);
+        } catch (Exception e) {
+            //yac
+        }
     }
 
     public void addCategory(List<String> inputs) {
@@ -35,7 +39,7 @@ public class ManageCategoriesByManagerMenu extends Menu {
         try {
             managerController.addCategory(categoryName);
         } catch (Exception e) {
-            e.printStackTrace();
+            //yac
         }
     }
 
@@ -44,7 +48,7 @@ public class ManageCategoriesByManagerMenu extends Menu {
         try {
             managerController.removeCategory(categoryName);
         } catch (Exception e) {
-            e.printStackTrace();
+            //yac
         }
     }
 

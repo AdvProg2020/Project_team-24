@@ -1,12 +1,17 @@
 package View.Menus;
 
+import Controller.Controllers.BuyerController;
+import Exceptions.FieldDoesNotExistException;
+import Model.Models.Product;
+
 import java.util.List;
 import java.util.Optional;
 
 public class ViewCartByBuyerMenu extends Menu {
 
     private static ViewCartByBuyerMenu menu;
-
+    private static BuyerMenu buyerMenu =BuyerMenu.getInstance();
+    private static BuyerController buyerController=BuyerController.getInstance();
     public ViewCartByBuyerMenu(String name, Menu parentMenu) {
         super(name, parentMenu);
     }
@@ -19,12 +24,20 @@ public class ViewCartByBuyerMenu extends Menu {
     }
 
     public void showProducts() {
-        // yac
+        buyerController.showProducts().forEach(product -> {
+            //System.out.println(product.getName);
+            try {
+                System.out.println(product.getPrice()
+                );
+            } catch (FieldDoesNotExistException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
-    public void viewCart(List<String> inputs) {
-        long id = Long.parseLong(inputs.get(0));
-        //yasi
+    public void viewProduct(List<String> inputs) {
+       String id=inputs.get(0);
+
     }
 
     public void increase(List<String> inputs) {

@@ -52,6 +52,8 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
             System.out.println("this discount code has expired");
         } catch (NoSuchFieldException e) {
             System.out.println("this filed does not exist");
+        } catch (IllegalAccessException e) {
+            System.out.println("you can not access here");
         }
     }
 

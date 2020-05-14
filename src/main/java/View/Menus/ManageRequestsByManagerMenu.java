@@ -27,7 +27,7 @@ public class ManageRequestsByManagerMenu extends Menu {
         try {
             managerController.detailsOfRequest(id);
         } catch (RequesDoesNotExistException e) {
-            System.out.println("this request eith this id does not exist");
+            System.out.println("this request with this id does not exist");
         }
     }
 

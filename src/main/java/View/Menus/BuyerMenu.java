@@ -1,11 +1,14 @@
 package View.Menus;
 
+import Controller.Controllers.BuyerController;
+import Controller.Controllers.ManagerController;
 import View.MenuHandler;
 
 import java.util.Optional;
 
 public class BuyerMenu extends Menu{
-
+    private static BuyerMenu buyerMenu =BuyerMenu.getInstance();
+    private static BuyerController buyerController=BuyerController.getInstance();
     private static BuyerMenu menu;
 
     private BuyerMenu(String name, Menu parentMenu) {
@@ -18,8 +21,12 @@ public class BuyerMenu extends Menu{
         }
         return menu;
     }
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow();
+    }
 
     public void viewPersonalInfo() {
+        System.out.println(buyerController.viewPersonalInfo());
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
@@ -28,7 +35,7 @@ public class BuyerMenu extends Menu{
     }
 
     public void viewBalance() {
-        // yac
+
     }
 
     public void viewDiscountCodes() {
@@ -41,10 +48,6 @@ public class BuyerMenu extends Menu{
 
     public void viewOrders() {
         MenuHandler.setCurrentMenu(ViewOrdersByBuyerMenu.getMenu());
-    }
-
-    public static Menu getMenu(){
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override
