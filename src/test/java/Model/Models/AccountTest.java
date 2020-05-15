@@ -140,7 +140,6 @@ class AccountTest {
 
     @Test
     void getAccountByUserName2() {
-        Account accountTest = assertDoesNotThrow(() -> Account.getAccountByUserName("usernameSeller"));
         assertThrows(AccountDoesNotExistException.class, () -> Account.getAccountByUserName("yasamingol"), "This username not exist in all account list.");
     }
 
@@ -152,7 +151,6 @@ class AccountTest {
     }
     @Test
     void getAccountById2() {
-        Account accountTest = assertDoesNotThrow(() -> Account.getAccountById(1));
         assertThrows(AccountDoesNotExistException.class,() -> Account.getAccountById(1),"This id not exist in all account list.");
     }
 
