@@ -174,7 +174,7 @@ public class BuyerController extends AccountController {
         return LogHistory.getLogHistoryById(orderId);
     }
 
-    private void checkIfProductBoughtToRate(String productIdString) throws CannotRateException, ProductDoesNotExistException, NumberFormatException {
+    public void checkIfProductBoughtToRate(String productIdString) throws CannotRateException, ProductDoesNotExistException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
         Product product = Product.getProductById(productId);
         if (!product.getBuyerList().contains(customer)) {

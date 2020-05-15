@@ -11,10 +11,7 @@ import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Product implements Packable<Product>, ForPend, Cloneable {
@@ -189,6 +186,10 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     public static void addProduct(Product product) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         product.setProductId(AddingNew.getRegisteringId().apply(getList()));
+        Auction auction = product.getAuction();
+        if (auction != null) {
+            auction.addProductToAuction(product);
+        }
         list.add(product);
         DataBase.save(product, true);
     }

@@ -59,12 +59,12 @@ public class Comment implements Packable<Comment> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addComment(Comment comment) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(comment);
         DataBase.save(comment, true);
     }
 
-    public void removeComment(Comment comment) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeComment(Comment comment) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(comment);
         DataBase.remove(comment);
     }

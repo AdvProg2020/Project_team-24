@@ -8,45 +8,66 @@ import Exceptions.NotAvailableSortException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Category;
 import Model.Models.Product;
+import Model.Models.Sorter;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ProductsController {
-    /****************************************************fields*******************************************************/
-    private enum sortElements {
-        TIME,
-        POINT,
-        NUMBEROFVISITS
 
+    /******************************************************fields*******************************************************/
+
+    private enum SortElement {
+
+        TIME(), POINT(), NUMBER_OF_VISITS(), DEFAULT();
+
+        Sorter sorter;
+        String info;
+
+        SortElement(Sorter sorter, String info) {
+            this.sorter = sorter;
+            this.info = info;
+        }
+
+        public String getInfo() {
+            return info;
+        }
+
+        public Sorter getSorter() {
+            return sorter;
+        }
     }
-    private List<Product> productList = Product.getList();
 
-    private String currentSortEelement;
+    private SortElement sortElement = SortElement.DEFAULT;
 
-    private ControllerUnit controllerUnit;
+    private static List<Product> productList = new ArrayList<>(Product.getList());
+
+    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
+
+    private static ProductsController productsController = new ProductsController();
+
     /****************************************************singleTone***************************************************/
 
-    private static ProductsController productsController;
-
-    private ProductsController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
-    }
-
-    public static ProductsController getInstance(ControllerUnit controllerUnit) {
-        if (productsController == null) {
-            productsController = new ProductsController(controllerUnit);
-        }
+    public static ProductsController getInstance() {
         return productsController;
     }
-    /**************************************************methods********************************************************/
+
+    private ProductsController() {
+    }
+
+    /****************************************************methods********************************************************/
+
     public List<Category> viewCategories() {
         return Category.getList();
     }
 
     public String showAvailableSorts() {
+        return "The available sort elements are : Time or Point or NumberOfVisits or Default";
+    }
 
-        String availableSorts = "The available sort elements are : Time/Point/NumberOfVisits";
-        return availableSorts;
+    public String currentSort() {
+        return sortElement.toString();
     }
 
     private void checkSortAvailable(String filter) throws NotAvailableSortException {
@@ -73,9 +94,7 @@ public class ProductsController {
         return productList;
     }
 
-    public String currentSort() {
-        return currentSortEelement;
-    }
+
 
     public List<Product> disableSort() {
         Collections.sort(productList, new SortByNumberOfVisits());

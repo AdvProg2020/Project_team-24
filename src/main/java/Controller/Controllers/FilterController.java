@@ -18,13 +18,13 @@ public class FilterController {
 
     /******************************************************fields*******************************************************/
 
-    private ControllerUnit controllerUnit = ControllerUnit.getInstance();
+    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
-    private List<Product> listOfProductsFiltered = Product.getList();
+    private static List<Product> listOfProductsFiltered = new ArrayList<>(Product.getList());
 
     private static FilterController filterController = new FilterController();
 
-    private List<Filter>  listOfFiltersNowRunning ;
+    private List<Filter> listOfFiltersNowRunning;
 
     /******************************************************singleTone***************************************************/
 
@@ -35,13 +35,12 @@ public class FilterController {
     private FilterController() {
     }
 
-    /**************************************************methods********************************************************/
+    /****************************************************methods********************************************************/
+
     public List<Field> showAvailableFilters(){
-        //inke filter ha faghat esme khoe=de field ha bashe
         List<Field> productFieldList = Arrays.asList(Product.class.getFields());
-        List<Field> productinfoFieldList = Arrays.asList(Info.class.getFields());
-        List<Field> fields = Stream.of(productFieldList, productinfoFieldList).collect(ArrayList::new, List::addAll, List::addAll);
-        //ya inke khodemoon yek mahdoodde filtei specifik besazim??
+        List<Field> productInfoFieldList = Arrays.asList(Info.class.getFields());
+        List<Field> fields = Stream.of(productFieldList, productInfoFieldList).collect(ArrayList::new, List::addAll, List::addAll);
         return fields;
     }
     private void checkFilterValid(Filter filter) throws InvalidFilterException {
@@ -60,9 +59,15 @@ public class FilterController {
         */
     }
 
-    public List<Filter> currentFilters(){return listOfFiltersNowRunning;}
-    public void disableFilter(Filter filter){}
-    public void searchForProduct(Product product , long productId){}
+    public List<Filter> currentFilters(){
+        return listOfFiltersNowRunning;
+    }
 
-    //فیلتر کردن بر اساس product va productinfo???/
+    public void disableFilter(Filter filter){
+        //?
+    }
+
+    public void searchForProduct(Product product , long productId){
+        //?
+    }
 }
