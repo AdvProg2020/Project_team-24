@@ -39,6 +39,8 @@ public class SignUpMenu extends Menu {
             System.out.println("the principal manager is sogol just she can make a new manager not you:|");
         } catch (UserNameTooShortException e) {
             System.out.println("your username is too short");
+        } catch (ThisUserNameAlreadyExistsException e) {
+            System.out.println("this user name already exist.");
         }
         System.out.println("enter a password :");
         String password = scanner.nextLine();

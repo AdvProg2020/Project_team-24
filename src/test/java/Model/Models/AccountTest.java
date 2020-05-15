@@ -28,7 +28,7 @@ class AccountTest {
         Account account7 = new Customer("registeringAccount1");
         Account account8 = new Seller("registeringAccount2");
         List<Account> testList = Arrays.asList(account1, account2, account3, account4, account5, account6);
-        List<Account> registerinList = Arrays.asList(account7,account8);
+        List<Account> registeringList = Arrays.asList(account7,account8);
         testList.forEach(account -> {
             if (account instanceof Seller) {
                 ((Seller) account).setBalance(100);
@@ -41,7 +41,7 @@ class AccountTest {
             account.setId(AddingNew.getRegisteringId().apply(testList));
         });
         Account.setList(testList);
-        Account.setInRegistering(registerinList);
+        Account.setInRegistering(registeringList);
     }
 
 
