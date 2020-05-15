@@ -131,21 +131,29 @@ public class Auction implements Packable<Auction>, ForPend {
         return list.stream()
                 .filter(auction -> id == auction.getId())
                 .findFirst()
-                .orElseThrow(() -> new AuctionDoesNotExistException("Auction whit this id Does Not Exist."));
+                .orElseThrow(() -> new AuctionDoesNotExistException("Auction whit the id:" + id + " does Not Exist in Auction list."));
     }
 
     public static Auction getAuctionByName(String name) throws AuctionDoesNotExistException {
         return list.stream()
                 .filter(auction -> name.equals(auction.getAuctionName()))
                 .findFirst()
-                .orElseThrow(() -> new AuctionDoesNotExistException("Auction whit this name Does Not Exist."));
+                .orElseThrow(() -> new AuctionDoesNotExistException("Auction whit the name:" + name + " does Not Exist in Auction list."));
     }
 
     public double getAuctionDiscount(double price) {
         return Math.min(discount.getPercent() * price / 100, discount.getAmount());
     }
 
-    public void editField(String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException {
+    public Product getProductById(long id) throws ProductDoesNotExistException {
+        return productList.stream()
+                .filter(auction -> id == auction.getId())
+                .findFirst()
+                .orElseThrow(() -> new ProductDoesNotExistException("Product whit this id:" + id + " does Not Exist in Auction:" + getId() + " ."));
+    }
+
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
+
         if (!fieldNames.contains(fieldName)) {
             throw new FieldDoesNotExistException("This field not found in account.");
         }
