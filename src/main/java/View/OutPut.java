@@ -340,7 +340,7 @@ public class OutPut {
     private void setManageProductsBySellerMenuPattern() {
         ManageProductsBySellerMenu.getInstance("Manage Products By Seller Menu", null)
                 .addRegex("view (\\d+)")
-                .addRegex("view buyers (\\d+)")
+                .addRegex("viewBuyers (\\d+)")
                 .addRegex("edit (\\d+)")
                 .addRegex("exit")
                 .addRegex("help")
@@ -352,7 +352,7 @@ public class OutPut {
     private void setManageProductsBySellerMenuMethod() {
         ManageProductsBySellerMenu.getMenu()
                 .addMethod("view (\\d+)")
-                .addMethod("view buyers (\\d+)")
+                .addMethod("viewBuyers (\\d+)")
                 .addMethod("edit (\\d+)")
                 .addMethod("exit")
                 .addMethod("help")

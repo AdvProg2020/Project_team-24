@@ -1,6 +1,7 @@
 package View.Menus;
 
 import Controller.Controllers.ManagerController;
+import Exceptions.FieldDoesNotExistException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,8 @@ public class ManageInfoMenu extends Menu {
         String newField = scanner.nextLine();
         try {
             managerController.editField(fieldName,newField);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            System.out.println("there is no such a field please try again");
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
         }
     }
 

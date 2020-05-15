@@ -2,6 +2,7 @@ package View.Menus;
 
 import Controller.Controllers.ManagerController;
 import Exceptions.DiscountCodeExpiredException;
+import Exceptions.FieldDoesNotExistException;
 import Exceptions.InvalidFieldToEdit;
 import Model.Models.DiscountCode;
 
@@ -50,10 +51,8 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
             managerController.editDiscountCode(id, field, newField);
         } catch (DiscountCodeExpiredException e) {
             System.out.println("this discount code has expired");
-        } catch (NoSuchFieldException e) {
-            System.out.println("this filed does not exist");
-        } catch (IllegalAccessException e) {
-            System.out.println("you can not access here");
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
         }
     }
 
