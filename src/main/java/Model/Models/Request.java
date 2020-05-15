@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class Request implements Packable<Request> {
 
-    private static List<Request> list = new ArrayList<>();
+    private static List<Request> list;
 
     static {
         list = DataBase.loadList("Request").stream()

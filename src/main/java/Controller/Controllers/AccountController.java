@@ -1,12 +1,9 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
-import Exceptions.AccountDoesNotExistException;
+import Exceptions.FieldDoesNotExistException;
 import Model.Models.Account;
 import Model.Models.Info;
-
-import java.lang.reflect.Field;
-
 
 public abstract class AccountController {
 
@@ -16,10 +13,9 @@ public abstract class AccountController {
 
     /**************************************************methods********************************************************/
 
-    public void editField(String fieldName, String newField) throws NoSuchFieldException, IllegalAccessException {
+    public void editField(String fieldName, String newField) throws FieldDoesNotExistException {
         Account account = controllerUnit.getAccount();
-        Field field = account.getClassFieldByName(fieldName);
-        field.set(account, newField);
+        account.editField(fieldName,newField);
     }
 
     public Info viewPersonalInfo()  {

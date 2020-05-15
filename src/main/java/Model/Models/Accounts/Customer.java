@@ -20,11 +20,11 @@ public class Customer extends Account {
 
     /*****************************************************fields*******************************************************/
 
-    private Cart cart;
     private double credit;
     private double totalPurchase;
-    private List<DiscountCode> discountCodeList;
-    private List<LogHistory> logHistoryList;
+    private Cart cart = Cart.autoCreateCart();
+    private List<DiscountCode> discountCodeList = new ArrayList<>();
+    private List<LogHistory> logHistoryList = new ArrayList<>();
 
     /**************************************************addAndRemove*****************************************************/
 

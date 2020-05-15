@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class LogHistory implements Packable<LogHistory> {
 
-    private static List<LogHistory> list = new ArrayList<>();
+    private static List<LogHistory> list;
 
     static {
         list = DataBase.loadList("LogHistory").stream()
@@ -154,7 +154,7 @@ public class LogHistory implements Packable<LogHistory> {
         this.sellerList = sellerList;
     }
 
-    public LogHistory() {
+    private LogHistory() {
     }
 
     /****************************************************overrides******************************************************/

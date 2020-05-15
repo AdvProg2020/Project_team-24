@@ -81,8 +81,7 @@ public class SellerController extends AccountController {
         long auctionId = Long.parseLong(strAuctionId);
         Category category = Category.getCategoryById(categoryId);
         Auction auction = Auction.getAuctionById(auctionId);
-        Product product = new Product(productName, category, auction, numberOfThis);
-        return product; // ??
+        return new Product(productName, category, auction, numberOfThis);
     }
 
     public void saveProductInfo(Product product, List<String> fieldName, List<String> values) {

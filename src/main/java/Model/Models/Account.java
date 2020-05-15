@@ -3,10 +3,12 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +29,7 @@ public abstract class Account implements Packable<Account> {
 
     /***************************************************inRegistering***************************************************/
 
-    protected static List<Account> inRegistering;
+    protected static List<Account> inRegistering = new ArrayList<>();
 
     public static boolean isThisUsernameExist(String username) {
         return inRegistering.stream().anyMatch(account -> username.equals(account.getUserName()))
@@ -89,6 +91,10 @@ public abstract class Account implements Packable<Account> {
         this.personalInfo = personalInfo;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public static void setList(List<Account> list) {
         Account.list = list;
     } // just for test.
@@ -147,6 +153,7 @@ public abstract class Account implements Packable<Account> {
     }
 
     public static void addAccount(Account account) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+        account.setId(AddingNew.getRegisteringId().apply(getList()));
         list.add(account);
         DataBase.save(account, true);
     }

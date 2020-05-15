@@ -67,19 +67,18 @@ public class SignUpController {
         return account;
     }
 
-    public void creatPassWordForAccount(Account account, String password) throws PasswordInvalidException, AccountDoesNotExistException {
+    public void creatPassWordForAccount(Account account, String password) throws PasswordInvalidException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isPassword(password).get();
 
-        switch (registerValidation) {
-            case IS_NOT_A_VALID_PASS:
-                throw new PasswordInvalidException("Password is Invalid.");
+        if (registerValidation == RegisterValidation.IS_NOT_A_VALID_PASS) {
+            throw new PasswordInvalidException("Password is Invalid.");
         }
 
         account.setPassword(password);
     }
 
-    public void savePersonalInfo(Account account, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, AccountDoesNotExistException {
+    public void savePersonalInfo(Account account, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isFirstName(firstName)
                 .and(RegisterAndLoginValidator.isLastName(lastName))
@@ -109,7 +108,7 @@ public class SignUpController {
         account.setPersonalInfo(info);
     }
 
-    public void saveCompanyInfo(Account account, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, AccountDoesNotExistException, YouAreNotASellerToSaveCompanyInfoException {
+    public void saveCompanyInfo(Account account, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException {
 
 //        if (!(account instanceof Seller)) { NOT REQUIRED.
 //            throw new YouAreNotASellerToSaveCompanyInfoException("YouAreNotASellerToSaveCompanyInfoException");
@@ -139,14 +138,11 @@ public class SignUpController {
         account.setPersonalInfo(info);
     }
 
-
     /****************************************************singleTone*****************************************************/
 
     public static SignUpController getInstance() {
         return registerController;
     }
-
-    /**************************************************constructors*****************************************************/
 
     private SignUpController() {
     }

@@ -1,12 +1,12 @@
 package Controller.Controllers;
 
-import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
+import Model.Tools.AddingNew;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -25,11 +25,11 @@ public class BuyerController extends AccountController {
 
     /****************************************************singleTone***************************************************/
 
-    private BuyerController() {
-    }
-
     public static BuyerController getInstance() {
         return buyerController;
+    }
+
+    private BuyerController() {
     }
 
     /**************************************************methods********************************************************/
@@ -77,7 +77,6 @@ public class BuyerController extends AccountController {
         viewCart().addProductToCart((Seller) Account.getAccountById(sellerId), product);
     }
 
-    // chra booolean khoroji nmide bja exception in method?
     private void checkEnoughCredit() throws NotEnoughCreditException, FieldDoesNotExistException {
         double price = viewCart().getTotalPrice();
         if (discountCodeEntered != null) {
@@ -148,7 +147,7 @@ public class BuyerController extends AccountController {
             product1.addBuyer(customer);
         }
         LogHistory logHistory = new LogHistory(
-                0, // need new method to get id.
+                AddingNew.getRegisteringId().apply(LogHistory.getList()),
                 price,
                 discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
                 viewCart().getTotalAuctionDiscount(),
@@ -156,11 +155,11 @@ public class BuyerController extends AccountController {
                 viewCart().getProductList(),
                 viewCart().getProductSellers()
         );
-        customer.setCart(new Cart()); // need a method to create new Cart auto.
+        customer.setCart(Cart.autoCreateCart());
     }
 
 
-    public LogHistory showOrder(String orderIdString) throws HaveNotBoughtThisProductException, NumberFormatException, LogHistoryDoesNotExistException {
+    public LogHistory showOrder(String orderIdString) throws NumberFormatException, LogHistoryDoesNotExistException {
         long orderId = Long.parseLong(orderIdString);
         return LogHistory.getLogHistoryById(orderId);
     }

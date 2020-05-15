@@ -3,6 +3,7 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
@@ -31,11 +32,11 @@ public class Auction implements Packable<Auction>, ForPend {
 
     private long auctionId;
     private String auctionName;
-    private List<Product> productList;
     private String stateForPend;
     private LocalDate start;
     private LocalDate end;
     private Discount discount;
+    private List<Product> productList = new ArrayList<>();
 
     /*****************************************************getters*******************************************************/
 
@@ -89,6 +90,10 @@ public class Auction implements Packable<Auction>, ForPend {
         this.end = end;
     }
 
+    public void setAuctionId(long auctionId) {
+        this.auctionId = auctionId;
+    }
+
     public void setDiscount(Discount discount) {
         this.discount = discount;
     }
@@ -99,12 +104,13 @@ public class Auction implements Packable<Auction>, ForPend {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAuction(Auction auction) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addAuction(Auction auction) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+        auction.setAuctionId(AddingNew.getRegisteringId().apply(getList()));
         list.add(auction);
         DataBase.save(auction, true);
     }
 
-    public void removeAuction(Auction auction) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeAuction(Auction auction) throws CanNotRemoveException, CanNotRemoveFromDataBase {
         list.remove(auction);
         DataBase.remove(auction);
     }
@@ -199,14 +205,15 @@ public class Auction implements Packable<Auction>, ForPend {
 
     /**************************************************constructors*****************************************************/
 
-    public Auction(long auctionId, List<Product> productList, String status, LocalDate start, LocalDate end, Discount discount) {
-        this.auctionId = auctionId;
-        this.productList = productList;
-        this.stateForPend = status;
-        this.start = start;
-        this.end = end;
-        this.discount = discount;
-    }
+    // doesn't need!
+//    public Auction(long auctionId, List<Product> productList, String status, LocalDate start, LocalDate end, Discount discount) {
+//        this.auctionId = auctionId;
+//        this.productList = productList;
+//        this.stateForPend = status;
+//        this.start = start;
+//        this.end = end;
+//        this.discount = discount;
+//    }
 
     public Auction(String auctionName, LocalDate start, LocalDate end, Discount discount) {
         this.auctionName = auctionName;

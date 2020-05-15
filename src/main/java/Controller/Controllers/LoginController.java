@@ -15,7 +15,7 @@ public class LoginController {
 
     private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
-    private static LoginController loginController;
+    private static LoginController loginController = new LoginController();
 
     /**************************************************methods********************************************************/
     public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException, UserNameInvalidException, UserNameTooShortException {

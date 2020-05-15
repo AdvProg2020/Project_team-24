@@ -24,10 +24,10 @@ public class Seller extends Account {
 
     private double balance;
     private Info companyInfo;
-    private List<LogHistory> logHistoryList;
-    private List<Product> productList;
-    private List<ForPend> forPendList;
-    private List<Auction> auctionList;
+    private List<LogHistory> logHistoryList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
+    private List<ForPend> forPendList = new ArrayList<>();
+    private List<Auction> auctionList = new ArrayList<>();
 
     /**************************************************addAndRemove*****************************************************/
 

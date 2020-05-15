@@ -3,6 +3,7 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Accounts.Seller;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
@@ -97,6 +98,11 @@ public class Cart implements Packable<Cart> {
                 .filter(cart -> id == cart.getId())
                 .findFirst()
                 .orElseThrow(() -> new CartDoesNotExistException("CartWithThisIdDoesNotExistException"));
+    }
+
+    public static Cart autoCreateCart() {
+        long id = AddingNew.getRegisteringId().apply(getList());
+        return new Cart(id, new ArrayList<>(), new ArrayList<>());
     }
 
     /***************************************************packAndDpkg*****************************************************/

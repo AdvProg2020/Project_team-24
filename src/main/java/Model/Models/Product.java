@@ -5,6 +5,7 @@ import Model.DataBase.DataBase;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
@@ -134,6 +135,10 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.auction = auction;
     }
 
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
     public void setNumberOfVisitors(long numberOfVisitors) {
         this.numberOfVisitors = numberOfVisitors;
     }
@@ -183,6 +188,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     }
 
     public static void addProduct(Product product) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+        product.setProductId(AddingNew.getRegisteringId().apply(getList()));
         list.add(product);
         DataBase.save(product, true);
     }
@@ -302,21 +308,22 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /**************************************************constructors*****************************************************/
 
-    public Product(long productId, Info productInfo, Info categoryInfo, Category category, Auction auction, long numberOfThis, long numberOfVisitors, long numberOfBuyers, double averageScore, String stateForPend, List<Comment> commentList, List<Customer> buyerList, List<Seller> sellerList) {
-        this.productId = productId;
-        this.productInfo = productInfo;
-        this.categoryInfo = categoryInfo;
-        this.category = category;
-        this.auction = auction;
-        this.numberOfThis = numberOfThis;
-        this.numberOfVisitors = numberOfVisitors;
-        this.numberOfBuyers = numberOfBuyers;
-        this.averageScore = averageScore;
-        this.stateForPend = stateForPend;
-        this.commentList = commentList;
-        this.buyerList = buyerList;
-        this.sellerList = sellerList;
-    }
+    // doesn't need!
+//    public Product(long productId, Info productInfo, Info categoryInfo, Category category, Auction auction, long numberOfThis, long numberOfVisitors, long numberOfBuyers, double averageScore, String stateForPend, List<Comment> commentList, List<Customer> buyerList, List<Seller> sellerList) {
+//        this.productId = productId;
+//        this.productInfo = productInfo;
+//        this.categoryInfo = categoryInfo;
+//        this.category = category;
+//        this.auction = auction;
+//        this.numberOfThis = numberOfThis;
+//        this.numberOfVisitors = numberOfVisitors;
+//        this.numberOfBuyers = numberOfBuyers;
+//        this.averageScore = averageScore;
+//        this.stateForPend = stateForPend;
+//        this.commentList = commentList;
+//        this.buyerList = buyerList;
+//        this.sellerList = sellerList;
+//    }
 
     public Product(String name, Category category, Auction auction, long numberOfThis) {
         this.productName = name;
