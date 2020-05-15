@@ -1,14 +1,16 @@
 
         package Model.Models;
-        import Exceptions.AccountDoesNotExistException;
+        import Exceptions.*;
         import Model.Models.Accounts.Customer;
         import Model.Models.Accounts.Manager;
         import Model.Models.Accounts.Seller;
+        import Model.Models.Field.Field;
         import Model.Models.Field.Fields.SingleString;
         import Model.Tools.AddingNew;
         import org.junit.jupiter.api.BeforeEach;
         import org.junit.jupiter.api.Test;
 
+        import java.io.IOException;
         import java.time.LocalDate;
         import java.util.Arrays;
         import java.util.List;
@@ -44,39 +46,71 @@ class AccountTest {
         Account.setInRegistering(registerinList);
     }
 
-    @Test
-    void addToInRegisteringList() {
-    }
 
-    @Test
-    void removeFromInRegistering() {
-    }
 
     @Test
     void pack() {
+        //Qre
     }
 
     @Test
     void dpkg() {
+        //Qre
     }
 
     @Test
-    void editField() {
+    void editField1() {
+        //FieldDoesNotExistException
+        Account account = Account.getList().get(0);
+        assertThrows(FieldDoesNotExistException.class, () -> account.editField("jafar","taghi"), "This field not found in account.");
     }
+    @Test
+    void editField2() {
+        //pesonalInfo
+        Account account = Account.getList().get(0);
+        assertDoesNotThrow(() -> account.editField("PhoneNumber","09126940944"));
+        assertTrue(account.getPassword().equals("09126940944"));
+
+    }
+    @Test
+    void editField3() {
+        //companyInfo
+        Account account = Account.getList().get(0);
+        assertDoesNotThrow(() -> account.editField("CompanyEmail","terminator@gmail.com"));
+        assertTrue(account.getPassword().equals("terminator@gmail.com"));
+
+    }
+    @Test
+    void editField4() {
+        //password
+        Account account = Account.getList().get(0);
+        assertDoesNotThrow(() -> account.editField("password","newKey"));
+        assertTrue(account.getPassword().equals("newKey"));
+
+    }
+
+
 
     @Test
     void isThisUsernameExist1() {
-        //is in list
-        boolean exists = true;
-        Account account = Account.getList().get(1);
+        //is not available
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("yasiolalism"));
+        assertFalse(accountTest);
 
     }
     @Test
     void isThisUsernameExist2() {
-        //is in registering
-        boolean exists = true;
-        Account account = Account.getList().get(3);
+        //is in list
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("usernameSeller"));
+        assertTrue(accountTest);
 
+    }
+
+    @Test
+    void isThisUsernameExist4() {
+        //is in registering
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("registeringAccount2"));
+        assertTrue(accountTest);
     }
 
     @Test
@@ -84,6 +118,18 @@ class AccountTest {
         Account account = Account.getList().get(3);
         Account accountTest = assertDoesNotThrow(() -> Account.getAccountByUserName("usernameSeller"));
         assertEquals(account, accountTest);
+    }
+    @Test
+    void isThereAnyAccountWithThisUsername1() {
+        //is not available
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("yasiolalism"));
+        assertFalse(accountTest);
+    }
+    @Test
+    void isThereAnyAccountWithThisUsername2() {
+        //is in list
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("usernameSeller"));
+        assertTrue(accountTest);
     }
 
     @Test
@@ -104,16 +150,45 @@ class AccountTest {
         assertThrows(AccountDoesNotExistException.class,() -> Account.getAccountById(1),"This id not exist in all account list.");
     }
 
-
-    @Test
-    void isThereAnyAccountWithThisUsername() {
-    }
-
     @Test
     void addAccount() {
+        Account account = new Seller("nogole no shekofte");
+        try {
+            Account.addAccount(account);
+        } catch (CanNotAddException e) {
+            e.printStackTrace();
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assertTrue(Account.getList().contains(account));
     }
 
     @Test
     void deleteAccount() {
+        Account account = Account.getList().get(2);
+        try {
+            Account.deleteAccount(account);
+        } catch (CanNotDeleteException e) {
+            e.printStackTrace();
+        } catch (CanNotRemoveFromDataBase canNotRemoveFromDataBase) {
+            canNotRemoveFromDataBase.printStackTrace();
+        }
+        assertFalse(Account.getList().contains(account));
+    }
+    @Test
+    void addToInRegisteringList() {
+        Account account = new Customer(" data base! daram miyam pishet,jade che hamvere");
+        List<Account> list = Arrays.asList(account);
+        Account.setInRegistering(list);
+        assertTrue(Account.getInRegistering().contains(account));
+    }
+
+    @Test
+    void removeFromInRegistering() {
+        Account account = Account.getList().get(4);
+        Account.removeFromInRegistering(account);
+        assertFalse(Account.getInRegistering().contains(account));
     }
 }

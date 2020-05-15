@@ -151,7 +151,7 @@ public abstract class Account implements Packable<Account> {
     public static boolean isThereAnyAccountWithThisUsername(String username) {
         return list.stream().anyMatch(account -> username.equals(account.getUserName()));
     }
-
+    /**************************************************addAndRemove*****************************************************/
     public static void addAccount(Account account) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         account.setId(AddingNew.getRegisteringId().apply(getList()));
         list.add(account);

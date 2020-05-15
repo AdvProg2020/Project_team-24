@@ -45,7 +45,7 @@ public class ProductsController {
 
     public String showAvailableSorts() {
 
-        String availableSorts = "The available sort elements are : Time/Point/NumberOfVisits";
+        String availableSorts = "The available sort elements are : TIME/POINT/NUMBEROFVISITORS";
         return availableSorts;
     }
 
