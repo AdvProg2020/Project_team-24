@@ -31,10 +31,10 @@ public class AuctionController {
         return Auction.getList();
     }
 
-    public String showProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
+    public Product showProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
-        Product product = Auction);
+        Product product = controllerUnit.getAuction().getProductById(productId);
         controllerUnit.setProduct(product);
-        return product.toString();
+        return product;
     }
 }
