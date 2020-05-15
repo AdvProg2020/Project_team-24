@@ -171,7 +171,6 @@ public class ManagerController extends AccountController {
             case IS_NOT_A_VALID_USERNAME_TOO_SHORT:
                 throw new UserNameTooShortException("UserNameTooShortException");
         }
-
         Manager manager = new Manager(username);
         Account.addToInRegisteringList(manager);
         return manager;

@@ -27,7 +27,7 @@ public class SignUpController {
 
     /**************************************************MainMethods******************************************************/
 
-    public Account creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp {
+    public Account creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp, ThisUserNameAlreadyExistsException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
 
@@ -38,9 +38,8 @@ public class SignUpController {
                 throw new UserNameTooShortException("Username is too short.");
         }
 
-
-        if (Account.isThereAnyAccountWithThisUsername(username)) {
-            // need new exception.
+        if (Account.isThereAnyAccountWithThisUsername(username) || Account.isThereAnyInRegisteringWithThisUsername(username)) {
+            throw new ThisUserNameAlreadyExistsException("This username already exist.");
         }
 
         Account account;
@@ -52,8 +51,8 @@ public class SignUpController {
             case "Manager":
                 if (Manager.isThereAnyManager()) {
                     throw new CanNotCreatMoreThanOneMangerBySignUp("manager Exist!");
-                } else
-                    account = new Manager(username); // This step of manager registering is like others.
+                }
+                account = new Manager(username);
                 break;
             case "Customer":
                 account = new Customer(username);

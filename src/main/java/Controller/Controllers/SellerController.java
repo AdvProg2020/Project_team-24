@@ -29,11 +29,11 @@ public class SellerController extends AccountController {
 
     /****************************************************singleTone***************************************************/
 
-    private SellerController() {
-    }
-
     public static SellerController getInstance() {
         return sellerController;
+    }
+
+    private SellerController() {
     }
 
     /**************************************************methods********************************************************/
@@ -130,11 +130,15 @@ public class SellerController extends AccountController {
         return Auction.getAuctionById(offId);
     }
 
-    public void editAuction(String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException {
-        controllerUnit.getAuction().editField(fieldName, newInfo);
+    public void editAuction(String strId, String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException, NumberFormatException {
+        long id = Long.parseLong(strId);
+        Auction auction = Auction.getAuctionById(id);
+        auction.editField(fieldName, newInfo);
     }
 
-    public void editProduct(String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException {
-        controllerUnit.getProduct().editField(fieldName, newInfo);
+    public void editProduct(String strId, String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException, ProductDoesNotExistException, NumberFormatException {
+        long id = Long.parseLong(strId);
+        Product product = Product.getProductById(id);
+        product.editField(fieldName, newInfo);
     }
 }

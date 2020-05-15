@@ -12,23 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuestController {
-    /****************************************************fields*******************************************************/
-    private ControllerUnit controllerUnit;
-    private  Guest guest = (Guest) controllerUnit.getAccount();
-    /****************************************************singleTone***************************************************/
-    private static GuestController guestController;
 
-    private GuestController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
-    }
+    /******************************************************fields*******************************************************/
 
-    public static GuestController getInstance(ControllerUnit controllerUnit) {
-        if (guestController == null) {
-            guestController = new GuestController(controllerUnit);
-        }
+    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
+
+    private static GuestController guestController = new GuestController();
+
+    /******************************************************singleTone***************************************************/
+
+    public static GuestController getInstance() {
         return guestController;
     }
 
-    /**************************************************methods********************************************************/
+    private GuestController() {
+    }
 
+    /****************************************************methods********************************************************/
+
+    //?
 }

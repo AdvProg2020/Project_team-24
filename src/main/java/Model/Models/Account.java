@@ -31,9 +31,8 @@ public abstract class Account implements Packable<Account> {
 
     protected static List<Account> inRegistering = new ArrayList<>();
 
-    public static boolean isThisUsernameExist(String username) {
-        return inRegistering.stream().anyMatch(account -> username.equals(account.getUserName()))
-                || list.stream().anyMatch(account -> username.equals(account.getUserName()));
+    public static boolean isThereAnyInRegisteringWithThisUsername(String username) {
+        return inRegistering.stream().anyMatch(account -> username.equals(account.getUserName()));
     }
 
     public static void addToInRegisteringList(Account account) {
