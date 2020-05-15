@@ -59,6 +59,7 @@ public class OutPut {
         setMainMenuPattern();
         setUserAreaMenuPattern();
         setViewCartByGuestMethod();
+        setPurchaseByBuyerMenuPattern();
     }
 
     public void setSetMethods() {
@@ -87,6 +88,7 @@ public class OutPut {
         setViewCartByBuyerMenuMethods();
         setSellerMenuMethods();
         setManagerRequestsByManagerMenuMethods();
+        setPurchaseByBuyerMenuMethod();
     }
 
     private void setUserAreaMenuPattern() {
@@ -347,18 +349,17 @@ public class OutPut {
 
     }
 
-     private void setManageProductsBySellerMenuMethod() {
-         ManageProductsBySellerMenu.getMenu()
-                 .addMethod("view (\\d+)")
-                 .addMethod("view buyers (\\d+)")
-                 .addMethod("edit (\\d+)")
-                 .addMethod("exit")
-                 .addMethod("help")
-                 .addMethod("back");
+    private void setManageProductsBySellerMenuMethod() {
+        ManageProductsBySellerMenu.getMenu()
+                .addMethod("view (\\d+)")
+                .addMethod("view buyers (\\d+)")
+                .addMethod("edit (\\d+)")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
 
 
-     }
-
+    }
 
 
     private void setViewOffsBySellerMenuPattern() {
@@ -387,7 +388,6 @@ public class OutPut {
                 .addRegex("viewCart")
                 .addRegex("viewBalance")
                 .addRegex("viewDiscountCodes")
-                .addRegex("purchase")
                 .addRegex("viewOrders")
                 .addRegex("exit")
                 .addRegex("help")
@@ -400,7 +400,6 @@ public class OutPut {
                 .addMethod("viewCart")
                 .addMethod("viewBalance")
                 .addMethod("viewDiscountCodes")
-                .addMethod("purchase")
                 .addMethod("viewOrders")
                 .addMethod("exit")
                 .addMethod("help")
@@ -434,7 +433,7 @@ public class OutPut {
     }
 
     private void setViewOrdersByBuyerMenuPattern() {
-        ViewOrdersByBuyerMenu.getInstance(" View Orders By Buye rMenu", null)
+        ViewOrdersByBuyerMenu.getInstance(" View Orders By Buyer Menu", null)
                 .addRegex("showOrder (\\d+)")
                 .addRegex("rate (\\d+) [1-5]")
                 .addRegex("exit")
@@ -448,6 +447,23 @@ public class OutPut {
         ViewOrdersByBuyerMenu.getMenu()
                 .addMethod("showOrder (\\d+)")
                 .addMethod("rate (\\d+) [1-5]")
+                .addMethod("exit")
+                .addMethod("help")
+                .addMethod("back");
+    }
+
+    private void setPurchaseByBuyerMenuPattern() {
+        PurchaseByBuyerMenu.getInstance("Purchase By Buyer Menu", null)
+                .addRegex("payment")
+                .addRegex("exit")
+                .addRegex("help")
+                .addRegex("back")
+                .setPatterns();
+    }
+
+    private void setPurchaseByBuyerMenuMethod() {
+        PurchaseByBuyerMenu.getMenu()
+                .addMethod("payment")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");
@@ -524,6 +540,7 @@ public class OutPut {
 
 
     }
+
     private void setProductsMenuPattern() {
         ProductsMenu.getInstance("Products Menu", null)
                 .addRegex("viewCategories")
@@ -661,7 +678,8 @@ public class OutPut {
         ViewCartByGuestMenu.getMenu().setParentMenu(GuestMenu.getMenu());
         BuyerMenu.getMenu().setParentMenu(MainMenu.getMenu());
         ManageInfoMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
-        ViewOrdersByBuyerMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
+        ViewCartByBuyerMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
+        PurchaseByBuyerMenu.getMenu().setParentMenu(ViewCartByBuyerMenu.getMenu());
         ViewOrdersByBuyerMenu.getMenu().setParentMenu(BuyerMenu.getMenu());
         SellerMenu.getMenu().setParentMenu(MainMenu.getMenu());
         ManageProductsBySellerMenu.getMenu().setParentMenu(SellerMenu.getMenu());

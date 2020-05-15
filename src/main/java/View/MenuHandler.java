@@ -14,7 +14,9 @@ public class MenuHandler {
 
         BuyerMenu.getMenu().addSubMenu(ManageInfoMenu.getMenu())
                 .addSubMenu(ViewCartByBuyerMenu.getMenu())
-                .addSubMenu(ViewOrdersByBuyerMenu.getMenu());
+                .addSubMenu(ViewOrdersByBuyerMenu.getMenu())
+                .addSubMenu(PurchaseByBuyerMenu.getMenu());
+
         GuestMenu.getMenu().addSubMenu(ViewCartByGuestMenu.getMenu());
         MainMenu.getMenu().addSubMenu(ProductsMenu.getMenu())
                 .addSubMenu(AuctionsMenu.getMenu())
