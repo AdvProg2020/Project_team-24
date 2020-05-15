@@ -63,7 +63,7 @@ public class BuyerController extends AccountController {
         return Product.getProductById(productId);
     }
 
-    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException {
+    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException, ProductDoesNotExistException, ProductIsOutOfStockException {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         if (Product.getProductById(productId).getNumberOfThis() <= 0) {
@@ -125,9 +125,9 @@ public class BuyerController extends AccountController {
     }
 
     private double payment() throws PurchaseFailException, NotEnoughCreditException, AccountDoesNotExistException, FieldDoesNotExistException {
-        double pricewithoutdiscount = viewCart().getTotalPrice();
+        double priceWithoutDiscount = viewCart().getTotalPrice();
         double discount = viewCart().getTotalAuctionDiscount();
-        double price = pricewithoutdiscount-discount;
+        double price = priceWithoutDiscount - discount;
         if (discountCodeEntered != null) {
             price -= discountCodeEntered.getDiscountCodeDiscount(price);
         }

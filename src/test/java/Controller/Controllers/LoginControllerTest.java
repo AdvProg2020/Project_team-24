@@ -6,6 +6,8 @@ import Exceptions.PassIncorrectException;
 import Exceptions.UserNameInvalidException;
 import Exceptions.UserNameTooShortException;
 import Model.Models.Account;
+import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -24,10 +26,10 @@ class LoginControllerTest {
     public void doBeforeEveryTest() {
         Account account1 = new Seller("usernameSeller");
         account1.setPassword("1234");
-        Account account2 = new Seller("usernameCustomer");
-        account1.setPassword("1234");
-        Account account3 = new Seller("usernameManager");
-        account1.setPassword("1234");
+        Account account2 = new Customer("usernameCustomer");
+        account2.setPassword("1234");
+        Account account3 = new Manager("usernameManager");
+        account3.setPassword("1234");
         Account.setList(Arrays.asList(account1,account2,account3));
     }
 
