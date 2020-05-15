@@ -32,8 +32,6 @@ public class ViewOrdersByBuyerMenu extends Menu {
         String id = inputs.get(0);
         try {
             System.out.println(buyerController.showOrder(id));
-        } catch (HaveNotBoughtThisProductException e) {
-            System.out.println("have not bought these products");
         } catch (LogHistoryDoesNotExistException e) {
             System.out.println("log history does not exist");
         }

@@ -3,6 +3,7 @@ package View.Menus;
 import Controller.Controllers.ManagerController;
 import Controller.Controllers.SignUpController;
 import Exceptions.*;
+import Model.Models.Account;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -53,11 +54,11 @@ public class ManageUsersByManagerMenu extends Menu {
     }
 
     public void createManagerProfile() {
-
+        Account account = null;
         System.out.println("enter username");
         String username = scanner.nextLine();
         try {
-            managerController.createManagerProfileBaseAccount(username);
+           account= managerController.createManagerProfileBaseAccount(username);
         } catch (UserNameInvalidException e) {
             System.out.println("choose valid characters for your username");
         } catch (UserNameTooShortException e) {
@@ -68,16 +69,14 @@ public class ManageUsersByManagerMenu extends Menu {
         System.out.println("enter password :");
         String password = scanner.nextLine();
         try {
-            signUpController.creatPassWordForAccount(username, password);
+            signUpController.creatPassWordForAccount(account, password);
         } catch (PasswordInvalidException e) {
             System.out.println("choose valid characters for your password ");
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("this account is not exist");
         }
-        createPersonalInfo(username);
+        createPersonalInfo(account);
     }
 
-    public void createPersonalInfo(String username) {
+    public void createPersonalInfo(Account account) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
         );
@@ -86,11 +85,9 @@ public class ManageUsersByManagerMenu extends Menu {
             System.out.println("Incorrect format");
         }
         try {
-            SignUpController.getInstance().savePersonalInfo(username, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
+            SignUpController.getInstance().savePersonalInfo(account, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
         } catch (FirstNameInvalidException  e) {
             System.out.println("enter valid name");
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("this account does not exist");
         } catch (EmailInvalidException e) {
             System.out.println("enter valid email");
         } catch (PhoneNumberInvalidException e) {
