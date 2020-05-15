@@ -5,6 +5,7 @@ import Controller.Controllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
 import Model.Models.Category;
+import Model.Models.Field.Field;
 import Model.Models.Product;
 import View.MenuHandler;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class SellerMenu extends Menu {
 
@@ -79,20 +81,32 @@ public class SellerMenu extends Menu {
     public void saveProductInfo(Product product) {
         List<String> fieldName = new ArrayList<String>();
         List<String> values = new ArrayList<String>();
-        while(true){
-            System.out.println("enter field name or enter finish");
-            String input1=scanner.nextLine();
+        while (true) {
+            System.out.println("enter field name or enter finish:");
+            String input1 = scanner.nextLine();
             if (input1.equals("finish")) break;
             fieldName.add(input1);
-            System.out.println("enter field value ");
-            String input2=scanner.nextLine();
+            System.out.println("enter field value:");
+            String input2 = scanner.nextLine();
             values.add(input2);
         }
-        sellerController.saveProductInfo(product,fieldName,values);
+        sellerController.saveProductInfo(product, fieldName, values);
     }
 
     public void saveCategoryInfo(Product product) {
-//wait for controller ...
+        List<String> fieldName = product.getCategory().getCategoryField()
+                .getFieldList().stream().map(Field::getFieldName)
+                .collect(Collectors.toList());
+
+        List<String> values = new ArrayList<String>();
+        for (int i = 0; i < fieldName.size(); i++) {
+            System.out.println("enter field name or enter finish:");
+            System.out.println(fieldName + ":");
+            String input = scanner.nextLine();
+            if (input.equals("finish")) break;
+            values.add(input);
+        }
+        sellerController.saveCategoryInfo(product, fieldName, values);
     }
 
     public void removeProduct(List<String> inputs) {
