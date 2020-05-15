@@ -78,7 +78,7 @@ public class ProductController {
     }
 
     public void addComment(String title, String content) throws AccountDoesNotExistException, ProductDoesNotExistException, CannotRateException {
-        //need to set an id for comment
+        //+m need to set an id for comment
         Account account = controllerUnit.getAccount();
         List<Field> fields = Arrays.asList(new SingleString("Title", title), new SingleString("Content", content));
         FieldList fieldList = new FieldList(fields);

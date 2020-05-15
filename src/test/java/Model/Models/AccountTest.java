@@ -1,19 +1,19 @@
-package Model.Models;
 
-import Exceptions.AccountDoesNotExistException;
-import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Manager;
-import Model.Models.Accounts.Seller;
-import Model.Models.Field.Fields.SingleString;
-import Model.Tools.AddingNew;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+        package Model.Models;
+        import Exceptions.AccountDoesNotExistException;
+        import Model.Models.Accounts.Customer;
+        import Model.Models.Accounts.Manager;
+        import Model.Models.Accounts.Seller;
+        import Model.Models.Field.Fields.SingleString;
+        import Model.Tools.AddingNew;
+        import org.junit.jupiter.api.BeforeEach;
+        import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+        import java.time.LocalDate;
+        import java.util.Arrays;
+        import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+        import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
 
@@ -25,7 +25,10 @@ class AccountTest {
         Account account4 = new Seller("usernameSeller");
         Account account5 = new Customer("usernameCustomer");
         Account account6 = new Manager("usernameManager");
+        Account account7 = new Customer("registeringAccount1");
+        Account account8 = new Seller("registeringAccount2");
         List<Account> testList = Arrays.asList(account1, account2, account3, account4, account5, account6);
+        List<Account> registerinList = Arrays.asList(account7,account8);
         testList.forEach(account -> {
             if (account instanceof Seller) {
                 ((Seller) account).setBalance(100);
@@ -38,10 +41,7 @@ class AccountTest {
             account.setId(AddingNew.getRegisteringId().apply(testList));
         });
         Account.setList(testList);
-    }
-
-    @Test
-    void isThisUsernameExist() {
+        Account.setInRegistering(registerinList);
     }
 
     @Test
@@ -65,15 +65,45 @@ class AccountTest {
     }
 
     @Test
-    void getAccountByUserName() {
+    void isThisUsernameExist1() {
+        //is in list
+        boolean exists = true;
+        Account account = Account.getList().get(1);
+
+    }
+    @Test
+    void isThisUsernameExist2() {
+        //is in registering
+        boolean exists = true;
+        Account account = Account.getList().get(3);
+
+    }
+
+    @Test
+    void getAccountByUserName1() {
         Account account = Account.getList().get(3);
         Account accountTest = assertDoesNotThrow(() -> Account.getAccountByUserName("usernameSeller"));
         assertEquals(account, accountTest);
     }
 
     @Test
-    void getAccountById() {
+    void getAccountByUserName2() {
+        Account accountTest = assertDoesNotThrow(() -> Account.getAccountByUserName("usernameSeller"));
+        assertThrows(AccountDoesNotExistException.class, () -> Account.getAccountByUserName("yasamingol"), "This username not exist in all account list.");
     }
+
+    @Test
+    void getAccountById1() {
+        Account account = Account.getList().get(0);
+        Account accountTest = assertDoesNotThrow(() -> Account.getAccountById(1));
+        assertEquals(account, accountTest);
+    }
+    @Test
+    void getAccountById2() {
+        Account accountTest = assertDoesNotThrow(() -> Account.getAccountById(1));
+        assertThrows(AccountDoesNotExistException.class,() -> Account.getAccountById(1),"This id not exist in all account list.");
+    }
+
 
     @Test
     void isThereAnyAccountWithThisUsername() {
