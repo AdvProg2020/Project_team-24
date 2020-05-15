@@ -2,12 +2,15 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Field.Field;
+import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,12 +20,14 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     private static List<String> fieldNames;
 
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     static {
         list = DataBase.loadList("DiscountCode").stream()
                 .map(packable -> (DiscountCode) packable)
                 .collect(Collectors.toList());
 
-        fieldNames = Arrays.asList("start", "end", "discount", "frequentUse");
+        fieldNames = Arrays.asList("start", "end", "maxDiscountAmount", "discountPercent", "frequentUse");
     }
 
     /*****************************************************fields*******************************************************/
@@ -72,6 +77,28 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     public static List<DiscountCode> getList() {
         return Collections.unmodifiableList(list);
+    }
+
+    /*****************************************************setters*******************************************************/
+
+    public void setDiscountCode(String discountCode) {
+        this.discountCode = discountCode;
+    }
+
+    public void setStart(LocalDate start) {
+        this.start = start;
+    }
+
+    public void setEnd(LocalDate end) {
+        this.end = end;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    public void setFrequentUse(long frequentUse) {
+        this.frequentUse = frequentUse;
     }
 
     /**************************************************addAndRemove*****************************************************/
@@ -135,6 +162,8 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     /***************************************************otherMethods****************************************************/
 
+
+
     public static DiscountCode getDiscountCodeById(long id) throws DiscountCodeExpiredException {
         return list.stream()
                 .filter(code -> id == code.getId())
@@ -150,11 +179,32 @@ public class DiscountCode implements Packable<DiscountCode> {
         return Math.min(discount.getAmount(), discount.getPercent() * price / 100);
     }
 
-    public static Field getFieldByName(String name) throws NoSuchFieldException {
-        if (!fieldNames.contains(name)) {
-            throw new NoSuchFieldException("does not exist this field in DiscountCode.");
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException, DateTimeParseException {
+        List<String> fields = new ArrayList<>(fieldNames);
+        fields.addAll(fieldList.getFieldList().stream().map(Field::getFieldName).collect(Collectors.toList()));
+        if (!fieldNames.contains(fieldName)) {
+            throw new FieldDoesNotExistException("This field not found in account.");
         }
-        return DiscountCode.class.getField(name);
+        switch (fieldName) {
+            case "start":
+                setStart(LocalDate.parse(value,formatter));
+                break;
+            case "end":
+                setEnd(LocalDate.parse(value,formatter));
+                break;
+            case "frequentUse":
+                setFrequentUse(Long.parseLong(value));
+                break;
+            case "maxDiscountAmount":
+                discount.setAmount(Double.parseDouble(value));
+                break;
+            case "discountPercent":
+                discount.setPercent(Double.parseDouble(value));
+                break;
+            default:
+                SingleString field = (SingleString) fieldList.getFieldByName(fieldName);
+                field.setString(value);
+        }
     }
 
     /**************************************************constructors*****************************************************/

@@ -200,7 +200,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /***************************************************otherMethods****************************************************/
 
-    public void editField(String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException {
+    public void editField(String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException, CategoryDoesNotExistException {
         if (!fieldNames.contains(fieldName)) {
             throw new FieldDoesNotExistException("This field not found in account.");
         }
@@ -277,7 +277,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     }
 
     @Override
-    public Product dpkg(Data<Product> data) throws CommentDoesNotExistException, AccountDoesNotExistException {
+    public Product dpkg(Data<Product> data) throws CommentDoesNotExistException, AccountDoesNotExistException, CategoryDoesNotExistException {
         this.productId = (long) data.getFields().get(0);
         this.productInfo = (Info) data.getFields().get(1);
         this.categoryInfo = (Info) data.getFields().get(2);

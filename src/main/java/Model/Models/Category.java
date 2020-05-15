@@ -2,14 +2,13 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -102,25 +101,32 @@ public class Category implements Packable<Category> {
 
     /***************************************************otherMethods****************************************************/
 
-    public static Category getCategoryById(long id) {
+    public static Category getCategoryById(long id) throws CategoryDoesNotExistException {
         return list.stream()
                 .filter(category -> id == category.getId())
                 .findFirst()
-                .orElseThrow(); // need category not found exception.
+                .orElseThrow(() -> new CategoryDoesNotExistException("Category with the id:"+ id + " does not exist."));
     }
 
-    public static Category getCategoryByName(String name) {
+    public static Category getCategoryByName(String name) throws CategoryDoesNotExistException {
         return list.stream()
                 .filter(category -> name.equals(category.getName()))
                 .findFirst()
-                .orElseThrow(); // need category not found exception.
+                .orElseThrow(() -> new CategoryDoesNotExistException("Category with the name:"+ name + " does not exist."));
     }
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException {
+        List<String> fields = new ArrayList<>(fieldNames);
+        fields.addAll(categoryField.getFieldList().stream().map(Field::getFieldName).collect(Collectors.toList()));
         if (!fieldNames.contains(fieldName)) {
             throw new FieldDoesNotExistException("This field not found in account.");
         }
-        setName(value);
+        if (fieldName.equals("name")) {
+            setName(value);
+        } else {
+            SingleString field = (SingleString) categoryField.getFieldByName(fieldName);
+            field.setString(value);
+        }
     }
 
     /***************************************************packAndDpkg*****************************************************/
@@ -141,7 +147,7 @@ public class Category implements Packable<Category> {
     }
 
     @Override
-    public Category dpkg(Data<Category> data) throws ProductDoesNotExistException {
+    public Category dpkg(Data<Category> data) throws ProductDoesNotExistException, CategoryDoesNotExistException {
         this.categoryId = (long) data.getFields().get(0);
         this.name = (String) data.getFields().get(1);
         this.categoryField = (FieldList) data.getFields().get(2);

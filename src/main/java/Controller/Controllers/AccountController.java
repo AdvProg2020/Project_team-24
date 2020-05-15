@@ -5,11 +5,15 @@ import Exceptions.FieldDoesNotExistException;
 import Model.Models.Account;
 import Model.Models.Info;
 
+import java.time.format.DateTimeFormatter;
+
 public abstract class AccountController {
 
     /****************************************************fields*******************************************************/
 
     protected ControllerUnit controllerUnit = ControllerUnit.getInstance();
+
+    protected static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**************************************************methods********************************************************/
 

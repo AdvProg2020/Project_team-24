@@ -1,32 +1,23 @@
 package Controller.Controllers;
 
-import Controller.ControllerUnit;
 import Controller.Tools.RegisterAndLoginValidator;
 import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
-import Model.Models.Field.Fields.RangeString;
-import Model.Tools.Packable;
+import Model.Tools.AddingNew;
 
 import java.io.IOException;
-import java.lang.IllegalAccessException;
-import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ManagerController extends AccountController {
 
     /******************************************************fields*******************************************************/
 
     private static ManagerController managerController = new ManagerController();
-
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /******************************************************singleTone***************************************************/
 
@@ -89,7 +80,7 @@ public class ManagerController extends AccountController {
 
         if (start.isBefore(end) && end.isAfter(LocalDate.now())) {
             DiscountCode discountCode = new DiscountCode(
-                    Packable.getRegisteringId(DiscountCode.getList()),
+                    AddingNew.getRegisteringId().apply(DiscountCode.getList()),
                     DiscountCode.createDiscountCode(),
                     start,
                     end,
@@ -108,20 +99,10 @@ public class ManagerController extends AccountController {
         return DiscountCode.getDiscountCodeById(discountCodeId);
     }
 
-    public void editDiscountCode(String DiscountCodeIdString, String strField, String newField) throws NumberFormatException, DiscountCodeExpiredException, NoSuchFieldException, IllegalAccessException {
+    public void editDiscountCode(String DiscountCodeIdString, String strField, String newField) throws NumberFormatException, DiscountCodeExpiredException, FieldDoesNotExistException {
         long discountCodeId = Long.parseLong(DiscountCodeIdString);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
-        Field field = DiscountCode.getFieldByName(strField);
-        switch (field.getType().getSimpleName()) {
-            case "LocalDate":
-                field.set(discountCode, LocalDate.parse(newField, formatter));
-                break;
-            case "Integer":
-                field.set(discountCode, Integer.parseInt(newField));
-                break;
-            case "Double":
-                field.set(discountCode, Double.parseDouble(newField));
-        }
+        discountCode.editField(strField,newField);
     }
 
     public void removeDiscountCode(String StrDiscountCodeId) throws DiscountCodeExpiredException, CanNotRemoveException, CanNotRemoveFromDataBase {
@@ -156,57 +137,27 @@ public class ManagerController extends AccountController {
         return Request.getRequestById(requestId);
     }
 
-    public void acceptRequest(String strRequestId) throws RequesDoesNotExistException, CanNotRemoveFromDataBase {
+    public void acceptRequest(String strRequestId) throws RequesDoesNotExistException, CanNotRemoveFromDataBase, CanNotSaveToDataBaseException, CanNotAddException, IOException {
         long requestId = Long.parseLong(strRequestId);
-        Request.getRequestById(requestId).acceptRequest();
+        ((Manager) controllerUnit.getAccount()).acceptRequest(Request.getRequestById(requestId));
     }
 
     public void denyRequest(String strRequestId) throws RequesDoesNotExistException, CanNotRemoveFromDataBase {
         long requestId = Long.parseLong(strRequestId);
-        Request.getRequestById(requestId).declineRequest();
+        ((Manager) controllerUnit.getAccount()).declineRequest(Request.getRequestById(requestId));
     }
 
-    public void editCategory(String categoryName, String fieldName, String newField) throws FieldDoesNotExistException, NoSuchFieldException, IllegalAccessException {
+    public void editCategory(String categoryName, String fieldName, String newField) throws FieldDoesNotExistException, CategoryDoesNotExistException {
         Category category = Category.getCategoryByName(categoryName);
-        if (fieldName.matches("^FieldList")) {
-            Model.Models.Field.Field modelField = category.getCategoryField().getFieldByName(fieldName);
-            switch (modelField.getClass().getSimpleName()) {
-                case "Field":
-                    Matcher matcher = Pattern.compile("FieldList (\\w+)").matcher(newField);
-                    if (!matcher.find()) {
-                        // throw exception.
-                    }
-                    modelField.setFieldName(matcher.group(1));
-                    break;
-                case "RangeString":
-                    matcher = Pattern.compile("FieldList (\\w+) : (\\w+) to (\\w+)").matcher(newField);
-                    if (!matcher.find()) {
-                        // throw exception.
-                    }
-                    modelField.setFieldName(matcher.group(1));
-                    ((RangeString) modelField).setLow(matcher.group(2));
-                    ((RangeString) modelField).setHigh(matcher.group(3));
-                    break;
-                case "SingleString":
-                    matcher = Pattern.compile("FieldList (\\w+) : (\\w+)").matcher(newField);
-                    if (!matcher.find()) {
-                        // throw exception.
-                    }
-                    modelField.setFieldName(matcher.group(1));
-                    ((RangeString) modelField).setLow(matcher.group(2));
-            }
-        } else {
-            Field field = category.getClassFieldByName(fieldName);
-            field.set(category, newField);
-        }
+        category.editField(fieldName, newField);
     }
 
-    public void removeCategory(String categoryName) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public void removeCategory(String categoryName) throws CanNotRemoveException, CanNotRemoveFromDataBase, CategoryDoesNotExistException {
         Category category = Category.getCategoryByName(categoryName);
         Category.removeCategory(category);
     }
 
-    public void addCategory(String categoryName) throws CanNotAddException, IOException, CanNotSaveToDataBaseException {
+    public void addCategory(String categoryName) throws CanNotAddException, IOException, CanNotSaveToDataBaseException, CategoryDoesNotExistException {
         Category category = Category.getCategoryByName(categoryName);
         Category.addCategory(category);
     }

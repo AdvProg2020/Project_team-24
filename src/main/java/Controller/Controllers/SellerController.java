@@ -8,6 +8,7 @@ import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
+import Model.Tools.AddingNew;
 import Model.Tools.ForPend;
 
 import java.io.IOException;
@@ -25,8 +26,6 @@ public class SellerController extends AccountController {
     private Seller seller = (Seller) controllerUnit.getAccount();
 
     private static SellerController sellerController = new SellerController();
-
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /****************************************************singleTone***************************************************/
 
@@ -75,7 +74,7 @@ public class SellerController extends AccountController {
         return product.getBuyerList();
     }
 
-    public Product createTheBaseOfProduct(String productName, String strCategoryId, String strAuctionId, String strNumberOfThis) throws AuctionDoesNotExistException {
+    public Product createTheBaseOfProduct(String productName, String strCategoryId, String strAuctionId, String strNumberOfThis) throws AuctionDoesNotExistException, CategoryDoesNotExistException {
         long numberOfThis = Long.parseLong(strNumberOfThis);
         long categoryId = Long.parseLong(strCategoryId);
         long auctionId = Long.parseLong(strAuctionId);
@@ -112,7 +111,7 @@ public class SellerController extends AccountController {
     }
 
     private void newRequest(ForPend forPend, String information) throws CanNotAddException, IOException, CanNotSaveToDataBaseException {
-        Request request = new Request(0L, seller, information, "new" + forPend.getClass().getSimpleName(), forPend); // need a method to get a new id.
+        Request request = new Request(AddingNew.getRegisteringId().apply(Request.getList()), seller, information, "new" + forPend.getClass().getSimpleName(), forPend);
         Request.addRequest(request);
     }
 
@@ -135,7 +134,7 @@ public class SellerController extends AccountController {
         controllerUnit.getAuction().editField(fieldName, newInfo);
     }
 
-    public void editProduct(String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException {
+    public void editProduct(String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException {
         controllerUnit.getProduct().editField(fieldName, newInfo);
     }
 }
