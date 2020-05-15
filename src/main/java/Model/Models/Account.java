@@ -138,7 +138,7 @@ public abstract class Account implements Packable<Account> {
         return list.stream()
                 .filter(account -> name.equals(account.getUserName()))
                 .findFirst()
-                .orElseThrow(() -> new AccountDoesNotExistException("This user not exist in all account list."));
+                .orElseThrow(() -> new AccountDoesNotExistException("This username not exist in all account list."));
     }
 
     public static Account getAccountById(long id) throws AccountDoesNotExistException {

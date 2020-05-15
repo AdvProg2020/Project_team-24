@@ -47,14 +47,14 @@ public class ProductController {
     }
 
     public Seller selectSellerOFProduct(String sellerIdAsString) throws AccountDoesNotExistException, ThisSellerDoseNotSellChosenProduct, IdOnlyContainsNumbersException {
-        if(sellerIdAsString.matches("\\d+")) {
+        if (sellerIdAsString.matches("\\d+")) {
             Long sellerId = Long.parseLong(sellerIdAsString);
             Seller seller = (Seller) Seller.getAccountById(sellerId);
             if (!ListOfSellersOfChosenProsuct().contains(seller)) {
                 throw new ThisSellerDoseNotSellChosenProduct("ThisSellerDoseNotSellChosenProduct");
             } else selectedSeller = seller;
             return selectedSeller;
-        }else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
+        } else throw new IdOnlyContainsNumbersException("IdOnlyContainsNumbersException");
     }
 
     public void addToCart(String sellerIdAsString) throws AcountHasNotLogedIn, CanNotAddException, ProductIsOutOfStockException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException, FieldDoesNotExistException {
@@ -64,7 +64,7 @@ public class ProductController {
         if (customer == null) {
             throw new AcountHasNotLogedIn("AcountHasNotLogedIn");
         }
-        if(product.getNumberOfThis()<=0){
+        if (product.getNumberOfThis() <= 0) {
             throw new ProductIsOutOfStockException("ProductIsOutOfStockException");
         }
         Product productClone = (Product) product.clone();
@@ -80,10 +80,10 @@ public class ProductController {
     public void addComment(String title, String content) throws AccountDoesNotExistException, ProductDoesNotExistException, CannotRateException {
         //need to set an id for comment
         Account account = controllerUnit.getAccount();
-        List<Field> fields = Arrays.asList(new SingleString("Title",title),new SingleString("Content",content));
+        List<Field> fields = Arrays.asList(new SingleString("Title", title), new SingleString("Content", content));
         FieldList fieldList = new FieldList(fields);
-        buyerController.checkIfProductBoughtToRate(product.getId()+"");
-        Comment comment = new Comment(0,account,product,fieldList,"ziba bood");
+        buyerController.checkIfProductBoughtToRate(product.getId() + "");
+        Comment comment = new Comment(0, account, product, fieldList, "ziba bood");
 
 
     }
