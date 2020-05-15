@@ -4,12 +4,10 @@
         import Model.Models.Accounts.Customer;
         import Model.Models.Accounts.Manager;
         import Model.Models.Accounts.Seller;
-        import Model.Models.Field.Field;
         import Model.Models.Field.Fields.SingleString;
         import Model.Tools.AddingNew;
         import org.junit.jupiter.api.BeforeEach;
         import org.junit.jupiter.api.Test;
-
         import java.io.IOException;
         import java.time.LocalDate;
         import java.util.Arrays;
@@ -100,16 +98,16 @@ class AccountTest {
 
 
     @Test
-    void isThisUsernameExist1() {
+    void isThereAnyInRegisteringWithThisUsername1() {
         //is not available
-        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("yasiolalism"));
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThereAnyInRegisteringWithThisUsername("yasiolalism"));
         assertFalse(accountTest);
 
     }
     @Test
-    void isThisUsernameExist2() {
+    void isThereAnyInRegisteringWithThisUsername2() {
         //is in list
-        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("usernameSeller"));
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThereAnyInRegisteringWithThisUsername("usernameSeller"));
         assertTrue(accountTest);
 
     }
@@ -117,7 +115,7 @@ class AccountTest {
     @Test
     void isThisUsernameExist4() {
         //is in registering
-        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("registeringAccount2"));
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThereAnyInRegisteringWithThisUsername("registeringAccount2"));
         assertTrue(accountTest);
     }
 
@@ -130,13 +128,13 @@ class AccountTest {
     @Test
     void isThereAnyAccountWithThisUsername1() {
         //is not available
-        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("yasiolalism"));
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThereAnyAccountWithThisUsername("yasiolalism"));
         assertFalse(accountTest);
     }
     @Test
     void isThereAnyAccountWithThisUsername2() {
         //is in list
-        boolean accountTest = assertDoesNotThrow(() -> Account.isThisUsernameExist("usernameSeller"));
+        boolean accountTest = assertDoesNotThrow(() -> Account.isThereAnyAccountWithThisUsername("usernameSeller"));
         assertTrue(accountTest);
     }
 
