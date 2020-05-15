@@ -69,15 +69,23 @@ class AccountTest {
         //pesonalInfo
         Account account = Account.getList().get(0);
         assertDoesNotThrow(() -> account.editField("PhoneNumber","09126940944"));
-        assertTrue(account.getPassword().equals("09126940944"));
+        try {
+            assertTrue(account.getPersonalInfo().getList().getFieldByName("PhoneNumber").equals("09126940944"));
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+        }
 
     }
     @Test
     void editField3() {
         //companyInfo
-        Account account = Account.getList().get(0);
+        Seller account = (Seller) Account.getList().get(0);
         assertDoesNotThrow(() -> account.editField("CompanyEmail","terminator@gmail.com"));
-        assertTrue(account.getPassword().equals("terminator@gmail.com"));
+        try {
+            assertTrue(account.getCompanyInfo().getList().getFieldByName("CompanyEmail").equals("terminator@gmail.com"));
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+        }
 
     }
     @Test
