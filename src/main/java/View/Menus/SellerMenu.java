@@ -4,6 +4,7 @@ import Controller.Controllers.ManagerController;
 import Controller.Controllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
 import Model.Models.Category;
 import Model.Models.Field.Field;
 import Model.Models.Product;
@@ -79,6 +80,8 @@ public class SellerMenu extends Menu {
     }
 
     public void saveProductInfo(Product product) {
+        //System.out.println("these are fields' names");
+
         List<String> fieldName = new ArrayList<String>();
         List<String> values = new ArrayList<String>();
         while (true) {
@@ -109,21 +112,30 @@ public class SellerMenu extends Menu {
     }
 
     public void removeProduct(List<String> inputs) {
-        long id = Long.parseLong(inputs.get(0));
+        String id = inputs.get(0);
+        try {
+            sellerController.removeProduct(id);
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        }
     }
 
     public void showCategories() {
         System.out.println("these are categories");
-        // Category.getCategoryList().stream().map(Category::getName).forEach(System.out::println);
-        //yasi
+        sellerController.showCategories().forEach(category -> {
+            System.out.println(category.getName());
+        });
     }
 
     public void viewOffs() {
+        sellerController.viewAllOffs().forEach(off->{
+            System.out.println(off.getAuctionName());
+        });
         MenuHandler.setCurrentMenu(ViewOffsBySellerMenu.getMenu());
     }
 
     public void viewBalance() {
-        //yac
+        System.out.println(sellerController.viewBalance());
     }
 
     @Override

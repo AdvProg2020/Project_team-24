@@ -1,7 +1,15 @@
 package View.Menus;
 
+import Controller.Controllers.SellerController;
+import Exceptions.AuctionDoesNotExistException;
+import Exceptions.CategoryDoesNotExistException;
+import Exceptions.FieldDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ViewOffsBySellerMenu extends Menu {
 
@@ -11,6 +19,8 @@ public class ViewOffsBySellerMenu extends Menu {
         super(name, parentMenu);
     }
 
+    private static SellerController sellerController = SellerController.getInstance();
+
     public static ViewOffsBySellerMenu getInstance(String name, Menu parent) {
         if (menu == null) {
             menu = new ViewOffsBySellerMenu(name, parent);
@@ -19,15 +29,43 @@ public class ViewOffsBySellerMenu extends Menu {
     }
 
     public void viewOff(List<String> inputs) {
-        // yac
+        String id = inputs.get(0);
+        try {
+            System.out.println(sellerController.viewOff(id));
+        } catch (AuctionDoesNotExistException e) {
+            System.out.println("auction does not exist");
+        }
+
     }
 
     public void editOff(List<String> inputs) {
-        // yac
+        String id = inputs.get(0);
+        System.out.println("enter field name or enter finish to stop edit product");
+        while (true) {
+            String fieldName = scanner.nextLine();
+            if (fieldName.equals("finish")) break;
+            System.out.println("enter new information about product");
+            String newInfo = scanner.nextLine();
+            try {
+                sellerController.editAuction(id, fieldName, newInfo);
+            } catch (AuctionDoesNotExistException e) {
+                System.out.println("auction does not exist");
+            } catch (FieldDoesNotExistException e) {
+                System.out.println("field does not exist");
+            }
+        }
+
     }
 
     public void addOff() {
-        // yac
+        System.out.println("Enter information in this pattern :" + System.lineSeparator() +
+                "AuctionInfo :[auctionName] :[Start] :[End] :[percent] :[maxAmount]"
+        );
+        Matcher matcher = Pattern.compile("AuctionInf :(\\w+) :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
+        if (!matcher.find()) {
+            System.out.println("Incorrect format");
+        }
+        sellerController.addOff(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5));
     }
 
     public static Menu getMenu() {
@@ -44,8 +82,8 @@ public class ViewOffsBySellerMenu extends Menu {
         super.help();
         System.out.println(
                 "viewOff [OffId] : To show off by id" + System.lineSeparator() +
-                "editOff [OffId] : To edit an off" + System.lineSeparator() +
-                "addOff : To add an off" + System.lineSeparator() +
+                        "editOff [OffId] : To edit an off" + System.lineSeparator() +
+                        "addOff : To add an off" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
