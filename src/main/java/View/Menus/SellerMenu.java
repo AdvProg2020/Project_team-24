@@ -1,8 +1,14 @@
 package View.Menus;
 
+import Controller.Controllers.ManagerController;
+import Controller.Controllers.SellerController;
+import Exceptions.AuctionDoesNotExistException;
+import Exceptions.CategoryDoesNotExistException;
 import Model.Models.Category;
+import Model.Models.Product;
 import View.MenuHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -16,6 +22,8 @@ public class SellerMenu extends Menu {
         super(name, parentMenu);
     }
 
+    private static SellerController sellerController = SellerController.getInstance();
+
     public static SellerMenu getInstance(String name, Menu parent) {
         if (menu == null) {
             menu = new SellerMenu(name, parent);
@@ -28,15 +36,17 @@ public class SellerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
+        System.out.println(sellerController.viewPersonalInfo());
+        System.out.println(sellerController.viewCompanyInformation());
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
     public void viewCompanyInformation() {
-        //yac
+        System.out.println(sellerController.viewCompanyInformation());
     }
 
     public void viewSalesHistory() {
-        //yac
+        System.out.println(sellerController.viewSalesHistory());
     }
 
     public void manageProducts() {
@@ -44,20 +54,45 @@ public class SellerMenu extends Menu {
     }
 
     public void addProduct() {
+        Product product = null;
         System.out.println("Enter product information :" + System.lineSeparator() +
                 "Enter information in this format :" + System.lineSeparator() +
-                "product :[nameOfProduct] :[numberOfThis] :[brand] :[category] ");
+                "product :[nameOfProduct] :[productId] :[auctionId] :[numberOfThis]");
         Matcher matcher = Pattern
                 .compile("product :(\\w+) :(\\d+) :(\\w+) :(\\w+)")
                 .matcher(scanner.nextLine().trim().toLowerCase());
-        System.out.println("these are fields");
-        //namayeshe fields ha
-        //gereftn fields ha
+        try {
+            product = sellerController.createTheBaseOfProduct(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
+        } catch (AuctionDoesNotExistException e) {
+            System.out.println("auction does not exist");
+        } catch (CategoryDoesNotExistException e) {
+            System.out.println("category does not exist");
+        }
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
             return;
         }
-        // controller manager . . .
+        saveProductInfo(product);
+        saveCategoryInfo(product);
+    }
+
+    public void saveProductInfo(Product product) {
+        List<String> fieldName = new ArrayList<String>();
+        List<String> values = new ArrayList<String>();
+        while(true){
+            System.out.println("enter field name or enter finish");
+            String input1=scanner.nextLine();
+            if (input1.equals("finish")) break;
+            fieldName.add(input1);
+            System.out.println("enter field value ");
+            String input2=scanner.nextLine();
+            values.add(input2);
+        }
+        sellerController.saveProductInfo(product,fieldName,values);
+    }
+
+    public void saveCategoryInfo(Product product) {
+//wait for controller ...
     }
 
     public void removeProduct(List<String> inputs) {
@@ -66,7 +101,7 @@ public class SellerMenu extends Menu {
 
     public void showCategories() {
         System.out.println("these are categories");
-       // Category.getCategoryList().stream().map(Category::getName).forEach(System.out::println);
+        // Category.getCategoryList().stream().map(Category::getName).forEach(System.out::println);
         //yasi
     }
 

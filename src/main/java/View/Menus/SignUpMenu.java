@@ -46,8 +46,6 @@ public class SignUpMenu extends Menu {
             signUpController.creatPassWordForAccount(account, password);
         } catch (PasswordInvalidException e) {
             System.out.println("choose valid password");
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("this account does not exist");
         }
         createPersonalInfo(account);
         if (inputs.get(0).equals("seller")) {
@@ -68,8 +66,6 @@ public class SignUpMenu extends Menu {
             signUpController.savePersonalInfo(account, matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
         } catch (FirstNameInvalidException e) {
             System.out.println("enter valid name");
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("this account does not exist");
         } catch (EmailInvalidException e) {
             System.out.println("enter valid email");
         } catch (PhoneNumberInvalidException e) {
@@ -91,10 +87,6 @@ public class SignUpMenu extends Menu {
             signUpController.saveCompanyInfo(account, matcher.group(0), matcher.group(1), matcher.group(2));
         } catch (CompanyNameInvalidException e) {
             System.out.println("enter valid characters for your company's name");
-        } catch (YouAreNotASellerToSaveCompanyInfoException e) {
-            System.out.println("your type is not seller");
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("your account is not exist");
         } catch (EmailInvalidException e) {
             System.out.println("enter valid email");
         } catch (PhoneNumberInvalidException e) {
