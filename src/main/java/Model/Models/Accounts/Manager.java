@@ -1,8 +1,13 @@
 package Model.Models.Accounts;
 
+import Exceptions.CanNotAddException;
+import Exceptions.CanNotRemoveFromDataBase;
+import Exceptions.CanNotSaveToDataBaseException;
 import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
+
+import java.io.IOException;
 
 public class Manager extends Account {
 
@@ -35,12 +40,12 @@ public class Manager extends Account {
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest(Request request) {
-        //
+    public void acceptRequest(Request request) throws CanNotSaveToDataBaseException, CanNotAddException, CanNotRemoveFromDataBase, IOException {
+        request.acceptRequest();
     }
 
-    public void declineRequest(Request request) {
-        //
+    public void declineRequest(Request request) throws CanNotRemoveFromDataBase {
+        request.declineRequest();
     }
 
     public static boolean isThereAnyManager() {

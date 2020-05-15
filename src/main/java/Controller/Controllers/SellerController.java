@@ -122,8 +122,7 @@ public class SellerController extends AccountController {
         seller.removeFromProductList(product);
     }
 
-    // what ?
-//    public ArrayList<Auction> viewOffInFilter() {
+//    public ArrayList<Auction> viewOffInFilter() { // what is this?
 //        return null; //Discount.Disc;
 //    }
 
@@ -132,16 +131,11 @@ public class SellerController extends AccountController {
         return Auction.getAuctionById(offId);
     }
 
-    // bashe bara farda.
-//    public void editAuction(String fieldName, String newInfo) {
-//        //field.set
-//        //+m Field field = Auction.getClassFieldByName(fieldName);
-//
-//    }
-//
-//    public void editProduct(String fieldName, String newInfo) {
-//        //aval bayad  seller bere tooye safhe product bad biyad diage??
-//        Product product = controllerUnit.getProduct();
-//        //+m Field field = product.getClassFieldByName;
-//    }
+    public void editAuction(String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException {
+        controllerUnit.getAuction().editField(fieldName, newInfo);
+    }
+
+    public void editProduct(String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException {
+        controllerUnit.getProduct().editField(fieldName, newInfo);
+    }
 }

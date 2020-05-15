@@ -1,5 +1,8 @@
 package Model.Tools;
 
 public interface ForPend {
-    //Just as a label ...
+
+    void setStateForPend(String state);
+
+    String getStateForPend();
 }

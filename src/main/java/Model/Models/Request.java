@@ -2,6 +2,7 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
@@ -58,14 +59,19 @@ public class Request implements Packable<Request> {
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest() throws CanNotRemoveFromDataBase {
-        // add to all product or auction
+    public void acceptRequest() throws CanNotRemoveFromDataBase, CanNotAddException, IOException, CanNotSaveToDataBaseException {
+        forPend.setStateForPend("Accepted");
+        if (forPend instanceof Product) {
+            Product.addProduct((Product) forPend);
+        } else if (forPend instanceof Auction) {
+            Auction.addAuction((Auction) forPend);
+        }
         list.remove(this);
         DataBase.remove(this);
     }
 
-    public void declineRequest() throws  CanNotRemoveFromDataBase {
-        // remove from all product or auction
+    public void declineRequest() throws CanNotRemoveFromDataBase {
+        forPend.setStateForPend("Declined");
         list.remove(this);
         DataBase.remove(this);
     }
@@ -74,7 +80,7 @@ public class Request implements Packable<Request> {
 
     public static void addRequest(Request request) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
         list.add(request);
-        DataBase.save(request,true);
+        DataBase.save(request, true);
     }
 
     public static void removeRequest(Request request) throws CanNotRemoveException, CanNotRemoveFromDataBase {

@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Models.Account;
+import Model.Models.Auction;
 import Model.Models.Product;
 
 public class ControllerUnit {
@@ -9,6 +10,7 @@ public class ControllerUnit {
 
     private Account account;
     private Product product;
+    private Auction auction;
 
     public static ControllerUnit getInstance() {
         return controllerUnit;
@@ -20,6 +22,14 @@ public class ControllerUnit {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public void setAuction(Auction auction) {
+        this.auction = auction;
+    }
+
+    public Auction getAuction() {
+        return auction;
     }
 
     public Account getAccount() {

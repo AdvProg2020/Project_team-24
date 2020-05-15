@@ -52,7 +52,7 @@ public class Auction implements Packable<Auction>, ForPend {
         return auctionId;
     }
 
-    public String getStatus() {
+    public String getStateForPend() {
         return stateForPend;
     }
 
