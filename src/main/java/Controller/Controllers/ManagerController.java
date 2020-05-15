@@ -162,7 +162,7 @@ public class ManagerController extends AccountController {
         Category.addCategory(category);
     }
 
-    public void createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException {
+    public Manager createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException {
         RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
 
         switch (registerValidation) {
@@ -174,5 +174,6 @@ public class ManagerController extends AccountController {
 
         Manager manager = new Manager(username);
         Account.addToInRegisteringList(manager);
+        return manager;
     }
 }

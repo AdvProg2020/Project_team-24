@@ -15,23 +15,26 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class FilterController {
-    /****************************************************fields*******************************************************/
-    private ControllerUnit controllerUnit;
+
+    /******************************************************fields*******************************************************/
+
+    private ControllerUnit controllerUnit = ControllerUnit.getInstance();
+
     private List<Product> listOfProductsFiltered = Product.getList();
+
+    private static FilterController filterController = new FilterController();
+
     private List<Filter>  listOfFiltersNowRunning ;
-    /****************************************************singleTone***************************************************/
-    private static FilterController filterController;
 
-    private FilterController(ControllerUnit controllerUnit) {
-        this.controllerUnit = controllerUnit;
-    }
+    /******************************************************singleTone***************************************************/
 
-    public static FilterController getInstance(ControllerUnit controllerUnit) {
-        if (filterController == null) {
-            filterController = new FilterController(controllerUnit);
-        }
+    public static FilterController getInstance() {
         return filterController;
     }
+
+    private FilterController() {
+    }
+
     /**************************************************methods********************************************************/
     public List<Field> showAvailableFilters(){
         //inke filter ha faghat esme khoe=de field ha bashe
