@@ -100,8 +100,7 @@ public class SellerMenu extends Menu {
 
         List<String> values = new ArrayList<String>();
         for (int i = 0; i < fieldName.size(); i++) {
-            System.out.println("enter field name or enter finish:");
-            System.out.println(fieldName + ":");
+            System.out.println("enter " + fieldName + " or enter finish:");
             String input = scanner.nextLine();
             if (input.equals("finish")) break;
             values.add(input);
