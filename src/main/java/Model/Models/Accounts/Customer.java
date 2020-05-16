@@ -78,6 +78,10 @@ public class Customer extends Account {
         this.cart = cart;
     }
 
+    public void setTotalPurchase(double totalPurchase) {
+        this.totalPurchase = totalPurchase;
+    }
+
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
