@@ -516,7 +516,7 @@ public class OutPut {
     }
 
     private void setSortingProductsMenuPattern() {
-        sortingProductsMenu.addRegex("show available sorts")
+        sortingProductsMenu.addRegex("showAvailableSorts")
                 .addRegex("sort (\\w+)")
                 .addRegex("current sort")
                 .addRegex("disable sort")
@@ -528,7 +528,7 @@ public class OutPut {
 
     private void setSortingProductsMenuMethods() {
         sortingProductsMenu.addMethod("showAvailableSorts")
-                .addMethod("addSort")
+                .addMethod("sort")
                 .addMethod("currentSorts")
                 .addMethod("disableSorts")
                 .addMethod("exit")
@@ -559,7 +559,6 @@ public class OutPut {
 
     private void setDigestProductMenuPattern() {
         digestProductMenu.addRegex("addToCart")
-                .addRegex("selectSeller (\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -568,7 +567,6 @@ public class OutPut {
 
     private void setDigestProductMenuMethods() {
         digestProductMenu.addMethod("addToCart")
-                .addMethod("selectSeller")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");
