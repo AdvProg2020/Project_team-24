@@ -53,6 +53,12 @@ public class Request implements Packable<Request> {
     public static List<Request> getList() {
         return Collections.unmodifiableList(list);
     }
+    //yac
+
+
+    public static void setList(List<Request> list) {
+        Request.list = list;
+    }
 
     /***************************************************otherMethods****************************************************/
 

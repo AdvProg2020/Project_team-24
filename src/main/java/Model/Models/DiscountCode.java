@@ -96,6 +96,10 @@ public class DiscountCode implements Packable<DiscountCode> {
         this.frequentUse = frequentUse;
     }
 
+    public static void setList(List<DiscountCode> list) {
+        DiscountCode.list = list;
+    }
+
     /**************************************************addAndRemove*****************************************************/
 
     public void addAccount(Account account) throws CanNotSaveToDataBaseException {
@@ -200,14 +204,13 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     /**************************************************constructors*****************************************************/
 
-    public DiscountCode(long id, String discountCode, LocalDate start, LocalDate end, Discount discount, int frequentUse, FieldList fieldList, List<Account> accountList) {
+    public DiscountCode(long id, String discountCode, LocalDate start, LocalDate end, Discount discount, int frequentUse, List<Account> accountList) {
         this.id = id;
         this.discountCode = discountCode;
         this.start = start;
         this.end = end;
         this.discount = discount;
         this.frequentUse = frequentUse;
-        this.fieldList = fieldList;
         this.accountList = accountList;
     }
 
