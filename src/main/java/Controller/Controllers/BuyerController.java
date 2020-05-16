@@ -34,54 +34,11 @@ public class BuyerController extends AccountController {
 
     /**************************************************methods********************************************************/
 
-    public Cart viewCart() {
-        return customer.getCart();
+    private void setDiscountCodeEntered(DiscountCode discountCodeEntered) {
+        this.discountCodeEntered = discountCodeEntered;
     }
 
-    public List<Product> showProducts() {
-        return viewCart().getProductList();
-    }
-
-    public double viewBalance() {
-        return customer.getCredit();
-    }
-
-    public List<DiscountCode> viewDiscountCodes() {
-        return customer.getDiscountCodeList();
-    }
-
-    public double showTotalPrice() {
-        return viewCart().getTotalPrice();
-    }
-
-    public List<LogHistory> viewOrders() {
-        return customer.getLogHistoryList();
-    }
-
-    public Product viewProductInCart(String productIdAsString) throws ProductDoesNotExistException, NumberFormatException {
-        long productId = Long.parseLong(productIdAsString);
-        return Product.getProductById(productId);
-    }
-
-    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CloneNotSupportedException, CanNotSaveToDataBaseException, ProductDoesNotExistException, ProductIsOutOfStockException {
-        long productId = Long.parseLong(productIdString);
-        long sellerId = Long.parseLong(sellerIdString);
-        if (Product.getProductById(productId).getNumberOfThis() <= 0) {
-            throw new ProductIsOutOfStockException("Product is out of stock. You can't increase number of the order whit id:" + productIdString + " .");
-        } else {
-            Product productClone = (Product) viewCart().getProductById(productId).clone();
-            viewCart().addProductToCart(sellerId, productClone);
-        }
-    }
-
-    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, CanNotSaveToDataBaseException {
-        long productId = Long.parseLong(productIdString);
-        long sellerId = Long.parseLong(sellerIdString);
-        Product product = viewCart().getProductById(productId);
-        viewCart().addProductToCart(sellerId, product);
-    }
-
-    private void checkEnoughCredit() throws NotEnoughCreditException {
+    private void checkEnoughCredit() throws NotEnoughCreditException, ProductDoesNotExistException {
         double price = viewCart().getTotalPrice();
         if (discountCodeEntered != null) {
             price -= discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice());
@@ -90,17 +47,6 @@ public class BuyerController extends AccountController {
         if (customer.getCredit() < price) {
             throw new NotEnoughCreditException("Not Enough Credit.");
         }
-    }
-
-    public void receiveInformation(String postCode, String address) throws PostCodeInvalidexception, AddresInvalidException, FieldDoesNotExistException, CanNotAddException {
-        if (!postCode.matches("\\d{10}")) {
-            throw new PostCodeInvalidexception("PostCode is Invalid.");
-        }
-        if (!address.matches("[a-z A-Z.]+")) {
-            throw new AddresInvalidException("Address is Invalid.");
-        }
-        saveFieldToFieldList("postCode", postCode);
-        saveFieldToFieldList("address", address);
     }
 
     private void saveFieldToFieldList(String name, String value) throws CanNotAddException, FieldDoesNotExistException {
@@ -112,29 +58,7 @@ public class BuyerController extends AccountController {
         ((SingleString) field).setString(value);
     }
 
-    public void discountCodeUse(String codeIdAsString) throws InvalidDiscountCodeException, DiscountCodeExpiredException, NumberFormatException {
-        long codeId = Long.parseLong(codeIdAsString);
-        DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
-        if (!customer.getDiscountCodeList().contains(discountCode)) {
-            throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
-        }
-        if (discountCode.getEnd().isAfter(LocalDate.now())) {
-            throw new DiscountCodeExpiredException("DiscountCodeExpiredException");
-        }
-        discountCodeEntered = discountCode;
-    }
-
-    private double getTotalPriceWithDiscountCode() {
-        double priceWithoutDiscount = viewCart().getTotalPrice();
-        double discount = viewCart().getTotalAuctionDiscount();
-        double price = priceWithoutDiscount - discount;
-        if (discountCodeEntered != null) {
-            price -= discountCodeEntered.getDiscountCodeDiscount(price);
-        }
-        return price;
-    }
-
-    private List<ProductLog> payment() throws AccountDoesNotExistException {
+    private List<ProductLog> payment() throws AccountDoesNotExistException, ProductDoesNotExistException {
 
         customer.setCredit(customer.getCredit() - getTotalPriceWithDiscountCode());
 
@@ -150,19 +74,108 @@ public class BuyerController extends AccountController {
             double productAuctionAmount = product.getAuction().getAuctionDiscount(productPrice);
             double productFinalPrice = productPrice - productAuctionAmount;
 
-            productLogs.add(
-                    new ProductLog(product.getId(), product.getProductName(), productPrice, productAuctionAmount, productFinalPrice)
-            );
+            productLogs.add(new ProductLog(product.getId(), product.getProductName(), productPrice, productAuctionAmount, productFinalPrice));
 
             seller.setBalance(seller.getBalance() + productFinalPrice);
         }
         return productLogs;
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException {
+    private void checkCartForProductId(long productId) throws ProductDoesNotExistException {
+        if (customer.getCart().isThereThisProductInCart(productId)) {
+            throw new ProductDoesNotExistException("product with the id:" + productId + " not exist in this cart.");
+        }
+    }
+
+    private double getTotalPriceWithDiscountCode() throws ProductDoesNotExistException {
+        double priceWithoutDiscount = viewCart().getTotalPrice();
+        double discount = viewCart().getTotalAuctionDiscount();
+        double price = priceWithoutDiscount - discount;
+        if (discountCodeEntered != null) {
+            price -= discountCodeEntered.getDiscountCodeDiscount(price);
+        }
+        return price;
+    }
+
+    public Cart viewCart() {
+        return customer.getCart();
+    }
+
+    public List<Product> showProducts() throws ProductDoesNotExistException {
+        List<Product> list = new ArrayList<>();
+        for (Long aLong : customer.getCart().getProductList()) {
+            Product productById = Product.getProductById(aLong);
+            list.add(productById);
+        }
+        return list;
+    }
+
+    public double viewBalance() {
+        return customer.getCredit();
+    }
+
+    public List<DiscountCode> viewDiscountCodes() {
+        return customer.getDiscountCodeList();
+    }
+
+    public double showTotalPrice() throws ProductDoesNotExistException {
+        return customer.getCart().getTotalPrice();
+    }
+
+    public List<LogHistory> viewOrders() {
+        return customer.getLogHistoryList();
+    }
+
+    public Product viewProductInCart(String productIdAsString) throws ProductDoesNotExistException, NumberFormatException {
+        long productId = Long.parseLong(productIdAsString);
+        return Product.getProductById(productId);
+    }
+
+    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CanNotSaveToDataBaseException, ProductDoesNotExistException, ProductIsOutOfStockException {
+        long productId = Long.parseLong(productIdString);
+        long sellerId = Long.parseLong(sellerIdString);
+        this.checkCartForProductId(productId);
+        if (Product.getProductById(productId).getNumberOfThis() <= 0) {
+            throw new ProductIsOutOfStockException("Product is out of stock. You can't increase number of the order whit id:" + productIdString + " .");
+        } else {
+            customer.addToCart(productId, sellerId);
+        }
+    }
+
+    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, CanNotSaveToDataBaseException {
+        long productId = Long.parseLong(productIdString);
+        long sellerId = Long.parseLong(sellerIdString);
+        this.checkCartForProductId(productId);
+        customer.removeFromCart(productId, sellerId);
+    }
+
+    public void receiveInformation(String postCode, String address) throws PostCodeInvalidexception, AddresInvalidException, FieldDoesNotExistException, CanNotAddException {
+        if (!postCode.matches("\\d{10}")) {
+            throw new PostCodeInvalidexception("PostCode is Invalid.");
+        }
+        if (!address.matches("[a-z A-Z.]+")) {
+            throw new AddresInvalidException("Address is Invalid.");
+        }
+        this.saveFieldToFieldList("postCode", postCode);
+        this.saveFieldToFieldList("address", address);
+    }
+
+    public void discountCodeUse(String codeIdAsString) throws InvalidDiscountCodeException, DiscountCodeExpiredException, NumberFormatException {
+        long codeId = Long.parseLong(codeIdAsString);
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
+        if (!customer.getDiscountCodeList().contains(discountCode)) {
+            throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
+        }
+        if (discountCode.getEnd().isAfter(LocalDate.now())) {
+            throw new DiscountCodeExpiredException("DiscountCodeExpiredException");
+        }
+        this.setDiscountCodeEntered(discountCode);
+    }
+
+    public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException, ProductDoesNotExistException {
         this.checkEnoughCredit();
-        List<ProductLog> productLogs = payment();
-        List<Product> listOfProduct = showProducts();
+        List<ProductLog> productLogs = this.payment();
+        List<Product> listOfProduct = this.showProducts();
         for (Product product1 : listOfProduct) {
             product1.setNumberOfBuyers(product1.getNumberOfBuyers() + 1);
             product1.addBuyer(customer);
@@ -172,11 +185,18 @@ public class BuyerController extends AccountController {
                 getTotalPriceWithDiscountCode(),
                 discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
                 viewCart().getTotalAuctionDiscount(),
-                new FieldList(Arrays.asList()), // I don't know now.
+                new FieldList(Arrays.asList(new SingleString("customerName",customer.getUserName()),  new SingleString("date",LocalDate.now().toString()))), // I don't know now. (for check)
                 productLogs
         );
         LogHistory.addLog(logHistory);
+        customer.addToLogHistoryList(logHistory);
+        for (Long sellerId : customer.getCart().getProductSellers()) {
+            Seller seller = (Seller) Account.getAccountById(sellerId);
+            seller.addToLogHistoryList(logHistory);
+        }
         customer.setCart(Cart.autoCreateCart());
+        customer.removeFromDiscountCodeList(discountCodeEntered);
+        this.setDiscountCodeEntered(null);
     }
 
 
@@ -196,11 +216,8 @@ public class BuyerController extends AccountController {
     public void rate(String productIdString, String rateNumberString) throws ProductDoesNotExistException, CannotRateException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
         long rateNumber = Integer.parseInt(rateNumberString);
-
         checkIfProductBoughtToRate(productIdString);
-
         Product product = Product.getProductById(productId);
-
         long numberOfBuyer = Score.getNumberOfScoreByProductId(productId);
         long lastScore = (long) product.getAverageScore() * numberOfBuyer;
         int newScore = (int) ((lastScore + rateNumber) / (numberOfBuyer + 1));

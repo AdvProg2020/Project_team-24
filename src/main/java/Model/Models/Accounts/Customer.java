@@ -22,21 +22,21 @@ public class Customer extends Account {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToCart(Product product, Seller seller) throws CanNotSaveToDataBaseException {
-        cart.addProductToCart(seller, product);
+    public void addToCart(long productId, long sellerId) throws CanNotSaveToDataBaseException {
+        cart.addProductToCart(sellerId, productId);
     }
 
-    public void removeFromCart(Product product, Seller seller) throws CanNotSaveToDataBaseException {
-        cart.removeProductFromCart(seller, product);
+    public void removeFromCart(long productId, long sellerId) throws CanNotSaveToDataBaseException {
+        cart.removeProductFromCart(sellerId, productId);
     }
 
     public void addToLogHistoryList(LogHistory logHistory) {
         logHistoryList.add(logHistory);
     }
 
-    public void removeFromLogHistoryList(LogHistory logHistory) {
-        logHistoryList.remove(logHistory);
-    }
+//    public void removeFromLogHistoryList(LogHistory logHistory) {
+//        logHistoryList.remove(logHistory);
+//    }
 
     public void addToDiscountCodeList(DiscountCode discountCode) {
         discountCodeList.add(discountCode);
@@ -101,13 +101,13 @@ public class Customer extends Account {
         this.credit = (double) data.getFields().get(5);
         this.totalPurchase = (double) data.getFields().get(6);
         List<DiscountCode> result = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
+        for (Long aLong : (List<Long>) data.getFields().get(7)) {
             DiscountCode discountCodeById = DiscountCode.getDiscountCodeById(aLong);
             result.add(discountCodeById);
         }
         this.discountCodeList = result;
         List<LogHistory> list1 = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(8))) {
+        for (Long aLong : (List<Long>) data.getFields().get(8)) {
             LogHistory logHistoryById = LogHistory.getLogHistoryById(aLong);
             list1.add(logHistoryById);
         }

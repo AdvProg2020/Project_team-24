@@ -25,7 +25,7 @@ public class Cart implements Packable<Cart> {
 
     private long id;
     private List<Long> sellersId;
-    private List<Product> productList;
+    private List<Long> productsId;
 
     /*****************************************************getters*******************************************************/
 
@@ -33,8 +33,8 @@ public class Cart implements Packable<Cart> {
         return id;
     }
 
-    public List<Product> getProductList() {
-        return Collections.unmodifiableList(productList);
+    public List<Long> getProductList() {
+        return Collections.unmodifiableList(productsId);
     }
 
     public List<Long> getProductSellers() {
@@ -47,39 +47,37 @@ public class Cart implements Packable<Cart> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addProductToCart(long sellerId, Product product) throws CanNotSaveToDataBaseException {
+    public void addProductToCart(long sellerId, long productId) throws CanNotSaveToDataBaseException {
         sellersId.add(sellerId);
-        productList.add(product);
+        productsId.add(productId);
         DataBase.save(this);
     }
 
-    public void removeProductFromCart(long sellerId, Product product) throws CanNotSaveToDataBaseException {
+    public void removeProductFromCart(long sellerId, long productId) throws CanNotSaveToDataBaseException {
         sellersId.remove(sellerId);
-        productList.remove(product);
+        productsId.remove(productId);
         DataBase.save(this);
     }
 
     /***************************************************otherMethods****************************************************/
 
-    public Product getProductById(long id) throws ProductDoesNotExistException {
-        return productList.stream()
-                .filter(product -> id == product.getId())
-                .findFirst()
-                .orElseThrow(() -> new ProductDoesNotExistException("product with this id not exist in this cart."));
+    public boolean isThereThisProductInCart(long productId) {
+        return productsId.stream().anyMatch(id -> productId == id);
     }
 
-    public double getTotalPrice() {
+    public double getTotalPrice() throws ProductDoesNotExistException {
         double price = 0;
-        for (int i = 0; i < productList.size(); i++) {
-            price += productList.get(i).getPrice(sellersId.get(i));
+        for (int i = 0; i < productsId.size(); i++) {
+            Product product = Product.getProductById(productsId.get(i));
+            price += product.getPrice(sellersId.get(i));
         }
         return price;
     }
 
-    public double getTotalAuctionDiscount() {
+    public double getTotalAuctionDiscount() throws ProductDoesNotExistException {
         double price = 0;
-        for (int i = 0; i < productList.size(); i++) {
-            Product product = productList.get(i);
+        for (int i = 0; i < productsId.size(); i++) {
+            Product product = Product.getProductById(productsId.get(i));
             Auction auction = product.getAuction();
             if (auction != null) {
                 price += auction.getAuctionDiscount(product.getPrice(sellersId.get(i)));
@@ -106,32 +104,25 @@ public class Cart implements Packable<Cart> {
     public Data<Cart> pack() {
         return new Data<Cart>()
                 .addField(id)
-                .addField(productList.stream()
-                        .map(Product::getId)
-                        .collect(Collectors.toList()))
+                .addField(productsId)
                 .addField(sellersId)
                 .setInstance(new Cart());
     }
 
     @Override
-    public Cart dpkg(Data<Cart> data) throws ProductDoesNotExistException {
+    public Cart dpkg(Data<Cart> data) {
         this.id = (long) data.getFields().get(0);
-        List<Product> ProductResult = new ArrayList<>();
-        for (Long aLong : (List<Long>) data.getFields().get(1)) {
-            Product productById = Product.getProductById(aLong);
-            ProductResult.add(productById);
-        }
-        this.productList = ProductResult;
-        this.sellersId = (List<Long>) data.getFields().get(2);
+        this.productsId = (List<Long>) data.getFields().get(1);
+        this.sellersId  = (List<Long>) data.getFields().get(2);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Cart(long id, List<Long> sellersId, List<Product> productList) {
+    public Cart(long id, List<Long> sellersId, List<Long> productsId) {
         this.id = id;
         this.sellersId = sellersId;
-        this.productList = productList;
+        this.productsId = productsId;
     }
 
     private Cart() {
@@ -143,8 +134,8 @@ public class Cart implements Packable<Cart> {
     public String toString() {
         return "Cart{" +
                 "id=" + id +
-                ", productSellerIds=" + sellersId +
-                ", productList=" + productList +
+                ", sellersId=" + sellersId +
+                ", productsId=" + productsId +
                 '}';
     }
 }

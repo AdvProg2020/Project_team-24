@@ -42,25 +42,26 @@ public class LogHistory implements Packable<LogHistory> {
         return logId;
     }
 
-    public FieldList getFieldList() {
-        return fieldList;
-    }
-
-    public double getAuctionDiscount() {
-        return auctionDiscount;
-    }
-
-    public double getFinalAmount() {
-        return finalAmount;
-    }
-
-    public double getDiscountAmount() {
-        return discountAmount;
-    }
-
-    public List<ProductLog> getProductLogList() {
-        return Collections.unmodifiableList(productLogList);
-    }
+    // To use in menus.
+//    public FieldList getFieldList() {
+//        return fieldList;
+//    }
+//
+//    public double getAuctionDiscount() {
+//        return auctionDiscount;
+//    }
+//
+//    public double getFinalAmount() {
+//        return finalAmount;
+//    }
+//
+//    public double getDiscountAmount() {
+//        return discountAmount;
+//    }
+//
+//    public List<ProductLog> getProductLogList() {
+//        return Collections.unmodifiableList(productLogList);
+//    }
 
     /**************************************************addAndRemove*****************************************************/
 
@@ -69,10 +70,10 @@ public class LogHistory implements Packable<LogHistory> {
         DataBase.save(logHistory,true);
     }
 
-    public static void removeLog(LogHistory logHistory) throws CanNotRemoveFromDataBase {
-        list.remove(logHistory);
-        DataBase.remove(logHistory);
-    }
+//    public static void removeLog(LogHistory logHistory) throws CanNotRemoveFromDataBase {
+//        list.remove(logHistory);
+//        DataBase.remove(logHistory);
+//    }
 
 //    Doesn't need to these.
 //    public void addProduct(Product product) throws CanNotAddException, IOException {
