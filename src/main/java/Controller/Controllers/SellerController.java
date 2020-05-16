@@ -1,22 +1,18 @@
 package Controller.Controllers;
 
-import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
+import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 import Model.Tools.ForPend;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class SellerController extends AccountController {

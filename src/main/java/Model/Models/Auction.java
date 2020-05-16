@@ -2,6 +2,7 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;

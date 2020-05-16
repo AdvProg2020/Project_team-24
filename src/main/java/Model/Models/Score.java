@@ -24,9 +24,9 @@ public class Score implements Packable<Score> {
 
     /******************************************************fields*******************************************************/
 
-    public long scoreId;
-    private Account user;
-    private Product good;
+    private long scoreId;
+    private long userId;
+    private long goodId;
     private int scoreNum;
 
     /*****************************************************getters*******************************************************/
@@ -36,16 +36,16 @@ public class Score implements Packable<Score> {
         return scoreId;
     }
 
-    public Account getUser() {
-        return user;
+    public long getUserId() {
+        return userId;
     }
 
     public int getScoreNum() {
         return scoreNum;
     }
 
-    public Product getGood() {
-        return good;
+    public long getGoodId() {
+        return goodId;
     }
 
     public static List<Score> getList() {
@@ -54,12 +54,12 @@ public class Score implements Packable<Score> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addScore(Score score) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addScore(Score score) throws CanNotSaveToDataBaseException {
         list.add(score);
         DataBase.save(score,true);
     }
 
-    public static void removeScore(Score score) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeScore(Score score) throws CanNotRemoveFromDataBase {
         list.remove(score);
         DataBase.remove(score);
     }
@@ -70,8 +70,8 @@ public class Score implements Packable<Score> {
     public Data<Score> pack() {
         return new Data<Score>()
                 .addField(scoreId)
-                .addField(user)
-                .addField(good)
+                .addField(userId)
+                .addField(goodId)
                 .addField(scoreNum)
                 .setInstance(new Score());
     }
@@ -79,8 +79,8 @@ public class Score implements Packable<Score> {
     @Override
     public Score dpkg(Data<Score> data) {
         this.scoreId = (long) data.getFields().get(0);
-        this.user = (Account) data.getFields().get(1);
-        this.good = (Product) data.getFields().get(2);
+        this.userId = (long) data.getFields().get(1);
+        this.goodId = (long) data.getFields().get(2);
         this.scoreNum = (int) data.getFields().get(3);
         return this;
     }
@@ -93,38 +93,27 @@ public class Score implements Packable<Score> {
                 .orElseThrow(); // need new Exception. maybe...
     }
 
-    public static long getNumberOfScoreByProductId(long id) {
-        return list.stream().filter(score -> id == score.getGood().getId()).count();
-    }
-
     /**************************************************constructors*****************************************************/
 
-    public Score(long scoreId, Account user, int scoreNum, Product good) {
+    public Score(long scoreId, long userId, long goodId, int scoreNum) {
         this.scoreId = scoreId;
-        this.user = user;
+        this.userId = userId;
+        this.goodId = goodId;
         this.scoreNum = scoreNum;
-        this.good = good;
     }
 
-    public Score() {
+    private Score() {
     }
 
     /****************************************************overrides******************************************************/
 
     @Override
     public String toString() {
-        String goodName = "Exception";
-        try {
-            Field field = good.getProductInfo().getList().getFieldByName("name");
-            goodName = ((SingleString) field).getString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return "Score{" +
                 "scoreId=" + scoreId +
-                ", user=" + user.getUserName() +
-                ", good=" + goodName +
-                ", score=" + scoreNum +
+                ", userId=" + userId +
+                ", goodId=" + goodId +
+                ", scoreNum=" + scoreNum +
                 '}';
     }
 }

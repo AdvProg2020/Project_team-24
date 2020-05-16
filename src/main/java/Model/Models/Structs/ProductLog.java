@@ -1,4 +1,4 @@
-package Model.Models;
+package Model.Models.Structs;
 
 public class ProductLog {
 

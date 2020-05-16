@@ -2,6 +2,7 @@ package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.AuctionDoesNotExistException;
+import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

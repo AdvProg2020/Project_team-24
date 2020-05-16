@@ -5,6 +5,7 @@ import Model.DataBase.DataBase;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
+import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
@@ -32,14 +33,13 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     private Info categoryInfo;
     private Category category;
     private Auction auction;
-    private long numberOfThis;
     private long numberOfVisitors;
-    private long numberOfBuyers;
     private double averageScore;
     private String stateForPend;
-    private List<Comment> commentList;
-    private List<Customer> buyerList;
-    private Map<Long, Double> priceList;
+    private List<Long> scoreList = new ArrayList<>();
+    private List<Long> buyerList = new ArrayList<>();
+    private List<Long> commentList = new ArrayList<>();
+    private List<ProductOfSeller> productOfSellers = new ArrayList<>();
 
     /*****************************************************getters*******************************************************/
 
@@ -59,16 +59,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return category;
     }
 
-    public long getNumberOfThis() {
-        return numberOfThis;
-    }
-
     public long getNumberOfVisitors() {
         return numberOfVisitors;
-    }
-
-    public long getNumberOfBuyers() {
-        return numberOfBuyers;
     }
 
     public double getAverageScore() {
@@ -87,7 +79,15 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return productName;
     }
 
-    public List<Comment> getCommentList() {
+    public List<ProductOfSeller> getProductOfSellers() {
+        return Collections.unmodifiableList(productOfSellers);
+    }
+
+    public List<Long> getScoreList() {
+        return Collections.unmodifiableList(scoreList);
+    }
+
+    public List<Long> getCommentList() {
         return Collections.unmodifiableList(commentList);
     }
 
@@ -95,12 +95,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return Collections.unmodifiableList(list);
     }
 
-    public List<Customer> getBuyerList() {
+    public List<Long> getBuyerList() {
         return Collections.unmodifiableList(buyerList);
-    }
-
-    public Map<Long, Double> getPriceList() {
-        return Collections.unmodifiableMap(priceList);
     }
 
     /*****************************************************setters*******************************************************/
@@ -121,10 +117,6 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.category = category;
     }
 
-    public void setNumberOfThis(long numberOfThis) {
-        this.numberOfThis = numberOfThis;
-    }
-
     public void setAuction(Auction auction) {
         this.auction = auction;
     }
@@ -133,13 +125,9 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.productId = productId;
     }
 
-    public void setNumberOfVisitors(long numberOfVisitors) {
-        this.numberOfVisitors = numberOfVisitors;
-    }
-
-    public void setNumberOfBuyers(long numberOfBuyers) {
-        this.numberOfBuyers = numberOfBuyers;
-    }
+//    public void setNumberOfVisitors(long numberOfVisitors) {
+//        this.numberOfVisitors = numberOfVisitors;
+//    }
 
     public void setAverageScore(double averageScore) {
         this.averageScore = averageScore;
@@ -148,10 +136,6 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     public void setStateForPend(String stateForPend) {
         this.stateForPend = stateForPend;
     }
-    //yac
-    public void setSellerList(List<Seller> sellerList) {
-        this.sellerList = sellerList;
-    }
 
     public static void setList(List<Product> list) {
         Product.list = list;
@@ -159,33 +143,41 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) throws CanNotSaveToDataBaseException {
-        commentList.add(comment);
+    public void addComment(long commentId) throws CanNotSaveToDataBaseException {
+        commentList.add(commentId);
         DataBase.save(this);
     }
 
-    public void removeComment(Comment comment) throws CanNotSaveToDataBaseException {
-        commentList.remove(comment);
+    public void removeComment(long commentId) throws CanNotSaveToDataBaseException {
+        commentList.remove(commentId);
         DataBase.save(this);
     }
 
-    public void addBuyer(Customer account) throws CanNotSaveToDataBaseException {
-        buyerList.add(account);
+    public void addScore(long scoreId) {
+
+    }
+
+    public void removeScore(long scoreId) {
+
+    }
+
+    public void addBuyer(long buyerId) throws CanNotSaveToDataBaseException {
+        buyerList.add(buyerId);
         DataBase.save(this);
     }
 
-    public void removeBuyer(Customer account) throws CanNotSaveToDataBaseException {
-        buyerList.remove(account);
-        DataBase.save(this);
-    }
+//    public void removeBuyer(long buyerId) throws CanNotSaveToDataBaseException {
+//        buyerList.remove(buyerId);
+//        DataBase.save(this);
+//    }
 
-    public void addSeller(long sellerId, double price) throws CanNotSaveToDataBaseException {
-        priceList.put(sellerId, price);
+    public void addSeller(long sellerId, double price, long number) throws CanNotSaveToDataBaseException {
+        productOfSellers.add(new ProductOfSeller(sellerId, number, price));
         DataBase.save(this);
     }
 
     public void removeSeller(long sellerId) throws CanNotSaveToDataBaseException {
-        priceList.remove(sellerId);
+        productOfSellers.removeIf(productOfSeller -> sellerId == productOfSeller.getSellerId());
         DataBase.save(this);
     }
 
@@ -218,9 +210,6 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
             case "Auction":
                 setAuction(Auction.getAuctionByName(value));
                 break;
-            case "numberOfThis":
-                setNumberOfThis(Long.parseLong(value));
-                break;
             case "stateForPend":
                 setStateForPend(value);
                 break;
@@ -243,15 +232,19 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id."));
     }
 
-    public static Product getProductByName(String productName) throws ProductDoesNotExistException {
-        return list.stream()
-                .filter(product -> productName.equals(product.getProductName()))
-                .findFirst()
-                .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id."));
-    }
+//    public static Product getProductByName(String productName) throws ProductDoesNotExistException {
+//        return list.stream()
+//                .filter(product -> productName.equals(product.getProductName()))
+//                .findFirst()
+//                .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id."));
+//    }
 
     public double getPrice(long sellerId) {
-        return priceList.get(sellerId);
+        return productOfSellers.stream()
+                .filter(productOfSeller -> sellerId == productOfSeller.getSellerId())
+                .findFirst()
+                .orElseThrow() // need new exception.
+                .getPrice();
     }
 
     /***************************************************packAndDpkg*****************************************************/
@@ -263,42 +256,25 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .addField(productInfo)
                 .addField(categoryInfo)
                 .addField(numberOfVisitors)
-                .addField(numberOfBuyers)
-                .addField(numberOfThis)
                 .addField(averageScore)
                 .addField(category.getId())
-                .addField(commentList.stream()
-                        .map(Comment::getId)
-                        .collect(Collectors.toList()))
-                .addField(buyerList.stream()
-                        .map(Account::getId)
-                        .collect(Collectors.toList()))
-                .addField(priceList)
+                .addField(commentList)
+                .addField(buyerList)
+                .addField(scoreList)
                 .setInstance(new Product());
     }
 
     @Override
-    public Product dpkg(Data<Product> data) throws CommentDoesNotExistException, AccountDoesNotExistException, CategoryDoesNotExistException {
+    public Product dpkg(Data<Product> data) throws CategoryDoesNotExistException {
         this.productId = (long) data.getFields().get(0);
         this.productInfo = (Info) data.getFields().get(1);
         this.categoryInfo = (Info) data.getFields().get(2);
         this.numberOfVisitors = (long) data.getFields().get(3);
-        this.numberOfThis = (long) data.getFields().get(4);
-        this.averageScore = (long) data.getFields().get(5);
-        this.category = Category.getCategoryById((long) data.getFields().get(6));
-        List<Comment> commentResult = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
-            Comment commentById = Comment.getCommentById(aLong);
-            commentResult.add(commentById);
-        }
-        this.commentList = commentResult;
-        List<Customer> customerResult = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
-            Customer customerById = (Customer) Account.getAccountById(aLong);
-            customerResult.add(customerById);
-        }
-        this.buyerList = customerResult;
-        this.priceList = (Map<Long, Double>) data.getFields().get(8);
+        this.averageScore = (long) data.getFields().get(4);
+        this.category = Category.getCategoryById((long) data.getFields().get(5));
+        this.commentList = (List<Long>) data.getFields().get(6);
+        this.buyerList = (List<Long>) data.getFields().get(7);
+        this.scoreList = (List<Long>) data.getFields().get(8);
         return this;
     }
 
@@ -320,11 +296,11 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 //        this.buyerList = buyerList;
 //        this.sellerList = sellerList;
 //    }
-    public Product(String name, Category category, Auction auction, long numberOfThis) {
+//
+    public Product(String name, Category category, Auction auction) {
         this.productName = name;
         this.category = category;
         this.auction = auction;
-        this.numberOfThis = numberOfThis;
     }
 
     private Product() {
@@ -333,22 +309,21 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     /****************************************************overrides******************************************************/
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
-
-    @Override
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
+                ", productName='" + productName + '\'' +
                 ", productInfo=" + productInfo +
                 ", categoryInfo=" + categoryInfo +
-                ", category=" + category.getName() +
-                ", numberOfThis=" + numberOfThis +
+                ", category=" + category +
+                ", auction=" + auction +
                 ", numberOfVisitors=" + numberOfVisitors +
-                ", numberOfBuyers=" + numberOfBuyers +
                 ", averageScore=" + averageScore +
+                ", stateForPend='" + stateForPend + '\'' +
+                ", scoreList=" + scoreList +
+                ", buyerList=" + buyerList +
                 ", commentList=" + commentList +
+                ", productOfSellers=" + productOfSellers +
                 '}';
     }
 }

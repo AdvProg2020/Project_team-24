@@ -93,7 +93,6 @@ public class Customer extends Account {
                 .setInstance(new Customer());
     }
 
-    // ask!
     @Override
     public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException, AuctionDoesNotExistException {
         super.dpkg(data);
@@ -117,12 +116,13 @@ public class Customer extends Account {
 
     /***************************************************otherMethods****************************************************/
 
-//    public static List<Customer> getAllCustomers() {
-//        return list.stream()
-//                .filter(account -> account instanceof Customer)
-//                .map(account -> (Customer) account)
-//                .collect(Collectors.toUnmodifiableList());
-//    }
+    public static List<Customer> getAllCustomers() {
+        return list.stream()
+                .filter(account -> account instanceof Customer)
+                .map(account -> (Customer) account)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
     public static List<Customer> getSpecialCustomers() {
         return list.stream()
                 .filter(account -> account instanceof Customer)

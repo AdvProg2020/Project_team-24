@@ -6,6 +6,7 @@ import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
+import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 
 import java.io.IOException;
@@ -111,24 +112,24 @@ public class ManagerController extends AccountController {
         DiscountCode.removeFromDiscountCode(discountCode);
     }
 
+    private Customer selectRandomBuyer() {
+        Random randomAccount = new Random();
+        List<Customer> customerList = Customer.getAllCustomers();
+        int randomIndex = randomAccount.nextInt(customerList.size());
+        return customerList.get(randomIndex);
+    }
+
     private List<Customer> findSpecialBuyers() {
         return Customer.getSpecialCustomers();
     }
 
-    private void setDiscountCodeToSpecials() {
-        DiscountCode discountCode = new DiscountCode(); // auto create discount code
-        findSpecialBuyers().forEach(customer -> {
-            customer.addToDiscountCodeList(discountCode);
-        });
+    public void setDiscountCodeToSpecials(long discountCodeId) throws DiscountCodeExpiredException {
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
+        findSpecialBuyers().forEach(customer -> customer.addToDiscountCodeList(discountCode));
     }
 
-    public Customer selectRandomBuyer() {
-        Random randomAccount = new Random();
-        int randomIndex = randomAccount.nextInt(Account.getList().size());
-        return (Customer) Customer.getList().get(randomIndex);
-    }
-
-    private void setDiscountCodeToRandoms(DiscountCode discountCode) {
+    public void setDiscountCodeToRandoms(long discountCodeId) throws DiscountCodeExpiredException {
+        DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
         selectRandomBuyer().addToDiscountCodeList(discountCode);
     }
 

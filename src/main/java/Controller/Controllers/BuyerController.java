@@ -6,6 +6,7 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
+import Model.Models.Structs.ProductLog;
 import Model.Tools.AddingNew;
 
 import java.time.LocalDate;

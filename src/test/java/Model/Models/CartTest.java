@@ -1,10 +1,10 @@
 package Model.Models;
 
 import Exceptions.CartDoesNotExistException;
-import Exceptions.FieldDoesNotExistException;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
+import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

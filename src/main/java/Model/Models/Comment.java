@@ -24,8 +24,8 @@ public class Comment implements Packable<Comment> {
 
     private long commentId;
     private String pendStatus;
-    private Account userComments;
-    private Product purchasedGood;
+    private long userId;
+    private long purchasedGood;
     //    String tittle
     //    String comment
     private FieldList fieldList;
