@@ -11,19 +11,19 @@ public class ProductMenu extends Menu {
 
     private Product product;
 
-    public ProductMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ProductMenu(String name) {
+        super(name);
     }
 
-    public static ProductMenu getInstance(String name, Menu parent) {
+    public static ProductMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ProductMenu(name, parent);
+            menu = new ProductMenu(name);
         }
         return menu;
     }
 
-    public Product getProduct() {
-        return Optional.ofNullable(product).orElseThrow();
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ProductMenu."));
     }
 
     public void digest() {
@@ -45,10 +45,6 @@ public class ProductMenu extends Menu {
     public ProductMenu setProduct(Product product) {
         this.product = product;
         return this;
-    }
-
-    public static ProductMenu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

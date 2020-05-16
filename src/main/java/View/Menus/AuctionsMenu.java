@@ -1,13 +1,33 @@
 package View.Menus;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AuctionsMenu extends Menu {
-// sogol meyar zibayist
+
     private static AuctionsMenu menu;
 
-    private AuctionsMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private AuctionsMenu(String name) {
+        super(name);
+    }
+
+    public static AuctionsMenu getInstance(String name) {
+        if (menu == null) {
+            menu = new AuctionsMenu(name);
+        }
+        return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in auctionMenu."));
+    }
+
+    public void offs() {
+        //yac
+    }
+
+    public void showProduct(List<String> inputs) {
+        //yac
     }
 
     @Override
@@ -15,27 +35,12 @@ public class AuctionsMenu extends Menu {
         System.out.println("you are in auction menu");
     }
 
-    public static AuctionsMenu getInstance(String name, Menu parent) {
-        if (menu == null) {
-            menu = new AuctionsMenu(name, parent);
-        }
-        return menu;
-    }
-
-   public void offs(){
-        //yasi
-   }
-   public void showProduct(List<String> inputs) {
-       long id = Long.parseLong(inputs.get(0));
-       //yasi
-   }
-    public static Menu getMenu(){
-        return menu;
-    }
     @Override
     public void help() {
-super.help();
-        System.out.println("offs:to show offs"+System.lineSeparator()+
-                "showProduct [productId]");
+        super.help();
+        System.out.println("offs : To show all the Auctions." + System.lineSeparator() +
+                "showProduct [productId] : To product by the id." + System.lineSeparator() +
+                "----------------------------------------------"
+        );
     }
 }

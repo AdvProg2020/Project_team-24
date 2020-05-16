@@ -18,15 +18,15 @@ public abstract class Menu {
 
     protected String name;
     protected Menu parentMenu;
-    protected List<Menu> subMenus;
     protected List<Pattern> patternList;
-    protected List<String> regexList;
-    protected List<String> methodList;
+    protected List<Menu> subMenus = new ArrayList<>();
+    protected List<String> regexList = new ArrayList<>();
+    protected List<String> methodList = new ArrayList<>();
+
     protected Scanner scanner = new Scanner(System.in);
 
-    public Menu(String name, Menu parentMenu) {
+    protected Menu(String name) {
         this.name = name;
-        this.parentMenu = parentMenu;
     }
 
     public void patternToCommand(String command) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -38,10 +38,11 @@ public abstract class Menu {
                 return;
             }
         }
-        System.out.println("Lanat Sogol bar to bad (Invalid command).");
+        System.out.println("Invalid command entered.");
     }
 
     public void invokeMethod(String name, Matcher matcher) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
         Menu currentMenu = MenuHandler.getCurrentMenu();
         if (matcher.groupCount() == 0) {
             Method method = currentMenu.getClass().getMethod(name);
@@ -57,21 +58,10 @@ public abstract class Menu {
     }
 
     public void setPatterns() {
-        patternList = regexList.stream()
-                .map(Pattern::compile)
-                .collect(Collectors.toList());
+        patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public abstract void show();
 
     public Menu addSubMenu(Menu subMenu) {
-        if (subMenu == null) {
-            this.subMenus = new ArrayList<>();
-        }
         subMenus.add(subMenu);
         return this;
     }
@@ -82,23 +72,18 @@ public abstract class Menu {
     }
 
     public Menu addRegex(String regex) {
-        if (regexList == null) {
-            this.regexList = new ArrayList<>();
-        }
         regexList.add(regex);
         return this;
     }
 
     public Menu addMethod(String name) {
-        if (methodList == null) {
-            methodList = new ArrayList<>();
-        }
         methodList.add(name);
         return this;
     }
 
-    public void setParentMenu(Menu parentMenu) {
+    public Menu setParentMenu(Menu parentMenu) {
         this.parentMenu = parentMenu;
+        return this;
     }
 
     public void setScanner(Scanner scanner) {
@@ -109,6 +94,10 @@ public abstract class Menu {
         return parentMenu;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void back() {
         MenuHandler.setCurrentMenu(parentMenu);
     }
@@ -116,6 +105,8 @@ public abstract class Menu {
     public void exit() {
         System.exit(0);
     }
+
+    public abstract void show();
 
     public void help() {
         System.out.println(

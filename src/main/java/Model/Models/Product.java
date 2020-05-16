@@ -17,14 +17,11 @@ import java.util.stream.Collectors;
 public class Product implements Packable<Product>, ForPend, Cloneable {
 
     private static List<Product> list;
-    private static List<String> fieldNames;
 
     static {
         list = DataBase.loadList("Product").stream()
                 .map(packable -> (Product) packable)
                 .collect(Collectors.toList());
-
-        fieldNames = Arrays.asList("productName", "category", "auction", "numberOfThis", "stateForPend", "brand", "price");
     }
 
     /*****************************************************fields*******************************************************/
@@ -42,7 +39,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     private String stateForPend;
     private List<Comment> commentList;
     private List<Customer> buyerList;
-    private List<Seller> sellerList;
+    private Map<Long, Double> priceList;
 
     /*****************************************************getters*******************************************************/
 
@@ -102,8 +99,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return Collections.unmodifiableList(buyerList);
     }
 
-    public List<Seller> getSellerList() {
-        return Collections.unmodifiableList(sellerList);
+    public Map<Long, Double> getPriceList() {
+        return Collections.unmodifiableMap(priceList);
     }
 
     /*****************************************************setters*******************************************************/
@@ -162,37 +159,37 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) throws CanNotAddException, IOException {
+    public void addComment(Comment comment) throws CanNotSaveToDataBaseException {
         commentList.add(comment);
         DataBase.save(this);
     }
 
-    public void removeComment(Comment comment) throws CanNotRemoveException, IOException {
+    public void removeComment(Comment comment) throws CanNotSaveToDataBaseException {
         commentList.remove(comment);
         DataBase.save(this);
     }
 
-    public void addBuyer(Customer account) throws CanNotAddException, IOException {
+    public void addBuyer(Customer account) throws CanNotSaveToDataBaseException {
         buyerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeBuyer(Customer account) throws CanNotRemoveException, IOException {
+    public void removeBuyer(Customer account) throws CanNotSaveToDataBaseException {
         buyerList.remove(account);
         DataBase.save(this);
     }
 
-    public void addSeller(Seller account) throws CanNotAddException, IOException {
-        sellerList.add(account);
+    public void addSeller(long sellerId, double price) throws CanNotSaveToDataBaseException {
+        priceList.put(sellerId, price);
         DataBase.save(this);
     }
 
-    public void removeSeller(Seller account) throws CanNotRemoveException, IOException {
-        sellerList.remove(account);
+    public void removeSeller(long sellerId) throws CanNotSaveToDataBaseException {
+        priceList.remove(sellerId);
         DataBase.save(this);
     }
 
-    public static void addProduct(Product product) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addProduct(Product product) throws CanNotSaveToDataBaseException {
         product.setProductId(AddingNew.getRegisteringId().apply(getList()));
         Auction auction = product.getAuction();
         if (auction != null) {
@@ -202,7 +199,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         DataBase.save(product, true);
     }
 
-    public static void removeProduct(Product product) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeProduct(Product product) throws CanNotRemoveFromDataBase {
         list.remove(product);
         DataBase.remove(product);
     }
@@ -210,9 +207,6 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     /***************************************************otherMethods****************************************************/
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException, CategoryDoesNotExistException {
-        if (!fieldNames.contains(fieldName)) {
-            throw new FieldDoesNotExistException("This field not found in account.");
-        }
 
         switch (fieldName) {
             case "productName":
@@ -256,8 +250,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id."));
     }
 
-    public double getPrice() throws FieldDoesNotExistException {
-        return Double.parseDouble(((SingleString) productInfo.getList().getFieldByName("price")).getString());
+    public double getPrice(long sellerId) {
+        return priceList.get(sellerId);
     }
 
     /***************************************************packAndDpkg*****************************************************/
@@ -279,9 +273,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .addField(buyerList.stream()
                         .map(Account::getId)
                         .collect(Collectors.toList()))
-                .addField(sellerList.stream()
-                        .map(Account::getId)
-                        .collect(Collectors.toList()))
+                .addField(priceList)
                 .setInstance(new Product());
     }
 
@@ -306,12 +298,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
             customerResult.add(customerById);
         }
         this.buyerList = customerResult;
-        List<Seller> sellerResult = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
-            Seller sellerById = (Seller) Account.getAccountById(aLong);
-            sellerResult.add(sellerById);
-        }
-        this.sellerList = sellerResult;
+        this.priceList = (Map<Long, Double>) data.getFields().get(8);
         return this;
     }
 
@@ -333,7 +320,6 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 //        this.buyerList = buyerList;
 //        this.sellerList = sellerList;
 //    }
-
     public Product(String name, Category category, Auction auction, long numberOfThis) {
         this.productName = name;
         this.category = category;

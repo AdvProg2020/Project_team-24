@@ -77,7 +77,7 @@ public class Score implements Packable<Score> {
     }
 
     @Override
-    public Score dpkg(Data<Score> data) throws ProductDoesNotExistException, AccountDoesNotExistException {
+    public Score dpkg(Data<Score> data) {
         this.scoreId = (long) data.getFields().get(0);
         this.user = (Account) data.getFields().get(1);
         this.good = (Product) data.getFields().get(2);

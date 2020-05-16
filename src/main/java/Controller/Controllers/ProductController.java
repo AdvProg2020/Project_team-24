@@ -1,6 +1,5 @@
 package Controller.Controllers;
 
-
 import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
@@ -13,7 +12,6 @@ import Model.Tools.AddingNew;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,7 +56,7 @@ public class ProductController {
 //        return seller;
 //    }
 
-    public void addToCart(String sellerIdString) throws AcountHasNotLogedIn, ProductIsOutOfStockException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException {
+    public void addToCart(String sellerIdString) throws AcountHasNotLogedIn, ProductIsOutOfStockException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException {
         long sellerId = Long.parseLong(sellerIdString);
         Seller seller = (Seller) Seller.getAccountById(sellerId);
 

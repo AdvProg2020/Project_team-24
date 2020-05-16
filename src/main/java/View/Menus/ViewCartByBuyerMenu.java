@@ -15,15 +15,19 @@ public class ViewCartByBuyerMenu extends Menu {
 
     private static BuyerController buyerController = BuyerController.getInstance();
 
-    public ViewCartByBuyerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ViewCartByBuyerMenu(String name) {
+        super(name);
     }
 
-    public static ViewCartByBuyerMenu getInstance(String name, Menu parent) {
+    public static ViewCartByBuyerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ViewCartByBuyerMenu(name, parent);
+            menu = new ViewCartByBuyerMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewCartByBuyerMenu."));
     }
 
     public void showProducts() {
@@ -77,7 +81,7 @@ public class ViewCartByBuyerMenu extends Menu {
             System.out.println("product does not exist");
         } catch (AccountDoesNotExistException e) {
             System.out.println("account does not exist");
-        } catch (CanNotSaveToDataBaseException | IOException e) {
+        } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
         }
     }
@@ -92,10 +96,6 @@ public class ViewCartByBuyerMenu extends Menu {
 
     public void purchase() {
         MenuHandler.setCurrentMenu(PurchaseByBuyerMenu.getMenu());
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

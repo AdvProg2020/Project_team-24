@@ -6,6 +6,7 @@ import Exceptions.*;
 import Model.Models.Account;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,26 +15,20 @@ public class ManageUsersByManagerMenu extends Menu {
     private static ManagerController managerController = ManagerController.getInstance();
     private static SignUpController signUpController = SignUpController.getInstance();
 
-    private ManageUsersByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private ManageUsersByManagerMenu(String name) {
+        super(name);
     }
 
-    @Override
-    public void show() {
-        System.out.println("you are in manage user by manager menu");
-    }
-
-    public static ManageUsersByManagerMenu getInstance(String name, Menu parent) {
+    public static ManageUsersByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageUsersByManagerMenu(name, parent);
+            menu = new ManageUsersByManagerMenu(name);
         }
         return menu;
     }
 
     public static Menu getMenu() {
-        return menu;
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageUsersByManagerMenu."));
     }
-
 
     public void view(List<String> inputs) {
         String username = inputs.get(0);
@@ -65,7 +60,6 @@ public class ManageUsersByManagerMenu extends Menu {
             System.out.println("your username should be more than 6 character");
         }
 
-
         System.out.println("enter password :");
         String password = scanner.nextLine();
         try {
@@ -95,6 +89,11 @@ public class ManageUsersByManagerMenu extends Menu {
         } catch (LastNameInvalidException e) {
             System.out.println("enter valid last name");
         }
+    }
+
+    @Override
+    public void show() {
+        System.out.println("you are in manage user by manager menu");
     }
 
     @Override

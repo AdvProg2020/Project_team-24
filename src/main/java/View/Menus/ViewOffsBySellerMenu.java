@@ -15,17 +15,21 @@ public class ViewOffsBySellerMenu extends Menu {
 
     private static ViewOffsBySellerMenu menu;
 
-    public ViewOffsBySellerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ViewOffsBySellerMenu(String name) {
+        super(name);
     }
 
     private static SellerController sellerController = SellerController.getInstance();
 
-    public static ViewOffsBySellerMenu getInstance(String name, Menu parent) {
+    public static ViewOffsBySellerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ViewOffsBySellerMenu(name, parent);
+            menu = new ViewOffsBySellerMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewOffsBySellerMenu."));
     }
 
     public void viewOff(List<String> inputs) {
@@ -66,10 +70,6 @@ public class ViewOffsBySellerMenu extends Menu {
             System.out.println("Incorrect format");
         }
         sellerController.addOff(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5));
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

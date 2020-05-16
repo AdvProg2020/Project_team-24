@@ -2,12 +2,9 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Accounts.Seller;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
-
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +24,7 @@ public class Cart implements Packable<Cart> {
     /*****************************************************fields*******************************************************/
 
     private long id;
-    private List<Seller> productSellers;
+    private List<Long> sellersId;
     private List<Product> productList;
 
     /*****************************************************getters*******************************************************/
@@ -40,8 +37,8 @@ public class Cart implements Packable<Cart> {
         return Collections.unmodifiableList(productList);
     }
 
-    public List<Seller> getProductSellers() {
-        return Collections.unmodifiableList(productSellers);
+    public List<Long> getProductSellers() {
+        return Collections.unmodifiableList(sellersId);
     }
 
     public static List<Cart> getList() {
@@ -50,16 +47,16 @@ public class Cart implements Packable<Cart> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addProductToCart(Seller seller, Product product) throws CanNotSaveToDataBaseException, IOException {
-        productSellers.add(seller);
+    public void addProductToCart(long sellerId, Product product) throws CanNotSaveToDataBaseException {
+        sellersId.add(sellerId);
         productList.add(product);
-        DataBase.save(this, false);
+        DataBase.save(this);
     }
 
-    public void removeProductFromCart(Seller seller, Product product) throws CanNotSaveToDataBaseException, IOException {
-        productSellers.remove(seller);
+    public void removeProductFromCart(long sellerId, Product product) throws CanNotSaveToDataBaseException {
+        sellersId.remove(sellerId);
         productList.remove(product);
-        DataBase.save(this, false);
+        DataBase.save(this);
     }
 
     /***************************************************otherMethods****************************************************/
@@ -71,33 +68,31 @@ public class Cart implements Packable<Cart> {
                 .orElseThrow(() -> new ProductDoesNotExistException("product with this id not exist in this cart."));
     }
 
-    public double getTotalPrice() throws FieldDoesNotExistException {
-        double acc = 0D;
-        for (Product product : productList) {
-            double price = product.getPrice();
-            acc = acc + price;
+    public double getTotalPrice() {
+        double price = 0;
+        for (int i = 0; i < productList.size(); i++) {
+            price += productList.get(i).getPrice(sellersId.get(i));
         }
-        return acc;
+        return price;
     }
 
-    public double getTotalAuctionDiscount() throws FieldDoesNotExistException {
-        double sum = 0;
-        for (Product product : productList) {
-
+    public double getTotalAuctionDiscount() {
+        double price = 0;
+        for (int i = 0; i < productList.size(); i++) {
+            Product product = productList.get(i);
             Auction auction = product.getAuction();
-
             if (auction != null) {
-                sum += auction.getAuctionDiscount(product.getPrice());
+                price += auction.getAuctionDiscount(product.getPrice(sellersId.get(i)));
             }
         }
-        return sum;
+        return price;
     }
 
     public static Cart getCartById(long id) throws CartDoesNotExistException {
         return list.stream()
                 .filter(cart -> id == cart.getId())
                 .findFirst()
-                .orElseThrow(() -> new CartDoesNotExistException("CartWithThisIdDoesNotExistException"));
+                .orElseThrow(() -> new CartDoesNotExistException("Cart with Id:" + id + "does not exist."));
     }
 
     public static Cart autoCreateCart() {
@@ -114,14 +109,12 @@ public class Cart implements Packable<Cart> {
                 .addField(productList.stream()
                         .map(Product::getId)
                         .collect(Collectors.toList()))
-                .addField(productSellers.stream()
-                        .map(Account::getId)
-                        .collect(Collectors.toList()))
+                .addField(sellersId)
                 .setInstance(new Cart());
     }
 
     @Override
-    public Cart dpkg(Data<Cart> data) throws ProductDoesNotExistException, AccountDoesNotExistException {
+    public Cart dpkg(Data<Cart> data) throws ProductDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         List<Product> ProductResult = new ArrayList<>();
         for (Long aLong : (List<Long>) data.getFields().get(1)) {
@@ -129,20 +122,15 @@ public class Cart implements Packable<Cart> {
             ProductResult.add(productById);
         }
         this.productList = ProductResult;
-        List<Seller> SellerResult = new ArrayList<>();
-        for (Long aLong : (List<Long>) data.getFields().get(2)) {
-            Seller sellerById = (Seller)Account.getAccountById(aLong);
-            SellerResult.add(sellerById);
-        }
-        this.productSellers = SellerResult;
+        this.sellersId = (List<Long>) data.getFields().get(2);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Cart(long id, List<Seller> productSellers, List<Product> productList) {
+    public Cart(long id, List<Long> sellersId, List<Product> productList) {
         this.id = id;
-        this.productSellers = productSellers;
+        this.sellersId = sellersId;
         this.productList = productList;
     }
 
@@ -155,7 +143,7 @@ public class Cart implements Packable<Cart> {
     public String toString() {
         return "Cart{" +
                 "id=" + id +
-                ", productSellerIds=" + productSellers +
+                ", productSellerIds=" + sellersId +
                 ", productList=" + productList +
                 '}';
     }

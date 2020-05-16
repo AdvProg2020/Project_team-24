@@ -2,12 +2,9 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Accounts.Seller;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +22,7 @@ public class LogHistory implements Packable<LogHistory> {
     /*****************************************************fields*******************************************************/
 
     private long logId;
-    private double amount;
+    private double finalAmount;
     private double discountAmount;
     private double auctionDiscount;
     //    String customerName
@@ -33,8 +30,7 @@ public class LogHistory implements Packable<LogHistory> {
     //    String deliveryStatus
     //    Date date
     private FieldList fieldList;
-    private List<Product> productList;
-    private List<Seller> sellerList;
+    private List<ProductLog> productLogList;
 
     /*****************************************************getters*******************************************************/
 
@@ -54,30 +50,26 @@ public class LogHistory implements Packable<LogHistory> {
         return auctionDiscount;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getFinalAmount() {
+        return finalAmount;
     }
 
     public double getDiscountAmount() {
         return discountAmount;
     }
 
-    public List<Seller> getSellerList() {
-        return Collections.unmodifiableList(sellerList);
-    }
-
-    public List<Product> getProductList() {
-        return Collections.unmodifiableList(productList);
+    public List<ProductLog> getProductLogList() {
+        return Collections.unmodifiableList(productLogList);
     }
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addLog(LogHistory logHistory) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addLog(LogHistory logHistory) throws CanNotSaveToDataBaseException {
         list.add(logHistory);
         DataBase.save(logHistory,true);
     }
 
-    public static void removeLog(LogHistory logHistory) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeLog(LogHistory logHistory) throws CanNotRemoveFromDataBase {
         list.remove(logHistory);
         DataBase.remove(logHistory);
     }
@@ -98,38 +90,22 @@ public class LogHistory implements Packable<LogHistory> {
     public Data<LogHistory> pack() {
         return new Data<LogHistory>()
                 .addField(logId)
-                .addField(amount)
+                .addField(finalAmount)
                 .addField(discountAmount)
                 .addField(auctionDiscount)
                 .addField(fieldList)
-                .addField(productList.stream()
-                        .map(Product::getId)
-                        .collect(Collectors.toList()))
-                .addField(sellerList.stream()
-                        .map(Seller::getId)
-                        .collect(Collectors.toList()))
+                .addField(productLogList)
                 .setInstance(new LogHistory());
     }
 
     @Override
-    public LogHistory dpkg(Data<LogHistory> data) throws ProductDoesNotExistException, AccountDoesNotExistException {
+    public LogHistory dpkg(Data<LogHistory> data) {
         this.logId = (long) data.getFields().get(0);
-        this.amount = (double) data.getFields().get(1);
+        this.finalAmount = (double) data.getFields().get(1);
         this.discountAmount = (double) data.getFields().get(2);
         this.auctionDiscount = (double) data.getFields().get(3);
-        this.fieldList = (FieldList) data.getFields().get(0);
-        List<Product> productResult = new ArrayList<>();
-        for (Long aLong : Collections.unmodifiableList((List<Long>) data.getFields().get(7))) {
-            Product productById = Product.getProductById(aLong);
-            productResult.add(productById);
-        }
-        this.productList = productResult;
-        List<Seller> sellerResult = new ArrayList<>();
-        for (Long aLong : Collections.unmodifiableList((List<Long>) data.getFields().get(8))) {
-            Seller sellerById = (Seller) Account.getAccountById(aLong);
-            sellerResult.add(sellerById);
-        }
-        this.sellerList = sellerResult;
+        this.fieldList = (FieldList) data.getFields().get(4);
+        this.productLogList = (List<ProductLog>) data.getFields().get(5);
         return this;
     }
 
@@ -144,14 +120,13 @@ public class LogHistory implements Packable<LogHistory> {
 
     /**************************************************constructors*****************************************************/
 
-    public LogHistory(long logId, double amount, double discountAmount, double auctionDiscount, FieldList fieldList, List<Product> productList, List<Seller> sellerList) {
+    public LogHistory(long logId, double finalAmount, double discountAmount, double auctionDiscount, FieldList fieldList, List<ProductLog> productLogList) {
         this.logId = logId;
-        this.amount = amount;
+        this.finalAmount = finalAmount;
         this.discountAmount = discountAmount;
         this.auctionDiscount = auctionDiscount;
         this.fieldList = fieldList;
-        this.productList = productList;
-        this.sellerList = sellerList;
+        this.productLogList = productLogList;
     }
 
     private LogHistory() {
@@ -163,11 +138,11 @@ public class LogHistory implements Packable<LogHistory> {
     public String toString() {
         return "LogHistory{" +
                 "logId=" + logId +
-                ", amount=" + amount +
+                ", amount=" + finalAmount +
                 ", discountAmount=" + discountAmount +
                 ", auctionDiscount=" + auctionDiscount +
                 ", fieldList=" + fieldList +
-                ", productList=" + productList +
+                ", productList=" + productLogList +
                 '}';
     }
 }

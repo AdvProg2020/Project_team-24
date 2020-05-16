@@ -16,15 +16,19 @@ public class SignUpMenu extends Menu {
 
     private static SignUpController signUpController = SignUpController.getInstance();
 
-    private SignUpMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private SignUpMenu(String name) {
+        super(name);
     }
 
-    public static SignUpMenu getInstance(String name, Menu parent) {
+    public static SignUpMenu getInstance(String name) {
         if (menu == null) {
-            menu = new SignUpMenu(name, parent);
+            menu = new SignUpMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in SignUpMenu."));
     }
 
     public void createAccount(List<String> inputs) {
@@ -94,10 +98,6 @@ public class SignUpMenu extends Menu {
         } catch (PhoneNumberInvalidException e) {
             System.out.println("enter valid phone number");
         }
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

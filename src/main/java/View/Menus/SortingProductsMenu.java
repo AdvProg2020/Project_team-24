@@ -7,15 +7,19 @@ public class SortingProductsMenu extends Menu{
 
     private static SortingProductsMenu menu;
 
-    private SortingProductsMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private SortingProductsMenu(String name) {
+        super(name);
     }
 
-    public static SortingProductsMenu getInstance(String name, Menu parent) {
+    public static SortingProductsMenu getInstance(String name) {
         if (menu == null) {
-            menu = new SortingProductsMenu(name, parent);
+            menu = new SortingProductsMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in SortingProductsMenu."));
     }
 
     public void showAvailableSorts() {
@@ -32,10 +36,6 @@ public class SortingProductsMenu extends Menu{
 
     public void disableSorts() {
         // yac
-    }
-
-    public static Menu getMenu(){
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

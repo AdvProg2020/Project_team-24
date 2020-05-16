@@ -17,15 +17,12 @@ import java.util.stream.Collectors;
 public class Auction implements Packable<Auction>, ForPend {
 
     private static List<Auction> list;
-    private static List<String> fieldNames;
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     static {
         list = DataBase.loadList("Auction").stream()
                 .map(packable -> (Auction) packable)
                 .collect(Collectors.toList());
-
-        fieldNames = Arrays.asList("auctionName", "stateForPend", "start", "end", "discountMaxAmount", "discountPercent");
     }
 
     /*****************************************************fields*******************************************************/
@@ -104,23 +101,23 @@ public class Auction implements Packable<Auction>, ForPend {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addAuction(Auction auction) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addAuction(Auction auction) throws CanNotSaveToDataBaseException {
         auction.setAuctionId(AddingNew.getRegisteringId().apply(getList()));
         list.add(auction);
         DataBase.save(auction, true);
     }
 
-    public static void removeAuction(Auction auction) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeAuction(Auction auction) throws CanNotRemoveFromDataBase {
         list.remove(auction);
         DataBase.remove(auction);
     }
 
-    public void addProductToAuction(Product product) throws CanNotAddException, IOException {
+    public void addProductToAuction(Product product) throws CanNotSaveToDataBaseException {
         productList.add(product);
         DataBase.save(this);
     }
 
-    public void removeProductFromAuction(Product product) throws CanNotRemoveException, IOException {
+    public void removeProductFromAuction(Product product) throws CanNotSaveToDataBaseException {
         productList.remove(product);
         DataBase.save(this);
     }
@@ -154,10 +151,6 @@ public class Auction implements Packable<Auction>, ForPend {
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
 
-        if (!fieldNames.contains(fieldName)) {
-            throw new FieldDoesNotExistException("This field not found in account.");
-        }
-
         switch (fieldName) {
             case "auctionName":
                 setAuctionName(value);
@@ -177,6 +170,8 @@ public class Auction implements Packable<Auction>, ForPend {
             case "discountPercent":
                 discount.setPercent(Double.parseDouble(value));
                 break;
+            default:
+                throw new FieldDoesNotExistException(fieldName + " not found in auction.");
         }
     }
 

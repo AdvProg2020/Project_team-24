@@ -14,19 +14,19 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
     private static ViewDiscountCodesByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public ViewDiscountCodesByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ViewDiscountCodesByManagerMenu(String name) {
+        super(name);
     }
 
-    public static ViewDiscountCodesByManagerMenu getInstance(String name, Menu parent) {
+    public static ViewDiscountCodesByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ViewDiscountCodesByManagerMenu(name, parent);
+            menu = new ViewDiscountCodesByManagerMenu(name);
         }
         return menu;
     }
 
     public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewDiscountCodesByManagerMenu."));
     }
 
     public void viewDiscountCode(List<String> inputs) {

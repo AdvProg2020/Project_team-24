@@ -8,8 +8,8 @@ import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.AddingNew;
 
-import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class BuyerController extends AccountController {
         return customer.getDiscountCodeList();
     }
 
-    public double showTotalPrice() throws FieldDoesNotExistException {
+    public double showTotalPrice() {
         return viewCart().getTotalPrice();
     }
 
@@ -63,25 +63,25 @@ public class BuyerController extends AccountController {
         return Product.getProductById(productId);
     }
 
-    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException, ProductDoesNotExistException, ProductIsOutOfStockException {
+    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CloneNotSupportedException, CanNotSaveToDataBaseException, ProductDoesNotExistException, ProductIsOutOfStockException {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         if (Product.getProductById(productId).getNumberOfThis() <= 0) {
-            throw new ProductIsOutOfStockException("ProductIsOutOfStockException");
+            throw new ProductIsOutOfStockException("Product is out of stock. You can't increase number of the order whit id:" + productIdString + " .");
         } else {
             Product productClone = (Product) viewCart().getProductById(productId).clone();
-            viewCart().addProductToCart((Seller) Account.getAccountById(sellerId), productClone);
+            viewCart().addProductToCart(sellerId, productClone);
         }
     }
 
-    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException {
+    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, CanNotSaveToDataBaseException {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         Product product = viewCart().getProductById(productId);
-        viewCart().addProductToCart((Seller) Account.getAccountById(sellerId), product);
+        viewCart().addProductToCart(sellerId, product);
     }
 
-    private void checkEnoughCredit() throws NotEnoughCreditException, FieldDoesNotExistException {
+    private void checkEnoughCredit() throws NotEnoughCreditException {
         double price = viewCart().getTotalPrice();
         if (discountCodeEntered != null) {
             price -= discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice());
@@ -124,47 +124,58 @@ public class BuyerController extends AccountController {
         discountCodeEntered = discountCode;
     }
 
-    private double payment() throws PurchaseFailException, NotEnoughCreditException, AccountDoesNotExistException, FieldDoesNotExistException {
+    private double getTotalPriceWithDiscountCode() {
         double priceWithoutDiscount = viewCart().getTotalPrice();
         double discount = viewCart().getTotalAuctionDiscount();
         double price = priceWithoutDiscount - discount;
         if (discountCodeEntered != null) {
             price -= discountCodeEntered.getDiscountCodeDiscount(price);
         }
-        customer.setCredit(customer.getCredit() - price);
-
-        //adding to sellers balance :
-        List<Product> listOfProduct = showProducts();
-        List<Seller> listOfSellers = viewCart().getProductSellers();
-        for (int i = 0; i < showProducts().size(); i++) {
-            Seller seller = listOfSellers.get(i);
-            Product product = listOfProduct.get(i);
-            double productPrice = product.getPrice();
-            double productAuctionAmount = product.getAuction().getAuctionDiscount(productPrice);
-            double productFinalPrice = productPrice - productAuctionAmount;
-            seller.setBalance(seller.getBalance() + productFinalPrice);
-        }
         return price;
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, AccountDoesNotExistException, PurchaseFailException, IOException, CanNotAddException, FieldDoesNotExistException {
-        checkEnoughCredit();
-        double price = payment();
+    private List<ProductLog> payment() throws AccountDoesNotExistException {
+
+        customer.setCredit(customer.getCredit() - getTotalPriceWithDiscountCode());
+
+        //adding to sellers balance :
+        List<ProductLog> productLogs = new ArrayList<>();
+        List<Product> listOfProduct = this.showProducts();
+        List<Long> listOfSellers = viewCart().getProductSellers();
+        for (int i = 0; i < showProducts().size(); i++) {
+            Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
+            Product product = listOfProduct.get(i);
+
+            double productPrice = product.getPrice(listOfSellers.get(i));
+            double productAuctionAmount = product.getAuction().getAuctionDiscount(productPrice);
+            double productFinalPrice = productPrice - productAuctionAmount;
+
+            productLogs.add(
+                    new ProductLog(product.getId(), product.getProductName(), productPrice, productAuctionAmount, productFinalPrice)
+            );
+
+            seller.setBalance(seller.getBalance() + productFinalPrice);
+        }
+        return productLogs;
+    }
+
+    public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException {
+        this.checkEnoughCredit();
+        List<ProductLog> productLogs = payment();
         List<Product> listOfProduct = showProducts();
-        List<Seller> listOfSellers = viewCart().getProductSellers();
         for (Product product1 : listOfProduct) {
             product1.setNumberOfBuyers(product1.getNumberOfBuyers() + 1);
             product1.addBuyer(customer);
         }
         LogHistory logHistory = new LogHistory(
                 AddingNew.getRegisteringId().apply(LogHistory.getList()),
-                price,
+                getTotalPriceWithDiscountCode(),
                 discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
                 viewCart().getTotalAuctionDiscount(),
                 new FieldList(Arrays.asList()), // I don't know now.
-                viewCart().getProductList(),
-                viewCart().getProductSellers()
+                productLogs
         );
+        LogHistory.addLog(logHistory);
         customer.setCart(Cart.autoCreateCart());
     }
 

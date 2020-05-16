@@ -11,15 +11,19 @@ public class ManageInfoMenu extends Menu {
     private static ManageInfoMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public ManageInfoMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ManageInfoMenu(String name) {
+        super(name);
     }
 
-    public static ManageInfoMenu getInstance(String name, Menu parent) {
+    public static ManageInfoMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageInfoMenu(name, parent);
+            menu = new ManageInfoMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageInfoMenu."));
     }
 
     public void edit(List<String> inputs) {
@@ -31,10 +35,6 @@ public class ManageInfoMenu extends Menu {
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

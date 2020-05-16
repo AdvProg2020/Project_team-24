@@ -2,12 +2,10 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,14 +15,10 @@ public class Category implements Packable<Category> {
 
     private static List<Category> list;
 
-    private static List<String> fieldNames;
-
     static {
         list = DataBase.loadList("Category").stream()
                 .map(packable -> (Category) packable)
                 .collect(Collectors.toList());
-
-        fieldNames = Collections.singletonList("name");
     }
 
     /*****************************************************fields*******************************************************/
@@ -69,32 +63,32 @@ public class Category implements Packable<Category> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToProductList(Product product) throws CanNotAddException, IOException {
+    public void addToProductList(Product product) throws CanNotSaveToDataBaseException {
         productList.add(product);
         DataBase.save(this);
     }
 
-    public void removeFromProductList(Product product) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public void removeFromProductList(Product product) throws CanNotRemoveFromDataBase {
         productList.remove(product);
         DataBase.remove(this);
     }
 
-    public void addToSubCategoryList(Category category) throws CanNotAddException, IOException {
+    public void addToSubCategoryList(Category category) throws CanNotSaveToDataBaseException{
         subCategoryList.add(category);
         DataBase.save(this);
     }
 
-    public void removeFromSubCategoryList(Category category) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public void removeFromSubCategoryList(Category category) throws CanNotRemoveFromDataBase {
         subCategoryList.remove(category);
         DataBase.remove(category);
     }
 
-    public static void addCategory(Category category) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addCategory(Category category) throws CanNotSaveToDataBaseException {
         list.add(category);
         DataBase.save(category, true);
     }
 
-    public static void removeCategory(Category category) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeCategory(Category category) throws CanNotRemoveFromDataBase {
         list.remove(category);
         DataBase.remove(category);
     }
@@ -116,11 +110,7 @@ public class Category implements Packable<Category> {
     }
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException {
-        List<String> fields = new ArrayList<>(fieldNames);
-        fields.addAll(categoryField.getFieldList().stream().map(Field::getFieldName).collect(Collectors.toList()));
-        if (!fieldNames.contains(fieldName)) {
-            throw new FieldDoesNotExistException("This field not found in account.");
-        }
+
         if (fieldName.equals("name")) {
             setName(value);
         } else {

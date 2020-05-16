@@ -1,7 +1,7 @@
 package View.Menus;
 
 import Controller.Controllers.ManagerController;
-import Exceptions.RequesDoesNotExistException;
+import Exceptions.RequestDoesNotExistException;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,22 +11,26 @@ public class ManageRequestsByManagerMenu extends Menu {
     private static ManageRequestsByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public ManageRequestsByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ManageRequestsByManagerMenu(String name) {
+        super(name);
     }
 
-    public static ManageRequestsByManagerMenu getInstance(String name, Menu parent) {
+    public static ManageRequestsByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageRequestsByManagerMenu(name, parent);
+            menu = new ManageRequestsByManagerMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageRequestsByManagerMenu."));
     }
 
     public void showDetails(List<String> inputs) {
        String id = inputs.get(0);
         try {
             managerController.detailsOfRequest(id);
-        } catch (RequesDoesNotExistException e) {
+        } catch (RequestDoesNotExistException e) {
             System.out.println("this request with this id does not exist");
         }
     }
@@ -47,10 +51,6 @@ public class ManageRequestsByManagerMenu extends Menu {
         } catch (Exception e) {
             //yac
         }
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

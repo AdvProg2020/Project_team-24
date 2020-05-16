@@ -17,19 +17,19 @@ public class ManagerMenu extends Menu {
     private static ManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    private ManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private ManagerMenu(String name) {
+        super(name);
     }
 
-    public static ManagerMenu getInstance(String name, Menu parent) {
+    public static ManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManagerMenu(name, parent);
+            menu = new ManagerMenu(name);
         }
         return menu;
     }
 
     public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManagerMenu."));
     }
 
     public void viewPersonalInfo() {

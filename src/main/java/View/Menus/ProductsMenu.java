@@ -10,15 +10,19 @@ public class ProductsMenu extends Menu {
 
     private static ProductsMenu menu;
 
-    private ProductsMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private ProductsMenu(String name) {
+        super(name);
     }
 
-    public static ProductsMenu getInstance(String name, Menu parent) {
+    public static ProductsMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ProductsMenu(name, parent);
+            menu = new ProductsMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ProductsMenu."));
     }
 
 //    public void products() { // bdn ...
@@ -43,12 +47,8 @@ public class ProductsMenu extends Menu {
 
     public void showProduct(List<String> inputs) {
         long id = Long.parseLong(inputs.get(0));
-        Product product = Product.getProductById(id);
-        MenuHandler.setCurrentMenu(ProductMenu.getMenu().setProduct(product));
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+//        Product product = Product.getProductById(id);
+//        MenuHandler.setCurrentMenu(ProductMenu.getMenu().setProduct(product));
     }
 
     @Override

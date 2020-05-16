@@ -12,15 +12,19 @@ public class ManageCategoriesByManagerMenu extends Menu {
     private static ManageCategoriesByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public ManageCategoriesByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ManageCategoriesByManagerMenu(String name) {
+        super(name);
     }
 
-    public static ManageCategoriesByManagerMenu getInstance(String name, Menu parent) {
+    public static ManageCategoriesByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageCategoriesByManagerMenu(name, parent);
+            menu = new ManageCategoriesByManagerMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageCategoriesByManagerMenu."));
     }
 
     public void editCategory(List<String> inputs) {
@@ -52,9 +56,6 @@ public class ManageCategoriesByManagerMenu extends Menu {
         }
     }
 
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
-    }
 
     @Override
     public void show() {

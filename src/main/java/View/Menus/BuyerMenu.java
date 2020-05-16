@@ -7,21 +7,23 @@ import View.MenuHandler;
 import java.util.Optional;
 
 public class BuyerMenu extends Menu{
-    private static BuyerController buyerController=BuyerController.getInstance();
+
+    private static BuyerController buyerController = BuyerController.getInstance();
+
     private static BuyerMenu menu;
 
-    private BuyerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private BuyerMenu(String name) {
+        super(name);
     }
 
-    public static BuyerMenu getInstance(String name, Menu parent) {
+    public static BuyerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new BuyerMenu(name, parent);
+            menu = new BuyerMenu(name);
         }
         return menu;
     }
     public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in buyerMenu."));
     }
 
     public void viewPersonalInfo() {
@@ -32,16 +34,21 @@ public class BuyerMenu extends Menu{
     public void viewCart() {
         MenuHandler.setCurrentMenu(ViewCartByBuyerMenu.getMenu());
     }
+
     public void viewOrders() {
-        MenuHandler.setCurrentMenu(ViewOrdersByBuyerMenu.getMenu());
         System.out.println(buyerController.viewOrders());
+        MenuHandler.setCurrentMenu(ViewOrdersByBuyerMenu.getMenu());
     }
     public void viewBalance() {
         System.out.println(buyerController.viewBalance());
     }
 
     public void viewDiscountCodes() {
-       buyerController.viewDiscountCodes().forEach(discountCode -> { System.out.println(discountCode.getDiscountCode()); });
+       buyerController.viewDiscountCodes().forEach(discountCode -> {
+           System.out.println(
+                   discountCode.getDiscountCode() + " : " + discountCode.getDiscount().getPercent() + " " + discountCode.getDiscount().getAmount()
+           );
+       });
     }
 
 

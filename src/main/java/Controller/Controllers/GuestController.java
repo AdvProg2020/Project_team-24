@@ -2,15 +2,6 @@ package Controller.Controllers;
 
 import Controller.ControllerUnit;
 
-import Exceptions.NotEnoughCreditException;
-import Exceptions.ProductDoesNotExistException;
-import Model.Models.*;
-import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Guest;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class GuestController {
 
     /******************************************************fields*******************************************************/
