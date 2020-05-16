@@ -151,6 +151,14 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     public void setStateForPend(String stateForPend) {
         this.stateForPend = stateForPend;
     }
+    //yac
+    public void setSellerList(List<Seller> sellerList) {
+        this.sellerList = sellerList;
+    }
+
+    public static void setList(List<Product> list) {
+        Product.list = list;
+    }
 
     /**************************************************addAndRemove*****************************************************/
 
