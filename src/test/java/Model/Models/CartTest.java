@@ -38,7 +38,7 @@ class CartTest {
         //product
         //!!price set kardan(avali = 50 t/dovomi = 10 t)
         //!!set id for products
-        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null,5),new Product("mahtabi",null,null,10));
+        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null),new Product("mahtabi",null,null));
         Product.setList(listOfProducts);
         //sellers of products
         List<Seller> sellersOfProduct1 =  Arrays.asList(account3,account4);

@@ -19,7 +19,7 @@ public class AuctionTest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     @BeforeAll
     void setAccountsToTest(){
-        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null,5),new Product("mahtabi",null,null,10));
+        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null),new Product("mahtabi",null,null));
         Discount discount1 = new Discount(30,100);
         Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount1);
         auction1.setProductList(listOfProducts);
@@ -52,7 +52,7 @@ public class AuctionTest {
 
     @Test
     void addProductToAuction() {
-        Product product = new Product("cheraghe nafti",null,null,1);
+        Product product = new Product("cheraghe nafti",null,null);
         Auction auction = Auction.getList().get(1);
         assertDoesNotThrow(() -> auction.addProductToAuction(product));
         assertTrue(auction.getProductList().contains(product));

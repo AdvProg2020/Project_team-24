@@ -1,12 +1,15 @@
 package View.Menus;
 
+import Controller.Controllers.FilterController;
+import Controller.Controllers.ProductsController;
+
 import java.util.List;
 import java.util.Optional;
 
 public class FilteringProductsMenu extends Menu {
 
     private static FilteringProductsMenu menu;
-
+    private static FilterController filterController=FilterController.getInstance();
     private FilteringProductsMenu(String name) {
         super(name);
     }
@@ -19,11 +22,12 @@ public class FilteringProductsMenu extends Menu {
     }
 
     public void showAvailableFilters() {
-        // yac
+        System.out.println(filterController.showAvailableFilters());
     }
 
     public void addFilter(List<String> inputs) {
-        // yac
+//        String filter=inputs.get(0);
+//        filterController.filter(filter);
     }
 
     public void disableAFilter(List<String> inputs) {

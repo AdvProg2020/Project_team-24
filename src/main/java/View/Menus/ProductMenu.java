@@ -1,5 +1,6 @@
 package View.Menus;
 
+import Controller.Controllers.ProductController;
 import Model.Models.Product;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Optional;
 public class ProductMenu extends Menu {
 
     private static ProductMenu menu;
-
+    private static ProductController productController = ProductController.getInstance();
     private Product product;
 
     public ProductMenu(String name) {
@@ -27,20 +28,26 @@ public class ProductMenu extends Menu {
     }
 
     public void digest() {
+        Product currentProduct = productController.digest();
+        System.out.println("Name:"+currentProduct.getProductName());
+        System.out.println("Info:"+currentProduct.getProductInfo());
+        System.out.println("Sellers and Prices and NumbersOfThisProducts:"+currentProduct.getProductOfSellers());
+        System.out.println("Auction:"+currentProduct.getAuction());
+        System.out.println("Category:"+currentProduct.getCategory());
+        System.out.println("AverageScore:" +currentProduct.getAverageScore());
+    }
+
+    public void attributes() {
         // yac
     }
 
-     public void attributes() {
+    public void compare(List<String> inputs) {
         // yac
-     }
+    }
 
-     public void compare(List<String> inputs) {
+    public void Comments() {
         // yac
-     }
-
-     public void Comments() {
-        // yac
-     }
+    }
 
     public ProductMenu setProduct(Product product) {
         this.product = product;

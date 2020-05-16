@@ -159,11 +159,7 @@ class AccountTest {
         Account account = new Seller("nogole no shekofte");
         try {
             Account.addAccount(account);
-        } catch (CanNotAddException e) {
-            e.printStackTrace();
         } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
         assertTrue(Account.getList().contains(account));
@@ -174,8 +170,6 @@ class AccountTest {
         Account account = Account.getList().get(2);
         try {
             Account.deleteAccount(account);
-        } catch (CanNotDeleteException e) {
-            e.printStackTrace();
         } catch (CanNotRemoveFromDataBase canNotRemoveFromDataBase) {
             canNotRemoveFromDataBase.printStackTrace();
         }
