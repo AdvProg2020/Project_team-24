@@ -17,14 +17,11 @@ import java.util.stream.Collectors;
 public class Product implements Packable<Product>, ForPend, Cloneable {
 
     private static List<Product> list;
-    private static List<String> fieldNames;
 
     static {
         list = DataBase.loadList("Product").stream()
                 .map(packable -> (Product) packable)
                 .collect(Collectors.toList());
-
-        fieldNames = Arrays.asList("productName", "category", "auction", "numberOfThis", "stateForPend", "brand", "price");
     }
 
     /*****************************************************fields*******************************************************/
@@ -154,37 +151,37 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addComment(Comment comment) throws CanNotAddException, IOException {
+    public void addComment(Comment comment) throws CanNotSaveToDataBaseException {
         commentList.add(comment);
         DataBase.save(this);
     }
 
-    public void removeComment(Comment comment) throws CanNotRemoveException, IOException {
+    public void removeComment(Comment comment) throws CanNotSaveToDataBaseException {
         commentList.remove(comment);
         DataBase.save(this);
     }
 
-    public void addBuyer(Customer account) throws CanNotAddException, IOException {
+    public void addBuyer(Customer account) throws CanNotSaveToDataBaseException {
         buyerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeBuyer(Customer account) throws CanNotRemoveException, IOException {
+    public void removeBuyer(Customer account) throws CanNotSaveToDataBaseException {
         buyerList.remove(account);
         DataBase.save(this);
     }
 
-    public void addSeller(Seller account) throws CanNotAddException, IOException {
+    public void addSeller(Seller account) throws CanNotSaveToDataBaseException {
         sellerList.add(account);
         DataBase.save(this);
     }
 
-    public void removeSeller(Seller account) throws CanNotRemoveException, IOException {
+    public void removeSeller(Seller account) throws CanNotSaveToDataBaseException {
         sellerList.remove(account);
         DataBase.save(this);
     }
 
-    public static void addProduct(Product product) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addProduct(Product product) throws CanNotSaveToDataBaseException {
         product.setProductId(AddingNew.getRegisteringId().apply(getList()));
         Auction auction = product.getAuction();
         if (auction != null) {
@@ -202,9 +199,6 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     /***************************************************otherMethods****************************************************/
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException, CategoryDoesNotExistException {
-        if (!fieldNames.contains(fieldName)) {
-            throw new FieldDoesNotExistException("This field not found in account.");
-        }
 
         switch (fieldName) {
             case "productName":

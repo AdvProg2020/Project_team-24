@@ -7,9 +7,7 @@ import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,23 +15,16 @@ import java.util.stream.Collectors;
 public abstract class Account implements Packable<Account> {
 
     protected static List<Account> list;
-    protected static List<String> fieldNames;
 
     static {
         list = DataBase.loadList("Account")
                 .stream().map(packable -> (Account) packable)
                 .collect(Collectors.toList());
-
-        fieldNames = Arrays.asList("password", "firstName", "lastName", "email", "phoneNumber");
     }
 
     /***************************************************inRegistering***************************************************/
 
     protected static List<Account> inRegistering = new ArrayList<>();
-
-    public static boolean isThereAnyInRegisteringWithThisUsername(String username) {
-        return inRegistering.stream().anyMatch(account -> username.equals(account.getUserName()));
-    }
 
     public static void addToInRegisteringList(Account account) {
         inRegistering.add(account);
@@ -50,6 +41,10 @@ public abstract class Account implements Packable<Account> {
     public static void setInRegistering(List<Account> inRegistering) {
         Account.inRegistering = inRegistering;
     } // just for test.
+
+    public static boolean isThereAnyInRegisteringWithThisUsername(String username) {
+        return inRegistering.stream().anyMatch(account -> username.equals(account.getUserName()));
+    }
 
     /*****************************************************fields*******************************************************/
 
@@ -121,9 +116,6 @@ public abstract class Account implements Packable<Account> {
     /***************************************************otherMethods****************************************************/
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException {
-        if (!fieldNames.contains(fieldName)) {
-            throw new FieldDoesNotExistException("This field not found in account.");
-        }
 
         if ("password".equals(fieldName)) {
             setPassword(value);
@@ -150,28 +142,30 @@ public abstract class Account implements Packable<Account> {
     public static boolean isThereAnyAccountWithThisUsername(String username) {
         return list.stream().anyMatch(account -> username.equals(account.getUserName()));
     }
+
     /**************************************************addAndRemove*****************************************************/
-    public static void addAccount(Account account) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+
+    public static void addAccount(Account account) throws CanNotSaveToDataBaseException {
         account.setId(AddingNew.getRegisteringId().apply(getList()));
         list.add(account);
         DataBase.save(account, true);
     }
 
-    public static void deleteAccount(Account account) throws CanNotDeleteException, CanNotRemoveFromDataBase {
+    public static void deleteAccount(Account account) throws CanNotRemoveFromDataBase {
         list.remove(account);
         DataBase.remove(account);
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Account(long id, String userName, String password, Info personalInfo) {
+    protected Account(long id, String userName, String password, Info personalInfo) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.personalInfo = personalInfo;
     }
 
-    public Account(String username) {
+    protected Account(String username) {
         this.userName = username;
     }
 

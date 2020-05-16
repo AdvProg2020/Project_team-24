@@ -51,31 +51,44 @@ public class DataBase {
         return list;
     }
 
-    public static void save(Packable<?> object, boolean New) throws CanNotSaveToDataBaseException, IOException {
+    public static void save(Packable<?> object, boolean New) throws CanNotSaveToDataBaseException {
 
         if (New) {
 
             File file = new File(getStringObjPath(object));
 
-            if (!file.createNewFile()) {
-                throw new CanNotSaveToDataBaseException("file exist before.");
+            try {
+
+                if (!file.createNewFile()) {
+                    throw new CanNotSaveToDataBaseException("Can't create a file for " + object.getClass().getSimpleName() + " whit id:" + object.getId() + " .");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
         save(object);
     }
 
-    public static void save(Packable<?> object) throws IOException {
+    public static void save(Packable<?> object) throws CanNotSaveToDataBaseException {
 
         File file = new File(getStringObjPath(object));
 
         String packed = yaGson.toJson(object.pack());
 
-        FileWriter writer = new FileWriter(file);
+        FileWriter writer;
+        try {
+            writer = new FileWriter(file);
 
-        writer.write(packed);
+            writer.write(packed);
 
-        writer.close();
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new CanNotSaveToDataBaseException("Can't create a file for " + object.getClass().getSimpleName() + " whit id:" + object.getId() + " .");
+        }
     }
 
     public static void remove(Packable<?> object) throws CanNotRemoveFromDataBase {
@@ -83,7 +96,7 @@ public class DataBase {
         File file = new File(getStringObjPath(object));
 
         if (!file.delete()) {
-            throw new CanNotRemoveFromDataBase("file does not exist.");
+            throw new CanNotRemoveFromDataBase("Can't remove a file for " + object.getClass().getSimpleName() + " whit id:" + object.getId() + " .");
         }
     }
 

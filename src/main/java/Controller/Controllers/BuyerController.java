@@ -74,7 +74,7 @@ public class BuyerController extends AccountController {
         }
     }
 
-    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, AccountDoesNotExistException, CanNotSaveToDataBaseException, IOException {
+    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, AccountDoesNotExistException, CanNotSaveToDataBaseException {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         Product product = viewCart().getProductById(productId);
@@ -124,7 +124,7 @@ public class BuyerController extends AccountController {
         discountCodeEntered = discountCode;
     }
 
-    private double payment() throws PurchaseFailException, NotEnoughCreditException, AccountDoesNotExistException, FieldDoesNotExistException {
+    private double payment() throws FieldDoesNotExistException {
         double priceWithoutDiscount = viewCart().getTotalPrice();
         double discount = viewCart().getTotalAuctionDiscount();
         double price = priceWithoutDiscount - discount;
@@ -147,11 +147,11 @@ public class BuyerController extends AccountController {
         return price;
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, AccountDoesNotExistException, PurchaseFailException, IOException, CanNotAddException, FieldDoesNotExistException {
+    public void buyProductsOfCart() throws NotEnoughCreditException, FieldDoesNotExistException, CanNotSaveToDataBaseException {
         checkEnoughCredit();
         double price = payment();
         List<Product> listOfProduct = showProducts();
-        List<Seller> listOfSellers = viewCart().getProductSellers();
+//        List<Seller> listOfSellers = viewCart().getProductSellers(); // what?
         for (Product product1 : listOfProduct) {
             product1.setNumberOfBuyers(product1.getNumberOfBuyers() + 1);
             product1.addBuyer(customer);

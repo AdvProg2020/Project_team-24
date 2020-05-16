@@ -2,13 +2,10 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,7 +56,7 @@ public class Request implements Packable<Request> {
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest() throws CanNotRemoveFromDataBase, CanNotAddException, IOException, CanNotSaveToDataBaseException {
+    public void acceptRequest() throws CanNotRemoveFromDataBase, CanNotSaveToDataBaseException {
         forPend.setStateForPend("Accepted");
         if (forPend instanceof Product) {
             Product.addProduct((Product) forPend);
@@ -78,12 +75,12 @@ public class Request implements Packable<Request> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addRequest(Request request) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addRequest(Request request) throws  CanNotSaveToDataBaseException {
         list.add(request);
         DataBase.save(request, true);
     }
 
-    public static void removeRequest(Request request) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeRequest(Request request) throws CanNotRemoveFromDataBase {
         list.remove(request);
         DataBase.remove(request);
     }
@@ -113,11 +110,11 @@ public class Request implements Packable<Request> {
 
     /***************************************************otherMethods****************************************************/
 
-    public static Request getRequestById(long id) throws RequesDoesNotExistException {
+    public static Request getRequestById(long id) throws RequestDoesNotExistException {
         return list.stream()
                 .filter(request -> id == request.getId())
                 .findFirst()
-                .orElseThrow(() -> new RequesDoesNotExistException("Request with this id does not exist."));
+                .orElseThrow(() -> new RequestDoesNotExistException("Request with this id does not exist."));
     }
 
     /**************************************************constructors*****************************************************/

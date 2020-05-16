@@ -72,12 +72,12 @@ public class LogHistory implements Packable<LogHistory> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addLog(LogHistory logHistory) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addLog(LogHistory logHistory) throws CanNotSaveToDataBaseException {
         list.add(logHistory);
         DataBase.save(logHistory,true);
     }
 
-    public static void removeLog(LogHistory logHistory) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeLog(LogHistory logHistory) throws CanNotRemoveFromDataBase {
         list.remove(logHistory);
         DataBase.remove(logHistory);
     }

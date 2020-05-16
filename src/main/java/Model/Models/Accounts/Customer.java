@@ -12,12 +12,6 @@ import java.util.stream.Collectors;
 
 public class Customer extends Account {
 
-    protected static List<String> fieldNames = new ArrayList<>(Account.fieldNames);
-
-    static {
-        fieldNames.add("credit");
-    }
-
     /*****************************************************fields*******************************************************/
 
     private double credit;
@@ -28,11 +22,11 @@ public class Customer extends Account {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToCart(Product product, Seller seller) throws Exception {
+    public void addToCart(Product product, Seller seller) throws CanNotSaveToDataBaseException {
         cart.addProductToCart(seller, product);
     }
 
-    public void removeFromCart(Product product, Seller seller) throws Exception {
+    public void removeFromCart(Product product, Seller seller) throws CanNotSaveToDataBaseException {
         cart.removeProductFromCart(seller, product);
     }
 
@@ -140,9 +134,6 @@ public class Customer extends Account {
 
     @Override
     public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
-        if (!fieldNames.contains(fieldName)) {
-            throw new FieldDoesNotExistException("This field not found in account.");
-        }
 
         switch (fieldName) {
             case "password":

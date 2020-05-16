@@ -2,12 +2,10 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -18,16 +16,12 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     private static List<DiscountCode> list;
 
-    private static List<String> fieldNames;
-
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     static {
         list = DataBase.loadList("DiscountCode").stream()
                 .map(packable -> (DiscountCode) packable)
                 .collect(Collectors.toList());
-
-        fieldNames = Arrays.asList("start", "end", "maxDiscountAmount", "discountPercent", "frequentUse");
     }
 
     /*****************************************************fields*******************************************************/
@@ -103,22 +97,22 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAccount(Account account) throws CanNotAddException, IOException {
+    public void addAccount(Account account) throws CanNotSaveToDataBaseException {
         accountList.add(account);
         DataBase.save(this);
     }
 
-    public void removeAccount(Account account) throws CanNotRemoveException, IOException {
+    public void removeAccount(Account account) throws CanNotSaveToDataBaseException {
         accountList.remove(account);
         DataBase.save(this);
     }
 
-    public static void addDiscountCode(DiscountCode discountCode) throws CanNotAddException, CanNotSaveToDataBaseException, IOException {
+    public static void addDiscountCode(DiscountCode discountCode) throws CanNotSaveToDataBaseException {
         list.add(discountCode);
         DataBase.save(discountCode,true);
     }
 
-    public static void removeFromDiscountCode(DiscountCode discountCode) throws CanNotRemoveException, CanNotRemoveFromDataBase {
+    public static void removeFromDiscountCode(DiscountCode discountCode) throws CanNotRemoveFromDataBase {
         list.remove(discountCode);
         DataBase.remove(discountCode);
     }
@@ -180,11 +174,7 @@ public class DiscountCode implements Packable<DiscountCode> {
     }
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException, DateTimeParseException {
-        List<String> fields = new ArrayList<>(fieldNames);
-        fields.addAll(fieldList.getFieldList().stream().map(Field::getFieldName).collect(Collectors.toList()));
-        if (!fieldNames.contains(fieldName)) {
-            throw new FieldDoesNotExistException("This field not found in account.");
-        }
+
         switch (fieldName) {
             case "start":
                 setStart(LocalDate.parse(value,formatter));

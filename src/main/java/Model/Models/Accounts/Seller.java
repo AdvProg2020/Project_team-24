@@ -14,12 +14,6 @@ import java.util.stream.Collectors;
 
 public class Seller extends Account {
 
-    protected static List<String> fieldNames = new ArrayList<>(Account.fieldNames);
-
-    static {
-        fieldNames.addAll(Arrays.asList("balance", "brand", "companyEmail", "companyPhone"));
-    }
-
     /*****************************************************fields*******************************************************/
 
     private double balance;
@@ -103,9 +97,6 @@ public class Seller extends Account {
 
     @Override
     public void editField(String fieldName, String value) throws FieldDoesNotExistException {
-        if (!fieldNames.contains(fieldName)) {
-            throw new FieldDoesNotExistException("This field not found in account.");
-        }
 
         switch (fieldName) {
             case "password":

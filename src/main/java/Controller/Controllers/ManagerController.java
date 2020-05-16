@@ -105,7 +105,7 @@ public class ManagerController extends AccountController {
         discountCode.editField(strField,newField);
     }
 
-    public void removeDiscountCode(String StrDiscountCodeId) throws DiscountCodeExpiredException, CanNotRemoveException, CanNotRemoveFromDataBase {
+    public void removeDiscountCode(String StrDiscountCodeId) throws DiscountCodeExpiredException, CanNotRemoveFromDataBase {
         long discountCodeId = Long.parseLong(StrDiscountCodeId);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
         DiscountCode.removeFromDiscountCode(discountCode);
@@ -132,17 +132,17 @@ public class ManagerController extends AccountController {
         selectRandomBuyer().addToDiscountCodeList(discountCode);
     }
 
-    public Request detailsOfRequest(String strRequestId) throws RequesDoesNotExistException {
+    public Request detailsOfRequest(String strRequestId) throws RequestDoesNotExistException {
         long requestId = Long.parseLong(strRequestId);
         return Request.getRequestById(requestId);
     }
 
-    public void acceptRequest(String strRequestId) throws RequesDoesNotExistException, CanNotRemoveFromDataBase, CanNotSaveToDataBaseException, CanNotAddException, IOException {
+    public void acceptRequest(String strRequestId) throws RequestDoesNotExistException, CanNotRemoveFromDataBase, CanNotSaveToDataBaseException {
         long requestId = Long.parseLong(strRequestId);
         ((Manager) controllerUnit.getAccount()).acceptRequest(Request.getRequestById(requestId));
     }
 
-    public void denyRequest(String strRequestId) throws RequesDoesNotExistException, CanNotRemoveFromDataBase {
+    public void denyRequest(String strRequestId) throws RequestDoesNotExistException, CanNotRemoveFromDataBase {
         long requestId = Long.parseLong(strRequestId);
         ((Manager) controllerUnit.getAccount()).declineRequest(Request.getRequestById(requestId));
     }
@@ -152,12 +152,12 @@ public class ManagerController extends AccountController {
         category.editField(fieldName, newField);
     }
 
-    public void removeCategory(String categoryName) throws CanNotRemoveException, CanNotRemoveFromDataBase, CategoryDoesNotExistException {
+    public void removeCategory(String categoryName) throws CanNotRemoveFromDataBase, CategoryDoesNotExistException {
         Category category = Category.getCategoryByName(categoryName);
         Category.removeCategory(category);
     }
 
-    public void addCategory(String categoryName) throws CanNotAddException, IOException, CanNotSaveToDataBaseException, CategoryDoesNotExistException {
+    public void addCategory(String categoryName) throws CanNotSaveToDataBaseException, CategoryDoesNotExistException {
         Category category = Category.getCategoryByName(categoryName);
         Category.addCategory(category);
     }

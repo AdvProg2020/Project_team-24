@@ -1,7 +1,7 @@
 package View.Menus;
 
 import Controller.Controllers.ManagerController;
-import Exceptions.RequesDoesNotExistException;
+import Exceptions.RequestDoesNotExistException;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public class ManageRequestsByManagerMenu extends Menu {
        String id = inputs.get(0);
         try {
             managerController.detailsOfRequest(id);
-        } catch (RequesDoesNotExistException e) {
+        } catch (RequestDoesNotExistException e) {
             System.out.println("this request with this id does not exist");
         }
     }

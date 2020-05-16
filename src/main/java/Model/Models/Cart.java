@@ -50,13 +50,13 @@ public class Cart implements Packable<Cart> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addProductToCart(Seller seller, Product product) throws CanNotSaveToDataBaseException, IOException {
+    public void addProductToCart(Seller seller, Product product) throws CanNotSaveToDataBaseException {
         productSellers.add(seller);
         productList.add(product);
         DataBase.save(this, false);
     }
 
-    public void removeProductFromCart(Seller seller, Product product) throws CanNotSaveToDataBaseException, IOException {
+    public void removeProductFromCart(Seller seller, Product product) throws CanNotSaveToDataBaseException {
         productSellers.remove(seller);
         productList.remove(product);
         DataBase.save(this, false);
