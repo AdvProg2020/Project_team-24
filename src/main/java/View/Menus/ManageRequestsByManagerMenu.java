@@ -40,7 +40,7 @@ public class ManageRequestsByManagerMenu extends Menu {
         try {
             managerController.acceptRequest(id);
         } catch (Exception e) {
-            //yac
+            e.printStackTrace();
         }
     }
 
@@ -49,7 +49,7 @@ public class ManageRequestsByManagerMenu extends Menu {
         try {
             managerController.denyRequest(id);
         } catch (Exception e) {
-            //yac
+            e.printStackTrace();
         }
     }
 

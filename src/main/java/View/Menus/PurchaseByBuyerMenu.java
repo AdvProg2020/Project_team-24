@@ -2,9 +2,6 @@ package View.Menus;
 
 import Controller.Controllers.BuyerController;
 import Exceptions.*;
-
-import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,16 +60,13 @@ public class PurchaseByBuyerMenu extends Menu {
             buyerController.buyProductsOfCart();
         } catch (NotEnoughCreditException e) {
             System.out.println("you have not enough money");
-        } catch (CanNotSaveToDataBaseException | FieldDoesNotExistException e) {
+        } catch (CanNotSaveToDataBaseException e) {
         e.printStackTrace();
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("account does not exist");
         }
-//        catch (AccountDoesNotExistException e) {
-//            System.out.println("account does not exist");
-//        } catch (PurchaseFailException e) {
-//            System.out.println("sorry your purchase failed but we will not pay you back");
-//        } catch (IOException | CanNotAddException | FieldDoesNotExistException e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Override

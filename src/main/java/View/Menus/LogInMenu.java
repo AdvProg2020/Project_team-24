@@ -40,19 +40,34 @@ public class LogInMenu extends Menu {
         try {
             account = LoginController.getInstance()
                     .login(inputs.get(0), inputs.get(1));
-        } catch (PassIncorrectException | AccountDoesNotExistException | UserNameInvalidException | UserNameTooShortException e) {
-            e.printStackTrace();
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("account does not exist exception");
+        } catch (PassIncorrectException e) {
+            System.out.println("password is not correct");
+        } catch (UserNameInvalidException e) {
+            System.out.println("username is not valid");
+        } catch (UserNameTooShortException e) {
+            System.out.println("username is too short");
+        }
+        if (account instanceof Manager) {
+            MenuHandler.setCurrentMenu(ManagerMenu.getMenu());
+        } else if (account instanceof Customer) {
+            MenuHandler.setCurrentMenu(BuyerMenu.getMenu());
+        } else if (account instanceof Seller) {
+            MenuHandler.setCurrentMenu(SellerMenu.getMenu());
         }
 
-        MainMenu.getMenu().removeSubMenu(GuestMenu.getMenu());
-        if (account instanceof Manager) {
-            MainMenu.getMenu().addSubMenu(ManagerMenu.getMenu());
-        } else if (account instanceof Customer) {
-            MainMenu.getMenu().addSubMenu(BuyerMenu.getMenu());
-        } else if (account instanceof Seller) {
-            MainMenu.getMenu().addSubMenu(SellerMenu.getMenu());
-        }
-        MenuHandler.setCurrentMenu(MainMenu.getMenu());
+
+//
+//        //MainMenu.getMenu().removeSubMenu(GuestMenu.getMenu());
+//        if (account instanceof Manager) {
+//            MainMenu.getMenu().addSubMenu(ManagerMenu.getMenu());
+//        } else if (account instanceof Customer) {
+//            MainMenu.getMenu().addSubMenu(BuyerMenu.getMenu());
+//        } else if (account instanceof Seller) {
+//            MainMenu.getMenu().addSubMenu(SellerMenu.getMenu());
+//        }
+//        MenuHandler.setCurrentMenu(MainMenu.getMenu());
     }
 
     @Override
@@ -64,7 +79,7 @@ public class LogInMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
-                "use 'login [username]' to login to your account" + System.lineSeparator() +
+                "login [username]: to login to your account" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
