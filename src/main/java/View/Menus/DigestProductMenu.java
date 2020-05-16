@@ -1,12 +1,21 @@
 package View.Menus;
 
+import Controller.Controllers.ProductController;
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.AcountHasNotLogedIn;
+import Exceptions.CanNotSaveToDataBaseException;
+import Exceptions.ProductIsOutOfStockException;
+import View.MenuHandler;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DigestProductMenu extends Menu {
 
     private static DigestProductMenu menu;
-
+    private static ProductController productController = ProductController.getInstance();
     private DigestProductMenu(String name) {
         super(name);
     }
@@ -23,12 +32,27 @@ public class DigestProductMenu extends Menu {
     }
 
     public void addToCart() {
-        // yac
+        System.out.println("enter seller id in this pattern:"+
+               "select seller[sellerId]");
+        Matcher matcher = Pattern.compile("select seller :(\\w+) ").matcher(scanner.nextLine().toLowerCase().trim());
+        if (!matcher.find()) {
+            System.out.println("Incorrect format");
+        }
+        try {
+            productController.addToCart(matcher.group(1));
+        } catch (AcountHasNotLogedIn acountHasNotLogedIn) {
+            System.out.println("you should login first");
+            MenuHandler.setCurrentMenu(LogInMenu.getMenu());
+        } catch (ProductIsOutOfStockException e) {
+            System.out.println("product is out of stock");
+        } catch (CloneNotSupportedException | CanNotSaveToDataBaseException e) {
+            e.printStackTrace();
+        } catch (AccountDoesNotExistException e) {
+            System.out.println("account does not exist");;
+        }
     }
 
-    public void selectSeller(List<String> inputs) {
-        // yac
-    }
+
 
     @Override
     public void show() {

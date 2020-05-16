@@ -1,5 +1,8 @@
 package View.Menus;
 
+import Controller.Controllers.ProductController;
+import Controller.Controllers.ProductsController;
+import Exceptions.ProductDoesNotExistException;
 import Model.Models.Product;
 import View.MenuHandler;
 
@@ -9,6 +12,7 @@ import java.util.Optional;
 public class ProductsMenu extends Menu {
 
     private static ProductsMenu menu;
+    private static ProductsController productsController = ProductsController.getInstance();
 
     private ProductsMenu(String name) {
         super(name);
@@ -25,12 +29,9 @@ public class ProductsMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ProductsMenu."));
     }
 
-//    public void products() { // bdn ...
-//        MenuHandler.setCurrentMenu(ProductsMenu.getMenu());
-//    }
-
     public void viewCategories() {
-        //yac
+        System.out.println(productsController.viewCategories());
+
     }
 
     public void filtering() {
@@ -42,13 +43,17 @@ public class ProductsMenu extends Menu {
     }
 
     public void showProducts() {
-        //yac
+        System.out.println(productsController.showProducts());
     }
 
     public void showProduct(List<String> inputs) {
-        long id = Long.parseLong(inputs.get(0));
-//        Product product = Product.getProductById(id);
-//        MenuHandler.setCurrentMenu(ProductMenu.getMenu().setProduct(product));
+        String id =inputs.get(0);
+        try {
+            productsController.showProduct(id);
+            MenuHandler.setCurrentMenu(ProductMenu.getMenu());
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        }
     }
 
     @Override
@@ -64,12 +69,12 @@ public class ProductsMenu extends Menu {
     @Override
     public void help() {
         super.help();
-        System.out.println("products:To show products" + System.lineSeparator() +
-                "viewCategories : --" + System.lineSeparator() +
-                "filtering : --" + System.lineSeparator() +
-                "sorting : --" + System.lineSeparator() +
-                "showProducts : --" + System.lineSeparator() +
-                "----------------------------------------------"
+        System.out.println(
+                "viewCategories : to view categories" + System.lineSeparator() +
+                        "filtering :to open filter menu" + System.lineSeparator() +
+                        "sorting : to open sort menu" + System.lineSeparator() +
+                        "showProduct : to view a product" + System.lineSeparator() +
+                        "----------------------------------------------"
         );
     }
 }

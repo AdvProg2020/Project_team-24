@@ -1,12 +1,15 @@
 package View.Menus;
 
+import Controller.Controllers.ProductsController;
+import Exceptions.NotAvailableSortException;
+
 import java.util.List;
 import java.util.Optional;
 
 public class SortingProductsMenu extends Menu{
 
     private static SortingProductsMenu menu;
-
+    private static ProductsController productsController = ProductsController.getInstance();
     private SortingProductsMenu(String name) {
         super(name);
     }
@@ -23,19 +26,25 @@ public class SortingProductsMenu extends Menu{
     }
 
     public void showAvailableSorts() {
-        // yac
+        System.out.println(productsController.showAvailableSorts());
     }
 
-    public void addSort(List<String> inputs) {
-        // yac
+    public void sort(List<String> inputs) {
+        String sortBy=inputs.get(0);
+        try {
+            System.out.println(productsController.sort(sortBy));
+        } catch (NotAvailableSortException e) {
+            System.out.println("sort is not available");
+        }
+
     }
 
     public void currentSorts() {
-        // yac
+        System.out.println(productsController.currentSort());
     }
 
     public void disableSorts() {
-        // yac
+        System.out.println(productsController.disableSort());
     }
 
     @Override
@@ -48,7 +57,7 @@ public class SortingProductsMenu extends Menu{
         super.help();
         System.out.println(
                 "showAvailableSorts : To show available sorts" + System.lineSeparator() +
-                        "addSort [sortName] : To add a new sort" + System.lineSeparator() +
+                        "sort [sortName] : To add a new sort" + System.lineSeparator() +
                         "currentSorts : To show current sorts" + System.lineSeparator() +
                         "disableSorts : To disable sorts" + System.lineSeparator() +
                         "----------------------------------------------"

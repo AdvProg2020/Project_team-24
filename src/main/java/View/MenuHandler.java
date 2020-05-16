@@ -16,26 +16,29 @@ public class MenuHandler {
                 .addSubMenu(ViewCartByBuyerMenu.getMenu())
                 .addSubMenu(ViewOrdersByBuyerMenu.getMenu())
                 .addSubMenu(PurchaseByBuyerMenu.getMenu());
-        GuestMenu.getMenu().addSubMenu(ViewCartByGuestMenu.getMenu());
         MainMenu.getMenu().addSubMenu(ProductsMenu.getMenu())
-                .addSubMenu(AuctionsMenu.getMenu())
-                .addSubMenu(GuestMenu.getMenu());
-        ManagerMenu.getMenu().addSubMenu(ManageCategoriesByManagerMenu.getMenu())
+                .addSubMenu(AuctionsMenu.getMenu());
+        ManagerMenu.getMenu()
+                .addSubMenu(ManageCategoriesByManagerMenu.getMenu())
                 .addSubMenu(ManageInfoMenu.getMenu())
                 .addSubMenu(ManageProductsByManagerMenu.getMenu())
                 .addSubMenu(ManageRequestsByManagerMenu.getMenu())
                 .addSubMenu(ManageUsersByManagerMenu.getMenu())
                 .addSubMenu(ViewDiscountCodesByManagerMenu.getMenu());
-        ProductMenu.getMenu().addSubMenu(DigestProductMenu.getMenu())
+        ProductMenu.getMenu()
+                .addSubMenu(DigestProductMenu.getMenu())
                 .addSubMenu(CommentProductMenu.getMenu());
-        ProductsMenu.getMenu().addSubMenu(FilteringProductsMenu.getMenu())
+        ProductsMenu.getMenu()
+                .addSubMenu(FilteringProductsMenu.getMenu())
                 .addSubMenu(SortingProductsMenu.getMenu())
                 .addSubMenu(ProductMenu.getMenu());
-        SellerMenu.getMenu().addSubMenu(ManageInfoMenu.getMenu())
+        SellerMenu.getMenu()
+                .addSubMenu(ManageInfoMenu.getMenu())
                 .addSubMenu(ManageProductsBySellerMenu.getMenu())
                 .addSubMenu(ViewOffsBySellerMenu.getMenu());
-        SignUpMenu.getMenu().addSubMenu(LogInMenu.getMenu());
-        UserAreaMenu.getMenu().addSubMenu(GuestMenu.getMenu())
+        SignUpMenu.getMenu()
+                .addSubMenu(LogInMenu.getMenu());
+        UserAreaMenu.getMenu()
                 .addSubMenu(LogInMenu.getMenu())
                 .addSubMenu(SignUpMenu.getMenu());
     }
