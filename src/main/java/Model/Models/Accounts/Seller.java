@@ -139,6 +139,7 @@ public class Seller extends Account {
         return super.pack()
                 .addField(balance)
                 .addField(companyInfo)
+                .addField(forPendList)
                 .addField(productList.stream()
                         .map(Product::getId).collect(Collectors.toList()))
                 .addField(auctionList.stream()
@@ -149,16 +150,17 @@ public class Seller extends Account {
     @Override
     public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, AuctionDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException {
         super.dpkg(data);
-        balance = (double) data.getFields().get(4);
-        companyInfo = (Info) data.getFields().get(5);
+        this.balance = (double) data.getFields().get(4);
+        this.companyInfo = (Info) data.getFields().get(5);
+        this.forPendList = (List<ForPend>) data.getFields().get(6);
         List<Product> result = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(6))) {
+        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
             Product productById = Product.getProductById(aLong);
             result.add(productById);
         }
         productList = result;
         List<Auction> list1 = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
+        for (Long aLong : ((List<Long>) data.getFields().get(8))) {
             Auction auctionById = Auction.getAuctionById(aLong);
             list1.add(auctionById);
         }

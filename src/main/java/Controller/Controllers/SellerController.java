@@ -132,13 +132,13 @@ public class SellerController extends AccountController {
 
     public void editAuction(String strId, String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException, NumberFormatException {
         long id = Long.parseLong(strId);
-        Auction auction = Auction.getAuctionById(id);
+        Auction auction = seller.getAuctionById(id);
         auction.editField(fieldName, newInfo);
     }
 
     public void editProduct(String strId, String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException, ProductDoesNotExistException, NumberFormatException {
         long id = Long.parseLong(strId);
-        Product product = Product.getProductById(id);
+        Product product = seller.getProductById(id);
         product.editField(fieldName, newInfo);
     }
 }

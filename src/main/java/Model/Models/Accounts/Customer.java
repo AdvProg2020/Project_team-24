@@ -117,13 +117,12 @@ public class Customer extends Account {
 
     /***************************************************otherMethods****************************************************/
 
-    public static List<Customer> getAllCustomers() {
-        return list.stream()
-                .filter(account -> account instanceof Customer)
-                .map(account -> (Customer) account)
-                .collect(Collectors.toUnmodifiableList());
-    }
-
+//    public static List<Customer> getAllCustomers() {
+//        return list.stream()
+//                .filter(account -> account instanceof Customer)
+//                .map(account -> (Customer) account)
+//                .collect(Collectors.toUnmodifiableList());
+//    }
     public static List<Customer> getSpecialCustomers() {
         return list.stream()
                 .filter(account -> account instanceof Customer)
@@ -159,7 +158,6 @@ public class Customer extends Account {
 //        this.totalPurchase = totalPurchase;
 //        this.logHistoryList = logHistoryList;
 //    }
-
     public Customer(String username) {
         super(username);
     }

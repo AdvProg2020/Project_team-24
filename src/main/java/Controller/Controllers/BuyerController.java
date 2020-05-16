@@ -97,6 +97,10 @@ public class BuyerController extends AccountController {
         return price;
     }
 
+//    public List<Customer> showAllCustomers() {
+//        return Customer.getAllCustomers();
+//    }
+
     public Cart viewCart() {
         return customer.getCart();
     }
@@ -126,8 +130,8 @@ public class BuyerController extends AccountController {
         return customer.getLogHistoryList();
     }
 
-    public Product viewProductInCart(String productIdAsString) throws ProductDoesNotExistException, NumberFormatException {
-        long productId = Long.parseLong(productIdAsString);
+    public Product viewProductInCart(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
+        long productId = Long.parseLong(productIdString);
         return Product.getProductById(productId);
     }
 
@@ -198,7 +202,6 @@ public class BuyerController extends AccountController {
         customer.removeFromDiscountCodeList(discountCodeEntered);
         this.setDiscountCodeEntered(null);
     }
-
 
     public LogHistory showOrder(String orderIdString) throws NumberFormatException, LogHistoryDoesNotExistException {
         long orderId = Long.parseLong(orderIdString);

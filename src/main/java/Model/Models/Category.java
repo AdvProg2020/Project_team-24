@@ -8,6 +8,7 @@ import Model.Tools.Packable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,7 +74,7 @@ public class Category implements Packable<Category> {
         DataBase.remove(this);
     }
 
-    public void addToSubCategoryList(Category category) throws CanNotSaveToDataBaseException{
+    public void addToSubCategoryList(Category category) throws CanNotSaveToDataBaseException {
         subCategoryList.add(category);
         DataBase.save(this);
     }
@@ -99,14 +100,14 @@ public class Category implements Packable<Category> {
         return list.stream()
                 .filter(category -> id == category.getId())
                 .findFirst()
-                .orElseThrow(() -> new CategoryDoesNotExistException("Category with the id:"+ id + " does not exist."));
+                .orElseThrow(() -> new CategoryDoesNotExistException("Category with the id:" + id + " does not exist."));
     }
 
     public static Category getCategoryByName(String name) throws CategoryDoesNotExistException {
         return list.stream()
                 .filter(category -> name.equals(category.getName()))
                 .findFirst()
-                .orElseThrow(() -> new CategoryDoesNotExistException("Category with the name:"+ name + " does not exist."));
+                .orElseThrow(() -> new CategoryDoesNotExistException("Category with the name:" + name + " does not exist."));
     }
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException {
@@ -128,11 +129,12 @@ public class Category implements Packable<Category> {
                 .addField(name)
                 .addField(categoryField)
                 .addField(productList.stream()
-                .map(Product::getId)
-                .collect(Collectors.toList()))
+                        .map(Product::getId)
+                        .sorted(Comparator.reverseOrder())
+                        .collect(Collectors.toList()))
                 .addField(subCategoryList.stream()
-                .map(Category::getId)
-                .collect(Collectors.toList()))
+                        .map(Category::getId)
+                        .collect(Collectors.toList()))
                 .setInstance(new Category());
     }
 
