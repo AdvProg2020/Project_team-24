@@ -77,7 +77,7 @@ public class ViewCartByBuyerMenu extends Menu {
             System.out.println("product does not exist");
         } catch (AccountDoesNotExistException e) {
             System.out.println("account does not exist");
-        } catch (CanNotSaveToDataBaseException | IOException e) {
+        } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
         }
     }
