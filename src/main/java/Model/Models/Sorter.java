@@ -2,7 +2,7 @@ package Model.Models;
 
 import java.time.LocalDate;
 import java.util.Comparator;
-
+/*
 public class Sorter implements Comparator<?> {
 
     private static Sorter timeSorter = new Comparator<LocalDate>() {
@@ -17,3 +17,4 @@ public class Sorter implements Comparator<?> {
         }
     };
 }
+*/
