@@ -33,7 +33,7 @@ public class ManageProductsByManagerMenu extends Menu {
         } catch (ProductDoesNotExistException e) {
             System.out.println("this product does not exist");
         } catch (Exception e) {
-            //yac
+            e.printStackTrace();
         }
     }
 

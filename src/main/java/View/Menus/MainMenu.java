@@ -23,19 +23,6 @@ public class MainMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in MainMenu."));
     }
 
-    public void accountAccess() {
-        MenuHandler.setCurrentMenu(subMenus.get(2));
-//        if (subMenus.contains(GuestMenu.getMenu())) {
-//            MenuHandler.setCurrentMenu(GuestMenu.getMenu());
-//        } else if (subMenus.contains(SellerMenu.getMenu())) {
-//            MenuHandler.setCurrentMenu(SellerMenu.getMenu());
-//        } else if (subMenus.contains(ManagerMenu.getMenu())) {
-//            MenuHandler.setCurrentMenu(ManagerMenu.getMenu());
-//        } else if (subMenus.contains(BuyerMenu.getMenu())) {
-//            MenuHandler.setCurrentMenu(BuyerMenu.getMenu());
-//        } else System.out.println("Sogol : invalid menu...!");
-    }
-
     public void openProductsArea() {
         MenuHandler.setCurrentMenu(ProductsMenu.getMenu());
     }

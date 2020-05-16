@@ -80,8 +80,6 @@ public class SellerMenu extends Menu {
     }
 
     public void saveProductInfo(Product product) {
-        //System.out.println("these are fields' names");
-
         List<String> fieldName = new ArrayList<String>();
         List<String> values = new ArrayList<String>();
         while (true) {
@@ -128,7 +126,7 @@ public class SellerMenu extends Menu {
     }
 
     public void viewOffs() {
-        sellerController.viewAllOffs().forEach(off->{
+        sellerController.viewAllOffs().forEach(off -> {
             System.out.println(off.getAuctionName());
         });
         MenuHandler.setCurrentMenu(ViewOffsBySellerMenu.getMenu());
@@ -143,9 +141,10 @@ public class SellerMenu extends Menu {
         System.out.println(
                 "you are in seller Menu" + System.lineSeparator() +
                         "-------------------SubMenus-------------------" + System.lineSeparator() +
-                        "1.MangeInfoMenu" + System.lineSeparator() +
-                        "2.ManageProductsMenu" + System.lineSeparator() +
-                        "3.ViewOffsMenu" + System.lineSeparator() +
+                        "1.MainMenu"+System.lineSeparator()+
+                        "2.MangeInfoMenu" + System.lineSeparator() +
+                        "3.ManageProductsMenu" + System.lineSeparator() +
+                        "4.ViewOffsMenu" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
@@ -154,16 +153,17 @@ public class SellerMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
+                "openMainMenu:to open main menu" + System.lineSeparator() +
                 "viewPersonalInfo : To open manage info menu" + System.lineSeparator() +
-                        "viewCompanyInformation : To view company information" + System.lineSeparator() +
-                        "viewSalesHistory : To view sales history" + System.lineSeparator() +
-                        "manageProducts : to open manage product menu" + System.lineSeparator() +
-                        "addProduct : To add new product" + System.lineSeparator() +
-                        "removeProduct [productCodeId]: To remove a product" + System.lineSeparator() +
-                        "showCategories : To view categories" + System.lineSeparator() +
-                        "viewOffs : To open view off menu" + System.lineSeparator() +
-                        "viewBalance : To view balance" + System.lineSeparator() +
-                        "----------------------------------------------"
+                "viewCompanyInformation : To view company information" + System.lineSeparator() +
+                "viewSalesHistory : To view sales history" + System.lineSeparator() +
+                "manageProducts : to open manage product menu" + System.lineSeparator() +
+                "addProduct : To add new product" + System.lineSeparator() +
+                "removeProduct [productCodeId]: To remove a product" + System.lineSeparator() +
+                "showCategories : To view categories" + System.lineSeparator() +
+                "viewOffs : To open view off menu" + System.lineSeparator() +
+                "viewBalance : To view balance" + System.lineSeparator() +
+                "----------------------------------------------"
         );
     }
 }

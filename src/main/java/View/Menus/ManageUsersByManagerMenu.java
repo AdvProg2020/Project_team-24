@@ -44,7 +44,7 @@ public class ManageUsersByManagerMenu extends Menu {
         try {
             managerController.deleteAccount(username);
         } catch (Exception e) {
-            //yac va qre
+            e.printStackTrace();
         }
     }
 

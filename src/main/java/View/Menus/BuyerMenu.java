@@ -57,9 +57,10 @@ public class BuyerMenu extends Menu{
         System.out.println(
                 "You're in BuyerMenu" + System.lineSeparator() +
                         "-------------------SubMenus-------------------" + System.lineSeparator() +
-                        "1.ManageInfo" + System.lineSeparator() +
-                        "2.CartMenu" + System.lineSeparator() +
-                        "3.OrdersMenu" + System.lineSeparator() +
+                        "1.MainMenu"+System.lineSeparator()+
+                        "2.ManageInfo" + System.lineSeparator() +
+                        "3.CartMenu" + System.lineSeparator() +
+                        "4.OrdersMenu" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
@@ -68,6 +69,7 @@ public class BuyerMenu extends Menu{
     public void help() {
         super.help();
         System.out.println(
+                "openMainMenu:to open main menu"+System.lineSeparator()+
                 "viewPersonalInfo : To open manageInfo menu" + System.lineSeparator() +
                         "viewCart : To open cart menu" + System.lineSeparator() +
                         "viewBalance : To show balance" + System.lineSeparator() +

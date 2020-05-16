@@ -49,7 +49,7 @@ class ManagerControllerTest {
     }
     @BeforeEach
     void setProductsToTest(){
-        Product product1= new
+        
     }
 
     @Test

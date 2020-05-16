@@ -4,8 +4,8 @@ import Controller.Controllers.BuyerController;
 import Exceptions.*;
 import Model.Models.Product;
 import View.MenuHandler;
-
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +14,7 @@ public class ViewCartByBuyerMenu extends Menu {
     private static ViewCartByBuyerMenu menu;
 
     private static BuyerController buyerController = BuyerController.getInstance();
+
 
     public ViewCartByBuyerMenu(String name) {
         super(name);
@@ -30,17 +31,23 @@ public class ViewCartByBuyerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewCartByBuyerMenu."));
     }
 
-    public void showProducts() {
-        buyerController.showProducts().forEach(product -> {
-            System.out.println(product.getProductName());
-            try {
-                System.out.println(product.getPrice()
-                );
-            } catch (FieldDoesNotExistException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+//    public void showProducts() {
+//       List<Product>productList=new ArrayList<>();
+//       for(Long aLong :productId){
+//           Product productById=null;
+//           try {
+//               productById=Product.getProductById(aLong);
+//           } catch (ProductDoesNotExistException e) {
+//               e.printStackTrace();
+//           }
+//           productList.add(productById);
+//       }
+//       for(int i=0;i<productList.size();i++){
+//           Product product=productList.get(i);
+//           long sellerId=sellerId.get(i);
+//           System.out.println(product.getPrice(sellerId));
+//       }
+//    }
 
     public void viewProduct(List<String> inputs) {
         String id = inputs.get(0);
@@ -63,10 +70,8 @@ public class ViewCartByBuyerMenu extends Menu {
             System.out.println("product does not exist");
         } catch (ProductIsOutOfStockException e) {
             System.out.println("sorry product is out of stock");
-        } catch (CloneNotSupportedException | CanNotSaveToDataBaseException | IOException e) {
+        } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("account does not exist");
         }
 
     }
@@ -79,8 +84,6 @@ public class ViewCartByBuyerMenu extends Menu {
             buyerController.decrease(idProduct, idSeller);
         } catch (ProductDoesNotExistException e) {
             System.out.println("product does not exist");
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("account does not exist");
         } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
         }
@@ -89,8 +92,8 @@ public class ViewCartByBuyerMenu extends Menu {
     public void showTotalPrice() {
         try {
             System.out.println(buyerController.showTotalPrice());
-        } catch (FieldDoesNotExistException e) {
-            System.out.println("field does not exist");
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist ");
         }
     }
 

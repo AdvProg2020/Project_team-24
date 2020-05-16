@@ -32,13 +32,17 @@ public class ManagerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManagerMenu."));
     }
 
+    public void openMainMenu() {
+        MenuHandler.setCurrentMenu(MainMenu.getMenu());
+    }
+
     public void viewPersonalInfo() {
         System.out.println(managerController.viewPersonalInfo());
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
     public void openManageUsersMenu() {
-        managerController.viewAllAccounts();
+        System.out.println(managerController.viewAllAccounts());
         MenuHandler.setCurrentMenu(ManageUsersByManagerMenu.getMenu());
     }
 
@@ -63,7 +67,7 @@ public class ManagerMenu extends Menu {
         try {
             managerController.creatDiscountCode(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(7));
         } catch (Exception e) {
-            //yac
+            e.printStackTrace();
         }
     }
 
@@ -88,12 +92,13 @@ public class ManagerMenu extends Menu {
         System.out.println(
                 "You are in managerMenu" + System.lineSeparator() +
                         "-------------------SubMenus-------------------" + System.lineSeparator() +
-                        "1.ManageUsersMenu" + System.lineSeparator() +
-                        "2.ManageProductsMenu" + System.lineSeparator() +
-                        "3.ManageRequestsMenu" + System.lineSeparator() +
-                        "4.ManageCategoriesMenu" + System.lineSeparator() +
-                        "5.ManageIfo" + System.lineSeparator() +
-                        "6.ViewDiscountCodesByManagerMenu" + System.lineSeparator() +
+                        "1.MainMenu" + System.lineSeparator() +
+                        "2.ManageUsersMenu" + System.lineSeparator() +
+                        "3.ManageProductsMenu" + System.lineSeparator() +
+                        "4.ManageRequestsMenu" + System.lineSeparator() +
+                        "5.ManageCategoriesMenu" + System.lineSeparator() +
+                        "6.ManageIfo" + System.lineSeparator() +
+                        "7.ViewDiscountCodesByManagerMenu" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
@@ -102,7 +107,8 @@ public class ManagerMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
-                "viewPersonalInfo : To open manageInfo menu" + System.lineSeparator() +
+                "openMainMenu:to open main menu" + System.lineSeparator() +
+                        "viewPersonalInfo : To open manageInfo menu" + System.lineSeparator() +
                         "openManageUsersMenu : To open users menu" + System.lineSeparator() +
                         "openManageProductsMenu : To open products menu" + System.lineSeparator() +
                         "createDiscountCode : To create new discount code" + System.lineSeparator() +
