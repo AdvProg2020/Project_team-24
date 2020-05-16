@@ -26,6 +26,10 @@ public class ViewCartByBuyerMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewCartByBuyerMenu."));
+    }
+
     public void showProducts() {
         buyerController.showProducts().forEach(product -> {
             System.out.println(product.getProductName());
@@ -92,10 +96,6 @@ public class ViewCartByBuyerMenu extends Menu {
 
     public void purchase() {
         MenuHandler.setCurrentMenu(PurchaseByBuyerMenu.getMenu());
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

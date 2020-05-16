@@ -22,6 +22,10 @@ public class ManageInfoMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageInfoMenu."));
+    }
+
     public void edit(List<String> inputs) {
         String fieldName=inputs.get(0);
         System.out.print("Enter a new field :");
@@ -31,10 +35,6 @@ public class ManageInfoMenu extends Menu {
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

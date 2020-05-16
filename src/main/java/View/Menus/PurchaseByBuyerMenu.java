@@ -23,9 +23,11 @@ public class PurchaseByBuyerMenu extends Menu {
     public PurchaseByBuyerMenu(String name) {
         super(name);
     }
+
     public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in PurchaseByBuyerMenu."));
     }
+
     public void receiveInfo(){
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "receiveInfo :[postCode] :[address]"
@@ -61,15 +63,17 @@ public class PurchaseByBuyerMenu extends Menu {
             buyerController.buyProductsOfCart();
         } catch (NotEnoughCreditException e) {
             System.out.println("you have not enough money");
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("account does not exist");
-        } catch (PurchaseFailException e) {
-            System.out.println("sorry your purchase failed but we will not pay you back");
-        } catch (IOException | CanNotAddException | FieldDoesNotExistException e) {
-            e.printStackTrace();
+        } catch (CanNotSaveToDataBaseException | FieldDoesNotExistException e) {
+        e.printStackTrace();
         }
+//        catch (AccountDoesNotExistException e) {
+//            System.out.println("account does not exist");
+//        } catch (PurchaseFailException e) {
+//            System.out.println("sorry your purchase failed but we will not pay you back");
+//        } catch (IOException | CanNotAddException | FieldDoesNotExistException e) {
+//            e.printStackTrace();
+//        }
     }
-
 
     @Override
     public void show() {

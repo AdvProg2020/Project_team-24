@@ -482,8 +482,8 @@ public class OutPut {
     }
 
     private void setGuestMenuMethods() {
-        guestMenu.addMethod("OpenViewCart")
-                .addMethod("OpenUserArea")
+        guestMenu.addMethod("OpenUserArea")
+//                .addMethod("OpenViewCart")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");
@@ -546,7 +546,6 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
-
     }
 
     private void setProductsMenuMethod() {

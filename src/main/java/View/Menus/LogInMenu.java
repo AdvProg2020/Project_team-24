@@ -25,6 +25,10 @@ public class LogInMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in LogInMenu."));
+    }
+
     private LogInMenu(String name) {
         super(name);
     }
@@ -49,10 +53,6 @@ public class LogInMenu extends Menu {
             MainMenu.getMenu().addSubMenu(SellerMenu.getMenu());
         }
         MenuHandler.setCurrentMenu(MainMenu.getMenu());
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

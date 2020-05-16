@@ -22,6 +22,10 @@ public class ManageRequestsByManagerMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageRequestsByManagerMenu."));
+    }
+
     public void showDetails(List<String> inputs) {
        String id = inputs.get(0);
         try {
@@ -47,10 +51,6 @@ public class ManageRequestsByManagerMenu extends Menu {
         } catch (Exception e) {
             //yac
         }
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

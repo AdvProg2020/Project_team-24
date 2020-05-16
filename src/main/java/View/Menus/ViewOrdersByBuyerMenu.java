@@ -7,8 +7,10 @@ import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ViewOrdersByBuyerMenu extends Menu {
+
     private static ViewOrdersByBuyerMenu menu;
     private static BuyerController buyerController = BuyerController.getInstance();
 
@@ -16,16 +18,15 @@ public class ViewOrdersByBuyerMenu extends Menu {
         super(name);
     }
 
-    @Override
-    public void show() {
-        System.out.println("view orders by buyer menu");
-    }
-
     public static ViewOrdersByBuyerMenu getInstance(String name) {
         if (menu == null) {
             menu = new ViewOrdersByBuyerMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewOrdersByBuyerMenu."));
     }
 
     public void showOrder(List<String> inputs) {
@@ -49,15 +50,17 @@ public class ViewOrdersByBuyerMenu extends Menu {
         }
     }
 
-    public static Menu getMenu() {
-        return menu;
+    @Override
+    public void show() {
+        System.out.println("view orders by buyer menu");
     }
 
     @Override
     public void help() {
         super.help();
         System.out.println("showOrder[order id]:to show orders from you" + System.lineSeparator() +
-                "rate [product id][1-5]:to rate a product from 1 to 5");
-
+                "rate [product id][1-5]:to rate a product from 1 to 5" + System.lineSeparator() +
+                "----------------------------------------------"
+        );
     }
 }

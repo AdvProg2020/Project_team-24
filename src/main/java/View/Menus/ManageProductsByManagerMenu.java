@@ -4,6 +4,7 @@ import Controller.Controllers.ManagerController;
 import Exceptions.ProductDoesNotExistException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ManageProductsByManagerMenu extends Menu {
 
@@ -21,6 +22,10 @@ public class ManageProductsByManagerMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageProductsByManagerMenu."));
+    }
+
     public void remove(List<String> inputs) {
         String id=inputs.get(0);
         try {
@@ -32,10 +37,6 @@ public class ManageProductsByManagerMenu extends Menu {
         }
     }
 
-    public static Menu getMenu() {
-        return menu;
-    }
-
     @Override
     public void show() {
         System.out.println("you are in manage products by manager menu");
@@ -44,6 +45,9 @@ public class ManageProductsByManagerMenu extends Menu {
     @Override
     public void help() {
         super.help();
-        System.out.println("remove [productId]:to remove a product");
+        System.out.println(
+                "remove [productId] : To remove a product" + System.lineSeparator() +
+                        "----------------------------------------------"
+        );
     }
 }

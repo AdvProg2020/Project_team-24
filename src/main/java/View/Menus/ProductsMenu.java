@@ -21,6 +21,10 @@ public class ProductsMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ProductsMenu."));
+    }
+
 //    public void products() { // bdn ...
 //        MenuHandler.setCurrentMenu(ProductsMenu.getMenu());
 //    }
@@ -45,10 +49,6 @@ public class ProductsMenu extends Menu {
         long id = Long.parseLong(inputs.get(0));
 //        Product product = Product.getProductById(id);
 //        MenuHandler.setCurrentMenu(ProductMenu.getMenu().setProduct(product));
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

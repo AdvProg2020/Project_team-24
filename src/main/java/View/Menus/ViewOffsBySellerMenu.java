@@ -28,6 +28,10 @@ public class ViewOffsBySellerMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewOffsBySellerMenu."));
+    }
+
     public void viewOff(List<String> inputs) {
         String id = inputs.get(0);
         try {
@@ -66,10 +70,6 @@ public class ViewOffsBySellerMenu extends Menu {
             System.out.println("Incorrect format");
         }
         sellerController.addOff(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5));
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

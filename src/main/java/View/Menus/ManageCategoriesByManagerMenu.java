@@ -23,6 +23,10 @@ public class ManageCategoriesByManagerMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageCategoriesByManagerMenu."));
+    }
+
     public void editCategory(List<String> inputs) {
         String categoryName = inputs.get(0);
         String field=inputs.get(1);
@@ -52,9 +56,6 @@ public class ManageCategoriesByManagerMenu extends Menu {
         }
     }
 
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
-    }
 
     @Override
     public void show() {

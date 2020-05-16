@@ -27,6 +27,10 @@ public class SignUpMenu extends Menu {
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in SignUpMenu."));
+    }
+
     public void createAccount(List<String> inputs) {
         Account account = null;
         try {
@@ -94,10 +98,6 @@ public class SignUpMenu extends Menu {
         } catch (PhoneNumberInvalidException e) {
             System.out.println("enter valid phone number");
         }
-    }
-
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

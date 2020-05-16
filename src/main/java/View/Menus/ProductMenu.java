@@ -22,8 +22,8 @@ public class ProductMenu extends Menu {
         return menu;
     }
 
-    public Product getProduct() {
-        return Optional.ofNullable(product).orElseThrow();
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ProductMenu."));
     }
 
     public void digest() {
@@ -45,10 +45,6 @@ public class ProductMenu extends Menu {
     public ProductMenu setProduct(Product product) {
         this.product = product;
         return this;
-    }
-
-    public static ProductMenu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

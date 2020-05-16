@@ -6,6 +6,7 @@ import Exceptions.*;
 import Model.Models.Account;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,9 +27,8 @@ public class ManageUsersByManagerMenu extends Menu {
     }
 
     public static Menu getMenu() {
-        return menu;
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageUsersByManagerMenu."));
     }
-
 
     public void view(List<String> inputs) {
         String username = inputs.get(0);
@@ -59,7 +59,6 @@ public class ManageUsersByManagerMenu extends Menu {
         } catch (UserNameTooShortException e) {
             System.out.println("your username should be more than 6 character");
         }
-
 
         System.out.println("enter password :");
         String password = scanner.nextLine();

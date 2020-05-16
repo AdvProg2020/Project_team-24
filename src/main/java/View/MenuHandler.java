@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class MenuHandler {
 
-    private static Menu currentMenu = UserAreaMenu.getInstance("UserAreaMenu", null);
+    private static Menu currentMenu = UserAreaMenu.getInstance("userAreaMenu");
 
     private static Scanner scanner = new Scanner(System.in);
 
@@ -16,7 +16,6 @@ public class MenuHandler {
                 .addSubMenu(ViewCartByBuyerMenu.getMenu())
                 .addSubMenu(ViewOrdersByBuyerMenu.getMenu())
                 .addSubMenu(PurchaseByBuyerMenu.getMenu());
-
         GuestMenu.getMenu().addSubMenu(ViewCartByGuestMenu.getMenu());
         MainMenu.getMenu().addSubMenu(ProductsMenu.getMenu())
                 .addSubMenu(AuctionsMenu.getMenu())
@@ -43,8 +42,9 @@ public class MenuHandler {
 
     public static void main(String[] args) {
         InPut input = new InPut();
+        OutPut outPut = OutPut.getInstance();
         initMenus();
-        input.start();
+        input.start(outPut);
     }
 
     public static Menu getCurrentMenu() {

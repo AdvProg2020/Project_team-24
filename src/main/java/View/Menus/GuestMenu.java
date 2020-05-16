@@ -13,7 +13,7 @@ public class GuestMenu extends Menu {
     }
 
     public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in GuestMenu."));
     }
 
     public static GuestMenu getInstance(String name) {
@@ -23,9 +23,9 @@ public class GuestMenu extends Menu {
         return menu;
     }
 
-    public void OpenViewCart() {
-        MenuHandler.setCurrentMenu(ViewCartByGuestMenu.getMenu());
-    }
+//    public void OpenViewCart() {
+//        MenuHandler.setCurrentMenu(ViewCartByGuestMenu.getMenu());
+//    }
 
     public void OpenUserArea() {
         MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
@@ -37,7 +37,7 @@ public class GuestMenu extends Menu {
                 "You're in managerMenu" + System.lineSeparator() +
                         "-------------------SubMenus-------------------" + System.lineSeparator() +
                         "1.UserArea" + System.lineSeparator() +
-                        "2.viewCart" + System.lineSeparator() +
+//                        "2.viewCart" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
@@ -45,7 +45,7 @@ public class GuestMenu extends Menu {
     @Override
     public void help() {
         System.out.println(
-                "OpenViewCart : To open cart menu" + System.lineSeparator() +
+//                "OpenViewCart : To open cart menu" + System.lineSeparator() +
                         "OpenUserArea : To open user area" + System.lineSeparator() +
                         "----------------------------------------------"
         );

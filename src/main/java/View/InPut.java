@@ -6,15 +6,13 @@ import java.util.Scanner;
 
 public class InPut {
 
-    private OutPut output = OutPut.getInstance();
-
     private static boolean isRunning = true;
 
     public static void setIsRunning(boolean isRunning) {
         InPut.isRunning = isRunning;
     }
 
-    public void start() {
+    public void start(OutPut outPut) {
 
         Scanner scanner = MenuHandler.getScanner();
 
@@ -24,7 +22,7 @@ public class InPut {
 
             String command = scanner.nextLine().trim();
 
-            output.handleCommand(command);
+            outPut.handleCommand(command);
         }
     }
 }

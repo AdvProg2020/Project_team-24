@@ -20,7 +20,7 @@ public class MainMenu extends Menu {
     }
 
     public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in MainMenu."));
     }
 
     public void accountAccess() {

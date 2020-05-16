@@ -21,7 +21,7 @@ public class UserAreaMenu extends Menu {
     }
 
     public static UserAreaMenu getMenu() {
-        return menu;
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in UserAreaMenu."));
     }
 
     //    public static Menu getMenu() {

@@ -18,6 +18,10 @@ public class SortingProductsMenu extends Menu{
         return menu;
     }
 
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in SortingProductsMenu."));
+    }
+
     public void showAvailableSorts() {
         // yac
     }
@@ -32,10 +36,6 @@ public class SortingProductsMenu extends Menu{
 
     public void disableSorts() {
         // yac
-    }
-
-    public static Menu getMenu(){
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

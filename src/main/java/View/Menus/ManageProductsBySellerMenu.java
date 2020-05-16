@@ -8,6 +8,7 @@ import Exceptions.FieldDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ManageProductsBySellerMenu extends Menu {
 
@@ -24,6 +25,10 @@ public class ManageProductsBySellerMenu extends Menu {
             menu = new ManageProductsBySellerMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageProductsBySellerMenu."));
     }
 
     public void view(List<String> inputs) {
@@ -69,10 +74,6 @@ public class ManageProductsBySellerMenu extends Menu {
 
     }
 
-    public static Menu getMenu() {
-        return menu;
-    }
-
     @Override
     public void show() {
         System.out.println("you are in manage products by seller menu");
@@ -81,8 +82,10 @@ public class ManageProductsBySellerMenu extends Menu {
     @Override
     public void help() {
         super.help();
-        System.out.println("view[productId]: to view product" + System.lineSeparator() +
-                "viewBuyers [productId]:to show buyers of a product " + System.lineSeparator() +
-                "edit[productId]:to edit a product");
+        System.out.println("view[productId] : To view product" + System.lineSeparator() +
+                "viewBuyers [productId] : To show buyers of a product " + System.lineSeparator() +
+                "edit[productId] : To edit a product" + System.lineSeparator() +
+                "----------------------------------------------"
+        );
     }
 }
