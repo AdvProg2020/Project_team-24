@@ -4,6 +4,7 @@ import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
@@ -28,6 +29,16 @@ public class Score implements Packable<Score> {
     private long userId;
     private long goodId;
     private int scoreNum;
+
+    /*****************************************************setters*******************************************************/
+
+    private void setScoreId(long scoreId) {
+        this.scoreId = scoreId;
+    }
+
+    public static void setList(List<Score> list) {
+        Score.list = list;
+    }
 
     /*****************************************************getters*******************************************************/
 
@@ -55,6 +66,7 @@ public class Score implements Packable<Score> {
     /**************************************************addAndRemove*****************************************************/
 
     public static void addScore(Score score) throws CanNotSaveToDataBaseException {
+        score.setScoreId(AddingNew.getRegisteringId().apply(Score.getList()));
         list.add(score);
         DataBase.save(score,true);
     }
@@ -95,8 +107,7 @@ public class Score implements Packable<Score> {
 
     /**************************************************constructors*****************************************************/
 
-    public Score(long scoreId, long userId, long goodId, int scoreNum) {
-        this.scoreId = scoreId;
+    public Score(long userId, long goodId, int scoreNum) {
         this.userId = userId;
         this.goodId = goodId;
         this.scoreNum = scoreNum;

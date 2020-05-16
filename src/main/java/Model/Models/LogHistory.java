@@ -3,9 +3,11 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Structs.ProductLog;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +29,6 @@ public class LogHistory implements Packable<LogHistory> {
     private double discountAmount;
     private double auctionDiscount;
     //    String customerName
-    //    String typeLog
     //    String deliveryStatus
     //    Date date
     private FieldList fieldList;
@@ -64,9 +65,20 @@ public class LogHistory implements Packable<LogHistory> {
 //        return Collections.unmodifiableList(productLogList);
 //    }
 
+    /*****************************************************setters*******************************************************/
+
+    private void setLogId(long logId) {
+        this.logId = logId;
+    }
+
+    public static void setList(List<LogHistory> list) {
+        LogHistory.list = list;
+    }
+
     /**************************************************addAndRemove*****************************************************/
 
     public static void addLog(LogHistory logHistory) throws CanNotSaveToDataBaseException {
+        logHistory.setLogId(AddingNew.getRegisteringId().apply(LogHistory.getList()));
         list.add(logHistory);
         DataBase.save(logHistory,true);
     }
@@ -117,13 +129,20 @@ public class LogHistory implements Packable<LogHistory> {
         return list.stream()
                 .filter(logHistory -> id == logHistory.getId())
                 .findFirst()
-                .orElseThrow(() -> new LogHistoryDoesNotExistException("LogHistoryDoesNotExistException"));
+                .orElseThrow(() -> new LogHistoryDoesNotExistException("LogHistory does not exist whit the id:" + id));
+    }
+
+    public void checkExistOfLogHistoryById(long id , List<Long> longList, Packable<?> packable) throws AuctionDoesNotExistException {
+        if (longList.stream().noneMatch(Id -> id == Id)) {
+            throw new AuctionDoesNotExistException(
+                    "In the " + packable.getClass().getSimpleName() + " with id:" + packable.getId() + " the LogHistory with id:"+  id + " does not exist."
+            );
+        }
     }
 
     /**************************************************constructors*****************************************************/
 
-    public LogHistory(long logId, double finalAmount, double discountAmount, double auctionDiscount, FieldList fieldList, List<ProductLog> productLogList) {
-        this.logId = logId;
+    public LogHistory(double finalAmount, double discountAmount, double auctionDiscount, FieldList fieldList, List<ProductLog> productLogList) {
         this.finalAmount = finalAmount;
         this.discountAmount = discountAmount;
         this.auctionDiscount = auctionDiscount;

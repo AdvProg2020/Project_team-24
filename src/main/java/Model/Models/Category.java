@@ -3,12 +3,11 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,14 +25,22 @@ public class Category implements Packable<Category> {
 
     private long categoryId;
     private String name;
-    private FieldList categoryField;
-    private List<Product> productList;
-    private List<Category> subCategoryList;
+    private FieldList categoryFields;
+    private List<Long> productList;
+    private List<Long> subCategories;
 
     /*****************************************************setters*******************************************************/
 
+    public static void setList(List<Category> list) {
+        Category.list = list;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    private void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     /*****************************************************getters*******************************************************/
@@ -46,16 +53,16 @@ public class Category implements Packable<Category> {
         return name;
     }
 
-    public FieldList getCategoryField() {
-        return categoryField;
+    public FieldList getCategoryFields() {
+        return categoryFields;
     }
 
-    public List<Product> getProductList() {
+    public List<Long> getProductList() {
         return Collections.unmodifiableList(productList);
     }
 
-    public List<Category> getSubCategoryList() {
-        return Collections.unmodifiableList(subCategoryList);
+    public List<Long> getSubCategories() {
+        return Collections.unmodifiableList(subCategories);
     }
 
     public static List<Category> getList() {
@@ -64,27 +71,28 @@ public class Category implements Packable<Category> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToProductList(Product product) throws CanNotSaveToDataBaseException {
-        productList.add(product);
+    public void addToProductList(long productId) throws CanNotSaveToDataBaseException {
+        productList.add(productId);
         DataBase.save(this);
     }
 
-    public void removeFromProductList(Product product) throws CanNotRemoveFromDataBase {
-        productList.remove(product);
+    public void removeFromProductList(long productId) throws CanNotRemoveFromDataBase {
+        productList.remove(productId);
         DataBase.remove(this);
     }
 
-    public void addToSubCategoryList(Category category) throws CanNotSaveToDataBaseException {
-        subCategoryList.add(category);
+    public void addToSubCategoryList(long categoryId) throws CanNotSaveToDataBaseException {
+        subCategories.add(categoryId);
         DataBase.save(this);
     }
 
-    public void removeFromSubCategoryList(Category category) throws CanNotRemoveFromDataBase {
-        subCategoryList.remove(category);
-        DataBase.remove(category);
+    public void removeFromSubCategoryList(long categoryId) throws CanNotRemoveFromDataBase {
+        subCategories.remove(categoryId);
+        DataBase.remove(this);
     }
 
     public static void addCategory(Category category) throws CanNotSaveToDataBaseException {
+        category.setCategoryId(AddingNew.getRegisteringId().apply(Category.getList()));
         list.add(category);
         DataBase.save(category, true);
     }
@@ -103,19 +111,12 @@ public class Category implements Packable<Category> {
                 .orElseThrow(() -> new CategoryDoesNotExistException("Category with the id:" + id + " does not exist."));
     }
 
-    public static Category getCategoryByName(String name) throws CategoryDoesNotExistException {
-        return list.stream()
-                .filter(category -> name.equals(category.getName()))
-                .findFirst()
-                .orElseThrow(() -> new CategoryDoesNotExistException("Category with the name:" + name + " does not exist."));
-    }
-
     public void editField(String fieldName, String value) throws FieldDoesNotExistException {
 
         if (fieldName.equals("name")) {
             setName(value);
         } else {
-            SingleString field = (SingleString) categoryField.getFieldByName(fieldName);
+            SingleString field = (SingleString) categoryFields.getFieldByName(fieldName);
             field.setString(value);
         }
     }
@@ -127,45 +128,29 @@ public class Category implements Packable<Category> {
         return new Data<Category>()
                 .addField(categoryId)
                 .addField(name)
-                .addField(categoryField)
-                .addField(productList.stream()
-                        .map(Product::getId)
-                        .sorted(Comparator.reverseOrder())
-                        .collect(Collectors.toList()))
-                .addField(subCategoryList.stream()
-                        .map(Category::getId)
-                        .collect(Collectors.toList()))
+                .addField(categoryFields)
+                .addField(productList)
+                .addField(subCategories)
                 .setInstance(new Category());
     }
 
     @Override
-    public Category dpkg(Data<Category> data) throws ProductDoesNotExistException, CategoryDoesNotExistException {
+    public Category dpkg(Data<Category> data) {
         this.categoryId = (long) data.getFields().get(0);
         this.name = (String) data.getFields().get(1);
-        this.categoryField = (FieldList) data.getFields().get(2);
-        List<Product> result_1 = new ArrayList<>();
-        for (Long aLong : (List<Long>) data.getFields().get(3)) {
-            Product productById = Product.getProductById(aLong);
-            result_1.add(productById);
-        }
-        this.productList = result_1;
-        List<Category> result_2 = new ArrayList<>();
-        for (Long aLong : (List<Long>) data.getFields().get(3)) {
-            Category CategoryById = Category.getCategoryById(aLong);
-            result_2.add(CategoryById);
-        }
-        this.subCategoryList = result_2;
+        this.categoryFields = (FieldList) data.getFields().get(2);
+        this.productList = (List<Long>) data.getFields().get(3);
+        this.subCategories = (List<Long>) data.getFields().get(3);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Category(long categoryId, String name, List<Product> productList, FieldList categoryField, List<Category> subCategoryList) {
-        this.categoryId = categoryId;
+    public Category(String name, List<Long> productList, FieldList categoryFields, List<Long> subCategories) {
         this.name = name;
         this.productList = productList;
-        this.categoryField = categoryField;
-        this.subCategoryList = subCategoryList;
+        this.categoryFields = categoryFields;
+        this.subCategories = subCategories;
     }
 
     private Category() {
@@ -178,8 +163,8 @@ public class Category implements Packable<Category> {
         return "Category{" +
                 "categoryId=" + categoryId +
                 ", name='" + name + '\'' +
-                ", categoryField=" + categoryField +
-                ", subCategoryList=" + subCategoryList +
+                ", categoryField=" + categoryFields +
+                ", subCategoryList=" + subCategories +
                 '}';
     }
 }

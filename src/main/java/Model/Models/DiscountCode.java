@@ -4,6 +4,7 @@ import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.Discount;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 
@@ -33,8 +34,7 @@ public class DiscountCode implements Packable<DiscountCode> {
     private LocalDate end;
     private Discount discount;
     private long frequentUse;
-    private FieldList fieldList;
-    private List<Account> accountList;
+    private List<Long> accountList = new ArrayList<>();
 
     /*****************************************************getters*******************************************************/
 
@@ -44,10 +44,6 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     public String getDiscountCode() {
         return discountCode;
-    }
-
-    public FieldList getFieldList() {
-        return fieldList;
     }
 
     public LocalDate getStart() {
@@ -66,7 +62,7 @@ public class DiscountCode implements Packable<DiscountCode> {
         return frequentUse;
     }
 
-    public List<Account> getAccountList() {
+    public List<Long> getAccountList() {
         return Collections.unmodifiableList(accountList);
     }
 
@@ -96,19 +92,28 @@ public class DiscountCode implements Packable<DiscountCode> {
         this.frequentUse = frequentUse;
     }
 
+    private void setId(long id) {
+        this.id = id;
+    }
+
+    public static void setList(List<DiscountCode> list) {
+        DiscountCode.list = list;
+    }
+
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAccount(Account account) throws CanNotSaveToDataBaseException {
-        accountList.add(account);
+    public void addAccount(long accountId) throws CanNotSaveToDataBaseException {
+        accountList.add(accountId);
         DataBase.save(this);
     }
 
-    public void removeAccount(Account account) throws CanNotSaveToDataBaseException {
-        accountList.remove(account);
+    public void removeAccount(long accountId) throws CanNotSaveToDataBaseException {
+        accountList.remove(accountId);
         DataBase.save(this);
     }
 
     public static void addDiscountCode(DiscountCode discountCode) throws CanNotSaveToDataBaseException {
+        discountCode.setId(AddingNew.getRegisteringId().apply(DiscountCode.getList()));
         list.add(discountCode);
         DataBase.save(discountCode,true);
     }
@@ -129,10 +134,7 @@ public class DiscountCode implements Packable<DiscountCode> {
                 .addField(end)
                 .addField(discount)
                 .addField(frequentUse)
-                .addField(fieldList)
-                .addField(accountList.stream()
-                        .map(Account::getId)
-                        .collect(Collectors.toList()))
+                .addField(accountList)
                 .setInstance(new DiscountCode());
     }
 
@@ -144,20 +146,11 @@ public class DiscountCode implements Packable<DiscountCode> {
         this.end = (LocalDate) data.getFields().get(3);
         this.discount = (Discount) data.getFields().get(4);
         this.frequentUse = (long) data.getFields().get(5);
-        this.fieldList = (FieldList) data.getFields().get(6);
-
-        List<Account> result = new ArrayList<>();
-        for (Long aLong : Collections.unmodifiableList((List<Long>) data.getFields().get(7))) {
-            Account accountById = Account.getAccountById(aLong);
-            result.add(accountById);
-        }
-        this.accountList = result;
+        this.accountList = (List<Long>) data.getFields().get(5);
         return this;
     }
 
     /***************************************************otherMethods****************************************************/
-
-
 
     public static DiscountCode getDiscountCodeById(long id) throws DiscountCodeExpiredException {
         return list.stream()
@@ -193,25 +186,21 @@ public class DiscountCode implements Packable<DiscountCode> {
                 discount.setPercent(Double.parseDouble(value));
                 break;
             default:
-                SingleString field = (SingleString) fieldList.getFieldByName(fieldName);
-                field.setString(value);
+                throw new FieldDoesNotExistException("Not such a field in DiscountCode");
         }
     }
 
     /**************************************************constructors*****************************************************/
 
-    public DiscountCode(long id, String discountCode, LocalDate start, LocalDate end, Discount discount, int frequentUse, FieldList fieldList, List<Account> accountList) {
-        this.id = id;
+    public DiscountCode(String discountCode, LocalDate start, LocalDate end, Discount discount, long frequentUse) {
         this.discountCode = discountCode;
         this.start = start;
         this.end = end;
         this.discount = discount;
         this.frequentUse = frequentUse;
-        this.fieldList = fieldList;
-        this.accountList = accountList;
     }
 
-    public DiscountCode() {
+    private DiscountCode() {
     }
 
     /****************************************************overrides******************************************************/
@@ -225,7 +214,6 @@ public class DiscountCode implements Packable<DiscountCode> {
                 ", end=" + end +
                 ", discount=" + discount +
                 ", frequentUse=" + frequentUse +
-                ", fieldList=" + fieldList +
                 '}';
     }
 }

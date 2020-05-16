@@ -17,8 +17,8 @@ public class Customer extends Account {
     private double credit;
     private double totalPurchase;
     private Cart cart = Cart.autoCreateCart();
-    private List<DiscountCode> discountCodeList = new ArrayList<>();
-    private List<LogHistory> logHistoryList = new ArrayList<>();
+    private List<Long> discountCodeList = new ArrayList<>();
+    private List<Long> logHistoryList = new ArrayList<>();
 
     /**************************************************addAndRemove*****************************************************/
 
@@ -30,20 +30,20 @@ public class Customer extends Account {
         cart.removeProductFromCart(sellerId, productId);
     }
 
-    public void addToLogHistoryList(LogHistory logHistory) {
-        logHistoryList.add(logHistory);
+    public void addToLogHistoryList(long logHistoryId) {
+        logHistoryList.add(logHistoryId);
     }
 
-//    public void removeFromLogHistoryList(LogHistory logHistory) {
-//        logHistoryList.remove(logHistory);
-//    }
-
-    public void addToDiscountCodeList(DiscountCode discountCode) {
-        discountCodeList.add(discountCode);
+    public void removeFromLogHistoryList(long logHistoryId) {
+        logHistoryList.remove(logHistoryId);
     }
 
-    public void removeFromDiscountCodeList(DiscountCode discountCode) {
-        discountCodeList.remove(discountCode);
+    public void addToDiscountCodeList(long discountCodeId) {
+        discountCodeList.add(discountCodeId);
+    }
+
+    public void removeFromDiscountCodeList(long discountCodeId) {
+        discountCodeList.remove(discountCodeId);
     }
 
     /*****************************************************getters*******************************************************/
@@ -60,11 +60,11 @@ public class Customer extends Account {
         return credit;
     }
 
-    public List<LogHistory> getLogHistoryList() {
+    public List<Long> getLogHistoryList() {
         return Collections.unmodifiableList(logHistoryList);
     }
 
-    public List<DiscountCode> getDiscountCodeList() {
+    public List<Long> getDiscountCodeList() {
         return Collections.unmodifiableList(discountCodeList);
     }
 
@@ -78,6 +78,10 @@ public class Customer extends Account {
         this.cart = cart;
     }
 
+    public void setTotalPurchase(double totalPurchase) {
+        this.totalPurchase = totalPurchase;
+    }
+
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
@@ -86,10 +90,8 @@ public class Customer extends Account {
                 .addField(cart.getId())
                 .addField(credit)
                 .addField(totalPurchase)
-                .addField(discountCodeList.stream()
-                        .map(DiscountCode::getId).collect(Collectors.toList()))
-                .addField(logHistoryList.stream()
-                        .map(LogHistory::getId).collect(Collectors.toList()))
+                .addField(discountCodeList)
+                .addField(logHistoryList)
                 .setInstance(new Customer());
     }
 
@@ -99,18 +101,8 @@ public class Customer extends Account {
         this.cart = Cart.getCartById((long) data.getFields().get(4));
         this.credit = (double) data.getFields().get(5);
         this.totalPurchase = (double) data.getFields().get(6);
-        List<DiscountCode> result = new ArrayList<>();
-        for (Long aLong : (List<Long>) data.getFields().get(7)) {
-            DiscountCode discountCodeById = DiscountCode.getDiscountCodeById(aLong);
-            result.add(discountCodeById);
-        }
-        this.discountCodeList = result;
-        List<LogHistory> list1 = new ArrayList<>();
-        for (Long aLong : (List<Long>) data.getFields().get(8)) {
-            LogHistory logHistoryById = LogHistory.getLogHistoryById(aLong);
-            list1.add(logHistoryById);
-        }
-        this.logHistoryList = list1;
+        this.discountCodeList = (List<Long>) data.getFields().get(7);
+        this.logHistoryList = (List<Long>) data.getFields().get(8);
         return this;
     }
 
@@ -149,15 +141,6 @@ public class Customer extends Account {
 
     /**************************************************constructors*****************************************************/
 
-    // doesn't need!
-//    public Customer(long id, String userName, String password, Info personalInfo, Cart cart, List<DiscountCode> discountCodeList, double credit, double totalPurchase, List<LogHistory> logHistoryList) {
-//        super(id, userName, password, personalInfo);
-//        this.cart = cart;
-//        this.discountCodeList = discountCodeList;
-//        this.credit = credit;
-//        this.totalPurchase = totalPurchase;
-//        this.logHistoryList = logHistoryList;
-//    }
     public Customer(String username) {
         super(username);
     }

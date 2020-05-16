@@ -32,7 +32,7 @@ public class Auction implements Packable<Auction>, ForPend {
     private LocalDate start;
     private LocalDate end;
     private Discount discount;
-    private List<Product> productList = new ArrayList<>();
+    private List<Long> productList = new ArrayList<>();
 
     /*****************************************************getters*******************************************************/
 
@@ -40,7 +40,7 @@ public class Auction implements Packable<Auction>, ForPend {
         return Collections.unmodifiableList(list);
     }
 
-    public List<Product> getProductList() {
+    public List<Long> getProductList() {
         return Collections.unmodifiableList(productList);
     }
 
@@ -70,7 +70,7 @@ public class Auction implements Packable<Auction>, ForPend {
 
     /*****************************************************setters*******************************************************/
 
-    public void setProductList(List<Product> productList) {
+    public void setProductList(List<Long> productList) {
         this.productList = productList;
     }
 
@@ -98,6 +98,10 @@ public class Auction implements Packable<Auction>, ForPend {
         this.auctionName = auctionName;
     }
 
+    public static void setList(List<Auction> list) {
+        Auction.list = list;
+    }
+
     /**************************************************addAndRemove*****************************************************/
 
     public static void addAuction(Auction auction) throws CanNotSaveToDataBaseException {
@@ -111,13 +115,13 @@ public class Auction implements Packable<Auction>, ForPend {
         DataBase.remove(auction);
     }
 
-    public void addProductToAuction(Product product) throws CanNotSaveToDataBaseException {
-        productList.add(product);
+    public void addProductToAuction(long productId) throws CanNotSaveToDataBaseException {
+        productList.add(productId);
         DataBase.save(this);
     }
 
-    public void removeProductFromAuction(Product product) throws CanNotSaveToDataBaseException {
-        productList.remove(product);
+    public void removeProductFromAuction(long productId) throws CanNotSaveToDataBaseException {
+        productList.remove(productId);
         DataBase.save(this);
     }
 
@@ -125,27 +129,21 @@ public class Auction implements Packable<Auction>, ForPend {
 
     public static Auction getAuctionById(long id) throws AuctionDoesNotExistException {
         return list.stream()
-                .filter(auction -> id == auction.getId())
+                .filter(product -> id == product.getId())
                 .findFirst()
-                .orElseThrow(() -> new AuctionDoesNotExistException("Auction whit the id:" + id + " does Not Exist in Auction list."));
+                .orElseThrow(() -> new AuctionDoesNotExistException("Auction does not exist with this id:" + id));
     }
 
-    public static Auction getAuctionByName(String name) throws AuctionDoesNotExistException {
-        return list.stream()
-                .filter(auction -> name.equals(auction.getAuctionName()))
-                .findFirst()
-                .orElseThrow(() -> new AuctionDoesNotExistException("Auction whit the name:" + name + " does Not Exist in Auction list."));
+    public static void checkExistOfAuctionById(long id , List<Long> longList, Packable<?> packable) throws AuctionDoesNotExistException {
+        if (longList.stream().noneMatch(Id -> id == Id)) {
+            throw new AuctionDoesNotExistException(
+                    "In the " + packable.getClass().getSimpleName() + " with id:" + packable.getId() + " the Auction with id:"+  id + " does not exist."
+            );
+        }
     }
 
     public double getAuctionDiscount(double price) {
         return Math.min(discount.getPercent() * price / 100, discount.getAmount());
-    }
-
-    public Product getProductById(long id) throws ProductDoesNotExistException {
-        return productList.stream()
-                .filter(auction -> id == auction.getId())
-                .findFirst()
-                .orElseThrow(() -> new ProductDoesNotExistException("Product whit this id:" + id + " does Not Exist in Auction:" + getId() + " ."));
     }
 
     public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
@@ -180,8 +178,7 @@ public class Auction implements Packable<Auction>, ForPend {
     public Data<Auction> pack() {
         return new Data<Auction>()
                 .addField(auctionId)
-                .addField(productList.stream()
-                        .map(Product::getId).collect(Collectors.toList()))
+                .addField(productList)
                 .addField(stateForPend)
                 .addField(start)
                 .addField(end)
@@ -192,12 +189,7 @@ public class Auction implements Packable<Auction>, ForPend {
     @Override
     public Auction dpkg(Data<Auction> data) throws ProductDoesNotExistException {
         this.auctionId = (long) data.getFields().get(0);
-        List<Product> result = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(1))) {
-            Product productById = Product.getProductById(aLong);
-            result.add(productById);
-        }
-        this.productList = result;
+        this.productList = (List<Long>) data.getFields().get(1);
         this.stateForPend = (String) data.getFields().get(2);
         this.start = (LocalDate) data.getFields().get(3);
         this.end = (LocalDate) data.getFields().get(4);
@@ -206,16 +198,6 @@ public class Auction implements Packable<Auction>, ForPend {
     }
 
     /**************************************************constructors*****************************************************/
-
-    // doesn't need!
-//    public Auction(long auctionId, List<Product> productList, String status, LocalDate start, LocalDate end, Discount discount) {
-//        this.auctionId = auctionId;
-//        this.productList = productList;
-//        this.stateForPend = status;
-//        this.start = start;
-//        this.end = end;
-//        this.discount = discount;
-//    }
 
     public Auction(String auctionName, LocalDate start, LocalDate end, Discount discount) {
         this.auctionName = auctionName;

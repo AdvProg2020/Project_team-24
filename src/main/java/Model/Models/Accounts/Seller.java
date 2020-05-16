@@ -7,10 +7,8 @@ import Model.Tools.Data;
 import Model.Tools.ForPend;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Seller extends Account {
 
@@ -18,19 +16,35 @@ public class Seller extends Account {
 
     private double balance;
     private Info companyInfo;
-    private List<LogHistory> logHistoryList = new ArrayList<>();
-    private List<Product> productList = new ArrayList<>();
+    private List<Long> logHistoryList = new ArrayList<>();
+    private List<Long> productList = new ArrayList<>();
+    private List<Long> auctionList = new ArrayList<>();
     private List<ForPend> forPendList = new ArrayList<>();
-    private List<Auction> auctionList = new ArrayList<>();
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToLogHistoryList(LogHistory logHistory) {
-        logHistoryList.add(logHistory);
+    public void addToLogHistoryList(long logHistoryId) {
+        logHistoryList.add(logHistoryId);
     }
 
-    public void removeFromLogHistoryList(LogHistory logHistory) {
-        logHistoryList.remove(logHistory);
+    public void removeFromLogHistoryList(long logHistoryId) {
+        logHistoryList.remove(logHistoryId);
+    }
+
+    public void addToAuctionList(long auctionId) {
+        auctionList.add(auctionId);
+    }
+
+    public void removeFromAuctionList(long auctionId) {
+        auctionList.remove(auctionId);
+    }
+
+    public void addToProductList(long productId) {
+        productList.add(productId);
+    }
+
+    public void removeFromProductList(long productId) {
+        productList.remove(productId);
     }
 
     public void addToPendList(ForPend forPend) {
@@ -39,22 +53,6 @@ public class Seller extends Account {
 
     public void removeFromPendList(ForPend forPend) {
         forPendList.remove(forPend);
-    }
-
-    public void addToProductList(Product product) {
-        productList.add(product);
-    }
-
-    public void removeFromProductList(Product product) {
-        productList.remove(product);
-    }
-
-    public void addToAuctionList(Auction auction) {
-        auctionList.add(auction);
-    }
-
-    public void removeFromAuctionList(Auction auction) {
-        auctionList.remove(auction);
     }
 
     /****************************************************setters********************************************************/
@@ -77,20 +75,20 @@ public class Seller extends Account {
         return companyInfo;
     }
 
-    public List<Auction> getAuctionList() {
-        return Collections.unmodifiableList(auctionList);
-    }
-
-    public List<Product> getProductList() {
-        return Collections.unmodifiableList(productList);
-    }
-
     public List<ForPend> getForPendList() {
         return Collections.unmodifiableList(forPendList);
     }
 
-    public List<LogHistory> getLogHistoryList() {
+    public List<Long> getAuctionList() {
+        return Collections.unmodifiableList(auctionList);
+    }
+
+    public List<Long> getLogHistoryList() {
         return Collections.unmodifiableList(logHistoryList);
+    }
+
+    public List<Long> getProductList() {
+        return Collections.unmodifiableList(productList);
     }
 
     /***************************************************otherMethods****************************************************/
@@ -111,27 +109,6 @@ public class Seller extends Account {
         }
     }
 
-    public Product getProductById(long id) throws ProductDoesNotExistException {
-        return productList.stream()
-                .filter(product -> id == product.getId())
-                .findFirst()
-                .orElseThrow(() -> new ProductDoesNotExistException("In the seller with id:" + getId() + " the product with id:"+  id + " does not exist."));
-    }
-
-    public LogHistory getLogHistoryById(long id) throws LogHistoryDoesNotExistException {
-        return logHistoryList.stream()
-                .filter(logHistory -> id == logHistory.getId())
-                .findFirst()
-                .orElseThrow(() -> new LogHistoryDoesNotExistException("In the seller with id:" + getId() + " the logHistory with id:"+  id + " does not exist."));
-    }
-
-    public Auction getAuctionById(long id) throws AuctionDoesNotExistException {
-        return auctionList.stream()
-                .filter(auction -> id == auction.getId())
-                .findFirst()
-                .orElseThrow(() -> new AuctionDoesNotExistException("In the seller with id:" + getId() + " the auction with id:"+  id + " does not exist."));
-    }
-
     /***************************************************packAndDpkg*****************************************************/
 
     @Override
@@ -140,10 +117,8 @@ public class Seller extends Account {
                 .addField(balance)
                 .addField(companyInfo)
                 .addField(forPendList)
-                .addField(productList.stream()
-                        .map(Product::getId).collect(Collectors.toList()))
-                .addField(auctionList.stream()
-                        .map(Auction::getId).collect(Collectors.toList()))
+                .addField(productList)
+                .addField(auctionList)
                 .setInstance(new Seller());
     }
 
@@ -153,33 +128,12 @@ public class Seller extends Account {
         this.balance = (double) data.getFields().get(4);
         this.companyInfo = (Info) data.getFields().get(5);
         this.forPendList = (List<ForPend>) data.getFields().get(6);
-        List<Product> result = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(7))) {
-            Product productById = Product.getProductById(aLong);
-            result.add(productById);
-        }
-        productList = result;
-        List<Auction> list1 = new ArrayList<>();
-        for (Long aLong : ((List<Long>) data.getFields().get(8))) {
-            Auction auctionById = Auction.getAuctionById(aLong);
-            list1.add(auctionById);
-        }
-        auctionList = list1;
+        this.productList = (List<Long>) data.getFields().get(7);
+        this.auctionList = (List<Long>) data.getFields().get(8);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
-
-    // doesn't need!
-//    public Seller(long id, String userName, String password, Info personalInfo, double balance, List<LogHistory> logHistoryList, List<Product> productList, List<ForPend> forPendList, Info companyInfo, List<Auction> auctionList) {
-//        super(id, userName, password, personalInfo);
-//        this.balance = balance;
-//        this.logHistoryList = logHistoryList;
-//        this.productList = productList;
-//        this.forPendList = forPendList;
-//        this.companyInfo = companyInfo;
-//        this.auctionList = auctionList;
-//    }
 
     public Seller(String username) {
         super(username);

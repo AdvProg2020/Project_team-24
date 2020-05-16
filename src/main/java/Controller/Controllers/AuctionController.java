@@ -33,7 +33,8 @@ public class AuctionController {
 
     public Product showProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
-        Product product = controllerUnit.getAuction().getProductById(productId);
+        Product.checkExistOfProductById(productId, controllerUnit.getAuction().getProductList(), controllerUnit.getAuction());
+        Product product = Product.getProductById(productId);
         controllerUnit.setProduct(product);
         return product;
     }

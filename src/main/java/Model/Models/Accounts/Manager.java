@@ -1,13 +1,10 @@
 package Model.Models.Accounts;
 
-import Exceptions.CanNotAddException;
 import Exceptions.CanNotRemoveFromDataBase;
 import Exceptions.CanNotSaveToDataBaseException;
 import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;
-
-import java.io.IOException;
 
 public class Manager extends Account {
 
@@ -60,11 +57,6 @@ public class Manager extends Account {
     }
 
     /**************************************************constructors*****************************************************/
-
-    // doesn't need!
-//    public Manager(long id, String userName, String password, Info personalInfo) {
-//        super(id, userName, password, personalInfo);
-//    }
 
     public Manager(String username) {
         super(username);

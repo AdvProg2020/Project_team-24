@@ -7,7 +7,6 @@ import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.ProductLog;
-import Model.Tools.AddingNew;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -71,7 +70,7 @@ public class BuyerController extends AccountController {
             Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
             Product product = listOfProduct.get(i);
 
-            double productPrice = product.getPrice(listOfSellers.get(i));
+            double productPrice = product.getPriceOfSellerById(listOfSellers.get(i)).getPrice();
             double productAuctionAmount = product.getAuction().getAuctionDiscount(productPrice);
             double productFinalPrice = productPrice - productAuctionAmount;
 
@@ -119,16 +118,26 @@ public class BuyerController extends AccountController {
         return customer.getCredit();
     }
 
-    public List<DiscountCode> viewDiscountCodes() {
-        return customer.getDiscountCodeList();
+    public List<DiscountCode> viewDiscountCodes() throws DiscountCodeExpiredException {
+        List<DiscountCode> list = new ArrayList<>();
+        for (Long aLong : customer.getDiscountCodeList()) {
+            DiscountCode discountCodeById = DiscountCode.getDiscountCodeById(aLong);
+            list.add(discountCodeById);
+        }
+        return list;
     }
 
     public double showTotalPrice() throws ProductDoesNotExistException {
         return customer.getCart().getTotalPrice();
     }
 
-    public List<LogHistory> viewOrders() {
-        return customer.getLogHistoryList();
+    public List<LogHistory> viewOrders() throws LogHistoryDoesNotExistException {
+        List<LogHistory> list = new ArrayList<>();
+        for (Long aLong : customer.getLogHistoryList()) {
+            LogHistory logHistoryById = LogHistory.getLogHistoryById(aLong);
+            list.add(logHistoryById);
+        }
+        return list;
     }
 
     public Product viewProductInCart(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
@@ -140,7 +149,7 @@ public class BuyerController extends AccountController {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         this.checkCartForProductId(productId);
-        if (Product.getProductById(productId).getNumberOfThis() <= 0) {
+        if (Product.getProductById(productId).getPriceOfSellerById(sellerId).getNumber() <= 0) {
             throw new ProductIsOutOfStockException("Product is out of stock. You can't increase number of the order whit id:" + productIdString + " .");
         } else {
             customer.addToCart(productId, sellerId);
@@ -168,7 +177,7 @@ public class BuyerController extends AccountController {
     public void discountCodeUse(String codeIdAsString) throws InvalidDiscountCodeException, DiscountCodeExpiredException, NumberFormatException {
         long codeId = Long.parseLong(codeIdAsString);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(codeId);
-        if (!customer.getDiscountCodeList().contains(discountCode)) {
+        if (!customer.getDiscountCodeList().contains(discountCode.getId())) {
             throw new InvalidDiscountCodeException("InvalidDiscountCodeException");
         }
         if (discountCode.getEnd().isAfter(LocalDate.now())) {
@@ -180,13 +189,7 @@ public class BuyerController extends AccountController {
     public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException, ProductDoesNotExistException {
         this.checkEnoughCredit();
         List<ProductLog> productLogs = this.payment();
-        List<Product> listOfProduct = this.showProducts();
-        for (Product product1 : listOfProduct) {
-            product1.setNumberOfBuyers(product1.getNumberOfBuyers() + 1);
-            product1.addBuyer(customer);
-        }
         LogHistory logHistory = new LogHistory(
-                AddingNew.getRegisteringId().apply(LogHistory.getList()),
                 getTotalPriceWithDiscountCode(),
                 discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
                 viewCart().getTotalAuctionDiscount(),
@@ -194,13 +197,13 @@ public class BuyerController extends AccountController {
                 productLogs
         );
         LogHistory.addLog(logHistory);
-        customer.addToLogHistoryList(logHistory);
+        customer.addToLogHistoryList(logHistory.getId());
         for (Long sellerId : customer.getCart().getProductSellers()) {
             Seller seller = (Seller) Account.getAccountById(sellerId);
-            seller.addToLogHistoryList(logHistory);
+            seller.addToLogHistoryList(logHistory.getId());
         }
         customer.setCart(Cart.autoCreateCart());
-        customer.removeFromDiscountCodeList(discountCodeEntered);
+        customer.removeFromDiscountCodeList(discountCodeEntered.getId());
         this.setDiscountCodeEntered(null);
     }
 
@@ -212,7 +215,7 @@ public class BuyerController extends AccountController {
     public void checkIfProductBoughtToRate(String productIdString) throws CannotRateException, ProductDoesNotExistException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
         Product product = Product.getProductById(productId);
-        if (!product.getBuyerList().contains(customer)) {
+        if (!product.getBuyerList().contains(customer.getId())) {
             throw new CannotRateException("Cannot Rate.");
         }
     }
@@ -222,7 +225,7 @@ public class BuyerController extends AccountController {
         long rateNumber = Integer.parseInt(rateNumberString);
         checkIfProductBoughtToRate(productIdString);
         Product product = Product.getProductById(productId);
-        long numberOfBuyer = Score.getNumberOfScoreByProductId(productId);
+        long numberOfBuyer = product.getScoreList().size();
         long lastScore = (long) product.getAverageScore() * numberOfBuyer;
         int newScore = (int) ((lastScore + rateNumber) / (numberOfBuyer + 1));
         product.setAverageScore(newScore);

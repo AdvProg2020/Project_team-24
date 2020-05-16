@@ -1,11 +1,9 @@
 package View.Menus;
 
-import Controller.Controllers.ManagerController;
 import Controller.Controllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
-import Model.Models.Category;
 import Model.Models.Field.Field;
 import Model.Models.Product;
 import View.MenuHandler;
@@ -97,7 +95,7 @@ public class SellerMenu extends Menu {
     }
 
     public void saveCategoryInfo(Product product) {
-        List<String> fieldName = product.getCategory().getCategoryField()
+        List<String> fieldName = product.getCategory().getCategoryFields()
                 .getFieldList().stream().map(Field::getFieldName)
                 .collect(Collectors.toList());
 

@@ -45,6 +45,16 @@ public class Cart implements Packable<Cart> {
         return Collections.unmodifiableList(list);
     }
 
+    /*****************************************************setters*******************************************************/
+
+    public static void setList(List<Cart> list) {
+        Cart.list = list;
+    }
+
+    private void setId(long id) {
+        this.id = id;
+    }
+
     /**************************************************addAndRemove*****************************************************/
 
     public void addProductToCart(long sellerId, long productId) throws CanNotSaveToDataBaseException {
@@ -59,6 +69,17 @@ public class Cart implements Packable<Cart> {
         DataBase.save(this);
     }
 
+    public static void addCart(Cart cart) throws CanNotSaveToDataBaseException {
+        cart.setId(AddingNew.getRegisteringId().apply(getList()));
+        list.add(cart);
+        DataBase.save(cart, true);
+    }
+
+    public static void removeCart(Cart cart) throws CanNotRemoveFromDataBase {
+        list.remove(cart);
+        DataBase.remove(cart);
+    }
+
     /***************************************************otherMethods****************************************************/
 
     public boolean isThereThisProductInCart(long productId) {
@@ -69,7 +90,7 @@ public class Cart implements Packable<Cart> {
         double price = 0;
         for (int i = 0; i < productsId.size(); i++) {
             Product product = Product.getProductById(productsId.get(i));
-            price += product.getPrice(sellersId.get(i));
+            price += product.getPriceOfSellerById(sellersId.get(i)).getPrice();
         }
         return price;
     }
@@ -80,7 +101,7 @@ public class Cart implements Packable<Cart> {
             Product product = Product.getProductById(productsId.get(i));
             Auction auction = product.getAuction();
             if (auction != null) {
-                price += auction.getAuctionDiscount(product.getPrice(sellersId.get(i)));
+                price += auction.getAuctionDiscount(product.getPriceOfSellerById(sellersId.get(i)).getPrice());
             }
         }
         return price;

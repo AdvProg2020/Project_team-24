@@ -2,6 +2,7 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
@@ -23,7 +24,7 @@ public class Request implements Packable<Request> {
     /*****************************************************fields*******************************************************/
 
     private long requestId;
-    private Account account;
+    private long accountId;
     private String information;
     private String typeOfRequest;
     private ForPend forPend;
@@ -34,8 +35,8 @@ public class Request implements Packable<Request> {
         return requestId;
     }
 
-    public Account getAccount() {
-        return account;
+    public long getRequestId() {
+        return requestId;
     }
 
     public String getTypeOfRequest() {
@@ -52,6 +53,16 @@ public class Request implements Packable<Request> {
 
     public static List<Request> getList() {
         return Collections.unmodifiableList(list);
+    }
+
+    /*****************************************************setters*******************************************************/
+
+    private void setRequestId(long requestId) {
+        this.requestId = requestId;
+    }
+
+    public static void setList(List<Request> list) {
+        Request.list = list;
     }
 
     /***************************************************otherMethods****************************************************/
@@ -76,6 +87,7 @@ public class Request implements Packable<Request> {
     /**************************************************addAndRemove*****************************************************/
 
     public static void addRequest(Request request) throws  CanNotSaveToDataBaseException {
+        request.setRequestId(AddingNew.getRegisteringId().apply(Request.getList()));
         list.add(request);
         DataBase.save(request, true);
     }
@@ -91,7 +103,7 @@ public class Request implements Packable<Request> {
     public Data<Request> pack() {
         return new Data<Request>()
                 .addField(requestId)
-                .addField(account.getId())
+                .addField(accountId)
                 .addField(information)
                 .addField(typeOfRequest)
                 .addField(forPend)
@@ -99,9 +111,9 @@ public class Request implements Packable<Request> {
     }
 
     @Override
-    public Request dpkg(Data<Request> data) throws AccountDoesNotExistException {
+    public Request dpkg(Data<Request> data) {
         this.requestId = (long) data.getFields().get(0);
-        this.account = Account.getAccountById((long) data.getFields().get(1));
+        this.accountId = (long) data.getFields().get(1);
         this.information = (String) data.getFields().get(2);
         this.typeOfRequest = (String) data.getFields().get(3);
         this.forPend = (ForPend) data.getFields().get(4);
@@ -119,9 +131,8 @@ public class Request implements Packable<Request> {
 
     /**************************************************constructors*****************************************************/
 
-    public Request(long requestId, Account account, String information, String typeOfRequest, ForPend forPend) {
-        this.requestId = requestId;
-        this.account = account;
+    public Request(long accountId, String information, String typeOfRequest, ForPend forPend) {
+        this.accountId = accountId;
         this.information = information;
         this.typeOfRequest = typeOfRequest;
         this.forPend = forPend;
@@ -136,7 +147,7 @@ public class Request implements Packable<Request> {
     public String toString() {
         return "Request{" +
                 "requestId=" + requestId +
-                ", account=" + account.getUserName() +
+                ", accountId=" + accountId +
                 ", information='" + information + '\'' +
                 ", typeOfRequest='" + typeOfRequest + '\'' +
                 ", forPend=" + forPend +

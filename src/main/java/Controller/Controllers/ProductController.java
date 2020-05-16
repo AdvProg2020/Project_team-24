@@ -8,12 +8,16 @@ import Model.Models.Accounts.Guest;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
+import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class ProductController {
 
@@ -38,12 +42,23 @@ public class ProductController {
         return controllerUnit.getProduct();
     }
 
-    public List<Seller> ListOfSellersOfChosenProduct() {
-        return controllerUnit.getProduct().getSellerList();
+    public List<Seller> ListOfSellersOfChosenProduct() throws AccountDoesNotExistException {
+        List<Seller> list = new ArrayList<>();
+        for (ProductOfSeller productOfSeller : controllerUnit.getProduct().getSellersOfProduct()) {
+            long sellerId = productOfSeller.getSellerId();
+            Account accountById = Account.getAccountById(sellerId);
+            list.add((Seller) accountById);
+        }
+        return list;
     }
 
-    public List<Comment> viewComments() {
-        return controllerUnit.getProduct().getCommentList();
+    public List<Comment> viewComments() throws CommentDoesNotExistException {
+        List<Comment> list = new ArrayList<>();
+        for (Long aLong : controllerUnit.getProduct().getCommentList()) {
+            Comment commentById = Comment.getCommentById(aLong);
+            list.add(commentById);
+        }
+        return list;
     }
 
 //    public Seller selectSellerOfProduct(String sellerIdString) throws AccountDoesNotExistException, ThisSellerDoseNotSellChosenProduct, NumberFormatException {
@@ -56,9 +71,8 @@ public class ProductController {
 //        return seller;
 //    }
 
-    public void addToCart(String sellerIdString) throws AcountHasNotLogedIn, ProductIsOutOfStockException, CloneNotSupportedException, AccountDoesNotExistException, CanNotSaveToDataBaseException {
+    public void addToCart(String sellerIdString) throws AcountHasNotLogedIn, ProductIsOutOfStockException, CanNotSaveToDataBaseException, ProductDoesNotExistException {
         long sellerId = Long.parseLong(sellerIdString);
-        Seller seller = (Seller) Seller.getAccountById(sellerId);
 
         if (controllerUnit.getAccount() instanceof Guest) {
             throw new AcountHasNotLogedIn("Guest can't add to cart. Go to login menu ...");
@@ -66,20 +80,19 @@ public class ProductController {
 
         Customer customer = (Customer) controllerUnit.getAccount();
 
-        if (controllerUnit.getProduct().getNumberOfThis() <= 0) {
-            throw new ProductIsOutOfStockException("ProductIsOutOfStockException");
+        if (Product.getProductById(controllerUnit.getProduct().getId()).getPriceOfSellerById(sellerId).getNumber() <= 0) {
+            throw new ProductIsOutOfStockException("Product is out of stock.");
         }
-        Product productClone = (Product) controllerUnit.getProduct().clone();
-        customer.getCart().addProductToCart(seller, productClone);
+        customer.getCart().addProductToCart(sellerId, controllerUnit.getProduct().getId());
     }
 
-    public void addComment(String title, String content) throws ProductDoesNotExistException, CannotRateException, CanNotAddException, IOException, CanNotSaveToDataBaseException {
+    public void addComment(String title, String content) throws ProductDoesNotExistException, CannotRateException, CanNotSaveToDataBaseException {
         Account account = controllerUnit.getAccount();
         Product product = controllerUnit.getProduct();
         List<Field> fields = Arrays.asList(new SingleString("Title", title), new SingleString("Content", content));
         FieldList fieldList = new FieldList(fields);
         BuyerController.getInstance().checkIfProductBoughtToRate(product.getId() + "");
-        Comment comment = new Comment(AddingNew.getRegisteringId().apply(Comment.getList()), account, product, fieldList, "ziba bood");
+        Comment comment = new Comment("ziba bood", account.getId(), product.getId(), fieldList);
         Comment.addComment(comment);
     }
 }

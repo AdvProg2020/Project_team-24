@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SellerController extends AccountController {
 
@@ -38,12 +39,22 @@ public class SellerController extends AccountController {
         return seller.getCompanyInfo();
     }
 
-    public List<LogHistory> viewSalesHistory() {
-        return seller.getLogHistoryList();
+    public List<LogHistory> viewSalesHistory() throws LogHistoryDoesNotExistException {
+        List<LogHistory> list = new ArrayList<>();
+        for (Long aLong : seller.getLogHistoryList()) {
+            LogHistory logHistoryById = LogHistory.getLogHistoryById(aLong);
+            list.add(logHistoryById);
+        }
+        return list;
     }
 
-    public List<Product> manageProducts() {
-        return seller.getProductList();
+    public List<Product> showProducts() throws ProductDoesNotExistException {
+        List<Product> list = new ArrayList<>();
+        for (Long aLong : seller.getProductList()) {
+            Product productById = Product.getProductById(aLong);
+            list.add(productById);
+        }
+        return list;
     }
 
     public double viewBalance() {
@@ -64,10 +75,15 @@ public class SellerController extends AccountController {
         return product.getProductInfo();
     }
 
-    public List<Customer> viewBuyers(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
+    public List<Customer> viewBuyers(String productIdString) throws ProductDoesNotExistException, NumberFormatException, AccountDoesNotExistException {
         long productId = Long.parseLong(productIdString);
         Product product = Product.getProductById(productId);
-        return product.getBuyerList();
+        List<Customer> list = new ArrayList<>();
+        for (Long aLong : product.getBuyerList()) {
+            Account accountById = Account.getAccountById(aLong);
+            list.add((Customer) accountById);
+        }
+        return list;
     }
 
     public Product createTheBaseOfProduct(String productName, String strCategoryId, String strAuctionId, String strNumberOfThis) throws AuctionDoesNotExistException, CategoryDoesNotExistException {
@@ -76,7 +92,7 @@ public class SellerController extends AccountController {
         long auctionId = Long.parseLong(strAuctionId);
         Category category = Category.getCategoryById(categoryId);
         Auction auction = Auction.getAuctionById(auctionId);
-        return new Product(productName, category, auction, numberOfThis);
+        return new Product(productName, category, auction);
     }
 
     public void saveProductInfo(Product product, List<String> fieldName, List<String> values) {
@@ -107,14 +123,14 @@ public class SellerController extends AccountController {
     }
 
     private void newRequest(ForPend forPend, String information) throws CanNotAddException, IOException, CanNotSaveToDataBaseException {
-        Request request = new Request(AddingNew.getRegisteringId().apply(Request.getList()), seller, information, "new" + forPend.getClass().getSimpleName(), forPend);
+        Request request = new Request(seller.getId(), information, "new" + forPend.getClass().getSimpleName(), forPend);
         Request.addRequest(request);
     }
 
     public void removeProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
         Product product = Product.getProductById(productId);
-        seller.removeFromProductList(product);
+        seller.removeFromProductList(product.getId());
     }
 
 //    public ArrayList<Auction> viewOffInFilter() { // what is this?
@@ -128,13 +144,15 @@ public class SellerController extends AccountController {
 
     public void editAuction(String strId, String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException, NumberFormatException {
         long id = Long.parseLong(strId);
-        Auction auction = seller.getAuctionById(id);
+        Auction.checkExistOfAuctionById(id, seller.getAuctionList(), seller);
+        Auction auction = Auction.getAuctionById(id);
         auction.editField(fieldName, newInfo);
     }
 
     public void editProduct(String strId, String fieldName, String newInfo) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException, ProductDoesNotExistException, NumberFormatException {
         long id = Long.parseLong(strId);
-        Product product = seller.getProductById(id);
+        Product.checkExistOfProductById(id, seller.getProductList(), seller);
+        Product product = Product.getProductById(id);
         product.editField(fieldName, newInfo);
     }
 }

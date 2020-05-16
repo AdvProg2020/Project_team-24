@@ -81,14 +81,11 @@ public class ManagerController extends AccountController {
 
         if (start.isBefore(end) && end.isAfter(LocalDate.now())) {
             DiscountCode discountCode = new DiscountCode(
-                    AddingNew.getRegisteringId().apply(DiscountCode.getList()),
                     DiscountCode.createDiscountCode(),
                     start,
                     end,
                     new Discount(percent, maxAmount),
-                    frequentUse,
-                    null,
-                    null
+                    frequentUse
             );
             DiscountCode.addDiscountCode(discountCode);
         } else
@@ -125,12 +122,12 @@ public class ManagerController extends AccountController {
 
     public void setDiscountCodeToSpecials(long discountCodeId) throws DiscountCodeExpiredException {
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
-        findSpecialBuyers().forEach(customer -> customer.addToDiscountCodeList(discountCode));
+        findSpecialBuyers().forEach(customer -> customer.addToDiscountCodeList(discountCode.getId()));
     }
 
     public void setDiscountCodeToRandoms(long discountCodeId) throws DiscountCodeExpiredException {
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
-        selectRandomBuyer().addToDiscountCodeList(discountCode);
+        selectRandomBuyer().addToDiscountCodeList(discountCode.getId());
     }
 
     public Request detailsOfRequest(String strRequestId) throws RequestDoesNotExistException {
@@ -148,18 +145,21 @@ public class ManagerController extends AccountController {
         ((Manager) controllerUnit.getAccount()).declineRequest(Request.getRequestById(requestId));
     }
 
-    public void editCategory(String categoryName, String fieldName, String newField) throws FieldDoesNotExistException, CategoryDoesNotExistException {
-        Category category = Category.getCategoryByName(categoryName);
+    public void editCategory(String categoryId, String fieldName, String newField) throws FieldDoesNotExistException, CategoryDoesNotExistException, NumberFormatException {
+        long id = Long.parseLong(categoryId);
+        Category category = Category.getCategoryById(id);
         category.editField(fieldName, newField);
     }
 
-    public void removeCategory(String categoryName) throws CanNotRemoveFromDataBase, CategoryDoesNotExistException {
-        Category category = Category.getCategoryByName(categoryName);
+    public void removeCategory(String categoryId) throws CanNotRemoveFromDataBase, CategoryDoesNotExistException {
+        long id = Long.parseLong(categoryId);
+        Category category = Category.getCategoryById(id);
         Category.removeCategory(category);
     }
 
-    public void addCategory(String categoryName) throws CanNotSaveToDataBaseException, CategoryDoesNotExistException {
-        Category category = Category.getCategoryByName(categoryName);
+    public void addCategory(String categoryId) throws CanNotSaveToDataBaseException, CategoryDoesNotExistException {
+        long id = Long.parseLong(categoryId);
+        Category category = Category.getCategoryById(id);
         Category.addCategory(category);
     }
 
