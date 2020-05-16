@@ -14,13 +14,13 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
     private static ViewDiscountCodesByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public ViewDiscountCodesByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ViewDiscountCodesByManagerMenu(String name) {
+        super(name);
     }
 
-    public static ViewDiscountCodesByManagerMenu getInstance(String name, Menu parent) {
+    public static ViewDiscountCodesByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ViewDiscountCodesByManagerMenu(name, parent);
+            menu = new ViewDiscountCodesByManagerMenu(name);
         }
         return menu;
     }

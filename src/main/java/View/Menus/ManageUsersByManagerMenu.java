@@ -14,18 +14,13 @@ public class ManageUsersByManagerMenu extends Menu {
     private static ManagerController managerController = ManagerController.getInstance();
     private static SignUpController signUpController = SignUpController.getInstance();
 
-    private ManageUsersByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private ManageUsersByManagerMenu(String name) {
+        super(name);
     }
 
-    @Override
-    public void show() {
-        System.out.println("you are in manage user by manager menu");
-    }
-
-    public static ManageUsersByManagerMenu getInstance(String name, Menu parent) {
+    public static ManageUsersByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageUsersByManagerMenu(name, parent);
+            menu = new ManageUsersByManagerMenu(name);
         }
         return menu;
     }
@@ -95,6 +90,11 @@ public class ManageUsersByManagerMenu extends Menu {
         } catch (LastNameInvalidException e) {
             System.out.println("enter valid last name");
         }
+    }
+
+    @Override
+    public void show() {
+        System.out.println("you are in manage user by manager menu");
     }
 
     @Override

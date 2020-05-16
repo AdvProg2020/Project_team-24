@@ -8,17 +8,17 @@ public class GuestMenu extends Menu {
 
     private static GuestMenu menu;
 
-    private GuestMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private GuestMenu(String name) {
+        super(name);
     }
 
     public static Menu getMenu() {
         return Optional.ofNullable(menu).orElseThrow();
     }
 
-    public static GuestMenu getInstance(String name, Menu parent) {
+    public static GuestMenu getInstance(String name) {
         if (menu == null) {
-            menu = new GuestMenu(name, parent);
+            menu = new GuestMenu(name);
         }
         return menu;
     }

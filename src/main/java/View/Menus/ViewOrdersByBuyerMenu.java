@@ -12,8 +12,8 @@ public class ViewOrdersByBuyerMenu extends Menu {
     private static ViewOrdersByBuyerMenu menu;
     private static BuyerController buyerController = BuyerController.getInstance();
 
-    public ViewOrdersByBuyerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ViewOrdersByBuyerMenu(String name) {
+        super(name);
     }
 
     @Override
@@ -21,9 +21,9 @@ public class ViewOrdersByBuyerMenu extends Menu {
         System.out.println("view orders by buyer menu");
     }
 
-    public static ViewOrdersByBuyerMenu getInstance(String name, Menu parent) {
+    public static ViewOrdersByBuyerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ViewOrdersByBuyerMenu(name, parent);
+            menu = new ViewOrdersByBuyerMenu(name);
         }
         return menu;
     }

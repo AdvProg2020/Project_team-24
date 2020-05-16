@@ -7,13 +7,13 @@ public class ViewCartByGuestMenu extends Menu {
 
     private static ViewCartByGuestMenu menu;
 
-    public ViewCartByGuestMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ViewCartByGuestMenu(String name) {
+        super(name);
     }
 
-    public static ViewCartByGuestMenu getInstance(String name, Menu parent) {
+    public static ViewCartByGuestMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ViewCartByGuestMenu(name, parent);
+            menu = new ViewCartByGuestMenu(name);
         }
         return menu;
     }

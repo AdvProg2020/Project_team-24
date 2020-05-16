@@ -9,20 +9,24 @@ public class UserAreaMenu extends Menu {
 
     private static UserAreaMenu menu;
 
-    private UserAreaMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private UserAreaMenu(String name) {
+        super(name);
     }
 
-    public static UserAreaMenu getInstance(String name, Menu parent) {
+    public static UserAreaMenu getInstance(String name) {
         if (menu == null) {
-            menu = new UserAreaMenu(name, parent);
+            menu = new UserAreaMenu(name);
         }
         return menu;
     }
 
-    public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+    public static UserAreaMenu getMenu() {
+        return menu;
     }
+
+    //    public static Menu getMenu() {
+//        return Optional.ofNullable(menu).orElseThrow();
+//    }
 
     public void openLoginMenu() {
         MenuHandler.setCurrentMenu(LogInMenu.getMenu());

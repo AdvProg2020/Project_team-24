@@ -4,17 +4,22 @@ import java.util.List;
 import java.util.Optional;
 
 public class DigestProductMenu extends Menu {
+
     private static DigestProductMenu menu;
 
-    private DigestProductMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private DigestProductMenu(String name) {
+        super(name);
     }
 
-    public static DigestProductMenu getInstance(String name, Menu parent) {
+    public static DigestProductMenu getInstance(String name) {
         if (menu == null) {
-            menu = new DigestProductMenu(name, parent);
+            menu = new DigestProductMenu(name);
         }
         return menu;
+    }
+
+    public static Menu getMenu() {
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in DigestProductMenu."));
     }
 
     public void addToCart() {
@@ -23,10 +28,6 @@ public class DigestProductMenu extends Menu {
 
     public void selectSeller(List<String> inputs) {
         // yac
-    }
-
-    public static Menu getMenu(){
-        return Optional.ofNullable(menu).orElseThrow();
     }
 
     @Override

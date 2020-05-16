@@ -7,13 +7,13 @@ public class SortingProductsMenu extends Menu{
 
     private static SortingProductsMenu menu;
 
-    private SortingProductsMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private SortingProductsMenu(String name) {
+        super(name);
     }
 
-    public static SortingProductsMenu getInstance(String name, Menu parent) {
+    public static SortingProductsMenu getInstance(String name) {
         if (menu == null) {
-            menu = new SortingProductsMenu(name, parent);
+            menu = new SortingProductsMenu(name);
         }
         return menu;
     }

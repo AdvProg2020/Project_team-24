@@ -21,15 +21,15 @@ public class SellerMenu extends Menu {
 
     private static SellerMenu menu;
 
-    private SellerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private SellerMenu(String name) {
+        super(name);
     }
 
     private static SellerController sellerController = SellerController.getInstance();
 
-    public static SellerMenu getInstance(String name, Menu parent) {
+    public static SellerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new SellerMenu(name, parent);
+            menu = new SellerMenu(name);
         }
         return menu;
     }

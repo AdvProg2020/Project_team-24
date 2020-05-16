@@ -14,14 +14,14 @@ public class PurchaseByBuyerMenu extends Menu {
 
     private static BuyerController buyerController=BuyerController.getInstance();
 
-    public static PurchaseByBuyerMenu getInstance(String name, Menu parent) {
+    public static PurchaseByBuyerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new PurchaseByBuyerMenu(name, parent);
+            menu = new PurchaseByBuyerMenu(name);
         }
         return menu;
     }
-    public PurchaseByBuyerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public PurchaseByBuyerMenu(String name) {
+        super(name);
     }
     public static Menu getMenu() {
         return Optional.ofNullable(menu).orElseThrow();

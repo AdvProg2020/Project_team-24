@@ -12,13 +12,13 @@ public class ManageCategoriesByManagerMenu extends Menu {
     private static ManageCategoriesByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public ManageCategoriesByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ManageCategoriesByManagerMenu(String name) {
+        super(name);
     }
 
-    public static ManageCategoriesByManagerMenu getInstance(String name, Menu parent) {
+    public static ManageCategoriesByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageCategoriesByManagerMenu(name, parent);
+            menu = new ManageCategoriesByManagerMenu(name);
         }
         return menu;
     }

@@ -15,15 +15,15 @@ public class ViewOffsBySellerMenu extends Menu {
 
     private static ViewOffsBySellerMenu menu;
 
-    public ViewOffsBySellerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ViewOffsBySellerMenu(String name) {
+        super(name);
     }
 
     private static SellerController sellerController = SellerController.getInstance();
 
-    public static ViewOffsBySellerMenu getInstance(String name, Menu parent) {
+    public static ViewOffsBySellerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ViewOffsBySellerMenu(name, parent);
+            menu = new ViewOffsBySellerMenu(name);
         }
         return menu;
     }

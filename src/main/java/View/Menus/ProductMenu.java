@@ -11,13 +11,13 @@ public class ProductMenu extends Menu {
 
     private Product product;
 
-    public ProductMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ProductMenu(String name) {
+        super(name);
     }
 
-    public static ProductMenu getInstance(String name, Menu parent) {
+    public static ProductMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ProductMenu(name, parent);
+            menu = new ProductMenu(name);
         }
         return menu;
     }

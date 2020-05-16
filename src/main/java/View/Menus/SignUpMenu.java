@@ -16,13 +16,13 @@ public class SignUpMenu extends Menu {
 
     private static SignUpController signUpController = SignUpController.getInstance();
 
-    private SignUpMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private SignUpMenu(String name) {
+        super(name);
     }
 
-    public static SignUpMenu getInstance(String name, Menu parent) {
+    public static SignUpMenu getInstance(String name) {
         if (menu == null) {
-            menu = new SignUpMenu(name, parent);
+            menu = new SignUpMenu(name);
         }
         return menu;
     }

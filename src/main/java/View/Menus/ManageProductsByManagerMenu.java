@@ -10,18 +10,13 @@ public class ManageProductsByManagerMenu extends Menu {
     private static ManageProductsByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public ManageProductsByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ManageProductsByManagerMenu(String name) {
+        super(name);
     }
 
-    @Override
-    public void show() {
-        System.out.println("you are in manage products by manager menu");
-    }
-
-    public static ManageProductsByManagerMenu getInstance(String name, Menu parent) {
+    public static ManageProductsByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageProductsByManagerMenu(name, parent);
+            menu = new ManageProductsByManagerMenu(name);
         }
         return menu;
     }
@@ -39,6 +34,11 @@ public class ManageProductsByManagerMenu extends Menu {
 
     public static Menu getMenu() {
         return menu;
+    }
+
+    @Override
+    public void show() {
+        System.out.println("you are in manage products by manager menu");
     }
 
     @Override

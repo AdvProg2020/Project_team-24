@@ -18,15 +18,15 @@ public class LogInMenu extends Menu {
 
     private static LogInMenu menu;
 
-    public static LogInMenu getInstance(String name, Menu parent) {
+    public static LogInMenu getInstance(String name) {
         if (menu == null) {
-            menu = new LogInMenu(name, parent);
+            menu = new LogInMenu(name);
         }
         return menu;
     }
 
-    private LogInMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private LogInMenu(String name) {
+        super(name);
     }
 
     public void login(List<String> inputs) {

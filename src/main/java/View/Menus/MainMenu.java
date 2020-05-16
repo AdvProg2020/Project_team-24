@@ -8,13 +8,13 @@ public class MainMenu extends Menu {
 
     private static MainMenu menu;
 
-    private MainMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    private MainMenu(String name) {
+        super(name);
     }
 
-    public static MainMenu getInstance(String name, Menu parent) {
+    public static MainMenu getInstance(String name) {
         if (menu == null) {
-            menu = new MainMenu(name, parent);
+            menu = new MainMenu(name);
         }
         return menu;
     }

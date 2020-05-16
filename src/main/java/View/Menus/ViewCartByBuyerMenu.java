@@ -15,13 +15,13 @@ public class ViewCartByBuyerMenu extends Menu {
 
     private static BuyerController buyerController = BuyerController.getInstance();
 
-    public ViewCartByBuyerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ViewCartByBuyerMenu(String name) {
+        super(name);
     }
 
-    public static ViewCartByBuyerMenu getInstance(String name, Menu parent) {
+    public static ViewCartByBuyerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ViewCartByBuyerMenu(name, parent);
+            menu = new ViewCartByBuyerMenu(name);
         }
         return menu;
     }

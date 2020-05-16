@@ -10,22 +10,18 @@ import Exceptions.ProductDoesNotExistException;
 import java.util.List;
 
 public class ManageProductsBySellerMenu extends Menu {
+
     private static ManageProductsBySellerMenu menu;
 
-    public ManageProductsBySellerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ManageProductsBySellerMenu(String name) {
+        super(name);
     }
 
     private static SellerController sellerController = SellerController.getInstance();
 
-    @Override
-    public void show() {
-        System.out.println("you are in in manage products by seller menu");
-    }
-
-    public static ManageProductsBySellerMenu getInstance(String name, Menu parent) {
+    public static ManageProductsBySellerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageProductsBySellerMenu(name, parent);
+            menu = new ManageProductsBySellerMenu(name);
         }
         return menu;
     }
@@ -75,6 +71,11 @@ public class ManageProductsBySellerMenu extends Menu {
 
     public static Menu getMenu() {
         return menu;
+    }
+
+    @Override
+    public void show() {
+        System.out.println("you are in manage products by seller menu");
     }
 
     @Override

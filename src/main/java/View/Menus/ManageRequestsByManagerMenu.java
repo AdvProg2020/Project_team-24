@@ -11,13 +11,13 @@ public class ManageRequestsByManagerMenu extends Menu {
     private static ManageRequestsByManagerMenu menu;
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public ManageRequestsByManagerMenu(String name, Menu parentMenu) {
-        super(name, parentMenu);
+    public ManageRequestsByManagerMenu(String name) {
+        super(name);
     }
 
-    public static ManageRequestsByManagerMenu getInstance(String name, Menu parent) {
+    public static ManageRequestsByManagerMenu getInstance(String name) {
         if (menu == null) {
-            menu = new ManageRequestsByManagerMenu(name, parent);
+            menu = new ManageRequestsByManagerMenu(name);
         }
         return menu;
     }
