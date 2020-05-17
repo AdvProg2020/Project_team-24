@@ -65,9 +65,9 @@ class ManagerTest {
         }
         //request
         Request requestProduct = new Request(account1.getId(),"info","new",product1);
-        requestProduct.setId(1);
+        requestProduct.setRequestId(1);
         Request requestAuction = new Request(account1.getId(),"info","new",auction1);
-        requestAuction.setId(2);
+        requestAuction.setRequestId(2);
         List<Request> requestList = Arrays.asList(requestAuction,requestProduct);
         //discount code
         Discount discount2 = new Discount(50,100);
@@ -87,7 +87,7 @@ class ManagerTest {
         Category maincategory = new Category("hamechiz",productIds,fieldList,subCategoryids);
         maincategory.setCategoryId(2);
         List<Category> categoryList = Arrays.asList(maincategory);
-       // Category.setList(categoryList);
+        Category.setList(categoryList);
 
     }
 
@@ -109,7 +109,7 @@ class ManagerTest {
         Manager manager = (Manager) Account.getList().get(2);
         Product product = new Product("phashmak", null, null);
         Request requestProduct = new Request(account.getId(),"info","new",product);
-        requestProduct.setId(3);
+        requestProduct.setRequestId(3);
         assertDoesNotThrow(() -> manager.addToRequestList(requestProduct));
         assertTrue(Request.getList().contains(requestProduct));
 
@@ -123,7 +123,7 @@ class ManagerTest {
         Discount discount2 = new Discount(50,200);
         Auction auction = new Auction("haraje zemestane",LocalDate.parse("30/9/1379",formatter),LocalDate.parse("30/5/1379".formatted()),discount2);
         Request requestAuction = new Request(account.getId(),"info","new",auction);
-        requestAuction.setId(4);
+        requestAuction.setRequestId(4);
         assertDoesNotThrow(() -> manager.addToRequestList(requestAuction));
         assertTrue(Request.getList().contains(requestAuction));
 

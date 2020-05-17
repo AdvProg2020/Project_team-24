@@ -57,7 +57,7 @@ public class Request implements Packable<Request> {
 
     /*****************************************************setters*******************************************************/
 
-    private void setRequestId(long requestId) {
+    public void setRequestId(long requestId) {
         this.requestId = requestId;
     }
 

@@ -71,39 +71,71 @@ class CategoryTest {
         Category maincategory = new Category("hamechiz",productIds,fieldList,subcategoryids);
         maincategory.setCategoryId(2);
         List<Category> categoryList = Arrays.asList(maincategory);
-        //Category.setList(categoryList);
+        Category.setList(categoryList);
     }
 
     @Test
     void addToProductList() {
+        //check
+        Category category = Category.getList().get(0);
+        Product product = new Product("gorbe",category,null);
+        product.setProductId(3);
+        Category category2 = Category.getList().get(1);
+        assertDoesNotThrow(() -> category.addToProductList(product.getId()));
+
     }
 
     @Test
     void removeFromProductList() {
+        //?
     }
 
     @Test
     void addToSubCategoryList() {
+        Category category = Category.getList().get(1);
+        Category subcategory = new Category("pashmak",null,null,null);
+        subcategory.setCategoryId(3);
+       assertDoesNotThrow(() -> subcategory.addToSubCategoryList(category.getId()));
+       assertTrue(category.getSubCategories().contains(subcategory));
     }
 
     @Test
     void removeFromSubCategoryList() {
+        Category category = Category.getList().get(1);
+        Category subcategory = Category.getList().get(0);
+        assertDoesNotThrow(() -> category.removeFromSubCategoryList(subcategory.getId()));
+        assertFalse(category.getSubCategories().contains(subcategory));
+
     }
 
     @Test
     void addCategory() {
+        Category newcategory = new Category("pooshak",null,null,null);
+        newcategory.setCategoryId(4);
+        assertDoesNotThrow(() ->  Category.addCategory(newcategory) );
+        assertTrue(Category.getList().contains(newcategory));
+
     }
 
     @Test
     void removeCategory() {
+        Category category = Category.getList().get(0);
+        assertDoesNotThrow(() -> Category.removeCategory(category));
+        assertFalse(Category.getList().contains(category));
     }
 
     @Test
     void getCategoryById() {
+        Category categoryexpected = Category.getList().get(0);
+        Category categoryactual = assertDoesNotThrow(() ->  Category.getCategoryById(1));
+        assertEquals(categoryexpected,categoryactual);
     }
 
     @Test
     void editField() {
+        Category category= Category.getList().get(0);
+        assertDoesNotThrow(() -> category.editField("name","khorak"));
+        assertTrue(category.getName().equals("khorak"));
     }
 
     @Test
