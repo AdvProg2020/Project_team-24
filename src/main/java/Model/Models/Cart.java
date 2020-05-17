@@ -108,9 +108,10 @@ public class Cart implements Packable<Cart> {
                 .orElseThrow(() -> new CartDoesNotExistException("Cart with Id:" + id + "does not exist."));
     }
 
-    public static Cart autoCreateCart() {
-        long id = AddingNew.getRegisteringId().apply(getList());
-        return new Cart(id, new ArrayList<>(), new ArrayList<>());
+    public static Cart autoCreateCart() throws CanNotSaveToDataBaseException {
+        Cart cart = new Cart(AddingNew.getRegisteringId().apply(getList()), new ArrayList<>(), new ArrayList<>());
+        Cart.addCart(cart);
+        return cart;
     }
 
     /***************************************************packAndDpkg*****************************************************/

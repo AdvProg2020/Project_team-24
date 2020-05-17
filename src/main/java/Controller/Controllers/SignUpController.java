@@ -7,6 +7,7 @@ import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
+import Model.Models.Cart;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.FieldList;
 import Model.Models.Info;
@@ -104,7 +105,12 @@ public class SignUpController {
 
         account.setPersonalInfo(info);
 
-        if (account instanceof Manager || account instanceof Customer) {
+        if ( account instanceof Manager) {
+            Account.addAccount(account);
+        }
+
+        if ( account instanceof Customer) {
+            ((Customer) account).setCart(Cart.autoCreateCart());
             Account.addAccount(account);
         }
     }

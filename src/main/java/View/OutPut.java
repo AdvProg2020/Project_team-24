@@ -53,7 +53,7 @@ public class OutPut {
 
         } catch (Exception e) {
             System.out.println("exception accrued while running in command handler.");
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 

@@ -16,7 +16,7 @@ public class Customer extends Account {
 
     private double credit;
     private double totalPurchase;
-    private Cart cart = Cart.autoCreateCart();
+    private Cart cart;
     private List<Long> discountCodeList = new ArrayList<>();
     private List<Long> logHistoryList = new ArrayList<>();
 
