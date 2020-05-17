@@ -1,9 +1,18 @@
 package View.Menus;
 
+import Controller.Controllers.AccountController;
+import Controller.Controllers.AuctionController;
+import Exceptions.AuctionDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
+import Model.Models.Auction;
+import Model.Models.Product;
+
 import java.util.List;
 import java.util.Optional;
 
 public class AuctionsMenu extends Menu {
+
+    private static AuctionController auctionController = AuctionController.getInstance();
 
     private static AuctionsMenu menu;
 
@@ -23,7 +32,41 @@ public class AuctionsMenu extends Menu {
     }
 
     public void offs() {
-        //yac
+        List<Auction> auctionList = auctionController.offs();
+        auctionList.forEach(auction -> {
+
+            System.out.println(
+                    "AuctionName: " + auction.getAuctionName() + System.lineSeparator() +
+                            "End: " + auction.getEnd() + System.lineSeparator() +
+                            "Discount percent: " + auction.getDiscount().getPercent() + System.lineSeparator() +
+                            "Discount limit: " + auction.getDiscount().getAmount()
+            );
+
+            try {
+
+                List<Product> productList = auctionController.getProductOfAuction(auction.getId());
+                productList.forEach(product -> {
+
+                    System.out.println("ProductName: " + product.getProductName());
+
+                    product.getSellersOfProduct().forEach(productOfSeller -> {
+
+                        System.out.println(
+                                "Old price: " + productOfSeller.getPrice() + System.lineSeparator() +
+                                        "Price with discount: " + (productOfSeller.getPrice() - auction.getAuctionDiscount(productOfSeller.getPrice()))
+                        );
+
+                    });
+
+                });
+
+            } catch (AuctionDoesNotExistException e) {
+                System.out.println("Auction does not exist.");
+            } catch (ProductDoesNotExistException e) {
+                System.out.println("Product does not exist.");
+            }
+
+        });
     }
 
     public void showProduct(List<String> inputs) {

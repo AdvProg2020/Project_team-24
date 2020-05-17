@@ -34,8 +34,7 @@ public class AuctionController {
         return Auction.getList();
     }
 
-    public List<Product> getProductOfAuction(String auctionIdString) throws AuctionDoesNotExistException, ProductDoesNotExistException {
-        long auctionId = Long.parseLong(auctionIdString);
+    public List<Product> getProductOfAuction(long auctionId) throws AuctionDoesNotExistException, ProductDoesNotExistException {
         Auction auction = Auction.getAuctionById(auctionId);
         List<Product> list = new ArrayList<>();
         for (Long aLong : auction.getProductList()) {
