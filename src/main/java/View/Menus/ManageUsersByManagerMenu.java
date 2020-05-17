@@ -11,9 +11,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ManageUsersByManagerMenu extends Menu {
+
     private static ManageUsersByManagerMenu menu;
+
     private static ManagerController managerController = ManagerController.getInstance();
-    private static SignUpController signUpController = SignUpController.getInstance();
+
+    private static SignUpController signUpController = SignUpController.getInstance()
+
+    private static SignUpMenu signUpMenu  = (SignUpMenu) SignUpMenu.getMenu();
 
     private ManageUsersByManagerMenu(String name) {
         super(name);
@@ -50,7 +55,8 @@ public class ManageUsersByManagerMenu extends Menu {
 
     public void createManagerProfile() {
         Account account = null;
-        System.out.println("enter username");
+
+        System.out.println("enter username :");
         String username = scanner.nextLine();
         try {
            account= managerController.createManagerProfileBaseAccount(username);
@@ -60,7 +66,7 @@ public class ManageUsersByManagerMenu extends Menu {
             System.out.println("your username should be more than 6 character");
         }
 
-        System.out.println("enter password :");
+        System.out.println("enter a password :");
         String password = scanner.nextLine();
         try {
             signUpController.creatPassWordForAccount(account, password);
@@ -71,27 +77,7 @@ public class ManageUsersByManagerMenu extends Menu {
     }
 
     public void createPersonalInfo(Account account) {
-        System.out.println(
-                "Enter information in this pattern :" + System.lineSeparator() +
-                "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
-        );
-        Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
-        if (!matcher.find()) {
-            System.out.println("Incorrect format");
-        }
-        try {
-            SignUpController.getInstance().savePersonalInfo(account, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
-        } catch (FirstNameInvalidException  e) {
-            System.out.println("enter valid name");
-        } catch (EmailInvalidException e) {
-            System.out.println("enter valid email");
-        } catch (PhoneNumberInvalidException e) {
-            System.out.println("enter valid phone number");
-        } catch (LastNameInvalidException e) {
-            System.out.println("enter valid last name");
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace(); // Doesn't need to print something else.
-        }
+        signUpMenu.createPersonalInfo(account);
     }
 
     @Override

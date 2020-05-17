@@ -57,6 +57,11 @@ public class ProductController {
         return list;
     }
 
+    public Product getProductById(String productIdString) throws NumberFormatException, ProductDoesNotExistException {
+        long id = Long.parseLong(productIdString);
+        return Product.getProductById(id);
+    }
+
 //    public Seller selectSellerOfProduct(String sellerIdString) throws AccountDoesNotExistException, ThisSellerDoseNotSellChosenProduct, NumberFormatException {
 //        long sellerId = Long.parseLong(sellerIdString);
 //        Seller seller = (Seller) Seller.getAccountById(sellerId);
