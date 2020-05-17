@@ -107,7 +107,7 @@ public class ManageUsersByManagerMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("you are in manage user by manager menu");
+        System.out.println("you are in manage user by manager menu.");
     }
 
     @Override

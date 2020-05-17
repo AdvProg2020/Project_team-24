@@ -24,7 +24,6 @@ public class UserAreaMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in UserAreaMenu."));
     }
 
-
     public void openLoginMenu() {
         MenuHandler.setCurrentMenu(LogInMenu.getMenu());
     }

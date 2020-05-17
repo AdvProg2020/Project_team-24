@@ -30,6 +30,7 @@ public class ManageProductsByManagerMenu extends Menu {
         String id=inputs.get(0);
         try {
             managerController.removeProduct(id);
+            System.out.println("product removed.");
         } catch (ProductDoesNotExistException e) {
             System.out.println("this product does not exist");
         } catch (Exception e) {
@@ -39,7 +40,7 @@ public class ManageProductsByManagerMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("you are in manage products by manager menu");
+        System.out.println("you are in manage products by manager menu.");
     }
 
     @Override

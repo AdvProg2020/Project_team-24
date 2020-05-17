@@ -3,7 +3,6 @@ package View.Menus;
 import Controller.Controllers.ManagerController;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.FieldDoesNotExistException;
-import Exceptions.InvalidFieldToEdit;
 import Model.Models.DiscountCode;
 
 import java.util.List;

@@ -4,9 +4,7 @@ import Controller.Controllers.ProductController;
 import Exceptions.CanNotSaveToDataBaseException;
 import Exceptions.CannotRateException;
 import Exceptions.ProductDoesNotExistException;
-import Model.Models.Account;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -61,6 +61,7 @@ public class LogInMenu extends Menu {
             MenuHandler.setCurrentMenu(SellerMenu.getMenu());
         }
 
+        UserAreaMenu.getMenu().setParentMenu(MenuHandler.getCurrentMenu());
         MainMenu.getMenu().setParentMenu(MenuHandler.getCurrentMenu());
     }
 
