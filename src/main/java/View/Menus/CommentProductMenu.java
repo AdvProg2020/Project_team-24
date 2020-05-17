@@ -1,12 +1,20 @@
 package View.Menus;
 
+import Controller.Controllers.ProductController;
+import Exceptions.CanNotSaveToDataBaseException;
+import Exceptions.CannotRateException;
+import Exceptions.ProductDoesNotExistException;
+import Model.Models.Account;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommentProductMenu extends Menu {
 
     private static CommentProductMenu menu;
-
+    private static ProductController productController = ProductController.getInstance();
     private CommentProductMenu(String name) {
         super(name);
     }
@@ -22,10 +30,27 @@ public class CommentProductMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in CommentProductMenu."));
     }
 
-    public void addComment(List<String> inputs) {
-        String title = inputs.get(0);
-        String content = inputs.get(1);
-        // yac
+    public void addComment() {
+
+            System.out.println("Enter information in this pattern :" + System.lineSeparator() +
+                    "Title:[title of your comment] Content:[content of your comment]" + System.lineSeparator() +
+                    "exit : to finish."
+            );
+            String input = scanner.nextLine().trim();
+
+            Matcher matcher = Pattern.compile("Title:(.+) Content:(.+)").matcher(input);
+            if (!matcher.find()) {
+                System.out.println("Incorrect format");
+            }
+        try {
+            productController.addComment(matcher.group(1),matcher.group(2));
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        } catch (CannotRateException e) {
+            System.out.println("sorry you can not rate this");
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -38,7 +63,7 @@ public class CommentProductMenu extends Menu {
         super.help();
         System.out.println(
                 "addComment [title] [content] : To share your comment with us." + System.lineSeparator() +
-                "----------------------------------------------"
+                        "----------------------------------------------"
         );
     }
 }
