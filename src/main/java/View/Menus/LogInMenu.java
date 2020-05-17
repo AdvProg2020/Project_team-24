@@ -38,8 +38,7 @@ public class LogInMenu extends Menu {
         Account account = null;
 
         try {
-            account = LoginController.getInstance()
-                    .login(inputs.get(0), inputs.get(1));
+            account = LoginController.getInstance().login(inputs.get(0), inputs.get(1));
         } catch (AccountDoesNotExistException e) {
             System.out.println("account does not exist exception");
             return;
@@ -74,7 +73,7 @@ public class LogInMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
-                "login [username]: to login to your account" + System.lineSeparator() +
+                "login [username] [password]: to login to your account" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

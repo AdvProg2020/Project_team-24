@@ -37,6 +37,10 @@ public class SellerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in SellerMenu."));
     }
 
+    public void openMainMenu() {
+        MenuHandler.setCurrentMenu(MainMenu.getMenu());
+    }
+
     public void viewPersonalInfo() {
         System.out.println(sellerController.viewPersonalInfo());
         System.out.println(sellerController.viewCompanyInformation());

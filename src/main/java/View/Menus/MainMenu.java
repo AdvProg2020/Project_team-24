@@ -23,6 +23,10 @@ public class MainMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in MainMenu."));
     }
 
+    public void accountAccess() {
+        MenuHandler.setCurrentMenu(parentMenu);
+    }
+
     public void openProductsArea() {
         MenuHandler.setCurrentMenu(ProductsMenu.getMenu());
     }

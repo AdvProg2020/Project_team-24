@@ -135,6 +135,7 @@ public class OutPut {
     private void setMainMenuPattern() {
         mainMenu.addRegex("openProductsArea")
                 .addRegex("openAuctionsArea")
+                .addRegex("accountAccess")
                 .addRegex("exit")
                 .addRegex("back")
                 .addRegex("help")
@@ -144,6 +145,7 @@ public class OutPut {
     private void setMainMenuMethods() {
         mainMenu.addMethod("openProductsArea")
                 .addMethod("openAuctionsArea")
+                .addMethod("accountAccess")
                 .addMethod("exit")
                 .addMethod("back")
                 .addMethod("help");
@@ -165,7 +167,7 @@ public class OutPut {
     }
 
     private void setLogInMenuPattern() {
-        logInMenu.addRegex("login (\\w+)")
+        logInMenu.addRegex("login (\\w+) (\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
