@@ -124,11 +124,20 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.stateForPend = stateForPend;
     }
 
+    public void setNumberOfVisitors(long numberOfVisitors) {
+        this.numberOfVisitors = numberOfVisitors;
+    }
+
     public static void setList(List<Product> list) {
         Product.list = list;
     }
 
     /**************************************************addAndRemove*****************************************************/
+
+    public void increaseNumberOfVisitors() throws CanNotSaveToDataBaseException {
+        numberOfVisitors++;
+        DataBase.save(this);
+    }
 
     public void addComment(long commentId) throws CanNotSaveToDataBaseException {
         commentList.add(commentId);
