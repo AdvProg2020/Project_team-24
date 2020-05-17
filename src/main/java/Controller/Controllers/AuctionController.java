@@ -1,12 +1,15 @@
 package Controller.Controllers;
 
 import Controller.ControllerUnit;
+import Exceptions.AuctionDoesNotExistException;
 import Exceptions.IdOnlyContainsNumbersException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Auction;
 import Model.Models.Product;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AuctionController {
 
@@ -29,6 +32,17 @@ public class AuctionController {
 
     public List<Auction> offs() {
         return Auction.getList();
+    }
+
+    public List<Product> getProductOfAuction(String auctionIdString) throws AuctionDoesNotExistException, ProductDoesNotExistException {
+        long auctionId = Long.parseLong(auctionIdString);
+        Auction auction = Auction.getAuctionById(auctionId);
+        List<Product> list = new ArrayList<>();
+        for (Long aLong : auction.getProductList()) {
+            Product productById = Product.getProductById(aLong);
+            list.add(productById);
+        }
+        return list;
     }
 
     public Product showProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
