@@ -59,56 +59,67 @@ public class SignUpMenu extends Menu {
             System.out.println("choose valid password");
             return;
         }
-        createPersonalInfo(account);
-        if (inputs.get(0).equals("seller")) {
-            createCompanyInfo(account);
+        if (!createPersonalInfo(account)) return;
+        if (inputs.get(0).equals("Seller")) {
+            if (!createCompanyInfo(account)) return;
         }
         MenuHandler.setCurrentMenu(LogInMenu.getMenu());
     }
 
-    public void createPersonalInfo(Account account) {
+    public boolean createPersonalInfo(Account account) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
         );
         Matcher matcher = Pattern.compile("^PersonalInfo :(.+) :(.+) :(.+) :(.+)$").matcher(scanner.nextLine().trim());
         if (!matcher.find()) {
             System.out.println("Incorrect format");
-            return;
+            return false;
         }
         try {
             signUpController.savePersonalInfo(account, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
+            return true;
         } catch (FirstNameInvalidException e) {
             System.out.println("enter valid name");
+            return false;
         } catch (EmailInvalidException e) {
             System.out.println("enter valid email");
+            return false;
         } catch (PhoneNumberInvalidException e) {
             System.out.println("enter valid phone number");
+            return false;
         } catch (LastNameInvalidException e) {
             System.out.println("enter valid last name");
+            return false;
         } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace(); // Doesn't need to print something else.
+            return false;
         }
     }
 
-    public void createCompanyInfo(Account account) {
+    public boolean createCompanyInfo(Account account) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "CompanyInfo :[companyName] :[phoneNumber] :[email]"
         );
         Matcher matcher = Pattern.compile("^CompanyInfo :(.+) :(.+) :(.+)$").matcher(scanner.nextLine().trim());
         if (!matcher.find()) {
             System.out.println("Incorrect format");
-            return;
+            return false;
         }
         try {
             signUpController.saveCompanyInfo(account, matcher.group(1), matcher.group(2), matcher.group(3));
+            return true;
         } catch (CompanyNameInvalidException e) {
             System.out.println("enter valid characters for your company's name");
+            return false;
         } catch (EmailInvalidException e) {
             System.out.println("enter valid email");
+            return false;
         } catch (PhoneNumberInvalidException e) {
             System.out.println("enter valid phone number");
+            return false;
         } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace(); // Doesn't need to print something else.
+            return false;
         }
     }
 

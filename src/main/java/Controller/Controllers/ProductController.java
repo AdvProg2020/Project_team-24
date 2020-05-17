@@ -67,7 +67,7 @@ public class ProductController {
 //        return seller;
 //    }
 
-    public void addToCart(String sellerIdString) throws AcountHasNotLogedIn, ProductIsOutOfStockException, CanNotSaveToDataBaseException, ProductDoesNotExistException {
+    public void addToCart(String sellerIdString) throws AcountHasNotLogedIn, ProductIsOutOfStockException, CanNotSaveToDataBaseException, ProductDoesNotExistException, SellerDoesNotSellThisProduct {
         long sellerId = Long.parseLong(sellerIdString);
 
         if (controllerUnit.getAccount() instanceof Guest) {

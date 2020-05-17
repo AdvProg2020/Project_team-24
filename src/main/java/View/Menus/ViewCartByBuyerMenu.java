@@ -69,9 +69,11 @@ public class ViewCartByBuyerMenu extends Menu {
         } catch (ProductDoesNotExistException e) {
             System.out.println("product does not exist");
         } catch (ProductIsOutOfStockException e) {
-            System.out.println("sorry product is out of stock");
+            System.out.println("sorry the product is out of stock");
         } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
+        } catch (SellerDoesNotSellThisProduct sellerDoesNotSellThisProduct) {
+            System.out.println("seller with this id not found.");
         }
 
     }
@@ -94,6 +96,8 @@ public class ViewCartByBuyerMenu extends Menu {
             System.out.println(buyerController.showTotalPrice());
         } catch (ProductDoesNotExistException e) {
             System.out.println("product does not exist ");
+        } catch (SellerDoesNotSellThisProduct sellerDoesNotSellThisProduct) {
+            System.out.println("seller not found.");
         }
     }
 

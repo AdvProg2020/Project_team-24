@@ -7,12 +7,12 @@ import java.util.function.Supplier;
 public interface RegisterAndLoginValidator extends Supplier<RegisterAndLoginValidator.RegisterValidation> {
 
     static RegisterAndLoginValidator isFirstName(String name) {
-        return () -> name.matches("^([a-z A-Z])$")
+        return () -> name.matches("^([a-z A-Z]+)$")
                     ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_FIRST_NAME;
     }
 
     static RegisterAndLoginValidator isLastName(String name) {
-        return () -> name.matches("^([a-z A-Z])$")
+        return () -> name.matches("^([a-z A-Z]+)$")
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_LAST_NAME;
     }
 

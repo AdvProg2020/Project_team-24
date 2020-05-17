@@ -86,7 +86,7 @@ public class Cart implements Packable<Cart> {
         return productsId.stream().anyMatch(id -> productId == id);
     }
 
-    public double getTotalPrice() throws ProductDoesNotExistException {
+    public double getTotalPrice() throws ProductDoesNotExistException, SellerDoesNotSellThisProduct {
         double price = 0;
         for (int i = 0; i < productsId.size(); i++) {
             Product product = Product.getProductById(productsId.get(i));
@@ -95,7 +95,7 @@ public class Cart implements Packable<Cart> {
         return price;
     }
 
-    public double getTotalAuctionDiscount() throws ProductDoesNotExistException {
+    public double getTotalAuctionDiscount() throws ProductDoesNotExistException, SellerDoesNotSellThisProduct {
         double price = 0;
         for (int i = 0; i < productsId.size(); i++) {
             Product product = Product.getProductById(productsId.get(i));

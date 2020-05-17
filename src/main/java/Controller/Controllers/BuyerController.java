@@ -38,7 +38,7 @@ public class BuyerController extends AccountController {
         this.discountCodeEntered = discountCodeEntered;
     }
 
-    private void checkEnoughCredit() throws NotEnoughCreditException, ProductDoesNotExistException {
+    private void checkEnoughCredit() throws NotEnoughCreditException, ProductDoesNotExistException, SellerDoesNotSellThisProduct {
         double price = viewCart().getTotalPrice();
         if (discountCodeEntered != null) {
             price -= discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice());
@@ -58,7 +58,7 @@ public class BuyerController extends AccountController {
         ((SingleString) field).setString(value);
     }
 
-    private List<ProductLog> payment() throws AccountDoesNotExistException, ProductDoesNotExistException {
+    private List<ProductLog> payment() throws AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellThisProduct {
 
         customer.setCredit(customer.getCredit() - getTotalPriceWithDiscountCode());
 
@@ -87,7 +87,7 @@ public class BuyerController extends AccountController {
         }
     }
 
-    private double getTotalPriceWithDiscountCode() throws ProductDoesNotExistException {
+    private double getTotalPriceWithDiscountCode() throws ProductDoesNotExistException, SellerDoesNotSellThisProduct {
         double priceWithoutDiscount = viewCart().getTotalPrice();
         double discount = viewCart().getTotalAuctionDiscount();
         double price = priceWithoutDiscount - discount;
@@ -127,7 +127,7 @@ public class BuyerController extends AccountController {
         return list;
     }
 
-    public double showTotalPrice() throws ProductDoesNotExistException {
+    public double showTotalPrice() throws ProductDoesNotExistException, SellerDoesNotSellThisProduct {
         return customer.getCart().getTotalPrice();
     }
 
@@ -145,7 +145,7 @@ public class BuyerController extends AccountController {
         return Product.getProductById(productId);
     }
 
-    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CanNotSaveToDataBaseException, ProductDoesNotExistException, ProductIsOutOfStockException {
+    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CanNotSaveToDataBaseException, ProductDoesNotExistException, ProductIsOutOfStockException, SellerDoesNotSellThisProduct {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         this.checkCartForProductId(productId);
@@ -186,7 +186,7 @@ public class BuyerController extends AccountController {
         this.setDiscountCodeEntered(discountCode);
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException, ProductDoesNotExistException {
+    public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellThisProduct {
         this.checkEnoughCredit();
         List<ProductLog> productLogs = this.payment();
         LogHistory logHistory = new LogHistory(

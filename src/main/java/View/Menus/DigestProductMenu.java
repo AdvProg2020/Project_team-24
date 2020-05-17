@@ -46,6 +46,8 @@ public class DigestProductMenu extends Menu {
             e.printStackTrace();
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
+        } catch (SellerDoesNotSellThisProduct sellerDoesNotSellThisProduct) {
+            System.out.println("Seller with this id not found.");
         }
     }
 

@@ -66,6 +66,8 @@ public class PurchaseByBuyerMenu extends Menu {
             System.out.println("product does not exist");
         } catch (AccountDoesNotExistException e) {
             System.out.println("account does not exist");
+        } catch (SellerDoesNotSellThisProduct sellerDoesNotSellThisProduct) {
+            System.out.println("This seller not found.");
         }
     }
 

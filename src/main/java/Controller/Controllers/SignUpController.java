@@ -75,7 +75,7 @@ public class SignUpController {
         account.setPassword(password);
     }
 
-    public void savePersonalInfo(Account account, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, CanNotSaveToDataBaseException {
+    public void savePersonalInfo(Account account, String firstName, String lastName, String phoneNumber, String email) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, CanNotSaveToDataBaseException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isFirstName(firstName)
                 .and(RegisterAndLoginValidator.isLastName(lastName))
