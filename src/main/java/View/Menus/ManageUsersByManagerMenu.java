@@ -71,7 +71,8 @@ public class ManageUsersByManagerMenu extends Menu {
     }
 
     public void createPersonalInfo(Account account) {
-        System.out.println("Enter information in this pattern :" + System.lineSeparator() +
+        System.out.println(
+                "Enter information in this pattern :" + System.lineSeparator() +
                 "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
         );
         Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());

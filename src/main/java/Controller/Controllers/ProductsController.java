@@ -8,7 +8,6 @@ import Model.Models.Product;
 import Model.Models.Sorter;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ProductsController {
@@ -17,15 +16,15 @@ public class ProductsController {
 
     private enum SortElement {
 
-        TIME(Sorter.getTimeComparator(), "Sort by upload time"),
-        POINT(Sorter.getPointComparator(), "Sort by point"),
-        NUMBER_OF_VISITS(Sorter.getVisitorComparator(), "Sort by number of visitors"),
-        DEFAULT(Sorter.getDefaultComparator(), "default sort");
+        TIME(new Sorter(Sorter.getTimeComparator()),"Sort by upload time"),
+        POINT(new Sorter(Sorter.getPointComparator()),"Sort by point"),
+        NUMBER_OF_VISITS(new Sorter(Sorter.getVisitorComparator()),"Sort by number of visitors"),
+        DEFAULT(new Sorter(Sorter.getDefaultComparator()),"default sort");
 
-        Comparator<Product> sorter;
+        Sorter sorter;
         String info;
 
-        SortElement(Comparator<Product> sorter, String info) {
+        SortElement(Sorter sorter, String info) {
             this.sorter = sorter;
             this.info = info;
         }
@@ -34,7 +33,7 @@ public class ProductsController {
             return info;
         }
 
-        public Comparator<Product> getSorter() {
+        public Sorter getSorter() {
             return sorter;
         }
     }
@@ -98,13 +97,12 @@ public class ProductsController {
             default:
                 throw new NotAvailableSortException("this sort isn't an available Sort.");
         }
-        productList.sort(this.sortElement.getSorter());
+        this.sortElement.getSorter().sorted(productList);
         return productList;
     }
 
     public List<Product> disableSort() {
         sortElement = SortElement.NUMBER_OF_VISITS;
-        productList.sort(sortElement.getSorter());
         return productList;
     }
 

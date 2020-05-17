@@ -105,13 +105,13 @@ public class DataBase {
     /***************************************************otherMethods****************************************************/
 
     private static String getStringPath(String className) {
-        return String.format("src/main/resources/%s-src", (className.matches("^(Seller|Customer)$")) ? "Account" : className);
+        return String.format("src/main/resources/%s-src", (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className);
     }
 
     private static String getStringObjPath(Packable<?> packable) {
         String className  = packable.getClass().getSimpleName();
         return String.format("src/main/resources/%s-src/%d.json"
-                , (className.matches("^(Seller|Customer)$")) ? "Account" : className
+                , (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className
                 , packable.getId()
         );
     }

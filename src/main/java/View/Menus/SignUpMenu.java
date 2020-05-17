@@ -93,6 +93,7 @@ public class SignUpMenu extends Menu {
             Matcher matcher = Pattern.compile("^PersonalInfo :(.+) :(.+) :(.+) :(.+)$").matcher(input);
             if (!matcher.find()) {
                 System.out.println("Incorrect format");
+                continue;
             }
             try {
                 signUpController.savePersonalInfo(account, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
@@ -124,6 +125,7 @@ public class SignUpMenu extends Menu {
             Matcher matcher = Pattern.compile("^CompanyInfo :(.+) :(.+) :(.+)$").matcher(input);
             if (!matcher.find()) {
                 System.out.println("Incorrect format");
+                continue;
             }
             try {
                 signUpController.saveCompanyInfo(account, matcher.group(1), matcher.group(2), matcher.group(3));
