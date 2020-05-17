@@ -26,7 +26,7 @@ public class Score implements Packable<Score> {
 
     /*****************************************************setters*******************************************************/
 
-    private void setScoreId(long scoreId) {
+    public void setScoreId(long scoreId) {
         this.scoreId = scoreId;
     }
 
