@@ -1,7 +1,10 @@
 package View.Menus;
 
 import Controller.Controllers.ProductController;
+import Exceptions.CommentDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
 import Model.Models.Product;
+import View.MenuHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,24 +32,47 @@ public class ProductMenu extends Menu {
 
     public void digest() {
         Product currentProduct = productController.digest();
-        System.out.println("Name:"+currentProduct.getProductName());
-        System.out.println("Info:"+currentProduct.getProductInfo());
-        System.out.println("Sellers and Prices and NumbersOfThisProducts:"+currentProduct.getSellersOfProduct());
-        System.out.println("Auction:"+currentProduct.getAuction());
-        System.out.println("Category:"+currentProduct.getCategory());
-        System.out.println("AverageScore:" +currentProduct.getAverageScore());
+        System.out.println("Name:" + currentProduct.getProductName());
+        System.out.println("Info:" + currentProduct.getProductInfo());
+        System.out.println("Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct());
+        System.out.println("Auction:" + currentProduct.getAuction());
+        System.out.println("Category:" + currentProduct.getCategory());
+        MenuHandler.setCurrentMenu(DigestProductMenu.getMenu());
     }
 
     public void attributes() {
-        // yac
+        Product currentProduct = productController.digest();
+        System.out.println("Name:" + currentProduct.getProductName());
+        System.out.println("Info:" + currentProduct.getProductInfo());
+        System.out.println("Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct());
+        System.out.println("Auction:" + currentProduct.getAuction());
+        System.out.println("Category:" + currentProduct.getCategory());
+        System.out.println("CategoryInfo:" + currentProduct.getCategoryInfo());
+        System.out.println("Number Of Visitors:" + currentProduct.getNumberOfVisitors());
+        System.out.println("Number Of Buyers:" + currentProduct.getBuyerList().size());
+
     }
 
     public void compare(List<String> inputs) {
-        // yac
+        String id = inputs.get(0);
+        Product currentProduct = productController.digest();
+        try {
+            Product productToCompare = productController.getProductById(id);
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        }
+
     }
 
     public void Comments() {
-        // yac
+        try {
+            System.out.println("Comments:"+productController.viewComments());
+        } catch (CommentDoesNotExistException e) {
+            System.out.println("There is no comment");
+        }
+        Product currentProduct = productController.digest();
+        System.out.println("AverageScore:" + currentProduct.getAverageScore());
+        MenuHandler.setCurrentMenu(CommentProductMenu.getMenu());
     }
 
     public ProductMenu setProduct(Product product) {

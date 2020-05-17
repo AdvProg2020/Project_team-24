@@ -122,7 +122,7 @@ public class ManagerMenu extends Menu {
         System.out.println(
                 "openMainMenu:to open main menu" + System.lineSeparator() +
                         "viewPersonalInfo : To open manageInfo menu" + System.lineSeparator() +
-                        "openManageUsersMenu : To open users menu" + System.lineSeparator() +
+                        "openManageUsersMenu : To open users menu and view users " + System.lineSeparator() +
                         "openManageProductsMenu : To open products menu" + System.lineSeparator() +
                         "createDiscountCode : To create new discount code" + System.lineSeparator() +
                         "viewDiscountCode : To open discount code menu" + System.lineSeparator() +
