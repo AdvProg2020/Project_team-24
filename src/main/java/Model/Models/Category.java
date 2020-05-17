@@ -15,12 +15,6 @@ public class Category implements Packable<Category> {
 
     private static List<Category> list;
 
-    static {
-        list = DataBase.loadList("Category").stream()
-                .map(packable -> (Category) packable)
-                .collect(Collectors.toList());
-    }
-
     /*****************************************************fields*******************************************************/
 
     private long categoryId;

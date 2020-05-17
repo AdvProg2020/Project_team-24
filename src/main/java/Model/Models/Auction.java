@@ -18,12 +18,6 @@ public class Auction implements Packable<Auction>, ForPend {
     private static List<Auction> list;
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    static {
-        list = DataBase.loadList("Auction").stream()
-                .map(packable -> (Auction) packable)
-                .collect(Collectors.toList());
-    }
-
     /*****************************************************fields*******************************************************/
 
     private long auctionId;

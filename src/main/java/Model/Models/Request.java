@@ -15,12 +15,6 @@ public class Request implements Packable<Request> {
 
     private static List<Request> list;
 
-    static {
-        list = DataBase.loadList("Request").stream()
-                .map(packable -> (Request) packable)
-                .collect(Collectors.toList());
-    }
-
     /*****************************************************fields*******************************************************/
 
     private long requestId;
@@ -57,7 +51,7 @@ public class Request implements Packable<Request> {
 
     /*****************************************************setters*******************************************************/
 
-    private void setRequestId(long requestId) {
+    public void setRequestId(long requestId) {
         this.requestId = requestId;
     }
 

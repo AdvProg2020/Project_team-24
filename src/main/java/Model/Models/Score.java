@@ -17,12 +17,6 @@ public class Score implements Packable<Score> {
 
     private static List<Score> list;
 
-    static {
-        list = DataBase.loadList("Score").stream()
-                .map(packable -> (Score) packable)
-                .collect(Collectors.toList());
-    }
-
     /******************************************************fields*******************************************************/
 
     private long scoreId;

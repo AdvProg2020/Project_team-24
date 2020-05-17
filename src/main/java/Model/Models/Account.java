@@ -14,14 +14,6 @@ import java.util.stream.Collectors;
 
 public abstract class Account implements Packable<Account> {
 
-    protected static List<Account> list;
-
-    static {
-        list = DataBase.loadList("Account")
-                .stream().map(packable -> (Account) packable)
-                .collect(Collectors.toList());
-    }
-
     /***************************************************inRegistering***************************************************/
 
     protected static List<Account> inRegistering = new ArrayList<>();
@@ -47,6 +39,8 @@ public abstract class Account implements Packable<Account> {
     }
 
     /*****************************************************fields*******************************************************/
+
+    protected static List<Account> list;
 
     protected long id;
     protected String userName;
@@ -109,7 +103,7 @@ public abstract class Account implements Packable<Account> {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
-        this.personalInfo = (Info) data.getFields().get(2);
+        this.personalInfo = (Info) data.getFields().get(3);
         return this;
     }
 

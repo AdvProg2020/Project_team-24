@@ -16,12 +16,6 @@ public class LogHistory implements Packable<LogHistory> {
 
     private static List<LogHistory> list;
 
-    static {
-        list = DataBase.loadList("LogHistory").stream()
-                .map(packable -> (LogHistory) packable)
-                .collect(Collectors.toList());
-    }
-
     /*****************************************************fields*******************************************************/
 
     private long logId;

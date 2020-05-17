@@ -15,12 +15,6 @@ public class Cart implements Packable<Cart> {
 
     private static List<Cart> list;
 
-    static {
-        list = DataBase.loadList("Cart").stream()
-                .map(packable -> (Cart) packable)
-                .collect(Collectors.toList());
-    }
-
     /*****************************************************fields*******************************************************/
 
     private long id;

@@ -1,5 +1,6 @@
 package View;
 
+import Model.ModelUnit;
 import View.Menus.*;
 
 import java.util.Scanner;
@@ -7,7 +8,7 @@ import java.util.Scanner;
 public class MenuHandler {
 
     private static Menu currentMenu = UserAreaMenu.getInstance("userAreaMenu");
-
+    private static ModelUnit modelUnit = ModelUnit.getInstance();
     private static Scanner scanner = new Scanner(System.in);
 
     private static void initMenus() {
@@ -45,6 +46,7 @@ public class MenuHandler {
 
     public static void main(String[] args) {
         InPut input = new InPut();
+        modelUnit.preprocess_loadLists();
         OutPut outPut = OutPut.getInstance();
         initMenus();
         input.start(outPut);

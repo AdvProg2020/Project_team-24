@@ -19,11 +19,13 @@ public class DataBase {
 
     private static YaGson yaGson = new YaGson();
 
-    public static List<Packable<?>> loadList(String classSimpleName) {
+    public static List<Packable<?>> loadList(Class<?> clazz) {
+
+        String classSimpleName = clazz.getSimpleName();
 
         List<Packable<?>> list = new ArrayList<>();
 
-        try (Stream<Path> pathStream = Files.walk(Path.of(getStringPath(classSimpleName)))) {
+        try (Stream<Path> pathStream = Files.walk(Path.of(getStringPath(classSimpleName))).filter(Files::isRegularFile)) {
 
             Stream<String> stringStream = pathStream.map(path -> {
                 try {
@@ -103,7 +105,7 @@ public class DataBase {
     /***************************************************otherMethods****************************************************/
 
     private static String getStringPath(String className) {
-        return String.format("src/main/resources/%s-src", className);
+        return String.format("src/main/resources/%s-src", (className.matches("^(Seller|Customer)$")) ? "Account" : className);
     }
 
     private static String getStringObjPath(Packable<?> packable) {

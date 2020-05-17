@@ -20,12 +20,6 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    static {
-        list = DataBase.loadList("DiscountCode").stream()
-                .map(packable -> (DiscountCode) packable)
-                .collect(Collectors.toList());
-    }
-
     /*****************************************************fields*******************************************************/
 
     private long id;

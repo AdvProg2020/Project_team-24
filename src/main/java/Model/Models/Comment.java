@@ -14,12 +14,6 @@ public class Comment implements Packable<Comment> {
 
     private static List<Comment> list;
 
-    static {
-        list = DataBase.loadList("Comment").stream()
-                .map(packable -> (Comment) packable)
-                .collect(Collectors.toList());
-    }
-
     /*****************************************************fields*******************************************************/
 
     private long commentId;

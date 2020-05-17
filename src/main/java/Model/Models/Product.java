@@ -16,12 +16,6 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     private static List<Product> list;
 
-    static {
-        list = DataBase.loadList("Product").stream()
-                .map(packable -> (Product) packable)
-                .collect(Collectors.toList());
-    }
-
     /*****************************************************fields*******************************************************/
 
     private long productId;
