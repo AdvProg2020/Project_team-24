@@ -132,6 +132,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         Product.list = list;
     }
 
+
     /**************************************************addAndRemove*****************************************************/
 
     public void increaseNumberOfVisitors() throws CanNotSaveToDataBaseException {
