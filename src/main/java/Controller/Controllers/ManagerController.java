@@ -59,18 +59,18 @@ public class ManagerController extends AccountController {
         return Account.getAccountByUserName(username);
     }
 
-    public void deleteAccount(String username) throws AccountDoesNotExistException, CanNotRemoveFromDataBase, CanNotDeleteException {
+    public void deleteAccount(String username) throws AccountDoesNotExistException, CanNotRemoveFromDataBase {
         Account account = Account.getAccountByUserName(username);
         Account.deleteAccount(account);
     }
 
-    public void removeProduct(String strProductId) throws CanNotRemoveException, CanNotRemoveFromDataBase, ProductDoesNotExistException {
+    public void removeProduct(String strProductId) throws CanNotRemoveFromDataBase, ProductDoesNotExistException {
         long productId = Long.parseLong(strProductId);
         Product product = Product.getProductById(productId);
         Product.removeProduct(product);
     }
 
-    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws CanNotAddException, IOException, CanNotSaveToDataBaseException, InvalidStartAndEndDateForDiscountCodeException {
+    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws CanNotSaveToDataBaseException, InvalidStartAndEndDateForDiscountCodeException {
 
         LocalDate start = LocalDate.parse(strStart, formatter);
         LocalDate end = LocalDate.parse(strEnd, formatter);

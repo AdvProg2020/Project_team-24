@@ -4,6 +4,7 @@ import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
 import Exceptions.AccountDoesNotExistException;
 import Model.Models.Account;
+import Model.Models.Field.Fields.SingleString;
 import View.MenuHandler;
 
 import java.time.format.DateTimeFormatter;
@@ -42,7 +43,19 @@ public class ManagerMenu extends Menu {
     }
 
     public void openManageUsersMenu() {
-        System.out.println(managerController.viewAllAccounts());
+        managerController.viewAllAccounts().forEach(account -> {
+            System.out.println("----------------------------------------------");
+            System.out.println(
+                    "account id: " + account.getId() + System.lineSeparator() +
+                            "account username: " + account.getUserName()
+            );
+            account.getPersonalInfo().getList().getFieldList().forEach(field -> {
+                System.out.println(
+                        field.getFieldName() + ": " + ((SingleString) field).getString()
+                );
+            });
+            System.out.println("----------------------------------------------");
+        });
         MenuHandler.setCurrentMenu(ManageUsersByManagerMenu.getMenu());
     }
 
@@ -109,7 +122,7 @@ public class ManagerMenu extends Menu {
         System.out.println(
                 "openMainMenu:to open main menu" + System.lineSeparator() +
                         "viewPersonalInfo : To open manageInfo menu" + System.lineSeparator() +
-                        "openManageUsersMenu : To open users menu" + System.lineSeparator() +
+                        "openManageUsersMenu : To open users menu and view users " + System.lineSeparator() +
                         "openManageProductsMenu : To open products menu" + System.lineSeparator() +
                         "createDiscountCode : To create new discount code" + System.lineSeparator() +
                         "viewDiscountCode : To open discount code menu" + System.lineSeparator() +

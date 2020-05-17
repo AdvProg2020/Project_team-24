@@ -122,7 +122,7 @@ public class SellerController extends AccountController {
         return new Auction(auctionName, start, end, discount);
     }
 
-    private void newRequest(ForPend forPend, String information) throws CanNotAddException, IOException, CanNotSaveToDataBaseException {
+    private void newRequest(ForPend forPend, String information) throws CanNotSaveToDataBaseException {
         Request request = new Request(seller.getId(), information, "new" + forPend.getClass().getSimpleName(), forPend);
         Request.addRequest(request);
     }

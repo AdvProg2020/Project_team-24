@@ -11,6 +11,7 @@ public class OutPut {
     private MainMenu mainMenu = MainMenu.getInstance("mainMenu");
     private UserAreaMenu userAreaMenu = UserAreaMenu.getInstance("userAreaMenu");
     private AuctionsMenu auctionsMenu = AuctionsMenu.getInstance("auctionsMenu");
+    private SignUpMenu signUpMenu = SignUpMenu.getInstance("signUpMenu");
     private BuyerMenu buyerMenu = BuyerMenu.getInstance("buyerMenu");
     private CommentProductMenu commentProductMenu = CommentProductMenu.getInstance("commentProductMenu");
     private DigestProductMenu digestProductMenu = DigestProductMenu.getInstance("digestProductMenu");
@@ -27,7 +28,6 @@ public class OutPut {
     private ProductsMenu productsMenu = ProductsMenu.getInstance("productsMenu");
     private PurchaseByBuyerMenu purchaseByBuyerMenu = PurchaseByBuyerMenu.getInstance("purchaseByBuyerMenu");
     private SellerMenu sellerMenu = SellerMenu.getInstance("sellerMenu");
-    private SignUpMenu signUpMenu = SignUpMenu.getInstance("signUpMenu");
     private SortingProductsMenu sortingProductsMenu = SortingProductsMenu.getInstance("sortingProductsMenu");
     private ViewCartByBuyerMenu viewCartByBuyerMenu = ViewCartByBuyerMenu.getInstance("viewCartByBuyerMenu");
     private ViewDiscountCodesByManagerMenu viewDiscountCodesByManagerMenu = ViewDiscountCodesByManagerMenu.getInstance("viewDiscountCodesByManagerMenu");
@@ -221,8 +221,8 @@ public class OutPut {
     }
 
     private void setManagerUsersByManagerMenuMethod() {
-        manageUsersByManagerMenu.addMethod("view (\\w+)")
-                .addMethod("deleteUser (\\w+)")
+        manageUsersByManagerMenu.addMethod("view")
+                .addMethod("deleteUser")
                 .addMethod("createManagerProfile")
                 .addMethod("exit")
                 .addMethod("help")
