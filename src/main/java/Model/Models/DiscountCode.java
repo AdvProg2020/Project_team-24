@@ -92,7 +92,7 @@ public class DiscountCode implements Packable<DiscountCode> {
         this.frequentUse = frequentUse;
     }
 
-    private void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
