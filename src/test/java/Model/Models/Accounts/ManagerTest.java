@@ -87,7 +87,7 @@ class ManagerTest {
         Category maincategory = new Category("hamechiz",productIds,fieldList,subCategoryids);
         maincategory.setCategoryId(2);
         List<Category> categoryList = Arrays.asList(maincategory);
-       // Category.setList(categoryList);
+        Category.setList(categoryList);
 
     }
 

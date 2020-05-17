@@ -1,12 +1,13 @@
 package Model.Models;
 
+import Controller.Controllers.BuyerController;
 import Exceptions.CanNotSaveToDataBaseException;
-import Exceptions.ProductDoesNotExistException;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
+import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
-import Model.Models.Structs.ProductOfSeller;
+import Model.Models.Structs.ProductLog;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductTest {
-
+class CommentTest {
     @BeforeEach
     void setAccountsToTest() {
         Account account1 = new Seller("usernameSeller");
@@ -56,44 +56,44 @@ class ProductTest {
         }
         List<Product> listOfProducts = Arrays.asList(product1, product2);
         Product.setList(listOfProducts);
+        //buyer
+        Customer customer = (Customer) account2;
+        ProductLog productLog = new ProductLog(1,"aftabe",20,0,0);
+        List<ProductLog> productsinlog = Arrays.asList(productLog);
+        //loghistory
+        LogHistory logHistory = new LogHistory(40,0,0,null,productsinlog);
+        logHistory.setLogId(1);
+        customer.addToLogHistoryList(logHistory.getId());
+        //Comment
+        List<Field> fields = Arrays.asList(new SingleString("Title", "dar bareye aftabe"), new SingleString("Content", "mahsoole khaili khob va karbordi bood ,100 darsad pishnahad mishe"));
+        FieldList fieldList = new FieldList(fields);
+        Comment comment = new Comment(null,1,1,fieldList);
+        comment.setCommentId(1);
+        Comment.getList().add(comment);
+    }
+
+
+    @Test
+    void addComment() {
+        List<Field> fields = Arrays.asList(new SingleString("Title", "dar bareye aftabe"), new SingleString("Content", "mahsoole khaili khob va karbordi bood ,100 darsad pishnahad mishe"));
+        FieldList fieldList = new FieldList(fields);
+        Comment comment = new Comment(null,1,1,fieldList);
+        assertDoesNotThrow(() ->Comment.addComment(comment));
+        assertTrue(Comment.getList().contains(comment));
     }
 
     @Test
-    void editField() {
-        Product product = Product.getList().get(0);
-        assertDoesNotThrow(() -> product.editField("productName","jafari"));
-        assertTrue(product.getProductName().equals("jafari"));
+    void removeComment() {
+        Comment comment = Comment.getList().get(0);
+        assertDoesNotThrow(() -> Comment.removeComment(comment));
+        assertFalse(Comment.getList().contains(comment));
     }
 
     @Test
-    void getProductById() {
-        Product productexpected = Product.getList().get(0);
-        Product productactual = assertDoesNotThrow(() -> Product.getProductById(1));
-        assertEquals(productexpected,productactual);
-    }
-
-    @Test
-    void checkExistOfProductById1() {
-        List<Long> productIds = null;
-        for (Product product: Product.getList()) {
-            productIds.add(product.getId());
-        }
-        assertThrows(ProductDoesNotExistException.class,() -> Product.checkExistOfProductById(100,productIds,null));
-    }
-    @Test
-    void checkExistOfProductById2() {
-        List<Long> productIds = null;
-        for (Product product: Product.getList()) {
-            productIds.add(product.getId());
-        }
-        assertDoesNotThrow(() ->Product.checkExistOfProductById(1,productIds,null));
-    }
-
-    @Test
-    void getProductOfSellerById() {
-       double priceactual = assertDoesNotThrow(() -> Product.getList().get(0).getProductOfSellerById(1)).getPrice();
-       double priceexcpected = 20;
-       assertEquals(priceexcpected,priceactual);
+    void getCommentById() {
+        Comment commentexpected = Comment.getList().get(0);
+        Comment commentactual = assertDoesNotThrow(() -> Comment.getCommentById(1));
+        assertEquals(commentexpected,commentactual);
     }
 
     @Test
@@ -103,5 +103,4 @@ class ProductTest {
     @Test
     void dpkg() {
     }
-
 }
