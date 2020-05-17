@@ -75,7 +75,7 @@ public class SignUpController {
         account.setPassword(password);
     }
 
-    public void savePersonalInfo(Account account, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException {
+    public void savePersonalInfo(Account account, String firstName, String lastName, String email, String phoneNumber) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, CanNotSaveToDataBaseException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isFirstName(firstName)
                 .and(RegisterAndLoginValidator.isLastName(lastName))
@@ -103,9 +103,13 @@ public class SignUpController {
         Info info = new Info(account.getClass().getSimpleName(), personalInfo, LocalDate.now());
 
         account.setPersonalInfo(info);
+
+        if (account instanceof Manager || account instanceof Customer) {
+            Account.addAccount(account);
+        }
     }
 
-    public void saveCompanyInfo(Account account, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException {
+    public void saveCompanyInfo(Account account, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, CanNotSaveToDataBaseException {
 
 //        if (!(account instanceof Seller)) { NOT REQUIRED.
 //            throw new YouAreNotASellerToSaveCompanyInfoException("YouAreNotASellerToSaveCompanyInfoException");
@@ -133,6 +137,8 @@ public class SignUpController {
         Info info = new Info(account.getClass().getSimpleName(), companyInfo, LocalDate.now());
 
         account.setPersonalInfo(info);
+
+        Account.addAccount(account);
     }
 
     /****************************************************singleTone*****************************************************/

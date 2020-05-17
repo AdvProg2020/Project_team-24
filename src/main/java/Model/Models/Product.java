@@ -234,7 +234,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         }
     }
 
-    public ProductOfSeller getPriceOfSellerById(long sellerId) {
+    public ProductOfSeller getProductOfSellerById(long sellerId) {
         return SellersOfProduct.stream()
                 .filter(productOfSeller -> sellerId == productOfSeller.getSellerId())
                 .findFirst()

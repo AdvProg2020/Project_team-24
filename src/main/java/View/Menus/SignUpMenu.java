@@ -37,14 +37,19 @@ public class SignUpMenu extends Menu {
             account = signUpController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
         } catch (UserNameInvalidException e) {
             System.out.println("enter valid username");
+            return;
         } catch (TypeInvalidException e) {
             System.out.println("choose valid type");
+            return;
         } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
-            System.out.println("the principal manager is sogol just she can make a new manager not you:|");
+            System.out.println("the principal manager is 'Sogol' just she can make a new manager not you:| Qre: Chet mige ... Yac: :(");
+            return;
         } catch (UserNameTooShortException e) {
             System.out.println("your username is too short");
+            return;
         } catch (ThisUserNameAlreadyExistsException e) {
             System.out.println("this user name already exist.");
+            return;
         }
         System.out.println("enter a password :");
         String password = scanner.nextLine();
@@ -52,6 +57,7 @@ public class SignUpMenu extends Menu {
             signUpController.creatPassWordForAccount(account, password);
         } catch (PasswordInvalidException e) {
             System.out.println("choose valid password");
+            return;
         }
         createPersonalInfo(account);
         if (inputs.get(0).equals("seller")) {
@@ -64,12 +70,13 @@ public class SignUpMenu extends Menu {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "PersonalInfo :[firstName] :[lastName] :[phoneNumber] :[email]"
         );
-        Matcher matcher = Pattern.compile("PersonalInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
+        Matcher matcher = Pattern.compile("^PersonalInfo :(.+) :(.+) :(.+) :(.+)$").matcher(scanner.nextLine().trim());
         if (!matcher.find()) {
             System.out.println("Incorrect format");
+            return;
         }
         try {
-            signUpController.savePersonalInfo(account, matcher.group(0), matcher.group(1), matcher.group(2), matcher.group(3));
+            signUpController.savePersonalInfo(account, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
         } catch (FirstNameInvalidException e) {
             System.out.println("enter valid name");
         } catch (EmailInvalidException e) {
@@ -78,25 +85,30 @@ public class SignUpMenu extends Menu {
             System.out.println("enter valid phone number");
         } catch (LastNameInvalidException e) {
             System.out.println("enter valid last name");
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace(); // Doesn't need to print something else.
         }
     }
 
     public void createCompanyInfo(Account account) {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
-                "CompanyInfo :[companyName] :[email] :[phoneNumber] :[foundation]"
+                "CompanyInfo :[companyName] :[phoneNumber] :[email]"
         );
-        Matcher matcher = Pattern.compile("CompanyInfo :(\\w+) :(\\w+) :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
+        Matcher matcher = Pattern.compile("^CompanyInfo :(.+) :(.+) :(.+)$").matcher(scanner.nextLine().trim());
         if (!matcher.find()) {
             System.out.println("Incorrect format");
+            return;
         }
         try {
-            signUpController.saveCompanyInfo(account, matcher.group(0), matcher.group(1), matcher.group(2));
+            signUpController.saveCompanyInfo(account, matcher.group(1), matcher.group(2), matcher.group(3));
         } catch (CompanyNameInvalidException e) {
             System.out.println("enter valid characters for your company's name");
         } catch (EmailInvalidException e) {
             System.out.println("enter valid email");
         } catch (PhoneNumberInvalidException e) {
             System.out.println("enter valid phone number");
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace(); // Doesn't need to print something else.
         }
     }
 

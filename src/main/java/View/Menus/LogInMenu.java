@@ -42,13 +42,18 @@ public class LogInMenu extends Menu {
                     .login(inputs.get(0), inputs.get(1));
         } catch (AccountDoesNotExistException e) {
             System.out.println("account does not exist exception");
+            return;
         } catch (PassIncorrectException e) {
             System.out.println("password is not correct");
+            return;
         } catch (UserNameInvalidException e) {
             System.out.println("username is not valid");
+            return;
         } catch (UserNameTooShortException e) {
             System.out.println("username is too short");
+            return;
         }
+
         if (account instanceof Manager) {
             MenuHandler.setCurrentMenu(ManagerMenu.getMenu());
         } else if (account instanceof Customer) {
@@ -57,17 +62,7 @@ public class LogInMenu extends Menu {
             MenuHandler.setCurrentMenu(SellerMenu.getMenu());
         }
 
-
-//
-//        //MainMenu.getMenu().removeSubMenu(GuestMenu.getMenu());
-//        if (account instanceof Manager) {
-//            MainMenu.getMenu().addSubMenu(ManagerMenu.getMenu());
-//        } else if (account instanceof Customer) {
-//            MainMenu.getMenu().addSubMenu(BuyerMenu.getMenu());
-//        } else if (account instanceof Seller) {
-//            MainMenu.getMenu().addSubMenu(SellerMenu.getMenu());
-//        }
-//        MenuHandler.setCurrentMenu(MainMenu.getMenu());
+        MainMenu.getMenu().setParentMenu(MenuHandler.getCurrentMenu());
     }
 
     @Override

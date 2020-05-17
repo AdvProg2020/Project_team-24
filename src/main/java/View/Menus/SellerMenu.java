@@ -3,6 +3,7 @@ package View.Menus;
 import Controller.Controllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
+import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Field.Field;
 import Model.Models.Product;
@@ -47,7 +48,11 @@ public class SellerMenu extends Menu {
     }
 
     public void viewSalesHistory() {
-        System.out.println(sellerController.viewSalesHistory());
+        try {
+            System.out.println(sellerController.viewSalesHistory());
+        } catch (LogHistoryDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
     public void manageProducts() {

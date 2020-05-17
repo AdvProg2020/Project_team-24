@@ -1,10 +1,7 @@
 package View.Menus;
 
 import Controller.Controllers.ProductController;
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.AcountHasNotLogedIn;
-import Exceptions.CanNotSaveToDataBaseException;
-import Exceptions.ProductIsOutOfStockException;
+import Exceptions.*;
 import View.MenuHandler;
 
 import java.util.List;
@@ -45,14 +42,12 @@ public class DigestProductMenu extends Menu {
             MenuHandler.setCurrentMenu(LogInMenu.getMenu());
         } catch (ProductIsOutOfStockException e) {
             System.out.println("product is out of stock");
-        } catch (CloneNotSupportedException | CanNotSaveToDataBaseException e) {
+        } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("account does not exist");;
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
         }
     }
-
-
 
     @Override
     public void show() {

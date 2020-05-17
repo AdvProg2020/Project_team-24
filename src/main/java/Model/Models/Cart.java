@@ -90,7 +90,7 @@ public class Cart implements Packable<Cart> {
         double price = 0;
         for (int i = 0; i < productsId.size(); i++) {
             Product product = Product.getProductById(productsId.get(i));
-            price += product.getPriceOfSellerById(sellersId.get(i)).getPrice();
+            price += product.getProductOfSellerById(sellersId.get(i)).getPrice();
         }
         return price;
     }
@@ -101,7 +101,7 @@ public class Cart implements Packable<Cart> {
             Product product = Product.getProductById(productsId.get(i));
             Auction auction = product.getAuction();
             if (auction != null) {
-                price += auction.getAuctionDiscount(product.getPriceOfSellerById(sellersId.get(i)).getPrice());
+                price += auction.getAuctionDiscount(product.getProductOfSellerById(sellersId.get(i)).getPrice());
             }
         }
         return price;

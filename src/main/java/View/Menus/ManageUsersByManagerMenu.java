@@ -88,6 +88,8 @@ public class ManageUsersByManagerMenu extends Menu {
             System.out.println("enter valid phone number");
         } catch (LastNameInvalidException e) {
             System.out.println("enter valid last name");
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace(); // Doesn't need to print something else.
         }
     }
 

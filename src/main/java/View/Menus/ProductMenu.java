@@ -31,7 +31,7 @@ public class ProductMenu extends Menu {
         Product currentProduct = productController.digest();
         System.out.println("Name:"+currentProduct.getProductName());
         System.out.println("Info:"+currentProduct.getProductInfo());
-        System.out.println("Sellers and Prices and NumbersOfThisProducts:"+currentProduct.getProductOfSellers());
+        System.out.println("Sellers and Prices and NumbersOfThisProducts:"+currentProduct.getSellersOfProduct());
         System.out.println("Auction:"+currentProduct.getAuction());
         System.out.println("Category:"+currentProduct.getCategory());
         System.out.println("AverageScore:" +currentProduct.getAverageScore());

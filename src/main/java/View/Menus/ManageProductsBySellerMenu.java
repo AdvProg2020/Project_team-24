@@ -2,10 +2,7 @@ package View.Menus;
 
 
 import Controller.Controllers.SellerController;
-import Exceptions.AuctionDoesNotExistException;
-import Exceptions.CategoryDoesNotExistException;
-import Exceptions.FieldDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +45,8 @@ public class ManageProductsBySellerMenu extends Menu {
             });
         } catch (ProductDoesNotExistException e) {
             System.out.println("product does not exist");
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
         }
     }
 

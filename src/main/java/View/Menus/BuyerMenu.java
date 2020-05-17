@@ -2,6 +2,8 @@ package View.Menus;
 
 import Controller.Controllers.BuyerController;
 import Controller.Controllers.ManagerController;
+import Exceptions.DiscountCodeExpiredException;
+import Exceptions.LogHistoryDoesNotExistException;
 import View.MenuHandler;
 
 import java.util.Optional;
@@ -37,7 +39,11 @@ public class BuyerMenu extends Menu {
     }
 
     public void viewOrders() {
-        System.out.println(buyerController.viewOrders());
+        try {
+            System.out.println(buyerController.viewOrders());
+        } catch (LogHistoryDoesNotExistException e) {
+            e.printStackTrace();
+        }
         MenuHandler.setCurrentMenu(ViewOrdersByBuyerMenu.getMenu());
     }
 
@@ -46,11 +52,15 @@ public class BuyerMenu extends Menu {
     }
 
     public void viewDiscountCodes() {
-        buyerController.viewDiscountCodes().forEach(discountCode -> {
-            System.out.println(
-                    discountCode.getDiscountCode() + " : " + discountCode.getDiscount().getPercent() + " " + discountCode.getDiscount().getAmount()
-            );
-        });
+        try {
+            buyerController.viewDiscountCodes().forEach(discountCode -> {
+                System.out.println(
+                        discountCode.getDiscountCode() + " : " + discountCode.getDiscount().getPercent() + " " + discountCode.getDiscount().getAmount()
+                );
+            });
+        } catch (DiscountCodeExpiredException e) {
+            e.printStackTrace();
+        }
     }
 
 

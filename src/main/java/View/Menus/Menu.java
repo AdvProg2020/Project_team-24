@@ -50,7 +50,7 @@ public abstract class Menu {
         } else {
             Method method = currentMenu.getClass().getMethod(name, List.class);
             List<String> inputs = new ArrayList<>();
-            for (int i = 0; i < matcher.groupCount(); i++) {
+            for (int i = 1; i <= matcher.groupCount(); i++) {
                 inputs.add(matcher.group(i));
             }
             method.invoke(currentMenu, inputs);
@@ -58,7 +58,7 @@ public abstract class Menu {
     }
 
     public void setPatterns() {
-        patternList = regexList.stream().map(Pattern::compile).collect(Collectors.toList());
+        patternList = regexList.stream().map(rgx -> "^" + rgx + "$").map(Pattern::compile).collect(Collectors.toList());
     }
 
     public Menu addSubMenu(Menu subMenu) {

@@ -70,7 +70,7 @@ public class BuyerController extends AccountController {
             Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
             Product product = listOfProduct.get(i);
 
-            double productPrice = product.getPriceOfSellerById(listOfSellers.get(i)).getPrice();
+            double productPrice = product.getProductOfSellerById(listOfSellers.get(i)).getPrice();
             double productAuctionAmount = product.getAuction().getAuctionDiscount(productPrice);
             double productFinalPrice = productPrice - productAuctionAmount;
 
@@ -149,7 +149,7 @@ public class BuyerController extends AccountController {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         this.checkCartForProductId(productId);
-        if (Product.getProductById(productId).getPriceOfSellerById(sellerId).getNumber() <= 0) {
+        if (Product.getProductById(productId).getProductOfSellerById(sellerId).getNumber() <= 0) {
             throw new ProductIsOutOfStockException("Product is out of stock. You can't increase number of the order whit id:" + productIdString + " .");
         } else {
             customer.addToCart(productId, sellerId);

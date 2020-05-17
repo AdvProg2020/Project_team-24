@@ -8,31 +8,31 @@ public class OutPut {
 
     private static OutPut outPut = new OutPut();
 
-    private static MainMenu mainMenu = MainMenu.getInstance("mainMenu");
-    private static UserAreaMenu userAreaMenu = UserAreaMenu.getInstance("userAreaMenu");
-    private static AuctionsMenu auctionsMenu = AuctionsMenu.getInstance("auctionsMenu");
-    private static BuyerMenu buyerMenu = BuyerMenu.getInstance("buyerMenu");
-    private static CommentProductMenu commentProductMenu = CommentProductMenu.getInstance("commentProductMenu");
-    private static DigestProductMenu digestProductMenu = DigestProductMenu.getInstance("digestProductMenu");
-    private static FilteringProductsMenu filteringProductsMenu = FilteringProductsMenu.getInstance("filteringProductsMenu");
-    private static LogInMenu logInMenu = LogInMenu.getInstance("logInMenu");
-    private static ManageCategoriesByManagerMenu manageCategoriesByManagerMenu = ManageCategoriesByManagerMenu.getInstance("manageCategoriesByManagerMenu");
-    private static ManageInfoMenu manageInfoMenu = ManageInfoMenu.getInstance("manageInfoMenu");
-    private static ManageProductsByManagerMenu manageProductsByManagerMenu = ManageProductsByManagerMenu.getInstance("manageProductsByManagerMenu");
-    private static ManageProductsBySellerMenu manageProductsBySellerMenu = ManageProductsBySellerMenu.getInstance("manageProductsBySellerMenu");
-    private static ManageRequestsByManagerMenu manageRequestsByManagerMenu = ManageRequestsByManagerMenu.getInstance("manageRequestsByManagerMenu");
-    private static ManagerMenu managerMenu = ManagerMenu.getInstance("ManagerMenu");
-    private static ManageUsersByManagerMenu manageUsersByManagerMenu = ManageUsersByManagerMenu.getInstance("manageUsersByManagerMenu");
-    private static ProductMenu productMenu = ProductMenu.getInstance("productMenu");
-    private static ProductsMenu productsMenu = ProductsMenu.getInstance("productsMenu");
-    private static PurchaseByBuyerMenu purchaseByBuyerMenu = PurchaseByBuyerMenu.getInstance("purchaseByBuyerMenu");
-    private static SellerMenu sellerMenu = SellerMenu.getInstance("sellerMenu");
-    private static SignUpMenu signUpMenu = SignUpMenu.getInstance("signUpMenu");
-    private static SortingProductsMenu sortingProductsMenu = SortingProductsMenu.getInstance("sortingProductsMenu");
-    private static ViewCartByBuyerMenu viewCartByBuyerMenu = ViewCartByBuyerMenu.getInstance("viewCartByBuyerMenu");
-    private static ViewDiscountCodesByManagerMenu viewDiscountCodesByManagerMenu = ViewDiscountCodesByManagerMenu.getInstance("viewDiscountCodesByManagerMenu");
-    private static ViewOffsBySellerMenu viewOffsBySellerMenu = ViewOffsBySellerMenu.getInstance("viewOffsBySellerMenu");
-    private static ViewOrdersByBuyerMenu viewOrdersByBuyerMenu = ViewOrdersByBuyerMenu.getInstance("viewOrdersByBuyerMenu");
+    private MainMenu mainMenu = MainMenu.getInstance("mainMenu");
+    private UserAreaMenu userAreaMenu = UserAreaMenu.getInstance("userAreaMenu");
+    private AuctionsMenu auctionsMenu = AuctionsMenu.getInstance("auctionsMenu");
+    private BuyerMenu buyerMenu = BuyerMenu.getInstance("buyerMenu");
+    private CommentProductMenu commentProductMenu = CommentProductMenu.getInstance("commentProductMenu");
+    private DigestProductMenu digestProductMenu = DigestProductMenu.getInstance("digestProductMenu");
+    private FilteringProductsMenu filteringProductsMenu = FilteringProductsMenu.getInstance("filteringProductsMenu");
+    private LogInMenu logInMenu = LogInMenu.getInstance("logInMenu");
+    private ManageCategoriesByManagerMenu manageCategoriesByManagerMenu = ManageCategoriesByManagerMenu.getInstance("manageCategoriesByManagerMenu");
+    private ManageInfoMenu manageInfoMenu = ManageInfoMenu.getInstance("manageInfoMenu");
+    private ManageProductsByManagerMenu manageProductsByManagerMenu = ManageProductsByManagerMenu.getInstance("manageProductsByManagerMenu");
+    private ManageProductsBySellerMenu manageProductsBySellerMenu = ManageProductsBySellerMenu.getInstance("manageProductsBySellerMenu");
+    private ManageRequestsByManagerMenu manageRequestsByManagerMenu = ManageRequestsByManagerMenu.getInstance("manageRequestsByManagerMenu");
+    private ManagerMenu managerMenu = ManagerMenu.getInstance("ManagerMenu");
+    private ManageUsersByManagerMenu manageUsersByManagerMenu = ManageUsersByManagerMenu.getInstance("manageUsersByManagerMenu");
+    private ProductMenu productMenu = ProductMenu.getInstance("productMenu");
+    private ProductsMenu productsMenu = ProductsMenu.getInstance("productsMenu");
+    private PurchaseByBuyerMenu purchaseByBuyerMenu = PurchaseByBuyerMenu.getInstance("purchaseByBuyerMenu");
+    private SellerMenu sellerMenu = SellerMenu.getInstance("sellerMenu");
+    private SignUpMenu signUpMenu = SignUpMenu.getInstance("signUpMenu");
+    private SortingProductsMenu sortingProductsMenu = SortingProductsMenu.getInstance("sortingProductsMenu");
+    private ViewCartByBuyerMenu viewCartByBuyerMenu = ViewCartByBuyerMenu.getInstance("viewCartByBuyerMenu");
+    private ViewDiscountCodesByManagerMenu viewDiscountCodesByManagerMenu = ViewDiscountCodesByManagerMenu.getInstance("viewDiscountCodesByManagerMenu");
+    private ViewOffsBySellerMenu viewOffsBySellerMenu = ViewOffsBySellerMenu.getInstance("viewOffsBySellerMenu");
+    private ViewOrdersByBuyerMenu viewOrdersByBuyerMenu = ViewOrdersByBuyerMenu.getInstance("viewOrdersByBuyerMenu");
 
     public static OutPut getInstance() {
         return outPut;
@@ -150,7 +150,7 @@ public class OutPut {
     }
 
     public void setSignUpPatterns() {
-        signUpMenu.addRegex("create account (\\w+) (\\w+)")
+        signUpMenu.addRegex("createAccount (\\w+) (\\w+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")

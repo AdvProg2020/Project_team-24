@@ -68,12 +68,6 @@ public class Category implements Packable<Category> {
     public static List<Category> getList() {
         return Collections.unmodifiableList(list);
     }
-    //yac
-
-
-    public static void setList(List<Category> list) {
-        Category.list = list;
-    }
 
     /**************************************************addAndRemove*****************************************************/
 

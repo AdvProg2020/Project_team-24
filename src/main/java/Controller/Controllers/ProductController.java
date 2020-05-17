@@ -9,15 +9,11 @@ import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.ProductOfSeller;
-import Model.Tools.AddingNew;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class ProductController {
 
@@ -80,7 +76,7 @@ public class ProductController {
 
         Customer customer = (Customer) controllerUnit.getAccount();
 
-        if (Product.getProductById(controllerUnit.getProduct().getId()).getPriceOfSellerById(sellerId).getNumber() <= 0) {
+        if (Product.getProductById(controllerUnit.getProduct().getId()).getProductOfSellerById(sellerId).getNumber() <= 0) {
             throw new ProductIsOutOfStockException("Product is out of stock.");
         }
         customer.getCart().addProductToCart(sellerId, controllerUnit.getProduct().getId());
