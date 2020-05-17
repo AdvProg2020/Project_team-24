@@ -19,6 +19,10 @@ public class FieldList {
         return fieldList;
     }
 
+    public void setFieldList(List<Field> fieldList) {
+        this.fieldList = fieldList;
+    }
+
     /**************************************************addAndRemove*****************************************************/
 
     public FieldList removeField(Field field) throws CanNotRemoveException {
