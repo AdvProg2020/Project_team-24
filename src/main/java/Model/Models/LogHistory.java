@@ -67,7 +67,7 @@ public class LogHistory implements Packable<LogHistory> {
 
     /*****************************************************setters*******************************************************/
 
-    private void setLogId(long logId) {
+    public void setLogId(long logId) {
         this.logId = logId;
     }
 

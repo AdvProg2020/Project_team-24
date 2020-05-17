@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.CanNotSaveToDataBaseException;
 import Exceptions.CartDoesNotExistException;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
@@ -36,25 +37,41 @@ class CartTest {
         });
         Account.setList(accountList);
         //product
-        //!!price set kardan(avali = 50 t/dovomi = 10 t)
-        //!!set id for products
         List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null),new Product("mahtabi",null,null));
+        listOfProducts.get(0).setProductId(1);
+        listOfProducts.get(1).setProductId(2);
         Product.setList(listOfProducts);
+        List<Long> productIds  = null;
+        for (Product product:listOfProducts) {
+            productIds.add(product.getId());
+        }
         //sellers of products
-        List<Seller> sellersOfProduct1 =  Arrays.asList(account3,account4);
-        List<Seller> sellersOfProduct2 = Arrays.asList(account4);
-        listOfProducts.get(0).setSellerList(sellersOfProduct1);
-        listOfProducts.get(1).setSellerList(sellersOfProduct2);
+        try {
+            listOfProducts.get(0).addSeller(account3.getId(),50,3);
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace();
+        }
+        try {
+            listOfProducts.get(0).addSeller(account4.getId(),50,3);
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            listOfProducts.get(1).addSeller(account4.getId(),10,6);
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace();
+        }
         //adding to cart
         //selecting sellers
         List<Long> sellersChosenid = Arrays.asList(account3.getId(),account3.getId());
-        Cart cart = new Cart(1,sellersChosenid,listOfProducts);
+        Cart cart = new Cart(1,sellersChosenid,productIds);
         account1.setCart(cart);
         //Auction
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Discount discount1 = new Discount(50,200);
         Auction auction1 = new Auction("haraje zemestane",LocalDate.parse("30/9/1379",formatter),LocalDate.parse("30/5/1379".formatted()),discount1);
-        auction1.setProductList(listOfProducts);
+        auction1.setProductList(productIds);
         List<Auction> auctionList = Arrays.asList(auction1);
         for(Auction auction : Auction.getList()){
             auction.setAuctionId(AddingNew.getRegisteringId().apply(accountList));
@@ -87,7 +104,7 @@ class CartTest {
         Customer customer = (Customer) Account.getList().get(0);
         Cart cart = customer.getCart();
         Double totelPrice = Double.valueOf(60);
-        assertTrue(cart.getTotalPrice()== totelPrice);
+        assertTrue(assertDoesNotThrow(() -> cart.getTotalPrice()== totelPrice));
     }
 
     @Test

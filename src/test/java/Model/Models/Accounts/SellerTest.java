@@ -40,17 +40,17 @@ class SellerTest {
     @Test
     void addToLogHistoryList() {
         Seller seller = (Seller) Account.getList().get(0);
-        LogHistory logHistory = new LogHistory(1,0,0,0,null,null);
-        seller.addToLogHistoryList(logHistory);
+        LogHistory logHistory = new LogHistory(1,0,0,null,null);
+        seller.addToLogHistoryList(logHistory.getId());
         assertTrue(seller.getLogHistoryList().contains(logHistory));
     }
 
     @Test
     void removeFromLogHistoryList() {
         Seller seller = (Seller) Account.getList().get(0);
-        LogHistory logHistory = new LogHistory(1,0,0,0,null,null);
-        seller.addToLogHistoryList(logHistory);
-        seller.removeFromLogHistoryList(logHistory);
+        LogHistory logHistory = new LogHistory(1,0,0,null,null);
+        seller.addToLogHistoryList(logHistory.getId());
+        seller.removeFromLogHistoryList(logHistory.getId());
         assertFalse(seller.getLogHistoryList().contains(logHistory));
     }
 

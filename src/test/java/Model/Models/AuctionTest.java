@@ -2,6 +2,7 @@ package Model.Models;
 
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.AuctionDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
 import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,12 +21,16 @@ public class AuctionTest {
     @BeforeAll
     void setAccountsToTest(){
         List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null),new Product("mahtabi",null,null));
+        List<Long> productIds  = null;
+        for (Product product:listOfProducts) {
+            productIds.add(product.getId());
+        }
         Discount discount1 = new Discount(30,100);
         Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount1);
-        auction1.setProductList(listOfProducts);
+        auction1.setProductList(productIds);
         Discount discount2 = new Discount(50,200);
         Auction auction2 = new Auction("haraje zemestane",LocalDate.parse("30/9/1379",formatter),LocalDate.parse("30/5/1379".formatted()),discount2);
-        auction2.setProductList(listOfProducts);
+        auction2.setProductList(productIds);
         List<Auction> testList = Arrays.asList(auction1,auction2);
         for(Auction auction : Auction.getList()){
             auction.setAuctionId(AddingNew.getRegisteringId().apply(testList));
@@ -54,16 +59,20 @@ public class AuctionTest {
     void addProductToAuction() {
         Product product = new Product("cheraghe nafti",null,null);
         Auction auction = Auction.getList().get(1);
-        assertDoesNotThrow(() -> auction.addProductToAuction(product));
+        assertDoesNotThrow(() -> auction.addProductToAuction(product.getId()));
         assertTrue(auction.getProductList().contains(product));
     }
 
     @Test
     void removeProductFromAuction() {
         Auction auction = Auction.getList().get(1);
-        Product product = auction.getProductList().get(0);
-        assertDoesNotThrow(() -> auction.removeProductFromAuction(product));
-        assertFalse(auction.getProductList().contains(product));
+       Long productid = auction.getProductList().get(0);
+        assertDoesNotThrow(() -> auction.removeProductFromAuction(productid));
+        try {
+            assertFalse(auction.getProductList().contains(Product.getProductById(productid)));
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -78,12 +87,6 @@ public class AuctionTest {
 
     }
 
-    @Test
-    void getAuctionByName1() {
-        Auction auction = Auction.getList().get(0);
-        Auction auctionTest = assertDoesNotThrow(() -> Auction.getAuctionByName("haraje tabestane"));
-        assertEquals(auction, auctionTest);
-    }
     @Test
     void getAuctionByName2() {
         assertThrows(AccountDoesNotExistException.class, () -> Account.getAccountByUserName("mammad"), "This id not exist in all account list.");

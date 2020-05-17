@@ -44,19 +44,23 @@ class CustomerTest {
     Product product2 = new Product("laak", null, null);
     List<Product> listOfProducts = Arrays.asList(product1, product2);
     Product.setList(listOfProducts);
+    List<Long> productIds = null;
+        for (Product product:listOfProducts) {
+            productIds.add(product.getId());
+        }
     //cart
     Customer customer = (Customer) account2;
     Cart cart = ((Customer) account2).getCart();
     //discount code
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     Discount discount2 = new Discount(50,100);
-    DiscountCode discountCode = new DiscountCode(1,"2431380",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount2,2,accountList);
+    DiscountCode discountCode = new DiscountCode("2431380",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount2,2);
     List<DiscountCode> discountList = Arrays.asList(discountCode);
         DiscountCode.setList(discountList);
     //auctions
     Discount discount1 = new Discount(30,100);
     Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount1);
-    auction1.setProductList(listOfProducts);
+    auction1.setProductList(productIds);
     List<Auction> auctionList = Arrays.asList(auction1);
     for(Auction auction : Auction.getList()){
         auction.setAuctionId(AddingNew.getRegisteringId().apply(auctionList));
@@ -68,7 +72,7 @@ class CustomerTest {
     void addToCart() {
         Customer customer = (Customer) Account.getList().get(1);
         Product product = Product.getList().get(0);
-        List<Long> sellerIds = product.getProductOfSellers().stream().map(productOfSeller -> productOfSeller.getSellerId()).collect(Collectors.toList());
+        List<Long> sellerIds = product.getSellersOfProduct().stream().map(productOfSeller -> productOfSeller.getSellerId()).collect(Collectors.toList());
         assertDoesNotThrow(() -> customer.addToCart(product.getId(),sellerIds.get(0)));
         assertTrue(customer.getCart().getProductList().contains(product));
     }
@@ -77,7 +81,7 @@ class CustomerTest {
     void removeFromCart() {
         Customer customer = (Customer) Account.getList().get(1);
         Product product = Product.getList().get(0);
-        List<Long> sellerIds = product.getProductOfSellers().stream().map(productOfSeller -> productOfSeller.getSellerId()).collect(Collectors.toList());
+        List<Long> sellerIds = product.getSellersOfProduct().stream().map(productOfSeller -> productOfSeller.getSellerId()).collect(Collectors.toList());
         assertDoesNotThrow(() -> customer.addToCart(product.getId(),sellerIds.get(0)));
         assertDoesNotThrow(() -> customer.removeFromCart(product.getId(),sellerIds.get(0)));
         assertFalse(customer.getCart().getProductList().contains(product));
@@ -88,8 +92,9 @@ class CustomerTest {
         Customer customer = (Customer) Account.getList().get(1);
         Field field = new Field(customer.getUserName());
         FieldList fieldList = (FieldList) Arrays.asList(field);
-        LogHistory logHistory = new LogHistory(1,0,0,0,fieldList,null);
-        customer.addToLogHistoryList(logHistory);
+        LogHistory logHistory = new LogHistory(1,0,0,fieldList,null);
+        logHistory.setLogId(1);
+        customer.addToLogHistoryList(1);
         assertTrue(customer.getLogHistoryList().contains(logHistory));
     }
 
@@ -98,8 +103,9 @@ class CustomerTest {
         Customer customer = (Customer) Account.getList().get(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Discount discount = new Discount(50,100);
-        DiscountCode discountCode = new DiscountCode(2,"2431380",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount,2,Arrays.asList(customer));
-        customer.addToDiscountCodeList(discountCode);
+        DiscountCode discountCode = new DiscountCode("2431380",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount,2);
+        discountCode.setId(4);
+        customer.addToDiscountCodeList(4);
         assertTrue(customer.getDiscountCodeList().contains(discountCode));
     }
 
@@ -108,9 +114,10 @@ class CustomerTest {
         Customer customer = (Customer) Account.getList().get(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Discount discount = new Discount(50,100);
-        DiscountCode discountCode = new DiscountCode(2,"243138323230",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount,2,Arrays.asList(customer));
-        customer.addToDiscountCodeList(discountCode);
-        customer.removeFromDiscountCodeList(discountCode);
+        DiscountCode discountCode = new DiscountCode("243138323230",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount,2);
+        discountCode.setId(4);
+        customer.addToDiscountCodeList(4);
+        customer.removeFromDiscountCodeList(4);
         assertFalse(customer.getDiscountCodeList().contains(discountCode));
     }
 

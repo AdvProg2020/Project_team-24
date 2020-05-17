@@ -39,7 +39,7 @@ public class Category implements Packable<Category> {
         this.name = name;
     }
 
-    private void setCategoryId(long categoryId) {
+    public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
 

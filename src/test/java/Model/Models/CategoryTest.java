@@ -1,12 +1,11 @@
 package Model.Models;
 
 import Exceptions.CanNotSaveToDataBaseException;
-import Exceptions.ProductDoesNotExistException;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
+import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
-import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ProductTest {
+class CategoryTest {
     @BeforeEach
     void setAccountsToTest() {
         Account account1 = new Seller("usernameSeller");
@@ -36,9 +35,9 @@ class ProductTest {
             account.setId(AddingNew.getRegisteringId().apply(testList));
         });
         Account.setList(testList);
-        //seller
+        //Seller
         Seller seller = (Seller) account1;
-        //products
+       //product
         Product product1 = new Product("aftabe", null, null);
         product1.setProductId(1);
         try {
@@ -55,44 +54,56 @@ class ProductTest {
         }
         List<Product> listOfProducts = Arrays.asList(product1, product2);
         Product.setList(listOfProducts);
+        List<Long> productIds  = null;
+        for (Product product:listOfProducts) {
+            productIds.add(product.getId());
+        }
+
+        //category
+        Field field1 = new Field("rang");
+        Field field2 = new Field("size");
+        Field field3 = new Field("jens");
+        FieldList fieldList = (FieldList) Arrays.asList(field1,field2,field3);
+        Category subcategory = new Category("khertopert",productIds,null,null);
+        subcategory.setCategoryId(1);
+        List<Category> subcategorylist = Arrays.asList(subcategory);
+        List<Long> subcategoryids = Arrays.asList(subcategory.getId());
+        Category maincategory = new Category("hamechiz",productIds,fieldList,subcategoryids);
+        maincategory.setCategoryId(2);
+        List<Category> categoryList = Arrays.asList(maincategory);
+        //Category.setList(categoryList);
+    }
+
+    @Test
+    void addToProductList() {
+    }
+
+    @Test
+    void removeFromProductList() {
+    }
+
+    @Test
+    void addToSubCategoryList() {
+    }
+
+    @Test
+    void removeFromSubCategoryList() {
+    }
+
+    @Test
+    void addCategory() {
+    }
+
+    @Test
+    void removeCategory() {
+    }
+
+    @Test
+    void getCategoryById() {
     }
 
     @Test
     void editField() {
-        Product product = Product.getList().get(0);
-        assertDoesNotThrow(() -> product.editField("productName","jafari"));
-        assertTrue(product.getProductName().equals("jafari"));
-    }
-
-    @Test
-    void getProductById() {
-        Product productexpected = Product.getList().get(0);
-        Product productactual = assertDoesNotThrow(() -> Product.getProductById(1));
-        assertEquals(productexpected,productactual);
-    }
-
-    @Test
-    void checkExistOfProductById1() {
-        List<Long> productIds = null;
-        for (Product product: Product.getList()) {
-            productIds.add(product.getId());
-        }
-        assertThrows(ProductDoesNotExistException.class,() -> Product.checkExistOfProductById(100,productIds,null));
-    }
-    @Test
-    void checkExistOfProductById2() {
-        List<Long> productIds = null;
-        for (Product product: Product.getList()) {
-            productIds.add(product.getId());
-        }
-        assertDoesNotThrow(() ->Product.checkExistOfProductById(1,productIds,null));
-    }
-
-    @Test
-    void getProductOfSellerById() {
-       double priceactual = assertDoesNotThrow(() -> Product.getList().get(0).getProductOfSellerById(1)).getPrice();
-       double priceexcpected = 20;
-       assertEquals(priceexcpected,priceactual);
     }
 
     @Test

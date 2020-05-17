@@ -57,6 +57,10 @@ public class Request implements Packable<Request> {
     //yac
 
 
+    public void setId(long accountId) {
+        this.accountId = accountId;
+    }
+
     public static void setList(List<Request> list) {
         Request.list = list;
     }
