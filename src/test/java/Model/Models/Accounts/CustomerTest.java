@@ -124,7 +124,7 @@ class CustomerTest {
     @Test
     void editField() {
         Customer customer = (Customer) Account.getList().get(0);
-        assertDoesNotThrow(() -> customer.editField("password","to be or not to be , that is the question"));
+        assertDoesNotThrow(() -> customer.editField("passdword","to be or not to be , that is the question"));
         assertTrue(customer.getPassword().equals("sale!!!"));
     }
 

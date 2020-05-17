@@ -234,11 +234,11 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         }
     }
 
-    public ProductOfSeller getPriceOfSellerById(long sellerId) {
+    public ProductOfSeller getProductOfSellerById(long sellerId) throws SellerDoesNotSellThisProduct {
         return SellersOfProduct.stream()
                 .filter(productOfSeller -> sellerId == productOfSeller.getSellerId())
                 .findFirst()
-                .orElseThrow(); // need new exception.
+                .orElseThrow(() -> new SellerDoesNotSellThisProduct("this seller does not sell the remaining product"));
     }
 
     /***************************************************packAndDpkg*****************************************************/
