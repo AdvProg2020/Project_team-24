@@ -16,7 +16,7 @@ public class ManageUsersByManagerMenu extends Menu {
 
     private static ManagerController managerController = ManagerController.getInstance();
 
-    private static SignUpController signUpController = SignUpController.getInstance()
+    private static SignUpController signUpController = SignUpController.getInstance();
 
     private static SignUpMenu signUpMenu  = (SignUpMenu) SignUpMenu.getMenu();
 
@@ -88,7 +88,7 @@ public class ManageUsersByManagerMenu extends Menu {
     @Override
     public void help() {
         super.help();
-        System.out.println("manageUsers" + System.lineSeparator() +
+        System.out.println(
                 "view [username]:to view account" + System.lineSeparator() +
                 "deleteUser [username]:to delete an user" + System.lineSeparator() +
                 "createManagerProfile");

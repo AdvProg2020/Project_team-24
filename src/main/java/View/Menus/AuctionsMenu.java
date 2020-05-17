@@ -70,7 +70,12 @@ public class AuctionsMenu extends Menu {
     }
 
     public void showProduct(List<String> inputs) {
-        //yac
+        String id =inputs.get(0);
+        try {
+            auctionController.showProduct(id);
+        } catch (ProductDoesNotExistException e) {
+            System.out.println("product does not exist");
+        }
     }
 
     @Override
