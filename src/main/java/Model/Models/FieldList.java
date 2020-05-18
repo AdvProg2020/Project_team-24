@@ -1,6 +1,5 @@
 package Model.Models;
 
-import Exceptions.CanNotRemoveException;
 import Exceptions.FieldDoesNotExistException;
 import Model.Models.Field.Field;
 
@@ -24,7 +23,7 @@ public class FieldList {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public FieldList removeField(Field field) throws CanNotRemoveException {
+    public FieldList removeField(Field field) {
         fieldList.remove(field);
         return this;
     }
@@ -38,7 +37,9 @@ public class FieldList {
         return fieldList.stream()
                 .filter(field -> name.equals(field.getFieldName()))
                 .findFirst()
-                .orElseThrow(() -> new FieldDoesNotExistException(name + " is not exist."));
+                .orElseThrow(() -> new FieldDoesNotExistException(
+                        "Field with the name:" + name + " doesn't exist."
+                ));
     }
 
     public boolean isFieldWithThisName(String name) {

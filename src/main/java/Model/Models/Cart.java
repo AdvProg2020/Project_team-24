@@ -5,6 +5,8 @@ import Model.DataBase.DataBase;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,9 +14,9 @@ import java.util.List;
 
 public class Cart implements Packable<Cart> {
 
-    private static List<Cart> list;
-
     /*****************************************************fields*******************************************************/
+
+    private static List<Cart> list;
 
     private long id;
     private List<Long> sellersId;
@@ -34,6 +36,8 @@ public class Cart implements Packable<Cart> {
         return Collections.unmodifiableList(sellersId);
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Cart> getList() {
         return Collections.unmodifiableList(list);
     }
@@ -50,25 +54,25 @@ public class Cart implements Packable<Cart> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addProductToCart(long sellerId, long productId) throws CanNotSaveToDataBaseException {
+    public void addProductToCart(long sellerId, long productId) {
         sellersId.add(sellerId);
         productsId.add(productId);
         DataBase.save(this);
     }
 
-    public void removeProductFromCart(long sellerId, long productId) throws CanNotSaveToDataBaseException {
+    public void removeProductFromCart(long sellerId, long productId) {
         sellersId.remove(sellerId);
         productsId.remove(productId);
         DataBase.save(this);
     }
 
-    public static void addCart(Cart cart) throws CanNotSaveToDataBaseException {
+    public static void addCart(@NotNull Cart cart) {
         cart.setId(AddingNew.getRegisteringId().apply(getList()));
         list.add(cart);
         DataBase.save(cart, true);
     }
 
-    public static void removeCart(Cart cart) throws CanNotRemoveFromDataBase {
+    public static void removeCart(Cart cart) {
         list.remove(cart);
         DataBase.remove(cart);
     }
@@ -104,10 +108,13 @@ public class Cart implements Packable<Cart> {
         return list.stream()
                 .filter(cart -> id == cart.getId())
                 .findFirst()
-                .orElseThrow(() -> new CartDoesNotExistException("Cart with Id:" + id + "does not exist."));
+                .orElseThrow(() -> new CartDoesNotExistException(
+                        "Cart with the id:" + id + "does not exist in list of all carts."
+                ));
     }
 
-    public static Cart autoCreateCart() throws CanNotSaveToDataBaseException {
+    @NotNull
+    public static Cart autoCreateCart() {
         Cart cart = new Cart(AddingNew.getRegisteringId().apply(getList()), new ArrayList<>(), new ArrayList<>());
         Cart.addCart(cart);
         return cart;
@@ -125,7 +132,7 @@ public class Cart implements Packable<Cart> {
     }
 
     @Override
-    public Cart dpkg(Data<Cart> data) {
+    public Cart dpkg(@NotNull Data<Cart> data) {
         this.id = (long) data.getFields().get(0);
         this.productsId = (List<Long>) data.getFields().get(1);
         this.sellersId  = (List<Long>) data.getFields().get(2);

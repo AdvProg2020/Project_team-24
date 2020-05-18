@@ -5,16 +5,17 @@ import Model.DataBase.DataBase;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Comment implements Packable<Comment> {
 
-    private static List<Comment> list;
-
     /*****************************************************fields*******************************************************/
+
+    private static List<Comment> list;
 
     private long commentId;
     private String pendStatus;
@@ -46,6 +47,8 @@ public class Comment implements Packable<Comment> {
         return userId;
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Comment> getList() {
         return Collections.unmodifiableList(list);
     }
@@ -62,13 +65,13 @@ public class Comment implements Packable<Comment> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addComment(Comment comment) throws CanNotSaveToDataBaseException {
+    public static void addComment(@NotNull Comment comment) {
         comment.setCommentId(AddingNew.getRegisteringId().apply(Comment.getList()));
         list.add(comment);
         DataBase.save(comment, true);
     }
 
-    public static void removeComment(Comment comment) throws  CanNotRemoveFromDataBase {
+    public static void removeComment(Comment comment) {
         list.remove(comment);
         DataBase.remove(comment);
     }
@@ -79,7 +82,9 @@ public class Comment implements Packable<Comment> {
         return list.stream()
                 .filter(comment -> id == comment.getId())
                 .findFirst()
-                .orElseThrow(() -> new CommentDoesNotExistException(" CommentDoesNotExistException"));
+                .orElseThrow(() -> new CommentDoesNotExistException(
+                        "Comment whit the id:" + id + " does not exist in list of all comments."
+                ));
     }
 
     /***************************************************packAndDpkg*****************************************************/
@@ -96,7 +101,7 @@ public class Comment implements Packable<Comment> {
     }
 
     @Override
-    public Comment dpkg(Data<Comment> data) {
+    public Comment dpkg(@NotNull Data<Comment> data) {
         this.commentId = (long) data.getFields().get(0);
         this.pendStatus = (String) data.getFields().get(1);
         this.userId = (long) data.getFields().get(2);

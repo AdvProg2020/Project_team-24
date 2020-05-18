@@ -8,14 +8,16 @@ import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class Product implements Packable<Product>, ForPend, Cloneable {
 
-    private static List<Product> list;
-
     /*****************************************************fields*******************************************************/
+
+    private static List<Product> list;
 
     private long productId;
     private String productName;
@@ -81,6 +83,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return Collections.unmodifiableList(commentList);
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Product> getList() {
         return Collections.unmodifiableList(list);
     }
@@ -131,55 +135,54 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         Product.list = list;
     }
 
-
     /**************************************************addAndRemove*****************************************************/
 
-    public void increaseNumberOfVisitors() throws CanNotSaveToDataBaseException {
+    public void increaseNumberOfVisitors() {
         numberOfVisitors++;
         DataBase.save(this);
     }
 
-    public void addComment(long commentId) throws CanNotSaveToDataBaseException {
+    public void addComment(long commentId) {
         commentList.add(commentId);
         DataBase.save(this);
     }
 
-    public void removeComment(long commentId) throws CanNotSaveToDataBaseException {
-        commentList.remove(commentId);
-        DataBase.save(this);
-    }
+//    public void removeComment(long commentId) {
+//        commentList.remove(commentId);
+//        DataBase.save(this);
+//    }
 
-    public void addScore(long scoreId) throws CanNotSaveToDataBaseException {
+    public void addScore(long scoreId) {
         scoreList.add(scoreId);
         DataBase.save(this);
     }
 
-    public void removeScore(long scoreId) throws CanNotSaveToDataBaseException {
-        scoreList.add(scoreId);
-        DataBase.save(this);
-    }
+//    public void removeScore(long scoreId) {
+//        scoreList.add(scoreId);
+//        DataBase.save(this);
+//    }
 
-    public void addBuyer(long buyerId) throws CanNotSaveToDataBaseException {
+    public void addBuyer(long buyerId) {
         buyerList.add(buyerId);
         DataBase.save(this);
     }
 
-    public void removeBuyer(long buyerId) throws CanNotSaveToDataBaseException {
-        buyerList.remove(buyerId);
-        DataBase.save(this);
-    }
+//    public void removeBuyer(long buyerId) {
+//        buyerList.remove(buyerId);
+//        DataBase.save(this);
+//    }
 
-    public void addSeller(long sellerId, double price, long number) throws CanNotSaveToDataBaseException {
+    public void addSeller(long sellerId, double price, long number) {
         SellersOfProduct.add(new ProductOfSeller(sellerId, number, price));
         DataBase.save(this);
     }
 
-    public void removeSeller(long sellerId) throws CanNotSaveToDataBaseException {
-        SellersOfProduct.removeIf(productOfSeller -> sellerId == productOfSeller.getSellerId());
-        DataBase.save(this);
-    }
+//    public void removeSeller(long sellerId) {
+//        SellersOfProduct.removeIf(productOfSeller -> sellerId == productOfSeller.getSellerId());
+//        DataBase.save(this);
+//    }
 
-    public static void addProduct(Product product) throws CanNotSaveToDataBaseException {
+    public static void addProduct(@NotNull Product product) {
         product.setProductId(AddingNew.getRegisteringId().apply(getList()));
         Auction auction = product.getAuction();
         if (auction != null) {
@@ -189,14 +192,14 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         DataBase.save(product, true);
     }
 
-    public static void removeProduct(Product product) throws CanNotRemoveFromDataBase {
+    public static void removeProduct(Product product) {
         list.remove(product);
         DataBase.remove(product);
     }
 
     /***************************************************otherMethods****************************************************/
 
-    public void editField(String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException, CategoryDoesNotExistException {
+    public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException, CategoryDoesNotExistException {
 
         switch (fieldName) {
             case "productName":
@@ -226,13 +229,15 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return list.stream()
                 .filter(product -> id == product.getId())
                 .findFirst()
-                .orElseThrow(() -> new ProductDoesNotExistException("product does not exist with this id:" + id));
+                .orElseThrow(() -> new ProductDoesNotExistException(
+                        "Product with the id:" + id + " does not exist in list of all products."
+                ));
     }
 
-    public static void checkExistOfProductById(long id , List<Long> longList, Packable<?> packable) throws ProductDoesNotExistException {
+    public static void checkExistOfProductById(long id, @NotNull List<Long> longList, Packable<?> packable) throws ProductDoesNotExistException {
         if (longList.stream().noneMatch(Id -> id == Id)) {
             throw new ProductDoesNotExistException(
-                    "In the " + packable.getClass().getSimpleName() + " with id:" + packable.getId() + " the Product with id:"+  id + " does not exist."
+                    "In the " + packable.getClass().getSimpleName() + " with id:" + packable.getId() + " the Product with id:" + id + " does not exist."
             );
         }
     }
@@ -241,7 +246,9 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return SellersOfProduct.stream()
                 .filter(productOfSeller -> sellerId == productOfSeller.getSellerId())
                 .findFirst()
-                .orElseThrow(() -> new SellerDoesNotSellOfThisProduct("this seller does not sell the remaining product"));
+                .orElseThrow(() -> new SellerDoesNotSellOfThisProduct(
+                        "Seller with the id:" + sellerId + " does not sell the product with id:" + productId + " ."
+                ));
     }
 
     /***************************************************packAndDpkg*****************************************************/
@@ -266,7 +273,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     }
 
     @Override
-    public Product dpkg(Data<Product> data) throws CategoryDoesNotExistException, AuctionDoesNotExistException {
+    public Product dpkg(@NotNull Data<Product> data) throws CategoryDoesNotExistException, AuctionDoesNotExistException {
         this.productId = (long) data.getFields().get(0);
         this.productName = (String) data.getFields().get(1);
         this.productInfo = (Info) data.getFields().get(2);

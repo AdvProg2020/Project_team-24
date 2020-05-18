@@ -7,6 +7,7 @@ import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,10 +16,11 @@ import java.util.stream.Collectors;
 
 public class Auction implements Packable<Auction>, ForPend {
 
-    private static List<Auction> list;
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
     /*****************************************************fields*******************************************************/
+
+    private static List<Auction> list;
+
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private long auctionId;
     private String auctionName;
@@ -98,23 +100,23 @@ public class Auction implements Packable<Auction>, ForPend {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addAuction(Auction auction) throws CanNotSaveToDataBaseException {
+    public static void addAuction(@NotNull Auction auction) {
         auction.setAuctionId(AddingNew.getRegisteringId().apply(getList()));
         list.add(auction);
         DataBase.save(auction, true);
     }
 
-    public static void removeAuction(Auction auction) throws CanNotRemoveFromDataBase {
+    public static void removeAuction(Auction auction) {
         list.remove(auction);
         DataBase.remove(auction);
     }
 
-    public void addProductToAuction(long productId) throws CanNotSaveToDataBaseException {
+    public void addProductToAuction(long productId) {
         productList.add(productId);
         DataBase.save(this);
     }
 
-    public void removeProductFromAuction(long productId) throws CanNotSaveToDataBaseException {
+    public void removeProductFromAuction(long productId) {
         productList.remove(productId);
         DataBase.save(this);
     }
@@ -125,10 +127,12 @@ public class Auction implements Packable<Auction>, ForPend {
         return list.stream()
                 .filter(product -> id == product.getId())
                 .findFirst()
-                .orElseThrow(() -> new AuctionDoesNotExistException("Auction does not exist with this id:" + id));
+                .orElseThrow(() -> new AuctionDoesNotExistException(
+                        "Auction does not exist with this id:" + id + " in list of all Auctions."
+                ));
     }
 
-    public static void checkExistOfAuctionById(long id , List<Long> longList, Packable<?> packable) throws AuctionDoesNotExistException {
+    public static void checkExistOfAuctionById(long id , @NotNull List<Long> longList, Packable<?> packable) throws AuctionDoesNotExistException {
         if (longList.stream().noneMatch(Id -> id == Id)) {
             throw new AuctionDoesNotExistException(
                     "In the " + packable.getClass().getSimpleName() + " with id:" + packable.getId() + " the Auction with id:"+  id + " does not exist."
@@ -140,7 +144,7 @@ public class Auction implements Packable<Auction>, ForPend {
         return Math.min(discount.getPercent() * price / 100, discount.getAmount());
     }
 
-    public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
+    public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
 
         switch (fieldName) {
             case "auctionName":
@@ -162,7 +166,7 @@ public class Auction implements Packable<Auction>, ForPend {
                 discount.setPercent(Double.parseDouble(value));
                 break;
             default:
-                throw new FieldDoesNotExistException(fieldName + " not found in auction.");
+                throw new FieldDoesNotExistException("Field with the name:" + fieldName + " doesn't exist.");
         }
     }
 
@@ -181,7 +185,7 @@ public class Auction implements Packable<Auction>, ForPend {
     }
 
     @Override
-    public Auction dpkg(Data<Auction> data) throws ProductDoesNotExistException {
+    public Auction dpkg(@NotNull Data<Auction> data) throws ProductDoesNotExistException {
         this.auctionId = (long) data.getFields().get(0);
         this.productList = (List<Long>) data.getFields().get(1);
         this.stateForPend = (String) data.getFields().get(2);

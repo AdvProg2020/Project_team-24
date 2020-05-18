@@ -2,22 +2,20 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Field.Field;
-import Model.Models.Field.Fields.SingleString;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Score implements Packable<Score> {
 
-    private static List<Score> list;
-
     /******************************************************fields*******************************************************/
+
+    private static List<Score> list;
 
     private long scoreId;
     private long userId;
@@ -41,25 +39,27 @@ public class Score implements Packable<Score> {
         return scoreId;
     }
 
-    public long getUserId() {
-        return userId;
-    }
+//    public long getUserId() {
+//        return userId;
+//    }
+//
+//    public int getScoreNum() {
+//        return scoreNum;
+//    }
+//
+//    public long getGoodId() {
+//        return goodId;
+//    }
 
-    public int getScoreNum() {
-        return scoreNum;
-    }
-
-    public long getGoodId() {
-        return goodId;
-    }
-
+    @NotNull
+    @Contract(pure = true)
     public static List<Score> getList() {
         return Collections.unmodifiableList(list);
     }
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addScore(Score score) {
+    public static void addScore(@NotNull Score score) {
         score.setScoreId(AddingNew.getRegisteringId().apply(Score.getList()));
         list.add(score);
         DataBase.save(score,true);
@@ -83,20 +83,23 @@ public class Score implements Packable<Score> {
     }
 
     @Override
-    public Score dpkg(Data<Score> data) {
+    public Score dpkg(@NotNull Data<Score> data) {
         this.scoreId = (long) data.getFields().get(0);
         this.userId = (long) data.getFields().get(1);
         this.goodId = (long) data.getFields().get(2);
         this.scoreNum = (int) data.getFields().get(3);
         return this;
     }
+
     /***************************************************otherMethod*****************************************************/
 
-    public static Score getScoreById(long id) {
+    public static Score getScoreById(long id) throws ScoreDoesNotExistException {
         return list.stream()
                 .filter(score -> id == score.getId())
                 .findFirst()
-                .orElseThrow(() -> ); // need new Exception. maybe...
+                .orElseThrow(() -> new ScoreDoesNotExistException(
+                        "Score with the id:" + id + " doesn't exist in list of total scores")
+                );
     }
 
     /**************************************************constructors*****************************************************/

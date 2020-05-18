@@ -6,16 +6,16 @@ import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Request implements Packable<Request> {
 
-    private static List<Request> list;
-
     /*****************************************************fields*******************************************************/
+
+    private static List<Request> list;
 
     private long requestId;
     private long accountId;
@@ -61,7 +61,7 @@ public class Request implements Packable<Request> {
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest() throws CanNotRemoveFromDataBase, CanNotSaveToDataBaseException {
+    public void acceptRequest() {
         forPend.setStateForPend("Accepted");
         if (forPend instanceof Product) {
             Product.addProduct((Product) forPend);
@@ -72,7 +72,7 @@ public class Request implements Packable<Request> {
         DataBase.remove(this);
     }
 
-    public void declineRequest() throws CanNotRemoveFromDataBase {
+    public void declineRequest() {
         forPend.setStateForPend("Declined");
         list.remove(this);
         DataBase.remove(this);
@@ -80,13 +80,13 @@ public class Request implements Packable<Request> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addRequest(Request request) throws  CanNotSaveToDataBaseException {
+    public static void addRequest(@NotNull Request request) {
         request.setRequestId(AddingNew.getRegisteringId().apply(Request.getList()));
         list.add(request);
         DataBase.save(request, true);
     }
 
-    public static void removeRequest(Request request) throws CanNotRemoveFromDataBase {
+    public static void removeRequest(Request request) {
         list.remove(request);
         DataBase.remove(request);
     }
@@ -120,7 +120,9 @@ public class Request implements Packable<Request> {
         return list.stream()
                 .filter(request -> id == request.getId())
                 .findFirst()
-                .orElseThrow(() -> new RequestDoesNotExistException("Request with this id does not exist."));
+                .orElseThrow(() -> new RequestDoesNotExistException(
+                        "Request with the id:" + id + " does not exist in list of all request."
+                ));
     }
 
     /**************************************************constructors*****************************************************/

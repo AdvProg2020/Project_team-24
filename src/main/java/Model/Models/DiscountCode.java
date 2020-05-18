@@ -2,25 +2,24 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DiscountCode implements Packable<DiscountCode> {
+
+    /*****************************************************fields*******************************************************/
 
     private static List<DiscountCode> list;
 
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-    /*****************************************************fields*******************************************************/
 
     private long id;
     private String discountCode;
@@ -96,23 +95,23 @@ public class DiscountCode implements Packable<DiscountCode> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addAccount(long accountId) throws CanNotSaveToDataBaseException {
+    public void addAccount(long accountId) {
         accountList.add(accountId);
         DataBase.save(this);
     }
 
-    public void removeAccount(long accountId) throws CanNotSaveToDataBaseException {
+    public void removeAccount(long accountId) {
         accountList.remove(accountId);
         DataBase.save(this);
     }
 
-    public static void addDiscountCode(DiscountCode discountCode) throws CanNotSaveToDataBaseException {
+    public static void addDiscountCode(@NotNull DiscountCode discountCode) {
         discountCode.setId(AddingNew.getRegisteringId().apply(DiscountCode.getList()));
         list.add(discountCode);
         DataBase.save(discountCode,true);
     }
 
-    public static void removeFromDiscountCode(DiscountCode discountCode) throws CanNotRemoveFromDataBase {
+    public static void removeFromDiscountCode(DiscountCode discountCode) {
         list.remove(discountCode);
         DataBase.remove(discountCode);
     }
@@ -133,7 +132,7 @@ public class DiscountCode implements Packable<DiscountCode> {
     }
 
     @Override
-    public DiscountCode dpkg(Data<DiscountCode> data) throws AccountDoesNotExistException {
+    public DiscountCode dpkg(@NotNull Data<DiscountCode> data) {
         this.id = (long) data.getFields().get(0);
         this.discountCode = (String) data.getFields().get(1);
         this.start = (LocalDate) data.getFields().get(2);
@@ -150,7 +149,9 @@ public class DiscountCode implements Packable<DiscountCode> {
         return list.stream()
                 .filter(code -> id == code.getId())
                 .findFirst()
-                .orElseThrow(() -> new DiscountCodeExpiredException("DiscountCode with this id does not exist."));
+                .orElseThrow(() -> new DiscountCodeExpiredException(
+                        "DiscountCode with the id:" + id + " does not exist in list of all discountCodes."
+                ));
     }
 
     public static String createDiscountCode() {
@@ -161,7 +162,7 @@ public class DiscountCode implements Packable<DiscountCode> {
         return Math.min(discount.getAmount(), discount.getPercent() * price / 100);
     }
 
-    public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException, DateTimeParseException {
+    public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException, DateTimeParseException {
 
         switch (fieldName) {
             case "start":

@@ -6,11 +6,12 @@ import Model.Models.Field.Fields.SingleString;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class Account implements Packable<Account> {
 
@@ -26,13 +27,15 @@ public abstract class Account implements Packable<Account> {
         inRegistering.remove(account);
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Account> getInRegistering() {
         return Collections.unmodifiableList(inRegistering);
     }
 
     public static void setInRegistering(List<Account> inRegistering) {
         Account.inRegistering = inRegistering;
-    } // just for test.
+    }
 
     public static boolean isThereAnyInRegisteringWithThisUsername(String username) {
         return inRegistering.stream().anyMatch(account -> username.equals(account.getUserName()));
@@ -99,7 +102,7 @@ public abstract class Account implements Packable<Account> {
     }
 
     @Override
-    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException, AuctionDoesNotExistException {
+    public Account dpkg(@NotNull Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException, AuctionDoesNotExistException {
         this.id = (long) data.getFields().get(0);
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
@@ -123,14 +126,18 @@ public abstract class Account implements Packable<Account> {
         return list.stream()
                 .filter(account -> name.equals(account.getUserName()))
                 .findFirst()
-                .orElseThrow(() -> new AccountDoesNotExistException("This username not exist in all account list."));
+                .orElseThrow(() -> new AccountDoesNotExistException(
+                        "The username:" + name + " not exist in all account list."
+                ));
     }
 
     public static Account getAccountById(long id) throws AccountDoesNotExistException {
         return list.stream()
                 .filter(account -> id == account.getId())
                 .findFirst()
-                .orElseThrow(() -> new AccountDoesNotExistException("This id not exist in all account list."));
+                .orElseThrow(() -> new AccountDoesNotExistException(
+                        "The Account with the id:" + id + " not exist in all account list."
+                ));
     }
 
     public static boolean isThereAnyAccountWithThisUsername(String username) {
@@ -139,13 +146,13 @@ public abstract class Account implements Packable<Account> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addAccount(Account account) throws CanNotSaveToDataBaseException {
+    public static void addAccount(@NotNull Account account) {
         account.setId(AddingNew.getRegisteringId().apply(getList()));
         list.add(account);
         DataBase.save(account, true);
     }
 
-    public static void deleteAccount(Account account) throws CanNotRemoveFromDataBase {
+    public static void deleteAccount(Account account) {
         list.remove(account);
         DataBase.remove(account);
     }

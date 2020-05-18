@@ -6,6 +6,8 @@ import Model.Models.Field.Fields.SingleString;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,9 +15,9 @@ import java.util.stream.Collectors;
 
 public class Category implements Packable<Category> {
 
-    private static List<Category> list;
+    /******************************************************fields*******************************************************/
 
-    /*****************************************************fields*******************************************************/
+    private static List<Category> list;
 
     private long categoryId;
     private String name;
@@ -59,39 +61,41 @@ public class Category implements Packable<Category> {
         return Collections.unmodifiableList(subCategories);
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Category> getList() {
         return Collections.unmodifiableList(list);
     }
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToProductList(long productId) throws CanNotSaveToDataBaseException {
+    public void addToProductList(long productId) {
         productList.add(productId);
         DataBase.save(this);
     }
 
-    public void removeFromProductList(long productId) throws CanNotRemoveFromDataBase {
-        productList.remove(productId);
-        DataBase.remove(this);
-    }
+//    public void removeFromProductList(long productId) {
+//        productList.remove(productId);
+//        DataBase.remove(this);
+//    }
 
-    public void addToSubCategoryList(long categoryId) throws CanNotSaveToDataBaseException {
+    public void addToSubCategoryList(long categoryId) {
         subCategories.add(categoryId);
         DataBase.save(this);
     }
 
-    public void removeFromSubCategoryList(long categoryId) throws CanNotRemoveFromDataBase {
-        subCategories.remove(categoryId);
-        DataBase.remove(this);
-    }
+//    public void removeFromSubCategoryList(long categoryId) {
+//        subCategories.remove(categoryId);
+//        DataBase.remove(this);
+//    }
 
-    public static void addCategory(Category category) throws CanNotSaveToDataBaseException {
+    public static void addCategory(@NotNull Category category) {
         category.setCategoryId(AddingNew.getRegisteringId().apply(Category.getList()));
         list.add(category);
         DataBase.save(category, true);
     }
 
-    public static void removeCategory(Category category) throws CanNotRemoveFromDataBase {
+    public static void removeCategory(Category category) {
         list.remove(category);
         DataBase.remove(category);
     }
@@ -102,10 +106,12 @@ public class Category implements Packable<Category> {
         return list.stream()
                 .filter(category -> id == category.getId())
                 .findFirst()
-                .orElseThrow(() -> new CategoryDoesNotExistException("Category with the id:" + id + " does not exist."));
+                .orElseThrow(() -> new CategoryDoesNotExistException(
+                        "Category with the id:" + id + " does not exist in list of all categories."
+                ));
     }
 
-    public void editField(String fieldName, String value) throws FieldDoesNotExistException {
+    public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException {
 
         if (fieldName.equals("name")) {
             setName(value);
@@ -129,7 +135,7 @@ public class Category implements Packable<Category> {
     }
 
     @Override
-    public Category dpkg(Data<Category> data) {
+    public Category dpkg(@NotNull Data<Category> data) {
         this.categoryId = (long) data.getFields().get(0);
         this.name = (String) data.getFields().get(1);
         this.categoryFields = (FieldList) data.getFields().get(2);
