@@ -262,8 +262,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .addField(categoryInfo)
                 .addField(numberOfVisitors)
                 .addField(averageScore)
-                .addField(category.getId())
-                .addField(auction.getId())
+                .addField(category == null ? 0 : category.getId())
+                .addField(auction == null ? 0 : auction.getId())
                 .addField(stateForPend)
                 .addField(commentList)
                 .addField(buyerList)
@@ -280,8 +280,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.categoryInfo = (Info) data.getFields().get(3);
         this.numberOfVisitors = (long) data.getFields().get(4);
         this.averageScore = (long) data.getFields().get(5);
-        this.category = Category.getCategoryById((long) data.getFields().get(6));
-        this.auction = Auction.getAuctionById((long) data.getFields().get(7));
+        this.category = ((long) data.getFields().get(6)) == 0 ? null : Category.getCategoryById((long) data.getFields().get(6));
+        this.auction = ((long) data.getFields().get(7)) == 0 ? null : Auction.getAuctionById((long) data.getFields().get(7));
         this.stateForPend = (String) data.getFields().get(8);
         this.commentList = (List<Long>) data.getFields().get(9);
         this.buyerList = (List<Long>) data.getFields().get(10);
