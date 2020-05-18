@@ -32,24 +32,28 @@ public class ProductMenu extends Menu {
 
     public void digest() {
         Product currentProduct = productController.digest();
-        System.out.println("Name:" + currentProduct.getProductName());
-        System.out.println("Info:" + currentProduct.getProductInfo());
-        System.out.println("Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct());
-        System.out.println("Auction:" + currentProduct.getAuction());
-        System.out.println("Category:" + currentProduct.getCategory());
+        System.out.println(
+                "Name:" + currentProduct.getProductName() + System.lineSeparator() +
+                        "Info:" + currentProduct.getProductInfo() + System.lineSeparator() +
+                        "Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct() + System.lineSeparator() +
+                        "Auction:" + currentProduct.getAuction() + System.lineSeparator() +
+                        "Category:" + currentProduct.getCategory()
+        );
         MenuHandler.setCurrentMenu(DigestProductMenu.getMenu());
     }
 
     public void attributes() {
         Product currentProduct = productController.digest();
-        System.out.println("Name:" + currentProduct.getProductName());
-        System.out.println("Info:" + currentProduct.getProductInfo());
-        System.out.println("Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct());
-        System.out.println("Auction:" + currentProduct.getAuction());
-        System.out.println("Category:" + currentProduct.getCategory());
-        System.out.println("CategoryInfo:" + currentProduct.getCategoryInfo());
-        System.out.println("Number Of Visitors:" + currentProduct.getNumberOfVisitors());
-        System.out.println("Number Of Buyers:" + currentProduct.getBuyerList().size());
+        System.out.println(
+                "Name:" + currentProduct.getProductName() + System.lineSeparator() +
+                        "Info:" + currentProduct.getProductInfo() + System.lineSeparator() +
+                        "Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct() + System.lineSeparator() +
+                        "Auction:" + currentProduct.getAuction() + System.lineSeparator() +
+                        "Category:" + currentProduct.getCategory() + System.lineSeparator() +
+                        "CategoryInfo:" + currentProduct.getCategoryInfo() + System.lineSeparator() +
+                        "Number Of Visitors:" + currentProduct.getNumberOfVisitors() + System.lineSeparator() +
+                        "Number Of Buyers:" + currentProduct.getBuyerList().size()
+        );
 
     }
 
@@ -59,16 +63,16 @@ public class ProductMenu extends Menu {
         try {
             Product productToCompare = productController.getProductById(id);
         } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
+            System.out.println(e.getMessage());
         }
 
     }
 
     public void Comments() {
         try {
-            System.out.println("Comments:"+productController.viewComments());
+            System.out.println("Comments:" + productController.viewComments());
         } catch (CommentDoesNotExistException e) {
-            System.out.println("There is no comment");
+            System.out.println(e.getMessage());
         }
         Product currentProduct = productController.digest();
         System.out.println("AverageScore:" + currentProduct.getAverageScore());

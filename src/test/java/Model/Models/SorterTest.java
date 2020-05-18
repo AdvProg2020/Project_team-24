@@ -1,6 +1,5 @@
 package Model.Models;
 
-import Exceptions.CanNotSaveToDataBaseException;
 import Model.Models.Accounts.Seller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

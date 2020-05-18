@@ -1,6 +1,5 @@
 package Model.Models;
 
-import Exceptions.CanNotSaveToDataBaseException;
 import Exceptions.CartDoesNotExistException;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;

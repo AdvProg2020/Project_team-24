@@ -2,6 +2,7 @@ package Model.Models.Accounts;
 
 import Model.Models.*;
 import Model.Tools.AddingNew;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 
@@ -9,6 +10,7 @@ public class Guest extends Account {
 
     /***************************************************otherMethods****************************************************/
 
+    @NotNull
     public static Guest autoCreateGuest() {
         long id = AddingNew.getRegisteringId().apply(getList());
         return new Guest(id,"guest " + id, "", new Info("guestInfo", null, LocalDate.now()));

@@ -4,7 +4,6 @@ import Controller.Controllers.ProductController;
 import Exceptions.*;
 import View.MenuHandler;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +12,7 @@ public class DigestProductMenu extends Menu {
 
     private static DigestProductMenu menu;
     private static ProductController productController = ProductController.getInstance();
+
     private DigestProductMenu(String name) {
         super(name);
     }
@@ -29,25 +29,22 @@ public class DigestProductMenu extends Menu {
     }
 
     public void addToCart() {
-        System.out.println("enter seller id in this pattern:"+
-               "select seller[sellerId]");
+        System.out.println(
+                "enter seller id in this pattern: " + System.lineSeparator() +
+                "select seller [sellerId]");
         Matcher matcher = Pattern.compile("select seller :(\\w+) ").matcher(scanner.nextLine().toLowerCase().trim());
         if (!matcher.find()) {
             System.out.println("Incorrect format");
         }
         try {
             productController.addToCart(matcher.group(1));
-        } catch (AcountHasNotLogedIn acountHasNotLogedIn) {
-            System.out.println("you should login first");
+        } catch (AccountHasNotLogin e) {
+            System.out.println(e.getMessage());
             MenuHandler.setCurrentMenu(LogInMenu.getMenu());
-        } catch (ProductIsOutOfStockException e) {
-            System.out.println("product is out of stock");
+        } catch (ProductIsOutOfStockException | ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
+            System.out.println(e.getMessage());
         } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-        } catch (SellerDoesNotSellThisProduct sellerDoesNotSellThisProduct) {
-            System.out.println("Seller with this id not found.");
         }
     }
 
@@ -61,7 +58,7 @@ public class DigestProductMenu extends Menu {
         super.help();
         System.out.println(
                 "addToCart : To add a good" + System.lineSeparator() +
-                "selectSeller [SellerId] : To select a seller" + System.lineSeparator() +
+                        "selectSeller [SellerId] : To select a seller" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

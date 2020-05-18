@@ -1,12 +1,10 @@
 package Model.Models;
 
-import Exceptions.CanNotSaveToDataBaseException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Fields.SingleString;
-import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

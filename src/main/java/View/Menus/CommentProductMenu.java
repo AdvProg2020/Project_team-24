@@ -1,7 +1,6 @@
 package View.Menus;
 
 import Controller.Controllers.ProductController;
-import Exceptions.CanNotSaveToDataBaseException;
 import Exceptions.CannotRateException;
 import Exceptions.ProductDoesNotExistException;
 
@@ -42,10 +41,8 @@ public class CommentProductMenu extends Menu {
             }
         try {
             productController.addComment(matcher.group(1),matcher.group(2));
-        } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
-        } catch (CannotRateException e) {
-            System.out.println("sorry you can not rate this");
+        } catch (ProductDoesNotExistException | CannotRateException e) {
+            System.out.println(e.getMessage());
         } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
         }

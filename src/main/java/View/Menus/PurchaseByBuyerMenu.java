@@ -32,12 +32,8 @@ public class PurchaseByBuyerMenu extends Menu {
         Matcher matcher = Pattern.compile("receiveInfo :(\\w+) :(\\w+)").matcher(scanner.nextLine().toLowerCase().trim());
         try {
             buyerController.receiveInformation(matcher.group(1),matcher.group(2));
-        } catch (PostCodeInvalidexception postCodeInvalidexception) {
-            System.out.println("your post code characters is not valid");
-        } catch (AddresInvalidException e) {
-            System.out.println("address is not valid");
-        } catch (FieldDoesNotExistException | CanNotAddException e) {
-            e.printStackTrace();
+        } catch (PostCodeInvalidException | FieldDoesNotExistException | AddresInvalidException e) {
+            System.out.println(e.getMessage());
         }
     }
     public void discountCode(){
@@ -66,7 +62,7 @@ public class PurchaseByBuyerMenu extends Menu {
             System.out.println("product does not exist");
         } catch (AccountDoesNotExistException e) {
             System.out.println("account does not exist");
-        } catch (SellerDoesNotSellThisProduct sellerDoesNotSellThisProduct) {
+        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
             System.out.println("This seller not found.");
         }
     }

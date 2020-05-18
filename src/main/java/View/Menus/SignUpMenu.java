@@ -35,20 +35,8 @@ public class SignUpMenu extends Menu {
         Account account = null;
         try {
             account = signUpController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
-        } catch (UserNameInvalidException e) {
-            System.out.println("enter valid username");
-            return;
-        } catch (TypeInvalidException e) {
-            System.out.println("choose valid type");
-            return;
-        } catch (CanNotCreatMoreThanOneMangerBySignUp e) {
-            System.out.println("the principal manager is 'Sogol' just she can make a new manager not you:| Qre: Chet mige ... Yac: :(");
-            return;
-        } catch (UserNameTooShortException e) {
-            System.out.println("your username is too short");
-            return;
-        } catch (ThisUserNameAlreadyExistsException e) {
-            System.out.println("this user name already exist.");
+        } catch (UserNameInvalidException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | UserNameTooShortException | ThisUserNameAlreadyExistsException e) {
+            System.out.println(e.getMessage());
             return;
         }
 
@@ -66,7 +54,7 @@ public class SignUpMenu extends Menu {
                 signUpController.creatPassWordForAccount(account, password);
                 break;
             } catch (PasswordInvalidException e) {
-                System.out.println("choose valid password");
+                System.out.println(e.getMessage());
             }
         }
 
@@ -98,14 +86,8 @@ public class SignUpMenu extends Menu {
             try {
                 signUpController.savePersonalInfo(account, matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
                 return true;
-            } catch (FirstNameInvalidException e) {
-                System.out.println("enter valid name");
-            } catch (EmailInvalidException e) {
-                System.out.println("enter valid email");
-            } catch (PhoneNumberInvalidException e) {
-                System.out.println("enter valid phone number");
-            } catch (LastNameInvalidException e) {
-                System.out.println("enter valid last name");
+            } catch (FirstNameInvalidException | LastNameInvalidException | PhoneNumberInvalidException | EmailInvalidException e) {
+                System.out.println(e.getMessage());
             } catch (CanNotSaveToDataBaseException e) {
                 e.printStackTrace(); // Doesn't need to print something else.
             }
@@ -130,12 +112,8 @@ public class SignUpMenu extends Menu {
             try {
                 signUpController.saveCompanyInfo(account, matcher.group(1), matcher.group(2), matcher.group(3));
                 return true;
-            } catch (CompanyNameInvalidException e) {
-                System.out.println("enter valid characters for your company's name");
-            } catch (EmailInvalidException e) {
-                System.out.println("enter valid email");
-            } catch (PhoneNumberInvalidException e) {
-                System.out.println("enter valid phone number");
+            } catch (CompanyNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
+                System.out.println(e.getMessage());
             } catch (CanNotSaveToDataBaseException e) {
                 e.printStackTrace(); // Doesn't need to print something else.
             }

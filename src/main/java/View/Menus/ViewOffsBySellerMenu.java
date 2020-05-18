@@ -6,6 +6,7 @@ import Exceptions.CategoryDoesNotExistException;
 import Exceptions.FieldDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -37,14 +38,14 @@ public class ViewOffsBySellerMenu extends Menu {
         try {
             System.out.println(sellerController.viewOff(id));
         } catch (AuctionDoesNotExistException e) {
-            System.out.println("auction does not exist");
+            System.out.println(e.getMessage());
         }
 
     }
 
     public void editOff(List<String> inputs) {
         String id = inputs.get(0);
-        System.out.println("enter field name or enter finish to stop edit product");
+        System.out.println("enter field name or enter 'finish' to stop edit product");
         while (true) {
             String fieldName = scanner.nextLine();
             if (fieldName.equals("finish")) break;
@@ -52,10 +53,8 @@ public class ViewOffsBySellerMenu extends Menu {
             String newInfo = scanner.nextLine();
             try {
                 sellerController.editAuction(id, fieldName, newInfo);
-            } catch (AuctionDoesNotExistException e) {
-                System.out.println("auction does not exist");
-            } catch (FieldDoesNotExistException e) {
-                System.out.println("field does not exist");
+            } catch (AuctionDoesNotExistException | FieldDoesNotExistException e) {
+                System.out.println(e.getMessage());
             }
         }
 
@@ -69,7 +68,11 @@ public class ViewOffsBySellerMenu extends Menu {
         if (!matcher.find()) {
             System.out.println("Incorrect format");
         }
-        sellerController.addOff(matcher.group(1),matcher.group(2),matcher.group(3),matcher.group(4),matcher.group(5));
+        try {
+            sellerController.addOff(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5));
+        } catch (NumberFormatException | DateTimeParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override

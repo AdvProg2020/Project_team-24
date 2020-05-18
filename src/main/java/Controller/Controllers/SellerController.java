@@ -12,6 +12,7 @@ import Model.Tools.ForPend;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -113,7 +114,7 @@ public class SellerController extends AccountController {
         return new FieldList(fields);
     }
 
-    public Auction addOff(String auctionName, String strStart, String strEnd, String strPercent, String strMaxAmount) {
+    public Auction addOff(String auctionName, String strStart, String strEnd, String strPercent, String strMaxAmount) throws NumberFormatException, DateTimeParseException {
         LocalDate start = LocalDate.parse(strStart, formatter);
         LocalDate end = LocalDate.parse(strEnd, formatter);
         double percent = Double.parseDouble(strPercent);

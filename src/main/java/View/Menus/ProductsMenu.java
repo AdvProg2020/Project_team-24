@@ -52,7 +52,7 @@ public class ProductsMenu extends Menu {
             productsController.showProduct(id);
             MenuHandler.setCurrentMenu(ProductMenu.getMenu());
         } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
+            System.out.println(e.getMessage());
         }
     }
 

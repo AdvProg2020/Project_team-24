@@ -117,10 +117,6 @@ public class SignUpController {
 
     public void saveCompanyInfo(Account account, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, CanNotSaveToDataBaseException {
 
-//        if (!(account instanceof Seller)) { NOT REQUIRED.
-//            throw new YouAreNotASellerToSaveCompanyInfoException("YouAreNotASellerToSaveCompanyInfoException");
-//        }
-
         RegisterValidation registerValidation = RegisterAndLoginValidator.isBrand(brand)
                 .and(RegisterAndLoginValidator.isEmail(email))
                 .and(RegisterAndLoginValidator.isPhoneNumber(phoneNumber)).get();

@@ -39,17 +39,8 @@ public class LogInMenu extends Menu {
 
         try {
             account = LoginController.getInstance().login(inputs.get(0), inputs.get(1));
-        } catch (AccountDoesNotExistException e) {
-            System.out.println("account does not exist exception");
-            return;
-        } catch (PassIncorrectException e) {
-            System.out.println("password is not correct");
-            return;
-        } catch (UserNameInvalidException e) {
-            System.out.println("username is not valid");
-            return;
-        } catch (UserNameTooShortException e) {
-            System.out.println("username is too short");
+        } catch (AccountDoesNotExistException | UserNameTooShortException | UserNameInvalidException | PassIncorrectException e) {
+            System.out.println(e.getMessage());
             return;
         }
 

@@ -2,6 +2,10 @@ package View.Menus;
 
 import Controller.Controllers.ManagerController;
 import Exceptions.RequestDoesNotExistException;
+import Model.Models.Auction;
+import Model.Models.Product;
+import Model.Models.Request;
+import Model.Tools.ForPend;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +13,7 @@ import java.util.Optional;
 public class ManageRequestsByManagerMenu extends Menu {
 
     private static ManageRequestsByManagerMenu menu;
+
     private static ManagerController managerController = ManagerController.getInstance();
 
     public ManageRequestsByManagerMenu(String name) {
@@ -29,9 +34,27 @@ public class ManageRequestsByManagerMenu extends Menu {
     public void showDetails(List<String> inputs) {
        String id = inputs.get(0);
         try {
-            managerController.detailsOfRequest(id);
+            Request request = managerController.detailsOfRequest(id);
+            System.out.println(
+                    "Request id: " + request.getId() + System.lineSeparator() +
+                    "Account id: " + request.getAccountId() + System.lineSeparator() +
+                    "Type: " + request.getTypeOfRequest() + System.lineSeparator() +
+                    "ForPend type: " + request.getForPend().getClass().getSimpleName() + System.lineSeparator() +
+                    "Information: " + request.getInformation()
+            );
+            ForPend forPend = request.getForPend();
+            if (forPend instanceof Product) {
+                System.out.println(
+                        "ProductName: " + ((Product) forPend).getProductName()
+                );
+            }
+            if (forPend instanceof Auction) {
+                System.out.println(
+                        "AuctionName: " + ((Auction) forPend).getAuctionName()
+                );
+            }
         } catch (RequestDoesNotExistException e) {
-            System.out.println("this request with this id does not exist");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -39,8 +62,11 @@ public class ManageRequestsByManagerMenu extends Menu {
         String id = inputs.get(0);
         try {
             managerController.acceptRequest(id);
-        } catch (Exception e) {
+            System.out.println("Request accepted.");
+        } catch (CanNotRemoveFromDataBase | CanNotSaveToDataBaseException e) {
             e.printStackTrace();
+        } catch (RequestDoesNotExistException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -48,7 +74,10 @@ public class ManageRequestsByManagerMenu extends Menu {
         String id = inputs.get(0);
         try {
             managerController.denyRequest(id);
-        } catch (Exception e) {
+            System.out.println("Request declined.");
+        } catch (RequestDoesNotExistException e) {
+            System.out.println(e.getMessage());
+        } catch (CanNotRemoveFromDataBase e) {
             e.printStackTrace();
         }
     }

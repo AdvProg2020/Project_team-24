@@ -4,6 +4,7 @@ import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,9 +35,9 @@ public class Customer extends Account {
         logHistoryList.add(logHistoryId);
     }
 
-    public void removeFromLogHistoryList(long logHistoryId) {
-        logHistoryList.remove(logHistoryId);
-    }
+//    public void removeFromLogHistoryList(long logHistoryId) {
+//        logHistoryList.remove(logHistoryId);
+//    }
 
     public void addToDiscountCodeList(long discountCodeId) {
         discountCodeList.add(discountCodeId);
@@ -124,7 +125,7 @@ public class Customer extends Account {
     }
 
     @Override
-    public void editField(String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
+    public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
 
         switch (fieldName) {
             case "password":

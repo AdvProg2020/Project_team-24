@@ -33,7 +33,7 @@ public class ManageInfoMenu extends Menu {
         try {
             managerController.editField(fieldName,newField);
         } catch (FieldDoesNotExistException e) {
-            System.out.println("field does not exist ");
+            System.out.println(e.getMessage());
         }
     }
 

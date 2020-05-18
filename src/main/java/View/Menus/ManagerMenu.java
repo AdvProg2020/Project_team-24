@@ -1,14 +1,10 @@
 package View.Menus;
 
-import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
-import Exceptions.AccountDoesNotExistException;
-import Model.Models.Account;
+import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
 import Model.Models.Field.Fields.SingleString;
 import View.MenuHandler;
 
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,8 +75,10 @@ public class ManagerMenu extends Menu {
         }
         try {
             managerController.creatDiscountCode(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(7));
-        } catch (Exception e) {
+        } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
+        } catch (InvalidStartAndEndDateForDiscountCodeException e) {
+            System.out.println(e.getMessage());
         }
     }
 

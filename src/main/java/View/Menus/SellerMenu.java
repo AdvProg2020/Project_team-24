@@ -73,10 +73,8 @@ public class SellerMenu extends Menu {
                 .matcher(scanner.nextLine().trim().toLowerCase());
         try {
             product = sellerController.createTheBaseOfProduct(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
-        } catch (AuctionDoesNotExistException e) {
-            System.out.println("auction does not exist");
-        } catch (CategoryDoesNotExistException e) {
-            System.out.println("category does not exist");
+        } catch (AuctionDoesNotExistException | CategoryDoesNotExistException e) {
+            System.out.println(e.getMessage());
         }
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
@@ -121,7 +119,7 @@ public class SellerMenu extends Menu {
         try {
             sellerController.removeProduct(id);
         } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
+            System.out.println(e.getMessage());
         }
     }
 

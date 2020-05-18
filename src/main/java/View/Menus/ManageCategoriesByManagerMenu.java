@@ -1,11 +1,11 @@
 package View.Menus;
 
-import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
+import Exceptions.CategoryDoesNotExistException;
+import Exceptions.FieldDoesNotExistException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
 public class ManageCategoriesByManagerMenu extends Menu {
 
@@ -33,8 +33,8 @@ public class ManageCategoriesByManagerMenu extends Menu {
         String newField=inputs.get(2);
         try {
             managerController.editCategory(categoryName,field,newField);
-        } catch (Exception e) {
-            //yac
+        } catch (CategoryDoesNotExistException | FieldDoesNotExistException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -42,8 +42,10 @@ public class ManageCategoriesByManagerMenu extends Menu {
         String categoryName = inputs.get(0);
         try {
             managerController.addCategory(categoryName);
-        } catch (Exception e) {
-            //yac
+        } catch (CanNotSaveToDataBaseException e) {
+            e.printStackTrace();
+        } catch (CategoryDoesNotExistException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -51,8 +53,10 @@ public class ManageCategoriesByManagerMenu extends Menu {
         String categoryName = inputs.get(0);
         try {
             managerController.removeCategory(categoryName);
-        } catch (Exception e) {
-            //yac
+        } catch (CanNotRemoveFromDataBase e) {
+            e.printStackTrace();
+        } catch (CategoryDoesNotExistException e) {
+            System.out.println(e.getMessage());
         }
     }
 

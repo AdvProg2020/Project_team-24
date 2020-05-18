@@ -32,8 +32,8 @@ public class ManageProductsByManagerMenu extends Menu {
             managerController.removeProduct(id);
             System.out.println("product removed.");
         } catch (ProductDoesNotExistException e) {
-            System.out.println("this product does not exist");
-        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } catch (CanNotRemoveFromDataBase e) {
             e.printStackTrace();
         }
     }

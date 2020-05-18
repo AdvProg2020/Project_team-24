@@ -35,8 +35,8 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
         try {
             discountCode = managerController.viewDiscountCode(id);
             System.out.println(discountCode);
-        } catch (DiscountCodeExpiredException discountCodeExpiredException) {
-            System.out.println("this code has expired");
+        } catch (DiscountCodeExpiredException e) {
+            System.out.println(e.getMessage());
         }
 
     }
@@ -48,10 +48,8 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
 
         try {
             managerController.editDiscountCode(id, field, newField);
-        } catch (DiscountCodeExpiredException e) {
-            System.out.println("this discount code has expired");
-        } catch (FieldDoesNotExistException e) {
-            e.printStackTrace();
+        } catch (DiscountCodeExpiredException | FieldDoesNotExistException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -59,8 +57,10 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
         String id=inputs.get(0);
         try {
             managerController.removeDiscountCode(id);
-        } catch (Exception e) {
-           //yac
+        } catch (DiscountCodeExpiredException e) {
+            System.out.println(e.getMessage());
+        } catch (CanNotRemoveFromDataBase e) {
+            e.printStackTrace();
         }
     }
 

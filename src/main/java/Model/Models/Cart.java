@@ -9,7 +9,6 @@ import Model.Tools.Packable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Cart implements Packable<Cart> {
 
@@ -80,7 +79,7 @@ public class Cart implements Packable<Cart> {
         return productsId.stream().anyMatch(id -> productId == id);
     }
 
-    public double getTotalPrice() throws ProductDoesNotExistException, SellerDoesNotSellThisProduct {
+    public double getTotalPrice() throws ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         double price = 0;
         for (int i = 0; i < productsId.size(); i++) {
             Product product = Product.getProductById(productsId.get(i));
@@ -89,7 +88,7 @@ public class Cart implements Packable<Cart> {
         return price;
     }
 
-    public double getTotalAuctionDiscount() throws ProductDoesNotExistException, SellerDoesNotSellThisProduct {
+    public double getTotalAuctionDiscount() throws ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         double price = 0;
         for (int i = 0; i < productsId.size(); i++) {
             Product product = Product.getProductById(productsId.get(i));

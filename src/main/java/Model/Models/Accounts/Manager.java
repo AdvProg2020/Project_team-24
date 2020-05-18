@@ -1,7 +1,5 @@
 package Model.Models.Accounts;
 
-import Exceptions.CanNotRemoveFromDataBase;
-import Exceptions.CanNotSaveToDataBaseException;
 import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Tools.Data;

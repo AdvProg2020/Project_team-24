@@ -44,7 +44,7 @@ public class ManageProductsBySellerMenu extends Menu {
                 System.out.println(buyer.getUserName());
             });
         } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
+            System.out.println(e.getMessage());
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
         }
@@ -60,14 +60,8 @@ public class ManageProductsBySellerMenu extends Menu {
             String newInfo=scanner.nextLine();
             try {
                 sellerController.editProduct(id,fieldName,newInfo);
-            } catch (AuctionDoesNotExistException e) {
-                System.out.println("auction does not exist");
-            } catch (FieldDoesNotExistException e) {
-                System.out.println("field does not exist");
-            } catch (CategoryDoesNotExistException e) {
-                System.out.println("category does not exist");
-            } catch (ProductDoesNotExistException e) {
-                System.out.println("product does not exist");
+            } catch (AuctionDoesNotExistException | CategoryDoesNotExistException | ProductDoesNotExistException | FieldDoesNotExistException e) {
+                System.out.println(e.getMessage());
             }
         }
 

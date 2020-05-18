@@ -38,7 +38,7 @@ public class BuyerController extends AccountController {
         this.discountCodeEntered = discountCodeEntered;
     }
 
-    private void checkEnoughCredit() throws NotEnoughCreditException, ProductDoesNotExistException, SellerDoesNotSellThisProduct {
+    private void checkEnoughCredit() throws NotEnoughCreditException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         double price = viewCart().getTotalPrice();
         if (discountCodeEntered != null) {
             price -= discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice());
@@ -49,7 +49,7 @@ public class BuyerController extends AccountController {
         }
     }
 
-    private void saveFieldToFieldList(String name, String value) throws CanNotAddException, FieldDoesNotExistException {
+    private void saveFieldToFieldList(String name, String value) throws FieldDoesNotExistException {
         FieldList fieldList = customer.getPersonalInfo().getList();
         if (!fieldList.isFieldWithThisName(name)) {
             fieldList.addFiled(new SingleString(name, value));
@@ -58,7 +58,7 @@ public class BuyerController extends AccountController {
         ((SingleString) field).setString(value);
     }
 
-    private List<ProductLog> payment() throws AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellThisProduct {
+    private List<ProductLog> payment() throws AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
 
         customer.setCredit(customer.getCredit() - getTotalPriceWithDiscountCode());
 
@@ -87,7 +87,7 @@ public class BuyerController extends AccountController {
         }
     }
 
-    private double getTotalPriceWithDiscountCode() throws ProductDoesNotExistException, SellerDoesNotSellThisProduct {
+    private double getTotalPriceWithDiscountCode() throws ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         double priceWithoutDiscount = viewCart().getTotalPrice();
         double discount = viewCart().getTotalAuctionDiscount();
         double price = priceWithoutDiscount - discount;
@@ -127,7 +127,7 @@ public class BuyerController extends AccountController {
         return list;
     }
 
-    public double showTotalPrice() throws ProductDoesNotExistException, SellerDoesNotSellThisProduct {
+    public double showTotalPrice() throws ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         return customer.getCart().getTotalPrice();
     }
 
@@ -145,7 +145,7 @@ public class BuyerController extends AccountController {
         return Product.getProductById(productId);
     }
 
-    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CanNotSaveToDataBaseException, ProductDoesNotExistException, ProductIsOutOfStockException, SellerDoesNotSellThisProduct {
+    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CanNotSaveToDataBaseException, ProductDoesNotExistException, ProductIsOutOfStockException, SellerDoesNotSellOfThisProduct {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         this.checkCartForProductId(productId);
@@ -163,9 +163,9 @@ public class BuyerController extends AccountController {
         customer.removeFromCart(productId, sellerId);
     }
 
-    public void receiveInformation(String postCode, String address) throws PostCodeInvalidexception, AddresInvalidException, FieldDoesNotExistException, CanNotAddException {
+    public void receiveInformation(String postCode, String address) throws PostCodeInvalidException, AddresInvalidException, FieldDoesNotExistException {
         if (!postCode.matches("\\d{10}")) {
-            throw new PostCodeInvalidexception("PostCode is Invalid.");
+            throw new PostCodeInvalidException("PostCode is Invalid.");
         }
         if (!address.matches("[a-z A-Z.]+")) {
             throw new AddresInvalidException("Address is Invalid.");
@@ -186,7 +186,7 @@ public class BuyerController extends AccountController {
         this.setDiscountCodeEntered(discountCode);
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellThisProduct {
+    public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         this.checkEnoughCredit();
         List<ProductLog> productLogs = this.payment();
         LogHistory logHistory = new LogHistory(

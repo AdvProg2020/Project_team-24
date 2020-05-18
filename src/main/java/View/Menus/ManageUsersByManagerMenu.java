@@ -50,7 +50,7 @@ public class ManageUsersByManagerMenu extends Menu {
             });
             System.out.println("----------------------------------------------");
         } catch (AccountDoesNotExistException e) {
-            System.out.println("this account dose not exist yet");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ public class ManageUsersByManagerMenu extends Menu {
         } catch (CanNotRemoveFromDataBase e) {
             e.printStackTrace();
         } catch (AccountDoesNotExistException e) {
-            System.out.println("this account dose not exist yet");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -78,10 +78,8 @@ public class ManageUsersByManagerMenu extends Menu {
             try {
                 account = managerController.createManagerProfileBaseAccount(username);
                 break;
-            } catch (UserNameInvalidException e) {
-                System.out.println("choose valid characters for your username");
-            } catch (UserNameTooShortException e) {
-                System.out.println("your username should be more than 6 character");
+            } catch (UserNameInvalidException | UserNameTooShortException e) {
+                System.out.println(e.getMessage());
             }
         }
 
@@ -96,7 +94,7 @@ public class ManageUsersByManagerMenu extends Menu {
                 SignUpController.getInstance().creatPassWordForAccount(account, password);
                 break;
             } catch (PasswordInvalidException e) {
-                System.out.println("choose valid characters for your password ");
+                System.out.println(e.getMessage());
             }
         }
 

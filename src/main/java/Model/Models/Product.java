@@ -10,7 +10,6 @@ import Model.Tools.ForPend;
 import Model.Tools.Packable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Product implements Packable<Product>, ForPend, Cloneable {
 
@@ -238,11 +237,11 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         }
     }
 
-    public ProductOfSeller getProductOfSellerById(long sellerId) throws SellerDoesNotSellThisProduct {
+    public ProductOfSeller getProductOfSellerById(long sellerId) throws SellerDoesNotSellOfThisProduct {
         return SellersOfProduct.stream()
                 .filter(productOfSeller -> sellerId == productOfSeller.getSellerId())
                 .findFirst()
-                .orElseThrow(() -> new SellerDoesNotSellThisProduct("this seller does not sell the remaining product"));
+                .orElseThrow(() -> new SellerDoesNotSellOfThisProduct("this seller does not sell the remaining product"));
     }
 
     /***************************************************packAndDpkg*****************************************************/

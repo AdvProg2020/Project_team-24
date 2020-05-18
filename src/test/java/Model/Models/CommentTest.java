@@ -1,7 +1,5 @@
 package Model.Models;
 
-import Controller.Controllers.BuyerController;
-import Exceptions.CanNotSaveToDataBaseException;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;

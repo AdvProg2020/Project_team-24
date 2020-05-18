@@ -1,6 +1,5 @@
 package Model.Models;
 
-import Exceptions.CanNotAddException;
 import Exceptions.CanNotRemoveException;
 import Exceptions.FieldDoesNotExistException;
 import Model.Models.Field.Field;
@@ -30,7 +29,7 @@ public class FieldList {
         return this;
     }
 
-    public FieldList addFiled(Field field) throws CanNotAddException {
+    public FieldList addFiled(Field field) {
         fieldList.add(field);
         return this;
     }

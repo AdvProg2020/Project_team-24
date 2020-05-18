@@ -43,10 +43,8 @@ public class ViewOrdersByBuyerMenu extends Menu {
         String number = inputs.get(1);
         try {
             buyerController.rate(id, number);
-        } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist ");
-        } catch (CannotRateException e) {
-            System.out.println("sorry you can not rate");
+        } catch (ProductDoesNotExistException | CannotRateException e) {
+            System.out.println(e.getMessage());
         }
     }
 

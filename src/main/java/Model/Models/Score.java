@@ -59,13 +59,13 @@ public class Score implements Packable<Score> {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addScore(Score score) throws CanNotSaveToDataBaseException {
+    public static void addScore(Score score) {
         score.setScoreId(AddingNew.getRegisteringId().apply(Score.getList()));
         list.add(score);
         DataBase.save(score,true);
     }
 
-    public static void removeScore(Score score) throws CanNotRemoveFromDataBase {
+    public static void removeScore(Score score) {
         list.remove(score);
         DataBase.remove(score);
     }
@@ -96,7 +96,7 @@ public class Score implements Packable<Score> {
         return list.stream()
                 .filter(score -> id == score.getId())
                 .findFirst()
-                .orElseThrow(); // need new Exception. maybe...
+                .orElseThrow(() -> ); // need new Exception. maybe...
     }
 
     /**************************************************constructors*****************************************************/

@@ -60,10 +60,8 @@ public class AuctionsMenu extends Menu {
 
                 });
 
-            } catch (AuctionDoesNotExistException e) {
-                System.out.println("Auction does not exist.");
-            } catch (ProductDoesNotExistException e) {
-                System.out.println("Product does not exist.");
+            } catch (AuctionDoesNotExistException | ProductDoesNotExistException e) {
+                System.out.println(e.getMessage());
             }
 
         });
@@ -74,7 +72,7 @@ public class AuctionsMenu extends Menu {
         try {
             auctionController.showProduct(id);
         } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
+            System.out.println(e.getMessage());
         }
     }
 

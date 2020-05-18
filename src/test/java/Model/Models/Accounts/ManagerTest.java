@@ -1,12 +1,10 @@
 package Model.Models.Accounts;
 
-import Exceptions.CanNotRemoveFromDataBase;
 import Model.Models.*;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
-import Model.Tools.ForPend;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

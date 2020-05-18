@@ -29,8 +29,8 @@ public class Request implements Packable<Request> {
         return requestId;
     }
 
-    public long getRequestId() {
-        return requestId;
+    public long getAccountId() {
+        return accountId;
     }
 
     public String getTypeOfRequest() {

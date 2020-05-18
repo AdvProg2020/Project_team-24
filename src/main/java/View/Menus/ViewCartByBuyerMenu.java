@@ -2,10 +2,8 @@ package View.Menus;
 
 import Controller.Controllers.BuyerController;
 import Exceptions.*;
-import Model.Models.Product;
 import View.MenuHandler;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -54,9 +52,8 @@ public class ViewCartByBuyerMenu extends Menu {
         try {
             System.out.println(buyerController.viewProductInCart(id));
         } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
+            System.out.println(e.getMessage());
         }
-
     }
 
     public void increase(List<String> inputs) {
@@ -66,14 +63,10 @@ public class ViewCartByBuyerMenu extends Menu {
 
         try {
             buyerController.increase(idProduct, idSeller);
-        } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
-        } catch (ProductIsOutOfStockException e) {
-            System.out.println("sorry the product is out of stock");
+        } catch (ProductDoesNotExistException | SellerDoesNotSellOfThisProduct | ProductIsOutOfStockException e) {
+            System.out.println(e.getMessage());
         } catch (CanNotSaveToDataBaseException e) {
             e.printStackTrace();
-        } catch (SellerDoesNotSellThisProduct sellerDoesNotSellThisProduct) {
-            System.out.println("seller with this id not found.");
         }
 
     }
@@ -96,7 +89,7 @@ public class ViewCartByBuyerMenu extends Menu {
             System.out.println(buyerController.showTotalPrice());
         } catch (ProductDoesNotExistException e) {
             System.out.println("product does not exist ");
-        } catch (SellerDoesNotSellThisProduct sellerDoesNotSellThisProduct) {
+        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
             System.out.println("seller not found.");
         }
     }

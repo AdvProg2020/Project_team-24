@@ -34,7 +34,7 @@ public class SortingProductsMenu extends Menu{
         try {
             System.out.println(productsController.sort(sortBy));
         } catch (NotAvailableSortException e) {
-            System.out.println("sort is not available");
+            System.out.println(e.getMessage());
         }
 
     }

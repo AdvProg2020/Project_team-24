@@ -46,7 +46,7 @@ public class BuyerMenu extends Menu {
         try {
             System.out.println(buyerController.viewOrders());
         } catch (LogHistoryDoesNotExistException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         MenuHandler.setCurrentMenu(ViewOrdersByBuyerMenu.getMenu());
     }
@@ -63,7 +63,7 @@ public class BuyerMenu extends Menu {
                 );
             });
         } catch (DiscountCodeExpiredException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

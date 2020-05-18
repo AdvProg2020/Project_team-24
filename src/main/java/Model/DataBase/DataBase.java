@@ -4,6 +4,7 @@ import Exceptions.*;
 import Model.Tools.Data;
 import Model.Tools.Packable;
 import com.gilecode.yagson.YaGson;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,7 +20,8 @@ public class DataBase {
 
     private static YaGson yaGson = new YaGson();
 
-    public static List<Packable<?>> loadList(Class<?> clazz) {
+    @NotNull
+    public static List<Packable<?>> loadList(@NotNull Class<?> clazz) {
 
         String classSimpleName = clazz.getSimpleName();
 
@@ -27,17 +29,14 @@ public class DataBase {
 
         try (Stream<Path> pathStream = Files.walk(Path.of(getStringPath(classSimpleName))).filter(Files::isRegularFile)) {
 
-            Stream<String> stringStream = pathStream.map(path -> {
+            pathStream.map(path -> {
                 try {
                     return Files.readString(path);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return "Exception";
+                    return null;
                 }
-            });
-
-            stringStream.filter(s -> !"Exception".equals(s)).map(s -> yaGson.fromJson(s, Data.class))
-                    .filter(Objects::nonNull)
+            }).filter(Objects::nonNull).map(s -> yaGson.fromJson(s, Data.class))
                     .forEach(data -> {
                         try {
                             list.add(data.getInstance());
@@ -53,18 +52,12 @@ public class DataBase {
         return list;
     }
 
-    public static void save(Packable<?> object, boolean New) throws CanNotSaveToDataBaseException {
+    public static void save(Packable<?> object, boolean New) {
 
         if (New) {
 
-            File file = new File(getStringObjPath(object));
-
             try {
-
-                if (!file.createNewFile()) {
-                    throw new CanNotSaveToDataBaseException("Can't create a file for " + object.getClass().getSimpleName() + " whit id:" + object.getId() + " .");
-                }
-
+                Files.createFile(Path.of(getStringObjPath(object)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -73,7 +66,7 @@ public class DataBase {
         save(object);
     }
 
-    public static void save(Packable<?> object) throws CanNotSaveToDataBaseException {
+    public static void save(Packable<?> object) {
 
         File file = new File(getStringObjPath(object));
 
@@ -89,27 +82,26 @@ public class DataBase {
 
         } catch (IOException e) {
             e.printStackTrace();
-            throw new CanNotSaveToDataBaseException("Can't create a file for " + object.getClass().getSimpleName() + " whit id:" + object.getId() + " .");
         }
     }
 
-    public static void remove(Packable<?> object) throws CanNotRemoveFromDataBase {
+    public static void remove(Packable<?> object) {
 
-        File file = new File(getStringObjPath(object));
-
-        if (!file.delete()) {
-            throw new CanNotRemoveFromDataBase("Can't remove a file for " + object.getClass().getSimpleName() + " whit id:" + object.getId() + " .");
+        try {
+            Files.delete(Path.of(getStringObjPath(object)));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     /***************************************************otherMethods****************************************************/
 
-    private static String getStringPath(String className) {
+    private static String getStringPath(@NotNull String className) {
         return String.format("src/main/resources/%s-src", (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className);
     }
 
-    private static String getStringObjPath(Packable<?> packable) {
-        String className  = packable.getClass().getSimpleName();
+    private static String getStringObjPath(@NotNull Packable<?> packable) {
+        String className = packable.getClass().getSimpleName();
         return String.format("src/main/resources/%s-src/%d.json"
                 , (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className
                 , packable.getId()

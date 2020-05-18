@@ -2,14 +2,12 @@ package Controller.Controllers;
 
 import Controller.ControllerUnit;
 import Exceptions.AuctionDoesNotExistException;
-import Exceptions.IdOnlyContainsNumbersException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Auction;
 import Model.Models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AuctionController {
 
