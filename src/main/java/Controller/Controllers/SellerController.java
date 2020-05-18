@@ -126,9 +126,12 @@ public class SellerController extends AccountController {
         Request.addRequest(request);
     }
 
-    public Auction addOff(String auctionName, String strStart, String strEnd, String strPercent, String strMaxAmount) throws NumberFormatException, DateTimeParseException {
+    public Auction addOff(String auctionName, String strStart, String strEnd, String strPercent, String strMaxAmount) throws NumberFormatException, DateTimeParseException, InvalidInputByUserException {
         LocalDate start = LocalDate.parse(strStart, formatter);
         LocalDate end = LocalDate.parse(strEnd, formatter);
+        if (!end.isAfter(start)) {
+            throw new InvalidInputByUserException("End must be after start time. ok?");
+        }
         double percent = Double.parseDouble(strPercent);
         double maxAmount = Double.parseDouble(strMaxAmount);
         Discount discount = new Discount(percent, maxAmount);
@@ -161,12 +164,15 @@ public class SellerController extends AccountController {
         return Auction.getAuctionById(offId);
     }
 
-    public void editAuction(String strId, String fieldName, String newInfo, String information) throws AuctionDoesNotExistException, FieldDoesNotExistException, NumberFormatException {
+    public void editAuction(String strId, String fieldName, String newInfo, String information) throws AuctionDoesNotExistException, FieldDoesNotExistException, NumberFormatException, InvalidInputByUserException {
         long id = Long.parseLong(strId);
         Auction.checkExistOfAuctionById(id, ((Seller) controllerUnit.getAccount()).getAuctionList(), controllerUnit.getAccount());
         try {
             Auction auction = (Auction) Auction.getAuctionById(id).clone();
             auction.editField(fieldName, newInfo);
+            if (!auction.getEnd().isAfter(auction.getStart())) {
+                throw new InvalidInputByUserException("End must be after start time. ok?");
+            }
             this.sendRequest(auction, information, "edit");
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();

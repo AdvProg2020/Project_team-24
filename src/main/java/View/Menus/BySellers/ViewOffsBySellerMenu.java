@@ -1,10 +1,7 @@
 package View.Menus.BySellers;
 
 import Controller.Controllers.SellerController;
-import Exceptions.AuctionDoesNotExistException;
-import Exceptions.FieldDoesNotExistException;
-import Exceptions.ProductCantBeInMoreThanOneAuction;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Model.Models.Auction;
 import View.Menus.Menu;
 import View.Tools.Shows;
@@ -64,7 +61,7 @@ public class ViewOffsBySellerMenu extends Menu {
         try {
             sellerController.editAuction(auctionId, fieldName, newInfo, information);
             System.out.println("Auction changed.");
-        } catch (AuctionDoesNotExistException | FieldDoesNotExistException e) {
+        } catch (AuctionDoesNotExistException | FieldDoesNotExistException | InvalidInputByUserException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -100,7 +97,7 @@ public class ViewOffsBySellerMenu extends Menu {
 
             System.out.println("Auction created.");
 
-        } catch (NumberFormatException | DateTimeParseException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException e) {
+        } catch (NumberFormatException | DateTimeParseException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException | InvalidInputByUserException e) {
             System.out.println(e.getMessage());
         }
     }
