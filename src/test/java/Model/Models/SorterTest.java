@@ -27,11 +27,7 @@ class SorterTest {
         product1.setProductInfo(info1);
         product1.setAverageScore(5);
         product1.setNumberOfVisitors(5);
-        try {
             product1.addSeller(1,50,2);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
         //product2
         Product product2 = new Product("laak", null, null);
         Info info2 = new Info("time of upload",null, LocalDate.parse("24/3/1395",formatter));
@@ -39,12 +35,7 @@ class SorterTest {
         product2.setProductInfo(info2);
         product2.setAverageScore(3);
         product2.setNumberOfVisitors(35);
-
-        try {
             product2.addSeller(1,4,1);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
         //product3
         Product product3 = new Product("sandali", null, null);
         product3.setProductId(3);
@@ -52,12 +43,7 @@ class SorterTest {
         product3.setProductInfo(info3);
         product3.setAverageScore(1);
         product3.setNumberOfVisitors(2332);
-
-        try {
             product3.addSeller(1,333,6);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
         List<Product> listOfProducts = Arrays.asList(product1, product2,product3);
         Product.setList(listOfProducts);
         List<Long> productIds = null;

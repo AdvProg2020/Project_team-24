@@ -1,5 +1,6 @@
 package Model.Models;
 
+import Exceptions.ScoreDoesNotExistException;
 import Model.Models.Accounts.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,10 +47,14 @@ class ScoreTest {
 
 
     @Test
-    void getScoreById() {
+    void getScoreById1() {
         Score scoreexpected = Score.getList().get(0);
-        Score scoreactual = Score.getScoreById(1);
+        Score scoreactual = assertDoesNotThrow(() -> Score.getScoreById(1));
         assertEquals(scoreexpected,scoreactual);
+    }
+    @Test
+    void getScoreById2() {
+       assertThrows(ScoreDoesNotExistException.class,() -> Score.getScoreById(1000000000));
     }
     @Test
     void pack() {

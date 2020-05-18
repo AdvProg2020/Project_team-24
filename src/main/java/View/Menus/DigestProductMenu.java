@@ -31,7 +31,7 @@ public class DigestProductMenu extends Menu {
     public void addToCart() {
         System.out.println(
                 "enter seller id in this pattern: " + System.lineSeparator() +
-                "select seller [sellerId]");
+                        "select seller [sellerId]");
         Matcher matcher = Pattern.compile("select seller :(\\w+) ").matcher(scanner.nextLine().toLowerCase().trim());
         if (!matcher.find()) {
             System.out.println("Incorrect format");
@@ -43,8 +43,6 @@ public class DigestProductMenu extends Menu {
             MenuHandler.setCurrentMenu(LogInMenu.getMenu());
         } catch (ProductIsOutOfStockException | ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
             System.out.println(e.getMessage());
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
         }
     }
 

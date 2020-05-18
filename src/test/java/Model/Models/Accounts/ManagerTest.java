@@ -92,7 +92,7 @@ class ManagerTest {
 
 
     @Test
-    void removeAccount() throws CanNotRemoveFromDataBase {
+    void removeAccount()  {
         Account account = Account.getList().get(0);
         Manager manager = (Manager) Account.getList().get(2);
         assertDoesNotThrow(() -> manager.removeAccount(account));

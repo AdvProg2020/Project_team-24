@@ -39,18 +39,10 @@ class CategoryTest {
        //product
         Product product1 = new Product("aftabe", null, null);
         product1.setProductId(1);
-        try {
-            product1.addSeller(seller.getId(),20,30);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
+        product1.addSeller(seller.getId(),20,30);
         Product product2 = new Product("laak", null, null);
         product2.setProductId(2);
-        try {
-            product2.addSeller(seller.getId(),50,2);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
+        product2.addSeller(seller.getId(),50,2);
         List<Product> listOfProducts = Arrays.asList(product1, product2);
         Product.setList(listOfProducts);
         List<Long> productIds  = null;
@@ -98,14 +90,14 @@ class CategoryTest {
        assertTrue(category.getSubCategories().contains(subcategory));
     }
 
-    @Test
+  /*  @Test
     void removeFromSubCategoryList() {
         Category category = Category.getList().get(1);
         Category subcategory = Category.getList().get(0);
         assertDoesNotThrow(() -> category.removeFromSubCategoryList(subcategory.getId()));
         assertFalse(category.getSubCategories().contains(subcategory));
 
-    }
+    }*/
 
     @Test
     void addCategory() {

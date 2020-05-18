@@ -8,38 +8,38 @@ public class Manager extends Account {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void removeAccount(Account account) throws CanNotRemoveFromDataBase {
+    public void removeAccount(Account account)  {
         list.remove(account);
         DataBase.remove(account);
     }
 
-    public void addToRequestList(Request request) throws CanNotSaveToDataBaseException {
+    public void addToRequestList(Request request)  {
         Request.addRequest(request);
     }
 
-    public void addToDiscountCodeList(DiscountCode discountCode) throws CanNotSaveToDataBaseException {
+    public void addToDiscountCodeList(DiscountCode discountCode)  {
         DiscountCode.addDiscountCode(discountCode);
     }
 
-    public void addToCategoryList(Category category) throws CanNotSaveToDataBaseException {
+    public void addToCategoryList(Category category)  {
         Category.addCategory(category);
     }
 
-    public void removeFromDiscountCodeList(DiscountCode discountCode) throws CanNotRemoveFromDataBase {
+    public void removeFromDiscountCodeList(DiscountCode discountCode) {
         DiscountCode.removeFromDiscountCode(discountCode);
     }
 
-    public void removeFromCategoryList(Category category) throws CanNotRemoveFromDataBase {
+    public void removeFromCategoryList(Category category){
         Category.removeCategory(category);
     }
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest(Request request) throws CanNotSaveToDataBaseException, CanNotRemoveFromDataBase {
+    public void acceptRequest(Request request)  {
         request.acceptRequest();
     }
 
-    public void declineRequest(Request request) throws CanNotRemoveFromDataBase {
+    public void declineRequest(Request request)  {
         request.declineRequest();
     }
 

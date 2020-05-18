@@ -45,22 +45,9 @@ class CartTest {
             productIds.add(product.getId());
         }
         //sellers of products
-        try {
             listOfProducts.get(0).addSeller(account3.getId(),50,3);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
-        try {
             listOfProducts.get(0).addSeller(account4.getId(),50,3);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
-
-        try {
             listOfProducts.get(1).addSeller(account4.getId(),10,6);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
         //adding to cart
         //selecting sellers
         List<Long> sellersChosenid = Arrays.asList(account3.getId(),account3.getId());

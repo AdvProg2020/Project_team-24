@@ -157,22 +157,15 @@ class AccountTest {
     @Test
     void addAccount() {
         Account account = new Seller("nogole no shekofte");
-        try {
             Account.addAccount(account);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
+
         assertTrue(Account.getList().contains(account));
     }
 
     @Test
     void deleteAccount() {
         Account account = Account.getList().get(2);
-        try {
             Account.deleteAccount(account);
-        } catch (CanNotRemoveFromDataBase canNotRemoveFromDataBase) {
-            canNotRemoveFromDataBase.printStackTrace();
-        }
         assertFalse(Account.getList().contains(account));
     }
     @Test

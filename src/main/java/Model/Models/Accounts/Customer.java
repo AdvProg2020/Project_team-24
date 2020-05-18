@@ -23,11 +23,11 @@ public class Customer extends Account {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToCart(long productId, long sellerId) throws CanNotSaveToDataBaseException {
+    public void addToCart(long productId, long sellerId)  {
         cart.addProductToCart(sellerId, productId);
     }
 
-    public void removeFromCart(long productId, long sellerId) throws CanNotSaveToDataBaseException {
+    public void removeFromCart(long productId, long sellerId) {
         cart.removeProductFromCart(sellerId, productId);
     }
 

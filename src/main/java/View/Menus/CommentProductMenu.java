@@ -29,22 +29,21 @@ public class CommentProductMenu extends Menu {
 
     public void addComment() {
 
-            System.out.println("Enter information in this pattern :" + System.lineSeparator() +
-                    "Title:[title of your comment] Content:[content of your comment]" + System.lineSeparator() +
-                    "exit : to finish."
-            );
-            String input = scanner.nextLine().trim();
+        System.out.println("Enter information in this pattern :" + System.lineSeparator() +
+                "Title:[title of your comment] Content:[content of your comment]" + System.lineSeparator() +
+                "exit : to finish."
+        );
+        String input = scanner.nextLine().trim();
 
-            Matcher matcher = Pattern.compile("Title:(.+) Content:(.+)").matcher(input);
-            if (!matcher.find()) {
-                System.out.println("Incorrect format");
-            }
+        Matcher matcher = Pattern.compile("Title:(.+) Content:(.+)").matcher(input);
+        if (!matcher.find()) {
+            System.out.println("Incorrect format");
+        }
         try {
-            productController.addComment(matcher.group(1),matcher.group(2));
+            productController.addComment(matcher.group(1), matcher.group(2));
         } catch (ProductDoesNotExistException | CannotRateException e) {
             System.out.println(e.getMessage());
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
+
         }
     }
 

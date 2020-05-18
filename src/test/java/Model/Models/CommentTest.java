@@ -40,18 +40,10 @@ class CommentTest {
         //products
         Product product1 = new Product("aftabe", null, null);
         product1.setProductId(1);
-        try {
             product1.addSeller(seller.getId(),20,30);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
         Product product2 = new Product("laak", null, null);
         product2.setProductId(2);
-        try {
             product2.addSeller(seller.getId(),50,2);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
         List<Product> listOfProducts = Arrays.asList(product1, product2);
         Product.setList(listOfProducts);
         //buyer

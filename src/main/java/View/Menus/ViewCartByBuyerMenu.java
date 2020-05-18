@@ -65,8 +65,6 @@ public class ViewCartByBuyerMenu extends Menu {
             buyerController.increase(idProduct, idSeller);
         } catch (ProductDoesNotExistException | SellerDoesNotSellOfThisProduct | ProductIsOutOfStockException e) {
             System.out.println(e.getMessage());
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
         }
 
     }
@@ -79,8 +77,6 @@ public class ViewCartByBuyerMenu extends Menu {
             buyerController.decrease(idProduct, idSeller);
         } catch (ProductDoesNotExistException e) {
             System.out.println("product does not exist");
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
         }
     }
 

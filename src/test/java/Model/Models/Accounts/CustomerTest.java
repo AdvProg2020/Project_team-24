@@ -1,5 +1,6 @@
 package Model.Models.Accounts;
 
+
 import Model.Models.*;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,10 +43,13 @@ class CustomerTest {
         Account.setList(accountList);
     //products
     Product product1 = new Product("aftabe", null, null);
-    Product product2 = new Product("laak", null, null);
+
+            product1.addSeller(1,40,3);
+
+        Product product2 = new Product("laak", null, null);
     List<Product> listOfProducts = Arrays.asList(product1, product2);
     Product.setList(listOfProducts);
-    List<Long> productIds = null;
+    List<Long> productIds  =  new ArrayList<>();
         for (Product product:listOfProducts) {
             productIds.add(product.getId());
         }
@@ -54,14 +59,15 @@ class CustomerTest {
     //discount code
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     Discount discount2 = new Discount(50,100);
-    DiscountCode discountCode = new DiscountCode("2431380",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount2,2);
+    DiscountCode discountCode = new DiscountCode("2431380",LocalDate.parse("24/03/1399",formatter),LocalDate.parse("24/05/1399",formatter),discount2,2);
     List<DiscountCode> discountList = Arrays.asList(discountCode);
         DiscountCode.setList(discountList);
     //auctions
     Discount discount1 = new Discount(30,100);
-    Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount1);
+    Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/03/1399",formatter),LocalDate.parse("24/05/1399",formatter),discount1);
     auction1.setProductList(productIds);
     List<Auction> auctionList = Arrays.asList(auction1);
+    Auction.setList(auctionList);
     for(Auction auction : Auction.getList()){
         auction.setAuctionId(AddingNew.getRegisteringId().apply(auctionList));
     }
@@ -135,11 +141,13 @@ class CustomerTest {
         assertTrue(customer.getPassword().equals("sale!!!"));
     }
 
-    @Test
+   /* @Test
     void pack() {
     }
 
     @Test
     void dpkg() {
     }
+
+    */
 }

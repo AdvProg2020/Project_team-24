@@ -56,8 +56,7 @@ public class PurchaseByBuyerMenu extends Menu {
             buyerController.buyProductsOfCart();
         } catch (NotEnoughCreditException e) {
             System.out.println("you have not enough money");
-        } catch (CanNotSaveToDataBaseException e) {
-        e.printStackTrace();
+       
         } catch (ProductDoesNotExistException e) {
             System.out.println("product does not exist");
         } catch (AccountDoesNotExistException e) {
