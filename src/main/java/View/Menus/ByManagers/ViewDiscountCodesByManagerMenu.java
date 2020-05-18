@@ -1,9 +1,10 @@
-package View.Menus;
+package View.Menus.ByManagers;
 
 import Controller.Controllers.ManagerController;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.FieldDoesNotExistException;
 import Model.Models.DiscountCode;
+import View.Menus.Menu;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,8 +60,6 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
             managerController.removeDiscountCode(id);
         } catch (DiscountCodeExpiredException e) {
             System.out.println(e.getMessage());
-        } catch (CanNotRemoveFromDataBase e) {
-            e.printStackTrace();
         }
     }
 

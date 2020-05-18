@@ -1,15 +1,16 @@
-package View.Menus;
+package View.Menus.ByManagers;
 
 import Controller.Controllers.ManagerController;
 import Controller.Controllers.SignUpController;
 import Exceptions.*;
 import Model.Models.Account;
 import Model.Models.Field.Fields.SingleString;
+import View.Menus.Menu;
+import View.Menus.SignUpMenu;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ManageUsersByManagerMenu extends Menu {
 
@@ -34,7 +35,7 @@ public class ManageUsersByManagerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageUsersByManagerMenu."));
     }
 
-    public void view(List<String> inputs) {
+    public void view(@NotNull List<String> inputs) {
         String username = inputs.get(0);
         try {
             Account account = managerController.viewAccount(username);
@@ -54,13 +55,11 @@ public class ManageUsersByManagerMenu extends Menu {
         }
     }
 
-    public void deleteUser(List<String> inputs) {
+    public void deleteUser(@NotNull List<String> inputs) {
         String username = inputs.get(0);
         try {
             managerController.deleteAccount(username);
             System.out.println("account deleted.");
-        } catch (CanNotRemoveFromDataBase e) {
-            e.printStackTrace();
         } catch (AccountDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
@@ -68,7 +67,6 @@ public class ManageUsersByManagerMenu extends Menu {
 
     public void createManagerProfile() {
         Account account;
-
         while (true) {
             System.out.println("Enter a username(exist to finish): ");
             String username = scanner.nextLine();
@@ -105,7 +103,7 @@ public class ManageUsersByManagerMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("you are in manage user by manager menu.");
+        System.out.println("You are in manage user by manager menu.");
     }
 
     @Override
@@ -118,6 +116,4 @@ public class ManageUsersByManagerMenu extends Menu {
                         "----------------------------------------------"
         );
     }
-
-
 }

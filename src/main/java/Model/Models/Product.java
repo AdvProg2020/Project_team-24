@@ -67,7 +67,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return auction;
     }
 
-    public String getProductName() {
+    public String getName() {
         return productName;
     }
 

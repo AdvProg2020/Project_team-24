@@ -1,7 +1,8 @@
-package View.Menus;
+package View.Menus.ByManagers;
 
 import Controller.Controllers.ManagerController;
 import Exceptions.ProductDoesNotExistException;
+import View.Menus.Menu;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,8 +34,6 @@ public class ManageProductsByManagerMenu extends Menu {
             System.out.println("product removed.");
         } catch (ProductDoesNotExistException e) {
             System.out.println(e.getMessage());
-        } catch (CanNotRemoveFromDataBase e) {
-            e.printStackTrace();
         }
     }
 

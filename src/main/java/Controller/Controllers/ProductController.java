@@ -72,7 +72,7 @@ public class ProductController {
 //        return seller;
 //    }
 
-    public void addToCart(String sellerIdString) throws AccountHasNotLogin, ProductIsOutOfStockException, CanNotSaveToDataBaseException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
+    public void addToCart(String sellerIdString) throws AccountHasNotLogin, ProductIsOutOfStockException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         long sellerId = Long.parseLong(sellerIdString);
 
         if (controllerUnit.getAccount() instanceof Guest) {
@@ -87,7 +87,7 @@ public class ProductController {
         customer.getCart().addProductToCart(sellerId, controllerUnit.getProduct().getId());
     }
 
-    public void addComment(String title, String content) throws ProductDoesNotExistException, CannotRateException, CanNotSaveToDataBaseException {
+    public void addComment(String title, String content) throws ProductDoesNotExistException, CannotRateException {
         Account account = controllerUnit.getAccount();
         Product product = controllerUnit.getProduct();
         List<Field> fields = Arrays.asList(new SingleString("Title", title), new SingleString("Content", content));

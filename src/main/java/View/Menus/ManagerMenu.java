@@ -2,8 +2,11 @@ package View.Menus;
 
 import Controller.Controllers.ManagerController;
 import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
+import Model.Models.Account;
+import Model.Models.Accounts.Manager;
 import Model.Models.Field.Fields.SingleString;
 import View.MenuHandler;
+import View.Menus.ByManagers.*;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -34,7 +37,8 @@ public class ManagerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
-        System.out.println(managerController.viewPersonalInfo());
+        Manager manager = (Manager) managerController.viewPersonalInfo();
+        System.out.println();
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
@@ -75,8 +79,6 @@ public class ManagerMenu extends Menu {
         }
         try {
             managerController.creatDiscountCode(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(7));
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
         } catch (InvalidStartAndEndDateForDiscountCodeException e) {
             System.out.println(e.getMessage());
         }

@@ -1,11 +1,12 @@
 package View.Menus;
 
-import Controller.Controllers.AccountController;
 import Controller.Controllers.AuctionController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Auction;
 import Model.Models.Product;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,32 +35,10 @@ public class AuctionsMenu extends Menu {
     public void offs() {
         List<Auction> auctionList = auctionController.offs();
         auctionList.forEach(auction -> {
-
-            System.out.println(
-                    "AuctionName: " + auction.getAuctionName() + System.lineSeparator() +
-                            "End: " + auction.getEnd() + System.lineSeparator() +
-                            "Discount percent: " + auction.getDiscount().getPercent() + System.lineSeparator() +
-                            "Discount limit: " + auction.getDiscount().getAmount()
-            );
-
+            System.out.println(Shows.getShowAuction().apply(auction));
             try {
-
                 List<Product> productList = auctionController.getProductOfAuction(auction.getId());
-                productList.forEach(product -> {
-
-                    System.out.println("ProductName: " + product.getProductName());
-
-                    product.getSellersOfProduct().forEach(productOfSeller -> {
-
-                        System.out.println(
-                                "Old price: " + productOfSeller.getPrice() + System.lineSeparator() +
-                                        "Price with discount: " + (productOfSeller.getPrice() - auction.getAuctionDiscount(productOfSeller.getPrice()))
-                        );
-
-                    });
-
-                });
-
+                productList.forEach(product -> Shows.getShowProduct().apply(product));
             } catch (AuctionDoesNotExistException | ProductDoesNotExistException e) {
                 System.out.println(e.getMessage());
             }
@@ -67,10 +46,11 @@ public class AuctionsMenu extends Menu {
         });
     }
 
-    public void showProduct(List<String> inputs) {
+    public void showProduct(@NotNull List<String> inputs) {
         String id =inputs.get(0);
         try {
-            auctionController.showProduct(id);
+            Product product = auctionController.showProduct(id);
+            System.out.println(Shows.getShowProduct().apply(product));
         } catch (ProductDoesNotExistException e) {
             System.out.println(e.getMessage());
         }

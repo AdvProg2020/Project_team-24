@@ -60,7 +60,7 @@ public class Auction implements Packable<Auction>, ForPend {
         return discount;
     }
 
-    public String getAuctionName() {
+    public String getName() {
         return auctionName;
     }
 

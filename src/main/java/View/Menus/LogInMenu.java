@@ -10,6 +10,7 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import View.MenuHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +34,8 @@ public class LogInMenu extends Menu {
         super(name);
     }
 
-    public void login(List<String> inputs) {
-
-        Account account = null;
+    public void login(@NotNull List<String> inputs) {
+        Account account;
 
         try {
             account = LoginController.getInstance().login(inputs.get(0), inputs.get(1));

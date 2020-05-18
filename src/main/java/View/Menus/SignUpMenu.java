@@ -4,6 +4,7 @@ import Controller.Controllers.SignUpController;
 import Exceptions.*;
 import Model.Models.Account;
 import View.MenuHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,7 @@ public class SignUpMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in SignUpMenu."));
     }
 
-    public void createAccount(List<String> inputs) {
+    public void createAccount(@NotNull List<String> inputs) {
         Account account = null;
         try {
             account = signUpController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
@@ -88,8 +89,6 @@ public class SignUpMenu extends Menu {
                 return true;
             } catch (FirstNameInvalidException | LastNameInvalidException | PhoneNumberInvalidException | EmailInvalidException e) {
                 System.out.println(e.getMessage());
-            } catch (CanNotSaveToDataBaseException e) {
-                e.printStackTrace(); // Doesn't need to print something else.
             }
         }
     }
@@ -114,15 +113,13 @@ public class SignUpMenu extends Menu {
                 return true;
             } catch (CompanyNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
                 System.out.println(e.getMessage());
-            } catch (CanNotSaveToDataBaseException e) {
-                e.printStackTrace(); // Doesn't need to print something else.
             }
         }
     }
 
     @Override
     public void show() {
-        System.out.println("You're in SignUpMenu");
+        System.out.println("You're in SignUpMenu.");
     }
 
     @Override

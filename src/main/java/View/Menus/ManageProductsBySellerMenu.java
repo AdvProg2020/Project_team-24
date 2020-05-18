@@ -52,7 +52,7 @@ public class ManageProductsBySellerMenu extends Menu {
 
     public void edit(List<String> inputs) {
         String id = inputs.get(0);
-        System.out.println("enter field name or enter finish to stop edit product");
+        System.out.println("enter field name or enter 'finish' to stop edit product");
         while (true){
             String fieldName = scanner.nextLine();
             if (fieldName.equals("finish")) break;

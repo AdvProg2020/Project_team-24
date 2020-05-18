@@ -1,4 +1,4 @@
-package View.Menus;
+package View.Menus.ByManagers;
 
 import Controller.Controllers.ManagerController;
 import Exceptions.RequestDoesNotExistException;
@@ -6,6 +6,7 @@ import Model.Models.Auction;
 import Model.Models.Product;
 import Model.Models.Request;
 import Model.Tools.ForPend;
+import View.Menus.Menu;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,18 +40,19 @@ public class ManageRequestsByManagerMenu extends Menu {
                     "Request id: " + request.getId() + System.lineSeparator() +
                     "Account id: " + request.getAccountId() + System.lineSeparator() +
                     "Type: " + request.getTypeOfRequest() + System.lineSeparator() +
+                    "State: " + request.getForPend().getStateForPend() + System.lineSeparator() +
                     "ForPend type: " + request.getForPend().getClass().getSimpleName() + System.lineSeparator() +
                     "Information: " + request.getInformation()
             );
             ForPend forPend = request.getForPend();
             if (forPend instanceof Product) {
                 System.out.println(
-                        "ProductName: " + ((Product) forPend).getProductName()
+                        "ProductName: " + ((Product) forPend).getName()
                 );
             }
             if (forPend instanceof Auction) {
                 System.out.println(
-                        "AuctionName: " + ((Auction) forPend).getAuctionName()
+                        "AuctionName: " + ((Auction) forPend).getName()
                 );
             }
         } catch (RequestDoesNotExistException e) {
@@ -63,8 +65,6 @@ public class ManageRequestsByManagerMenu extends Menu {
         try {
             managerController.acceptRequest(id);
             System.out.println("Request accepted.");
-        } catch (CanNotRemoveFromDataBase | CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
         } catch (RequestDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
@@ -77,8 +77,6 @@ public class ManageRequestsByManagerMenu extends Menu {
             System.out.println("Request declined.");
         } catch (RequestDoesNotExistException e) {
             System.out.println(e.getMessage());
-        } catch (CanNotRemoveFromDataBase e) {
-            e.printStackTrace();
         }
     }
 

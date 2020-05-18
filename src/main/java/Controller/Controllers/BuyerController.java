@@ -74,7 +74,7 @@ public class BuyerController extends AccountController {
             double productAuctionAmount = product.getAuction().getAuctionDiscount(productPrice);
             double productFinalPrice = productPrice - productAuctionAmount;
 
-            productLogs.add(new ProductLog(product.getId(), product.getProductName(), productPrice, productAuctionAmount, productFinalPrice));
+            productLogs.add(new ProductLog(product.getId(), product.getName(), productPrice, productAuctionAmount, productFinalPrice));
 
             seller.setBalance(seller.getBalance() + productFinalPrice);
         }
@@ -145,7 +145,7 @@ public class BuyerController extends AccountController {
         return Product.getProductById(productId);
     }
 
-    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, CanNotSaveToDataBaseException, ProductDoesNotExistException, ProductIsOutOfStockException, SellerDoesNotSellOfThisProduct {
+    public void increase(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, ProductIsOutOfStockException, SellerDoesNotSellOfThisProduct {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         this.checkCartForProductId(productId);
@@ -156,7 +156,7 @@ public class BuyerController extends AccountController {
         }
     }
 
-    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException, CanNotSaveToDataBaseException {
+    public void decrease(String productIdString, String sellerIdString) throws NumberFormatException, ProductDoesNotExistException {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         this.checkCartForProductId(productId);
@@ -186,7 +186,7 @@ public class BuyerController extends AccountController {
         this.setDiscountCodeEntered(discountCode);
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, CanNotSaveToDataBaseException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
+    public void buyProductsOfCart() throws NotEnoughCreditException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         this.checkEnoughCredit();
         List<ProductLog> productLogs = this.payment();
         LogHistory logHistory = new LogHistory(

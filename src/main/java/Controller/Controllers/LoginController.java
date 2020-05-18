@@ -12,13 +12,14 @@ import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 import static Controller.Tools.RegisterAndLoginValidator.isCorrectPassword;
 
 public class LoginController {
-    /****************************************************fields*******************************************************/
+    /******************************************************fields*******************************************************/
 
     private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
     private static LoginController loginController = new LoginController();
 
-    /**************************************************methods********************************************************/
+    /****************************************************methods********************************************************/
+
     public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException, UserNameInvalidException, UserNameTooShortException {
 
         Account account = Account.getAccountByUserName(username);
@@ -40,7 +41,7 @@ public class LoginController {
         return account;
     }
 
-    /****************************************************singleTone***************************************************/
+    /****************************************************singleTone*****************************************************/
 
     public static LoginController getInstance() {
         return loginController;

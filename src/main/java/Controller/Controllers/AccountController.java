@@ -22,7 +22,7 @@ public abstract class AccountController {
         account.editField(fieldName,newField);
     }
 
-    public Info viewPersonalInfo()  {
-        return controllerUnit.getAccount().getPersonalInfo();
+    public Account viewPersonalInfo()  {
+        return controllerUnit.getAccount();
     }
 }

@@ -33,7 +33,7 @@ public class ProductMenu extends Menu {
     public void digest() {
         Product currentProduct = productController.digest();
         System.out.println(
-                "Name:" + currentProduct.getProductName() + System.lineSeparator() +
+                "Name:" + currentProduct.getName() + System.lineSeparator() +
                         "Info:" + currentProduct.getProductInfo() + System.lineSeparator() +
                         "Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct() + System.lineSeparator() +
                         "Auction:" + currentProduct.getAuction() + System.lineSeparator() +
@@ -45,7 +45,7 @@ public class ProductMenu extends Menu {
     public void attributes() {
         Product currentProduct = productController.digest();
         System.out.println(
-                "Name:" + currentProduct.getProductName() + System.lineSeparator() +
+                "Name:" + currentProduct.getName() + System.lineSeparator() +
                         "Info:" + currentProduct.getProductInfo() + System.lineSeparator() +
                         "Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct() + System.lineSeparator() +
                         "Auction:" + currentProduct.getAuction() + System.lineSeparator() +

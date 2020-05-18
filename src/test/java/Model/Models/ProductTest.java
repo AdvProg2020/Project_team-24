@@ -40,18 +40,14 @@ class ProductTest {
         //products
         Product product1 = new Product("aftabe", null, null);
         product1.setProductId(1);
-        try {
-            product1.addSeller(seller.getId(),20,30);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
+
+        product1.addSeller(seller.getId(), 20, 30);
+
         Product product2 = new Product("laak", null, null);
         product2.setProductId(2);
-        try {
-            product2.addSeller(seller.getId(),50,2);
-        } catch (CanNotSaveToDataBaseException e) {
-            e.printStackTrace();
-        }
+
+        product2.addSeller(seller.getId(), 50, 2);
+
         List<Product> listOfProducts = Arrays.asList(product1, product2);
         Product.setList(listOfProducts);
     }
@@ -59,39 +55,40 @@ class ProductTest {
     @Test
     void editField() {
         Product product = Product.getList().get(0);
-        assertDoesNotThrow(() -> product.editField("productName","jafari"));
-        assertTrue(product.getProductName().equals("jafari"));
+        assertDoesNotThrow(() -> product.editField("productName", "jafari"));
+        assertTrue(product.getName().equals("jafari"));
     }
 
     @Test
     void getProductById() {
         Product productexpected = Product.getList().get(0);
         Product productactual = assertDoesNotThrow(() -> Product.getProductById(1));
-        assertEquals(productexpected,productactual);
+        assertEquals(productexpected, productactual);
     }
 
     @Test
     void checkExistOfProductById1() {
         List<Long> productIds = null;
-        for (Product product: Product.getList()) {
+        for (Product product : Product.getList()) {
             productIds.add(product.getId());
         }
-        assertThrows(ProductDoesNotExistException.class,() -> Product.checkExistOfProductById(100,productIds,null));
+        assertThrows(ProductDoesNotExistException.class, () -> Product.checkExistOfProductById(100, productIds, null));
     }
+
     @Test
     void checkExistOfProductById2() {
         List<Long> productIds = null;
-        for (Product product: Product.getList()) {
+        for (Product product : Product.getList()) {
             productIds.add(product.getId());
         }
-        assertDoesNotThrow(() ->Product.checkExistOfProductById(1,productIds,null));
+        assertDoesNotThrow(() -> Product.checkExistOfProductById(1, productIds, null));
     }
 
     @Test
     void getProductOfSellerById() {
-       double priceactual = assertDoesNotThrow(() -> Product.getList().get(0).getProductOfSellerById(1)).getPrice();
-       double priceexcpected = 20;
-       assertEquals(priceexcpected,priceactual);
+        double priceactual = assertDoesNotThrow(() -> Product.getList().get(0).getProductOfSellerById(1)).getPrice();
+        double priceexcpected = 20;
+        assertEquals(priceexcpected, priceactual);
     }
 
     @Test

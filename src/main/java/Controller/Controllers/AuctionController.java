@@ -32,6 +32,14 @@ public class AuctionController {
         return Auction.getList();
     }
 
+    public Product showProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
+        long productId = Long.parseLong(productIdString);
+        Product.checkExistOfProductById(productId, controllerUnit.getAuction().getProductList(), controllerUnit.getAuction());
+        Product product = Product.getProductById(productId);
+        controllerUnit.setProduct(product);
+        return product;
+    }
+
     public List<Product> getProductOfAuction(long auctionId) throws AuctionDoesNotExistException, ProductDoesNotExistException {
         Auction auction = Auction.getAuctionById(auctionId);
         List<Product> list = new ArrayList<>();
@@ -40,13 +48,5 @@ public class AuctionController {
             list.add(productById);
         }
         return list;
-    }
-
-    public Product showProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
-        long productId = Long.parseLong(productIdString);
-        Product.checkExistOfProductById(productId, controllerUnit.getAuction().getProductList(), controllerUnit.getAuction());
-        Product product = Product.getProductById(productId);
-        controllerUnit.setProduct(product);
-        return product;
     }
 }

@@ -1,6 +1,5 @@
 package Controller.Controllers;
 
-import Controller.ControllerUnit;
 import Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.*;
 import Model.Models.Account;
@@ -20,8 +19,6 @@ public class SignUpController {
 
     /****************************************************fields*********************************************************/
 
-    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
-
     private static SignUpController registerController = new SignUpController();
 
     /**************************************************MainMethods******************************************************/
@@ -38,7 +35,7 @@ public class SignUpController {
         }
 
         if (Account.isThereAnyAccountWithThisUsername(username) || Account.isThereAnyInRegisteringWithThisUsername(username)) {
-            throw new ThisUserNameAlreadyExistsException("This username already exist.");
+            throw new ThisUserNameAlreadyExistsException("The username: " + username + " already exist.");
         }
 
         Account account;
@@ -49,7 +46,7 @@ public class SignUpController {
                 break;
             case "Manager":
                 if (Manager.isThereAnyManager()) {
-                    throw new CanNotCreatMoreThanOneMangerBySignUp("manager Exist!");
+                    throw new CanNotCreatMoreThanOneMangerBySignUp("Just one manager in signUp menu can create.");
                 }
                 account = new Manager(username);
                 break;
@@ -57,7 +54,7 @@ public class SignUpController {
                 account = new Customer(username);
                 break;
             default:
-                throw new TypeInvalidException("Type is invalid.");
+                throw new TypeInvalidException(type + " isn't a valid type. just 'Manager' , 'Seller' , 'Customer' are valid.");
         }
 
         Account.addToInRegisteringList(account);
@@ -70,13 +67,13 @@ public class SignUpController {
         RegisterValidation registerValidation = RegisterAndLoginValidator.isPassword(password).get();
 
         if (registerValidation == RegisterValidation.IS_NOT_A_VALID_PASS) {
-            throw new PasswordInvalidException("Password is Invalid.");
+            throw new PasswordInvalidException("Your entered password: " + password + " is Invalid. Just enter (a-z),(A_Z),(_).");
         }
 
         account.setPassword(password);
     }
 
-    public void savePersonalInfo(Account account, String firstName, String lastName, String phoneNumber, String email) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException, CanNotSaveToDataBaseException {
+    public void savePersonalInfo(Account account, String firstName, String lastName, String phoneNumber, String email) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isFirstName(firstName)
                 .and(RegisterAndLoginValidator.isLastName(lastName))
@@ -115,7 +112,7 @@ public class SignUpController {
         }
     }
 
-    public void saveCompanyInfo(Account account, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException, CanNotSaveToDataBaseException {
+    public void saveCompanyInfo(Account account, String brand, String phoneNumber, String email) throws CompanyNameInvalidException, PhoneNumberInvalidException, EmailInvalidException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isBrand(brand)
                 .and(RegisterAndLoginValidator.isEmail(email))

@@ -132,7 +132,7 @@ public class SellerMenu extends Menu {
 
     public void viewOffs() {
         sellerController.viewAllOffs().forEach(off -> {
-            System.out.println(off.getAuctionName());
+            System.out.println(off.getName());
         });
         MenuHandler.setCurrentMenu(ViewOffsBySellerMenu.getMenu());
     }

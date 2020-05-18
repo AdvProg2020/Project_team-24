@@ -59,18 +59,18 @@ public class ManagerController extends AccountController {
         return Account.getAccountByUserName(username);
     }
 
-    public void deleteAccount(String username) throws AccountDoesNotExistException, CanNotRemoveFromDataBase {
+    public void deleteAccount(String username) throws AccountDoesNotExistException {
         Account account = Account.getAccountByUserName(username);
         Account.deleteAccount(account);
     }
 
-    public void removeProduct(String strProductId) throws CanNotRemoveFromDataBase, ProductDoesNotExistException {
+    public void removeProduct(String strProductId) throws ProductDoesNotExistException {
         long productId = Long.parseLong(strProductId);
         Product product = Product.getProductById(productId);
         Product.removeProduct(product);
     }
 
-    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws CanNotSaveToDataBaseException, InvalidStartAndEndDateForDiscountCodeException {
+    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws InvalidStartAndEndDateForDiscountCodeException {
 
         LocalDate start = LocalDate.parse(strStart, formatter);
         LocalDate end = LocalDate.parse(strEnd, formatter);
@@ -103,7 +103,7 @@ public class ManagerController extends AccountController {
         discountCode.editField(strField,newField);
     }
 
-    public void removeDiscountCode(String StrDiscountCodeId) throws DiscountCodeExpiredException, CanNotRemoveFromDataBase {
+    public void removeDiscountCode(String StrDiscountCodeId) throws DiscountCodeExpiredException {
         long discountCodeId = Long.parseLong(StrDiscountCodeId);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
         DiscountCode.removeFromDiscountCode(discountCode);
@@ -135,12 +135,12 @@ public class ManagerController extends AccountController {
         return Request.getRequestById(requestId);
     }
 
-    public void acceptRequest(String strRequestId) throws RequestDoesNotExistException, CanNotRemoveFromDataBase, CanNotSaveToDataBaseException {
+    public void acceptRequest(String strRequestId) throws RequestDoesNotExistException {
         long requestId = Long.parseLong(strRequestId);
         ((Manager) controllerUnit.getAccount()).acceptRequest(Request.getRequestById(requestId));
     }
 
-    public void denyRequest(String strRequestId) throws RequestDoesNotExistException, CanNotRemoveFromDataBase {
+    public void denyRequest(String strRequestId) throws RequestDoesNotExistException {
         long requestId = Long.parseLong(strRequestId);
         ((Manager) controllerUnit.getAccount()).declineRequest(Request.getRequestById(requestId));
     }
@@ -151,13 +151,13 @@ public class ManagerController extends AccountController {
         category.editField(fieldName, newField);
     }
 
-    public void removeCategory(String categoryId) throws CanNotRemoveFromDataBase, CategoryDoesNotExistException {
+    public void removeCategory(String categoryId) throws CategoryDoesNotExistException {
         long id = Long.parseLong(categoryId);
         Category category = Category.getCategoryById(id);
         Category.removeCategory(category);
     }
 
-    public void addCategory(String categoryId) throws CanNotSaveToDataBaseException, CategoryDoesNotExistException {
+    public void addCategory(String categoryId) throws CategoryDoesNotExistException {
         long id = Long.parseLong(categoryId);
         Category category = Category.getCategoryById(id);
         Category.addCategory(category);

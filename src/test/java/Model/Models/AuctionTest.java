@@ -121,7 +121,7 @@ public class AuctionTest {
     void editField() {
         Auction auction = Auction.getList().get(0);
         assertDoesNotThrow(() -> auction.editField("auctionName","sale!!!"));
-        assertTrue(auction.getAuctionName().equals("sale!!!"));
+        assertTrue(auction.getName().equals("sale!!!"));
     }
 
     @Test
