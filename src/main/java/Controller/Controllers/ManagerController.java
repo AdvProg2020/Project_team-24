@@ -6,13 +6,16 @@ import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
+import Model.Models.Field.Field;
+import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.Discount;
-import Model.Tools.AddingNew;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class ManagerController extends AccountController {
 
@@ -37,14 +40,6 @@ public class ManagerController extends AccountController {
 
     public List<DiscountCode> viewDiscountCodes() {
         return DiscountCode.getList();
-    }
-
-    public List<Request> manageRequests() {
-        return Request.getList();
-    }
-
-    public List<Category> manageCategories() {
-        return Category.getList();
     }
 
     public List<Request> showAllRequests() {
@@ -100,7 +95,7 @@ public class ManagerController extends AccountController {
     public void editDiscountCode(String DiscountCodeIdString, String strField, String newField) throws NumberFormatException, DiscountCodeExpiredException, FieldDoesNotExistException {
         long discountCodeId = Long.parseLong(DiscountCodeIdString);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
-        discountCode.editField(strField,newField);
+        discountCode.editField(strField, newField);
     }
 
     public void removeDiscountCode(String StrDiscountCodeId) throws DiscountCodeExpiredException {
@@ -157,13 +152,23 @@ public class ManagerController extends AccountController {
         Category.removeCategory(category);
     }
 
-    public void addCategory(String categoryId) throws CategoryDoesNotExistException {
-        long id = Long.parseLong(categoryId);
-        Category category = Category.getCategoryById(id);
+    public void createEmptyCategory(String categoryName, @NotNull List<String> fieldNames, List<String> values, @NotNull List<String> strCategoriesIds) throws CategoryDoesNotExistException, NumberFormatException {
+        List<Long> subCategory = strCategoriesIds.stream().map(Long::parseLong).collect(Collectors.toList());
+
+        List<Field> fields = new ArrayList<>();
+        for (int i = 0; i < fieldNames.size(); i++) {
+            SingleString filed = new SingleString(fieldNames.get(i), values.get(i));
+            fields.add(filed);
+        }
+
+        FieldList fieldList = new FieldList(fields);
+
+        Category category = new Category(categoryName, fieldList, subCategory);
+
         Category.addCategory(category);
     }
 
-    public Manager createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException {
+    public Manager createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException, ThisUserNameAlreadyExistsException {
         RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
 
         switch (registerValidation) {
@@ -172,6 +177,11 @@ public class ManagerController extends AccountController {
             case IS_NOT_A_VALID_USERNAME_TOO_SHORT:
                 throw new UserNameTooShortException("UserNameTooShortException");
         }
+
+        if (Account.isThereAnyAccountWithThisUsername(username) || Account.isThereAnyInRegisteringWithThisUsername(username)) {
+            throw new ThisUserNameAlreadyExistsException("The username: " + username + " already exist.");
+        }
+
         Manager manager = new Manager(username);
         Account.addToInRegisteringList(manager);
         return manager;

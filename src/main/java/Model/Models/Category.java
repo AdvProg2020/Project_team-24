@@ -9,6 +9,7 @@ import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class Category implements Packable<Category> , Cloneable {
     private long categoryId;
     private String name;
     private FieldList categoryFields;
-    private List<Long> productList;
     private List<Long> subCategories;
+    private List<Long> productList = new ArrayList<>();
 
     /*****************************************************setters*******************************************************/
 
@@ -70,6 +71,11 @@ public class Category implements Packable<Category> , Cloneable {
 
     public void addToProductList(long productId) {
         productList.add(productId);
+        DataBase.save(this);
+    }
+
+    public void removeFromProductList(long productId) {
+        productList.removeIf(pro -> productId == pro );
         DataBase.save(this);
     }
 
@@ -129,15 +135,14 @@ public class Category implements Packable<Category> , Cloneable {
         this.name = (String) data.getFields().get(1);
         this.categoryFields = (FieldList) data.getFields().get(2);
         this.productList = (List<Long>) data.getFields().get(3);
-        this.subCategories = (List<Long>) data.getFields().get(3);
+        this.subCategories = (List<Long>) data.getFields().get(4);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Category(String name, List<Long> productList, FieldList categoryFields, List<Long> subCategories) {
+    public Category(String name, FieldList categoryFields, List<Long> subCategories) {
         this.name = name;
-        this.productList = productList;
         this.categoryFields = categoryFields;
         this.subCategories = subCategories;
     }

@@ -69,8 +69,7 @@ public class ManagerMenu extends Menu {
                 "DiscountCode :[start date] :[end data] :[percent] :[max amount] :[frequent]"
         );
 
-        Matcher matcher = Pattern
-                .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}(\\.\\d+)?) :(\\d+(\\.\\d+)?) :(\\d+)")
+        Matcher matcher = Pattern.compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}(\\.\\d+)?) :(\\d+(\\.\\d+)?) :(\\d+)")
                 .matcher(scanner.nextLine().trim());
 
         if (!matcher.find()) {

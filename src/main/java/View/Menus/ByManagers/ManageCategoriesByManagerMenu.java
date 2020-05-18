@@ -4,7 +4,9 @@ import Controller.Controllers.ManagerController;
 import Exceptions.CategoryDoesNotExistException;
 import Exceptions.FieldDoesNotExistException;
 import View.Menus.Menu;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,16 +41,39 @@ public class ManageCategoriesByManagerMenu extends Menu {
         }
     }
 
-    public void addCategory(List<String> inputs) {
+    public void addCategory(@NotNull List<String> inputs) {
         String categoryName = inputs.get(0);
         try {
-            managerController.addCategory(categoryName);
+
+            List<String> fieldNames = new ArrayList<>();
+            List<String> values = new ArrayList<>();
+            while (true) {
+                System.out.println("Enter fieldName( or finish.):");
+                String fieldName = scanner.nextLine();
+                if (fieldName.matches("finish")) break;
+                System.out.println("Enter value( or finish.):");
+                String value = scanner.nextLine();
+                fieldNames.add(fieldName);
+                values.add(value);
+            }
+
+            List<String> subCategories = new ArrayList<>();
+            System.out.println("Enter subCategories id:");
+            while (true) {
+                System.out.println("Enter Category field( or finish.):");
+                String categoryField = scanner.nextLine();
+                if (categoryField.matches("finish")) break;
+                subCategories.add(categoryField);
+            }
+
+            managerController.createEmptyCategory(categoryName, fieldNames, values, subCategories);
+
         } catch (CategoryDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void removeCategory(List<String> inputs) {
+    public void removeCategory(@NotNull List<String> inputs) {
         String categoryName = inputs.get(0);
         try {
             managerController.removeCategory(categoryName);

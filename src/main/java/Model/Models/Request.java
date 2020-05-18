@@ -6,6 +6,7 @@ import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -45,6 +46,8 @@ public class Request implements Packable<Request> {
         return information;
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Request> getList() {
         return Collections.unmodifiableList(list);
     }
@@ -82,8 +85,12 @@ public class Request implements Packable<Request> {
     private void accept_new() {
         if (forPend instanceof Product) {
             Auction auction = ((Product) forPend).getAuction();
+            Category category = ((Product) forPend).getCategory();
             if (auction != null) {
                 auction.addProductToAuction(((Product) forPend).getId());
+            }
+            if (category != null) {
+                category.addToProductList(((Product) forPend).getId());
             }
             Product.addProduct((Product) forPend);
         } else if (forPend instanceof Auction) {
@@ -100,8 +107,12 @@ public class Request implements Packable<Request> {
         if (forPend instanceof Product) {
             Product.removeProduct((Product) forPend);
             Auction auction = ((Product) forPend).getAuction();
+            Category category = ((Product) forPend).getCategory();
             if (auction != null) {
                 auction.removeProductFromAuction(((Product) forPend).getId());
+            }
+            if (category != null) {
+                category.removeFromProductList(((Product) forPend).getId());
             }
         } else if (forPend instanceof Auction) {
             Auction.removeAuction((Auction) forPend);

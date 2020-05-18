@@ -7,6 +7,8 @@ import Model.Models.Product;
 import Model.Models.Request;
 import Model.Tools.ForPend;
 import View.Menus.Menu;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,35 +34,20 @@ public class ManageRequestsByManagerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageRequestsByManagerMenu."));
     }
 
-    public void showDetails(List<String> inputs) {
+    public void showDetails(@NotNull List<String> inputs) {
        String id = inputs.get(0);
         try {
             Request request = managerController.detailsOfRequest(id);
             System.out.println(
-                    "Request id: " + request.getId() + System.lineSeparator() +
-                    "Account id: " + request.getAccountId() + System.lineSeparator() +
-                    "Type: " + request.getTypeOfRequest() + System.lineSeparator() +
-                    "State: " + request.getForPend().getStateForPend() + System.lineSeparator() +
-                    "ForPend type: " + request.getForPend().getClass().getSimpleName() + System.lineSeparator() +
-                    "Information: " + request.getInformation()
+                    Shows.getShowRequest().apply(request)
             );
-            ForPend forPend = request.getForPend();
-            if (forPend instanceof Product) {
-                System.out.println(
-                        "ProductName: " + ((Product) forPend).getName()
-                );
-            }
-            if (forPend instanceof Auction) {
-                System.out.println(
-                        "AuctionName: " + ((Auction) forPend).getName()
-                );
-            }
+
         } catch (RequestDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void acceptRequest(List<String> inputs) {
+    public void acceptRequest(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         try {
             managerController.acceptRequest(id);
@@ -70,7 +57,7 @@ public class ManageRequestsByManagerMenu extends Menu {
         }
     }
 
-    public void declineRequest(List<String> inputs) {
+    public void declineRequest(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         try {
             managerController.denyRequest(id);
@@ -82,7 +69,7 @@ public class ManageRequestsByManagerMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("You're in ManageRequestsByManagerMenu");
+        System.out.println("You're in ManageRequestsByManagerMenu.");
     }
 
     @Override

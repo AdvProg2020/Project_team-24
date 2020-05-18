@@ -2,6 +2,7 @@ package View.Tools;
 
 import Model.Models.*;
 import Model.Models.Field.Fields.SingleString;
+import com.gilecode.yagson.com.google.gson.internal.$Gson$Preconditions;
 
 import java.util.function.Function;
 
@@ -59,6 +60,15 @@ public class Shows {
                             field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
                     ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
 
+    private static Function<Request, String> showRequest = request ->
+            "----------------------------------------------" + System.lineSeparator() +
+                    String.format("RequestId:%d \nAccountId:%d \n", request.getId(), request.getAccountId()) +
+                    String.format("RequestType:%s \nInformation:%s \n", request.getTypeOfRequest(), request.getInformation()) +
+                    "ForPend info:" + (request.getForPend() instanceof Product ?
+                    Shows.getShowProduct().apply((Product)request.getForPend()) :
+                    Shows.getShowAuction().apply((Auction)request.getForPend())) +
+                    "----------------------------------------------";
+
     public static Function<Product, String> getShowProduct() {
         return showProduct;
     }
@@ -81,5 +91,9 @@ public class Shows {
 
     public static Function<Info, String> getShowInfo() {
         return showInfo;
+    }
+
+    public static Function<Request, String> getShowRequest() {
+        return showRequest;
     }
 }

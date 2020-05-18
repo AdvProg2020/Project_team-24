@@ -5,6 +5,8 @@ import Exceptions.CommentDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Product;
 import View.MenuHandler;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,11 +35,7 @@ public class ProductMenu extends Menu {
     public void digest() {
         Product currentProduct = productController.digest();
         System.out.println(
-                "Name:" + currentProduct.getName() + System.lineSeparator() +
-                        "Info:" + currentProduct.getProductInfo() + System.lineSeparator() +
-                        "Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct() + System.lineSeparator() +
-                        "Auction:" + currentProduct.getAuction() + System.lineSeparator() +
-                        "Category:" + currentProduct.getCategory()
+                Shows.getShowProduct().apply(currentProduct)
         );
         MenuHandler.setCurrentMenu(DigestProductMenu.getMenu());
     }
@@ -45,19 +43,15 @@ public class ProductMenu extends Menu {
     public void attributes() {
         Product currentProduct = productController.digest();
         System.out.println(
-                "Name:" + currentProduct.getName() + System.lineSeparator() +
-                        "Info:" + currentProduct.getProductInfo() + System.lineSeparator() +
-                        "Sellers and Prices and NumbersOfThisProducts:" + currentProduct.getSellersOfProduct() + System.lineSeparator() +
-                        "Auction:" + currentProduct.getAuction() + System.lineSeparator() +
-                        "Category:" + currentProduct.getCategory() + System.lineSeparator() +
-                        "CategoryInfo:" + currentProduct.getCategoryInfo() + System.lineSeparator() +
+                Shows.getShowProduct().apply(currentProduct) +
                         "Number Of Visitors:" + currentProduct.getNumberOfVisitors() + System.lineSeparator() +
-                        "Number Of Buyers:" + currentProduct.getBuyerList().size()
+                        "Number Of Buyers:" + currentProduct.getBuyerList().size() + System.lineSeparator() +
+                        "And End."
         );
 
     }
 
-    public void compare(List<String> inputs) {
+    public void compare(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         Product currentProduct = productController.digest();
         try {
@@ -86,7 +80,7 @@ public class ProductMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("You're in ProductMenu");
+        System.out.println("You're in ProductMenu.");
     }
 
     @Override
