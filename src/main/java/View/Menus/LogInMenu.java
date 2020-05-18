@@ -1,5 +1,6 @@
 package View.Menus;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.LoginController;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
@@ -52,6 +53,7 @@ public class LogInMenu extends Menu {
             MenuHandler.setCurrentMenu(SellerMenu.getMenu());
         }
 
+        ControllerUnit.getInstance().setAccount(account);
         MenuHandler.getCurrentMenu().setParentMenu(MainMenu.getMenu());
         MainMenu.getMenu().setParentMenu(MenuHandler.getCurrentMenu());
     }

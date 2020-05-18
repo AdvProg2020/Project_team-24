@@ -73,7 +73,7 @@ public class Cart implements Packable<Cart> {
     }
 
     public static void removeCart(Cart cart) {
-        list.remove(cart);
+        list.removeIf(car -> cart.getId() == car.getId());
         DataBase.remove(cart);
     }
 

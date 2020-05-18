@@ -112,7 +112,7 @@ public class DiscountCode implements Packable<DiscountCode> {
     }
 
     public static void removeFromDiscountCode(DiscountCode discountCode) {
-        list.remove(discountCode);
+        list.removeIf(dis -> discountCode.getId() == dis.getId());
         DataBase.remove(discountCode);
     }
 

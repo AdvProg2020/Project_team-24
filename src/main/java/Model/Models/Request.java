@@ -63,13 +63,41 @@ public class Request implements Packable<Request> {
 
     public void acceptRequest() {
         forPend.setStateForPend("Accepted");
+
+        switch (typeOfRequest) {
+            case "new":
+                accept_new();
+                break;
+            case "remove":
+                accept_remove();
+                break;
+            case "edit":
+                accept_edit();
+        }
+
+        list.remove(this);
+        DataBase.remove(this);
+    }
+
+    private void accept_new() {
         if (forPend instanceof Product) {
             Product.addProduct((Product) forPend);
         } else if (forPend instanceof Auction) {
             Auction.addAuction((Auction) forPend);
         }
-        list.remove(this);
-        DataBase.remove(this);
+    }
+
+    private void accept_edit() {
+        accept_remove();
+        accept_new();
+    }
+
+    private void accept_remove() {
+        if (forPend instanceof Product) {
+            Product.removeProduct((Product) forPend);
+        } else if (forPend instanceof Auction) {
+            Auction.removeAuction((Auction) forPend);
+        }
     }
 
     public void declineRequest() {
@@ -87,7 +115,7 @@ public class Request implements Packable<Request> {
     }
 
     public static void removeRequest(Request request) {
-        list.remove(request);
+        list.removeIf(req -> request.getId() == req.getId());
         DataBase.remove(request);
     }
 

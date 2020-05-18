@@ -66,7 +66,7 @@ public class Score implements Packable<Score> {
     }
 
     public static void removeScore(Score score) {
-        list.remove(score);
+        list.removeIf(sco -> score.getId() == sco.getId());
         DataBase.remove(score);
     }
 

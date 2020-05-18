@@ -107,7 +107,7 @@ public class Auction implements Packable<Auction>, ForPend {
     }
 
     public static void removeAuction(Auction auction) {
-        list.remove(auction);
+        list.removeIf(auc -> auction.getId() == auc.getId());
         DataBase.remove(auction);
     }
 

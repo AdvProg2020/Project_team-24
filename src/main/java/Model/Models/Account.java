@@ -153,7 +153,7 @@ public abstract class Account implements Packable<Account> {
     }
 
     public static void deleteAccount(Account account) {
-        list.remove(account);
+        list.removeIf(acc -> account.getId() == acc.getId());
         DataBase.remove(account);
     }
 

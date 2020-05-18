@@ -75,11 +75,6 @@ public class LogHistory implements Packable<LogHistory> {
         DataBase.save(logHistory,true);
     }
 
-//    public static void removeLog(LogHistory logHistory) throws CanNotRemoveFromDataBase {
-//        list.remove(logHistory);
-//        DataBase.remove(logHistory);
-//    }
-
     /***************************************************packAndDpkg*****************************************************/
     @Override
     public Data<LogHistory> pack() {

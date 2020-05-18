@@ -71,11 +71,6 @@ public class Comment implements Packable<Comment> {
         DataBase.save(comment, true);
     }
 
-    public static void removeComment(Comment comment) {
-        list.remove(comment);
-        DataBase.remove(comment);
-    }
-
     /***************************************************otherMethods****************************************************/
 
     public static Comment getCommentById(long id) throws CommentDoesNotExistException {

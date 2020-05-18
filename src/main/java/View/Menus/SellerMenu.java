@@ -10,6 +10,7 @@ import Model.Models.Accounts.Guest;
 import Model.Models.Field.Field;
 import Model.Models.Product;
 import View.MenuHandler;
+import View.Tools.Shows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,9 @@ public class SellerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
-        System.out.println(sellerController.viewPersonalInfo());
-        System.out.println(sellerController.viewCompanyInformation());
+        System.out.println(
+                Shows.getShowAccount().apply(sellerController.viewPersonalInfo())
+        );
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
@@ -140,7 +142,7 @@ public class SellerMenu extends Menu {
     }
 
     public void viewBalance() {
-        System.out.println(sellerController.viewBalance());
+        System.out.println("Balance: " + sellerController.viewBalance());
     }
 
     public void logout() {

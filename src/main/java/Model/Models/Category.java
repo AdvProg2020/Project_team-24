@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Category implements Packable<Category> {
 
@@ -74,20 +73,10 @@ public class Category implements Packable<Category> {
         DataBase.save(this);
     }
 
-//    public void removeFromProductList(long productId) {
-//        productList.remove(productId);
-//        DataBase.remove(this);
-//    }
-
     public void addToSubCategoryList(long categoryId) {
         subCategories.add(categoryId);
         DataBase.save(this);
     }
-
-//    public void removeFromSubCategoryList(long categoryId) {
-//        subCategories.remove(categoryId);
-//        DataBase.remove(this);
-//    }
 
     public static void addCategory(@NotNull Category category) {
         category.setCategoryId(AddingNew.getRegisteringId().apply(Category.getList()));
@@ -96,7 +85,7 @@ public class Category implements Packable<Category> {
     }
 
     public static void removeCategory(Category category) {
-        list.remove(category);
+        list.removeIf(cat -> category.getId() == cat.getId());
         DataBase.remove(category);
     }
 

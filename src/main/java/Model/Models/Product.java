@@ -193,7 +193,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     }
 
     public static void removeProduct(Product product) {
-        list.remove(product);
+        list.removeIf(pro -> product.getId() == pro.getId());
         DataBase.remove(product);
     }
 
