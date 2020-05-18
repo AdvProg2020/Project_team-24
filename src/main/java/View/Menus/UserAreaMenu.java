@@ -1,6 +1,8 @@
 package View.Menus;
 
 
+import Controller.ControllerUnit;
+import Model.Models.Accounts.Guest;
 import View.MenuHandler;
 
 import java.util.Optional;
@@ -33,6 +35,7 @@ public class UserAreaMenu extends Menu {
     }
 
     public void EnterAsGuest() {
+        ControllerUnit.getInstance().setAccount(Guest.autoCreateGuest());
         MenuHandler.setCurrentMenu(MainMenu.getMenu());
     }
 

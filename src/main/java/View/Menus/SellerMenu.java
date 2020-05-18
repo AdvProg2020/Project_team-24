@@ -1,10 +1,12 @@
 package View.Menus;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
 import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
+import Model.Models.Accounts.Guest;
 import Model.Models.Field.Field;
 import Model.Models.Product;
 import View.MenuHandler;
@@ -141,6 +143,11 @@ public class SellerMenu extends Menu {
         System.out.println(sellerController.viewBalance());
     }
 
+    public void logout() {
+        UserAreaMenu.getMenu().setParentMenu(MainMenu.getMenu());
+        MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
+    }
+
     @Override
     public void show() {
         System.out.println(
@@ -168,6 +175,7 @@ public class SellerMenu extends Menu {
                 "showCategories : To view categories" + System.lineSeparator() +
                 "viewOffs : To open view off menu" + System.lineSeparator() +
                 "viewBalance : To view balance" + System.lineSeparator() +
+                "logout : To logout" + System.lineSeparator() +
                 "----------------------------------------------"
         );
     }

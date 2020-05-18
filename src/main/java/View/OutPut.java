@@ -191,6 +191,7 @@ public class OutPut {
                 .addRegex("viewDiscountCode")
                 .addRegex("openManageRequestsMenu")
                 .addRegex("openManageCategoriesMenu")
+                .addRegex("logout")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -206,6 +207,7 @@ public class OutPut {
                 .addMethod("viewDiscountCode")
                 .addMethod("openManageRequestsMenu")
                 .addMethod("openManageCategoriesMenu")
+                .addMethod("logout")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");
@@ -313,6 +315,7 @@ public class OutPut {
                 .addRegex("showCategories")
                 .addRegex("viewOffs")
                 .addRegex("viewBalance")
+                .addRegex("logout")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -330,6 +333,7 @@ public class OutPut {
                 .addMethod("showCategories")
                 .addMethod("viewOffs")
                 .addMethod("viewBalance")
+                .addMethod("logout")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");
@@ -397,6 +401,7 @@ public class OutPut {
                 .addRegex("viewBalance")
                 .addRegex("viewDiscountCodes")
                 .addRegex("viewOrders")
+                .addRegex("logout")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -410,6 +415,7 @@ public class OutPut {
                 .addMethod("viewBalance")
                 .addMethod("viewDiscountCodes")
                 .addMethod("viewOrders")
+                .addRegex("logout")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");

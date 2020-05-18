@@ -1,8 +1,10 @@
 package View.Menus;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
 import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
 import Model.Models.Account;
+import Model.Models.Accounts.Guest;
 import Model.Models.Accounts.Manager;
 import Model.Models.Field.Fields.SingleString;
 import View.MenuHandler;
@@ -99,6 +101,10 @@ public class ManagerMenu extends Menu {
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
 
+    public void logout() {
+        UserAreaMenu.getMenu().setParentMenu(MainMenu.getMenu());
+        MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
+    }
 
     @Override
     public void show() {
@@ -128,6 +134,7 @@ public class ManagerMenu extends Menu {
                         "viewDiscountCode : To open discount code menu" + System.lineSeparator() +
                         "openManageRequestsMenu : To open request menu" + System.lineSeparator() +
                         "openManageCategoriesMenu : To open categories menu" + System.lineSeparator() +
+                        "logout : To logout" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

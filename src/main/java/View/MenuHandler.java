@@ -1,5 +1,6 @@
 package View;
 
+import Controller.ControllerUnit;
 import Model.ModelUnit;
 import View.Menus.*;
 
@@ -48,7 +49,6 @@ public class MenuHandler {
         InPut input = new InPut();
         modelUnit.preprocess_loadLists();
         OutPut outPut = OutPut.getInstance();
-//        initMenus();
         input.start(outPut);
     }
 
@@ -63,5 +63,4 @@ public class MenuHandler {
     public static Scanner getScanner() {
         return scanner;
     }
-
 }

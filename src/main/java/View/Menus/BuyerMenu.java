@@ -1,9 +1,11 @@
 package View.Menus;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.BuyerController;
 import Controller.Controllers.ManagerController;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.LogHistoryDoesNotExistException;
+import Model.Models.Accounts.Guest;
 import View.MenuHandler;
 
 import java.util.Optional;
@@ -67,6 +69,11 @@ public class BuyerMenu extends Menu {
         }
     }
 
+    public void logout() {
+        UserAreaMenu.getMenu().setParentMenu(MainMenu.getMenu());
+        MainMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
+        MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
+    }
 
     @Override
     public void show() {
@@ -92,6 +99,7 @@ public class BuyerMenu extends Menu {
                         "viewDiscountCodes : To show discounts" + System.lineSeparator() +
                         "purchase : To purchase" + System.lineSeparator() +
                         "viewOrders : To open Orders menu" + System.lineSeparator() +
+                        "logout : To logout" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

@@ -52,7 +52,7 @@ public class LogInMenu extends Menu {
             MenuHandler.setCurrentMenu(SellerMenu.getMenu());
         }
 
-        UserAreaMenu.getMenu().setParentMenu(MenuHandler.getCurrentMenu());
+        MenuHandler.getCurrentMenu().setParentMenu(MainMenu.getMenu());
         MainMenu.getMenu().setParentMenu(MenuHandler.getCurrentMenu());
     }
 
