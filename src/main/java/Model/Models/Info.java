@@ -2,7 +2,7 @@ package Model.Models;
 
 import java.time.LocalDate;
 
-public class Info {
+public class Info implements Cloneable{
 
     /*****************************************************fields*******************************************************/
 
@@ -26,6 +26,13 @@ public class Info {
         return uploadDate;
     }
 
+    /*****************************************************setters*******************************************************/
+
+    public Info setList(FieldList list) {
+        this.list = list;
+        return this;
+    }
+
     /**************************************************constructors*****************************************************/
 
     public Info(String subject, FieldList list, LocalDate uploadDate) {
@@ -35,6 +42,12 @@ public class Info {
     }
 
     /****************************************************overrides******************************************************/
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        FieldList fieldList = (FieldList) list.clone();
+        return ((Info) super.clone()).setList(fieldList);
+    }
 
     @Override
     public String toString() {

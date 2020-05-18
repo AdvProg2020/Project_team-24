@@ -1,14 +1,12 @@
 package View.Menus;
 
-import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
 import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
-import Model.Models.Account;
-import Model.Models.Accounts.Guest;
-import Model.Models.Accounts.Manager;
+
 import Model.Models.Field.Fields.SingleString;
 import View.MenuHandler;
 import View.Menus.ByManagers.*;
+import View.Tools.Shows;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -39,8 +37,9 @@ public class ManagerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
-        Manager manager = (Manager) managerController.viewPersonalInfo();
-        System.out.println();
+        System.out.println(
+                Shows.getShowInfo().apply(managerController.viewPersonalInfo())
+        );
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
@@ -66,14 +65,13 @@ public class ManagerMenu extends Menu {
     }
 
     public void createDiscountCode() {
-        System.out.println("Enter discountCode information :" + System.lineSeparator() +
-                "Enter information in this format :" + System.lineSeparator() +
-                "DiscountCode :[start date] :[end data] :[percent] :[max amount] :[frequent]");
+        System.out.println("Enter discountCode information in this format :" + System.lineSeparator() +
+                "DiscountCode :[start date] :[end data] :[percent] :[max amount] :[frequent]"
+        );
 
         Matcher matcher = Pattern
                 .compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}(\\.\\d+)?) :(\\d+(\\.\\d+)?) :(\\d+)")
                 .matcher(scanner.nextLine().trim());
-
 
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
@@ -102,7 +100,7 @@ public class ManagerMenu extends Menu {
     }
 
     public void logout() {
-        UserAreaMenu.getMenu().setParentMenu(MainMenu.getMenu());
+        MainMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
         MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
     }
 

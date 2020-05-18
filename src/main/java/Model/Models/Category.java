@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.List;
 
-public class Category implements Packable<Category> {
+public class Category implements Packable<Category> , Cloneable {
 
     /******************************************************fields*******************************************************/
 
@@ -146,6 +146,11 @@ public class Category implements Packable<Category> {
     }
 
     /****************************************************overrides******************************************************/
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     @Override
     public String toString() {

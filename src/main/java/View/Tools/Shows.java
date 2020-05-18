@@ -1,10 +1,7 @@
 package View.Tools;
 
-import Model.Models.Account;
-import Model.Models.Auction;
+import Model.Models.*;
 import Model.Models.Field.Fields.SingleString;
-import Model.Models.Info;
-import Model.Models.Product;
 
 import java.util.function.Function;
 
@@ -45,6 +42,23 @@ public class Shows {
                             field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
                     ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
 
+    private static Function<Category, String> showCategory = category ->
+            "----------------------------------------------" + System.lineSeparator() +
+                    String.format("CategoryId:%d \nCategoryName:%s \n", category.getId(), category.getName()) +
+                    "Category fields: " +
+                    category.getCategoryFields().getFieldList().stream().map(
+                            field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                    ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
+
+    private static Function<LogHistory, String> showLogHistory = logHistory ->
+            "----------------------------------------------" + System.lineSeparator() +
+                    String.format("LogId:%d \nLogAmount:%f \n", logHistory.getId(), logHistory.getFinalAmount()) +
+                    String.format("DiscountAmount:%f \nAuctionDiscount:%f \n", logHistory.getDiscountAmount(), logHistory.getAuctionDiscount()) +
+                    "Log fields: " +
+                    logHistory.getFieldList().getFieldList().stream().map(
+                            field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                    ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
+
     public static Function<Product, String> getShowProduct() {
         return showProduct;
     }
@@ -55,6 +69,14 @@ public class Shows {
 
     public static Function<Account, String> getShowAccount() {
         return showAccount;
+    }
+
+    public static Function<Category, String> getShowCategory() {
+        return showCategory;
+    }
+
+    public static Function<LogHistory, String> getShowLogHistory() {
+        return showLogHistory;
     }
 
     public static Function<Info, String> getShowInfo() {

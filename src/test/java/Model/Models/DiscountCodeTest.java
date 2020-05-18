@@ -40,8 +40,8 @@ class DiscountCodeTest {
         });
         Account.setList(accountList);
         //products
-        Product product1 = new Product("aftabe", null, null);
-        Product product2 = new Product("laak", null, null);
+        Product product1 = new Product("aftabe", null, null, null);
+        Product product2 = new Product("laak", null, null, null);
         List<Product> listOfProducts = Arrays.asList(product1, product2);
         Product.setList(listOfProducts);
         List<Long> productIds = null;

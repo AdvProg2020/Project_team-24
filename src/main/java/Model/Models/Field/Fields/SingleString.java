@@ -20,6 +20,11 @@ public class SingleString extends Field {
     }
 
     @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    @Override
     public String toString() {
         return "SingleString{" +
                 "string='" + string + '\'' +

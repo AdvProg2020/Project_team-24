@@ -2,6 +2,7 @@ package View.Menus;
 
 import Controller.Controllers.ManagerController;
 import Exceptions.FieldDoesNotExistException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,12 +27,13 @@ public class ManageInfoMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageInfoMenu."));
     }
 
-    public void edit(List<String> inputs) {
-        String fieldName=inputs.get(0);
-        System.out.print("Enter a new field :");
+    public void edit(@NotNull List<String> inputs) {
+        String fieldName = inputs.get(0);
+        System.out.println("Enter a new value: ");
         String newField = scanner.nextLine();
         try {
-            managerController.editField(fieldName,newField);
+            managerController.editField(fieldName, newField);
+            System.out.println(fieldName + " changed.");
         } catch (FieldDoesNotExistException e) {
             System.out.println(e.getMessage());
         }

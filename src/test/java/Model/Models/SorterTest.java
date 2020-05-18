@@ -21,7 +21,7 @@ class SorterTest {
         Account account = new Seller("akbar");
         account.setId(1);
         //product1
-        Product product1 = new Product("aftabe", null, null);
+        Product product1 = new Product("aftabe", null, null , null);
         Info info1 = new Info("time of upload",null, LocalDate.parse("24/3/1399",formatter));
         product1.setProductId(1);
         product1.setProductInfo(info1);
@@ -29,7 +29,7 @@ class SorterTest {
         product1.setNumberOfVisitors(5);
             product1.addSeller(1,50,2);
         //product2
-        Product product2 = new Product("laak", null, null);
+        Product product2 = new Product("laak", null, null , null);
         Info info2 = new Info("time of upload",null, LocalDate.parse("24/3/1395",formatter));
         product2.setProductId(2);
         product2.setProductInfo(info2);
@@ -37,7 +37,7 @@ class SorterTest {
         product2.setNumberOfVisitors(35);
             product2.addSeller(1,4,1);
         //product3
-        Product product3 = new Product("sandali", null, null);
+        Product product3 = new Product("sandali", null, null, null);
         product3.setProductId(3);
         Info info3 = new Info("time of upload",null, LocalDate.parse("28/3/1399",formatter));
         product3.setProductInfo(info3);

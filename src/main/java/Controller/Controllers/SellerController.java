@@ -8,13 +8,11 @@ import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.Discount;
-import Model.Tools.AddingNew;
+import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.ForPend;
-import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -39,11 +37,6 @@ public class SellerController extends AccountController {
     }
 
     /**************************************************methods********************************************************/
-
-    private void newRequest(ForPend forPend, String information, String type) {
-        Request request = new Request(controllerUnit.getAccount().getId(), information, type, forPend);
-        Request.addRequest(request);
-    }
 
     @NotNull
     @Contract("_, _ -> new")
@@ -111,38 +104,52 @@ public class SellerController extends AccountController {
         long categoryId = Long.parseLong(strCategoryId);
         long auctionId = Long.parseLong(strAuctionId);
         double price = Double.parseDouble(priceString);
-        Category category = Category.getCategoryById(categoryId);
-        Auction auction = Auction.getAuctionById(auctionId);
-        Product product = new Product(productName, category, auction);
-        product.addSeller(controllerUnit.getAccount().getId(), price, numberOfThis);
-        return product;
+        Category category = categoryId == 0 ? null : Category.getCategoryById(categoryId);
+        Auction auction = auctionId == 0 ? null : Auction.getAuctionById(auctionId);
+        ProductOfSeller productOfSeller = new ProductOfSeller(controllerUnit.getAccount().getId(), numberOfThis, price);
+        return new Product(productName, category, auction, productOfSeller);
     }
 
-    public void saveProductInfo(Product product, List<String> fieldName, List<String> values) {
+    public void saveProductInfo(@NotNull Product product, List<String> fieldName, List<String> values) {
         FieldList fieldList = createFieldList(fieldName, values);
         product.setProductInfo(new Info("ProductInfo", fieldList, LocalDate.now()));
     }
 
-    public void saveCategoryInfo(Product product, List<String> fieldName, List<String> values, String information) {
+    public void saveCategoryInfo(@NotNull Product product, List<String> fieldName, List<String> values) {
         FieldList fieldList = createFieldList(fieldName, values);
         product.setCategoryInfo(new Info("CategoryInfo", fieldList, LocalDate.now()));
-        this.newRequest(product, information, "new");
     }
 
-    public void addOff(String auctionName, String strStart, String strEnd, String strPercent, String strMaxAmount, String information) throws NumberFormatException, DateTimeParseException {
+    public void sendRequest(ForPend forPend, String information, String type) {
+        ((Seller) controllerUnit.getAccount()).addToPendList(forPend);
+        Request request = new Request(controllerUnit.getAccount().getId(), information, type, forPend);
+        Request.addRequest(request);
+    }
+
+    public Auction addOff(String auctionName, String strStart, String strEnd, String strPercent, String strMaxAmount) throws NumberFormatException, DateTimeParseException {
         LocalDate start = LocalDate.parse(strStart, formatter);
         LocalDate end = LocalDate.parse(strEnd, formatter);
         double percent = Double.parseDouble(strPercent);
         double maxAmount = Double.parseDouble(strMaxAmount);
         Discount discount = new Discount(percent, maxAmount);
-        Auction auction = new Auction(auctionName, start, end, discount);
-        this.newRequest(auction, information, "new");
+        return new Auction(auctionName, start, end, discount);
+    }
+
+    public void addProductsToAuction(@NotNull Auction auction, @NotNull List<String> productIdsString) throws ProductDoesNotExistException, ProductCantBeInMoreThanOneAuction, NumberFormatException {
+        List<Long> productIds = productIdsString.stream().map(Long::parseLong).collect(Collectors.toList());
+        for (long aLong : productIdsString.stream().map(Long::parseLong).collect(Collectors.toList())) {
+            Product product = Product.getProductById(aLong);
+            if (product.getAuction() != null) {
+                throw new ProductCantBeInMoreThanOneAuction("Product with the id:" + aLong + "have auction. You can't add it");
+            }
+        }
+        auction.setProductList(productIds);
     }
 
     public void removeProduct(String productIdString, String information) throws ProductDoesNotExistException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
         Product product = Product.getProductById(productId);
-        this.newRequest(product, information, "remove");
+        this.sendRequest(product, information, "remove");
     }
 
 //    public ArrayList<Auction> viewOffInFilter() { // what is this?
@@ -157,17 +164,24 @@ public class SellerController extends AccountController {
     public void editAuction(String strId, String fieldName, String newInfo, String information) throws AuctionDoesNotExistException, FieldDoesNotExistException, NumberFormatException {
         long id = Long.parseLong(strId);
         Auction.checkExistOfAuctionById(id, ((Seller) controllerUnit.getAccount()).getAuctionList(), controllerUnit.getAccount());
-        Auction auction = Auction.getAuctionById(id);
-        auction.editField(fieldName, newInfo);
-        this.newRequest(auction, information, "remove");
+        try {
+            Auction auction = (Auction) Auction.getAuctionById(id).clone();
+            auction.editField(fieldName, newInfo);
+            this.sendRequest(auction, information, "edit");
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void editProduct(String strId, String fieldName, String newInfo, String information) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException, ProductDoesNotExistException, NumberFormatException {
         long id = Long.parseLong(strId);
         Product.checkExistOfProductById(id, ((Seller) controllerUnit.getAccount()).getProductList(), controllerUnit.getAccount());
-        Product product = Product.getProductById(id);
-        product.editField(fieldName, newInfo);
-
-        this.newRequest(product, information, "remove");
+        try {
+            Product product = (Product) Product.getProductById(id).clone();
+            product.editField(fieldName, newInfo);
+            this.sendRequest(product, information, "edit");
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -11,6 +11,7 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import View.MenuHandler;
+import View.Tools.Shows;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -56,6 +57,7 @@ public class LogInMenu extends Menu {
         ControllerUnit.getInstance().setAccount(account);
         MenuHandler.getCurrentMenu().setParentMenu(MainMenu.getMenu());
         MainMenu.getMenu().setParentMenu(MenuHandler.getCurrentMenu());
+        System.out.println(Shows.getShowAccount().apply(account));
     }
 
     @Override

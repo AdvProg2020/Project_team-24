@@ -2,6 +2,8 @@ package View;
 
 import View.Menus.*;
 import View.Menus.ByManagers.*;
+import View.Menus.BySellers.ManageProductsBySellerMenu;
+import View.Menus.BySellers.ViewOffsBySellerMenu;
 
 import java.lang.reflect.Method;
 
@@ -615,11 +617,12 @@ public class OutPut {
     }
 
     public void setParents() {
+        userAreaMenu.setParentMenu(userAreaMenu);
         mainMenu.setParentMenu(userAreaMenu);
         signUpMenu.setParentMenu(userAreaMenu);
         logInMenu.setParentMenu(userAreaMenu);
         buyerMenu.setParentMenu(logInMenu);
-        manageInfoMenu.setParentMenu(userAreaMenu);
+        manageInfoMenu.setParentMenu(mainMenu);
         viewCartByBuyerMenu.setParentMenu(buyerMenu);
         purchaseByBuyerMenu.setParentMenu(viewCartByBuyerMenu);
         viewOrdersByBuyerMenu.setParentMenu(buyerMenu);

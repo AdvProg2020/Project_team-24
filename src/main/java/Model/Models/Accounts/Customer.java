@@ -1,6 +1,7 @@
 package Model.Models.Accounts;
 
 import Exceptions.*;
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
@@ -138,6 +139,8 @@ public class Customer extends Account {
                 SingleString field = (SingleString) personalInfo.getList().getFieldByName(fieldName);
                 field.setString(value);
         }
+
+        DataBase.save(this);
     }
 
     /**************************************************constructors*****************************************************/

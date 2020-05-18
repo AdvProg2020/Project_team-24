@@ -120,6 +120,8 @@ public abstract class Account implements Packable<Account> {
             SingleString field = (SingleString) personalInfo.getList().getFieldByName(fieldName);
             field.setString(value);
         }
+
+        DataBase.save(this);
     }
 
     public static Account getAccountByUserName(String name) throws AccountDoesNotExistException {

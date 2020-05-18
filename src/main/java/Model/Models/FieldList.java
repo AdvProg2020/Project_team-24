@@ -3,9 +3,10 @@ package Model.Models;
 import Exceptions.FieldDoesNotExistException;
 import Model.Models.Field.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class FieldList {
+public class FieldList implements Cloneable{
 
     /*****************************************************fields*******************************************************/
 
@@ -17,16 +18,12 @@ public class FieldList {
         return fieldList;
     }
 
-    public void setFieldList(List<Field> fieldList) {
+    public FieldList setFieldList(List<Field> fieldList) {
         this.fieldList = fieldList;
+        return this;
     }
 
     /**************************************************addAndRemove*****************************************************/
-
-    public FieldList removeField(Field field) {
-        fieldList.remove(field);
-        return this;
-    }
 
     public FieldList addFiled(Field field) {
         fieldList.add(field);
@@ -53,6 +50,15 @@ public class FieldList {
     }
 
     /****************************************************overrides******************************************************/
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        List<Field> fields = new ArrayList<>();
+        for (Field field : fieldList) {
+            fields.add((Field) field.clone());
+        }
+        return ((FieldList) super.clone()).setFieldList(fields);
+    }
 
     @Override
     public String toString() {

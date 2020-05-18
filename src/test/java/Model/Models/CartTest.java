@@ -36,7 +36,7 @@ class CartTest {
         });
         Account.setList(accountList);
         //product
-        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null),new Product("mahtabi",null,null));
+        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null, null),new Product("mahtabi",null,null, null));
         listOfProducts.get(0).setProductId(1);
         listOfProducts.get(1).setProductId(2);
         Product.setList(listOfProducts);

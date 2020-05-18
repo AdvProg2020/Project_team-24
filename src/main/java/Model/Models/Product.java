@@ -28,10 +28,10 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     private long numberOfVisitors;
     private double averageScore;
     private String stateForPend;
+    private List<ProductOfSeller> sellersOfProduct;
     private List<Long> scoreList = new ArrayList<>();
     private List<Long> buyerList = new ArrayList<>();
     private List<Long> commentList = new ArrayList<>();
-    private List<ProductOfSeller> SellersOfProduct = new ArrayList<>();
 
     /*****************************************************getters*******************************************************/
 
@@ -72,7 +72,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     }
 
     public List<ProductOfSeller> getSellersOfProduct() {
-        return Collections.unmodifiableList(SellersOfProduct);
+        return Collections.unmodifiableList(sellersOfProduct);
     }
 
     public List<Long> getScoreList() {
@@ -95,16 +95,18 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     /*****************************************************setters*******************************************************/
 
+    public Product setProductInfo(Info productInfo) {
+        this.productInfo = productInfo;
+        return this;
+    }
+
+    public Product setCategoryInfo(Info categoryInfo) {
+        this.categoryInfo = categoryInfo;
+        return this;
+    }
+
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public void setProductInfo(Info productInfo) {
-        this.productInfo = productInfo;
-    }
-
-    public void setCategoryInfo(Info categoryInfo) {
-        this.categoryInfo = categoryInfo;
     }
 
     public void setCategory(Category category) {
@@ -173,7 +175,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 //    }
 
     public void addSeller(long sellerId, double price, long number) {
-        SellersOfProduct.add(new ProductOfSeller(sellerId, number, price));
+        sellersOfProduct.add(new ProductOfSeller(sellerId, number, price));
         DataBase.save(this);
     }
 
@@ -185,9 +187,6 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     public static void addProduct(@NotNull Product product) {
         product.setProductId(AddingNew.getRegisteringId().apply(getList()));
         Auction auction = product.getAuction();
-        if (auction != null) {
-            auction.addProductToAuction(product.getId());
-        }
         list.add(product);
         DataBase.save(product, true);
     }
@@ -243,7 +242,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     }
 
     public ProductOfSeller getProductOfSellerById(long sellerId) throws SellerDoesNotSellOfThisProduct {
-        return SellersOfProduct.stream()
+        return sellersOfProduct.stream()
                 .filter(productOfSeller -> sellerId == productOfSeller.getSellerId())
                 .findFirst()
                 .orElseThrow(() -> new SellerDoesNotSellOfThisProduct(
@@ -268,7 +267,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 .addField(commentList)
                 .addField(buyerList)
                 .addField(scoreList)
-                .addField(SellersOfProduct)
+                .addField(sellersOfProduct)
                 .setInstance(new Product());
     }
 
@@ -286,22 +285,31 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.commentList = (List<Long>) data.getFields().get(9);
         this.buyerList = (List<Long>) data.getFields().get(10);
         this.scoreList = (List<Long>) data.getFields().get(11);
-        this.SellersOfProduct = (List<ProductOfSeller>) data.getFields().get(12);
+        this.sellersOfProduct = (List<ProductOfSeller>) data.getFields().get(12);
         return this;
     }
 
     /**************************************************constructors*****************************************************/
 
-    public Product(String name, Category category, Auction auction) {
+    public Product(String name, Category category, Auction auction, ProductOfSeller productOfSeller) {
         this.productName = name;
         this.category = category;
         this.auction = auction;
+        this.sellersOfProduct = new ArrayList<>();
+        sellersOfProduct.add(productOfSeller);
     }
 
     private Product() {
     }
 
     /****************************************************overrides******************************************************/
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Info proInfo = (Info) productInfo.clone();
+        Info catInfo = (Info) categoryInfo.clone();
+        return ((Product)super.clone()).setProductInfo(proInfo).setCategoryInfo(catInfo);
+    }
 
     @Override
     public String toString() {
@@ -318,7 +326,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 ", scoreList=" + scoreList +
                 ", buyerList=" + buyerList +
                 ", commentList=" + commentList +
-                ", productOfSellers=" + SellersOfProduct +
+                ", productOfSellers=" + sellersOfProduct +
                 '}';
     }
 }

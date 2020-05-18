@@ -70,7 +70,6 @@ public class BuyerMenu extends Menu {
     }
 
     public void logout() {
-        UserAreaMenu.getMenu().setParentMenu(MainMenu.getMenu());
         MainMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
         MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
     }

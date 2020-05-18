@@ -81,6 +81,10 @@ public class Request implements Packable<Request> {
 
     private void accept_new() {
         if (forPend instanceof Product) {
+            Auction auction = ((Product) forPend).getAuction();
+            if (auction != null) {
+                auction.addProductToAuction(((Product) forPend).getId());
+            }
             Product.addProduct((Product) forPend);
         } else if (forPend instanceof Auction) {
             Auction.addAuction((Auction) forPend);
@@ -95,6 +99,10 @@ public class Request implements Packable<Request> {
     private void accept_remove() {
         if (forPend instanceof Product) {
             Product.removeProduct((Product) forPend);
+            Auction auction = ((Product) forPend).getAuction();
+            if (auction != null) {
+                auction.removeProductFromAuction(((Product) forPend).getId());
+            }
         } else if (forPend instanceof Auction) {
             Auction.removeAuction((Auction) forPend);
         }

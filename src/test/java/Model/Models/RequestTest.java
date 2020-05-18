@@ -40,7 +40,7 @@ class RequestTest {
         //seller
         Seller seller = (Seller) account1;
         //products
-        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null),new Product("mahtabi",null,null));
+        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null, null),new Product("mahtabi",null,null, null));
         List<Long> productIds  = null;
         for (Product product:listOfProducts) {
             productIds.add(product.getId());

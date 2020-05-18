@@ -17,8 +17,8 @@ class ScoreTest {
         Account account = new Customer("yasamingol");
         account.setId(1);
         //product
-        Product product = new Product("atr",null,null);
-        Product product2 = new Product("arduinouno",null,null);
+        Product product = new Product("atr",null,null, null);
+        Product product2 = new Product("arduinouno",null,null, null);
         product.setProductId(1);
         product2.setProductId(2);
         List<Product> productlist = Arrays.asList(product,product2);

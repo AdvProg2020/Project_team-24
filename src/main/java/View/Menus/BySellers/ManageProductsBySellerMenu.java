@@ -1,8 +1,9 @@
-package View.Menus;
+package View.Menus.BySellers;
 
 
 import Controller.Controllers.SellerController;
 import Exceptions.*;
+import View.Menus.Menu;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +60,7 @@ public class ManageProductsBySellerMenu extends Menu {
             System.out.println("enter new information about product");
             String newInfo=scanner.nextLine();
             try {
-                sellerController.editProduct(id,fieldName,newInfo);
+                sellerController.editProduct(id,fieldName,newInfo, "");
             } catch (AuctionDoesNotExistException | CategoryDoesNotExistException | ProductDoesNotExistException | FieldDoesNotExistException e) {
                 System.out.println(e.getMessage());
             }
@@ -69,7 +70,7 @@ public class ManageProductsBySellerMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("you are in manage products by seller menu");
+        System.out.println("You are in manage products by seller menu.");
     }
 
     @Override

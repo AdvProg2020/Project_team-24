@@ -43,8 +43,8 @@ class ManagerTest {
         Account.setList(accountList);
         Account.setInRegistering(registeringList);
         //products
-        Product product1 = new Product("aftabe", null, null);
-        Product product2 = new Product("laak", null, null);
+        Product product1 = new Product("aftabe", null, null, null);
+        Product product2 = new Product("laak", null, null, null);
         List<Product> listOfProducts = Arrays.asList(product1, product2);
         Product.setList(listOfProducts);
         List<Long> productIds  = null;
@@ -105,7 +105,7 @@ class ManagerTest {
         //addProduct
         Account account = Account.getList().get(0);
         Manager manager = (Manager) Account.getList().get(2);
-        Product product = new Product("phashmak", null, null);
+        Product product = new Product("phashmak", null, null, null);
         Request requestProduct = new Request(account.getId(),"info","new",product);
         requestProduct.setRequestId(3);
         assertDoesNotThrow(() -> manager.addToRequestList(requestProduct));

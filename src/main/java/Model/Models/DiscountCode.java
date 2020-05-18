@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 
-public class DiscountCode implements Packable<DiscountCode> {
+public class DiscountCode implements Packable<DiscountCode>, Cloneable {
 
     /*****************************************************fields*******************************************************/
 
@@ -108,7 +108,7 @@ public class DiscountCode implements Packable<DiscountCode> {
     public static void addDiscountCode(@NotNull DiscountCode discountCode) {
         discountCode.setId(AddingNew.getRegisteringId().apply(DiscountCode.getList()));
         list.add(discountCode);
-        DataBase.save(discountCode,true);
+        DataBase.save(discountCode, true);
     }
 
     public static void removeFromDiscountCode(DiscountCode discountCode) {
@@ -166,10 +166,10 @@ public class DiscountCode implements Packable<DiscountCode> {
 
         switch (fieldName) {
             case "start":
-                setStart(LocalDate.parse(value,formatter));
+                setStart(LocalDate.parse(value, formatter));
                 break;
             case "end":
-                setEnd(LocalDate.parse(value,formatter));
+                setEnd(LocalDate.parse(value, formatter));
                 break;
             case "frequentUse":
                 setFrequentUse(Long.parseLong(value));
@@ -199,6 +199,11 @@ public class DiscountCode implements Packable<DiscountCode> {
     }
 
     /****************************************************overrides******************************************************/
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     @Override
     public String toString() {

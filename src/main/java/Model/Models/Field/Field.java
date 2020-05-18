@@ -1,6 +1,6 @@
 package Model.Models.Field;
 
-public class Field {
+public class Field implements Cloneable{
 
     protected String fieldName;
 
@@ -14,6 +14,11 @@ public class Field {
 
     public Field(String fieldName) {
         this.fieldName = fieldName;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override

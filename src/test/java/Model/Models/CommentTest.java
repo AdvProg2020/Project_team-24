@@ -38,10 +38,10 @@ class CommentTest {
         //seller
         Seller seller = (Seller) account1;
         //products
-        Product product1 = new Product("aftabe", null, null);
+        Product product1 = new Product("aftabe", null, null, null);
         product1.setProductId(1);
             product1.addSeller(seller.getId(),20,30);
-        Product product2 = new Product("laak", null, null);
+        Product product2 = new Product("laak", null, null, null);
         product2.setProductId(2);
             product2.addSeller(seller.getId(),50,2);
         List<Product> listOfProducts = Arrays.asList(product1, product2);
@@ -72,12 +72,12 @@ class CommentTest {
         assertTrue(Comment.getList().contains(comment));
     }
 
-    @Test
-    void removeComment() {
-        Comment comment = Comment.getList().get(0);
-        assertDoesNotThrow(() -> Comment.removeComment(comment));
-        assertFalse(Comment.getList().contains(comment));
-    }
+//    @Test
+//    void removeComment() {
+//        Comment comment = Comment.getList().get(0);
+//        assertDoesNotThrow(() -> Comment.removeComment(comment));
+//        assertFalse(Comment.getList().contains(comment));
+//    }
 
     @Test
     void getCommentById() {

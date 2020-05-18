@@ -37,10 +37,10 @@ class CategoryTest {
         //Seller
         Seller seller = (Seller) account1;
        //product
-        Product product1 = new Product("aftabe", null, null);
+        Product product1 = new Product("aftabe", null, null, null);
         product1.setProductId(1);
         product1.addSeller(seller.getId(),20,30);
-        Product product2 = new Product("laak", null, null);
+        Product product2 = new Product("laak", null, null,null);
         product2.setProductId(2);
         product2.addSeller(seller.getId(),50,2);
         List<Product> listOfProducts = Arrays.asList(product1, product2);
@@ -69,7 +69,7 @@ class CategoryTest {
     void addToProductList() {
         //check
         Category category = Category.getList().get(0);
-        Product product = new Product("gorbe",category,null);
+        Product product = new Product("gorbe",category,null, null);
         product.setProductId(3);
         Category category2 = Category.getList().get(1);
         assertDoesNotThrow(() -> category.addToProductList(product.getId()));

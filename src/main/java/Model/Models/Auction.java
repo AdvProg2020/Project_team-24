@@ -12,9 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class Auction implements Packable<Auction>, ForPend {
+public class Auction implements Packable<Auction>, ForPend, Cloneable {
 
     /*****************************************************fields*******************************************************/
 
@@ -28,7 +27,7 @@ public class Auction implements Packable<Auction>, ForPend {
     private LocalDate start;
     private LocalDate end;
     private Discount discount;
-    private List<Long> productList = new ArrayList<>();
+    private List<Long> productList;
 
     /*****************************************************getters*******************************************************/
 
@@ -185,7 +184,7 @@ public class Auction implements Packable<Auction>, ForPend {
     }
 
     @Override
-    public Auction dpkg(@NotNull Data<Auction> data) throws ProductDoesNotExistException {
+    public Auction dpkg(@NotNull Data<Auction> data) {
         this.auctionId = (long) data.getFields().get(0);
         this.productList = (List<Long>) data.getFields().get(1);
         this.stateForPend = (String) data.getFields().get(2);
@@ -208,6 +207,11 @@ public class Auction implements Packable<Auction>, ForPend {
     }
 
     /****************************************************overrides******************************************************/
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     @Override
     public String toString() {
