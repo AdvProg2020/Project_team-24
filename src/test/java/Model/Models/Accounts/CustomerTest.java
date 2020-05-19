@@ -64,7 +64,7 @@ class CustomerTest {
         Field field1 = new Field("rang");
         Field field2 = new Field("size");
         Field field3 = new Field("jens");
-        System.out.println("what the hell is wrong with you??");
+
 
         FieldList fieldList = new FieldList(Arrays.asList(field1,field2,field3));
         Category subcategory = new Category("khertopert",null,null);
