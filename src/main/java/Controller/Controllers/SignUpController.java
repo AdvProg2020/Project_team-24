@@ -23,6 +23,10 @@ public class SignUpController {
 
     /**************************************************MainMethods******************************************************/
 
+    public void finishRegistering(Account account) {
+        Account.removeFromInRegistering(account);
+    }
+
     public Account creatTheBaseOfAccount(String type, String username) throws UserNameInvalidException, UserNameTooShortException, TypeInvalidException, CanNotCreatMoreThanOneMangerBySignUp, ThisUserNameAlreadyExistsException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isUsername(username).get();
@@ -104,11 +108,13 @@ public class SignUpController {
 
         if ( account instanceof Manager) {
             Account.addAccount(account);
+            finishRegistering(account);
         }
 
         if ( account instanceof Customer) {
             ((Customer) account).setCart(Cart.autoCreateCart());
             Account.addAccount(account);
+            finishRegistering(account);
         }
     }
 
@@ -136,6 +142,8 @@ public class SignUpController {
         Info info = new Info(account.getClass().getSimpleName(), companyInfo, LocalDate.now());
 
         account.setPersonalInfo(info);
+
+        finishRegistering(account);
 
         Account.addAccount(account);
     }

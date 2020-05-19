@@ -34,7 +34,7 @@ public class SignUpMenu extends Menu {
     }
 
     public void createAccount(@NotNull List<String> inputs) {
-        Account account = null;
+        Account account;
         try {
             account = signUpController.creatTheBaseOfAccount(inputs.get(0), inputs.get(1));
         } catch (UserNameInvalidException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | UserNameTooShortException | ThisUserNameAlreadyExistsException e) {
@@ -48,7 +48,7 @@ public class SignUpMenu extends Menu {
         while (true) {
 
             if (password.matches("^exit$")) {
-                Account.removeFromInRegistering(account);
+                signUpController.finishRegistering(account);
                 return;
             }
 
@@ -77,7 +77,7 @@ public class SignUpMenu extends Menu {
             );
             String input = scanner.nextLine().trim();
             if (input.matches("^exit$")) {
-                Account.removeFromInRegistering(account);
+                signUpController.finishRegistering(account);
                 return false;
             }
             Matcher matcher = Pattern.compile("^PersonalInfo :(.+) :(.+) :(.+) :(.+)$").matcher(input);
@@ -101,7 +101,7 @@ public class SignUpMenu extends Menu {
             );
             String input = scanner.nextLine().trim();
             if (input.matches("^exit$")) {
-                Account.removeFromInRegistering(account);
+                signUpController.finishRegistering(account);
                 return false;
             }
             Matcher matcher = Pattern.compile("^CompanyInfo :(.+) :(.+) :(.+)$").matcher(input);

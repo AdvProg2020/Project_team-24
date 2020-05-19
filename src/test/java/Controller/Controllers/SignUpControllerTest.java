@@ -1,9 +1,10 @@
 package Controller.Controllers;
 
 import Exceptions.*;
+import Model.ModelUnit;
 import Model.Models.Account;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,7 +17,12 @@ class SignUpControllerTest {
 
     private static Account account = null;
 
-    @Before
+    @BeforeAll
+    static void setListOfAccounts() {
+        ModelUnit.getInstance().preprocess_loadLists();
+    }
+
+    @BeforeEach
     public void doBeforeEveryTest() {
         Account.setList(new ArrayList<>());
         Account.setInRegistering(new ArrayList<>());
@@ -24,21 +30,21 @@ class SignUpControllerTest {
 
     @Test
     void creatTheBaseOfAccount1() {
-        String type = "manager";
+        String type = "Manager";
         String username = "sogolsdghi";
         assertDoesNotThrow(() -> account = signUpController.creatTheBaseOfAccount(type, username));
     }
 
     @Test
     void creatTheBaseOfAccount2() {
-        String type = "buyer";
+        String type = "Customer";
         String username = "sogolsdghi";
         assertDoesNotThrow(() -> account = signUpController.creatTheBaseOfAccount(type, username));
     }
 
     @Test
     void creatTheBaseOfAccount3() {
-        String type = "seller";
+        String type = "Seller";
         String username = "sogolsdghi";
         assertDoesNotThrow(() -> account = signUpController.creatTheBaseOfAccount(type, username));
     }
@@ -101,9 +107,10 @@ class SignUpControllerTest {
         String lastName = "sadeghi";
         String phoneNumber = "09013337725";
         String email = "sogolsadeghid@gmail.com";
-        assertDoesNotThrow(() -> signUpController.savePersonalInfo(account, firstName, lastName, email, phoneNumber));
+        assertDoesNotThrow(() -> signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email));
         assertDoesNotThrow(() -> Account.getAccountByUserName(username));
         assertFalse(Account.getInRegistering().contains(account));
+        Account.deleteAccount(account);
     }
 
     @Test
@@ -115,7 +122,7 @@ class SignUpControllerTest {
         String lastName = "sadeghi";
         String phoneNumber = "09013337725";
         String email = "sogolsadeghid@gmail.com";
-        assertDoesNotThrow(() -> signUpController.savePersonalInfo(account, firstName, lastName, email, phoneNumber));
+        assertDoesNotThrow(() -> signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email));
         assertThrows(AccountDoesNotExistException.class, () -> Account.getAccountByUserName(username), "This user not exist in all account list.");
         assertTrue(Account.getInRegistering().contains(account));
     }
@@ -128,7 +135,7 @@ class SignUpControllerTest {
         String lastName = "sadeghi";
         String phoneNumber = "090133377225";
         String email = "sogolsadeghid@gmail.com";
-        assertThrows(PhoneNumberInvalidException.class, () -> signUpController.savePersonalInfo(account, firstName, lastName, email, phoneNumber), "Phone number is invalid.");
+        assertThrows(PhoneNumberInvalidException.class, () -> signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email), "Phone number is invalid.");
     }
 
     @Test
@@ -139,7 +146,7 @@ class SignUpControllerTest {
         String lastName = "sadeghi";
         String phoneNumber = "09013337725";
         String email = "sogolsadeghid@gmai.com";
-        assertThrows(EmailInvalidException.class, () -> signUpController.savePersonalInfo(account, firstName, lastName, email, phoneNumber), "Email is invalid.");
+        assertThrows(EmailInvalidException.class, () -> signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email), "Email is invalid.");
     }
 
     @Test
@@ -150,19 +157,18 @@ class SignUpControllerTest {
         String lastName = "sadeghi";
         String phoneNumber = "09013337725";
         String email = "sogolsadeghid@gmail.com";
-        assertThrows(FirstNameInvalidException.class, () -> signUpController.savePersonalInfo(account, firstName, lastName, email, phoneNumber), "First name is invalid.");
+        assertThrows(FirstNameInvalidException.class, () -> signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email), "First name is invalid.");
     }
 
     @Test
     void savePersonalInfo6() {
         creatPassWordForAccount1();
         // type = manager
-        String username = "sogolsdghi";
         String firstName = "sogol";
         String lastName = "sa#deghi";
         String phoneNumber = "09013337725";
         String email = "sogolsadeghid@gmail.com";
-        assertThrows(LastNameInvalidException.class, () -> signUpController.savePersonalInfo(account, firstName, lastName, email, phoneNumber), "Last name is invalid.");
+        assertThrows(LastNameInvalidException.class, () -> signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email), "Last name is invalid.");
     }
 
     @Test
@@ -175,6 +181,7 @@ class SignUpControllerTest {
         assertDoesNotThrow(() -> signUpController.saveCompanyInfo(account,brand,phone,email));
         assertDoesNotThrow(() -> Account.getAccountByUserName(username));
         assertFalse(Account.getInRegistering().contains(account));
+        Account.deleteAccount(account);
     }
 
     @Test
