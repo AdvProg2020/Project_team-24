@@ -90,14 +90,6 @@ class CategoryTest {
        assertTrue(category.getSubCategories().contains(subcategory));
     }
 
-  /*  @Test
-    void removeFromSubCategoryList() {
-        Category category = Category.getList().get(1);
-        Category subcategory = Category.getList().get(0);
-        assertDoesNotThrow(() -> category.removeFromSubCategoryList(subcategory.getId()));
-        assertFalse(category.getSubCategories().contains(subcategory));
-
-    }*/
 
     @Test
     void addCategory() {

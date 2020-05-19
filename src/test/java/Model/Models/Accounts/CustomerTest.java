@@ -5,6 +5,7 @@ import Model.Models.*;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.Discount;
+import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,21 +42,10 @@ class CustomerTest {
             account.setId(AddingNew.getRegisteringId().apply(accountList));
         });
         Account.setList(accountList);
-        //products
-        Product product1 = new Product("aftabe", null, null, null);
-
-        product1.addSeller(1, 40, 3);
-
-        Product product2 = new Product("laak", null, null, null);
-        List<Product> listOfProducts = Arrays.asList(product1, product2);
-        Product.setList(listOfProducts);
-        List<Long> productIds = new ArrayList<>();
-        for (Product product : listOfProducts) {
-            productIds.add(product.getId());
-        }
         //cart
         Customer customer = (Customer) account2;
-        Cart cart = ((Customer) account2).getCart();
+         customer.setCart(Cart.autoCreateCart());
+
         //discount code
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Discount discount2 = new Discount(50, 100);
@@ -65,11 +55,36 @@ class CustomerTest {
         //auctions
         Discount discount1 = new Discount(30, 100);
         Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/03/1399", formatter), LocalDate.parse("24/05/1399", formatter), discount1);
-        auction1.setProductList(productIds);
         List<Auction> auctionList = Arrays.asList(auction1);
         Auction.setList(auctionList);
         for (Auction auction : Auction.getList()) {
             auction.setAuctionId(AddingNew.getRegisteringId().apply(auctionList));
+        }
+        //category
+        Field field1 = new Field("rang");
+        Field field2 = new Field("size");
+        Field field3 = new Field("jens");
+
+        FieldList fieldList = new FieldList(Arrays.asList(field1,field2,field3));
+        Category subcategory = new Category("khertopert",null,null);
+        subcategory.setCategoryId(1);
+        List<Category> subcategorylist = Arrays.asList(subcategory);
+        List<Long> subcategoryids = Arrays.asList(subcategory.getId());
+        Category maincategory = new Category("hamechiz",fieldList,subcategoryids);
+        maincategory.setCategoryId(2);
+        List<Category> categoryList = Arrays.asList(maincategory);
+        Category.setList(categoryList);
+        //seller
+        Seller seller = (Seller) account1;
+        //products
+        ProductOfSeller productOfSeller = new ProductOfSeller(seller.getId(),3,50);
+        Product product1 = new Product("aftabe",maincategory, auction1,productOfSeller);
+        Product product2 = new Product("laak", maincategory, auction1,productOfSeller);
+        List<Product> listOfProducts = Arrays.asList(product1, product2);
+        Product.setList(listOfProducts);
+        List<Long> productIds = new ArrayList<>();
+        for (Product product : listOfProducts) {
+            productIds.add(product.getId());
         }
     }
 
