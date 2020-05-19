@@ -1,13 +1,20 @@
-package View.Menus;
+package View.Menus.Roles;
 
 import Controller.Controllers.ManagerController;
+import Exceptions.AccountDoesNotExistException;
+import Exceptions.DiscountCodeExpiredException;
 import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
 
-import Model.Models.Field.Fields.SingleString;
 import View.MenuHandler;
 import View.Menus.ByManagers.*;
+import View.Menus.MainMenu;
+import View.Menus.ManageInfoMenu;
+import View.Menus.Menu;
+import View.Menus.RegistrationAndLogin.UserAreaMenu;
 import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -102,6 +109,26 @@ public class ManagerMenu extends Menu {
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
 
+    public void getDiscountCodeToRandomBuyer(@NotNull List<String> input) {
+        String discountCodeId = input.get(0);
+        try {
+            managerController.setDiscountCodeToRandoms(discountCodeId);
+        } catch (DiscountCodeExpiredException | AccountDoesNotExistException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("DiscountCode added.");
+    }
+
+    public void getDiscountCodeToSpecialBuyers(@NotNull List<String> input) {
+        String discountCodeId = input.get(0);
+        try {
+            managerController.setDiscountCodeToSpecials(discountCodeId);
+        } catch (DiscountCodeExpiredException | AccountDoesNotExistException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println("DiscountCode added.");
+    }
+
     public void logout() {
         MainMenu.getMenu().setParentMenu(UserAreaMenu.getMenu());
         MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
@@ -136,6 +163,8 @@ public class ManagerMenu extends Menu {
                         "openManageRequestsMenu : To open request menu" + System.lineSeparator() +
                         "openManageCategoriesMenu : To open categories menu" + System.lineSeparator() +
                         "logout : To logout" + System.lineSeparator() +
+                        "getDiscountCodeToRandomBuyer : To get discountCode" + System.lineSeparator() +
+                        "getDiscountCodeToSpecialBuyers : To get discountCode" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

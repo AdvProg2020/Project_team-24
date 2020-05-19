@@ -110,7 +110,7 @@ public class LogHistory implements Packable<LogHistory> {
                 ));
     }
 
-    public void checkExistOfLogHistoryById(long id , @NotNull List<Long> longList, Packable<?> packable) throws LogHistoryDoesNotExistException {
+    public static void checkExistOfLogHistoryById(long id , @NotNull List<Long> longList, Packable<?> packable) throws LogHistoryDoesNotExistException {
         if (longList.stream().noneMatch(Id -> id == Id)) {
             throw new LogHistoryDoesNotExistException(
                     "In the " + packable.getClass().getSimpleName() + " with id:" + packable.getId() + " the LogHistory with id:"+  id + " does not exist."

@@ -1,12 +1,15 @@
-package View.Menus;
+package View.Menus.Roles;
 
-import Controller.ControllerUnit;
 import Controller.Controllers.BuyerController;
-import Controller.Controllers.ManagerController;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.LogHistoryDoesNotExistException;
-import Model.Models.Accounts.Guest;
 import View.MenuHandler;
+import View.Menus.ByBuyers.ViewCartByBuyerMenu;
+import View.Menus.ByBuyers.ViewOrdersByBuyerMenu;
+import View.Menus.MainMenu;
+import View.Menus.ManageInfoMenu;
+import View.Menus.Menu;
+import View.Menus.RegistrationAndLogin.UserAreaMenu;
 import View.Tools.Shows;
 
 import java.util.Optional;
@@ -66,11 +69,9 @@ public class BuyerMenu extends Menu {
 
     public void viewDiscountCodes() {
         try {
-            buyerController.viewDiscountCodes().forEach(discountCode -> {
-                System.out.println(
-                        discountCode.getDiscountCode() + " : " + discountCode.getDiscount().getPercent() + " " + discountCode.getDiscount().getAmount()
-                );
-            });
+            buyerController.viewDiscountCodes().forEach(discountCode ->
+                System.out.println(Shows.getShowDiscountCode().apply(discountCode))
+            );
         } catch (DiscountCodeExpiredException e) {
             System.out.println(e.getMessage());
         }

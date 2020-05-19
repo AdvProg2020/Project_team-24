@@ -3,6 +3,7 @@ package View.Menus;
 import Controller.Controllers.ProductController;
 import Exceptions.*;
 import View.MenuHandler;
+import View.Menus.RegistrationAndLogin.LogInMenu;
 
 import java.util.Optional;
 import java.util.regex.Matcher;

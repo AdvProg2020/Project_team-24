@@ -6,6 +6,7 @@ import Model.Models.*;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.Data;
 import Model.Tools.ForPend;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -126,7 +127,7 @@ public class Seller extends Account {
     }
 
     @Override
-    public Account dpkg(Data<Account> data) throws ProductDoesNotExistException, AuctionDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException {
+    public Account dpkg(@NotNull Data<Account> data) throws ProductDoesNotExistException, AuctionDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException {
         super.dpkg(data);
         this.balance = (double) data.getFields().get(4);
         this.companyInfo = (Info) data.getFields().get(5);

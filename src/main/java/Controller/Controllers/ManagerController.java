@@ -7,12 +7,10 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Field.Field;
-import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.Discount;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -34,6 +32,17 @@ public class ManagerController extends AccountController {
 
     /****************************************************methods********************************************************/
 
+    private Customer selectRandomBuyer() {
+        Random randomAccount = new Random();
+        List<Customer> customerList = Customer.getAllCustomers();
+        int randomIndex = randomAccount.nextInt(customerList.size());
+        return customerList.get(randomIndex);
+    }
+
+    private List<Customer> findSpecialBuyers() {
+        return Customer.getSpecialCustomers();
+    }
+
     public List<Account> viewAllAccounts() {
         return Account.getList();
     }
@@ -54,8 +63,13 @@ public class ManagerController extends AccountController {
         return Account.getAccountByUserName(username);
     }
 
-    public void deleteAccount(String username) throws AccountDoesNotExistException {
+    public void deleteAccount(String username) throws AccountDoesNotExistException, DiscountCodeExpiredException {
         Account account = Account.getAccountByUserName(username);
+        if (account instanceof Customer) {
+            for (Long aLong : ((Customer) account).getDiscountCodeList()) {
+                DiscountCode.getDiscountCodeById(aLong).removeAccount(account.getId());
+            }
+        }
         Account.deleteAccount(account);
     }
 
@@ -84,7 +98,7 @@ public class ManagerController extends AccountController {
             );
             DiscountCode.addDiscountCode(discountCode);
         } else
-            throw new InvalidStartAndEndDateForDiscountCodeException("StartAndEnd date are Invalid.");
+            throw new InvalidStartAndEndDateForDiscountCodeException("Start and end date are Invalid.");
     }
 
     public DiscountCode viewDiscountCode(String DiscountCodeIdString) throws DiscountCodeExpiredException, NumberFormatException {
@@ -104,24 +118,17 @@ public class ManagerController extends AccountController {
         DiscountCode.removeFromDiscountCode(discountCode);
     }
 
-    private Customer selectRandomBuyer() {
-        Random randomAccount = new Random();
-        List<Customer> customerList = Customer.getAllCustomers();
-        int randomIndex = randomAccount.nextInt(customerList.size());
-        return customerList.get(randomIndex);
-    }
-
-    private List<Customer> findSpecialBuyers() {
-        return Customer.getSpecialCustomers();
-    }
-
-    public void setDiscountCodeToSpecials(long discountCodeId) throws DiscountCodeExpiredException {
+    public void setDiscountCodeToSpecials(String discountCodeIdString) throws DiscountCodeExpiredException, NumberFormatException, AccountDoesNotExistException {
+        long discountCodeId = Long.parseLong(discountCodeIdString);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
+        discountCode.checkExpiredDiscountCode();
         findSpecialBuyers().forEach(customer -> customer.addToDiscountCodeList(discountCode.getId()));
     }
 
-    public void setDiscountCodeToRandoms(long discountCodeId) throws DiscountCodeExpiredException {
+    public void setDiscountCodeToRandoms(String discountCodeIdString) throws DiscountCodeExpiredException, NumberFormatException, AccountDoesNotExistException {
+        long discountCodeId = Long.parseLong(discountCodeIdString);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
+        discountCode.checkExpiredDiscountCode();
         selectRandomBuyer().addToDiscountCodeList(discountCode.getId());
     }
 

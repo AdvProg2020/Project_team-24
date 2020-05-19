@@ -1,10 +1,12 @@
-package View.Menus;
+package View.Menus.ByBuyers;
 
 import Controller.Controllers.BuyerController;
 import Exceptions.CannotRateException;
-import Exceptions.HaveNotBoughtThisProductException;
 import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
+import View.Menus.Menu;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,7 @@ import java.util.Optional;
 public class ViewOrdersByBuyerMenu extends Menu {
 
     private static ViewOrdersByBuyerMenu menu;
+
     private static BuyerController buyerController = BuyerController.getInstance();
 
     public ViewOrdersByBuyerMenu(String name) {
@@ -29,16 +32,19 @@ public class ViewOrdersByBuyerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewOrdersByBuyerMenu."));
     }
 
-    public void showOrder(List<String> inputs) {
+    public void showOrder(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         try {
-            System.out.println(buyerController.showOrder(id));
+            System.out.println(
+                    Shows.getShowLogHistory().apply(buyerController.showOrder(id))
+            );
         } catch (LogHistoryDoesNotExistException e) {
             System.out.println("log history does not exist");
         }
+        System.out.println("Ok.");
     }
 
-    public void rate(List<String> inputs) {
+    public void rate(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         String number = inputs.get(1);
         try {
@@ -46,18 +52,19 @@ public class ViewOrdersByBuyerMenu extends Menu {
         } catch (ProductDoesNotExistException | CannotRateException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("OK.");
     }
 
     @Override
     public void show() {
-        System.out.println("view orders by buyer menu");
+        System.out.println("view orders by buyer menu.");
     }
 
     @Override
     public void help() {
         super.help();
-        System.out.println("showOrder[order id]:to show orders from you" + System.lineSeparator() +
-                "rate [product id][1-5]:to rate a product from 1 to 5" + System.lineSeparator() +
+        System.out.println("showOrder [order id] :To show orders from you" + System.lineSeparator() +
+                "rate [product id] [1-5] :To rate a product from 1 to 5" + System.lineSeparator() +
                 "----------------------------------------------"
         );
     }

@@ -25,11 +25,11 @@ public class ProductController {
 
     /*****************************************************singleTone****************************************************/
 
-    private ProductController() {
-    }
-
     public static ProductController getInstance() {
         return productController;
+    }
+
+    private ProductController() {
     }
 
     /****************************************************methods********************************************************/
@@ -92,7 +92,7 @@ public class ProductController {
         Product product = controllerUnit.getProduct();
         List<Field> fields = Arrays.asList(new SingleString("Title", title), new SingleString("Content", content));
         FieldList fieldList = new FieldList(fields);
-        BuyerController.getInstance().checkIfProductBoughtToRate(product.getId() + "");
+        BuyerController.getInstance().checkIfProductBoughtToRate(product.getId());
         Comment comment = new Comment("ziba bood", account.getId(), product.getId(), fieldList);
         Comment.addComment(comment);
     }

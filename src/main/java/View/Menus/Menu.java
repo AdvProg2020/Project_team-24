@@ -1,13 +1,11 @@
 package View.Menus;
 
 import View.MenuHandler;
-
-// sogolism.17
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -19,7 +17,7 @@ public abstract class Menu {
     protected String name;
     protected Menu parentMenu;
     protected List<Pattern> patternList;
-    protected List<Menu> subMenus = new ArrayList<>();
+//    protected List<Menu> subMenus = new ArrayList<>();
     protected List<String> regexList = new ArrayList<>();
     protected List<String> methodList = new ArrayList<>();
 
@@ -41,7 +39,7 @@ public abstract class Menu {
         System.out.println("Invalid command entered.");
     }
 
-    public void invokeMethod(String name, Matcher matcher) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void invokeMethod(String name, @NotNull Matcher matcher) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         Menu currentMenu = MenuHandler.getCurrentMenu();
         if (matcher.groupCount() == 0) {
@@ -61,15 +59,15 @@ public abstract class Menu {
         patternList = regexList.stream().map(rgx -> "^" + rgx + "$").map(Pattern::compile).collect(Collectors.toList());
     }
 
-    public Menu addSubMenu(Menu subMenu) {
-        subMenus.add(subMenu);
-        return this;
-    }
-
-    public Menu removeSubMenu(Menu subMenu) {
-        subMenus.remove(subMenu);
-        return this;
-    }
+//    public Menu addSubMenu(Menu subMenu) {
+//        subMenus.add(subMenu);
+//        return this;
+//    }
+//
+//    public Menu removeSubMenu(Menu subMenu) {
+//        subMenus.remove(subMenu);
+//        return this;
+//    }
 
     public Menu addRegex(String regex) {
         regexList.add(regex);
@@ -88,10 +86,6 @@ public abstract class Menu {
 
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
-    }
-
-    public Menu getParentMenu() {
-        return parentMenu;
     }
 
     public String getName() {

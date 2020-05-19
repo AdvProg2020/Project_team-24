@@ -1,4 +1,4 @@
-package View.Menus;
+package View.Menus.Roles;
 
 import Controller.Controllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
@@ -10,6 +10,10 @@ import Model.Models.Product;
 import View.MenuHandler;
 import View.Menus.BySellers.ManageProductsBySellerMenu;
 import View.Menus.BySellers.ViewOffsBySellerMenu;
+import View.Menus.MainMenu;
+import View.Menus.ManageInfoMenu;
+import View.Menus.Menu;
+import View.Menus.RegistrationAndLogin.UserAreaMenu;
 import View.Tools.Shows;
 import org.jetbrains.annotations.NotNull;
 

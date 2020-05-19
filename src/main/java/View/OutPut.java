@@ -1,9 +1,18 @@
 package View;
 
 import View.Menus.*;
+import View.Menus.ByBuyers.PurchaseByBuyerMenu;
+import View.Menus.ByBuyers.ViewCartByBuyerMenu;
+import View.Menus.ByBuyers.ViewOrdersByBuyerMenu;
 import View.Menus.ByManagers.*;
 import View.Menus.BySellers.ManageProductsBySellerMenu;
 import View.Menus.BySellers.ViewOffsBySellerMenu;
+import View.Menus.RegistrationAndLogin.LogInMenu;
+import View.Menus.RegistrationAndLogin.SignUpMenu;
+import View.Menus.RegistrationAndLogin.UserAreaMenu;
+import View.Menus.Roles.BuyerMenu;
+import View.Menus.Roles.ManagerMenu;
+import View.Menus.Roles.SellerMenu;
 
 import java.lang.reflect.Method;
 
@@ -193,6 +202,8 @@ public class OutPut {
                 .addRegex("viewDiscountCode")
                 .addRegex("openManageRequestsMenu")
                 .addRegex("openManageCategoriesMenu")
+                .addRegex("getDiscountCodeToRandomBuyer")
+                .addRegex("getDiscountCodeToSpecialBuyers")
                 .addRegex("logout")
                 .addRegex("exit")
                 .addRegex("help")
@@ -209,6 +220,8 @@ public class OutPut {
                 .addMethod("viewDiscountCode")
                 .addMethod("openManageRequestsMenu")
                 .addMethod("openManageCategoriesMenu")
+                .addMethod("getDiscountCodeToRandomBuyer")
+                .addMethod("getDiscountCodeToSpecialBuyers")
                 .addMethod("logout")
                 .addMethod("exit")
                 .addMethod("help")

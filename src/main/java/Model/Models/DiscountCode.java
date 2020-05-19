@@ -2,16 +2,19 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Accounts.Customer;
 import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 import Model.Tools.Data;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DiscountCode implements Packable<DiscountCode>, Cloneable {
 
@@ -59,6 +62,8 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
         return Collections.unmodifiableList(accountList);
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<DiscountCode> getList() {
         return Collections.unmodifiableList(list);
     }
@@ -139,7 +144,7 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
         this.end = (LocalDate) data.getFields().get(3);
         this.discount = (Discount) data.getFields().get(4);
         this.frequentUse = (long) data.getFields().get(5);
-        this.accountList = (List<Long>) data.getFields().get(5);
+        this.accountList = (List<Long>) data.getFields().get(6);
         return this;
     }
 
@@ -151,6 +156,15 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
                 .findFirst()
                 .orElseThrow(() -> new DiscountCodeExpiredException(
                         "DiscountCode with the id:" + id + " does not exist in list of all discountCodes."
+                ));
+    }
+
+    public static DiscountCode getDiscountCodeByCode(String code) throws DiscountCodeExpiredException {
+        return list.stream()
+                .filter(discountCode ->  code.equals(discountCode.getDiscountCode()))
+                .findFirst()
+                .orElseThrow(() -> new DiscountCodeExpiredException(
+                        "DiscountCode with the code:" + code + " does not exist in list of all discountCodes."
                 ));
     }
 
@@ -182,6 +196,17 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
                 break;
             default:
                 throw new FieldDoesNotExistException("Not such a field in DiscountCode");
+        }
+    }
+
+    public void checkExpiredDiscountCode() throws DiscountCodeExpiredException, AccountDoesNotExistException {
+        if (LocalDate.now().isAfter(end)) {
+            DiscountCode.removeFromDiscountCode(this);
+            List<Account> accounts = new ArrayList<>();
+            for (long aLong : accountList) {
+                ((Customer) Account.getAccountById(aLong)).removeFromDiscountCodeList(id);
+            }
+            throw new DiscountCodeExpiredException("DiscountCode with id:" + id + " expired.");
         }
     }
 

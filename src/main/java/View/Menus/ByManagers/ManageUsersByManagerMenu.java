@@ -4,9 +4,8 @@ import Controller.Controllers.ManagerController;
 import Controller.Controllers.SignUpController;
 import Exceptions.*;
 import Model.Models.Account;
-import Model.Models.Field.Fields.SingleString;
 import View.Menus.Menu;
-import View.Menus.SignUpMenu;
+import View.Menus.RegistrationAndLogin.SignUpMenu;
 import View.Tools.Shows;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +52,7 @@ public class ManageUsersByManagerMenu extends Menu {
         try {
             managerController.deleteAccount(username);
             System.out.println("account deleted.");
-        } catch (AccountDoesNotExistException e) {
+        } catch (AccountDoesNotExistException | DiscountCodeExpiredException e) {
             System.out.println(e.getMessage());
         }
     }

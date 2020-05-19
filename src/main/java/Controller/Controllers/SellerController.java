@@ -23,8 +23,6 @@ public class SellerController extends AccountController {
 
     /****************************************************fields*******************************************************/
 
-    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
-
     private static SellerController sellerController = new SellerController();
 
     /****************************************************singleTone***************************************************/

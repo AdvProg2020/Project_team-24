@@ -1,9 +1,10 @@
-package View.Menus;
+package View.Menus.RegistrationAndLogin;
 
 import Controller.Controllers.SignUpController;
 import Exceptions.*;
 import Model.Models.Account;
 import View.MenuHandler;
+import View.Menus.Menu;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

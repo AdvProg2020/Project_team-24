@@ -2,7 +2,6 @@ package View.Tools;
 
 import Model.Models.*;
 import Model.Models.Field.Fields.SingleString;
-import com.gilecode.yagson.com.google.gson.internal.$Gson$Preconditions;
 
 import java.util.function.Function;
 
@@ -16,11 +15,11 @@ public class Shows {
                     (product.getAuction() == null ? "" : String.format("ProductAuctionId:%d \nProductAuctionName:%s \n", product.getAuction().getId(), product.getAuction().getName())) +
                     "Prices and Sellers:" + System.lineSeparator() +
                     product.getSellersOfProduct().stream().map(productOfSeller ->
-                            String.format(
-                                    "SellerId:%d Number:%d %s \n", productOfSeller.getSellerId(), productOfSeller.getNumber(),
-                                    (product.getAuction() == null ? "Price:" + productOfSeller.getPrice() : String.format("Old price:%f newPrice:%f",
-                                            productOfSeller.getPrice(), productOfSeller.getPrice() - product.getAuction().getAuctionDiscount(productOfSeller.getPrice())))
-                            )).reduce("", (a, b) -> a + b) + "----------------------------------------------";
+                            String.format("SellerId:%d Number:%d %s \n", productOfSeller.getSellerId(), productOfSeller.getNumber(),
+                                    (product.getAuction() == null ? "Price:" + productOfSeller.getPrice() : String.format("Old price:%f newPrice:%f", productOfSeller.getPrice(),
+                                            productOfSeller.getPrice() - product.getAuction().getAuctionDiscount(productOfSeller.getPrice())))
+                            )).reduce("", (a, b) -> a + b) + Shows.getShowInfo().apply(product.getCategoryInfo()) + System.lineSeparator() +
+                    "----------------------------------------------";
 
     private static Function<Auction, String> showAuction = auction ->
             "--------------------auction-------------------" + System.lineSeparator() +
@@ -58,6 +57,9 @@ public class Shows {
                     "Log fields: " +
                     logHistory.getFieldList().getFieldList().stream().map(
                             field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                    ).reduce("", (a, b) -> a + b) +
+                    logHistory.getProductLogList().stream().map(
+                            productLog -> String.format("ProductId:%d Price:%f FinalPrice:%f", productLog.getProductId(), productLog.getPrice(), productLog.getFinalPrice())
                     ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
 
     private static Function<Request, String> showRequest = request ->

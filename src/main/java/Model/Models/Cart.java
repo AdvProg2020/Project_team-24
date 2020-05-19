@@ -61,8 +61,13 @@ public class Cart implements Packable<Cart> {
     }
 
     public void removeProductFromCart(long sellerId, long productId) {
-        sellersId.remove(sellerId);
-        productsId.remove(productId);
+        for (int i = 0; i < sellersId.size(); i++) {
+            if (sellersId.get(i) == sellerId && productsId.get(i) == productId) {
+                productsId.remove(i);
+                sellersId.remove(i);
+                return;
+            }
+        }
         DataBase.save(this);
     }
 

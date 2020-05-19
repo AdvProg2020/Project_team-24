@@ -1,9 +1,11 @@
-package View.Menus;
+package View.Menus.RegistrationAndLogin;
 
 
 import Controller.ControllerUnit;
 import Model.Models.Accounts.Guest;
 import View.MenuHandler;
+import View.Menus.MainMenu;
+import View.Menus.Menu;
 
 import java.util.Optional;
 

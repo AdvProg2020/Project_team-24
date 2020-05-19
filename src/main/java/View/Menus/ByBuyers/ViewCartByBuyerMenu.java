@@ -1,8 +1,11 @@
-package View.Menus;
+package View.Menus.ByBuyers;
 
 import Controller.Controllers.BuyerController;
 import Exceptions.*;
 import View.MenuHandler;
+import View.Menus.Menu;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +15,6 @@ public class ViewCartByBuyerMenu extends Menu {
     private static ViewCartByBuyerMenu menu;
 
     private static BuyerController buyerController = BuyerController.getInstance();
-
 
     public ViewCartByBuyerMenu(String name) {
         super(name);
@@ -47,18 +49,20 @@ public class ViewCartByBuyerMenu extends Menu {
 //       }
 //    }
 
-    public void viewProduct(List<String> inputs) {
+    public void viewProduct(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         try {
-            System.out.println(buyerController.viewProductInCart(id));
+            System.out.println(
+                    Shows.getShowProduct().apply(buyerController.viewProductInCart(id))
+            );
         } catch (ProductDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void increase(List<String> inputs) {
+    public void increase(@NotNull List<String> inputs) {
         String idProduct = inputs.get(0);
-        System.out.println("please enter seller id of this product");
+        System.out.println("Please enter seller id of this product: ");
         String idSeller = scanner.nextLine();
 
         try {
@@ -66,27 +70,26 @@ public class ViewCartByBuyerMenu extends Menu {
         } catch (ProductDoesNotExistException | SellerDoesNotSellOfThisProduct | ProductIsOutOfStockException e) {
             System.out.println(e.getMessage());
         }
-
+        System.out.println("Ok.");
     }
 
-    public void decrease(List<String> inputs) {
+    public void decrease(@NotNull List<String> inputs) {
         String idProduct = inputs.get(0);
-        System.out.println("please enter seller id of this product");
+        System.out.println("Please enter seller id of this product: ");
         String idSeller = scanner.nextLine();
         try {
             buyerController.decrease(idProduct, idSeller);
         } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist");
+            System.out.println(e.getMessage());
         }
+        System.out.println("Ok.");
     }
 
     public void showTotalPrice() {
         try {
-            System.out.println(buyerController.showTotalPrice());
-        } catch (ProductDoesNotExistException e) {
-            System.out.println("product does not exist ");
-        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
-            System.out.println("seller not found.");
+            System.out.println("TotalPrice: " + buyerController.showTotalPrice());
+        } catch (ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -96,7 +99,7 @@ public class ViewCartByBuyerMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("You're in ViewCartByBuyerMenu");
+        System.out.println("You're in ViewCartByBuyerMenu.");
     }
 
     @Override

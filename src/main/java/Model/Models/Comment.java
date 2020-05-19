@@ -31,9 +31,9 @@ public class Comment implements Packable<Comment> {
         return commentId;
     }
 
-    public String getPendStatus() {
-        return pendStatus;
-    }
+//    public String getPendStatus() {
+//        return pendStatus;
+//    }
 
     public FieldList getFieldList() {
         return fieldList;

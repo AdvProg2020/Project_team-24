@@ -1,4 +1,4 @@
-package View.Menus;
+package View.Menus.RegistrationAndLogin;
 
 import Controller.ControllerUnit;
 import Controller.Controllers.LoginController;
@@ -11,6 +11,11 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import View.MenuHandler;
+import View.Menus.MainMenu;
+import View.Menus.Menu;
+import View.Menus.Roles.BuyerMenu;
+import View.Menus.Roles.ManagerMenu;
+import View.Menus.Roles.SellerMenu;
 import View.Tools.Shows;
 import org.jetbrains.annotations.NotNull;
 
