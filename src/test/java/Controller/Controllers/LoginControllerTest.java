@@ -5,14 +5,15 @@ import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
 import Exceptions.UserNameInvalidException;
 import Exceptions.UserNameTooShortException;
+import Model.ModelUnit;
 import Model.Models.Account;
-import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
-import org.junit.Before;
+import Model.Models.Info;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,15 +23,21 @@ class LoginControllerTest {
 
     private ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
-    @Before
-    public void doBeforeEveryTest() {
-        Account account1 = new Seller("usernameSeller");
-        account1.setPassword("1234");
-        Account account2 = new Customer("usernameCustomer");
-        account2.setPassword("1234");
-        Account account3 = new Manager("usernameManager");
-        account3.setPassword("1234");
-        Account.setList(Arrays.asList(account1,account2,account3));
+    private static Seller account;
+
+    @BeforeAll
+    static void doBeforeEveryTest() {
+        ModelUnit.getInstance().preprocess_loadLists();
+        account = new Seller("usernameSeller");
+        account.setPassword("1234");
+        account.setPersonalInfo(new Info("SellerPersonalInfo", null, LocalDate.now()));
+        account.setCompanyInfo(new Info("SellerCompanyInfo", null, LocalDate.now()));
+        Account.addAccount(account);
+    }
+
+    @AfterAll
+    static void removeEveryThing() {
+        Account.deleteAccount(account);
     }
 
     @Test
