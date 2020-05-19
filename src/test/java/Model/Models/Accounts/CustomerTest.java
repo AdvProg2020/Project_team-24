@@ -19,8 +19,10 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CustomerTest {
-    @BeforeEach
+public class CustomerTest {
+
+    /*
+   @BeforeEach
     void setAccountsToTest() {
         //acounts
         Account account1 = new Seller("usernameSeller");
@@ -153,17 +155,18 @@ class CustomerTest {
     @Test
     void editField() {
         Customer customer = (Customer) Account.getList().get(0);
-        assertDoesNotThrow(() -> customer.editField("passdword", "to be or not to be , that is the question"));
+        assertDoesNotThrow(() -> customer.editField("password", "to be or not to be , that is the question"));
         assertTrue(customer.getPassword().equals("sale!!!"));
     }
-
-   /* @Test
+    @Test
     void pack() {
     }
-
+  */
     @Test
     void dpkg() {
     }
 
-    */
+
+
+
 }
