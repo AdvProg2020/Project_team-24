@@ -55,11 +55,11 @@ class CategoryTest {
         Field field2 = new Field("size");
         Field field3 = new Field("jens");
         FieldList fieldList = (FieldList) Arrays.asList(field1,field2,field3);
-        Category subcategory = new Category("khertopert",productIds,null,null);
+        Category subcategory = new Category("khertopert",null,null);
         subcategory.setCategoryId(1);
         List<Category> subcategorylist = Arrays.asList(subcategory);
         List<Long> subcategoryids = Arrays.asList(subcategory.getId());
-        Category maincategory = new Category("hamechiz",productIds,fieldList,subcategoryids);
+        Category maincategory = new Category("hamechiz",fieldList,subcategoryids);
         maincategory.setCategoryId(2);
         List<Category> categoryList = Arrays.asList(maincategory);
         Category.setList(categoryList);
@@ -84,7 +84,7 @@ class CategoryTest {
     @Test
     void addToSubCategoryList() {
         Category category = Category.getList().get(1);
-        Category subcategory = new Category("pashmak",null,null,null);
+        Category subcategory = new Category("pashmak",null,null);
         subcategory.setCategoryId(3);
        assertDoesNotThrow(() -> subcategory.addToSubCategoryList(category.getId()));
        assertTrue(category.getSubCategories().contains(subcategory));
@@ -101,7 +101,7 @@ class CategoryTest {
 
     @Test
     void addCategory() {
-        Category newcategory = new Category("pooshak",null,null,null);
+        Category newcategory = new Category("pooshak",null,null);
         newcategory.setCategoryId(4);
         assertDoesNotThrow(() ->  Category.addCategory(newcategory) );
         assertTrue(Category.getList().contains(newcategory));

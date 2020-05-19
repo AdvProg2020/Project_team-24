@@ -7,6 +7,7 @@ import Exceptions.DiscountCodeExpiredException;
 import Exceptions.LogHistoryDoesNotExistException;
 import Model.Models.Accounts.Guest;
 import View.MenuHandler;
+import View.Tools.Shows;
 
 import java.util.Optional;
 
@@ -36,7 +37,9 @@ public class BuyerMenu extends Menu {
     }
 
     public void viewPersonalInfo() {
-        System.out.println(buyerController.viewPersonalInfo());
+        System.out.println(
+                Shows.getShowInfo().apply(buyerController.viewPersonalInfo())
+        );
         MenuHandler.setCurrentMenu(ManageInfoMenu.getMenu());
     }
 
@@ -46,7 +49,11 @@ public class BuyerMenu extends Menu {
 
     public void viewOrders() {
         try {
-            System.out.println(buyerController.viewOrders());
+            System.out.println("Orders:");
+            buyerController.viewOrders().forEach(logHistory ->
+                    System.out.println(Shows.getShowLogHistory().apply(logHistory))
+            );
+
         } catch (LogHistoryDoesNotExistException e) {
             System.out.println(e.getMessage());
         }

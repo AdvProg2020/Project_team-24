@@ -1,10 +1,12 @@
 package View.Menus;
 
-import Controller.Controllers.ProductController;
+import Controller.ControllerUnit;
 import Controller.Controllers.ProductsController;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Product;
 import View.MenuHandler;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,8 +32,10 @@ public class ProductsMenu extends Menu {
     }
 
     public void viewCategories() {
-        System.out.println(productsController.viewCategories());
-
+        System.out.println("Categories: ");
+        productsController.viewCategories().forEach(category ->
+                System.out.println(Shows.getShowCategory().apply(category))
+        );
     }
 
     public void filtering() {
@@ -46,11 +50,19 @@ public class ProductsMenu extends Menu {
         System.out.println(productsController.showProducts());
     }
 
-    public void showProduct(List<String> inputs) {
-        String id =inputs.get(0);
+    public void showProduct(@NotNull List<String> inputs) {
+        String id = inputs.get(0);
         try {
-            productsController.showProduct(id);
+
+            Product product = productsController.showProduct(id);
+
+            System.out.println(
+                    Shows.getShowProduct().apply(product)
+            );
+
+            ControllerUnit.getInstance().setProduct(product);
             MenuHandler.setCurrentMenu(ProductMenu.getMenu());
+
         } catch (ProductDoesNotExistException e) {
             System.out.println(e.getMessage());
         }

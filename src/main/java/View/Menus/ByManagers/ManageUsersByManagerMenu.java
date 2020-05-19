@@ -7,6 +7,7 @@ import Model.Models.Account;
 import Model.Models.Field.Fields.SingleString;
 import View.Menus.Menu;
 import View.Menus.SignUpMenu;
+import View.Tools.Shows;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -39,17 +40,9 @@ public class ManageUsersByManagerMenu extends Menu {
         String username = inputs.get(0);
         try {
             Account account = managerController.viewAccount(username);
-            System.out.println("----------------------------------------------");
             System.out.println(
-                    "account id: " + account.getId() + System.lineSeparator() +
-                            "account username: " + account.getUserName()
+                    Shows.getShowAccount().apply(account)
             );
-            account.getPersonalInfo().getList().getFieldList().forEach(field -> {
-                System.out.println(
-                        field.getFieldName() + ": " + ((SingleString) field).getString()
-                );
-            });
-            System.out.println("----------------------------------------------");
         } catch (AccountDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
@@ -76,7 +69,7 @@ public class ManageUsersByManagerMenu extends Menu {
             try {
                 account = managerController.createManagerProfileBaseAccount(username);
                 break;
-            } catch (UserNameInvalidException | UserNameTooShortException e) {
+            } catch (UserNameInvalidException | UserNameTooShortException | ThisUserNameAlreadyExistsException e) {
                 System.out.println(e.getMessage());
             }
         }

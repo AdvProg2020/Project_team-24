@@ -106,6 +106,14 @@ public class Category implements Packable<Category> , Cloneable {
                 ));
     }
 
+    public static void checkExistOfCategoryById(long id) throws CategoryDoesNotExistException {
+        if (list.stream().noneMatch(category -> id == category.categoryId)) {
+            throw new CategoryDoesNotExistException(
+                    "Category with the id:" + id + " does not exist in list of all categories."
+            );
+        }
+    }
+
     public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException {
 
         if (fieldName.equals("name")) {

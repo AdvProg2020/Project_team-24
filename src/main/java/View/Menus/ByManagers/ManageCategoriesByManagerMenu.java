@@ -30,7 +30,7 @@ public class ManageCategoriesByManagerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageCategoriesByManagerMenu."));
     }
 
-    public void editCategory(List<String> inputs) {
+    public void editCategory(@NotNull List<String> inputs) {
         String categoryName = inputs.get(0);
         String field=inputs.get(1);
         String newField=inputs.get(2);
@@ -46,27 +46,25 @@ public class ManageCategoriesByManagerMenu extends Menu {
         try {
 
             List<String> fieldNames = new ArrayList<>();
-            List<String> values = new ArrayList<>();
             while (true) {
                 System.out.println("Enter fieldName( or finish.):");
                 String fieldName = scanner.nextLine();
                 if (fieldName.matches("finish")) break;
-                System.out.println("Enter value( or finish.):");
-                String value = scanner.nextLine();
                 fieldNames.add(fieldName);
-                values.add(value);
             }
 
             List<String> subCategories = new ArrayList<>();
             System.out.println("Enter subCategories id:");
             while (true) {
-                System.out.println("Enter Category field( or finish.):");
+                System.out.println("Enter subCategory id( or finish.):");
                 String categoryField = scanner.nextLine();
                 if (categoryField.matches("finish")) break;
                 subCategories.add(categoryField);
             }
 
-            managerController.createEmptyCategory(categoryName, fieldNames, values, subCategories);
+            managerController.createEmptyCategory(categoryName, fieldNames, subCategories);
+
+            System.out.println("Category created.");
 
         } catch (CategoryDoesNotExistException e) {
             System.out.println(e.getMessage());
@@ -77,11 +75,11 @@ public class ManageCategoriesByManagerMenu extends Menu {
         String categoryName = inputs.get(0);
         try {
             managerController.removeCategory(categoryName);
+            System.out.println("Category removed.");
         } catch (CategoryDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }
-
 
     @Override
     public void show() {

@@ -5,6 +5,8 @@ import Exceptions.DiscountCodeExpiredException;
 import Exceptions.FieldDoesNotExistException;
 import Model.Models.DiscountCode;
 import View.Menus.Menu;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +14,7 @@ import java.util.Optional;
 public class ViewDiscountCodesByManagerMenu extends Menu {
 
     private static ViewDiscountCodesByManagerMenu menu;
+
     private static ManagerController managerController = ManagerController.getInstance();
 
     public ViewDiscountCodesByManagerMenu(String name) {
@@ -29,35 +32,38 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewDiscountCodesByManagerMenu."));
     }
 
-    public void viewDiscountCode(List<String> inputs) {
-
+    public void viewDiscountCode(@NotNull List<String> inputs) {
         String id = inputs.get(0);
-        DiscountCode discountCode = null;
+
         try {
-            discountCode = managerController.viewDiscountCode(id);
-            System.out.println(discountCode);
+            DiscountCode discountCode = managerController.viewDiscountCode(id);
+            System.out.println(
+                    Shows.getShowDiscountCode().apply(discountCode)
+            );
         } catch (DiscountCodeExpiredException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
-    public void editDiscountCode(List<String> inputs) {
+    public void editDiscountCode(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         String field = inputs.get(1);
         String newField = inputs.get(2);
 
         try {
             managerController.editDiscountCode(id, field, newField);
+            System.out.println("DiscountCode changed.");
         } catch (DiscountCodeExpiredException | FieldDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void removeDiscountCode(List<String> inputs) {
+    public void removeDiscountCode(@NotNull List<String> inputs) {
         String id=inputs.get(0);
+
         try {
             managerController.removeDiscountCode(id);
+            System.out.println("DiscountCode removed.");
         } catch (DiscountCodeExpiredException e) {
             System.out.println(e.getMessage());
         }
@@ -65,7 +71,7 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("You're in ViewDiscountCodesByManagerMenu");
+        System.out.println("You're in ViewDiscountCodesByManagerMenu.");
     }
 
     @Override

@@ -278,7 +278,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         this.productInfo = (Info) data.getFields().get(2);
         this.categoryInfo = (Info) data.getFields().get(3);
         this.numberOfVisitors = (long) data.getFields().get(4);
-        this.averageScore = (long) data.getFields().get(5);
+        this.averageScore = (double) data.getFields().get(5);
         this.category = ((long) data.getFields().get(6)) == 0 ? null : Category.getCategoryById((long) data.getFields().get(6));
         this.auction = ((long) data.getFields().get(7)) == 0 ? null : Auction.getAuctionById((long) data.getFields().get(7));
         this.stateForPend = (String) data.getFields().get(8);

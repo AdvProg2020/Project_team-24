@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 public class ManagerMenu extends Menu {
 
     private static ManagerMenu menu;
+
     private static ManagerController managerController = ManagerController.getInstance();
 
     private ManagerMenu(String name) {
@@ -36,6 +37,10 @@ public class ManagerMenu extends Menu {
         MenuHandler.setCurrentMenu(MainMenu.getMenu());
     }
 
+    public void openManageProductsMenu() {
+        MenuHandler.setCurrentMenu(ManageProductsByManagerMenu.getMenu());
+    }
+
     public void viewPersonalInfo() {
         System.out.println(
                 Shows.getShowInfo().apply(managerController.viewPersonalInfo())
@@ -44,24 +49,11 @@ public class ManagerMenu extends Menu {
     }
 
     public void openManageUsersMenu() {
-        managerController.viewAllAccounts().forEach(account -> {
-            System.out.println("----------------------------------------------");
-            System.out.println(
-                    "account id: " + account.getId() + System.lineSeparator() +
-                            "account username: " + account.getUserName()
-            );
-            account.getPersonalInfo().getList().getFieldList().forEach(field -> {
-                System.out.println(
-                        field.getFieldName() + ": " + ((SingleString) field).getString()
-                );
-            });
-            System.out.println("----------------------------------------------");
-        });
+        System.out.println("All accounts :");
+        managerController.viewAllAccounts().forEach(account ->
+                System.out.println(Shows.getShowAccount().apply(account))
+        );
         MenuHandler.setCurrentMenu(ManageUsersByManagerMenu.getMenu());
-    }
-
-    public void openManageProductsMenu() {
-        MenuHandler.setCurrentMenu(ManageProductsByManagerMenu.getMenu());
     }
 
     public void createDiscountCode() {
@@ -69,32 +61,44 @@ public class ManagerMenu extends Menu {
                 "DiscountCode :[start date] :[end data] :[percent] :[max amount] :[frequent]"
         );
 
-        Matcher matcher = Pattern.compile("DiscountCode :(dd/mm/yyyy) :(dd/mm/yyyy) :(\\d{1,2}(\\.\\d+)?) :(\\d+(\\.\\d+)?) :(\\d+)")
+        Matcher matcher = Pattern.compile("^DiscountCode :(.+) :(.+) :(.+) :(.+) :(.+)$")
                 .matcher(scanner.nextLine().trim());
 
         if (!matcher.find()) {
             System.out.println("Sogol : Enter information in correct format.");
             return;
         }
+
         try {
-            managerController.creatDiscountCode(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(5), matcher.group(7));
+            managerController.creatDiscountCode(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5));
+            System.out.println("DiscountCode created.");
+
         } catch (InvalidStartAndEndDateForDiscountCodeException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public void viewDiscountCode() {
-        managerController.viewDiscountCodes();
+        System.out.println("All discountCode: ");
+        managerController.viewDiscountCodes().forEach(discountCode ->
+                System.out.println(Shows.getShowDiscountCode().apply(discountCode))
+        );
         MenuHandler.setCurrentMenu(ViewDiscountCodesByManagerMenu.getMenu());
     }
 
     public void openManageRequestsMenu() {
-        managerController.showAllRequests();
+        System.out.println("All request: ");
+        managerController.showAllRequests().forEach(request ->
+                System.out.println(Shows.getShowRequest().apply(request))
+        );
         MenuHandler.setCurrentMenu(ManageRequestsByManagerMenu.getMenu());
     }
 
     public void openManageCategoriesMenu() {
-        managerController.showAllCategories();
+        System.out.println("All categories: ");
+        managerController.showAllCategories().forEach(category ->
+                System.out.println(Shows.getShowCategory().apply(category))
+        );
         MenuHandler.setCurrentMenu(ManageCategoriesByManagerMenu.getMenu());
     }
 

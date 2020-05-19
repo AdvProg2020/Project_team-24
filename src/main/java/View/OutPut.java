@@ -55,8 +55,8 @@ public class OutPut {
             patternToCommand.invoke(MenuHandler.getCurrentMenu(), command);
 
         } catch (Exception e) {
-            System.out.println("exception accrued while running in command handler.");
-//            e.printStackTrace();
+//            System.out.println("exception accrued while running in command handler.");
+            e.printStackTrace();
         }
     }
 
@@ -269,9 +269,9 @@ public class OutPut {
     }
 
     private void setManageRequestsByManagerMenuPattern() {
-        manageRequestsByManagerMenu.addRegex("details (\\d+)")
-                .addRegex("accept (\\d+)")
-                .addRegex("decline (\\d+)")
+        manageRequestsByManagerMenu.addRegex("showDetails (\\d+)")
+                .addRegex("acceptRequest (\\d+)")
+                .addRegex("declineRequest (\\d+)")
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
@@ -455,7 +455,6 @@ public class OutPut {
                 .addRegex("help")
                 .addRegex("back")
                 .setPatterns();
-
     }
 
     private void setViewOrdersByBuyerMenuMethod() {
@@ -581,7 +580,6 @@ public class OutPut {
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");
-
     }
 
     private void setCommentProductMenuPattern() {

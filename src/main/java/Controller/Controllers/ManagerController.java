@@ -152,14 +152,15 @@ public class ManagerController extends AccountController {
         Category.removeCategory(category);
     }
 
-    public void createEmptyCategory(String categoryName, @NotNull List<String> fieldNames, List<String> values, @NotNull List<String> strCategoriesIds) throws CategoryDoesNotExistException, NumberFormatException {
+    public void createEmptyCategory(String categoryName, @NotNull List<String> fieldNames, @NotNull List<String> strCategoriesIds) throws CategoryDoesNotExistException, NumberFormatException {
+
         List<Long> subCategory = strCategoriesIds.stream().map(Long::parseLong).collect(Collectors.toList());
 
-        List<Field> fields = new ArrayList<>();
-        for (int i = 0; i < fieldNames.size(); i++) {
-            SingleString filed = new SingleString(fieldNames.get(i), values.get(i));
-            fields.add(filed);
+        for (long aLong : subCategory) {
+            Category.checkExistOfCategoryById(aLong);
         }
+
+        List<Field> fields = fieldNames.stream().map(Field::new).collect(Collectors.toList());
 
         FieldList fieldList = new FieldList(fields);
 

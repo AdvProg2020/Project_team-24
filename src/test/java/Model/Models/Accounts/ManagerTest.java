@@ -28,7 +28,7 @@ class ManagerTest {
         Account account7 = new Customer("registeringAccount1");
         Account account8 = new Seller("registeringAccount2");
         List<Account> accountList = Arrays.asList(account1, account2, account3, account4, account5, account6);
-        List<Account> registeringList = Arrays.asList(account7,account8);
+        List<Account> registeringList = Arrays.asList(account7, account8);
         accountList.forEach(account -> {
             if (account instanceof Seller) {
                 ((Seller) account).setBalance(100);
@@ -47,29 +47,29 @@ class ManagerTest {
         Product product2 = new Product("laak", null, null, null);
         List<Product> listOfProducts = Arrays.asList(product1, product2);
         Product.setList(listOfProducts);
-        List<Long> productIds  = null;
-        for (Product product:listOfProducts) {
+        List<Long> productIds = null;
+        for (Product product : listOfProducts) {
             productIds.add(product.getId());
         }
 
         //auctions
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Discount discount1 = new Discount(30,100);
-        Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount1);
+        Discount discount1 = new Discount(30, 100);
+        Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/3/1399", formatter), LocalDate.parse("24/5/1399", formatter), discount1);
         auction1.setProductList(productIds);
         List<Auction> auctionList = Arrays.asList(auction1);
-        for(Auction auction : Auction.getList()){
+        for (Auction auction : Auction.getList()) {
             auction.setAuctionId(AddingNew.getRegisteringId().apply(auctionList));
         }
         //request
-        Request requestProduct = new Request(account1.getId(),"info","new",product1);
+        Request requestProduct = new Request(account1.getId(), "info", "new", product1);
         requestProduct.setRequestId(1);
-        Request requestAuction = new Request(account1.getId(),"info","new",auction1);
+        Request requestAuction = new Request(account1.getId(), "info", "new", auction1);
         requestAuction.setRequestId(2);
-        List<Request> requestList = Arrays.asList(requestAuction,requestProduct);
+        List<Request> requestList = Arrays.asList(requestAuction, requestProduct);
         //discount code
-        Discount discount2 = new Discount(50,100);
-        DiscountCode discountCode = new DiscountCode("2431380",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount2,2);
+        Discount discount2 = new Discount(50, 100);
+        DiscountCode discountCode = new DiscountCode("2431380", LocalDate.parse("24/3/1399", formatter), LocalDate.parse("24/5/1399", formatter), discount2, 2);
         discountCode.setId(1);
         List<DiscountCode> discountList = Arrays.asList(discountCode);
         DiscountCode.setList(discountList);
@@ -77,22 +77,20 @@ class ManagerTest {
         Field field1 = new Field("rang");
         Field field2 = new Field("size");
         Field field3 = new Field("jens");
-        FieldList fieldList = (FieldList) Arrays.asList(field1,field2,field3);
-        Category subcategory = new Category("khertopert",productIds,null,null);
-       subcategory.setCategoryId(1);
+        FieldList fieldList = (FieldList) Arrays.asList(field1, field2, field3);
+        Category subcategory = new Category("khertopert", null, null);
+        subcategory.setCategoryId(1);
         List<Category> subcategorylist = Arrays.asList(subcategory);
         List<Long> subCategoryids = Arrays.asList(subcategory.getId());
-        Category maincategory = new Category("hamechiz",productIds,fieldList,subCategoryids);
+        Category maincategory = new Category("hamechiz", fieldList, subCategoryids);
         maincategory.setCategoryId(2);
         List<Category> categoryList = Arrays.asList(maincategory);
         Category.setList(categoryList);
-
     }
 
 
-
     @Test
-    void removeAccount()  {
+    void removeAccount() {
         Account account = Account.getList().get(0);
         Manager manager = (Manager) Account.getList().get(2);
         assertDoesNotThrow(() -> manager.removeAccount(account));
@@ -106,21 +104,22 @@ class ManagerTest {
         Account account = Account.getList().get(0);
         Manager manager = (Manager) Account.getList().get(2);
         Product product = new Product("phashmak", null, null, null);
-        Request requestProduct = new Request(account.getId(),"info","new",product);
+        Request requestProduct = new Request(account.getId(), "info", "new", product);
         requestProduct.setRequestId(3);
         assertDoesNotThrow(() -> manager.addToRequestList(requestProduct));
         assertTrue(Request.getList().contains(requestProduct));
 
     }
+
     @Test
     void addToRequestList2() {
         //addAuction
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Account account = Account.getList().get(0);
         Manager manager = (Manager) Account.getList().get(2);
-        Discount discount2 = new Discount(50,200);
-        Auction auction = new Auction("haraje zemestane",LocalDate.parse("30/9/1379",formatter),LocalDate.parse("30/5/1379".formatted()),discount2);
-        Request requestAuction = new Request(account.getId(),"info","new",auction);
+        Discount discount2 = new Discount(50, 200);
+        Auction auction = new Auction("haraje zemestane", LocalDate.parse("30/9/1379", formatter), LocalDate.parse("30/5/1379".formatted()), discount2);
+        Request requestAuction = new Request(account.getId(), "info", "new", auction);
         requestAuction.setRequestId(4);
         assertDoesNotThrow(() -> manager.addToRequestList(requestAuction));
         assertTrue(Request.getList().contains(requestAuction));
@@ -132,8 +131,8 @@ class ManagerTest {
         Account account = Account.getList().get(0);
         Manager manager = (Manager) Account.getList().get(2);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Discount discount = new Discount(50,500);
-        DiscountCode discountCode = new DiscountCode("2431380",LocalDate.parse("24/3/1399",formatter),LocalDate.parse("24/5/1399",formatter),discount,2);
+        Discount discount = new Discount(50, 500);
+        DiscountCode discountCode = new DiscountCode("2431380", LocalDate.parse("24/3/1399", formatter), LocalDate.parse("24/5/1399", formatter), discount, 2);
         assertDoesNotThrow(() -> manager.addToDiscountCodeList(discountCode));
         assertTrue(DiscountCode.getList().contains(discountCode));
 
@@ -142,7 +141,7 @@ class ManagerTest {
     @Test
     void addToCategoryList() {
         Manager manager = (Manager) Account.getList().get(2);
-        Category category = new Category("hamechiz",null,null,null);
+        Category category = new Category("hamechiz", null, null);
         assertDoesNotThrow(() -> manager.addToCategoryList(category));
         assertTrue(Category.getList().contains(category));
     }
@@ -172,6 +171,7 @@ class ManagerTest {
         assertFalse(Request.getList().contains(request));
         assertTrue(Product.getList().contains(request.getForPend()));
     }
+
     @Test
     void acceptRequest2() {
         //auction
@@ -193,6 +193,7 @@ class ManagerTest {
         assertFalse(Product.getList().contains(request.getForPend()));
 
     }
+
     @Test
     void declineRequest2() {
         //auction
