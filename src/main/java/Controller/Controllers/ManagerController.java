@@ -63,11 +63,18 @@ public class ManagerController extends AccountController {
         return Account.getAccountByUserName(username);
     }
 
-    public void deleteAccount(String username) throws AccountDoesNotExistException, DiscountCodeExpiredException {
+    public void deleteAccount(String username) throws AccountDoesNotExistException {
         Account account = Account.getAccountByUserName(username);
         if (account instanceof Customer) {
             for (Long aLong : ((Customer) account).getDiscountCodeList()) {
-                DiscountCode.getDiscountCodeById(aLong).removeAccount(account.getId());
+                DiscountCode discountCode;
+                try {
+                    discountCode = DiscountCode.getDiscountCodeById(aLong);
+                    discountCode.checkExpiredDiscountCode();
+                    discountCode.removeAccount(account.getId());
+                } catch (DiscountCodeExpiredException e) {
+                    // do nothing.ok?
+                }
             }
         }
         Account.deleteAccount(account);
