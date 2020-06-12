@@ -2,16 +2,17 @@ package Controller.Controllers;
 
 import Controller.ControllerUnit;
 import Exceptions.InvalidFilterException;
+import Model.Models.Category;
+import Model.Models.Field.Field;
 import Model.Models.Filter;
-import Model.Models.Info;
 import Model.Models.Product;
 
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FilterController {
@@ -24,7 +25,7 @@ public class FilterController {
 
     private static FilterController filterController = new FilterController();
 
-    private List<Filter> listOfFiltersNowRunning;
+    private List<Filter> filterList = new ArrayList<>();
 
     /******************************************************singleTone***************************************************/
 
@@ -37,37 +38,42 @@ public class FilterController {
 
     /****************************************************methods********************************************************/
 
-    public List<Field> showAvailableFilters(){
-        List<Field> productFieldList = Arrays.asList(Product.class.getFields());
-        List<Field> productInfoFieldList = Arrays.asList(Info.class.getFields());
-        List<Field> fields = Stream.of(productFieldList, productInfoFieldList).collect(ArrayList::new, List::addAll, List::addAll);
-        return fields;
-    }
-    private void checkFilterValid(Filter filter) throws InvalidFilterException {
+    public List<String> showAvailableFilters() {
+        List<String> strings = Arrays.asList("ProductName", "CategoryName");
+        Category currentCategory = controllerUnit.getCategory();
 
-        if (!showAvailableFilters().contains(filter)){
-            throw new InvalidFilterException("InvalidFilterException");
-        }
-    }
-    public void filter(Filter filter) throws InvalidFilterException {
-        checkFilterValid(filter);
-       /* if(filter.equals()){List<Product> productsFiltered = Product.getList().stream()
-                .filter(p -> p.getAverageScore() > 4).collect(Collectors.toList());
-        }
+        if (currentCategory != null)
+            strings.addAll(currentCategory.
+                    getCategoryFields().
+                    getFieldList().
+                    stream().
+                    map(Field::getFieldName).
+                    collect(Collectors.toList()));
 
-        // for dar list products ... if filter add to listof products
-        */
+        return strings;
     }
 
-    public List<Filter> currentFilters(){
-        return listOfFiltersNowRunning;
+    public void filter(String filterName, String filterValue) {
+//        checkFilterValid(filterName);
+        filterList.add(new Filter(filterName,filterValue));
     }
 
-    public void disableFilter(Filter filter){
+    public List<Filter> currentFilters() {
+        return filterList;
+    }
+
+    public void disableFilter(String filterName) {
+        filterList.removeIf(filter -> filterName.equals(filter.getFieldName()));
+    }
+
+    public void searchForProduct(Product product, long productId) {
         //?
     }
 
-    public void searchForProduct(Product product , long productId){
-        //?
-    }
+//    private void checkFilterValid(String filterName) throws InvalidFilterException {
+//
+//        if (!showAvailableFilters().contains(filterName)) {
+//            throw new InvalidFilterException(filterName + " is invalid field.");
+//        }
+//    }
 }

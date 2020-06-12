@@ -1,8 +1,7 @@
 package Model.Tools;
 
 import Exceptions.*;
-
-import java.util.List;
+import Model.DataBase.Data;
 
 public interface Packable <T extends Packable<T>>{
 

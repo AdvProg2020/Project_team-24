@@ -5,7 +5,7 @@ import Model.DataBase.DataBase;
 import Model.Models.Accounts.Customer;
 import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
-import Model.Tools.Data;
+import Model.DataBase.Data;
 import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DiscountCode implements Packable<DiscountCode>, Cloneable {
 

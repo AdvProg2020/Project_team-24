@@ -1,6 +1,5 @@
 package Controller.Controllers;
 
-import Controller.ControllerUnit;
 import Exceptions.*;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
@@ -83,7 +82,7 @@ public class SellerController extends AccountController {
     public Info viewProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
         Product product = Product.getProductById(productId);
-        return product.getProductInfo();
+        return product.getProduct_Info();
     }
 
     public List<Customer> viewBuyers(String productIdString) throws ProductDoesNotExistException, NumberFormatException, AccountDoesNotExistException {
@@ -110,7 +109,7 @@ public class SellerController extends AccountController {
 
     public void saveProductInfo(@NotNull Product product, List<String> fieldName, List<String> values) {
         FieldList fieldList = createFieldList(fieldName, values);
-        product.setProductInfo(new Info("ProductInfo", fieldList, LocalDate.now()));
+        product.setProduct_Info(new Info("ProductInfo", fieldList, LocalDate.now()));
     }
 
     public void saveCategoryInfo(@NotNull Product product, List<String> fieldName, List<String> values) {

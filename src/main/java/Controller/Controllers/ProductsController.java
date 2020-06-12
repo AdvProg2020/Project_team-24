@@ -6,6 +6,7 @@ import Exceptions.ProductDoesNotExistException;
 import Model.Models.Category;
 import Model.Models.Product;
 import Model.Models.Sorter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,7 @@ public class ProductsController {
 //        }
 //    }
 
-    public List<Product> sort(String sortElement) throws NotAvailableSortException {
+    public List<Product> sort(@NotNull String sortElement) throws NotAvailableSortException {
 //        checkSortAvailable(sortElement);
         switch (sortElement) {
             case "Time":

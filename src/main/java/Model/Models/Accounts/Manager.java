@@ -2,7 +2,7 @@ package Model.Models.Accounts;
 
 import Model.DataBase.DataBase;
 import Model.Models.*;
-import Model.Tools.Data;
+import Model.DataBase.Data;
 
 public class Manager extends Account {
 

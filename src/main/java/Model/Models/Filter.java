@@ -1,38 +1,31 @@
 package Model.Models;
 
-import Model.Models.Field.Field;
+import Exceptions.FieldDoesNotExistException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-public class Filter implements Predicate<Filter> {
+public class Filter implements Predicate<Product> {
 
-    private Field field;
+    private String fieldName;
+    private String fieldValue;
 
-    @Override
-    public boolean test(Filter filter) {
-        return false;
+    public String getFieldName() {
+        return fieldName;
     }
 
-    @NotNull
     @Override
-    public Predicate<Filter> and(@NotNull Predicate<? super Filter> other) {
-        return null;
+    public boolean test(@NotNull Product product) {
+        try {
+            return fieldValue.equals(product.getField(fieldName));
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    @NotNull
-    @Override
-    public Predicate<Filter> negate() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public Predicate<Filter> or(@NotNull Predicate<? super Filter> other) {
-        return null;
-    }
-
-    public Filter(Field field) {
-        this.field = field;
+    public Filter(String fieldName, String fieldValue) {
+        this.fieldName = fieldName;
+        this.fieldValue = fieldValue;
     }
 }
