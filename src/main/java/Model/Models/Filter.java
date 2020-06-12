@@ -14,6 +14,10 @@ public class Filter implements Predicate<Product> {
         return fieldName;
     }
 
+    public String getFieldValue() {
+        return fieldValue;
+    }
+
     @Override
     public boolean test(@NotNull Product product) {
         try {
