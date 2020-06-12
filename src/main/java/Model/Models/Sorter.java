@@ -9,8 +9,8 @@ public class Sorter {
     private Comparator<Product> comparator;
 
     private static Comparator<Product> timeComparator = (o1, o2) -> {
-        LocalDate d1 = o1.getProductInfo().getUploadDate();
-        LocalDate d2 = o2.getProductInfo().getUploadDate();
+        LocalDate d1 = o1.getProduct_Info().getUploadDate();
+        LocalDate d2 = o2.getProduct_Info().getUploadDate();
         return d1.compareTo(d2);
     };
 

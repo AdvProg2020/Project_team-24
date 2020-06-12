@@ -3,7 +3,7 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.AddingNew;
-import Model.Tools.Data;
+import Model.DataBase.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
@@ -152,7 +152,7 @@ public class Request implements Packable<Request> {
     }
 
     @Override
-    public Request dpkg(Data<Request> data) {
+    public Request dpkg(@NotNull Data<Request> data) {
         this.requestId = (long) data.getFields().get(0);
         this.accountId = (long) data.getFields().get(1);
         this.information = (String) data.getFields().get(2);

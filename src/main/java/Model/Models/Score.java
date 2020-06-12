@@ -3,7 +3,7 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.AddingNew;
-import Model.Tools.Data;
+import Model.DataBase.Data;
 import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -38,18 +38,6 @@ public class Score implements Packable<Score> {
     public long getId() {
         return scoreId;
     }
-
-//    public long getUserId() {
-//        return userId;
-//    }
-//
-//    public int getScoreNum() {
-//        return scoreNum;
-//    }
-//
-//    public long getGoodId() {
-//        return goodId;
-//    }
 
     @NotNull
     @Contract(pure = true)

@@ -5,7 +5,8 @@ import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
-import Model.Tools.Data;
+import Model.DataBase.Data;
+import Model.Tools.Filterable;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
@@ -13,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class Product implements Packable<Product>, ForPend, Cloneable {
+public class Product implements Packable<Product>, ForPend, Filterable, Cloneable {
 
     /*****************************************************fields*******************************************************/
 
@@ -21,7 +22,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     private long productId;
     private String productName;
-    private Info productInfo;
+    private Info product_Info;
     private Info categoryInfo;
     private Category category;
     private Auction auction;
@@ -39,8 +40,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return productId;
     }
 
-    public Info getProductInfo() {
-        return productInfo;
+    public Info getProduct_Info() {
+        return product_Info;
     }
 
     public Info getCategoryInfo() {
@@ -89,14 +90,35 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return Collections.unmodifiableList(list);
     }
 
+    @Override
+    public String getField(@NotNull String fieldName) throws FieldDoesNotExistException {
+
+        switch (fieldName) {
+            case "productName":
+                return productName;
+            case "categoryName":
+                return category.getName();
+            case "AuctionName":
+                return auction.getName();
+            default:
+                SingleString field;
+                if (product_Info.getList().isFieldWithThisName(fieldName)) {
+                    field = (SingleString) product_Info.getList().getFieldByName(fieldName);
+                } else
+                    field = (SingleString) categoryInfo.getList().getFieldByName(fieldName);
+
+                return field.getString();
+        }
+    }
+
     public List<Long> getBuyerList() {
         return Collections.unmodifiableList(buyerList);
     }
 
     /*****************************************************setters*******************************************************/
 
-    public Product setProductInfo(Info productInfo) {
-        this.productInfo = productInfo;
+    public Product setProduct_Info(Info product_Info) {
+        this.product_Info = product_Info;
         return this;
     }
 
@@ -215,8 +237,8 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
                 break;
             default:
                 SingleString field;
-                if (productInfo.getList().isFieldWithThisName(fieldName)) {
-                    field = (SingleString) productInfo.getList().getFieldByName(fieldName);
+                if (product_Info.getList().isFieldWithThisName(fieldName)) {
+                    field = (SingleString) product_Info.getList().getFieldByName(fieldName);
                 } else
                     field = (SingleString) categoryInfo.getList().getFieldByName(fieldName);
 
@@ -257,7 +279,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return new Data<Product>()
                 .addField(productId)
                 .addField(productName)
-                .addField(productInfo)
+                .addField(product_Info)
                 .addField(categoryInfo)
                 .addField(numberOfVisitors)
                 .addField(averageScore)
@@ -275,7 +297,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
     public Product dpkg(@NotNull Data<Product> data) throws CategoryDoesNotExistException, AuctionDoesNotExistException {
         this.productId = (long) data.getFields().get(0);
         this.productName = (String) data.getFields().get(1);
-        this.productInfo = (Info) data.getFields().get(2);
+        this.product_Info = (Info) data.getFields().get(2);
         this.categoryInfo = (Info) data.getFields().get(3);
         this.numberOfVisitors = (long) data.getFields().get(4);
         this.averageScore = (double) data.getFields().get(5);
@@ -306,9 +328,9 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        Info proInfo = (Info) productInfo.clone();
+        Info proInfo = (Info) product_Info.clone();
         Info catInfo = (Info) categoryInfo.clone();
-        return ((Product)super.clone()).setProductInfo(proInfo).setCategoryInfo(catInfo);
+        return ((Product)super.clone()).setProduct_Info(proInfo).setCategoryInfo(catInfo);
     }
 
     @Override
@@ -316,7 +338,7 @@ public class Product implements Packable<Product>, ForPend, Cloneable {
         return "Product{" +
                 "productId=" + productId +
                 ", productName='" + productName + '\'' +
-                ", productInfo=" + productInfo +
+                ", productInfo=" + product_Info +
                 ", categoryInfo=" + categoryInfo +
                 ", category=" + category +
                 ", auction=" + auction +

@@ -3,7 +3,7 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.AddingNew;
-import Model.Tools.Data;
+import Model.DataBase.Data;
 import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

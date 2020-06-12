@@ -4,7 +4,7 @@ import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
 import Model.Tools.AddingNew;
-import Model.Tools.Data;
+import Model.DataBase.Data;
 import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -68,6 +68,8 @@ public abstract class Account implements Packable<Account> {
         return personalInfo;
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Account> getList() {
         return Collections.unmodifiableList(list);
     }

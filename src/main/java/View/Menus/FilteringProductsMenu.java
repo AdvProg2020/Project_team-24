@@ -2,14 +2,20 @@ package View.Menus;
 
 import Controller.Controllers.FilterController;
 import Controller.Controllers.ProductsController;
+import Exceptions.InvalidFilterException;
+import Model.Models.Filter;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 
 public class FilteringProductsMenu extends Menu {
 
+    private static FilterController filterController = FilterController.getInstance();
+
     private static FilteringProductsMenu menu;
-    private static FilterController filterController=FilterController.getInstance();
+
     private FilteringProductsMenu(String name) {
         super(name);
     }
@@ -22,23 +28,33 @@ public class FilteringProductsMenu extends Menu {
     }
 
     public void showAvailableFilters() {
-        System.out.println(filterController.showAvailableFilters());
+        System.out.println("Available Filter:");
+        filterController.showAvailableFilters().forEach(System.out::println);
     }
 
-    public void addFilter(List<String> inputs) {
-//        String filter=inputs.get(0);
-//        filterController.filter(filter);
+    public void addFilter(@NotNull List<String> inputs) {
+        String filterName = inputs.get(0);
+        System.out.print("Enter filter value:");
+        String filterValue = scanner.nextLine();
+        try {
+            filterController.filter(filterName,filterValue);
+        } catch (InvalidFilterException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
     }
 
-    public void disableAFilter(List<String> inputs) {
-        // yac
+    public void disableAFilter(@NotNull List<String> inputs) {
+        String filterName = inputs.get(0);
+        filterController.disableFilter(filterName);
     }
 
     public void currentFilters() {
-        // yac
+        System.out.println("Current filters:");
+        filterController.currentFilters().forEach(filter -> Shows.getShowFilter().apply(filter));
     }
 
-    public static Menu getMenu(){
+    public static Menu getMenu() {
         return Optional.ofNullable(menu).orElseThrow();
     }
 
