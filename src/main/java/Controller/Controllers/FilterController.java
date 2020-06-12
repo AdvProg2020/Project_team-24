@@ -53,8 +53,8 @@ public class FilterController {
         return strings;
     }
 
-    public void filter(String filterName, String filterValue) {
-//        checkFilterValid(filterName);
+    public void filter(String filterName, String filterValue) throws InvalidFilterException {
+        checkFilterValid(filterName);
         filterList.add(new Filter(filterName,filterValue));
     }
 
@@ -66,10 +66,10 @@ public class FilterController {
         filterList.removeIf(filter -> filterName.equals(filter.getFieldName()));
     }
 
-//    private void checkFilterValid(String filterName) throws InvalidFilterException {
-//
-//        if (!showAvailableFilters().contains(filterName)) {
-//            throw new InvalidFilterException(filterName + " is invalid field.");
-//        }
-//    }
+    private void checkFilterValid(String filterName) throws InvalidFilterException {
+
+        if (!showAvailableFilters().contains(filterName)) {
+            throw new InvalidFilterException(filterName + " is invalid field.");
+        }
+    }
 }

@@ -152,7 +152,7 @@ public class Request implements Packable<Request> {
     }
 
     @Override
-    public Request dpkg(Data<Request> data) {
+    public Request dpkg(@NotNull Data<Request> data) {
         this.requestId = (long) data.getFields().get(0);
         this.accountId = (long) data.getFields().get(1);
         this.information = (String) data.getFields().get(2);

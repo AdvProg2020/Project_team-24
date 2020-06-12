@@ -39,18 +39,6 @@ public class Score implements Packable<Score> {
         return scoreId;
     }
 
-//    public long getUserId() {
-//        return userId;
-//    }
-//
-//    public int getScoreNum() {
-//        return scoreNum;
-//    }
-//
-//    public long getGoodId() {
-//        return goodId;
-//    }
-
     @NotNull
     @Contract(pure = true)
     public static List<Score> getList() {

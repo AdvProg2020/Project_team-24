@@ -68,6 +68,8 @@ public abstract class Account implements Packable<Account> {
         return personalInfo;
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Account> getList() {
         return Collections.unmodifiableList(list);
     }

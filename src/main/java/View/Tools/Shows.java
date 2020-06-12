@@ -86,6 +86,11 @@ public class Shows {
                     String.format("Start:%s \nEnd:%s \n", discountCode.getStart(), discountCode.getEnd()) +
                      "----------------------------------------------";
 
+    private static Function<Filter,String> showFilter = filter ->
+            "---------------------Filter-------------------" + System.lineSeparator() +
+                    String.format("FilterName:%s \nFilterValue:%s \n", filter.getFieldName(), filter.getFieldValue()) +
+                    "----------------------------------------------";
+
     public static Function<Product, String> getShowProduct() {
         return showProduct;
     }
@@ -120,5 +125,9 @@ public class Shows {
 
     public static Function<DiscountCode, String> getShowDiscountCode() {
         return showDiscountCode;
+    }
+
+    public static Function<Filter, String> getShowFilter() {
+        return showFilter;
     }
 }

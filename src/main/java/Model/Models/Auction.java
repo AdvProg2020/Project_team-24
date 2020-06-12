@@ -7,6 +7,7 @@ import Model.Tools.AddingNew;
 import Model.DataBase.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
@@ -31,6 +32,8 @@ public class Auction implements Packable<Auction>, ForPend, Cloneable {
 
     /*****************************************************getters*******************************************************/
 
+    @NotNull
+    @Contract(pure = true)
     public static List<Auction> getList() {
         return Collections.unmodifiableList(list);
     }

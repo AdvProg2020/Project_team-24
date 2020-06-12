@@ -31,8 +31,9 @@ public class DigestProductMenu extends Menu {
 
     public void addToCart() {
         System.out.println(
-                "enter seller id in this pattern: " + System.lineSeparator() +
+                "Enter seller id in this pattern: " + System.lineSeparator() +
                         "select seller [sellerId]");
+
         Matcher matcher = Pattern.compile("select seller :(\\w+) ").matcher(scanner.nextLine().toLowerCase().trim());
         if (!matcher.find()) {
             System.out.println("Incorrect format");
