@@ -85,7 +85,7 @@ public class ProductsMenu extends Menu {
                 "viewCategories : to view categories" + System.lineSeparator() +
                         "filtering :to open filter menu" + System.lineSeparator() +
                         "sorting : to open sort menu" + System.lineSeparator() +
-                        "showProduct : to view a product" + System.lineSeparator() +
+                        "showProduct [productId]: to view a product" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

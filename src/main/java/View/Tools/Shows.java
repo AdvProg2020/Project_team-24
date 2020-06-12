@@ -45,9 +45,9 @@ public class Shows {
     private static Function<Category, String> showCategory = category ->
             "-------------------category-------------------" + System.lineSeparator() +
                     String.format("CategoryId:%d \nCategoryName:%s \n", category.getId(), category.getName()) +
-                    "Category fields: " +
+                    "Category fields: \n" +
                     category.getCategoryFields().getFieldList().stream().map(
-                            field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                            field -> field.getFieldName() + System.lineSeparator()
                     ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
 
     private static Function<LogHistory, String> showLogHistory = logHistory ->

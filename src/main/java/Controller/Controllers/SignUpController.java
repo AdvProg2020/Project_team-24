@@ -141,7 +141,7 @@ public class SignUpController {
 
         Info info = new Info(account.getClass().getSimpleName(), companyInfo, LocalDate.now());
 
-        account.setPersonalInfo(info);
+        ((Seller)account).setCompanyInfo(info);
 
         finishRegistering(account);
 

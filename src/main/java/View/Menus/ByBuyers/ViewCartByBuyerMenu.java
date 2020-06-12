@@ -110,7 +110,7 @@ public class ViewCartByBuyerMenu extends Menu {
                         "viewCart [productId] : To view cart" + System.lineSeparator() +
                         "increase [productId] : To increase number of that product" + System.lineSeparator() +
                         "decrease [productId] : To decrease number of that product" + System.lineSeparator() +
-                        "showTotalPrice : To show total price" + System.lineSeparator() +
+                        "show total price : To show total price" + System.lineSeparator() +
                         "purchase : To purchase" + System.lineSeparator() +
                         "----------------------------------------------"
         );

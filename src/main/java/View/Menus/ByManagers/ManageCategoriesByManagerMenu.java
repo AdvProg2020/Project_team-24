@@ -31,11 +31,16 @@ public class ManageCategoriesByManagerMenu extends Menu {
     }
 
     public void editCategory(@NotNull List<String> inputs) {
-        String categoryName = inputs.get(0);
-        String field=inputs.get(1);
-        String newField=inputs.get(2);
+        String categoryId = inputs.get(0);
+
+        System.out.print("FieldName: ");
+        String field = scanner.nextLine();
+
+        System.out.print("FieldValue: ");
+        String newField = scanner.nextLine();
+
         try {
-            managerController.editCategory(categoryName,field,newField);
+            managerController.editCategory(categoryId, field, newField);
         } catch (CategoryDoesNotExistException | FieldDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
@@ -54,7 +59,6 @@ public class ManageCategoriesByManagerMenu extends Menu {
             }
 
             List<String> subCategories = new ArrayList<>();
-            System.out.println("Enter subCategories id:");
             while (true) {
                 System.out.println("Enter subCategory id( or finish.):");
                 String categoryField = scanner.nextLine();
@@ -90,9 +94,9 @@ public class ManageCategoriesByManagerMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
-                "edit [categoryName]: To edit category by name" + System.lineSeparator() +
-                "add [categoryName]: To add category by name" + System.lineSeparator() +
-                "remove [categoryName]: To remove category by name" + System.lineSeparator() +
+                "edit [categoryId]: To edit category by name" + System.lineSeparator() +
+                        "add [categoryName]: To add category by name" + System.lineSeparator() +
+                        "remove [categoryName]: To remove category by name" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }
