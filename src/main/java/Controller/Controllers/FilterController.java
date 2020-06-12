@@ -66,10 +66,6 @@ public class FilterController {
         filterList.removeIf(filter -> filterName.equals(filter.getFieldName()));
     }
 
-    public void searchForProduct(Product product, long productId) {
-        //?
-    }
-
 //    private void checkFilterValid(String filterName) throws InvalidFilterException {
 //
 //        if (!showAvailableFilters().contains(filterName)) {
