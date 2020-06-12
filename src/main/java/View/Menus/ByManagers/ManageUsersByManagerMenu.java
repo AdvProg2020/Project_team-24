@@ -52,7 +52,7 @@ public class ManageUsersByManagerMenu extends Menu {
         try {
             managerController.deleteAccount(username);
             System.out.println("account deleted.");
-        } catch (AccountDoesNotExistException | DiscountCodeExpiredException e) {
+        } catch (AccountDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }

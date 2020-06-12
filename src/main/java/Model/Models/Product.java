@@ -5,7 +5,7 @@ import Model.DataBase.DataBase;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
-import Model.DataBase.Data;
+import Model.Models.Data.Data;
 import Model.Tools.Filterable;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;

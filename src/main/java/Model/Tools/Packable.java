@@ -1,7 +1,7 @@
 package Model.Tools;
 
 import Exceptions.*;
-import Model.DataBase.Data;
+import Model.Models.Data.Data;
 
 public interface Packable <T extends Packable<T>>{
 

@@ -1,4 +1,4 @@
-package Model.DataBase;
+package Model.Models.Data;
 
 import Exceptions.*;
 import Model.Tools.Packable;

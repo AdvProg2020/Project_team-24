@@ -4,7 +4,7 @@ import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Models.Field.Fields.SingleString;
-import Model.DataBase.Data;
+import Model.Models.Data.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

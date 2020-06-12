@@ -4,7 +4,7 @@ import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
-import Model.DataBase.Data;
+import Model.Models.Data.Data;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
