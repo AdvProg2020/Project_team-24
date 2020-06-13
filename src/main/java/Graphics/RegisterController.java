@@ -1,11 +1,11 @@
-package Graphicss.java;
+package Graphics;
 
-import Graphics.Main;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -15,28 +15,33 @@ public class RegisterController {
     public PasswordField password;
     public Label status;
 
+    public void buttonHandler(@NotNull ActionEvent event){
 
-    public void buttonHandler(ActionEvent event){
-        String botton =((Button)event.getSource()).getText();
-        if(botton.equals("بازگشت به صفحه ی اصلی")) {
-            try {
-                Main.setRoot("MainMenu");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(botton.equals("مرحله بعدی")){
-            register(event);
-            try {
-                Main.setRoot("ChooseTypeOFAccount");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(botton.equals("ورود")){
-            try {
-                Main.setRoot("Login");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        String button =((Button)event.getSource()).getText();
+
+        switch (button) {
+            case "بازگشت به صفحه ی اصلی":
+                try {
+                    Main.setRoot("MainMenu");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "مرحله بعدی":
+                register(event);
+                try {
+                    Main.setRoot("ChooseTypeOFAccount");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "ورود":
+                try {
+                    Main.setRoot("Login");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
     }
 

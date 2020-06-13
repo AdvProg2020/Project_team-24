@@ -1,4 +1,4 @@
-package Graphicss.java;
+package Graphics;
 
 import Graphics.Main;
 import javafx.event.ActionEvent;

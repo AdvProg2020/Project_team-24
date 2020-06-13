@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -17,7 +18,7 @@ public class Main extends Application {
     private static Scene scene;
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(@NotNull Stage stage) throws IOException {
         scene = new Scene(loadFXML("Graphics\\resources\\MainMenu\\MainMenu"));
         stage.setTitle("سه سوت");
         stage.setScene(scene);
@@ -25,7 +26,7 @@ public class Main extends Application {
 
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
@@ -34,17 +35,8 @@ public class Main extends Application {
         return fxmlLoader.load();
     }
 
-
-
-    public static void main(String[] args) {
-//            String path = "/home/javatpoint/Downloads/test.mp4";
-//            Media media = new Media(new File(path).toURI().toString());
-//            MediaPlayer mediaPlayer = new MediaPlayer(media);
-//            MediaView mediaView = new MediaView(mediaPlayer);
-//            mediaPlayer.setAutoPlay(true);
-
-        launch();
-    }
-
+//    public static void main(String[] args) {
+//        launch();
+//    }
 }
 

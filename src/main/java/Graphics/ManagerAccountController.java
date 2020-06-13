@@ -1,14 +1,17 @@
-package Graphicss.java;
+package Graphics;
 
-import Graphics.Main;
 import javafx.scene.control.Button;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class ManagerAccountController {
-    public void buttonHandler(ActionEvent event){
+
+    public void buttonHandler(@NotNull ActionEvent event){
+
         String text = ((Button)event.getSource()).getText();
+
         if(text.equals("بازگشت به صفحه ی اصلی")){
             try {
                 Main.setRoot("MainMenu");
