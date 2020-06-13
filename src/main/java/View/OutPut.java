@@ -420,6 +420,7 @@ public class OutPut {
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
+                .addRegex("charge Account (\\d+)")
                 .setPatterns();
     }
 
@@ -433,7 +434,8 @@ public class OutPut {
                 .addMethod("logout")
                 .addMethod("exit")
                 .addMethod("help")
-                .addMethod("back");
+                .addMethod("back")
+                .addMethod("chargeAccount");
     }
 
     private void setViewCartByBuyerMenuPattern() {

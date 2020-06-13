@@ -1,6 +1,7 @@
 package Controller.Controllers;
 
 import Exceptions.*;
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
@@ -57,6 +58,7 @@ public class BuyerController extends AccountController {
             Field field = fieldList.getFieldByName(name);
             ((SingleString) field).setString(value);
         }
+        DataBase.save(controllerUnit.getAccount());
     }
 
     @NotNull
@@ -224,5 +226,12 @@ public class BuyerController extends AccountController {
         Score.addScore(score);
         product.addScore(score.getId());
         product.setAverageScore(newScore);
+    }
+
+    public void chargeAccount(String amountString) throws NumberFormatException {
+        double amount = Double.parseDouble(amountString);
+        Customer account = (Customer) controllerUnit.getAccount();
+        account.setCredit(account.getCredit() + amount);
+        DataBase.save(account);
     }
 }

@@ -32,14 +32,17 @@ public class DigestProductMenu extends Menu {
     public void addToCart() {
         System.out.println(
                 "Enter seller id in this pattern: " + System.lineSeparator() +
-                        "select seller [sellerId]");
+                        "select seller :[sellerId]");
 
-        Matcher matcher = Pattern.compile("select seller :(\\w+) ").matcher(scanner.nextLine().toLowerCase().trim());
+        Matcher matcher = Pattern.compile("select seller :(\\w+)").matcher(scanner.nextLine().trim());
         if (!matcher.find()) {
             System.out.println("Incorrect format");
+            return;
         }
         try {
             productController.addToCart(matcher.group(1));
+            System.out.println("Successful");
+
         } catch (AccountHasNotLogin e) {
             System.out.println(e.getMessage());
             MenuHandler.setCurrentMenu(LogInMenu.getMenu());
@@ -58,7 +61,6 @@ public class DigestProductMenu extends Menu {
         super.help();
         System.out.println(
                 "addToCart : To add a good" + System.lineSeparator() +
-                        "selectSeller [SellerId] : To select a seller" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

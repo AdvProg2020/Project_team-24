@@ -29,39 +29,49 @@ public class PurchaseByBuyerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in PurchaseByBuyerMenu."));
     }
 
-    public void receiveInfo() {
+    public boolean receiveInfo() {
         System.out.println("Enter information in this pattern :" + System.lineSeparator() +
                 "receiveInfo :[postCode] :[address]"
         );
-        Matcher matcher = Pattern.compile("^ReceiveInfo :(.+) :(.+)$").matcher(scanner.nextLine().trim());
+        Matcher matcher = Pattern.compile("receiveInfo :(.+) :(.+)").matcher(scanner.nextLine().trim());
+
+        if(!matcher.find()) {
+            System.out.println("Invalid format...");
+            return false;
+        }
+
         try {
             buyerController.receiveInformation(matcher.group(1), matcher.group(2));
         } catch (PostCodeInvalidException | FieldDoesNotExistException | AddresInvalidException e) {
             System.out.println(e.getMessage());
+            return false;
         }
         System.out.println("Information received.");
+        return true;
     }
 
-    public void discountCode() {
+    public boolean discountCode() {
         System.out.println("Enter discountCode if you have or enter next:");
         String discountCode = scanner.nextLine();
 
         if (discountCode.equals("next")) {
             System.out.println("Entered no discountCode.");
-            return;
+            return true;
         }
 
         try {
             buyerController.discountCodeUse(discountCode);
         } catch (InvalidDiscountCodeException | AccountDoesNotExistException | DiscountCodeExpiredException e) {
             System.out.println(e.getMessage());
+            return false;
         }
         System.out.println("Code entered.");
+        return true;
     }
 
     public void payment() {
-        receiveInfo();
-        discountCode();
+        if(!(receiveInfo() && discountCode())) return;
+
         try {
             buyerController.buyProductsOfCart();
         } catch (NotEnoughCreditException | SellerDoesNotSellOfThisProduct | AccountDoesNotExistException | ProductDoesNotExistException e) {
