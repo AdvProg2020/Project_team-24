@@ -1,6 +1,7 @@
 package Model.DataBase;
 
 import Exceptions.*;
+import Model.Models.Data.Data;
 import Model.Tools.Packable;
 import com.gilecode.yagson.YaGson;
 import org.jetbrains.annotations.NotNull;

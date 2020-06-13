@@ -6,10 +6,11 @@ import Exceptions.NotAvailableSortException;
 import java.util.List;
 import java.util.Optional;
 
-public class SortingProductsMenu extends Menu{
+public class SortingProductsMenu extends Menu {
 
     private static SortingProductsMenu menu;
     private static ProductsController productsController = ProductsController.getInstance();
+
     private SortingProductsMenu(String name) {
         super(name);
     }
@@ -30,7 +31,7 @@ public class SortingProductsMenu extends Menu{
     }
 
     public void sort(List<String> inputs) {
-        String sortBy=inputs.get(0);
+        String sortBy = inputs.get(0);
         try {
             System.out.println(productsController.sort(sortBy));
         } catch (NotAvailableSortException e) {

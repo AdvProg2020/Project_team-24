@@ -13,6 +13,7 @@ import Model.Models.Info;
 import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SignUpController {
@@ -95,11 +96,11 @@ public class SignUpController {
                 throw new EmailInvalidException("Email is invalid.");
         }
 
-        FieldList personalInfo = new FieldList(Arrays.asList(
+        FieldList personalInfo = new FieldList(new ArrayList<>(Arrays.asList(
                 new SingleString("FirstName", firstName),
                 new SingleString("LastName", lastName),
                 new SingleString("Email", email),
-                new SingleString("PhoneNumber", phoneNumber)
+                new SingleString("PhoneNumber", phoneNumber))
         ));
 
         Info info = new Info(account.getClass().getSimpleName(), personalInfo, LocalDate.now());
@@ -133,15 +134,15 @@ public class SignUpController {
                 throw new EmailInvalidException("Email is invalid.");
         }
 
-        FieldList companyInfo = new FieldList(Arrays.asList(
+        FieldList companyInfo = new FieldList(new ArrayList<>(Arrays.asList(
                 new SingleString("CompanyName", brand),
                 new SingleString("CompanyPhoneNumber", phoneNumber),
-                new SingleString("CompanyEmail", email)
+                new SingleString("CompanyEmail", email))
         ));
 
         Info info = new Info(account.getClass().getSimpleName(), companyInfo, LocalDate.now());
 
-        account.setPersonalInfo(info);
+        ((Seller)account).setCompanyInfo(info);
 
         finishRegistering(account);
 

@@ -47,8 +47,12 @@ public class ViewDiscountCodesByManagerMenu extends Menu {
 
     public void editDiscountCode(@NotNull List<String> inputs) {
         String id = inputs.get(0);
-        String field = inputs.get(1);
-        String newField = inputs.get(2);
+
+        System.out.print("FieldName: ");
+        String field = scanner.nextLine();
+
+        System.out.print("FieldValue: ");
+        String newField = scanner.nextLine();
 
         try {
             managerController.editDiscountCode(id, field, newField);

@@ -202,8 +202,8 @@ public class OutPut {
                 .addRegex("viewDiscountCode")
                 .addRegex("openManageRequestsMenu")
                 .addRegex("openManageCategoriesMenu")
-                .addRegex("getDiscountCodeToRandomBuyer")
-                .addRegex("getDiscountCodeToSpecialBuyers")
+                .addRegex("getDiscountCodeToRandomBuyer (\\d+)")
+                .addRegex("getDiscountCodeToSpecialBuyers (\\d+)")
                 .addRegex("logout")
                 .addRegex("exit")
                 .addRegex("help")
@@ -420,6 +420,7 @@ public class OutPut {
                 .addRegex("exit")
                 .addRegex("help")
                 .addRegex("back")
+                .addRegex("charge Account (\\d+)")
                 .setPatterns();
     }
 
@@ -430,10 +431,11 @@ public class OutPut {
                 .addMethod("viewBalance")
                 .addMethod("viewDiscountCodes")
                 .addMethod("viewOrders")
-                .addRegex("logout")
+                .addMethod("logout")
                 .addMethod("exit")
                 .addMethod("help")
-                .addMethod("back");
+                .addMethod("back")
+                .addMethod("chargeAccount");
     }
 
     private void setViewCartByBuyerMenuPattern() {
@@ -511,7 +513,7 @@ public class OutPut {
                 .addMethod("filtering")
                 .addMethod("sorting")
                 .addMethod("showProducts")
-                .addMethod("showProduct (\\d+)")
+                .addMethod("showProduct")
                 .addMethod("exit")
                 .addMethod("help")
                 .addMethod("back");

@@ -3,7 +3,7 @@ package Model.Models;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Tools.AddingNew;
-import Model.DataBase.Data;
+import Model.Models.Data.Data;
 import Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -114,7 +114,7 @@ public class Cart implements Packable<Cart> {
                 .filter(cart -> id == cart.getId())
                 .findFirst()
                 .orElseThrow(() -> new CartDoesNotExistException(
-                        "Cart with the id:" + id + "does not exist in list of all carts."
+                        "Cart with the id:" + id + " does not exist in list of all carts."
                 ));
     }
 

@@ -11,7 +11,9 @@ import View.Menus.ManageInfoMenu;
 import View.Menus.Menu;
 import View.Menus.RegistrationAndLogin.UserAreaMenu;
 import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 public class BuyerMenu extends Menu {
@@ -82,6 +84,17 @@ public class BuyerMenu extends Menu {
         MenuHandler.setCurrentMenu(UserAreaMenu.getMenu());
     }
 
+    public void chargeAccount(@NotNull List<String> input) {
+        String amount = input.get(0);
+        try {
+            buyerController.chargeAccount(amount);
+            System.out.println("Successful");
+
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Override
     public void show() {
         System.out.println(
@@ -104,9 +117,9 @@ public class BuyerMenu extends Menu {
                         "viewCart : To open cart menu" + System.lineSeparator() +
                         "viewBalance : To show balance" + System.lineSeparator() +
                         "viewDiscountCodes : To show discounts" + System.lineSeparator() +
-                        "purchase : To purchase" + System.lineSeparator() +
                         "viewOrders : To open Orders menu" + System.lineSeparator() +
                         "logout : To logout" + System.lineSeparator() +
+                        "charge Account [amount( Just Integer)] : To logout" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

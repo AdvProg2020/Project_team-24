@@ -9,7 +9,6 @@ public class Shows {
 
     private static Function<Product, String> showProduct = product ->
             "-------------------product--------------------" + System.lineSeparator() +
-                    "Product info:" + System.lineSeparator() +
                     String.format("ProductId:%d \nProductName:%s \n", product.getId(), product.getName()) +
                     (product.getCategory() == null ? "" : String.format("ProductCategoryId:%d \nProductCategoryName:%s \n", product.getCategory().getId(), product.getCategory().getName())) +
                     (product.getAuction() == null ? "" : String.format("ProductAuctionId:%d \nProductAuctionName:%s \n", product.getAuction().getId(), product.getAuction().getName())) +
@@ -45,9 +44,9 @@ public class Shows {
     private static Function<Category, String> showCategory = category ->
             "-------------------category-------------------" + System.lineSeparator() +
                     String.format("CategoryId:%d \nCategoryName:%s \n", category.getId(), category.getName()) +
-                    "Category fields: " +
+                    "Category fields: \n" +
                     category.getCategoryFields().getFieldList().stream().map(
-                            field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                            field -> field.getFieldName() + System.lineSeparator()
                     ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
 
     private static Function<LogHistory, String> showLogHistory = logHistory ->

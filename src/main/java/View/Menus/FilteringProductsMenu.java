@@ -67,10 +67,10 @@ public class FilteringProductsMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
-                "showAvailableFilters : To show available filters" + System.lineSeparator() +
-                        "currentFilters : To show current filters" + System.lineSeparator() +
-                        "addFilter [filterName] : To add new filter" + System.lineSeparator() +
-                        "disableAFilter [filterName] : To disable a filter" + System.lineSeparator() +
+                "show available filters : To show available filters" + System.lineSeparator() +
+                        "current filters : To show current filters" + System.lineSeparator() +
+                        "filter [filterName] : To add new filter" + System.lineSeparator() +
+                        "disable a filter [filterName] : To disable a filter" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

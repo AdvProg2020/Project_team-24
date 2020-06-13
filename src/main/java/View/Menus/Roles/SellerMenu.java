@@ -66,6 +66,7 @@ public class SellerMenu extends Menu {
             System.out.println("Sogol : Enter information in correct format.");
             return;
         }
+
         try {
             Product product = sellerController.createTheBaseOfProduct(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4), matcher.group(5));
             if (saveProductInfo(product)){

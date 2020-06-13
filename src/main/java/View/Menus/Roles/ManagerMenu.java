@@ -163,8 +163,8 @@ public class ManagerMenu extends Menu {
                         "openManageRequestsMenu : To open request menu" + System.lineSeparator() +
                         "openManageCategoriesMenu : To open categories menu" + System.lineSeparator() +
                         "logout : To logout" + System.lineSeparator() +
-                        "getDiscountCodeToRandomBuyer : To get discountCode" + System.lineSeparator() +
-                        "getDiscountCodeToSpecialBuyers : To get discountCode" + System.lineSeparator() +
+                        "getDiscountCodeToRandomBuyer [discountCodeId]: To get discountCode" + System.lineSeparator() +
+                        "getDiscountCodeToSpecialBuyers [discountCodeId]: To get discountCode" + System.lineSeparator() +
                         "----------------------------------------------"
         );
     }

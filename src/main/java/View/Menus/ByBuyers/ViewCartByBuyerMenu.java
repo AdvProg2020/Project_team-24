@@ -31,23 +31,15 @@ public class ViewCartByBuyerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ViewCartByBuyerMenu."));
     }
 
-//    public void showProducts() {
-//       List<Product>productList=new ArrayList<>();
-//       for(Long aLong :productId){
-//           Product productById=null;
-//           try {
-//               productById=Product.getProductById(aLong);
-//           } catch (ProductDoesNotExistException e) {
-//               e.printStackTrace();
-//           }
-//           productList.add(productById);
-//       }
-//       for(int i=0;i<productList.size();i++){
-//           Product product=productList.get(i);
-//           long sellerId=sellerId.get(i);
-//           System.out.println(product.getPrice(sellerId));
-//       }
-//    }
+    public void showProducts() {
+        try {
+            buyerController.showProducts().forEach(product -> {
+                System.out.println(Shows.getShowProduct().apply(product));
+            });
+        } catch (ProductDoesNotExistException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public void viewProduct(@NotNull List<String> inputs) {
         String id = inputs.get(0);
@@ -106,11 +98,11 @@ public class ViewCartByBuyerMenu extends Menu {
     public void help() {
         super.help();
         System.out.println(
-                "showProducts : To show product" + System.lineSeparator() +
-                        "viewCart [productId] : To view cart" + System.lineSeparator() +
+                "show products : To show product" + System.lineSeparator() +
+                        "viewProduct [productId] : To view cart" + System.lineSeparator() +
                         "increase [productId] : To increase number of that product" + System.lineSeparator() +
                         "decrease [productId] : To decrease number of that product" + System.lineSeparator() +
-                        "showTotalPrice : To show total price" + System.lineSeparator() +
+                        "show total price : To show total price" + System.lineSeparator() +
                         "purchase : To purchase" + System.lineSeparator() +
                         "----------------------------------------------"
         );
