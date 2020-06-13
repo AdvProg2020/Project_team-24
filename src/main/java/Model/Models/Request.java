@@ -67,7 +67,7 @@ public class Request implements Packable<Request> {
 
     public void acceptRequest() throws AccountDoesNotExistException {
 
-        Seller seller = (Seller) Account.getAccountById(requestId);
+        Seller seller = (Seller) Account.getAccountById(accountId);
 
         switch (typeOfRequest) {
             case "new":
@@ -90,7 +90,7 @@ public class Request implements Packable<Request> {
 
     private void accept_new() throws AccountDoesNotExistException {
 
-        Seller seller = (Seller) Account.getAccountById(requestId);
+        Seller seller = (Seller) Account.getAccountById(accountId);
 
         if (forPend instanceof Product) {
             Auction auction = ((Product) forPend).getAuction();
@@ -116,7 +116,7 @@ public class Request implements Packable<Request> {
 
     private void accept_remove() throws AccountDoesNotExistException {
 
-        Seller seller = (Seller) Account.getAccountById(requestId);
+        Seller seller = (Seller) Account.getAccountById(accountId);
 
         if (forPend instanceof Product) {
             Product.removeProduct((Product) forPend);
@@ -138,7 +138,7 @@ public class Request implements Packable<Request> {
 
     public void declineRequest() throws AccountDoesNotExistException {
 
-        Seller seller = (Seller) Account.getAccountById(requestId);
+        Seller seller = (Seller) Account.getAccountById(accountId);
 
         seller.removeFromPendList(forPend);
 

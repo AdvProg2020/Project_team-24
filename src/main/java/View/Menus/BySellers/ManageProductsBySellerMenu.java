@@ -4,6 +4,8 @@ package View.Menus.BySellers;
 import Controller.Controllers.SellerController;
 import Exceptions.*;
 import View.Menus.Menu;
+import View.Tools.Shows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,20 +31,24 @@ public class ManageProductsBySellerMenu extends Menu {
         return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in ManageProductsBySellerMenu."));
     }
 
-    public void view(List<String> inputs) {
+    public void view(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         try {
-            sellerController.viewProduct(id);
+
+            System.out.println(
+                    Shows.getShowInfo().apply(sellerController.viewProduct(id))
+            );
+
         } catch (ProductDoesNotExistException e) {
             System.out.println("product does not exist");
         }
     }
 
-    public void viewBuyers(List<String> inputs) {
+    public void viewBuyers(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         try {
             sellerController.viewBuyers(id).forEach(buyer -> {
-                System.out.println(buyer.getUserName());
+                System.out.println("::" + buyer.getUserName());
             });
         } catch (ProductDoesNotExistException e) {
             System.out.println(e.getMessage());
@@ -51,7 +57,7 @@ public class ManageProductsBySellerMenu extends Menu {
         }
     }
 
-    public void edit(List<String> inputs) {
+    public void edit(@NotNull List<String> inputs) {
         String id = inputs.get(0);
         System.out.println("enter field name or enter 'finish' to stop edit product");
         while (true){

@@ -1,0 +1,1 @@
+{"@type":"Model.Models.Data.Data","@val":{"instance":{"@type":"Model.Models.Auction","@val":{"auctionId":0}},"fields":[1,[1,2,3],null,{"@type":"java.time.LocalDate","@val":{"year":2000,"month":10,"day":10}},{"@type":"java.time.LocalDate","@val":{"year":3000,"month":10,"day":10}},{"@type":"Model.Models.Structs.Discount","@val":{"percent":99.0,"amount":1000000.0}}]}}

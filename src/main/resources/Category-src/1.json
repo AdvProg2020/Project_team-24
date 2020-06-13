@@ -1,1 +1,1 @@
-{"@type":"Model.Models.Data.Data","@val":{"instance":{"@type":"Model.Models.Category","@val":{"categoryId":0,"productList":[]}},"fields":[1,"Aftabes",{"@type":"Model.Models.FieldList","@val":{"fieldList":[{"fieldName":"Rang"},{"fieldName":"Tool"},{"fieldName":"Noo"}]}},[0],[]]}}
+{"@type":"Model.Models.Data.Data","@val":{"instance":{"@type":"Model.Models.Category","@val":{"categoryId":0,"productList":[]}},"fields":[1,"Aftabes",{"@type":"Model.Models.FieldList","@val":{"fieldList":[{"fieldName":"Rang"},{"fieldName":"Tool"},{"fieldName":"Noo"}]}},[0,0],[]]}}

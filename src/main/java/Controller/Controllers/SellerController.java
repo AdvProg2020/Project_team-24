@@ -140,7 +140,7 @@ public class SellerController extends AccountController {
         for (long aLong : productIdsString.stream().map(Long::parseLong).collect(Collectors.toList())) {
             Product product = Product.getProductById(aLong);
             if (product.getAuction() != null) {
-                throw new ProductCantBeInMoreThanOneAuction("Product with the id:" + aLong + "have auction. You can't add it");
+                throw new ProductCantBeInMoreThanOneAuction("Product with the id:" + aLong + " have auction. You can't add it");
             }
         }
         auction.setProductList(productIds);

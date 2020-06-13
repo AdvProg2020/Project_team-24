@@ -69,10 +69,12 @@ public class Seller extends Account {
 
     public void setBalance(double balance) {
         this.balance = balance;
+        DataBase.save(this);
     }
 
     public void setCompanyInfo(Info companyInfo) {
         this.companyInfo = companyInfo;
+        DataBase.save(this);
     }
 
     /*****************************************************getters*******************************************************/
