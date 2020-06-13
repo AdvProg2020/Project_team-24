@@ -1,8 +1,10 @@
 package Model.Models.Accounts;
 
+import Exceptions.AccountDoesNotExistException;
 import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Models.Data.Data;
+import org.jetbrains.annotations.NotNull;
 
 public class Manager extends Account {
 
@@ -35,11 +37,11 @@ public class Manager extends Account {
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest(Request request)  {
+    public void acceptRequest(@NotNull Request request) throws AccountDoesNotExistException {
         request.acceptRequest();
     }
 
-    public void declineRequest(Request request)  {
+    public void declineRequest(@NotNull Request request) throws AccountDoesNotExistException {
         request.declineRequest();
     }
 

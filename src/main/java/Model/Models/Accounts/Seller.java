@@ -27,34 +27,42 @@ public class Seller extends Account {
 
     public void addToLogHistoryList(long logHistoryId) {
         logHistoryList.add(logHistoryId);
+        DataBase.save(this);
     }
 
     public void removeFromLogHistoryList(long logHistoryId) {
         logHistoryList.remove(logHistoryId);
+        DataBase.save(this);
     }
 
     public void addToAuctionList(long auctionId) {
         auctionList.add(auctionId);
+        DataBase.save(this);
     }
 
     public void removeFromAuctionList(long auctionId) {
         auctionList.remove(auctionId);
+        DataBase.save(this);
     }
 
     public void addToProductList(long productId) {
         productList.add(productId);
+        DataBase.save(this);
     }
 
     public void removeFromProductList(long productId) {
         productList.remove(productId);
+        DataBase.save(this);
     }
 
     public void addToPendList(ForPend forPend) {
         forPendList.add(forPend);
+        DataBase.save(this);
     }
 
     public void removeFromPendList(ForPend forPend) {
         forPendList.remove(forPend);
+        DataBase.save(this);
     }
 
     /****************************************************setters********************************************************/
@@ -77,9 +85,9 @@ public class Seller extends Account {
         return companyInfo;
     }
 
-    public List<ForPend> getForPendList() {
-        return Collections.unmodifiableList(forPendList);
-    }
+//    public List<ForPend> getForPendList() {
+//        return Collections.unmodifiableList(forPendList);
+//    }
 
     public List<Long> getAuctionList() {
         return Collections.unmodifiableList(auctionList);
@@ -96,7 +104,7 @@ public class Seller extends Account {
     /***************************************************otherMethods****************************************************/
 
     @Override
-    public void editField(String fieldName, String value) throws FieldDoesNotExistException {
+    public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException {
 
         switch (fieldName) {
             case "password":
