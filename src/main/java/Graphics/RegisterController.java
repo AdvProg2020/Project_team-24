@@ -1,5 +1,6 @@
-package Graphics.java;
+package Graphicss.java;
 
+import Graphics.Main;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -8,7 +9,8 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class LoginController {
+public class RegisterController {
+
     public TextField username;
     public PasswordField password;
     public Label status;
@@ -22,20 +24,23 @@ public class LoginController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if(botton.equals("به خانواده سه سوت بپیوندید")){
+        }else if(botton.equals("مرحله بعدی")){
+            register(event);
             try {
-                Main.setRoot("RegisterBase");
+                Main.setRoot("ChooseTypeOFAccount");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if(botton.equals(" ورود ")){
-            login(event);
-            status.setText("شما وارد سایت شدید");
-            System.out.println("you have logged in successfully");
+        }else if(botton.equals("ورود")){
+            try {
+                Main.setRoot("Login");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void login(ActionEvent actionEvent) {
+    public void register(ActionEvent actionEvent) {
 
         String usernameEntered = username.getText();
         String passwordEntered = password.getText();

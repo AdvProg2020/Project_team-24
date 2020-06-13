@@ -1,22 +1,20 @@
-package Graphics.java;
+package Graphicss.java;
 
+import Graphics.Main;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class RegisterCustomerController {
-    public TextField firstname;
-    public TextField lastname;
+public class RegisterSellerController {
+    public TextField companyname;
     public TextField email;
     public TextField phone;
-    public Button sumbit;
-    public Button back;
+    public Button submit;
 
-    public void savePersonalInfo() {
-        String firstname2 = firstname.getText();
-        String lastname2 = lastname.getText();
+    public void saveComapanyInfo() {
+        String companyname2 = companyname.getText();
         String email2 = email.getText();
         String phone2 = phone.getText();
         //controller
@@ -32,7 +30,7 @@ public class RegisterCustomerController {
             }
         }
         if (botton.equals("ثبت اطلاعات")) {
-            savePersonalInfo();
+           saveComapanyInfo();
             System.out.println("اطلاعات ثبت شد");
         }
     }

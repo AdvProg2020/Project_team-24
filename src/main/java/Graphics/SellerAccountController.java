@@ -1,11 +1,12 @@
-package Graphics.java;
+package Graphicss.java;
 
+import Graphics.Main;
 import javafx.scene.control.Button;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
-public class CustomerAccountController {
+public class SellerAccountController {
     public void buttonHandler(ActionEvent event) {
         String text = ((Button) event.getSource()).getText();
         if (text.equals("بازگشت به صفحه ی اصلی")) {
@@ -15,14 +16,14 @@ public class CustomerAccountController {
                 e.printStackTrace();
             }
         }
-        if (text.equals("سبد خرید")) {
+        if (text.equals("محصولات فروشی")) {
             try {
                 Main.setRoot("");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if (text.equals("سابقه ی خرید")) {
+        if (text.equals("سابقه ی فروش")) {
             try {
                 Main.setRoot("");
             } catch (IOException e) {

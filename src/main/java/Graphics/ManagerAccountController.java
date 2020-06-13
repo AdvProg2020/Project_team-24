@@ -1,8 +1,8 @@
-package Graphics.java;
+package Graphicss.java;
 
+import Graphics.Main;
 import javafx.scene.control.Button;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 

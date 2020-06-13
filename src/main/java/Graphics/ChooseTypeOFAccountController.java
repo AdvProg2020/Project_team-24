@@ -1,4 +1,4 @@
-package Graphics.java;
+package Graphics;
 
 import javafx.scene.control.MenuItem;
 
