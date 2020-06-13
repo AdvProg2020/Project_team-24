@@ -1,6 +1,7 @@
 package View.Menus.ByManagers;
 
 import Controller.Controllers.ManagerController;
+import Exceptions.AccountDoesNotExistException;
 import Exceptions.RequestDoesNotExistException;
 import Model.Models.Auction;
 import Model.Models.Product;
@@ -52,7 +53,7 @@ public class ManageRequestsByManagerMenu extends Menu {
         try {
             managerController.acceptRequest(id);
             System.out.println("Request accepted.");
-        } catch (RequestDoesNotExistException e) {
+        } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -62,7 +63,7 @@ public class ManageRequestsByManagerMenu extends Menu {
         try {
             managerController.denyRequest(id);
             System.out.println("Request declined.");
-        } catch (RequestDoesNotExistException e) {
+        } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
             System.out.println(e.getMessage());
         }
     }

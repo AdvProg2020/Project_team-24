@@ -2,6 +2,7 @@ package View.Menus;
 
 import Controller.Controllers.ProductsController;
 import Exceptions.NotAvailableSortException;
+import View.Tools.Shows;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,9 @@ public class SortingProductsMenu extends Menu {
     }
 
     public void currentSorts() {
-        System.out.println(productsController.currentSort());
+        System.out.println(
+                "Sort info: " + productsController.currentSort().getInfo()
+        );
     }
 
     public void disableSorts() {

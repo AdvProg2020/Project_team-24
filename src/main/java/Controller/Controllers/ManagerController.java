@@ -144,12 +144,12 @@ public class ManagerController extends AccountController {
         return Request.getRequestById(requestId);
     }
 
-    public void acceptRequest(String strRequestId) throws RequestDoesNotExistException {
+    public void acceptRequest(String strRequestId) throws RequestDoesNotExistException, AccountDoesNotExistException {
         long requestId = Long.parseLong(strRequestId);
         ((Manager) controllerUnit.getAccount()).acceptRequest(Request.getRequestById(requestId));
     }
 
-    public void denyRequest(String strRequestId) throws RequestDoesNotExistException {
+    public void denyRequest(String strRequestId) throws RequestDoesNotExistException, AccountDoesNotExistException {
         long requestId = Long.parseLong(strRequestId);
         ((Manager) controllerUnit.getAccount()).declineRequest(Request.getRequestById(requestId));
     }

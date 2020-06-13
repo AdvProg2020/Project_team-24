@@ -197,6 +197,19 @@ public class SellerMenu extends Menu {
                         "4.ViewOffsMenu" + System.lineSeparator() +
                         "----------------------------------------------"
         );
+
+        System.out.println("Products: ");
+
+        try {
+            sellerController.showProducts().forEach(product -> {
+                System.out.println(Shows.getShowProduct().apply(product));
+            });
+        } catch (ProductDoesNotExistException e) {
+
+            System.out.println(
+                    e.getMessage() + "\n Try again..."
+            );
+        }
     }
 
     @Override

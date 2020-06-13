@@ -2,6 +2,7 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
+import Model.Models.Accounts.Seller;
 import Model.Tools.AddingNew;
 import Model.Models.Data.Data;
 import Model.Tools.ForPend;
@@ -64,8 +65,9 @@ public class Request implements Packable<Request> {
 
     /***************************************************otherMethods****************************************************/
 
-    public void acceptRequest() {
-        forPend.setStateForPend("Accepted");
+    public void acceptRequest() throws AccountDoesNotExistException {
+
+        Seller seller = (Seller) Account.getAccountById(accountId);
 
         switch (typeOfRequest) {
             case "new":
@@ -78,11 +80,18 @@ public class Request implements Packable<Request> {
                 accept_edit();
         }
 
+        seller.removeFromPendList(forPend);
+
         list.remove(this);
         DataBase.remove(this);
+
+        forPend.setStateForPend("Accepted");
     }
 
-    private void accept_new() {
+    private void accept_new() throws AccountDoesNotExistException {
+
+        Seller seller = (Seller) Account.getAccountById(accountId);
+
         if (forPend instanceof Product) {
             Auction auction = ((Product) forPend).getAuction();
             Category category = ((Product) forPend).getCategory();
@@ -93,17 +102,22 @@ public class Request implements Packable<Request> {
                 category.addToProductList(((Product) forPend).getId());
             }
             Product.addProduct((Product) forPend);
+            seller.addToProductList(((Product) forPend).getId());
         } else if (forPend instanceof Auction) {
             Auction.addAuction((Auction) forPend);
+            seller.addToAuctionList(((Auction) forPend).getId());
         }
     }
 
-    private void accept_edit() {
+    private void accept_edit() throws AccountDoesNotExistException {
         accept_remove();
         accept_new();
     }
 
-    private void accept_remove() {
+    private void accept_remove() throws AccountDoesNotExistException {
+
+        Seller seller = (Seller) Account.getAccountById(accountId);
+
         if (forPend instanceof Product) {
             Product.removeProduct((Product) forPend);
             Auction auction = ((Product) forPend).getAuction();
@@ -114,15 +128,25 @@ public class Request implements Packable<Request> {
             if (category != null) {
                 category.removeFromProductList(((Product) forPend).getId());
             }
+            Product.removeProduct((Product) forPend);
+            seller.removeFromProductList(((Product) forPend).getId());
         } else if (forPend instanceof Auction) {
             Auction.removeAuction((Auction) forPend);
+            seller.removeFromAuctionList(((Auction) forPend).getId());
         }
     }
 
-    public void declineRequest() {
-        forPend.setStateForPend("Declined");
+    public void declineRequest() throws AccountDoesNotExistException {
+
+        Seller seller = (Seller) Account.getAccountById(accountId);
+
+        seller.removeFromPendList(forPend);
+
         list.remove(this);
         DataBase.remove(this);
+
+        forPend.setStateForPend("Declined");
+
     }
 
     /**************************************************addAndRemove*****************************************************/
