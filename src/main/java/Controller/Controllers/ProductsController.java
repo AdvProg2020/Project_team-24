@@ -4,18 +4,22 @@ import Controller.ControllerUnit;
 import Exceptions.NotAvailableSortException;
 import Exceptions.ProductDoesNotExistException;
 import Model.Models.Category;
+import Model.Models.Filter;
 import Model.Models.Product;
 import Model.Models.Sorter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductsController {
 
     /******************************************************fields*******************************************************/
 
-    private enum SortElement {
+    public enum SortElement {
 
         TIME(new Sorter(Sorter.getTimeComparator()),"Sort by upload time"),
         POINT(new Sorter(Sorter.getPointComparator()),"Sort by point"),
@@ -66,12 +70,25 @@ public class ProductsController {
         return "The available sort elements are : \"Time\" or \"Point\" or \"NumberOfVisits\" or \"Default\"";
     }
 
-    public String currentSort() {
-        return sortElement.getInfo();
+    public SortElement currentSort() {
+        return sortElement;
     }
 
     public List<Product> showProducts() {
-        return Product.getList();
+
+        List<Product> productList = new ArrayList<>(Product.getList());
+
+        List<Filter> filters = FilterController.getInstance().currentFilters();
+
+        filters.sort(Collections.reverseOrder());
+
+        for (Filter filter : filters) {
+            productList = productList.stream().filter(filter).collect(Collectors.toList());
+        }
+
+        currentSort().getSorter().sorted(productList);
+
+        return productList;
     }
 
 //    private void checkSortAvailable(String filter) throws NotAvailableSortException {
