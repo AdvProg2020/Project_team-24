@@ -9,7 +9,6 @@ public class Shows {
 
     private static Function<Product, String> showProduct = product ->
             "-------------------product--------------------" + System.lineSeparator() +
-                    "Product info:" + System.lineSeparator() +
                     String.format("ProductId:%d \nProductName:%s \n", product.getId(), product.getName()) +
                     (product.getCategory() == null ? "" : String.format("ProductCategoryId:%d \nProductCategoryName:%s \n", product.getCategory().getId(), product.getCategory().getName())) +
                     (product.getAuction() == null ? "" : String.format("ProductAuctionId:%d \nProductAuctionName:%s \n", product.getAuction().getId(), product.getAuction().getName())) +

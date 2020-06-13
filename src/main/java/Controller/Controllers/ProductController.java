@@ -81,9 +81,11 @@ public class ProductController {
 
         Customer customer = (Customer) controllerUnit.getAccount();
 
-        if (Product.getProductById(controllerUnit.getProduct().getId()).getProductOfSellerById(sellerId).getNumber() <= 0) {
+        ProductOfSeller productOfSellerById = Product.getProductById(controllerUnit.getProduct().getId()).getProductOfSellerById(sellerId);
+        if (productOfSellerById.getNumber() <= 0) {
             throw new ProductIsOutOfStockException("Product is out of stock.");
         }
+        productOfSellerById.setNumber(productOfSellerById.getNumber() - 1);
         customer.getCart().addProductToCart(sellerId, controllerUnit.getProduct().getId());
     }
 

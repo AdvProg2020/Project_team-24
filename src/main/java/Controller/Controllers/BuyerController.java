@@ -8,6 +8,7 @@ import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.ProductLog;
+import Model.Models.Structs.ProductOfSeller;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
@@ -75,7 +76,7 @@ public class BuyerController extends AccountController {
             Product product = listOfProduct.get(i);
 
             double productPrice = product.getProductOfSellerById(listOfSellers.get(i)).getPrice();
-            double productAuctionAmount = product.getAuction().getAuctionDiscount(productPrice);
+            double productAuctionAmount = product.getAuction() == null ? 0 : product.getAuction().getAuctionDiscount(productPrice);
             double productFinalPrice = productPrice - productAuctionAmount;
 
             productLogs.add(new ProductLog(product.getId(), product.getName(), productPrice, productAuctionAmount, productFinalPrice));
@@ -152,9 +153,11 @@ public class BuyerController extends AccountController {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         this.checkCartForProductId(productId);
-        if (Product.getProductById(productId).getProductOfSellerById(sellerId).getNumber() <= 0) {
+        ProductOfSeller productOfSellerById = Product.getProductById(productId).getProductOfSellerById(sellerId);
+        if (productOfSellerById.getNumber() <= 0) {
             throw new ProductIsOutOfStockException("Product is out of stock. You can't increase number of the order whit id:" + productIdString + " .");
         } else {
+            productOfSellerById.setNumber(productOfSellerById.getNumber() - 1);
             ((Customer) controllerUnit.getAccount()).addToCart(productId, sellerId);
         }
     }
@@ -192,7 +195,7 @@ public class BuyerController extends AccountController {
         List<ProductLog> productLogs = this.payment();
         LogHistory logHistory = new LogHistory(
                 showTotalPrice(),
-                discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
+                discountCodeEntered == null ? 0 : discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
                 viewCart().getTotalAuctionDiscount(),
                 new FieldList(Arrays.asList(new SingleString("customerName", customer.getUserName()), new SingleString("date", LocalDate.now().toString()))), // I don't know now. (for check)
                 productLogs
@@ -204,7 +207,7 @@ public class BuyerController extends AccountController {
             seller.addToLogHistoryList(logHistory.getId());
         }
         customer.setCart(Cart.autoCreateCart());
-        customer.removeFromDiscountCodeList(discountCodeEntered.getId());
+        if (discountCodeEntered != null) customer.removeFromDiscountCodeList(discountCodeEntered.getId());
         this.setDiscountCodeEntered(null);
     }
 
