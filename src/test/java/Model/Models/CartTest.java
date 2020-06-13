@@ -8,6 +8,7 @@ import Model.Models.Structs.Discount;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -36,30 +37,30 @@ class CartTest {
         });
         Account.setList(accountList);
         //product
-        List<Product> listOfProducts = Arrays.asList(new Product("aftabe",null,null, null),new Product("mahtabi",null,null, null));
+        List<Product> listOfProducts = Arrays.asList(new Product("aftabe", null, null, null), new Product("mahtabi", null, null, null));
         listOfProducts.get(0).setProductId(1);
         listOfProducts.get(1).setProductId(2);
         Product.setList(listOfProducts);
-        List<Long> productIds  = null;
-        for (Product product:listOfProducts) {
+        List<Long> productIds = null;
+        for (Product product : listOfProducts) {
             productIds.add(product.getId());
         }
         //sellers of products
-            listOfProducts.get(0).addSeller(account3.getId(),50,3);
-            listOfProducts.get(0).addSeller(account4.getId(),50,3);
-            listOfProducts.get(1).addSeller(account4.getId(),10,6);
+        listOfProducts.get(0).addSeller(account3.getId(), 50, 3);
+        listOfProducts.get(0).addSeller(account4.getId(), 50, 3);
+        listOfProducts.get(1).addSeller(account4.getId(), 10, 6);
         //adding to cart
         //selecting sellers
-        List<Long> sellersChosenid = Arrays.asList(account3.getId(),account3.getId());
-        Cart cart = new Cart(1,sellersChosenid,productIds);
+        List<Long> sellersChosenid = Arrays.asList(account3.getId(), account3.getId());
+        Cart cart = new Cart(1, sellersChosenid, productIds);
         account1.setCart(cart);
         //Auction
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        Discount discount1 = new Discount(50,200);
-        Auction auction1 = new Auction("haraje zemestane",LocalDate.parse("30/9/1379",formatter),LocalDate.parse("30/5/1379".formatted()),discount1);
+        Discount discount1 = new Discount(50, 200);
+        Auction auction1 = new Auction("haraje zemestane", LocalDate.parse("30/9/1379", formatter), LocalDate.parse("30/5/1379", formatter), discount1);
         auction1.setProductList(productIds);
         List<Auction> auctionList = Arrays.asList(auction1);
-        for(Auction auction : Auction.getList()){
+        for (Auction auction : Auction.getList()) {
             auction.setAuctionId(AddingNew.getRegisteringId().apply(accountList));
         }
     }
@@ -69,7 +70,7 @@ class CartTest {
         Customer customer = (Customer) Account.getList().get(0);
         Cart cart = customer.getCart();
         Product product = Product.getList().get(1);
-       // Seller sellerChosen = product.getSellerList.get(0);
+        // Seller sellerChosen = product.getSellerList.get(0);
         //assertDoesNotThrow  (() -> customer.getCart().addProductToCart(sellerChosen,product));
         assertTrue(customer.getCart().getProductList().contains(product));
     }
@@ -90,7 +91,7 @@ class CartTest {
         Customer customer = (Customer) Account.getList().get(0);
         Cart cart = customer.getCart();
         Double totelPrice = Double.valueOf(60);
-        assertTrue(assertDoesNotThrow(() -> cart.getTotalPrice()== totelPrice));
+        assertTrue(assertDoesNotThrow(() -> cart.getTotalPrice() == totelPrice));
     }
 
     @Test
@@ -100,7 +101,7 @@ class CartTest {
         Customer customer = (Customer) Account.getList().get(0);
         Cart cart = customer.getCart();
         Double totalactual = assertDoesNotThrow(() -> cart.getTotalAuctionDiscount());
-        assertEquals(totalexpected,totalactual);
+        assertEquals(totalexpected, totalactual);
     }
 
     @Test
@@ -108,12 +109,13 @@ class CartTest {
         Customer customer = (Customer) Account.getList().get(0);
         Cart cartexpected = customer.getCart();
         Cart cartactual = assertDoesNotThrow(() -> Cart.getCartById(1));
-        assertEquals(cartexpected,cartactual);
+        assertEquals(cartexpected, cartactual);
 
     }
+
     @Test
     void getCartById2() {
-       assertThrows(CartDoesNotExistException.class,() -> assertDoesNotThrow(() -> Cart.getCartById(10)),"product with this id not exist in this cart.");
+        assertThrows(CartDoesNotExistException.class, () -> assertDoesNotThrow(() -> Cart.getCartById(10)), "product with this id not exist in this cart.");
     }
 
 

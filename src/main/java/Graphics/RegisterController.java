@@ -20,6 +20,7 @@ public class RegisterController {
         String button =((Button)event.getSource()).getText();
 
         switch (button) {
+
             case "بازگشت به صفحه ی اصلی":
                 try {
                     Main.setRoot("MainMenu");

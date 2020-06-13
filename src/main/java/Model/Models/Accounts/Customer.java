@@ -114,7 +114,7 @@ public class Customer extends Account {
         return list.stream()
                 .filter(account -> account instanceof Customer)
                 .map(account -> (Customer) account)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
     }
 
     public static List<Customer> getSpecialCustomers() {
@@ -122,7 +122,7 @@ public class Customer extends Account {
                 .filter(account -> account instanceof Customer)
                 .map(account -> (Customer) account)
                 .filter(customer -> customer.getTotalPurchase() > 1000000D)
-                .collect(Collectors.toUnmodifiableList());
+                .collect(Collectors.toList());
     }
 
     @Override
