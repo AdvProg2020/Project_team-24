@@ -114,7 +114,7 @@ public class Cart implements Packable<Cart> {
                 .filter(cart -> id == cart.getId())
                 .findFirst()
                 .orElseThrow(() -> new CartDoesNotExistException(
-                        "Cart with the id:" + id + "does not exist in list of all carts."
+                        "Cart with the id:" + id + " does not exist in list of all carts."
                 ));
     }
 

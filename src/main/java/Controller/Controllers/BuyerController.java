@@ -206,9 +206,13 @@ public class BuyerController extends AccountController {
             Seller seller = (Seller) Account.getAccountById(sellerId);
             seller.addToLogHistoryList(logHistory.getId());
         }
+        Cart.removeCart(customer.getCart());
         customer.setCart(Cart.autoCreateCart());
-        if (discountCodeEntered != null) customer.removeFromDiscountCodeList(discountCodeEntered.getId());
-        this.setDiscountCodeEntered(null);
+        if (discountCodeEntered != null) {
+            customer.removeFromDiscountCodeList(discountCodeEntered.getId());
+            this.setDiscountCodeEntered(null);
+        }
+        DataBase.save(customer);
     }
 
     public LogHistory showOrder(String orderIdString) throws NumberFormatException, LogHistoryDoesNotExistException {
