@@ -1,0 +1,38 @@
+
+.navbar{
+    -fx-background-color: white;
+}
+.pane{
+    -fx-background-color: #f2f2f2;
+}
+.base{
+    -fx-background-color:  #e6e6e6;
+}
+.tabpane{
+    -fx-border-color: red;
+}
+.shoppingbag{
+    -fx-background-image:url("icons8-shopping-basket-48.png");
+}
+.addToCart{
+    -fx-background-color: white;
+    -fx-border-color:  #e6e6e6;
+}
+.addToCart:hover{
+    -fx-background-color: #e60000;
+}
+.featurePane{
+    -fx-background-color: #00b3b3;
+
+}
+.commentPane{
+    -fx-background-color: #eeba00;
+
+}
+.featureTable{
+    -fx-background-color: #eeba00;
+
+}
+.commentTable{
+    -fx-background-color: #eeba00;
+}

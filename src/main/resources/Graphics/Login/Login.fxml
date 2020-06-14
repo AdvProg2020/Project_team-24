@@ -34,8 +34,8 @@
    <ImageView fitHeight="27.0" fitWidth="25.0" layoutX="173.0" layoutY="329.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../icons/icons8-lock-26(2).png" />
    </ImageView>
-   <ImageView fitHeight="107.0" fitWidth="227.0" layoutX="210.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@Logo.png" />
+   <ImageView fitHeight="153.0" fitWidth="210.0" layoutX="225.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@3Sut-logo.png" />
    </ImageView>
    <Separator layoutX="182.0" layoutY="513.0" prefHeight="3.0" prefWidth="286.0" />
    <Separator layoutX="178.0" layoutY="225.0" prefHeight="3.0" prefWidth="286.0" />
