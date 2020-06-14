@@ -100,11 +100,11 @@ public class Customer extends Account {
     @Override
     public Account dpkg(@NotNull Data<Account> data) throws ProductDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException, AuctionDoesNotExistException {
         super.dpkg(data);
-        this.cart = Cart.getCartById((long) data.getFields().get(4));
-        this.credit = (double) data.getFields().get(5);
-        this.totalPurchase = (double) data.getFields().get(6);
-        this.discountCodeList = (List<Long>) data.getFields().get(7);
-        this.logHistoryList = (List<Long>) data.getFields().get(8);
+        this.cart = Cart.getCartById((long) data.getFields().get(5));
+        this.credit = (double) data.getFields().get(6);
+        this.totalPurchase = (double) data.getFields().get(7);
+        this.discountCodeList = (List<Long>) data.getFields().get(8);
+        this.logHistoryList = (List<Long>) data.getFields().get(9);
         return this;
     }
 
