@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="545.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SellerAccountController">
+    <children>
+        <ImageView fitHeight="273.0" fitWidth="176.0" layoutX="600.0" layoutY="-70.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../digicala.png" />
+            </image></ImageView>
+        <Label fx:id="username" alignment="CENTER_RIGHT" layoutX="426.0" layoutY="112.0" prefHeight="31.0" prefWidth="164.0" text="نام کاربری : " />
+        <ImageView fitHeight="197.0" fitWidth="164.0" layoutX="622.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@IMG_6982 (1).JPG" />
+            </image></ImageView>
+        <Label fx:id="role" alignment="CENTER_RIGHT" layoutX="438.0" layoutY="179.0" prefHeight="18.0" prefWidth="151.0" text="نوع حساب :  فروشنده" />
+        <Label alignment="CENTER" layoutX="526.0" layoutY="233.0" prefHeight="18.0" prefWidth="55.0" text="رمز عبور : " />
+        <Label fx:id="password" alignment="CENTER_RIGHT" layoutX="394.0" layoutY="233.0" prefHeight="18.0" prefWidth="131.0" text="رمز" />
+        <Separator layoutX="262.0" layoutY="277.0" prefHeight="3.0" prefWidth="332.0" />
+        <Label alignment="CENTER_RIGHT" layoutX="460.0" layoutY="300.0" prefHeight="18.0" prefWidth="131.0" text="اطلاعات کاربر" />
+        <Separator layoutX="622.0" layoutY="330.0" prefHeight="3.0" prefWidth="131.0" />
+        <Label alignment="CENTER_RIGHT" layoutX="501.0" layoutY="352.0" prefHeight="18.0" prefWidth="68.0" text="نام شرکت :" />
+        <Label alignment="CENTER_RIGHT" layoutX="508.0" layoutY="399.0" prefHeight="18.0" prefWidth="68.0" text="شماره تماس:" />
+        <Label alignment="CENTER_RIGHT" layoutX="514.0" layoutY="452.0" prefHeight="18.0" prefWidth="55.0" text="ایمیل:" />
+        <Label fx:id="name" alignment="CENTER_RIGHT" layoutX="309.0" layoutY="352.0" prefHeight="18.0" prefWidth="101.0" text="Label" />
+        <Label fx:id="emain" alignment="CENTER_RIGHT" layoutX="309.0" layoutY="452.0" prefHeight="18.0" prefWidth="101.0" text="Label" />
+        <Label fx:id="phonenumber" alignment="CENTER_RIGHT" layoutX="309.0" layoutY="399.0" prefHeight="18.0" prefWidth="101.0" text="Label" />
+        <Separator layoutX="56.0" layoutY="91.0" prefHeight="3.0" prefWidth="695.0" />
+        <Button layoutX="641.0" layoutY="392.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="محصولات فروشی" />
+        <Button layoutX="641.0" layoutY="431.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="سابقه ی فروش" />
+        <Label alignment="CENTER_RIGHT" layoutX="698.0" layoutY="344.0" prefHeight="18.0" prefWidth="42.0" text="اعتبار:" />
+        <Label alignment="CENTER_RIGHT" layoutX="598.0" layoutY="344.0" prefHeight="18.0" prefWidth="94.0" text="label" />
+        <TableView layoutX="90.0" layoutY="308.0" prefHeight="123.0" prefWidth="131.0">
+            <columns>
+                <TableColumn prefWidth="130.40001220703124" text="کد تخفیف" />
+            </columns>
+        </TableView>
+        <Separator layoutX="74.0" layoutY="277.0" prefHeight="3.0" prefWidth="164.0" />
+        <Button layoutX="74.0" layoutY="41.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="بازگشت به صفحه ی اصلی" />
+        <Button layoutX="95.0" layoutY="492.0" mnemonicParsing="false" text="خروج از حساب کاربری" />
+        <Button layoutX="94.0" layoutY="457.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="ویرایش اطلاعات" />
+    </children>
+
+</AnchorPane>
