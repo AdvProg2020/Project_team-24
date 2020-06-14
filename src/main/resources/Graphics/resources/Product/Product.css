@@ -1,0 +1,16 @@
+
+.navbar{
+    -fx-background-color: white;
+}
+.pane{
+    -fx-background-color: darkgrey;
+}
+.base{
+    -fx-background-color: dimgrey;
+}
+.tabpane{
+    -fx-border-color: red;
+}
+.shoppingbag{
+    -fx-background-image:url("icons8-shopping-basket-48.png");
+}
