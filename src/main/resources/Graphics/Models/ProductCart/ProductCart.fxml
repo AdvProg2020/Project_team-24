@@ -28,7 +28,11 @@
 
     <Text layoutX="22.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="محصول جدید غیرفروشی" textAlignment="CENTER" wrappingWidth="145" />
 
-   <Button layoutX="141.0" layoutY="264.0" mnemonicParsing="false" onAction="#nextSeller" text="Button" textAlignment="CENTER" />
-   <Button layoutX="81.0" layoutY="264.0" mnemonicParsing="false" onAction="#prevSeller" text="Button" textAlignment="CENTER" />
+    <Button fx:id="nextButton" layoutX="141.0" layoutY="264.0" mnemonicParsing="false" onAction="#nextSeller" text="Button" textAlignment="CENTER" />
+    <Button fx:id="prevButton" layoutX="81.0" layoutY="264.0" mnemonicParsing="false" onAction="#prevSeller" text="Button" textAlignment="CENTER" />
+    
+    <ImageView fx:id="discountImage" fitHeight="34.0" fitWidth="30.0" layoutX="5.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" rotate="-28.0" visible="false">
+        <Image url="@discount.png" />
+    </ImageView>
 
 </AnchorPane>

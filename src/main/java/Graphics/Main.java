@@ -15,28 +15,24 @@ import java.io.IOException;
  */
 public class Main extends Application {
 
-    private static Scene scene;
+    private static Stage primaryStage;
 
     @Override
     public void start(@NotNull Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Graphics\\resources\\MainMenu\\MainMenu"));
+//        scene =
+        stage.setResizable(false);
         stage.setTitle("سه سوت");
         stage.setScene(scene);
         stage.show();
-
+        setPrimaryStage(stage);
     }
 
-    public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    public static void setPrimaryStage(Stage primaryStage) {
+        Main.primaryStage = primaryStage;
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
-
-//    public static void main(String[] args) {
-//        launch();
-//    }
 }
 
