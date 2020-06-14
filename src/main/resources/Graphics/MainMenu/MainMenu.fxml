@@ -7,144 +7,119 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="596.0" prefWidth="727.0" stylesheets="MainMenu.css"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Graphics.MainMenuController">
+<AnchorPane prefHeight="596.0" prefWidth="727.0" stylesheets="MainMenu.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.MainMenuController">
+
     <SplitPane dividerPositions="0.2958579881656805" orientation="VERTICAL" prefHeight="610.0" prefWidth="727.0">
+
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="201.0" prefWidth="726.0" styleClass="base1">
             <stylesheets>
-                <URL value="@MainMenu.css"/>
-                <URL value="@MainMenu.css"/>
+                <URL value="@MainMenu.css" />
             </stylesheets>
-            <MenuButton alignment="CENTER_RIGHT" layoutX="565.0" layoutY="135.0" mnemonicParsing="false"
-                        prefHeight="26.0" prefWidth="124.0" styleClass="taskbarButtons"
-                        stylesheets="@MainMenu.css" text="دسته بندی کالا ها" textFill="#646363">
+
+            <MenuButton alignment="CENTER_RIGHT" layoutX="565.0" layoutY="135.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="124.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="دسته بندی کالا ها" textFill="#646363">
                 <items>
-                    <MenuItem mnemonicParsing="false" text="لپ تاپ"/>
-                    <MenuItem mnemonicParsing="false" text="پوشاک"/>
-                    <MenuItem mnemonicParsing="false" text="خوراکی"/>
-                    <MenuItem mnemonicParsing="false" text="لوازم خانه"/>
+                    <MenuItem mnemonicParsing="false" text="لپ تاپ" />
+                    <MenuItem mnemonicParsing="false" text="پوشاک" />
+                    <MenuItem mnemonicParsing="false" text="خوراکی" />
+                    <MenuItem mnemonicParsing="false" text="لوازم خانه" />
                 </items>
+
             </MenuButton>
-            <Button alignment="CENTER_RIGHT" layoutX="218.0" layoutY="135.0" mnemonicParsing="false"
-                    prefHeight="26.0" prefWidth="113.0" stylesheets="@MainMenu.css" text="سه سوتی هستم  :)"
-                    textFill="#848484">
+
+            <Button alignment="CENTER_RIGHT" layoutX="218.0" layoutY="135.0" mnemonicParsing="false" onAction="#doCeSuT" prefHeight="26.0" prefWidth="113.0" stylesheets="@MainMenu.css" text="سه سوتی هستم  :)" textFill="#848484">
                 <styleClass>
-                    <String fx:value="button2"/>
-                    <String fx:value="taskbarButtons"/>
+                    <String fx:value="button2" />
+                    <String fx:value="taskbarButtons" />
                 </styleClass>
             </Button>
-            <Button alignment="CENTER_RIGHT" layoutX="57.0" layoutY="135.0" mnemonicParsing="false"
-                    prefHeight="26.0" prefWidth="154.0" stylesheets="@MainMenu.css" text="ورود به حساب کاربری"
-                    textFill="#8a8a8a">
+
+            <Button alignment="CENTER_RIGHT" layoutX="57.0" layoutY="135.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="26.0" prefWidth="154.0" stylesheets="@MainMenu.css" text="ورود به حساب کاربری" textFill="#8a8a8a">
                 <styleClass>
-                    <String fx:value="button1"/>
-                    <String fx:value="taskbarButtons"/>
+                    <String fx:value="button1" />
+                    <String fx:value="taskbarButtons" />
                 </styleClass>
             </Button>
-            <Button alignment="CENTER_RIGHT" layoutX="446.0" layoutY="135.0" mnemonicParsing="false"
-                    prefHeight="26.0" prefWidth="87.0" styleClass="taskbarButtons" text="حراج ها"
-                    textFill="#777575"/>
-            <Button alignment="CENTER_RIGHT" layoutX="339.0" layoutY="135.0" mnemonicParsing="false"
-                    prefHeight="26.0" prefWidth="94.0" text="محصولات" textFill="#717171">
+
+            <Button alignment="CENTER_RIGHT" layoutX="446.0" layoutY="135.0" mnemonicParsing="false" onAction="#goAuction" prefHeight="26.0" prefWidth="87.0" styleClass="taskbarButtons" text="حراج ها" textFill="#777575" />
+
+            <Button alignment="CENTER_RIGHT" layoutX="339.0" layoutY="135.0" mnemonicParsing="false" onAction="#goProducts" prefHeight="26.0" prefWidth="94.0" text="محصولات" textFill="#717171">
                 <styleClass>
-                    <String fx:value="button3"/>
-                    <String fx:value="taskbarButtons"/>
+                    <String fx:value="button3" />
+                    <String fx:value="taskbarButtons" />
                 </styleClass>
             </Button>
-            <ImageView fitHeight="149.0" fitWidth="177.0" layoutX="532.0" layoutY="-9.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@1.png"/>
+
+            <ImageView fitHeight="149.0" fitWidth="177.0" layoutX="532.0" layoutY="-9.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@1.png" />
             </ImageView>
-            <Separator layoutX="563.0" layoutY="209.0" orientation="VERTICAL" prefHeight="26.0"
-                       prefWidth="0.0"/>
-            <Separator layoutX="547.0" layoutY="135.0" orientation="VERTICAL" prefHeight="26.0"
-                       prefWidth="0.0"/>
-            <Button fx:id="bag" layoutX="32.0" layoutY="47.0" mnemonicParsing="false" prefHeight="47.0"
-                    prefWidth="50.0" styleClass="shoppingbag" stylesheets="@MainMenu.css"/>
-            <ImageView fitHeight="26.0" fitWidth="31.0" layoutX="69.0" layoutY="135.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@icons8-customer-64.png"/>
+
+            <Separator layoutX="563.0" layoutY="209.0" orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
+            <Separator layoutX="547.0" layoutY="135.0" orientation="VERTICAL" prefHeight="26.0" prefWidth="0.0" />
+
+            <Button layoutX="32.0" layoutY="47.0" mnemonicParsing="false" onAction="#goCart" prefHeight="47.0" prefWidth="50.0" styleClass="shoppingBag" stylesheets="@MainMenu.css" />
+
+            <ImageView fitHeight="26.0" fitWidth="31.0" layoutX="69.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-customer-64.png" />
             </ImageView>
-            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="344.0" layoutY="135.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@icons8-add-shopping-cart-48.png"/>
+            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="344.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-add-shopping-cart-48.png" />
             </ImageView>
-            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="446.0" layoutY="135.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@icons8-sale-64.png"/>
+            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="446.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-sale-64.png" />
             </ImageView>
-            <TextField fx:id="searchBar" alignment="CENTER_RIGHT" layoutX="124.0" layoutY="55.0"
-                       prefHeight="26.0" prefWidth="395.0" promptText="      جست و جو در سه سوت ...">
+
+            <TextField fx:id="searchArea" alignment="CENTER_RIGHT" layoutX="124.0" layoutY="55.0" prefHeight="26.0" prefWidth="395.0" promptText="      جست و جو در سه سوت ...">
                 <font>
-                    <Font size="14.0"/>
+                    <Font size="14.0" />
                 </font>
             </TextField>
-            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="490.0" layoutY="57.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <Image url="@../Product/icons8-search-50.png"/>
-            </ImageView>
-        </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="382.0" prefWidth="726.0" styleClass="base2"
-                    stylesheets="@MainMenu.css">
-            <Pane fx:id="pane2" layoutX="281.0" layoutY="63.0" prefHeight="140.0" prefWidth="395.0"
-                  styleClass="pane2" stylesheets="@MainMenu.css">
-                <Button layoutY="93.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="187.0"
-                        styleClass="button2" stylesheets="@MainMenu.css" text="پر بازدید ترین ها"
-                        textFill="#2eb58e">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Button>
-                <ImageView fitHeight="140.0" fitWidth="124.0" layoutX="264.0" layoutY="1.0"
-                           pickOnBounds="true" preserveRatio="true">
-                    <Image url="@PngItem_1368952.png"/>
-                </ImageView>
-            </Pane>
-            <Pane fx:id="pane1" layoutX="54.0" layoutY="63.0" prefHeight="140.0" prefWidth="216.0"
-                  styleClass="button1" stylesheets="@MainMenu.css">
-                <ImageView fitHeight="140.0" fitWidth="113.0" layoutX="8.0" layoutY="3.0"
-                           pickOnBounds="true" preserveRatio="true">
-                    <Image url="@PngItem_1896439.png"/>
-                </ImageView>
-                <Button fx:id="auction" alignment="CENTER" contentDisplay="CENTER" layoutX="124.0"
-                        layoutY="57.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="98.0"
-                        rotate="-90" styleClass="button1" stylesheets="@MainMenu.css" text="حراج ها"
-                        textFill="#046969">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Button>
-            </Pane>
-            <Pane fx:id="pane3" layoutX="54.0" layoutY="216.0" prefHeight="140.0" prefWidth="216.0"
-                  styleClass="pane3" stylesheets="@MainMenu.css">
-                <Button fx:id="products" layoutX="126.0" layoutY="51.0" mnemonicParsing="false"
-                        prefHeight="39.0" prefWidth="113.0" rotate="-90" styleClass="button3" text="محصولات"
-                        textFill="#947a7a">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Button>
-                <ImageView fitHeight="138.0" fitWidth="142.0" layoutX="12.0" layoutY="2.0"
-                           pickOnBounds="true" preserveRatio="true">
-                    <Image url="@PngItem_3256280.png"/>
-                </ImageView>
-            </Pane>
-            <Pane layoutX="281.0" layoutY="216.0" prefHeight="140.0" prefWidth="395.0" styleClass="pane4"
-                  stylesheets="@MainMenu.css">
-                <Button layoutX="14.0" layoutY="87.0" mnemonicParsing="false" prefHeight="39.0"
-                        prefWidth="187.0" styleClass="button4" stylesheets="@MainMenu.css"
-                        text="درباره ی سه سوت" textFill="#9f1111">
-                    <font>
-                        <Font size="14.0"/>
-                    </font>
-                </Button>
-                <ImageView fitHeight="89.0" fitWidth="134.0" layoutX="244.0" layoutY="25.0"
-                           pickOnBounds="true" preserveRatio="true">
-                    <Image url="@PngItem_1546718.png"/>
-                </ImageView>
-            </Pane>
 
+            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="490.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true" onMousePressed="#goSearch">
+                <Image url="@../Product/icons8-search-50.png" />
+            </ImageView>
+
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="382.0" prefWidth="726.0" styleClass="base2" stylesheets="@MainMenu.css">
+            <Pane fx:id="auctionPane" layoutX="54.0" layoutY="63.0" prefHeight="140.0" prefWidth="216.0" styleClass="button1" stylesheets="@MainMenu.css">
+                <ImageView fitHeight="140.0" fitWidth="113.0" layoutX="8.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@PngItem_1896439.png" />
+                </ImageView>
+                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="124.0" layoutY="57.0" mnemonicParsing="false" onAction="#goAuction" prefHeight="39.0" prefWidth="98.0" rotate="-90" styleClass="button1" stylesheets="@MainMenu.css" text="حراج ها" textFill="#046969">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+            </Pane>
+            <Pane fx:id="popularsPane" layoutX="281.0" layoutY="63.0" prefHeight="140.0" prefWidth="395.0" styleClass="pane2" stylesheets="@MainMenu.css">
+                <Button layoutY="93.0" mnemonicParsing="false" onAction="#goPopulars" prefHeight="39.0" prefWidth="187.0" styleClass="button2" stylesheets="@MainMenu.css" text="پر بازدید ترین ها" textFill="#2eb58e">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <ImageView fitHeight="140.0" fitWidth="124.0" layoutX="264.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@PngItem_1368952.png" />
+                </ImageView>
+            </Pane>
+            <Pane fx:id="productsPane" layoutX="54.0" layoutY="216.0" prefHeight="140.0" prefWidth="216.0" styleClass="pane3" stylesheets="@MainMenu.css">
+                <Button layoutX="126.0" layoutY="51.0" mnemonicParsing="false" onAction="#goProducts" prefHeight="39.0" prefWidth="113.0" rotate="-90" styleClass="button3" text="محصولات" textFill="#947a7a">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <ImageView fitHeight="138.0" fitWidth="142.0" layoutX="12.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@PngItem_3256280.png" />
+                </ImageView>
+            </Pane>
+            <Pane fx:id="aboutPane" layoutX="281.0" layoutY="216.0" prefHeight="140.0" prefWidth="395.0" styleClass="pane4" stylesheets="@MainMenu.css">
+                <Button layoutX="14.0" layoutY="87.0" mnemonicParsing="false" onAction="#doCeSuT" prefHeight="39.0" prefWidth="187.0" styleClass="button4" stylesheets="@MainMenu.css" text="درباره ی سه سوت" textFill="#9f1111">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Button>
+                <ImageView fitHeight="89.0" fitWidth="134.0" layoutX="244.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@PngItem_1546718.png" />
+                </ImageView>
+            </Pane>
 
         </AnchorPane>
     </SplitPane>
