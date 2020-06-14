@@ -1,5 +1,6 @@
-package Graphics.java;
+package Graphics;
 
+import Graphics.Main;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

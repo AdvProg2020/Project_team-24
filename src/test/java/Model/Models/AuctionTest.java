@@ -31,7 +31,7 @@ public class AuctionTest {
         Auction auction1 = new Auction("haraje tabestane", LocalDate.parse("24/3/1399", formatter), LocalDate.parse("24/5/1399", formatter), discount1);
         auction1.setProductList(productIds);
         Discount discount2 = new Discount(50, 200);
-        Auction auction2 = new Auction("haraje zemestane", LocalDate.parse("30/9/1379", formatter), LocalDate.parse("30/5/1379".formatted()), discount2);
+        Auction auction2 = new Auction("haraje zemestane", LocalDate.parse("30/9/1379", formatter), LocalDate.parse("30/5/1379", formatter), discount2);
         auction2.setProductList(productIds);
         List<Auction> testList = Arrays.asList(auction1, auction2);
         for (Auction auction : Auction.getList()) {
@@ -43,7 +43,7 @@ public class AuctionTest {
     @Test
     void addAuction() {
         Discount discount3 = new Discount(10, 40);
-        Auction auction3 = new Auction("haraje bahare", LocalDate.parse("10/6/1379", formatter), LocalDate.parse("29/6/1377".formatted()), discount3);
+        Auction auction3 = new Auction("haraje bahare", LocalDate.parse("10/6/1379", formatter), LocalDate.parse("29/6/1377", formatter), discount3);
         assertDoesNotThrow(() -> Auction.addAuction(auction3));
         assertTrue(Auction.getList().contains(auction3));
 

@@ -1,13 +1,18 @@
-package Graphics.java;
+package Graphics;
 
+import Graphics.Main;
 import javafx.scene.control.Button;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
-public class CustomerAccountController {
-    public void buttonHandler(ActionEvent event) {
+public class SellerAccountController {
+
+    public void buttonHandler(@NotNull ActionEvent event) {
+
         String text = ((Button) event.getSource()).getText();
+
         if (text.equals("بازگشت به صفحه ی اصلی")) {
             try {
                 Main.setRoot("MainMenu");
@@ -15,14 +20,14 @@ public class CustomerAccountController {
                 e.printStackTrace();
             }
         }
-        if (text.equals("سبد خرید")) {
+        if (text.equals("محصولات فروشی")) {
             try {
                 Main.setRoot("");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        if (text.equals("سابقه ی خرید")) {
+        if (text.equals("سابقه ی فروش")) {
             try {
                 Main.setRoot("");
             } catch (IOException e) {

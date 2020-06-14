@@ -6,6 +6,7 @@ import Model.Models.Field.Fields.SingleString;
 import Model.Tools.AddingNew;
 import Model.Models.Data.Data;
 import Model.Tools.Packable;
+import javafx.scene.image.Image;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,6 +46,7 @@ public abstract class Account implements Packable<Account> {
 
     protected static List<Account> list;
 
+    protected Image accountImage;
     protected long id;
     protected String userName;
     protected String password;
@@ -68,6 +70,10 @@ public abstract class Account implements Packable<Account> {
         return personalInfo;
     }
 
+    public Image getAccountImage() {
+        return accountImage;
+    }
+
     @NotNull
     @Contract(pure = true)
     public static List<Account> getList() {
@@ -75,6 +81,11 @@ public abstract class Account implements Packable<Account> {
     }
 
     /****************************************************setters********************************************************/
+
+    public void setAccountImage(Image accountImage) {
+        this.accountImage = accountImage;
+        DataBase.save(this);
+    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -100,7 +111,8 @@ public abstract class Account implements Packable<Account> {
                 .addField(id)
                 .addField(userName)
                 .addField(password)
-                .addField(personalInfo);
+                .addField(personalInfo)
+                .addField(accountImage);
     }
 
     @Override
@@ -109,6 +121,7 @@ public abstract class Account implements Packable<Account> {
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
         this.personalInfo = (Info) data.getFields().get(3);
+        this.accountImage = (Image) data.getFields().get(4);
         return this;
     }
 

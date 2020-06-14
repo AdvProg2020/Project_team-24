@@ -1,4 +1,4 @@
-package Graphics.java;
+package Graphics;
 
 public class MainMenuController {
 }

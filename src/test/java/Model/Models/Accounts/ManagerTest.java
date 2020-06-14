@@ -118,7 +118,7 @@ class ManagerTest {
         Account account = Account.getList().get(0);
         Manager manager = (Manager) Account.getList().get(2);
         Discount discount2 = new Discount(50, 200);
-        Auction auction = new Auction("haraje zemestane", LocalDate.parse("30/9/1379", formatter), LocalDate.parse("30/5/1379".formatted()), discount2);
+        Auction auction = new Auction("haraje zemestane", LocalDate.parse("30/9/1379", formatter), LocalDate.parse("30/5/1379"), discount2);
         Request requestAuction = new Request(account.getId(), "info", "new", auction);
         requestAuction.setRequestId(4);
         assertDoesNotThrow(() -> manager.addToRequestList(requestAuction));

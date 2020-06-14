@@ -9,6 +9,7 @@ import Model.Models.Data.Data;
 import Model.Tools.Filterable;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
+import javafx.scene.image.Image;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +21,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 
     private static List<Product> list;
 
+    private Image productImage;
     private long productId;
     private String productName;
     private Info product_Info;
@@ -72,6 +74,10 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         return productName;
     }
 
+    public Image getProductImage() {
+        return productImage;
+    }
+
     public List<ProductOfSeller> getSellersOfProduct() {
         return Collections.unmodifiableList(sellersOfProduct);
     }
@@ -116,6 +122,11 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     }
 
     /*****************************************************setters*******************************************************/
+
+    public void setProductImage(Image productImage) {
+        this.productImage = productImage;
+        DataBase.save(this);
+    }
 
     public Product setProduct_Info(Info product_Info) {
         this.product_Info = product_Info;
@@ -290,6 +301,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
                 .addField(buyerList)
                 .addField(scoreList)
                 .addField(sellersOfProduct)
+                .addField(productImage)
                 .setInstance(new Product());
     }
 
@@ -308,6 +320,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         this.buyerList = (List<Long>) data.getFields().get(10);
         this.scoreList = (List<Long>) data.getFields().get(11);
         this.sellersOfProduct = (List<ProductOfSeller>) data.getFields().get(12);
+        this.productImage = (Image) data.getFields().get(13);
         return this;
     }
 

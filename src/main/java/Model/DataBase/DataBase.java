@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,11 +28,11 @@ public class DataBase {
 
         List<Packable<?>> list = new ArrayList<>();
 
-        try (Stream<Path> pathStream = Files.walk(Path.of(getStringPath(classSimpleName))).filter(Files::isRegularFile)) {
+        try (Stream<Path> pathStream = Files.walk(Paths.get(getStringPath(classSimpleName))).filter(Files::isRegularFile)) {
 
             pathStream.map(path -> {
                 try {
-                    return Files.readString(path);
+                    return Files.readAllLines(path).get(0);
                 } catch (IOException e) {
                     e.printStackTrace();
                     return null;
@@ -57,7 +58,7 @@ public class DataBase {
         if (New) {
 
             try {
-                Files.createFile(Path.of(getStringObjPath(object)));
+                Files.createFile(Paths.get(getStringObjPath(object)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -88,7 +89,7 @@ public class DataBase {
     public static void remove(Packable<?> object) {
 
         try {
-            Files.delete(Path.of(getStringObjPath(object)));
+            Files.delete(Paths.get(getStringObjPath(object)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,12 +98,12 @@ public class DataBase {
     /***************************************************otherMethods****************************************************/
 
     private static String getStringPath(@NotNull String className) {
-        return String.format("src/main/resources/%s-src", (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className);
+        return String.format("src/main/resources/DataBase/%s-src", (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className);
     }
 
     private static String getStringObjPath(@NotNull Packable<?> packable) {
         String className = packable.getClass().getSimpleName();
-        return String.format("src/main/resources/%s-src/%d.json"
+        return String.format("src/main/resources/DataBase/%s-src/%d.json"
                 , (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className
                 , packable.getId()
         );

@@ -55,7 +55,7 @@ public class FilteringProductsMenu extends Menu {
     }
 
     public static Menu getMenu() {
-        return Optional.ofNullable(menu).orElseThrow();
+        return Optional.ofNullable(menu).orElseThrow(() -> new NullPointerException("getting null in Filter menu."));
     }
 
     @Override

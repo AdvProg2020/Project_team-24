@@ -139,11 +139,11 @@ public class Seller extends Account {
     @Override
     public Account dpkg(@NotNull Data<Account> data) throws ProductDoesNotExistException, AuctionDoesNotExistException, DiscountCodeExpiredException, CartDoesNotExistException, LogHistoryDoesNotExistException {
         super.dpkg(data);
-        this.balance = (double) data.getFields().get(4);
-        this.companyInfo = (Info) data.getFields().get(5);
-        this.forPendList = (List<ForPend>) data.getFields().get(6);
-        this.productList = (List<Long>) data.getFields().get(7);
-        this.auctionList = (List<Long>) data.getFields().get(8);
+        this.balance = (double) data.getFields().get(5);
+        this.companyInfo = (Info) data.getFields().get(6);
+        this.forPendList = (List<ForPend>) data.getFields().get(7);
+        this.productList = (List<Long>) data.getFields().get(8);
+        this.auctionList = (List<Long>) data.getFields().get(9);
         return this;
     }
 
