@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="596.0" prefWidth="727.0" stylesheets="MainMenu.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainMenuController">
+   <children>
+      <SplitPane dividerPositions="0.31313131313131315" orientation="VERTICAL" prefHeight="610.0" prefWidth="727.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="201.0" prefWidth="726.0" stylesheets="@MainMenu.css">
+               <children>
+                  <ImageView fitHeight="359.0" fitWidth="264.0" layoutX="235.0" layoutY="-108.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../digicala.png" />
+                     </image>
+                  </ImageView>
+                  <MenuButton alignment="CENTER_RIGHT" layoutX="545.0" layoutY="141.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="دسته بندی کالا ها" textFill="#646363">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="لپ تاپ" />
+                      <MenuItem mnemonicParsing="false" text="پوشاک" />
+                        <MenuItem mnemonicParsing="false" text="خوراکی" />
+                        <MenuItem mnemonicParsing="false" text="لوازم خانه" />
+                    </items>
+                  </MenuButton>
+                  <Button layoutX="31.0" layoutY="141.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" stylesheets="@MainMenu.css" text="سه سوتی هستم :)" textFill="#848484">
+                     <styleClass>
+                        <String fx:value="button2" />
+                        <String fx:value="taskbarButtons" />
+                     </styleClass></Button>
+                  <Button layoutX="31.0" layoutY="94.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" stylesheets="@MainMenu.css" text="ورود به حساب کاربری" textFill="#8a8a8a">
+                     <styleClass>
+                        <String fx:value="button1" />
+                        <String fx:value="taskbarButtons" />
+                     </styleClass></Button>
+                  <Button layoutX="294.0" layoutY="141.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="98.0" text="محصولات" textFill="#717171">
+                     <styleClass>
+                        <String fx:value="button3" />
+                        <String fx:value="taskbarButtons" />
+                     </styleClass></Button>
+                  <Button layoutX="430.0" layoutY="141.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" styleClass="taskbarButtons" text="حراج ها" textFill="#777575" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="323.0" prefWidth="726.0" stylesheets="@MainMenu.css">
+               <children>
+                  <Pane fx:id="pane2" layoutX="297.0" layoutY="63.0" prefHeight="140.0" prefWidth="395.0" styleClass="pane2" stylesheets="@MainMenu.css">
+                     <children>
+                        <Button layoutX="127.0" layoutY="100.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" styleClass="button2" stylesheets="@MainMenu.css" text="پر بازدید ترین ها" textFill="#2eb58e" />
+                     </children></Pane>
+                  <Pane fx:id="pane1" layoutX="33.0" layoutY="63.0" prefHeight="140.0" prefWidth="216.0" styleClass="button1" stylesheets="@MainMenu.css">
+                     <children>
+                        <Button layoutX="26.0" layoutY="87.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="165.0" styleClass="button1" stylesheets="@MainMenu.css" text="حراج ها" textFill="#046969">
+                           <font>
+                              <Font size="18.0" />
+                           </font></Button>
+                        <ImageView fitHeight="140.0" fitWidth="113.0" layoutX="48.0" layoutY="-19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@PngItem_1896439.png" />
+                           </image>
+                        </ImageView>
+                     </children></Pane>
+                  <Pane fx:id="pane3" layoutX="33.0" layoutY="225.0" prefHeight="140.0" prefWidth="216.0" styleClass="pane3" stylesheets="@MainMenu.css">
+                     <children>
+                        <Button layoutX="42.0" layoutY="100.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="133.0" styleClass="button3" text="محصولات" textFill="#bdbaba" />
+                     </children></Pane>
+                  <Pane layoutX="297.0" layoutY="225.0" prefHeight="140.0" prefWidth="395.0" styleClass="pane4" stylesheets="@MainMenu.css">
+                     <children>
+                        <Button layoutX="127.0" layoutY="100.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="142.0" styleClass="button4" stylesheets="@MainMenu.css" text="درباره ی سه سوت" textFill="#9f1111" />
+                     </children>
+                  </Pane>
+
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
