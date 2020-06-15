@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="717.0" prefWidth="636.0" styleClass="background" stylesheets="../Login/Login.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegisterController">
+<AnchorPane prefHeight="717.0" prefWidth="636.0" styleClass="background" stylesheets="../Login/Login.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.java.RegisterController">
     <children>
       <ImageView fitHeight="621.0" fitWidth="479.0" layoutX="85.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../PinClipart.com_square-frame-clipart_4974573.png" />
+            <Image url="@PinClipart.com_square-frame-clipart_4974573.png" />
          </image>
       </ImageView>
         <TextField fx:id="username" layoutX="210.0" layoutY="252.0" prefHeight="38.0" prefWidth="227.0" promptText="نام کاربری" />
@@ -36,7 +36,7 @@
             </image></ImageView>
         <ImageView fitHeight="404.0" fitWidth="317.0" layoutX="178.0" layoutY="-75.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../digicala.png" />
+                <Image url="@digicala.png" />
             </image></ImageView>
         <Separator layoutX="182.0" layoutY="513.0" prefHeight="3.0" prefWidth="286.0" />
         <Separator layoutX="178.0" layoutY="225.0" prefHeight="3.0" prefWidth="286.0" />

@@ -4,6 +4,7 @@ import Graphics.Tools.SceneBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -13,8 +14,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainMenu extends Application implements SceneBuilder {
+public class MainMenu extends Application implements SceneBuilder, Initializable {
 
     private static Stage primaryStage;
     private static BorderPane center;
@@ -23,24 +26,20 @@ public class MainMenu extends Application implements SceneBuilder {
     private BorderPane changeable;
     @FXML
     private TextField searchArea;
-    @FXML
-    private Pane auctionPane;
-    @FXML
-    private Pane popularsPane;
-    @FXML
-    private Pane productsPane;
-    @FXML
-    private Pane aboutPane;
 
     @Override
     public void start(@NotNull Stage stage) {
         Scene scene = sceneBuilder();
         stage.setResizable(false);
         stage.setTitle("سه سوت");
+        setPrimaryStage(stage);
         stage.setScene(scene);
         stage.show();
-        setPrimaryStage(stage);
-        System.out.println(changeable);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setCenter(changeable);
     }
 
     public static void setPrimaryStage(Stage primaryStage) {
@@ -79,6 +78,10 @@ public class MainMenu extends Application implements SceneBuilder {
 
     }
 
+    public void goPopulars() {
+
+    }
+
     public void goAuction() {
 
     }
@@ -91,16 +94,8 @@ public class MainMenu extends Application implements SceneBuilder {
 
     }
 
-    public void goPopulars() {
-
-    }
-
     public void goSearch() {
 
-    }
-
-    private void changeSubScene(Scene newScene) {
-        //?
     }
 
     public static void main(String[] args) {
