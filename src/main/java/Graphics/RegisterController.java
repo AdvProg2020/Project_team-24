@@ -19,31 +19,31 @@ public class RegisterController {
 
         String button =((Button)event.getSource()).getText();
 
-        switch (button) {
-
-            case "بازگشت به صفحه ی اصلی":
-                try {
-                    Main.setRoot("MainMenu");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "مرحله بعدی":
-                register(event);
-                try {
-                    Main.setRoot("ChooseTypeOFAccount");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "ورود":
-                try {
-                    Main.setRoot("Login");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-        }
+//        switch (button) {
+//
+//            case "بازگشت به صفحه ی اصلی":
+//                try {
+//                    Main.setRoot("MainMenu");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case "مرحله بعدی":
+//                register(event);
+//                try {
+//                    Main.setRoot("ChooseTypeOFAccount");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case "ورود":
+//                try {
+//                    Main.setRoot("Login");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//        }
     }
 
     public void register(ActionEvent actionEvent) {
