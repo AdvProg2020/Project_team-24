@@ -1,6 +1,5 @@
 package Graphics;
 
-import Graphics.Main;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -23,18 +22,18 @@ public class RegisterCustomerController {
         //controller
     }
 
-    public void buttonHandler(ActionEvent event) {
-        String botton = ((Button) event.getSource()).getText();
-        if (botton.equals("بازگشت به صفحه ی قبلی")) {
-            try {
-                Main.setRoot("ChooseTypeOFAccount");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (botton.equals("ثبت اطلاعات")) {
-            savePersonalInfo();
-            System.out.println("اطلاعات ثبت شد");
-        }
-    }
+//    public void buttonHandler(ActionEvent event) {
+//        String botton = ((Button) event.getSource()).getText();
+//        if (botton.equals("بازگشت به صفحه ی قبلی")) {
+//            try {
+//                Main.setRoot("ChooseTypeOFAccount");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if (botton.equals("ثبت اطلاعات")) {
+//            savePersonalInfo();
+//            System.out.println("اطلاعات ثبت شد");
+//        }
+//    }
 }
