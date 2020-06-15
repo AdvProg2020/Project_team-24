@@ -14,7 +14,7 @@
 <?import javafx.scene.control.Separator?>
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Login">
 
-   <AnchorPane prefHeight="753.0" prefWidth="650.0" styleClass="background" stylesheets="Login.css">
+   <AnchorPane prefHeight="753.0" prefWidth="650.0" styleClass="background" stylesheets="@Login.css">
 
       <ImageView fitHeight="658.0" fitWidth="501.0" layoutX="80.0" layoutY="40.0" pickOnBounds="true"
                  preserveRatio="true">
@@ -31,6 +31,7 @@
 
       <Button alignment="CENTER_RIGHT" layoutX="213.0" layoutY="559.0" mnemonicParsing="false" onAction="#goSignUp"
               prefHeight="39.0" prefWidth="227.0" text="به خانواده سه سوت بپیوندید" textFill="#3094ac"/>
+
       <Button alignment="CENTER_RIGHT" layoutX="273.0" layoutY="443.0" mnemonicParsing="false" onAction="#goLogin"
               prefHeight="39.0" prefWidth="108.0" text=" ورود " textFill="#b71c1c">
          <font>
