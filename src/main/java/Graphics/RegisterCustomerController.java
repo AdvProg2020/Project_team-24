@@ -36,4 +36,4 @@ public class RegisterCustomerController {
 //            System.out.println("اطلاعات ثبت شد");
 //        }
 //    }
-}
+}//
