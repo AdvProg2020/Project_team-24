@@ -53,7 +53,7 @@
             <Image url="@../icons/icons8-add-user-group-man-man-50(1).png" />
         </ImageView>
 
-        <Label fx:id="status" alignment="CENTER" layoutX="256.0" layoutY="436.0" prefHeight="18.0" prefWidth="137.0" text=";)" textAlignment="CENTER" />
+        <Label fx:id="status" alignment="CENTER" layoutX="202.0" layoutY="439.0" prefHeight="18.0" prefWidth="245.0" text=";)" textAlignment="CENTER" />
 
         <Button layoutX="134.0" layoutY="633.0" mnemonicParsing="false" onAction="#goMainMenu" prefHeight="26.0" prefWidth="210.0" text="بازگشت به صفحه ی اصلی" />
         <ChoiceBox fx:id="chooseType" layoutX="340.0" layoutY="395.0" prefHeight="26.0" prefWidth="108.0" />
