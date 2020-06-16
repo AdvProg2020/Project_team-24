@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class SignUp implements SceneBuilder, Initializable {
 
-    private Account account;
+    private Account account = null;
 
     @FXML
     private ChoiceBox<String> chooseType;
@@ -73,9 +73,11 @@ public class SignUp implements SceneBuilder, Initializable {
 
         try {
 
+            reset();
+
             SignUpController instance = SignUpController.getInstance();
 
-            Account account = instance.creatTheBaseOfAccount(typeMan, username);
+            account = instance.creatTheBaseOfAccount(typeMan, username);
 
             if (!passOne.equals(passTwo)) {
                 passwordNotMatch();
@@ -93,11 +95,11 @@ public class SignUp implements SceneBuilder, Initializable {
         } catch (UserNameTooShortException e) {
             usernameTooShort();
         } catch (TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp e) {
-            e.printStackTrace();
+            typeInvalid();
         } catch (ThisUserNameAlreadyExistsException e) {
-            e.printStackTrace();
+            duplicatedUsername();
         } catch (PasswordInvalidException e) {
-            e.printStackTrace();
+            passwordInvalid();
         }
     }
 
@@ -160,6 +162,58 @@ public class SignUp implements SceneBuilder, Initializable {
         passwordTow.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("دو پسورد یکسان نیستند.");
         failSound();
+    }
+
+    private void typeInvalid() {
+
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("تایپ نامعتبر است.");
+        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        chooseType.setTooltip(toolTip_username);
+        chooseType.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+        status.setText("تایپ نامعتبر است.");
+        failSound();
+    }
+
+    private void duplicatedUsername() {
+
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("نام کاربری تکراری است.");
+        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        username.setTooltip(toolTip_username);
+        username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+        status.setText("نام کاربری تکراری است.");
+        failSound();
+    }
+
+    private void passwordInvalid() {
+
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("پسورد نادرست است.");
+        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        passwordOne.setTooltip(toolTip_username);
+        passwordOne.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+        passwordTow.setTooltip(toolTip_username);
+        passwordTow.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+        status.setText("پسورد نادرست است.");
+        failSound();
+    }
+
+    private void reset() {
+
+        username.setStyle("-fx-border-color: white;");
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("Your username.");
+        username.setTooltip(toolTip_username);
+
+        passwordOne.setStyle("-fx-border-color: white;");
+        passwordOne.setTooltip(null);
+
+        passwordTow.setStyle("-fx-border-color: white;");
+        passwordTow.setTooltip(null);
+
+        chooseType.setStyle("-fx-border-color: white;");
+        chooseType.setTooltip(null);
     }
 
     private void failSound() {

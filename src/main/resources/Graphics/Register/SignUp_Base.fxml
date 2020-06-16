@@ -46,7 +46,7 @@
         </ImageView>
         <Separator layoutX="182.0" layoutY="524.0" prefHeight="3.0" prefWidth="286.0" />
         <Separator layoutX="185.0" layoutY="232.0" prefHeight="3.0" prefWidth="286.0" />
-        <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="192.0" layoutY="541.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="218.0" layoutY="542.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../icons/icons8-add-fingerprint-64.png" />
         </ImageView>
         <ImageView fitHeight="38.0" fitWidth="36.0" layoutX="249.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
@@ -56,7 +56,7 @@
         <Label fx:id="status" alignment="CENTER" layoutX="256.0" layoutY="436.0" prefHeight="18.0" prefWidth="137.0" text=";)" textAlignment="CENTER" />
 
         <Button layoutX="134.0" layoutY="633.0" mnemonicParsing="false" onAction="#goMainMenu" prefHeight="26.0" prefWidth="210.0" text="بازگشت به صفحه ی اصلی" />
-        <ChoiceBox fx:id="chooseType" layoutX="340.0" layoutY="394.0" prefHeight="26.0" prefWidth="108.0" />
+        <ChoiceBox fx:id="chooseType" layoutX="340.0" layoutY="395.0" prefHeight="26.0" prefWidth="108.0" />
 
     </AnchorPane>
 </Scene>
