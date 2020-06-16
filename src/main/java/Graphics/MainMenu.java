@@ -58,6 +58,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         return center;
     }
 
+    public static void change(@NotNull Scene scene) {
+        center.setCenter(scene.getRoot());
+    }
     @Override
     public Scene sceneBuilder() {
 
@@ -75,7 +78,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goLogin() {
-
+        MainMenu.getPrimaryStage().setScene(new Login().sceneBuilder());
     }
 
     public void goPopulars() {
