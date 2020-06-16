@@ -1,6 +1,7 @@
 package Graphics;
 
 import Graphics.Tools.SceneBuilder;
+import Model.ModelUnit;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +40,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ModelUnit.getInstance().preprocess_loadLists();
         setCenter(changeable);
     }
 

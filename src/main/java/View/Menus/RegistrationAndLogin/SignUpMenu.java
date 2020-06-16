@@ -53,7 +53,7 @@ public class SignUpMenu extends Menu {
             }
 
             try {
-                signUpController.creatPassWordForAccount(account, password);
+                signUpController.creatPasswordForAccount(account, password);
                 break;
             } catch (PasswordInvalidException e) {
                 System.out.println(e.getMessage());

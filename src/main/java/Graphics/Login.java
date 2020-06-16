@@ -1,17 +1,20 @@
 package Graphics;
 
+import Controller.ControllerUnit;
+import Controller.Controllers.LoginController;
 import Exceptions.AccountDoesNotExistException;
+import Exceptions.PassIncorrectException;
+import Exceptions.UserNameInvalidException;
+import Exceptions.UserNameTooShortException;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Account;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import org.jetbrains.annotations.Nullable;
+import javafx.scene.control.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +34,10 @@ public class Login implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // for remember mode.
+
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("اسمت چیه فرزندم ...؟");
+        username.setTooltip(toolTip_username);
     }
 
     @Override
@@ -47,19 +53,33 @@ public class Login implements SceneBuilder, Initializable {
     }
 
     public void goSignUp() {
-        MainMenu.change(new Login().sceneBuilder());
+        MainMenu.getPrimaryStage().setScene(new SignUp().sceneBuilder());
     }
 
     public void goLogin() {
+
+        String username = this.username.getText();
+        String password = this.password.getText();
+
+        reset();
+
         try {
-            Account account = login();
 
-            if (account == null) {
-                // wrong password
-            }
+            Account account = LoginController.getInstance().login(username,password);
+            ControllerUnit.getInstance().setAccount(account);
 
+        } catch (PassIncorrectException e) {
+            passwordInvalid();
+            return;
+        } catch (UserNameTooShortException e) {
+            usernameTooShort();
+            return;
+        } catch (UserNameInvalidException e) {
+            usernameInvalid();
+            return;
         } catch (AccountDoesNotExistException e) {
-            // user not found.
+            accountNotExist();
+            return;
         }
 
         // change main menu
@@ -70,15 +90,65 @@ public class Login implements SceneBuilder, Initializable {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
-    @Nullable
-    private Account login() throws AccountDoesNotExistException {
+    private void usernameTooShort() {
 
-        String username = this.username.getText();
-        Account account = Account.getAccountByUserName(username);
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("نام کاربری بیش از حد کوتاه است.");
+        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        username.setTooltip(toolTip_username);
+        username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+        status.setText("نام کاربری بیش از حد کوتاه است");
+        failSound();
+    }
 
-        String password = this.password.getText();
-        if (!password.equals(account.getPassword())) return null;
+    private void accountNotExist() {
 
-        return account;
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("نام کاربری نامعتبر است.");
+        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        username.setTooltip(toolTip_username);
+        username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 4px");
+        status.setText("نام کاربری نامعتبر است.");
+        failSound();
+    }
+
+    private void usernameInvalid() {
+
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("از نام کاربریت خوشم نیومد.");
+        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        username.setTooltip(toolTip_username);
+        username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+        status.setText("از نام کاربریت خوشم نیومد.");
+        failSound();
+    }
+
+    private void passwordInvalid() {
+
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("پسورد نادرست است.");
+        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        password.setTooltip(toolTip_username);
+        password.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+        status.setText("پسورد نادرست است.");
+        failSound();
+    }
+
+    private void reset() {
+
+        username.setStyle("-fx-border-color: white;");
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("Your username.");
+        username.setTooltip(toolTip_username);
+
+        password.setStyle("-fx-border-color: white;");
+        password.setTooltip(null);
+    }
+
+    private void failSound() {
+        new Thread(() -> new MediaPlayer(
+                new Media(
+                        new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
+                )).play()).start();
     }
 }

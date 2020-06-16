@@ -81,7 +81,7 @@ public class ManageUsersByManagerMenu extends Menu {
                 return;
             }
             try {
-                SignUpController.getInstance().creatPassWordForAccount(account, password);
+                SignUpController.getInstance().creatPasswordForAccount(account, password);
                 break;
             } catch (PasswordInvalidException e) {
                 System.out.println(e.getMessage());

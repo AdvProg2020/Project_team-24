@@ -45,12 +45,12 @@ public class MenuHandler {
 //                .addSubMenu(SignUpMenu.getMenu());
 //    }
 
-    public static void main(String[] args) {
-        InPut input = new InPut();
-        modelUnit.preprocess_loadLists();
-        OutPut outPut = OutPut.getInstance();
-        input.start(outPut);
-    }
+//    public static void main(String[] args) {
+//        InPut input = new InPut();
+//        modelUnit.preprocess_loadLists();
+//        OutPut outPut = OutPut.getInstance();
+//        input.start(outPut);
+//    }
 
     public static Menu getCurrentMenu() {
         return currentMenu;

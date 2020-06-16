@@ -23,12 +23,12 @@ public class ProductsArea extends Application implements SceneBuilder {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
 //        stage.setScene(new ProductsArea().paneBuilder());
         stage.show();
     }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+//
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
 }

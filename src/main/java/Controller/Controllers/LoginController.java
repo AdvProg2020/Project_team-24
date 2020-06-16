@@ -9,8 +9,6 @@ import Exceptions.UserNameTooShortException;
 import Model.Models.Account;
 import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
-import static Controller.Tools.RegisterAndLoginValidator.isCorrectPassword;
-
 public class LoginController {
     /******************************************************fields*******************************************************/
 
@@ -20,7 +18,7 @@ public class LoginController {
 
     /****************************************************methods********************************************************/
 
-    public Account login(String username, String password) throws AccountDoesNotExistException, PassIncorrectException, UserNameInvalidException, UserNameTooShortException {
+    public Account login(String username, String password) throws PassIncorrectException, UserNameInvalidException, UserNameTooShortException, AccountDoesNotExistException {
 
         RegisterValidation checkUsername = RegisterAndLoginValidator
                 .isUsername(username).get();
