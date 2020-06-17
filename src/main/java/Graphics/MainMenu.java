@@ -103,7 +103,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
 }

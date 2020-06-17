@@ -17,7 +17,8 @@ public class Shows {
                             String.format("SellerId:%d Number:%d %s \n", productOfSeller.getSellerId(), productOfSeller.getNumber(),
                                     (product.getAuction() == null ? "Price:" + productOfSeller.getPrice() : String.format("Old price:%f newPrice:%f", productOfSeller.getPrice(),
                                             productOfSeller.getPrice() - product.getAuction().getAuctionDiscount(productOfSeller.getPrice())))
-                            )).reduce("", (a, b) -> a + b) + Shows.getShowInfo().apply(product.getCategoryInfo()) + System.lineSeparator() +
+                            )).reduce("", (a, b) -> a + b) +
+                    (product.getCategoryInfo() == null ? "" : Shows.getShowInfo().apply(product.getCategoryInfo())) + System.lineSeparator() +
                     "----------------------------------------------";
 
     private static Function<Auction, String> showAuction = auction ->
