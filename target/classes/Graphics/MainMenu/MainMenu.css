@@ -1,6 +1,11 @@
+.base1{
+    -fx-background-color: white;
+}
+.base2{
+    -fx-background-color: #e6e6e6;
+}
 .pane1{
     -fx-background-color:#87be9b;
-
 }
 .pane2{
     -fx-background-color: #c2dac9;
@@ -13,20 +18,19 @@
 }
 .button1{
     -fx-background-color:#87be9b;
-
 }
 .button2{
     -fx-background-color: #c2dac9;
-
 }
 .button3{
     -fx-background-color: #fedfce;
-
 }
 .button4{
     -fx-background-color: #eb514c;
-
 }
 .taskbarButtons{
-    -fx-background-color: white;
+    -fx-background-color: whitesmoke;
+}
+.shoppingBag{
+    -fx-background-image: url("icons8-shopping-basket-48.png");
 }

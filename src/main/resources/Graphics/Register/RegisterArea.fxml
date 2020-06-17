@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="586.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
+   <Label alignment="CENTER" layoutX="201.0" layoutY="114.0" prefHeight="19.0" prefWidth="250.0"
+          text="صفحه اطلاعات کاربر"/>
+   <TextField fx:id="firstName" alignment="CENTER" layoutX="252.0" layoutY="186.0" promptText="نام"/>
+   <TextField fx:id="lastName" alignment="CENTER" layoutX="252.0" layoutY="242.0" promptText="نام خانوادگی"/>
+   <TextField fx:id="Email" alignment="CENTER" layoutX="252.0" layoutY="293.0" promptText="ایمیل"/>
+   <TextField fx:id="Phone" alignment="CENTER" layoutX="252.0" layoutY="346.0" promptText="شماره تماس"/>
+   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="181.0" pickOnBounds="true"
+              preserveRatio="true"/>
+   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="192.0" layoutY="237.0" pickOnBounds="true"
+              preserveRatio="true"/>
+   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="288.0" pickOnBounds="true"
+              preserveRatio="true"/>
+   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="341.0" pickOnBounds="true"
+              preserveRatio="true"/>
+   <Button layoutX="276.0" layoutY="420.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0"
+           text="ثبت اطلاعات" onAction="#submitNext"/>
+   <Button layoutX="59.0" layoutY="514.0" mnemonicParsing="false" text="بازگشت به صفحه ی قبلی" onAction="#back"/>
+</AnchorPane>

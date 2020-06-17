@@ -74,28 +74,28 @@ class SignUpControllerTest {
     void creatPassWordForAccount1() {
         creatTheBaseOfAccount1();
         String pass = "1123";
-        assertDoesNotThrow(() -> signUpController.creatPassWordForAccount(account, pass));
+        assertDoesNotThrow(() -> signUpController.creatPasswordForAccount(account, pass));
     }
 
     @Test
     void creatPassWordForAccount2() {
         creatTheBaseOfAccount2();
         String pass = "1123";
-        assertDoesNotThrow(() -> signUpController.creatPassWordForAccount(account, pass));
+        assertDoesNotThrow(() -> signUpController.creatPasswordForAccount(account, pass));
     }
 
     @Test
     void creatPassWordForAccount3() {
         creatTheBaseOfAccount3();
         String pass = "1123";
-        assertDoesNotThrow(() -> signUpController.creatPassWordForAccount(account, pass));
+        assertDoesNotThrow(() -> signUpController.creatPasswordForAccount(account, pass));
     }
 
     @Test
     void creatPassWordForAccount4() {
         creatTheBaseOfAccount2();
         String pass = "1%%";
-        assertThrows(PasswordInvalidException.class, () -> signUpController.creatPassWordForAccount(account, pass), "Password is Invalid.");
+        assertThrows(PasswordInvalidException.class, () -> signUpController.creatPasswordForAccount(account, pass), "Password is Invalid.");
     }
 
     @Test

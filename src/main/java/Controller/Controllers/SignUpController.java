@@ -67,7 +67,7 @@ public class SignUpController {
         return account;
     }
 
-    public void creatPassWordForAccount(Account account, String password) throws PasswordInvalidException {
+    public void creatPasswordForAccount(Account account, String password) throws PasswordInvalidException {
 
         RegisterValidation registerValidation = RegisterAndLoginValidator.isPassword(password).get();
 
