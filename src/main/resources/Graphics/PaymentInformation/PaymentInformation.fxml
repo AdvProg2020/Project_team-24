@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Graphics.PaymentInformation.PaymentInformation"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="547.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.PaymentInformation.PaymentInformation">
+   <children>
+      <Label alignment="CENTER_RIGHT" layoutX="227.0" layoutY="26.0" prefHeight="47.0" prefWidth="231.0" styleClass="title" stylesheets="@PaymentInformation.css" text="   خرید شما با موفقیت انجام شد" textFill="#08b740">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+       <TableView layoutX="82.0" layoutY="106.0" prefHeight="333.0" prefWidth="489.0" stylesheets="@PaymentInformation.css">
+           <columns>
+               <TableColumn prefWidth="118.5999755859375" text="قیمت نهایی" />
+               <TableColumn prefWidth="57.399993896484375" text="تعداد" />
+               <TableColumn prefWidth="83.99996948242188" text="قیمت" />
+               <TableColumn prefWidth="127.39996337890625" text="عکس" />
+               <TableColumn fx:id="name" minWidth="5.0" prefWidth="120.800048828125" text="     نام محصول" />
+           </columns>
+       </TableView>
+      <Label alignment="CENTER_RIGHT" layoutX="201.0" layoutY="470.0" prefHeight="47.0" prefWidth="283.0" styleClass="delivery" stylesheets="@PaymentInformation.css" text="   سفارش شما در اولین فرصت ارسال خواهد شد" textFill="#ff1818" />
+      <ImageView fitHeight="33.0" fitWidth="37.0" layoutX="211.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-delivered-48.png" />
+         </image></ImageView>
+      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="238.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-task-completed-48.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="28.0" layoutY="470.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="130.0" text="بازگشت به منو اصلی" textFill="#777777" />
+   </children>
 </AnchorPane>

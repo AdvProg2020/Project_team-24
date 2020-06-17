@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="581.0" prefWidth="690.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Payment.Payment">
-
+<AnchorPane prefHeight="581.0" prefWidth="590.0" styleClass="backGround" stylesheets="@Payment.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Payment.Payment">
+   <children>
+      <Label fx:id="border" layoutX="114.0" layoutY="19.0" prefHeight="543.0" prefWidth="394.0" styleClass="border" stylesheets="@Payment.css" />
+      <TextField alignment="CENTER" layoutX="182.0" layoutY="258.0" prefHeight="105.0" prefWidth="274.0" promptText="لطفا آدرس تحویل گیرنده را وارد کنید" />
+      <TextField alignment="CENTER" layoutX="182.0" layoutY="197.0" prefHeight="26.0" prefWidth="274.0" promptText="کد پستی" />
+      <TextField alignment="CENTER" layoutX="182.0" layoutY="393.0" prefHeight="26.0" prefWidth="274.0" promptText="کد تخفیف%" />
+      <Button layoutX="271.0" layoutY="470.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="95.0" styleClass="payButton" stylesheets="@Payment.css" text="پرداخت" textFill="#18941d">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Label alignment="CENTER" layoutX="234.0" layoutY="39.0" prefHeight="51.0" prefWidth="154.0" styleClass="title" stylesheets="@Payment.css" text="صفحه ی پرداخت" textFill="#5c5b5b">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <ImageView fitHeight="51.0" fitWidth="51.0" layoutX="293.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-mobile-payment-48.png" />
+         </image></ImageView>
+      <ImageView fitHeight="51.0" fitWidth="51.0" layoutX="199.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-barcode-scanner-48.png" />
+         </image></ImageView>
+      <ImageView fitHeight="51.0" fitWidth="59.0" layoutX="388.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-pos-terminal-48.png" />
+         </image></ImageView>
+   </children>
 </AnchorPane>
