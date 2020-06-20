@@ -23,6 +23,8 @@ import java.util.Stack;
 public class Product implements Initializable, PaneBuilder {
 
     private static Stack<Model.Models.Product> productStack = new Stack<>();
+    public Tab media;
+    public Tab similarProducts;
     private Model.Models.Product product;
 
     @FXML
@@ -79,7 +81,6 @@ public class Product implements Initializable, PaneBuilder {
     private Pane similar4;
     @FXML
     private Pane similar5;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
