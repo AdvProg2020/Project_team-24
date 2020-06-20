@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane onMousePressed="#gotoProduct" prefHeight="300.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.ProductCart">
+<Pane onMousePressed="#gotoProduct" prefHeight="300.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.ProductCart">
 
     <ImageView fitHeight="300.0" fitWidth="200.0" opacity="0.1" pickOnBounds="true" preserveRatio="true">
         <Image url="@background-01.jpg" />
@@ -35,4 +35,4 @@
         <Image url="@discount.png" />
     </ImageView>
 
-</AnchorPane>
+</Pane>

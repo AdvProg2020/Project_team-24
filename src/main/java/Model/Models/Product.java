@@ -10,6 +10,7 @@ import Model.Tools.Filterable;
 import Model.Tools.ForPend;
 import Model.Tools.Packable;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +23,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     private static List<Product> list;
 
     private Image productImage;
+    private Media productMedia;
     private long productId;
     private String productName;
     private Info product_Info;
@@ -74,6 +76,10 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         return productName;
     }
 
+    public Media getProductMedia() {
+        return productMedia;
+    }
+
     public Image getProductImage() {
         return productImage;
     }
@@ -122,6 +128,10 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     }
 
     /*****************************************************setters*******************************************************/
+
+    public void setProductMedia(Media productMedia) {
+        this.productMedia = productMedia;
+    }
 
     public void setProductImage(Image productImage) {
         this.productImage = productImage;
