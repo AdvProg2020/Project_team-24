@@ -1,3 +1,4 @@
-.button {
-
+.background {
+-fx-background-image: url("PinClipart.com_square-frame-clipart_4974573.png");
+    -fx-background-size: cover;
 }
