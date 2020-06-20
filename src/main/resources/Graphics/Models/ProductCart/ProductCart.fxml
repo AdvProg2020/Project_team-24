@@ -5,34 +5,41 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane onMousePressed="#gotoProduct" prefHeight="300.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.ProductCart">
+<Pane onMousePressed="#gotoProduct" prefHeight="240" prefWidth="180" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.ProductCart" style="-fx-background-image: url(background.png);
+    ">
 
-    <ImageView fitHeight="300.0" fitWidth="200.0" opacity="0.1" pickOnBounds="true" preserveRatio="true">
-        <Image url="@background-01.jpg" />
+    <ImageView fx:id="productImage" fitHeight="104.0" fitWidth="113.0" layoutX="38.0" layoutY="9.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@SoldOut.jpg"/>
     </ImageView>
 
-    <ImageView fx:id="productImage" fitHeight="150.0" fitWidth="150.0" layoutX="24.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@SoldOut.jpg" />
-    </ImageView>
+    <Text fx:id="price_ftx" layoutX="60.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1200000000"
+          wrappingWidth="113.0"/>
+    <Text fx:id="price_ltx" layoutX="60.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="600000000"
+          visible="false" wrappingWidth="120"/>
 
-    <Text fx:id="price_ftx" layoutX="56.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1200000000" wrappingWidth="120" />
-    <Text fx:id="price_ltx" layoutX="56.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="600000000" visible="false" wrappingWidth="120" />
+    <Label fx:id="discount" layoutX="15.0" layoutY="153.0" prefHeight="15.0" prefWidth="30.0"
+           style="-fx-background-color: #db2121; -fx-background-radius: 5; -fx-alignment: center; -fx-text-fill: white;"
+           text="50%" visible="false"/>
 
-    <Label fx:id="discount" layoutX="15.0" layoutY="230.0" prefHeight="15.0" prefWidth="30.0" style="-fx-background-color: #db2121; -fx-background-radius: 5; -fx-alignment: center; -fx-text-fill: white;" text="50%" visible="false" />
-
-    <Label layoutX="15.0" layoutY="255.0" text="تومان">
+    <Label layoutX="15.0" layoutY="185.0" text="تومان">
         <font>
-            <Font size="15.0" />
+            <Font size="15.0"/>
         </font>
     </Label>
 
-    <Text layoutX="22.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="محصول جدید غیرفروشی" textAlignment="CENTER" wrappingWidth="145" />
+    <Text layoutX="18.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="محصول جدید غیرفروشی"
+          textAlignment="CENTER" wrappingWidth="150.0"/>
 
-    <Button fx:id="nextButton" layoutX="141.0" layoutY="264.0" mnemonicParsing="false" onAction="#nextSeller" text="Button" textAlignment="CENTER" />
-    <Button fx:id="prevButton" layoutX="81.0" layoutY="264.0" mnemonicParsing="false" onAction="#prevSeller" text="Button" textAlignment="CENTER" />
-    
-    <ImageView fx:id="discountImage" fitHeight="34.0" fitWidth="30.0" layoutX="5.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" rotate="-28.0" visible="false">
-        <Image url="@discount.png" />
+    <Button fx:id="nextButton" layoutX="130.0" layoutY="209.0" mnemonicParsing="false" onAction="#nextSeller"
+            text="بعدی" textAlignment="CENTER"/>
+    <Button fx:id="prevButton" layoutX="82.0" layoutY="209.0" mnemonicParsing="false" onAction="#prevSeller"
+            text=" قبلی" textAlignment="CENTER"/>
+
+    <ImageView fx:id="discountImage" fitHeight="34.0" fitWidth="30.0" layoutX="5.0" layoutY="18.0" pickOnBounds="true"
+               preserveRatio="true" rotate="-28.0" visible="false">
+        <Image url="@discount.png"/>
     </ImageView>
 
 </Pane>

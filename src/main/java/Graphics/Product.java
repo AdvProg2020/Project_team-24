@@ -1,7 +1,10 @@
 package Graphics;
 
+import Graphics.Tools.PaneBuilder;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,13 +12,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
-public class Product implements Initializable {
+public class Product implements Initializable, PaneBuilder {
 
     private static Stack<Model.Models.Product> productStack = new Stack<>();
     private Model.Models.Product product;
@@ -79,10 +84,24 @@ public class Product implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        product = productStack.lastElement();
-        setImages();
-        setMedias();
+        if (!productStack.isEmpty()) {
+            product = productStack.lastElement();
+            setImages();
+            setMedias();
+        }
         similarPr();
+    }
+
+    @Override
+    public Pane paneBuilder() {
+
+        try {
+            return FXMLLoader.load(new File("src/main/resources/Graphics/Product/Product.fxml").toURI().toURL());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        return null;
     }
 
     public void newComment() {
@@ -123,6 +142,10 @@ public class Product implements Initializable {
     }
 
     private void similarPr() {
-        similar1.set
+        similar1.setPrefSize(130,100);
+        similar2.setPrefSize(130,100);
+        similar3.setPrefSize(130,100);
+        similar4.setPrefSize(130,100);
+        similar5.setPrefSize(130,100);
     }
 }
