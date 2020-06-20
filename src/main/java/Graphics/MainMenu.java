@@ -92,7 +92,6 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goProducts() {
-
     }
 
     public void goCart() {

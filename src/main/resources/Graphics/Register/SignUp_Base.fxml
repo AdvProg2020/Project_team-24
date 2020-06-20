@@ -10,7 +10,7 @@
     <AnchorPane prefHeight="750.0" prefWidth="650.0" styleClass="background" stylesheets="@../Login/Login.css">
 
         <ImageView fitHeight="670.0" fitWidth="512.0" layoutX="63.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@PinClipart.com_square-frame-clipart_4974573.png" />
+            <Image url="@background.png" />
         </ImageView>
 
         <TextField fx:id="username" layoutX="221.0" layoutY="252.0" prefHeight="38.0" prefWidth="227.0" promptText="نام کاربری" />
@@ -53,7 +53,7 @@
             <Image url="@../icons/icons8-add-user-group-man-man-50(1).png" />
         </ImageView>
 
-        <Label fx:id="status" alignment="CENTER" layoutX="256.0" layoutY="436.0" prefHeight="18.0" prefWidth="137.0" text=";)" textAlignment="CENTER" />
+        <Label fx:id="status" alignment="CENTER" layoutX="202.0" layoutY="439.0" prefHeight="18.0" prefWidth="245.0" text=";)" textAlignment="CENTER" />
 
         <Button layoutX="134.0" layoutY="633.0" mnemonicParsing="false" onAction="#goMainMenu" prefHeight="26.0" prefWidth="210.0" text="بازگشت به صفحه ی اصلی" />
         <ChoiceBox fx:id="chooseType" layoutX="340.0" layoutY="395.0" prefHeight="26.0" prefWidth="108.0" />
