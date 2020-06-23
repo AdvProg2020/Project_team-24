@@ -19,14 +19,15 @@
     -fx-border-color:  #e6e6e6;
 }
 .addToCart:hover{
-    -fx-background-color: #e60000;
+    -fx-background-color: #adebeb;
 }
 .featurePane{
-    -fx-background-color: #64c4d0;
+    -fx-background-color:  white;
 
 }
 .commentPane{
-    -fx-background-color: #eeba00;
+    -fx-background-color: ;
+
 
 }
 .featureTable{

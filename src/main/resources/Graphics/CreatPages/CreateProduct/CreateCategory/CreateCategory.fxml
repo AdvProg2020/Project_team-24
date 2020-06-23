@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="557.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
+   <children>
+      <TextField layoutX="192.0" layoutY="91.0" prefHeight="26.0" prefWidth="353.0" promptText="نام " />
+      <TextField layoutX="192.0" layoutY="139.0" prefHeight="14.0" prefWidth="354.0" />
+      <TextField layoutX="192.0" layoutY="191.0" prefHeight="26.0" prefWidth="354.0" />
+      <TextField layoutX="192.0" layoutY="239.0" prefHeight="26.0" prefWidth="354.0" />
+   </children>
+</AnchorPane>

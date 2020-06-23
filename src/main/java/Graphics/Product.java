@@ -142,10 +142,10 @@ public class Product implements Initializable, PaneBuilder {
     }
 
     private void similarPr() {
-        similar1.setPrefSize(130,100);
-        similar2.setPrefSize(130,100);
-        similar3.setPrefSize(130,100);
-        similar4.setPrefSize(130,100);
-        similar5.setPrefSize(130,100);
+//        similar1.setPrefSize(130,100);
+//        similar2.setPrefSize(130,100);
+//        similar3.setPrefSize(130,100);
+//        similar4.setPrefSize(130,100);
+//        similar5.setPrefSize(130,100);
     }
 }

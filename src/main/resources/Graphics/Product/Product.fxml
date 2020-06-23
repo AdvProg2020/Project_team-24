@@ -14,8 +14,8 @@
         </ImageView>
         <Separator layoutX="109.0" layoutY="393.0" prefHeight="6.0" prefWidth="477.0" />
         <Label alignment="CENTER" layoutX="594.0" layoutY="381.0" prefHeight="30.0" prefWidth="120.0" text="محصولات مشابه" />
-        <Separator layoutX="22.0" layoutY="524.0" prefHeight="0.0" prefWidth="668.0" />
-        <TabPane layoutX="22.0" layoutY="541.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="354.0" prefWidth="668.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">
+        <Separator layoutX="53.0" layoutY="508.0" prefHeight="0.0" prefWidth="668.0" />
+        <TabPane layoutX="53.0" layoutY="527.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="354.0" prefWidth="668.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">
             <Tab styleClass="featurePane" text="مشخصات">
                 <AnchorPane fx:id="feature" minHeight="0.0" minWidth="0.0" prefHeight="273.0" prefWidth="640.0" styleClass="featurePane" stylesheets="@Product.css">
                     <TableView layoutX="45.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="commentTable" stylesheets="@Product.css">
@@ -24,12 +24,12 @@
                             <TableColumn fx:id="ProductInfoValue" prefWidth="124.4000244140625" text="مقدار" />
                         </columns>
                     </TableView>
-                    <Label alignment="CENTER" layoutX="104.0" layoutY="26.0" prefHeight="3.0" prefWidth="120.0" text="ویژگی ها کالا" textFill="#f8d703">
+                    <Label alignment="CENTER" layoutX="104.0" layoutY="26.0" prefHeight="3.0" prefWidth="120.0" text="ویژگی ها کالا" textFill="#0bca1b">
                         <font>
                             <Font name="System Bold Italic" size="14.0" />
                         </font>
                     </Label>
-                    <Label alignment="CENTER" layoutX="431.0" layoutY="24.0" prefHeight="22.0" prefWidth="120.0" text="ویژگی های دسته" textFill="#e2c90b">
+                    <Label alignment="CENTER" layoutX="431.0" layoutY="24.0" prefHeight="22.0" prefWidth="120.0" text="ویژگی های دسته" textFill="#2ccf0f">
                         <font>
                             <Font name="System Bold Italic" size="14.0" />
                         </font>
@@ -44,9 +44,9 @@
             </Tab>
             <Tab fx:id="comment" styleClass="commentPane" text="نظرات">
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="commentPane" stylesheets="@Product.css">
-                    <Pane fx:id="CommentCart" layoutX="19.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
-                    <Pane fx:id="CommentCart1" layoutX="436.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
-                    <Pane fx:id="CommentCart2" layoutX="229.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
+                    <Pane fx:id="CommentCart" layoutX="19.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="commentPane" stylesheets="@Product.css" />
+                    <Pane fx:id="CommentCart1" layoutX="436.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="commentPane" stylesheets="@Product.css" />
+                    <Pane fx:id="CommentCart2" layoutX="229.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="commentPane" stylesheets="@Product.css" />
                     <Button fx:id="newComment" layoutX="6.0" layoutY="23.0" mnemonicParsing="false" onAction="#newComment" prefHeight="30.0" prefWidth="120.0" text="نظر دهید" />
                 </AnchorPane>
             </Tab>
@@ -90,7 +90,7 @@
         <Label alignment="CENTER" layoutX="610.0" layoutY="255.0" prefHeight="22.0" prefWidth="89.0" text="ویدیو محصول" />
         <Button fx:id="videoButton" layoutX="64.0" layoutY="316.0" mnemonicParsing="false" onAction="#playVideo" prefHeight="30.0" prefWidth="141.0" text="مشاهده ی ویدیو" />
         <Button layoutX="27.0" layoutY="381.0" mnemonicParsing="false" onAction="#compare" prefHeight="27.0" prefWidth="66.0" text="مقایسه" />
-        <HBox layoutX="23.0" layoutY="412.0" prefHeight="100.0" prefWidth="670.0">
+        <HBox layoutX="31.0" layoutY="331.0" prefHeight="110.0" prefWidth="673.0">
             <fx:include fx:id="similar1" source="../Models/ProductCart/ProductCart.fxml" />
             <fx:include fx:id="similar2" source="../Models/ProductCart/ProductCart.fxml" />
             <fx:include fx:id="similar3" source="../Models/ProductCart/ProductCart.fxml" />
