@@ -41,6 +41,7 @@
                <Image url="@icons8-square-with-numbers-48(2).png" />
             </image>
          </ImageView>
+         <Button layoutX="28.0" layoutY="519.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" text="ثبت " />
    </children>
 </AnchorPane>
 </Scene>
