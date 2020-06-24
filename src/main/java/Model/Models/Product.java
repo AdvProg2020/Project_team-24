@@ -22,8 +22,6 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 
     private static List<Product> list;
 
-    private Image productImage;
-    private Media productMedia;
     private long productId;
     private String productName;
     private Info product_Info;
@@ -33,6 +31,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     private long numberOfVisitors;
     private double averageScore;
     private String stateForPend;
+    private long mediaId;
     private List<ProductOfSeller> sellersOfProduct;
     private List<Long> scoreList = new ArrayList<>();
     private List<Long> buyerList = new ArrayList<>();
@@ -76,12 +75,8 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         return productName;
     }
 
-    public Media getProductMedia() {
-        return productMedia;
-    }
-
-    public Image getProductImage() {
-        return productImage;
+    public long getMediaId() {
+        return mediaId;
     }
 
     public List<ProductOfSeller> getSellersOfProduct() {
@@ -129,12 +124,8 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 
     /*****************************************************setters*******************************************************/
 
-    public void setProductMedia(Media productMedia) {
-        this.productMedia = productMedia;
-    }
-
-    public void setProductImage(Image productImage) {
-        this.productImage = productImage;
+    public void setMediaId(long mediaId) {
+        this.mediaId = mediaId;
         DataBase.save(this);
     }
 
@@ -311,7 +302,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
                 .addField(buyerList)
                 .addField(scoreList)
                 .addField(sellersOfProduct)
-                .addField(productImage)
+                .addField(mediaId)
                 .setInstance(new Product());
     }
 
@@ -330,7 +321,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         this.buyerList = (List<Long>) data.getFields().get(10);
         this.scoreList = (List<Long>) data.getFields().get(11);
         this.sellersOfProduct = (List<ProductOfSeller>) data.getFields().get(12);
-        this.productImage = (Image) data.getFields().get(13);
+        this.mediaId = (long) data.getFields().get(13);
         return this;
     }
 
