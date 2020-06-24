@@ -28,7 +28,7 @@
             <Font name="Andalus" size="15.0" />
          </font></Label>
 
-    <Text layoutX="34.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="محصول جدید غیرفروشی" textAlignment="CENTER" wrappingWidth="112.0">
+    <Text fx:id="product_name" layoutX="34.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="محصول جدید غیرفروشی" textAlignment="CENTER" wrappingWidth="112.0">
          <font>
             <Font size="10.0" />
          </font></Text>

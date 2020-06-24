@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 public class ProductCart implements Initializable {
 
-    private static List<Product> productList;
+    private static List<Product> productList = Product.getList();
     private Product product;
     private int sellerIndex;
     @FXML
@@ -41,6 +41,8 @@ public class ProductCart implements Initializable {
     private Text price_ltx;
     @FXML
     private Label discount;
+    @FXML
+    private Text product_name;
 
     public static void setProductList(List<Product> productList) {
         ProductCart.productList = productList;
@@ -83,7 +85,10 @@ public class ProductCart implements Initializable {
         } catch (ProductMediaNotFoundException e) {
             e.printStackTrace();
         }
+        this.product_name.setText(product.getName());
         this.price_ftx.setText(product.getSellersOfProduct().get(sellerIndex).getPrice() + "");
+        if(product.getAuction() == null) return;
+        newPrice(product.getAuction());
     }
 
     public void nextSeller() {
