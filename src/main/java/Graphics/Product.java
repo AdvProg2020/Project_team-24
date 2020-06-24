@@ -1,14 +1,19 @@
 package Graphics;
 
 import Controller.ControllerUnit;
-import Graphics.Tools.PaneBuilder;
+import Exceptions.ProductMediaNotFoundException;
+import Graphics.Tools.SceneBuilder;
+import Model.Models.Account;
+import Model.Models.Accounts.Customer;
+import Model.Models.Structs.ProductMedia;
+import Model.Models.Structs.ProductOfSeller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
@@ -20,10 +25,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class Product implements Initializable, PaneBuilder {
+public class Product implements Initializable, SceneBuilder {
 
-    private Model.Models.Product productObject;
-    private List<ImageView> stars;
+    private static Model.Models.Product First_Compare;
+    private static Model.Models.Product productObject;
+    private List<ImageView> stars = new ArrayList<>();
+    private int sellerIndex = 0;
     @FXML
     private ImageView product_image;
     @FXML
@@ -42,7 +49,7 @@ public class Product implements Initializable, PaneBuilder {
     private MediaView product_media;
 
     @Override
-    public Pane paneBuilder() {
+    public Scene sceneBuilder() {
 
         try {
             return FXMLLoader.load(new File("src/main/resources/Graphics/Product/Product.fxml").toURI().toURL());
@@ -55,33 +62,68 @@ public class Product implements Initializable, PaneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        stars = new ArrayList<>(Arrays.asList(star_01, star_02, star_03, star_04, star_05));
+        stars.addAll(Arrays.asList(star_01, star_02, star_03, star_04, star_05));
         productObject = ControllerUnit.getInstance().getProduct();
-        setStars();
-        setMedia();
-        setPrice();
-        setImage();
+        try {
+            setStars();
+            setMedia();
+            setPrice();
+            setImage();
+        } catch (ProductMediaNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void setImage() {
-        product_image.setImage(
+    public void compare() {
+        if (getFirst_Compare() == null) {
+            setFirst_Compare(productObject);
+            goProductsArea();
+        } else goComparingArea();
+    }
 
+    public void play() {
+        product_media.getMediaPlayer().play();
+    }
+
+    public void addToCart() {
+        Account account = ControllerUnit.getInstance().getAccount();
+        if (account instanceof Customer) {
+            ProductOfSeller productOfSeller = productObject
+                    .getSellersOfProduct().get(sellerIndex);
+
+            ((Customer) account)
+                    .getCart()
+                    .addProductToCart(
+                            productOfSeller.getSellerId(), productObject.getId()
+                    );
+        }
+    }
+
+    public static Model.Models.Product getFirst_Compare() {
+        return First_Compare;
+    }
+
+    public static void setFirst_Compare(Model.Models.Product first_Compare) {
+        First_Compare = first_Compare;
+    }
+
+    private void setImage() throws ProductMediaNotFoundException {
+        product_image.setImage(
+                ProductMedia.getProductMediaById(productObject.getMediaId()).getImage()
         );
     }
 
     private void setPrice() {
         product_price.setText(
                 productObject.getSellersOfProduct()
-                        .get(0)
-                        .getPrice() + ""
+                        .get(sellerIndex)
+                        .getPrice() + " "
         );
     }
 
-    private void setMedia() {
+    private void setMedia() throws ProductMediaNotFoundException {
         product_media.setMediaPlayer(
-                new MediaPlayer(
-                        productObject.getProductMedia()
-                )
+                ProductMedia.getProductMediaById(productObject.getMediaId()).getPlayer()
         );
     }
 
@@ -96,12 +138,11 @@ public class Product implements Initializable, PaneBuilder {
         }
     }
 
-    public void compare() {
+    private void goProductsArea() {
+        // ?
     }
 
-    public void play() {
-    }
-
-    public void addToCart() {
+    private void goComparingArea() {
+        // ?
     }
 }

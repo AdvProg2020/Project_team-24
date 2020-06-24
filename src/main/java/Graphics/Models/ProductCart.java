@@ -1,20 +1,32 @@
 package Graphics.Models;
 
+import Controller.ControllerUnit;
+import Exceptions.ProductDoesNotExistException;
+import Exceptions.ProductMediaNotFoundException;
+import Graphics.MainMenu;
 import Model.Models.Auction;
 import Model.Models.Product;
+import Model.Models.Structs.ProductMedia;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class ProductCart implements Initializable {
 
+    private static List<Product> productList;
+    private Product product;
+    private int sellerIndex;
     @FXML
     private Button nextButton;
     @FXML
@@ -30,23 +42,48 @@ public class ProductCart implements Initializable {
     @FXML
     private Label discount;
 
-    private Product product;
-    private int sellerIndex;
+    public static void setProductList(List<Product> productList) {
+        ProductCart.productList = productList;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //?
+        if (productList.isEmpty()) return;
+        this.product = productList.get(0);
+        productList.remove(0);
+        setProductCartFields();
     }
 
     public void gotoProduct() {
-        //?
+        setProductList(getSimilar());
+        MainMenu.change(new Graphics.Product().sceneBuilder());
+        Product first_compare = Graphics.Product.getFirst_Compare();
+        if (first_compare == null) {
+            ControllerUnit.getInstance().setProduct(product);
+        } else ControllerUnit.getInstance().setProduct(first_compare);
+        setProductList(new ArrayList<>());
     }
 
-    public void setProduct(@NotNull Product product) {
-        this.productImage.setImage(product.getProductImage());
+    private List<Product> getSimilar() {
+        return product.getCategory().getProductList().stream()
+                .map(id -> {
+                    try {
+                        return Product.getProductById(id);
+                    } catch (ProductDoesNotExistException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).collect(Collectors.toList());
+    }
+
+    private void setProductCartFields() {
+        try {
+            Image image = ProductMedia.getProductMediaById(product.getId()).getImage();
+            this.productImage.setImage(image);
+        } catch (ProductMediaNotFoundException e) {
+            e.printStackTrace();
+        }
         this.price_ftx.setText(product.getSellersOfProduct().get(sellerIndex).getPrice() + "");
-        if (product.getAuction() != null) newPrice(product.getAuction());
-        this.product = product;
     }
 
     public void nextSeller() {

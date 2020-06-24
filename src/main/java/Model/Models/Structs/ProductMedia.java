@@ -1,6 +1,7 @@
 package Model.Models.Structs;
 
 import Exceptions.ProductMediaNotFoundException;
+import Model.DataBase.DataBase;
 import Model.Models.Data.Data;
 import Model.Tools.Packable;
 import javafx.scene.image.Image;
@@ -26,8 +27,17 @@ public class ProductMedia implements Packable<ProductMedia> {
                 .orElseThrow(() -> new ProductMediaNotFoundException("ProductMedia with id:" + id + " not found."));
     }
 
-    public
+    public void addMedia(ProductMedia productMedia) {
+        list.add(productMedia);
+        DataBase.save(productMedia,true);
+    }
 
+    public void removeMedia(ProductMedia productMedia) {
+        list.removeIf(productMediaPrime -> productMediaPrime.getId() == productMedia.getId());
+        DataBase.remove(productMedia);
+    }
+
+    // Setter and Getter
     public Image getImage() {
         return image;
     }
@@ -44,6 +54,7 @@ public class ProductMedia implements Packable<ProductMedia> {
         this.player = player;
     }
 
+    // Override
     @Override
     public Data<ProductMedia> pack() {
         return new Data<ProductMedia>()
@@ -66,11 +77,16 @@ public class ProductMedia implements Packable<ProductMedia> {
         return id;
     }
 
-    private ProductMedia(String imageAddr, String movieAddr) {
+    // Constructor
+    public ProductMedia(String imageAddr, String movieAddr) {
         image = new Image(new File(imageAddr).toURI().toString());
         player = new MediaPlayer(
                 new Media(new File(movieAddr).toURI().toString())
         );
+    }
+
+    public ProductMedia(String imageAddr) {
+        image = new Image(new File(imageAddr).toURI().toString());
     }
 
     private ProductMedia() {
