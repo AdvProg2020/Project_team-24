@@ -1,0 +1,8 @@
+.title{
+    -fx-border-radius: 95%;
+    -fx-border-color: dimgrey;
+    -fx-text-fill: darkgreen;
+}
+.delivery{
+    -fx-border-color: dimgrey;
+}

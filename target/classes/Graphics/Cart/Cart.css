@@ -1,0 +1,31 @@
+.add{
+    -fx-background-image: url("icons8-add-48.png");
+}
+.deduct{
+    -fx-background-image: url("icons8-minus-48.png");
+}
+.titles{
+    -fx-text-fill: green;
+}
+.table-view{
+    -fx-progress-color: green;
+    -fx-text-fill: dimgrey;
+    -fx-background-color: whitesmoke;
+    -fx-border-color:  #e60000;
+}
+.back{
+    -fx-background-color: white;
+    -fx-border-color: #e60000;
+    -fx-border-radius: 95%;
+}
+.back:hover{
+    -fx-background-color: #e60000;
+}
+.buy{
+    -fx-background-color: white;
+    -fx-border-color: green;
+    -fx-border-radius: 95%;
+}
+.buy:hover{
+    -fx-background-color: green;
+}

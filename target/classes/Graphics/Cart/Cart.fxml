@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="647.0" prefWidth="730.0" stylesheets="Cart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Cart.CartController">
+   <children>
+      <TableView layoutX="39.0" layoutY="36.0" prefHeight="460.0" prefWidth="652.0" stylesheets="@Cart.css">
+        <columns>
+          <TableColumn prefWidth="141.4000244140625" text=" افزودن تعداد" />
+          <TableColumn prefWidth="118.5999755859375" text="قیمت نهایی" />
+            <TableColumn prefWidth="57.399993896484375" text="تعداد" />
+            <TableColumn prefWidth="83.99996948242188" text="قیمت" />
+            <TableColumn prefWidth="127.39996337890625" text="عکس" />
+            <TableColumn fx:id="name" prefWidth="123.5999755859375" text="نام محصول" />
+        </columns>
+      </TableView>
+      <Button alignment="CENTER_RIGHT" layoutX="87.0" layoutY="575.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="76.0" styleClass="buy" stylesheets="@Cart.css" text="خرید" />
+      <Button fx:id="back" alignment="CENTER_RIGHT" layoutX="521.0" layoutY="551.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="153.0" styleClass="back" stylesheets="@Cart.css" text="بازگشت به منو اصلی" />
+      <ImageView fitHeight="34.0" fitWidth="38.0" layoutX="87.0" layoutY="575.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-get-cash-48.png" />
+         </image></ImageView>
+      <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="521.0" layoutY="551.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-go-back-48.png" />
+         </image></ImageView>
+      <Pane fx:id="addOrdeduct" layoutX="311.0" layoutY="545.0" prefHeight="47.0" prefWidth="107.0">
+         <children>
+            <Button fx:id="deduct" mnemonicParsing="false" prefHeight="46.0" prefWidth="47.0" styleClass="deduct" stylesheets="@Cart.css" text="-" />
+            <Button fx:id="add" layoutX="58.0" layoutY="1.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="47.0" styleClass="add" stylesheets="@Cart.css" />
+         </children>
+      </Pane>
+      <Label fx:id="totalPrice" alignment="CENTER" layoutX="31.0" layoutY="536.0" prefHeight="34.0" prefWidth="188.0" text="قیمت نهایی" textFill="#138a1e" />
+   </children>
+</AnchorPane>

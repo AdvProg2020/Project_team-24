@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane onMousePressed="#gotoProduct" prefHeight="159.0" prefWidth="141.0" styleClass="background" stylesheets="@ProductCart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.ProductCart">
+<Pane prefHeight="204.0" prefWidth="142.0">
+    <ImageView fitHeight="204.0" fitWidth="145.0" opacity="0.1" pickOnBounds="true" preserveRatio="true">
+
+    </ImageView>
+
+    <ImageView fx:id="productImage" fitHeight="92.0" fitWidth="103.0" layoutX="27.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@SoldOut.jpg" />
+    </ImageView>
+
+    <Text fx:id="price_ftx" layoutX="62.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1200000000" wrappingWidth="75.0">
+         <font>
+            <Font size="10.0" />
+         </font></Text>
+    <Text fx:id="price_ltx" layoutX="56.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="600000000" visible="false" wrappingWidth="120" />
+
+    <Label fx:id="discount" layoutX="15.0" layoutY="230.0" prefHeight="15.0" prefWidth="30.0" style="-fx-background-color: #db2121; -fx-background-radius: 5; -fx-alignment: center; -fx-text-fill: white;" text="50%" visible="false" />
+
+    <Label layoutX="26.0" layoutY="129.0" text="تومان" />
+
+    <Text layoutX="17.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="محصول جدید غیرفروشی" textAlignment="CENTER" wrappingWidth="112.0">
+         <font>
+            <Font size="10.0" />
+         </font></Text>
+
+    <Button fx:id="nextButton" layoutX="77.0" layoutY="165.0" mnemonicParsing="false" onAction="#nextSeller" prefHeight="25.0" prefWidth="52.0" text="Button" textAlignment="CENTER" />
+    <Button fx:id="prevButton" layoutX="19.0" layoutY="165.0" mnemonicParsing="false" onAction="#prevSeller" text="Button" textAlignment="CENTER" />
+    
+    <ImageView fx:id="discountImage" fitHeight="34.0" fitWidth="30.0" layoutX="5.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" rotate="-28.0" visible="false">
+        <Image url="@discount.png" />
+    </ImageView>
+</Pane>
+</AnchorPane>
