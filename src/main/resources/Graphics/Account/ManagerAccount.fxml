@@ -11,14 +11,14 @@
                 <Image url="@../digicala.png" />
             </image></ImageView>
         <Label alignment="CENTER_RIGHT" layoutX="527.0" layoutY="112.0" prefHeight="31.0" prefWidth="63.0" text="نام کاربری : " />
-        <ImageView fitHeight="197.0" fitWidth="164.0" layoutX="622.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="177.0" fitWidth="176.0" layoutX="610.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@IMG_6982 (1).JPG" />
+                <Image url="@coach%20(1).png" />
             </image></ImageView>
         <Label fx:id="role" alignment="CENTER_RIGHT" layoutX="438.0" layoutY="160.0" prefHeight="18.0" prefWidth="151.0" text="نوع حساب : مدیر" />
         <Label alignment="CENTER" layoutX="534.0" layoutY="201.0" prefHeight="18.0" prefWidth="55.0" text="رمز عبور : " />
         <Label fx:id="password" alignment="CENTER_RIGHT" layoutX="404.0" layoutY="201.0" prefHeight="18.0" prefWidth="131.0" text="رمز" />
-        <Separator layoutX="622.0" layoutY="330.0" prefHeight="3.0" prefWidth="131.0" />
+        <Separator layoutX="622.0" layoutY="330.0" prefHeight="3.0" prefWidth="151.0" />
         <Separator layoutX="56.0" layoutY="91.0" prefHeight="3.0" prefWidth="695.0" />
         <Button fx:id="back" layoutX="74.0" layoutY="41.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="164.0" text="بازگشت به صفحه ی اصلی" />
       <Separator layoutX="56.0" layoutY="237.0" prefHeight="12.0" prefWidth="546.0" />
@@ -35,8 +35,9 @@
       <Label alignment="CENTER" layoutX="155.0" layoutY="260.0" text="دسته ها" />
       <Button fx:id="viewCategories" layoutX="123.0" layoutY="296.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="لیست دسته ها" />
       <Button fx:id="editCategories" layoutX="123.0" layoutY="340.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="ویرایش دسته" />
-      <Button fx:id="creatCategory"  layoutX="123.0" layoutY="383.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="افزودن دسته" />
+      <Button fx:id="creatCategory" layoutX="123.0" layoutY="383.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="104.0" text="افزودن دسته" />
       <Label fx:id="username" alignment="CENTER_RIGHT" layoutX="404.0" layoutY="119.0" prefHeight="18.0" prefWidth="124.0" />
+      <Button layoutX="618.0" layoutY="296.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="151.0" text="انتخاب عکس" />
     </children>
 
 </AnchorPane>

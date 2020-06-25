@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,6 +43,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void initialize(URL location, ResourceBundle resources) {
         ModelUnit.getInstance().preprocess_loadLists();
         setCenter(changeable);
+
     }
 
     public static void setPrimaryStage(Stage primaryStage) {
@@ -67,7 +69,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public Scene sceneBuilder() {
 
         try {
-            return FXMLLoader.load(new File("src/main/resources/Graphics/Product/Product.fxml").toURI().toURL());
+            return FXMLLoader.load(new File("src/main/resources/Graphics/MainMenu/MainMenu.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);

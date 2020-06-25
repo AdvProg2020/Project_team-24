@@ -10,9 +10,9 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.MainMenu">
 
-    <BorderPane fx:id="changeable" prefHeight="600.0" prefWidth="800.0">
+    <BorderPane fx:id="changeable" prefHeight="1000.0" prefWidth="2000.0">
         <top>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="201.0" prefWidth="726.0" styleClass="base1">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="190.0" prefWidth="893.0" styleClass="base1">
                 <stylesheets>
                     <URL value="@MainMenu.css" />
                 </stylesheets>
@@ -69,7 +69,7 @@
             </AnchorPane>
         </top>
         <center>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="433.0" prefWidth="800.0" styleClass="base2" stylesheets="@MainMenu.css">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="745.0" prefWidth="1134.0" styleClass="base2" stylesheets="@MainMenu.css">
                 <Pane layoutX="82.0" layoutY="63.0" prefHeight="140.0" prefWidth="216.0" styleClass="button1" stylesheets="@MainMenu.css">
                     <ImageView fitHeight="140.0" fitWidth="113.0" layoutX="8.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@PngItem_1896439.png" />

@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
-    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
+<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
         <AnchorPane focusTraversable="true" prefHeight="800" prefWidth="800">
             <Pane layoutX="66.0" layoutY="61.0">
 
@@ -20,10 +20,6 @@
 
                 <ImageView fitHeight="27.0" fitWidth="30.0" layoutX="556.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-split-transaction-48.png" />
-                </ImageView>
-
-                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="33.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@icons8-add-shopping-cart-48.png" />
                 </ImageView>
 
                 <Separator layoutX="213.0" layoutY="69.0" prefWidth="200.0" />
@@ -68,6 +64,10 @@
                 </Pane>
 
                 <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" defaultButton="true" layoutX="33.0" layoutY="194.0" mnemonicParsing="false" onAction="#addToCart" prefHeight="30.0" prefWidth="149.0" styleClass="addToCart" stylesheets="@Product.css" text="افزودن به سبد خرید" textAlignment="CENTER" textFill="#5f5d5d" textOverrun="CENTER_ELLIPSIS" />
+   
+                      <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="40.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@icons8-add-shopping-cart-48.png" />
+                </ImageView>
 
             </Pane>
 
@@ -131,6 +131,13 @@
                     </AnchorPane>
                 </Tab>
 
+                <Tab text="ویدیو محصولات">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <MediaView fx:id="product_media" fitHeight="200.0" fitWidth="600.0" layoutX="28.0" layoutY="30.0" />
+                        <Button layoutX="259.0" layoutY="240.0" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="141.0" text="مشاهده ی ویدیو" />
+                    </AnchorPane>
+                </Tab>
+
                 <Tab styleClass="commentPane" text="نظرات">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="commentPane" stylesheets="@Product.css">
 
@@ -141,15 +148,8 @@
                         <Button layoutX="6.0" layoutY="23.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="نظر دهید" />
                     </AnchorPane>
                 </Tab>
-
-                <Tab text="ویدیو محصولات">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                        <MediaView fx:id="product_media" fitHeight="200.0" fitWidth="600.0" layoutX="28.0" layoutY="30.0" />
-                        <Button layoutX="259.0" layoutY="240.0" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="141.0" text="مشاهده ی ویدیو" />
-                    </AnchorPane>
-                </Tab>
             </TabPane>
 
         </AnchorPane>
-    </ScrollPane>
+<!--    </ScrollPane>-->
 </Scene>
