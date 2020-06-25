@@ -9,7 +9,7 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
 <!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
-        <AnchorPane focusTraversable="true" prefHeight="800" prefWidth="800">
+        <AnchorPane focusTraversable="true" prefHeight="745.0" prefWidth="2000">
             <Pane layoutX="66.0" layoutY="61.0">
 
                 <Label alignment="CENTER" layoutX="265.0" layoutY="14.0" prefHeight="18.0" prefWidth="97.0" text="نام کالا " textFill="#716c6c">

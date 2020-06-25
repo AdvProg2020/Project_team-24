@@ -3,8 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane prefHeight="539.0" prefWidth="701.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
+<?import javafx.scene.Scene?>
+<Scene  xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
+    <AnchorPane prefHeight="745.0" prefWidth="2000">
 
     <Label alignment="CENTER" layoutX="201.0" layoutY="114.0" prefHeight="19.0" prefWidth="250.0" text="صفحه اطلاعات فروشنده" />
     <TextField fx:id="companyName" alignment="CENTER" layoutX="251.0" layoutY="224.0" promptText="نام شرکت" />
@@ -21,3 +22,6 @@
     <Button layoutX="276.0" layoutY="420.0" mnemonicParsing="false" onAction="#submitSeller" prefHeight="43.0" prefWidth="99.0" text="ثبت اطلاعات" />
     <Button layoutX="31.0" layoutY="486.0" mnemonicParsing="false" onAction="#back" text="بازگشت به صفحه ی قبلی" />
 </AnchorPane>
+
+</Scene>
+
