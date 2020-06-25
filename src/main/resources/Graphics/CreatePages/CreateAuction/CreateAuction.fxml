@@ -1,33 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="562.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
-   <TextField alignment="CENTER" layoutX="199.0" layoutY="102.0" prefHeight="44.0" prefWidth="309.0"
-              promptText="تاریخ آغاز  ( به صورت XX/XX/XX )" styleClass="startDate" stylesheets="@CreateAuction.css"/>
-   <TextField alignment="CENTER" layoutX="199.0" layoutY="180.0" prefHeight="44.0" prefWidth="310.0"
-              promptText="تاریخ پایان  ( به صورت XX/XX/XX )" styleClass="endDate" stylesheets="@CreateAuction.css"/>
-   <TextField alignment="CENTER" layoutX="199.0" layoutY="259.0" prefHeight="44.0" prefWidth="310.0"
-              promptText="نام حراج" styleClass="name" stylesheets="@CreateAuction.css"/>
-   <TextField alignment="CENTER" layoutX="199.0" layoutY="337.0" prefHeight="44.0" prefWidth="310.0"
-              promptText="درصد تحفیف" styleClass="percentage" stylesheets="@CreateAuction.css"/>
-   <Label alignment="CENTER" layoutX="228.0" layoutY="32.0" prefHeight="0.0" prefWidth="252.0" styleClass="title"
-          stylesheets="@CreateAuction.css" text="صفحه ی ایجاد حراج" textFill="#848484"/>
-   <Button layoutX="302.0" layoutY="451.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="104.0"
-           stylesheets="@CreateAuction.css" text="ثبت اطلاعات" textFill="#7e9a01"/>
-   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="206.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@icons8-pay-date-48.png"/>
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
+   <Pane>
+<AnchorPane prefHeight="745.0" prefWidth="2000">
+   <TextField alignment="CENTER" layoutX="799.0" layoutY="124.0" prefHeight="48.0" prefWidth="404.0" promptText="تاریخ آغاز  ( به صورت DD/MM/YYYY )" styleClass="startDate" stylesheets="@CreateAuction.css">
+            <font>
+               <Font size="18.0" />
+            </font></TextField>
+   <TextField alignment="CENTER" layoutX="798.0" layoutY="203.0" prefHeight="50.0" prefWidth="403.0" promptText="تاریخ پایان ( به صورت DD/MM/YYYY )" styleClass="endDate" stylesheets="@CreateAuction.css">
+            <font>
+               <Font size="18.0" />
+            </font></TextField>
+   <TextField alignment="CENTER" layoutX="798.0" layoutY="281.0" prefHeight="46.0" prefWidth="403.0" promptText="نام حراج" styleClass="name" stylesheets="@CreateAuction.css">
+            <font>
+               <Font size="18.0" />
+            </font></TextField>
+   <TextField alignment="CENTER" layoutX="798.0" layoutY="351.0" prefHeight="49.0" prefWidth="404.0" promptText="درصد تحفیف" styleClass="percentage" stylesheets="@CreateAuction.css">
+            <font>
+               <Font size="18.0" />
+            </font></TextField>
+   <Label alignment="CENTER" layoutX="855.0" layoutY="54.0" prefHeight="41.0" prefWidth="309.0" styleClass="title" stylesheets="@CreateAuction.css" text="صفحه ی ایجاد حراج" textFill="#848484">
+            <font>
+               <Font size="24.0" />
+            </font></Label>
+   <Button layoutX="923.0" layoutY="635.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="156.0" stylesheets="@CreateAuction.css" text="ثبت اطلاعات" textFill="#7e9a01">
+            <font>
+               <Font size="18.0" />
+            </font></Button>
+   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="811.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-pay-date-48.png" />
    </ImageView>
-   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="206.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@icons8-schedule-48.png"/>
+   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="811.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-schedule-48.png" />
    </ImageView>
-   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="206.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@icons8-tags-48.png"/>
+   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="811.0" layoutY="282.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-tags-48.png" />
    </ImageView>
-   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="206.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@icons8-discount-48.png"/>
+   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="811.0" layoutY="354.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-discount-48.png" />
    </ImageView>
+         <TextField alignment="CENTER" layoutX="798.0" layoutY="425.0" prefHeight="47.0" prefWidth="405.0" promptText="سقف تخفیف" styleClass="percentage" stylesheets="@CreateAuction.css">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </TextField>
+         <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="811.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@6617035.png" />
+            </image>
+         </ImageView>
+   <MenuButton alignment="CENTER" layoutX="916.0" layoutY="543.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="168.0" text="محصول" textFill="#a20f0f">
+      <items>
+         <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
+         <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
+      </items>
+      <font>
+         <Font size="18.0" />
+      </font>
+   </MenuButton>
+         <Label layoutX="830.0" layoutY="494.0" prefHeight="38.0" prefWidth="341.0" text="افزودن محصول به این حراج" />
 </AnchorPane>
+   </Pane>
+</Scene>

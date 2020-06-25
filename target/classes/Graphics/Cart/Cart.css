@@ -1,9 +1,9 @@
-.add{
-    -fx-background-image: url("icons8-add-48.png");
-}
-.deduct{
-    -fx-background-image: url("icons8-minus-48.png");
-}
+/*.add{*/
+/*    -fx-background-image: url("icons8-add-48.png");*/
+/*}*/
+/*.deduct{*/
+/*    -fx-background-image: url("icons8-minus-48.png");*/
+/*}*/
 .titles{
     -fx-text-fill: green;
 }
