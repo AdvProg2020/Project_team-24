@@ -10,8 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.MediaView;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -23,7 +25,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     private static Stage primaryStage;
     private static BorderPane center;
-
+    @FXML
+    private MediaView gif;
     @FXML
     private BorderPane changeable;
     @FXML
@@ -43,7 +46,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void initialize(URL location, ResourceBundle resources) {
         ModelUnit.getInstance().preprocess_loadLists();
         setCenter(changeable);
-
+        gif.getMediaPlayer().play();
+        gif.getMediaPlayer().setAutoPlay(true);
+        gif.getMediaPlayer().setCycleCount(10000);
     }
 
     public static void setPrimaryStage(Stage primaryStage) {
@@ -65,11 +70,12 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public static void change(@NotNull Scene scene) {
         center.setCenter(scene.getRoot());
     }
+
     @Override
     public Scene sceneBuilder() {
 
         try {
-            return FXMLLoader.load(new File("src/main/resources/Graphics/MainMenu/MainMenu.fxml").toURI().toURL());
+            return FXMLLoader.load(new File("src/main/resources/Graphics/CreatePages/CreateProduct/CreateProduct.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);

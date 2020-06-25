@@ -33,4 +33,18 @@
 }
 .shoppingBag{
     -fx-background-image: url("icons8-shopping-basket-48.png");
+    -fx-background-size: cover;
+}
+.rightTab{
+    -fx-background-image: url("blurred-background-store-shopping-mall-blur-background-with-bokeh-vintage-filtered-image_1253-1414.jpg");
+    -fx-background-size: cover;
+}
+.changePaneButton{
+    -fx-background-image: url("icons8-arrow-pointing-left-48.png");
+}
+.leftTab{
+    -fx-background-color: #161623;
+}
+.hideBrand{
+    -fx-background-color: #161623;
 }
