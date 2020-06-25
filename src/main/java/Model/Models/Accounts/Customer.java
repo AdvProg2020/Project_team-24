@@ -3,10 +3,11 @@ package Model.Models.Accounts;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.*;
-import Model.Models.Field.Fields.SingleString;
 import Model.Models.Data.Data;
+import Model.Models.Field.Field;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -136,7 +137,7 @@ public class Customer extends Account {
                 setCredit(Double.parseDouble(value));
                 break;
             default:
-                SingleString field = (SingleString) personalInfo.getList().getFieldByName(fieldName);
+                Field field = (Model.Models.Field.Field) personalInfo.getList().getFieldByName(fieldName);
                 field.setString(value);
         }
 

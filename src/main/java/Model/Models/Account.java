@@ -2,7 +2,7 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Field.Fields.SingleString;
+import Model.Models.Field.Field;
 import Model.Tools.AddingNew;
 import Model.Models.Data.Data;
 import Model.Tools.Packable;
@@ -132,7 +132,7 @@ public abstract class Account implements Packable<Account> {
         if ("password".equals(fieldName)) {
             setPassword(value);
         } else {
-            SingleString field = (SingleString) personalInfo.getList().getFieldByName(fieldName);
+            Field field = personalInfo.getList().getFieldByName(fieldName);
             field.setString(value);
         }
 
