@@ -68,7 +68,7 @@
                 <ImageView fitHeight="38.0" fitWidth="48.0" layoutX="374.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-customer-64.png" />
                 </ImageView>
-                <ImageView fitHeight="45.0" fitWidth="50.0" layoutX="989.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="45.0" fitWidth="50.0" layoutX="993.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-add-shopping-cart-48.png" />
                 </ImageView>
                 <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="819.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">

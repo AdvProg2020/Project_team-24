@@ -64,6 +64,7 @@ public class Product implements Initializable, SceneBuilder {
     public void initialize(URL location, ResourceBundle resources) {
         stars.addAll(Arrays.asList(star_01, star_02, star_03, star_04, star_05));
         productObject = ControllerUnit.getInstance().getProduct();
+        if (productObject == null) return;
         try {
             setStars();
             setMedia();
