@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class ProductsMenu implements Initializable, SceneBuilder {
 
-    private static List<Product> list = Product.getList();
+    private static List<Product> list = new ArrayList<>();
     private static Modes mode = Modes.NormalMode;
     private static int pageNum = 1;
     @FXML
@@ -28,6 +28,14 @@ public class ProductsMenu implements Initializable, SceneBuilder {
     private ImageView auctionImage_02;
     @FXML
     private Label title;
+
+    public static void setMode(Modes mode) {
+        ProductsMenu.mode = mode;
+    }
+
+    public static void setList(List<Product> list) {
+        ProductsMenu.list = list;
+    }
 
     @Override
     public Scene sceneBuilder() {

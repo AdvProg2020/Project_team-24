@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="647.0" prefWidth="730.0" stylesheets="Cart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Cart">
-    <TableView fx:id="cart_Table" layoutX="39.0" layoutY="36.0" prefHeight="460.0" prefWidth="652.0" stylesheets="@Cart.css">
+    <TableView fx:id="cart_Table" layoutX="39.0" layoutY="36.0" onMouseClicked="#select" prefHeight="460.0" prefWidth="652.0" stylesheets="@Cart.css">
       <columns>
-          <TableColumn prefWidth="141.4000244140625" text=" افزودن تعداد" />
-          <TableColumn prefWidth="118.5999755859375" text="قیمت نهایی" />
-          <TableColumn prefWidth="57.399993896484375" text="تعداد" />
-          <TableColumn prefWidth="83.99996948242188" text="قیمت" />
-          <TableColumn prefWidth="127.39996337890625" text="عکس" />
-          <TableColumn prefWidth="123.5999755859375" text="نام محصول" />
+          <TableColumn fx:id="inc_dec_product" prefWidth="141.4000244140625" text=" افزودن تعداد" />
+          <TableColumn fx:id="product_f_price" prefWidth="118.5999755859375" text="قیمت نهایی" />
+          <TableColumn fx:id="product_number" prefWidth="57.399993896484375" text="تعداد" />
+          <TableColumn fx:id="product_price" prefWidth="83.99996948242188" text="قیمت" />
+          <TableColumn fx:id="product_image" prefWidth="127.39996337890625" text="عکس" />
+          <TableColumn fx:id="Product_name" prefWidth="123.5999755859375" text="نام محصول" />
       </columns>
     </TableView>
 

@@ -1,7 +1,9 @@
 package Graphics;
 
+import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
 import Model.ModelUnit;
+import Model.Models.Product;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,21 +11,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
     private static Stage primaryStage;
     private static BorderPane center;
-
     @FXML
     private BorderPane changeable;
     @FXML
@@ -43,7 +45,6 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void initialize(URL location, ResourceBundle resources) {
         ModelUnit.getInstance().preprocess_loadLists();
         setCenter(changeable);
-
     }
 
     public static void setPrimaryStage(Stage primaryStage) {
@@ -78,30 +79,50 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void doCeSuT() {
-
+        //?
     }
 
     public void goLogin() {
         MainMenu.getPrimaryStage().setScene(new Login().sceneBuilder());
     }
 
-    public void goPopulars() {
+    public void goCart() {
+        MainMenu.change(new Cart().sceneBuilder());
+    }
 
+    public void goPopulars() {
+        ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        List<Product> list = new ArrayList<>(Product.getList());
+        list.sort((o1, o2) -> -1 * Long.compare(o1.getNumberOfVisitors(),o2.getNumberOfVisitors()));
+        ProductsMenu.setList(list);
+        ProductCart.setProductList(list);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public void goAuction() {
-
+        ProductsMenu.setMode(ProductsMenu.Modes.AuctionMode);
+        // ?
     }
 
     public void goProducts() {
-    }
-
-    public void goCart() {
-
+        ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
+        List<Product> list = Product.getList();
+        ProductsMenu.setList(list);
+        ProductCart.setProductList(list);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public void goSearch() {
-
+        ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
+        String filterStr = searchArea.getText();
+        List<Product> collect = Product.getList().stream()
+                .filter(product -> product.getName().matches(filterStr))
+                .collect(Collectors.toList());
+        ProductsMenu.setList(collect);
+        ProductCart.setProductList(collect);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public static void main(String[] args) {

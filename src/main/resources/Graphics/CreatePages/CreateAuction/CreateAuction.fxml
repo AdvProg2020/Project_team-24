@@ -7,9 +7,9 @@
 <AnchorPane prefHeight="562.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
    <TextField alignment="CENTER" layoutX="199.0" layoutY="102.0" prefHeight="44.0" prefWidth="309.0"
-              promptText="تاریخ آغاز  ( به صورت XX/X/XX )" styleClass="startDate" stylesheets="@CreateAuction.css"/>
+              promptText="تاریخ آغاز  ( به صورت XX/XX/XX )" styleClass="startDate" stylesheets="@CreateAuction.css"/>
    <TextField alignment="CENTER" layoutX="199.0" layoutY="180.0" prefHeight="44.0" prefWidth="310.0"
-              promptText="تاریخ پایان  ( به صورت XX/X/XX )" styleClass="endDate" stylesheets="@CreateAuction.css"/>
+              promptText="تاریخ پایان  ( به صورت XX/XX/XX )" styleClass="endDate" stylesheets="@CreateAuction.css"/>
    <TextField alignment="CENTER" layoutX="199.0" layoutY="259.0" prefHeight="44.0" prefWidth="310.0"
               promptText="نام حراج" styleClass="name" stylesheets="@CreateAuction.css"/>
    <TextField alignment="CENTER" layoutX="199.0" layoutY="337.0" prefHeight="44.0" prefWidth="310.0"

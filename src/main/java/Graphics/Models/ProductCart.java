@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class ProductCart implements Initializable {
 
-    private static List<Product> productList = Product.getList();
+    private static List<Product> productList = new ArrayList<>();
     private Product product;
     private int sellerIndex;
     @FXML
@@ -43,6 +44,8 @@ public class ProductCart implements Initializable {
     private Label discount;
     @FXML
     private Text product_name;
+    @FXML
+    private Pane mainPane;
 
     public static void setProductList(List<Product> productList) {
         ProductCart.productList = productList;
@@ -50,7 +53,10 @@ public class ProductCart implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (productList.isEmpty()) return;
+        if (productList.isEmpty()) {
+            mainPane.setVisible(false);
+            return;
+        }
         this.product = productList.get(0);
         productList.remove(0);
         setProductCartFields();
@@ -79,6 +85,7 @@ public class ProductCart implements Initializable {
     }
 
     private void setProductCartFields() {
+        if (product == null) return;
         try {
             Image image = ProductMedia.getProductMediaById(product.getId()).getImage();
             this.productImage.setImage(image);

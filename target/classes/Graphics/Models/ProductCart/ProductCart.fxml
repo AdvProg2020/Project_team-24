@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane onMousePressed="#gotoProduct" prefHeight="159.0" prefWidth="141.0" styleClass="background" stylesheets="@ProductCart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.ProductCart">
-<Pane prefHeight="240.0" prefWidth="180.0">
+<Pane fx:id="mainPane" prefHeight="240.0" prefWidth="180.0">
     
     <ImageView fx:id="productImage" fitHeight="106.0" fitWidth="136.0" layoutX="37.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
         <Image url="@SoldOut.jpg" />

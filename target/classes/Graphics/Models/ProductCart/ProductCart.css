@@ -1,4 +1,4 @@
 .background {
     -fx-background-image: url("PinClipart.com_square-frame-clipart_4974573.png");
-    -fx-background-size: 200 300 ;
+    -fx-background-size: contain ;
 }
