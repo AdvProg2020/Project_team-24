@@ -9,11 +9,11 @@
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
 <AnchorPane prefHeight="745.0" prefWidth="2000">
    <children>
-      <TextField alignment="CENTER" layoutX="245.0" layoutY="54.0" prefHeight="36.0" prefWidth="168.0" promptText="نام محصول" styleClass="name" stylesheets="@CreateProduct.css">
+      <TextField alignment="CENTER" layoutX="756.0" layoutY="102.0" prefHeight="36.0" prefWidth="168.0" promptText="نام محصول" styleClass="name" stylesheets="@CreateProduct.css">
             <font>
                <Font size="24.0" />
             </font></TextField>
-      <TextField alignment="CENTER" layoutX="245.0" layoutY="112.0" prefHeight="36.0" prefWidth="168.0" promptText="قیمت" styleClass="price" stylesheets="@CreateProduct.css">
+      <TextField alignment="CENTER" layoutX="756.0" layoutY="198.0" prefHeight="36.0" prefWidth="168.0" promptText="قیمت" styleClass="price" stylesheets="@CreateProduct.css">
             <font>
                <Font size="24.0" />
             </font></TextField>
@@ -25,7 +25,7 @@
       <ImageView fitHeight="31.0" fitWidth="34.0" layoutX="248.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@icons8-dog-tag-48.png" />
       </ImageView>
-      <ImageView fitHeight="31.0" fitWidth="36.0" layoutX="248.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="31.0" fitWidth="36.0" layoutX="484.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@icons8-us-dollar-24.png" />
       </ImageView>
       <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="212.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
