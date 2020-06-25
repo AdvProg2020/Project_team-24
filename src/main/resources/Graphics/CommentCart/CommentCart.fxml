@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane prefHeight="206.0" prefWidth="309.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.CommentCart.CommentCart">
+   <children>
+      <Label alignment="CENTER" layoutX="205.0" layoutY="44.0" prefHeight="34.0" prefWidth="84.0" text="عنوان : ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextArea layoutX="21.0" layoutY="78.0" prefHeight="113.0" prefWidth="268.0" />
+      <Label alignment="CENTER" layoutX="209.0" layoutY="14.0" prefHeight="15.0" prefWidth="75.0" text="فرستنده : ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="135.0" layoutY="14.0" prefHeight="20.0" prefWidth="75.0" text="؟؟؟">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="131.0" layoutY="44.0" prefHeight="34.0" prefWidth="84.0" text="؟؟؟؟">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
