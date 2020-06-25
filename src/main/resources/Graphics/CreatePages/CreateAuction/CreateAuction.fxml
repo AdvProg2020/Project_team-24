@@ -7,8 +7,9 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
-   <Pane>
+
 <AnchorPane prefHeight="745.0" prefWidth="2000">
+   <Pane>
    <TextField alignment="CENTER" layoutX="799.0" layoutY="124.0" prefHeight="48.0" prefWidth="404.0" promptText="تاریخ آغاز  ( به صورت DD/MM/YYYY )" styleClass="startDate" stylesheets="@CreateAuction.css">
             <font>
                <Font size="18.0" />
@@ -29,7 +30,7 @@
             <font>
                <Font size="24.0" />
             </font></Label>
-   <Button layoutX="923.0" layoutY="635.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="156.0" stylesheets="@CreateAuction.css" text="ثبت اطلاعات" textFill="#7e9a01">
+   <Button layoutX="922.0" layoutY="657.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="156.0" stylesheets="@CreateAuction.css" text="ثبت اطلاعات" textFill="#7e9a01">
             <font>
                <Font size="18.0" />
             </font></Button>
@@ -55,7 +56,7 @@
                <Image url="@6617035.png" />
             </image>
          </ImageView>
-   <MenuButton alignment="CENTER" layoutX="916.0" layoutY="543.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="168.0" text="محصول" textFill="#a20f0f">
+   <MenuButton alignment="CENTER" layoutX="916.0" layoutY="576.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="168.0" text="محصول" textFill="#a20f0f">
       <items>
          <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
          <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
@@ -64,7 +65,11 @@
          <Font size="18.0" />
       </font>
    </MenuButton>
-         <Label layoutX="830.0" layoutY="494.0" prefHeight="38.0" prefWidth="341.0" text="افزودن محصول به این حراج" />
-</AnchorPane>
+         <Label alignment="CENTER" layoutX="830.0" layoutY="514.0" prefHeight="38.0" prefWidth="341.0" text="((  افزودن محصول به این حراج   ))" textFill="#5c5c5c">
+            <font>
+               <Font size="18.0" />
+            </font></Label>
    </Pane>
+</AnchorPane>
+
 </Scene>

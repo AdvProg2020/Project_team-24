@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="614.0" prefWidth="460.0">
+      <children>
+         <ChoiceBox layoutX="135.0" layoutY="404.0" prefHeight="34.0" prefWidth="190.0" />
+         <ChoiceBox layoutX="134.0" layoutY="509.0" prefHeight="35.0" prefWidth="189.0" />
+         <CheckBox alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="170.0" layoutY="119.0" mnemonicParsing="false" text="تعداد بازدید" textAlignment="RIGHT">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </CheckBox>
+         <CheckBox layoutX="193.0" layoutY="173.0" mnemonicParsing="false" text="امتیاز">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </CheckBox>
+         <CheckBox layoutX="164.0" layoutY="225.0" mnemonicParsing="false" text="زمان بارگذاری">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </CheckBox>
+         <Label alignment="CENTER" layoutX="113.0" layoutY="60.0" prefHeight="28.0" prefWidth="234.0" text=" (( مرتب کردن محصولات  ))">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+         <Label layoutX="168.0" layoutY="313.0" prefHeight="27.0" prefWidth="123.0" text="(( فیلتر کردن ))">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="131.0" layoutY="365.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات محصول">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="130.0" layoutY="470.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات دسته">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <Separator layoutX="92.0" layoutY="286.0" prefHeight="2.0" prefWidth="273.0" />
+      </children></AnchorPane>
+</Scene>

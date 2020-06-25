@@ -1,45 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="545.0" prefWidth="776.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Accounts.Seller">
-
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="745.0" prefWidth="2000">
+    <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
+            <Pane>
     <ImageView fitHeight="273.0" fitWidth="176.0" layoutX="600.0" layoutY="-70.0" pickOnBounds="true" preserveRatio="true">
-<!--        <Image url="@"/>-->
     </ImageView>
-    <Label alignment="CENTER_RIGHT" layoutX="527.0" layoutY="115.0" prefHeight="31.0" prefWidth="62.0" text="نام کاربری : " />
-    <ImageView fitHeight="197.0" fitWidth="164.0" layoutX="606.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@coach (1).png" />
+    <ImageView fitHeight="301.0" fitWidth="258.0" layoutX="1589.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@icons8-client-management-48.png" />
     </ImageView>
-    <Label alignment="CENTER_RIGHT" layoutX="527.0" layoutY="179.0" prefHeight="18.0" prefWidth="62.0" text="نوع حساب : " />
-    <Label alignment="CENTER" layoutX="530.0" layoutY="233.0" prefHeight="18.0" prefWidth="55.0" text="رمز عبور : " />
-    <Separator layoutX="262.0" layoutY="277.0" prefHeight="3.0" prefWidth="332.0" />
-    <Label alignment="CENTER_RIGHT" layoutX="435.0" layoutY="299.0" prefHeight="18.0" prefWidth="131.0" text="اطلاعات کاربر" />
-    <Separator layoutX="611.0" layoutY="330.0" prefHeight="3.0" prefWidth="142.0" />
-    <Label alignment="CENTER_RIGHT" layoutX="504.0" layoutY="352.0" prefHeight="18.0" prefWidth="68.0" text="نام شرکت :" />
-    <Label alignment="CENTER_RIGHT" layoutX="508.0" layoutY="399.0" prefHeight="18.0" prefWidth="68.0" text="شماره تماس:" />
-    <Label alignment="CENTER_RIGHT" layoutX="519.0" layoutY="448.0" prefHeight="18.0" prefWidth="55.0" text="ایمیل:" />
-    <Separator layoutX="56.0" layoutY="91.0" prefHeight="3.0" prefWidth="695.0" />
-    <Button layoutX="641.0" layoutY="392.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="محصولات فروشی" />
-    <Button layoutX="641.0" layoutY="431.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="سابقه ی فروش" />
-    <Label alignment="CENTER_RIGHT" layoutX="706.0" layoutY="344.0" prefHeight="18.0" prefWidth="42.0" text="اعتبار:" />
-    <TableView layoutX="90.0" layoutY="308.0" prefHeight="123.0" prefWidth="131.0">
-        <columns>
-            <TableColumn prefWidth="130.40001220703124" text="کد تخفیف" />
-        </columns>
-    </TableView>
-    <Separator layoutX="74.0" layoutY="277.0" prefHeight="3.0" prefWidth="164.0" />
-    <Button layoutX="74.0" layoutY="41.0" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="164.0" text="بازگشت به صفحه ی اصلی" />
-    <Button layoutX="95.0" layoutY="492.0" mnemonicParsing="false" text="خروج از حساب کاربری" />
-    <Button layoutX="94.0" layoutY="457.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="122.0" text="ویرایش اطلاعات" />
-    <Button layoutX="612.0" layoutY="295.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="انتخاب عکس" />
-   <TextField fx:id="username" alignment="CENTER_RIGHT" layoutX="377.0" layoutY="118.0" />
-   <TextField alignment="CENTER_RIGHT" editable="false" layoutX="377.0" layoutY="176.0" text="فروشنده بدبخت" />
-   <TextField fx:id="password" alignment="CENTER_RIGHT" layoutX="377.0" layoutY="230.0" />
-   <TextField fx:id="balance" layoutX="612.0" layoutY="341.0" prefHeight="26.0" prefWidth="102.0" />
-   <TextField fx:id="brand" layoutX="354.0" layoutY="349.0" />
-   <TextField layoutX="354.0" layoutY="396.0" />
-   <TextField layoutX="354.0" layoutY="445.0" />
+    <Label alignment="CENTER_RIGHT" layoutX="1759.0" layoutY="449.0" prefHeight="22.0" prefWidth="120.0" text="نام شرکت :">
+            <font>
+               <Font size="18.0" />
+            </font></Label>
+    <Label alignment="CENTER_RIGHT" layoutX="1700.0" layoutY="518.0" prefHeight="37.0" prefWidth="173.0" text="شماره تلفن:">
+            <font>
+               <Font size="18.0" />
+            </font></Label>
+    <Label alignment="CENTER_RIGHT" layoutX="1758.0" layoutY="599.0" prefHeight="24.0" prefWidth="122.0" text="ایمیل شرکت:">
+            <font>
+               <Font size="18.0" />
+            </font></Label>
+
+    <Label alignment="CENTER_RIGHT" layoutX="1819.0" layoutY="379.0" prefHeight="34.0" prefWidth="58.0" text="اعتبار:">
+            <font>
+               <Font size="18.0" />
+            </font></Label>
+
+
+    <Button layoutX="1648.0" layoutY="298.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="141.0" text="انتخاب عکس">
+            <font>
+               <Font size="18.0" />
+            </font></Button>
+        <Label fx:id="username" alignment="CENTER_RIGHT" layoutX="1225.0" layoutY="91.0" prefHeight="31.0" prefWidth="164.0" text="نام کاربری : ">
+            <font>
+                <Font size="18.0" />
+            </font></Label>
+        <Label fx:id="role" alignment="CENTER_RIGHT" layoutX="1240.0" layoutY="174.0" prefHeight="18.0" prefWidth="151.0" text="نوع حساب : ">
+            <font>
+                <Font size="18.0" />
+            </font></Label>
+        <Label alignment="CENTER_RIGHT" layoutX="1214.0" layoutY="249.0" prefHeight="6.0" prefWidth="175.0" text="رمز عبور : ">
+            <font>
+                <Font size="18.0" />
+            </font></Label>
+        <Label alignment="CENTER_RIGHT" layoutX="1237.0" layoutY="317.0" prefHeight="35.0" prefWidth="157.0" text="اطلاعات کاربر">
+            <font>
+                <Font size="24.0" />
+            </font></Label>
+        <TextField alignment="CENTER" layoutX="1532.0" layoutY="595.0" prefHeight="35.0" prefWidth="227.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField alignment="CENTER" layoutX="1532.0" layoutY="518.0" prefHeight="35.0" prefWidth="227.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField alignment="CENTER" layoutX="1532.0" layoutY="444.0" prefHeight="35.0" prefWidth="227.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField alignment="CENTER" layoutX="1532.0" layoutY="377.0" prefHeight="35.0" prefWidth="227.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        </Pane>
+        <Pane>
+        <Label alignment="CENTER_RIGHT" layoutX="1352.0" layoutY="382.0" prefHeight="27.0" prefWidth="37.0" text="نام :">
+            <font>
+                <Font size="18.0" />
+            </font></Label>
+        <Label alignment="CENTER_RIGHT" layoutX="1234.0" layoutY="449.0" prefHeight="16.0" prefWidth="163.0" text="نام خانوادگی :">
+            <font>
+                <Font size="18.0" />
+            </font></Label>
+        <Label alignment="CENTER_RIGHT" layoutX="1273.0" layoutY="523.0" prefHeight="26.0" prefWidth="124.0" text="شماره تماس :">
+            <font>
+                <Font size="18.0" />
+            </font></Label>
+        <Label alignment="CENTER_RIGHT" layoutX="1335.0" layoutY="599.0" prefHeight="18.0" prefWidth="55.0" text="ایمیل :">
+            <font>
+                <Font size="18.0" />
+            </font></Label>
+         <Separator layoutX="672.0" layoutY="47.0" orientation="VERTICAL" prefHeight="623.0" prefWidth="1.0" />
+         <Separator layoutX="1488.0" layoutY="70.0" orientation="VERTICAL" prefHeight="587.0" prefWidth="6.0" />
+
+        <Separator layoutX="1518.0" layoutY="352.0" prefHeight="5.0" prefWidth="375.0" />
+        <TextField editable="false" layoutX="796.0" layoutY="593.0" prefHeight="35.0" prefWidth="371.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField editable="false" layoutX="796.0" layoutY="518.0" prefHeight="35.0" prefWidth="371.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField editable="false" layoutX="796.0" layoutY="243.0" prefHeight="35.0" prefWidth="371.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField editable="false" layoutX="796.0" layoutY="168.0" prefHeight="35.0" prefWidth="371.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField editable="false" layoutX="796.0" layoutY="87.0" prefHeight="35.0" prefWidth="371.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField editable="false" layoutX="796.0" layoutY="443.0" prefHeight="35.0" prefWidth="371.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        <TextField editable="false" layoutX="796.0" layoutY="377.0" prefHeight="35.0" prefWidth="371.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </TextField>
+        </Pane>
+         <Separator layoutX="719.0" layoutY="336.0" prefHeight="2.0" prefWidth="515.0" />
+        <Button layoutX="238.0" layoutY="47.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="217.0" text="محصولات فروشی">
+            <font>
+                <Font size="18.0" />
+            </font></Button>
+        <Button layoutX="238.0" layoutY="122.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="217.0" text="سابقه ی فروش">
+            <font>
+                <Font size="18.0" />
+            </font></Button>
+        <Button layoutX="179.0" layoutY="635.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="335.0" text="بازگشت به صفحه ی اصلی">
+            <font>
+                <Font size="18.0" />
+            </font></Button>
+        <Button layoutX="241.0" layoutY="567.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="212.0" text="خروج از حساب کاربری">
+            <font>
+                <Font size="18.0" />
+            </font></Button>
+        <Button layoutX="240.0" layoutY="496.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="213.0" text="ویرایش اطلاعات">
+            <font>
+                <Font size="18.0" />
+            </font></Button>
+        <TableView layoutX="120.0" layoutY="201.0" prefHeight="262.0" prefWidth="453.0">
+            <columns>
+                <TableColumn prefWidth="452.1999816894531" text="کد تخفیف ها" />
+            </columns>
+        </TableView>
+    </Pane>
 </AnchorPane>
+</Scene>
