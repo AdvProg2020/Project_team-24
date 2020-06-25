@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="562.0" prefWidth="708.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
+   <TextField alignment="CENTER" layoutX="199.0" layoutY="102.0" prefHeight="44.0" prefWidth="309.0"
+              promptText="تاریخ آغاز  ( به صورت XX/XX/XX )" styleClass="startDate" stylesheets="@CreateAuction.css"/>
+   <TextField alignment="CENTER" layoutX="199.0" layoutY="180.0" prefHeight="44.0" prefWidth="310.0"
+              promptText="تاریخ پایان  ( به صورت XX/XX/XX )" styleClass="endDate" stylesheets="@CreateAuction.css"/>
+   <TextField alignment="CENTER" layoutX="199.0" layoutY="259.0" prefHeight="44.0" prefWidth="310.0"
+              promptText="نام حراج" styleClass="name" stylesheets="@CreateAuction.css"/>
+   <TextField alignment="CENTER" layoutX="199.0" layoutY="337.0" prefHeight="44.0" prefWidth="310.0"
+              promptText="درصد تحفیف" styleClass="percentage" stylesheets="@CreateAuction.css"/>
+   <Label alignment="CENTER" layoutX="228.0" layoutY="32.0" prefHeight="0.0" prefWidth="252.0" styleClass="title"
+          stylesheets="@CreateAuction.css" text="صفحه ی ایجاد حراج" textFill="#848484"/>
+   <Button layoutX="302.0" layoutY="451.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="104.0"
+           stylesheets="@CreateAuction.css" text="ثبت اطلاعات" textFill="#7e9a01"/>
+   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="206.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-pay-date-48.png"/>
+   </ImageView>
+   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="206.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-schedule-48.png"/>
+   </ImageView>
+   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="206.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-tags-48.png"/>
+   </ImageView>
+   <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="206.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-discount-48.png"/>
+   </ImageView>
+</AnchorPane>

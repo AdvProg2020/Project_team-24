@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.ProductsMenu">
+    <AnchorPane prefHeight="653.0" prefWidth="690.0">
+        <Label fx:id="title" alignment="CENTER" layoutX="158.0" layoutY="23.0" prefHeight="24.0" prefWidth="391.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه ی محصولات">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Button layoutX="609.0" layoutY="589.0" mnemonicParsing="false" onAction="#next" prefHeight="30.0" prefWidth="56.0" stylesheets="@ProductsMenuStyle.css" text=" بعدی">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Button>
+        <Button alignment="CENTER" layoutX="54.0" layoutY="589.0" mnemonicParsing="false" onAction="#previous" prefHeight="30.0" prefWidth="59.0" stylesheets="@ProductsMenuStyle.css" text="قبلی ">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Button>
+        <ImageView fitHeight="35.0" fitWidth="38.0" layoutX="38.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@icons8-chevron-left-48.png" />
+        </ImageView>
+        <ImageView fitHeight="35.0" fitWidth="38.0" layoutX="647.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@icons8-chevron-right-48.png" />
+        </ImageView>
+        <ImageView fx:id="auctionImage_02" fitHeight="108.0" fitWidth="130.0" layoutX="525.0" layoutY="-10.0" pickOnBounds="true" preserveRatio="true" rotate="-45.0">
+            <Image url="@pngegg.png" />
+        </ImageView>
+        <ImageView fx:id="auctionImage_01" fitHeight="71.0" fitWidth="74.0" layoutX="491.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@birthday-whistle-png-14.png" />
+        </ImageView>
+        <ScrollPane layoutX="67.0" layoutY="73.0" prefHeight="506.0" prefWidth="556.0">
+            <AnchorPane layoutX="83.0" layoutY="76.0" minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="540.0">
+                <VBox>
+                    <HBox alignment="CENTER">
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                    </HBox>
+                    <HBox>
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                    </HBox>
+                    <HBox>
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                        <fx:include source="../Models/ProductCart/ProductCart.fxml" />
+                    </HBox>
+                </VBox>
+              </AnchorPane>
+        </ScrollPane>
+    </AnchorPane>
+</Scene>
