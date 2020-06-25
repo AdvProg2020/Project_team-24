@@ -6,7 +6,7 @@ import Exceptions.CategoryDoesNotExistException;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.*;
 import Model.Models.Field.Field;
-import javafx.beans.property.SimpleListProperty;
+import Model.Models.Structs.ProductMedia;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,13 +14,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,10 +33,13 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     private static SellerController sellerController = SellerController.getInstance();
     private Product product;
-    private List<String> str_f_c;
-    private List<String> str_v_c;
-    private List<String> str_f_p;
-    private List<String> str_v_p;
+    private File selectedImage;
+    private File selectedMedia;
+    private FileChooser fc = new FileChooser();
+    private List<String> str_f_c = new ArrayList<>();
+    private List<String> str_v_c = new ArrayList<>();
+    private List<String> str_f_p = new ArrayList<>();
+    private List<String> str_v_p = new ArrayList<>();
     @FXML
     private Button f_submit;
     @FXML
@@ -133,6 +141,20 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
             f_submit.setOnAction(event -> {
 
+                if (selectedImage != null || selectedMedia != null) {
+                    ProductMedia productMedia = new ProductMedia();
+                    if (selectedImage != null) {
+                        setImage();
+                        productMedia.setImage(new Image(selectedImage.toURI().toString()));
+                    }
+                    if (selectedMedia != null) {
+                        setMedia();
+                        productMedia.setPlayer(new MediaPlayer(new Media(selectedMedia.toURI().toString())));
+                    }
+                    ProductMedia.addMedia(productMedia);
+                    product.setMediaId(productMedia.getId());
+                }
+
                 sellerController.saveProductInfo(product, str_f_p, str_v_p);
                 sellerController.saveCategoryInfo(product, str_f_c, str_v_c);
                 sellerController.sendRequest(product, "new Product", "new");
@@ -144,9 +166,13 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     public void select_image() {
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg"));
+        selectedImage = fc.showOpenDialog(null);
     }
 
     public void select_movie() {
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("movie", "*.mp4"));
+        selectedMedia = fc.showOpenDialog(null);
     }
 
     public void product_submit() {
@@ -167,6 +193,34 @@ public class CreateProduct implements SceneBuilder, Initializable {
         str_v_c.add(value);
 
         setTable(product_table, feature_category_column, value_category_column, str_f_c, str_v_c);
+    }
+
+    private void setImage() {
+        try {
+            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + ".jpg";
+            Files.copy(
+                    selectedImage.toPath(),
+                    Paths.get(first),
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+            selectedImage = new File(first);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setMedia() {
+        try {
+            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + ".mp4";
+            Files.copy(
+                    selectedImage.toPath(),
+                    Paths.get(first),
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+            selectedMedia = new File(first);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setTable(TableView<Field> table, TableColumn<Field, String> features, TableColumn<Field, String> values, List<String> featureList, List<String> valueList) {

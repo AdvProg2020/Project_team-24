@@ -27,12 +27,12 @@ public class ProductMedia implements Packable<ProductMedia> {
                 .orElseThrow(() -> new ProductMediaNotFoundException("ProductMedia with id:" + id + " not found."));
     }
 
-    public void addMedia(ProductMedia productMedia) {
+    public static void addMedia(ProductMedia productMedia) {
         list.add(productMedia);
         DataBase.save(productMedia,true);
     }
 
-    public void removeMedia(ProductMedia productMedia) {
+    public static void removeMedia(ProductMedia productMedia) {
         list.removeIf(productMediaPrime -> productMediaPrime.getId() == productMedia.getId());
         DataBase.remove(productMedia);
     }
@@ -78,17 +78,6 @@ public class ProductMedia implements Packable<ProductMedia> {
     }
 
     // Constructor
-    public ProductMedia(String imageAddr, String movieAddr) {
-        image = new Image(new File(imageAddr).toURI().toString());
-        player = new MediaPlayer(
-                new Media(new File(movieAddr).toURI().toString())
-        );
-    }
-
-    public ProductMedia(String imageAddr) {
-        image = new Image(new File(imageAddr).toURI().toString());
-    }
-
-    private ProductMedia() {
+    public ProductMedia() {
     }
 }

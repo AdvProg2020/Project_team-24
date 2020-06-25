@@ -18,10 +18,6 @@ public class ProductOfSeller {
         return sellerId;
     }
 
-    public void setSellerId(long sellerId) {
-        this.sellerId = sellerId;
-    }
-
     public void setNumber(long number) {
         this.number = number;
     }
