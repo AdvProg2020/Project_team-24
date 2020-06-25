@@ -55,11 +55,11 @@
           <TableColumn prefWidth="404.20001220703125" text="کد تخفیف" />
         </columns>
       </TableView>
-      <Button layoutX="231.0" layoutY="443.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="254.0" text="بازگشت به صفحه ی اصلی">
+      <Button layoutX="231.0" layoutY="593.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="254.0" text="بازگشت به صفحه ی اصلی">
                <font>
                   <Font size="18.0" />
                </font></Button>
-      <Button layoutX="231.0" layoutY="585.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="253.0" text="خروج از حساب کاربری">
+      <Button layoutX="232.0" layoutY="436.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="253.0" text="خروج از حساب کاربری">
                <font>
                   <Font size="18.0" />
                </font></Button>
