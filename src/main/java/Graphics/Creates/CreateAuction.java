@@ -3,6 +3,7 @@ package Graphics.Creates;
 import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
 import Exceptions.InvalidInputByUserException;
+import Exceptions.ProductCantBeInMoreThanOneAuction;
 import Exceptions.ProductDoesNotExistException;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Accounts.Seller;
@@ -22,6 +23,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CreateAuction implements SceneBuilder, Initializable {
@@ -57,17 +59,15 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<CheckMenuItem> checkMenuItems = seller.getProductList().stream().map(aLong -> {
-            try {
-                return Product.getProductById(aLong);
-            } catch (ProductDoesNotExistException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }).filter(Objects::nonNull).map(product -> product.getName() + " " + product.getId())
-                .map(s -> new )
-                .collect(Collectors.toList());
-        selected_products.
+        try {
+            List<CheckMenuItem> checkMenuItems = sellerController.showProducts().stream()
+                    .map(product -> product.getName() + " " + product.getId())
+                    .map(CheckMenuItem::new).collect(Collectors.toList());
+
+            selected_products.getItems().addAll(checkMenuItems);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
     public void submit() {
@@ -85,12 +85,20 @@ public class CreateAuction implements SceneBuilder, Initializable {
             return;
         }
 
-        List<String> ids =
+        List<String> ids = selected_products.getItems().stream()
+                .filter(menuItem -> ((CheckMenuItem) menuItem).isSelected())
+                .map(menuItem -> {
+
+                    String[] units = menuItem.getText().split(" ");
+                    return units[units.length - 1];
+
+                }).collect(Collectors.toList());
 
         try {
-            Auction auction = sellerController.addOff(name,start,end,percent,limit);
+            Auction auction = sellerController.addOff(name, start, end, percent, limit);
+            sellerController.addProductsToAuction(auction, ids);
             sellerController.sendRequest(auction, "new Auction", "new");
-        } catch (InvalidInputByUserException e) {
+        } catch (InvalidInputByUserException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException e) {
             e.printStackTrace();
         }
     }
