@@ -3,11 +3,8 @@ package Graphics.Creates;
 import Controller.Controllers.ManagerController;
 import Controller.Controllers.SellerController;
 import Exceptions.CategoryDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
+import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
-import Model.Models.Category;
-import Model.Models.Field.Field;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -15,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -64,7 +60,7 @@ public class CreateCategory implements SceneBuilder, Initializable {
         selected_subCategory.getItems().addAll(checkMenuItems);
     }
 
-    public void submit() throws CategoryDoesNotExistException {
+    public void submit() {
         String category_name = Category_name.getText();
 
         if(category_name.isEmpty()) {
@@ -81,8 +77,17 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
                 }).collect(Collectors.toList());
 
-        managerController.createEmptyCategory(category_name, str_feature, ids);
+        try {
+            managerController.createEmptyCategory(category_name, str_feature, ids);
+        } catch (CategoryDoesNotExistException e) {
+            e.printStackTrace();
+        }
 
+        goMainMenu();
+    }
+
+    private void goMainMenu() {
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
     public void addField() {
