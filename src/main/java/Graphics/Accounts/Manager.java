@@ -4,7 +4,14 @@ import Controller.ControllerUnit;
 import Controller.Controllers.BuyerController;
 import Controller.Controllers.ManagerController;
 import Exceptions.FieldDoesNotExistException;
+import Graphics.Creates.CreateCategory;
+import Graphics.Creates.CreateDiscountCode;
+import Graphics.Lists.AccountsList;
+import Graphics.Lists.CategoryList;
+import Graphics.Lists.DiscountCodeList;
+import Graphics.Lists.RequestList;
 import Graphics.MainMenu;
+import Graphics.SignUp;
 import Graphics.Tools.SceneBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +21,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +34,10 @@ import java.util.ResourceBundle;
 public class Manager implements SceneBuilder, Initializable {
 
     private static ManagerController managerController = ManagerController.getInstance();
+    public ImageView product_image;
     private Model.Models.Accounts.Manager manager = (Model.Models.Accounts.Manager) ControllerUnit.getInstance().getAccount();
     private File selectedImage;
+    private FileChooser fc = new FileChooser();
 
     @FXML
     private TextField Email;
@@ -86,33 +99,37 @@ public class Manager implements SceneBuilder, Initializable {
     }
 
     public void ChoosePhoto() {
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
+        selectedImage = fc.showOpenDialog(null);
+        Image value = new Image(selectedImage.toURI().toString());
+        product_image.setImage(value);
     }
 
     public void AddCategory(ActionEvent event) {
-    }
-
-    public void EditCategory(ActionEvent event) {
+        MainMenu.change(new CreateCategory().sceneBuilder());
     }
 
     public void CategoryList(ActionEvent event) {
+        MainMenu.change(new CategoryList().sceneBuilder());
     }
 
-    public void DeleteAccount(ActionEvent event) {
-    }
 
     public void UserList(ActionEvent event) {
+        MainMenu.change(new AccountsList().sceneBuilder());
     }
 
     public void CreateManager(ActionEvent event) {
+        MainMenu.change(new SignUp().sceneBuilder());
+        //edameeeeee.....
     }
 
     public void CreateDiscountCode(ActionEvent event) {
+        MainMenu.change(new CreateDiscountCode().sceneBuilder());
     }
-
-    public void EditDiscountCode(ActionEvent event) {
-    }
+    
 
     public void DiscountCodeList(ActionEvent event) {
+        MainMenu.change(new DiscountCodeList().sceneBuilder());
 
     }
 
@@ -120,6 +137,7 @@ public class Manager implements SceneBuilder, Initializable {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
-    public void requestList(ActionEvent event) {
+    public void requestList() {
+        MainMenu.change(new RequestList().sceneBuilder());
     }
 }
