@@ -2,6 +2,7 @@ package Model;
 
 import Model.DataBase.DataBase;
 import Model.Models.*;
+import Model.Models.Structs.Medias;
 
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ public class ModelUnit {
         LogHistory.setList(DataBase.loadList(LogHistory.class).stream().map(packable -> (LogHistory) packable).collect(Collectors.toList()));
         Request.setList(DataBase.loadList(Request.class).stream().map(packable -> (Request) packable).collect(Collectors.toList()));
         Score.setList(DataBase.loadList(Score.class).stream().map(packable -> (Score) packable).collect(Collectors.toList()));
+        Medias.setList(DataBase.loadList(Score.class).stream().map(packable -> (Medias) packable).collect(Collectors.toList()));
     }
 
     private ModelUnit() {

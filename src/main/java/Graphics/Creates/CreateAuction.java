@@ -5,6 +5,7 @@ import Controller.Controllers.SellerController;
 import Exceptions.InvalidInputByUserException;
 import Exceptions.ProductCantBeInMoreThanOneAuction;
 import Exceptions.ProductDoesNotExistException;
+import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Accounts.Seller;
 import Model.Models.Auction;
@@ -100,9 +101,14 @@ public class CreateAuction implements SceneBuilder, Initializable {
             Auction auction = sellerController.addOff(name, start, end, percent, limit);
             sellerController.addProductsToAuction(auction, ids);
             sellerController.sendRequest(auction, "new Auction", "new");
+            goMainMenu();
         } catch (InvalidInputByUserException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException e) {
             e.printStackTrace();
         }
+    }
+
+    private void goMainMenu() {
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
     private void reset() {

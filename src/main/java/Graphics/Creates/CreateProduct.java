@@ -3,6 +3,7 @@ package Graphics.Creates;
 import Controller.Controllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
+import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.*;
 import Model.Models.Field.Field;
@@ -112,11 +113,15 @@ public class CreateProduct implements SceneBuilder, Initializable {
                         .map(categoryPrime -> categoryPrime.getName() + " " + categoryPrime.getId())
                         .collect(Collectors.toList()))
         );
+        category.getItems().add("Nothing");
+        category.setValue("Nothing");
         auction.setItems(
                 FXCollections.observableArrayList(Auction.getList().stream()
                         .map(auctionPrime -> auctionPrime.getName() + " " + auctionPrime.getId())
                         .collect(Collectors.toList()))
         );
+        auction.getItems().add("Nothing");
+        auction.setValue("Nothing");
     }
 
     public void final_submit() {
@@ -132,9 +137,9 @@ public class CreateProduct implements SceneBuilder, Initializable {
             return;
         }
 
-        String productAction = auction.getValue().isEmpty() ? "0" : auction.getValue()
+        String productAction = auction.getValue().equals("Nothing") ? "0" : auction.getValue()
                 .split(" ")[auction.getValue().split(" ").length - 1];
-        String productCategory = category.getValue().isEmpty() ? "0" : category.getValue()
+        String productCategory = category.getValue().equals("Nothing") ? "0" : category.getValue()
                 .split(" ")[category.getValue().split(" ").length - 1];
 
         try {
@@ -160,8 +165,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
                 sellerController.saveProductInfo(product, str_f_p, str_v_p);
                 sellerController.saveCategoryInfo(product, str_f_c, str_v_c);
                 sellerController.sendRequest(product, "new Product", "new");
-
-
+                goMainMenu();
             });
 
         } catch (AuctionDoesNotExistException | CategoryDoesNotExistException e) {
@@ -179,8 +183,10 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     public void select_image() {
-        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg"));
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
         selectedImage = fc.showOpenDialog(null);
+        Image value = new Image(selectedImage.toURI().toString());
+        product_image.setImage(value);
     }
 
     public void select_movie() {
@@ -191,7 +197,8 @@ public class CreateProduct implements SceneBuilder, Initializable {
     public void product_submit() {
         String feature = product_feature.getText();
         String value = product_value.getText();
-
+        product_feature.setText("");
+        product_value.setText("");
         str_f_p.add(feature);
         str_v_p.add(value);
 
@@ -201,16 +208,18 @@ public class CreateProduct implements SceneBuilder, Initializable {
     public void category_submit() {
         String feature = category_feature.getText();
         String value = category_value.getText();
-
+        category_feature.setText("");
+        category_value.setText("");
         str_f_c.add(feature);
         str_v_c.add(value);
 
-        setTable(product_table, feature_category_column, value_category_column, str_f_c, str_v_c);
+        setTable(category_table, feature_category_column, value_category_column, str_f_c, str_v_c);
     }
 
     private void setImage() {
         try {
-            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + ".jpg";
+            String[] str = selectedImage.getName().split(".");
+            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + str[str.length - 1];
             Files.copy(
                     selectedImage.toPath(),
                     Paths.get(first),
@@ -246,6 +255,10 @@ public class CreateProduct implements SceneBuilder, Initializable {
         values.setCellValueFactory(new PropertyValueFactory<>("string"));
     }
 
+    private void goMainMenu() {
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
+    }
+
     private void mustBeFilled() {
         Tooltip mustFilled = new Tooltip();
         mustFilled.setText("این فیلد را باید پر کنید");
@@ -262,7 +275,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private void afterFirstSubmit() {
         s_image.setDisable(false);
         s_movie.setDisable(false);
-        product_image.setVisible(false);
+        product_image.setDisable(false);
         product_image.setOpacity(1);
         s_category.setDisable(false);
         s_product.setDisable(false);
