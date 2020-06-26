@@ -4,7 +4,6 @@ import Controller.ControllerUnit;
 import Controller.Controllers.BuyerController;
 import Exceptions.*;
 import Graphics.Tools.SceneBuilder;
-import Model.Models.Field.Fields.SingleString;
 import Model.Models.FieldList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,10 +39,10 @@ public class Payment implements Initializable, SceneBuilder {
         try {
 
             if (list.isFieldWithThisName("postCode"))
-                postCode.setText(((SingleString) list.getFieldByName("postCode")).getString());
+                postCode.setText((list.getFieldByName("postCode")).getString());
 
             if (list.isFieldWithThisName("address"))
-                address.setText(((SingleString) list.getFieldByName("address")).getString());
+                address.setText((list.getFieldByName("address")).getString());
 
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
