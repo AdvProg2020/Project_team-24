@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="340.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-
+<Pane prefHeight="340.0" prefWidth="618.0">
       <children>
          <TableView layoutX="34.0" layoutY="48.0" prefHeight="201.0" prefWidth="550.0">
            <columns>
@@ -31,4 +31,5 @@
       <Label alignment="CENTER_RIGHT" layoutX="34.0" layoutY="255.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
       <Label alignment="CENTER_RIGHT" layoutX="34.0" layoutY="312.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
       </children>
+</Pane>
 </AnchorPane>
