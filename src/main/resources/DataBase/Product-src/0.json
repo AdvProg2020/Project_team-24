@@ -1,0 +1,1 @@
+{"@type":"Model.Models.Data.Data","@val":{"instance":{"@type":"Model.Models.Product","@val":{"productId":0,"numberOfVisitors":0,"averageScore":0.0,"mediaId":0,"scoreList":[],"buyerList":[],"commentList":[]}},"fields":[0,"QQWE",null,null,0,0.0,1,0,null,[],[],[],[{"@type":"Model.Models.Structs.ProductOfSeller","@val":{"sellerId":2,"number":1,"price":1213223.0}}],1]}}
