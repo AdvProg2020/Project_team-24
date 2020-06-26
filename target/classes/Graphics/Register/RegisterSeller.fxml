@@ -4,24 +4,55 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
     <AnchorPane prefHeight="745.0" prefWidth="2000">
 
-    <Label alignment="CENTER" layoutX="201.0" layoutY="114.0" prefHeight="19.0" prefWidth="250.0" text="صفحه اطلاعات فروشنده" />
-    <TextField fx:id="companyName" alignment="CENTER" layoutX="251.0" layoutY="224.0" promptText="نام شرکت" />
-    <TextField fx:id="ComEmail" alignment="CENTER" layoutX="252.0" layoutY="259.0" promptText="ایمیل" />
-    <TextField fx:id="ComPhone" alignment="CENTER" layoutX="252.0" layoutY="293.0" promptText="شماره تماس" />
-    <TextField fx:id="firstName" alignment="CENTER" layoutX="252.0" layoutY="186.0" promptText="نام" />
-    <TextField fx:id="lastName" alignment="CENTER" layoutX="408.0" layoutY="224.0" promptText="نام خانوادگی" />
-    <TextField fx:id="Email" alignment="CENTER" layoutX="98.0" layoutY="293.0" promptText="ایمیل" />
-    <TextField fx:id="Phone" alignment="CENTER" layoutX="251.0" layoutY="328.0" promptText="شماره تماس" />
+    <Label alignment="CENTER" layoutX="616.0" layoutY="73.0" prefHeight="19.0" prefWidth="250.0" text="((  صفحه اطلاعات فروشنده  ))">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+    <TextField fx:id="companyName" alignment="CENTER" layoutX="629.0" layoutY="406.0" promptText="نام شرکت">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+    <TextField fx:id="ComEmail" alignment="CENTER" layoutX="629.0" layoutY="547.0" promptText=" ایمیل شرکت">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+    <TextField fx:id="ComPhone" alignment="CENTER" layoutX="629.0" layoutY="474.0" promptText="شماره تماس شرکت">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+    <TextField fx:id="firstName" alignment="CENTER" layoutX="629.0" layoutY="129.0" promptText="نام">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+    <TextField fx:id="lastName" alignment="CENTER" layoutX="629.0" layoutY="196.0" promptText="نام خانوادگی">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+    <TextField fx:id="Email" alignment="CENTER" layoutX="629.0" layoutY="341.0" promptText="ایمیل شخصی">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+    <TextField fx:id="Phone" alignment="CENTER" layoutX="629.0" layoutY="268.0" promptText="شماره تماس شخصی">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="192.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="341.0" pickOnBounds="true" preserveRatio="true" />
-    <Button layoutX="276.0" layoutY="420.0" mnemonicParsing="false" onAction="#submitSeller" prefHeight="43.0" prefWidth="99.0" text="ثبت اطلاعات" />
-    <Button layoutX="31.0" layoutY="486.0" mnemonicParsing="false" onAction="#back" text="بازگشت به صفحه ی قبلی" />
+    <Button layoutX="662.0" layoutY="650.0" mnemonicParsing="false" onAction="#submitSeller" prefHeight="45.0" prefWidth="157.0" text="ثبت اطلاعات">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+    <Button layoutX="79.0" layoutY="653.0" mnemonicParsing="false" onAction="#back" prefHeight="47.0" prefWidth="213.0" text="بازگشت به صفحه ی قبلی">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
 </AnchorPane>
 
 </Scene>
