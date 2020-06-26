@@ -5,7 +5,7 @@ import Exceptions.ProductMediaNotFoundException;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
-import Model.Models.Structs.ProductMedia;
+import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductOfSeller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
 import java.io.File;
@@ -110,7 +109,7 @@ public class Product implements Initializable, SceneBuilder {
 
     private void setImage() throws ProductMediaNotFoundException {
         product_image.setImage(
-                ProductMedia.getProductMediaById(productObject.getMediaId()).getImage()
+                Medias.getMediasById(productObject.getMediaId()).getImage()
         );
     }
 
@@ -124,7 +123,7 @@ public class Product implements Initializable, SceneBuilder {
 
     private void setMedia() throws ProductMediaNotFoundException {
         product_media.setMediaPlayer(
-                ProductMedia.getProductMediaById(productObject.getMediaId()).getPlayer()
+                Medias.getMediasById(productObject.getMediaId()).getPlayer()
         );
     }
 

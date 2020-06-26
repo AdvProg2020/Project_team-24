@@ -5,36 +5,34 @@ import Model.DataBase.DataBase;
 import Model.Models.Data.Data;
 import Model.Tools.Packable;
 import javafx.scene.image.Image;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.List;
 
-public class ProductMedia implements Packable<ProductMedia> {
+public class Medias implements Packable<Medias> {
 
-    private static List<ProductMedia> list;
+    private static List<Medias> list;
 
     private long id;
     private Image image;
     private MediaPlayer player;
 
-    public static ProductMedia getProductMediaById(long id) throws ProductMediaNotFoundException {
+    public static Medias getMediasById(long id) throws ProductMediaNotFoundException {
         return list.stream()
                 .filter(productMedia -> id == productMedia.getId())
                 .findFirst()
-                .orElseThrow(() -> new ProductMediaNotFoundException("ProductMedia with id:" + id + " not found."));
+                .orElseThrow(() -> new ProductMediaNotFoundException("Medias with id:" + id + " not found."));
     }
 
-    public static void addMedia(ProductMedia productMedia) {
-        list.add(productMedia);
-        DataBase.save(productMedia,true);
+    public static void addMedia(Medias medias) {
+        list.add(medias);
+        DataBase.save(medias,true);
     }
 
-    public static void removeMedia(ProductMedia productMedia) {
-        list.removeIf(productMediaPrime -> productMediaPrime.getId() == productMedia.getId());
-        DataBase.remove(productMedia);
+    public static void removeMedia(Medias medias) {
+        list.removeIf(productMediaPrime -> productMediaPrime.getId() == medias.getId());
+        DataBase.remove(medias);
     }
 
     // Setter and Getter
@@ -56,16 +54,16 @@ public class ProductMedia implements Packable<ProductMedia> {
 
     // Override
     @Override
-    public Data<ProductMedia> pack() {
-        return new Data<ProductMedia>()
+    public Data<Medias> pack() {
+        return new Data<Medias>()
                 .addField(id)
                 .addField(image)
                 .addField(player)
-                .setInstance(new ProductMedia());
+                .setInstance(new Medias());
     }
 
     @Override
-    public ProductMedia dpkg(@NotNull Data<ProductMedia> data) {
+    public Medias dpkg(@NotNull Data<Medias> data) {
         this.id = (long) data.getFields().get(0);
         this.image = (Image) data.getFields().get(1);
         this.player = (MediaPlayer) data.getFields().get(2);
@@ -78,6 +76,6 @@ public class ProductMedia implements Packable<ProductMedia> {
     }
 
     // Constructor
-    public ProductMedia() {
+    public Medias() {
     }
 }

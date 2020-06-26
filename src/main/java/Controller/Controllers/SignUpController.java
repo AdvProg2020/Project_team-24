@@ -7,7 +7,7 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Cart;
-import Model.Models.Field.Fields.SingleString;
+import Model.Models.Field.Field;
 import Model.Models.FieldList;
 import Model.Models.Info;
 import Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
@@ -97,10 +97,10 @@ public class SignUpController {
         }
 
         FieldList personalInfo = new FieldList(new ArrayList<>(Arrays.asList(
-                new SingleString("FirstName", firstName),
-                new SingleString("LastName", lastName),
-                new SingleString("Email", email),
-                new SingleString("PhoneNumber", phoneNumber))
+                new Field("FirstName", firstName),
+                new Field("LastName", lastName),
+                new Field("Email", email),
+                new Field("PhoneNumber", phoneNumber))
         ));
 
         Info info = new Info(account.getClass().getSimpleName(), personalInfo, LocalDate.now());
@@ -135,9 +135,9 @@ public class SignUpController {
         }
 
         FieldList companyInfo = new FieldList(new ArrayList<>(Arrays.asList(
-                new SingleString("CompanyName", brand),
-                new SingleString("CompanyPhoneNumber", phoneNumber),
-                new SingleString("CompanyEmail", email))
+                new Field("CompanyName", brand),
+                new Field("CompanyPhoneNumber", phoneNumber),
+                new Field("CompanyEmail", email))
         ));
 
         Info info = new Info(account.getClass().getSimpleName(), companyInfo, LocalDate.now());

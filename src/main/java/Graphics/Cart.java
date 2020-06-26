@@ -8,9 +8,8 @@ import Exceptions.ProductMediaNotFoundException;
 import Exceptions.SellerDoesNotSellOfThisProduct;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Seller;
 import Model.Models.Product;
-import Model.Models.Structs.ProductMedia;
+import Model.Models.Structs.Medias;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -159,7 +158,7 @@ public class Cart implements Initializable, SceneBuilder {
                     try {
                         return new SimpleObjectProperty<>(
                                 new ImageView(
-                                        ProductMedia.getProductMediaById(param.getValue().getMediaId()).getImage())
+                                        Medias.getMediasById(param.getValue().getMediaId()).getImage())
                         );
                     } catch (ProductMediaNotFoundException e) {
                         e.printStackTrace();

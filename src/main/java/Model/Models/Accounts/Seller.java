@@ -116,7 +116,10 @@ public class Seller extends Account {
                 setBalance(Double.parseDouble(value));
                 break;
             default:
-                Field field = personalInfo.getList().getFieldByName(fieldName);
+                Field field;
+                if (personalInfo.getList().isFieldWithThisName(fieldName)) {
+                    field = personalInfo.getList().getFieldByName(fieldName);
+                } else field = companyInfo.getList().getFieldByName(fieldName);
                 field.setString(value);
         }
 

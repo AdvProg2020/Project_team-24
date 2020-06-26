@@ -46,7 +46,7 @@ public abstract class Account implements Packable<Account> {
 
     protected static List<Account> list;
 
-    protected Image accountImage;
+    protected long mediaId;
     protected long id;
     protected String userName;
     protected String password;
@@ -70,8 +70,8 @@ public abstract class Account implements Packable<Account> {
         return personalInfo;
     }
 
-    public Image getAccountImage() {
-        return accountImage;
+    public long getMediaId() {
+        return mediaId;
     }
 
     @NotNull
@@ -82,8 +82,8 @@ public abstract class Account implements Packable<Account> {
 
     /****************************************************setters********************************************************/
 
-    public void setAccountImage(Image accountImage) {
-        this.accountImage = accountImage;
+    public void setMediaId(long mediaId) {
+        this.mediaId = mediaId;
         DataBase.save(this);
     }
 
@@ -112,7 +112,7 @@ public abstract class Account implements Packable<Account> {
                 .addField(userName)
                 .addField(password)
                 .addField(personalInfo)
-                .addField(accountImage);
+                .addField(mediaId);
     }
 
     @Override
@@ -121,7 +121,7 @@ public abstract class Account implements Packable<Account> {
         this.userName = (String) data.getFields().get(1);
         this.password = (String) data.getFields().get(2);
         this.personalInfo = (Info) data.getFields().get(3);
-        this.accountImage = (Image) data.getFields().get(4);
+        this.mediaId = (long) data.getFields().get(4);
         return this;
     }
 

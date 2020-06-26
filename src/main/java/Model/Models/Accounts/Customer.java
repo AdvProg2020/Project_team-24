@@ -137,7 +137,7 @@ public class Customer extends Account {
                 setCredit(Double.parseDouble(value));
                 break;
             default:
-                Field field = (Model.Models.Field.Field) personalInfo.getList().getFieldByName(fieldName);
+                Field field = personalInfo.getList().getFieldByName(fieldName);
                 field.setString(value);
         }
 

@@ -6,7 +6,7 @@ import Exceptions.ProductMediaNotFoundException;
 import Graphics.MainMenu;
 import Model.Models.Auction;
 import Model.Models.Product;
-import Model.Models.Structs.ProductMedia;
+import Model.Models.Structs.Medias;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -87,7 +87,7 @@ public class ProductCart implements Initializable {
     private void setProductCartFields() {
         if (product == null) return;
         try {
-            Image image = ProductMedia.getProductMediaById(product.getId()).getImage();
+            Image image = Medias.getMediasById(product.getId()).getImage();
             this.productImage.setImage(image);
         } catch (ProductMediaNotFoundException e) {
             e.printStackTrace();

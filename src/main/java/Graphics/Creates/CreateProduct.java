@@ -6,7 +6,7 @@ import Exceptions.CategoryDoesNotExistException;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.*;
 import Model.Models.Field.Field;
-import Model.Models.Structs.ProductMedia;
+import Model.Models.Structs.Medias;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -142,17 +142,17 @@ public class CreateProduct implements SceneBuilder, Initializable {
             f_submit.setOnAction(event -> {
 
                 if (selectedImage != null || selectedMedia != null) {
-                    ProductMedia productMedia = new ProductMedia();
+                    Medias medias = new Medias();
                     if (selectedImage != null) {
                         setImage();
-                        productMedia.setImage(new Image(selectedImage.toURI().toString()));
+                        medias.setImage(new Image(selectedImage.toURI().toString()));
                     }
                     if (selectedMedia != null) {
                         setMedia();
-                        productMedia.setPlayer(new MediaPlayer(new Media(selectedMedia.toURI().toString())));
+                        medias.setPlayer(new MediaPlayer(new Media(selectedMedia.toURI().toString())));
                     }
-                    ProductMedia.addMedia(productMedia);
-                    product.setMediaId(productMedia.getId());
+                    Medias.addMedia(medias);
+                    product.setMediaId(medias.getId());
                 }
 
                 sellerController.saveProductInfo(product, str_f_p, str_v_p);
