@@ -141,12 +141,12 @@
                         <Font size="18.0" />
                     </font>
                 </TextField>
-            <Button layoutX="122.0" layoutY="58.0" mnemonicParsing="false" onAction="#submit" prefHeight="41.0" prefWidth="213.0" text="افزودن دسته">
+            <Button layoutX="122.0" layoutY="58.0" mnemonicParsing="false" onAction="#newCategory" prefHeight="41.0" prefWidth="213.0" text="افزودن دسته">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="122.0" layoutY="131.0" mnemonicParsing="false" onAction="#submit" prefHeight="41.0" prefWidth="213.0" text="افزودن محصول جدید">
+            <Button layoutX="122.0" layoutY="131.0" mnemonicParsing="false" onAction="#newProduct" prefHeight="41.0" prefWidth="213.0" text="افزودن محصول جدید">
                <font>
                   <Font size="18.0" />
                </font>

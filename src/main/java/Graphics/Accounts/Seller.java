@@ -5,6 +5,8 @@ import Controller.Controllers.SellerController;
 import Exceptions.FieldDoesNotExistException;
 import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
+import Graphics.Creates.CreateCategory;
+import Graphics.Creates.CreateProduct;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Account;
@@ -12,6 +14,7 @@ import Model.Models.LogHistory;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductLog;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -169,5 +172,13 @@ public class Seller implements SceneBuilder, Initializable {
 
     public void back() {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
+    }
+
+    public void newCategory() {
+        MainMenu.change(new CreateCategory().sceneBuilder());
+    }
+
+    public void newProduct() {
+        MainMenu.change(new CreateProduct().sceneBuilder());
     }
 }

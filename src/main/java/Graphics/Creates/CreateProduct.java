@@ -160,6 +160,8 @@ public class CreateProduct implements SceneBuilder, Initializable {
                 sellerController.saveProductInfo(product, str_f_p, str_v_p);
                 sellerController.saveCategoryInfo(product, str_f_c, str_v_c);
                 sellerController.sendRequest(product, "new Product", "new");
+
+
             });
 
         } catch (AuctionDoesNotExistException | CategoryDoesNotExistException e) {
