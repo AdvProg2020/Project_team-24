@@ -4,6 +4,7 @@ import Controller.ControllerUnit;
 import Controller.Controllers.BuyerController;
 import Controller.Controllers.ManagerController;
 import Exceptions.FieldDoesNotExistException;
+import Exceptions.ProductMediaNotFoundException;
 import Graphics.Creates.CreateCategory;
 import Graphics.Creates.CreateDiscountCode;
 import Graphics.Lists.AccountsList;
@@ -13,6 +14,7 @@ import Graphics.Lists.RequestList;
 import Graphics.MainMenu;
 import Graphics.SignUp;
 import Graphics.Tools.SceneBuilder;
+import Model.Models.Structs.Medias;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -95,6 +97,13 @@ public class Manager implements SceneBuilder, Initializable {
             Email.setText(manager.getPersonalInfo().getList().getFieldByName("Email").getString());
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
+        }
+        if (manager.getMediaId() != 0) {
+            try {
+                product_image.setImage(Medias.getMediasById(manager.getMediaId()).getImage());
+            } catch (ProductMediaNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
