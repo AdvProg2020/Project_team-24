@@ -36,11 +36,13 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private Product product;
     private File selectedImage;
     private File selectedMedia;
+    private int category_f_index;
     private FileChooser fc = new FileChooser();
     private List<String> str_f_c = new ArrayList<>();
     private List<String> str_v_c = new ArrayList<>();
     private List<String> str_f_p = new ArrayList<>();
     private List<String> str_v_p = new ArrayList<>();
+    private List<String> str_fcc = new ArrayList<>();
     @FXML
     private Button f_submit;
     @FXML
@@ -115,6 +117,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
         );
         category.getItems().add("Nothing");
         category.setValue("Nothing");
+
         auction.setItems(
                 FXCollections.observableArrayList(Auction.getList().stream()
                         .map(auctionPrime -> auctionPrime.getName() + " " + auctionPrime.getId())
@@ -143,8 +146,30 @@ public class CreateProduct implements SceneBuilder, Initializable {
                 .split(" ")[category.getValue().split(" ").length - 1];
 
         try {
+
             product = sellerController.createTheBaseOfProduct(productName, productCategory, productAction, productNumber, productPrice);
             afterFirstSubmit();
+
+            Category category = product.getCategory();
+
+            if (category != null) {
+
+                category_table.setDisable(false);
+                category_feature.setDisable(false);
+                category_value.setDisable(false);
+                s_category.setDisable(false);
+
+                str_fcc.addAll(
+                        category.getCategoryFields()
+                                .getFieldList()
+                                .stream()
+                                .map(Field::getFieldName)
+                                .collect(Collectors.toList())
+                );
+
+                category_feature.setText(str_fcc.get(0));
+                str_f_c.add(str_fcc.get(0));
+            }
 
             f_submit.setOnAction(event -> {
 
@@ -206,19 +231,29 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     public void category_submit() {
-        String feature = category_feature.getText();
         String value = category_value.getText();
-        category_feature.setText("");
         category_value.setText("");
-        str_f_c.add(feature);
         str_v_c.add(value);
 
         setTable(category_table, feature_category_column, value_category_column, str_f_c, str_v_c);
+
+        if (category_f_index >= str_fcc.size() - 1) {
+
+            category_table.setDisable(true);
+            category_feature.setDisable(true);
+            category_value.setDisable(true);
+            s_category.setDisable(true);
+            return;
+        }
+
+        int index = ++category_f_index;
+        category_feature.setText(str_fcc.get(index));
+        str_f_c.add(str_fcc.get(index));
     }
 
     private void setImage() {
         try {
-            String[] str = selectedImage.getName().split(".");
+            String[] str = selectedImage.getName().split("\\.");
             String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + str[str.length - 1];
             Files.copy(
                     selectedImage.toPath(),
@@ -277,18 +312,14 @@ public class CreateProduct implements SceneBuilder, Initializable {
         s_movie.setDisable(false);
         product_image.setDisable(false);
         product_image.setOpacity(1);
-        s_category.setDisable(false);
         s_product.setDisable(false);
         text_product.setDisable(false);
         text_category.setDisable(false);
         Icon_product.setDisable(false);
         Icon_product.setOpacity(1);
         product_feature.setDisable(false);
-        category_feature.setDisable(false);
         product_value.setDisable(false);
-        category_value.setDisable(false);
         product_table.setDisable(false);
-        category_table.setDisable(false);
         product_name.setDisable(true);
         product_number.setDisable(true);
         product_price.setDisable(true);
