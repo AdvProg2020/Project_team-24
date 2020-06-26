@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Sort">
 <AnchorPane prefHeight="614.0" prefWidth="460.0">
       <children>
          <ImageView fitHeight="694.0" fitWidth="452.0" layoutX="3.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
@@ -16,17 +16,17 @@
          </ImageView>
          <ChoiceBox layoutX="127.0" layoutY="404.0" prefHeight="34.0" prefWidth="190.0" />
          <ChoiceBox layoutX="127.0" layoutY="507.0" prefHeight="35.0" prefWidth="189.0" />
-         <CheckBox alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="163.0" layoutY="119.0" mnemonicParsing="false" text="تعداد بازدید" textAlignment="RIGHT" textFill="#6073df">
+         <CheckBox alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="163.0" layoutY="119.0" mnemonicParsing="false" onAction="#NumberOfViews" text="تعداد بازدید" textAlignment="RIGHT" textFill="#6073df">
             <font>
                <Font size="18.0" />
             </font>
          </CheckBox>
-         <CheckBox layoutX="193.0" layoutY="173.0" mnemonicParsing="false" text="امتیاز" textFill="#f8c81b">
+         <CheckBox fx:id="Point" layoutX="193.0" layoutY="173.0" mnemonicParsing="false" onAction="#Point" text="امتیاز" textFill="#f8c81b">
             <font>
                <Font size="18.0" />
             </font>
          </CheckBox>
-         <CheckBox layoutX="158.0" layoutY="225.0" mnemonicParsing="false" text="زمان بارگذاری" textFill="#dd0d0d">
+         <CheckBox fx:id="TimeOfUpload" layoutX="158.0" layoutY="225.0" mnemonicParsing="false" onAction="#TimeOfUpload" text="زمان بارگذاری" textFill="#dd0d0d">
             <font>
                <Font size="18.0" />
             </font>
