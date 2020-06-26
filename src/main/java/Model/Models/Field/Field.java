@@ -4,6 +4,16 @@ public class Field implements Cloneable{
 
     protected String fieldName;
 
+    private String string;
+
+    public String getString() {
+        return string;
+    }
+
+    public void setString(String string) {
+        this.string = string;
+    }
+
     public String getFieldName() {
         return fieldName;
     }
@@ -12,8 +22,9 @@ public class Field implements Cloneable{
         this.fieldName = fieldName;
     }
 
-    public Field(String fieldName) {
+    public Field(String fieldName, String string) {
         this.fieldName = fieldName;
+        this.string = string;
     }
 
     @Override
@@ -23,8 +34,9 @@ public class Field implements Cloneable{
 
     @Override
     public String toString() {
-        return "Field{" +
-                "fieldName='" + fieldName + '\'' +
+        return "SingleString{" +
+                "string='" + string + '\'' +
+                ", fieldName='" + fieldName + '\'' +
                 '}';
     }
 }

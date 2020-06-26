@@ -2,7 +2,7 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Field.Fields.SingleString;
+import Model.Models.Field.Field;
 import Model.Tools.AddingNew;
 import Model.Models.Data.Data;
 import Model.Tools.Packable;
@@ -119,7 +119,7 @@ public class Category implements Packable<Category> , Cloneable {
         if (fieldName.equals("name")) {
             setName(value);
         } else {
-            SingleString field = (SingleString) categoryFields.getFieldByName(fieldName);
+            Field field = categoryFields.getFieldByName(fieldName);
             field.setString(value);
         }
     }

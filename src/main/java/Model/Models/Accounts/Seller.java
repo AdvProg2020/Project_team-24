@@ -3,8 +3,8 @@ package Model.Models.Accounts;
 import Exceptions.*;
 import Model.DataBase.DataBase;
 import Model.Models.*;
-import Model.Models.Field.Fields.SingleString;
 import Model.Models.Data.Data;
+import Model.Models.Field.Field;
 import Model.Tools.ForPend;
 import org.jetbrains.annotations.NotNull;
 
@@ -116,7 +116,7 @@ public class Seller extends Account {
                 setBalance(Double.parseDouble(value));
                 break;
             default:
-                SingleString field = (SingleString) personalInfo.getList().getFieldByName(fieldName);
+                Field field = personalInfo.getList().getFieldByName(fieldName);
                 field.setString(value);
         }
 

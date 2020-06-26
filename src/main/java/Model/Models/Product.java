@@ -2,7 +2,7 @@ package Model.Models;
 
 import Exceptions.*;
 import Model.DataBase.DataBase;
-import Model.Models.Field.Fields.SingleString;
+import Model.Models.Field.Field;
 import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
 import Model.Models.Data.Data;
@@ -108,11 +108,11 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
             case "AuctionName":
                 return auction.getName();
             default:
-                SingleString field;
+                Field field;
                 if (product_Info.getList().isFieldWithThisName(fieldName)) {
-                    field = (SingleString) product_Info.getList().getFieldByName(fieldName);
+                    field = product_Info.getList().getFieldByName(fieldName);
                 } else
-                    field = (SingleString) categoryInfo.getList().getFieldByName(fieldName);
+                    field = categoryInfo.getList().getFieldByName(fieldName);
 
                 return field.getString();
         }
@@ -248,11 +248,11 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
                 setStateForPend(value);
                 break;
             default:
-                SingleString field;
+                Field field;
                 if (product_Info.getList().isFieldWithThisName(fieldName)) {
-                    field = (SingleString) product_Info.getList().getFieldByName(fieldName);
+                    field = product_Info.getList().getFieldByName(fieldName);
                 } else
-                    field = (SingleString) categoryInfo.getList().getFieldByName(fieldName);
+                    field = categoryInfo.getList().getFieldByName(fieldName);
 
                 field.setString(value);
         }
@@ -344,7 +344,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     public Object clone() throws CloneNotSupportedException {
         Info proInfo = (Info) product_Info.clone();
         Info catInfo = (Info) categoryInfo.clone();
-        return ((Product)super.clone()).setProduct_Info(proInfo).setCategoryInfo(catInfo);
+        return ((Product) super.clone()).setProduct_Info(proInfo).setCategoryInfo(catInfo);
     }
 
     @Override

@@ -5,7 +5,6 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
-import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.Discount;
 import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.ForPend;
@@ -40,7 +39,7 @@ public class SellerController extends AccountController {
     private FieldList createFieldList(@NotNull List<String> fieldName, List<String> values) {
         List<Field> fields = new ArrayList<>();
         for (int i = 0; i < fieldName.size(); i++) {
-            fields.add(new SingleString(fieldName.get(i), values.get(i)));
+            fields.add(new Field(fieldName.get(i), values.get(i)));
         }
         return new FieldList(fields);
     }
