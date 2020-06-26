@@ -1,28 +1,33 @@
 package Graphics.Creates;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
 import Exceptions.InvalidInputByUserException;
+import Exceptions.ProductDoesNotExistException;
 import Graphics.Tools.SceneBuilder;
+import Model.Models.Accounts.Seller;
 import Model.Models.Auction;
+import Model.Models.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class CreateAuction implements SceneBuilder, Initializable {
 
     private static SellerController sellerController = SellerController.getInstance();
+    private Seller seller = (Seller) ControllerUnit.getInstance().getAccount();
 
     @FXML
     private TextField start_time;
@@ -52,7 +57,17 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // ?
+        List<CheckMenuItem> checkMenuItems = seller.getProductList().stream().map(aLong -> {
+            try {
+                return Product.getProductById(aLong);
+            } catch (ProductDoesNotExistException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).filter(Objects::nonNull).map(product -> product.getName() + " " + product.getId())
+                .map(s -> new )
+                .collect(Collectors.toList());
+        selected_products.
     }
 
     public void submit() {
@@ -70,9 +85,11 @@ public class CreateAuction implements SceneBuilder, Initializable {
             return;
         }
 
+        List<String> ids =
+
         try {
             Auction auction = sellerController.addOff(name,start,end,percent,limit);
-            sellerController.sendRequest(auction, "new Auction");
+            sellerController.sendRequest(auction, "new Auction", "new");
         } catch (InvalidInputByUserException e) {
             e.printStackTrace();
         }
@@ -82,7 +99,6 @@ public class CreateAuction implements SceneBuilder, Initializable {
         submit_btn.setTooltip(null);
         submit_btn.setStyle("-fx-border-color: white;");
     }
-
 
     private void mustBeFilled() {
         Tooltip mustFilled = new Tooltip();
