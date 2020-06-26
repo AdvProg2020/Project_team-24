@@ -3,6 +3,7 @@ package Model.Models.Structs;
 import Exceptions.ProductMediaNotFoundException;
 import Model.DataBase.DataBase;
 import Model.Models.Data.Data;
+import Model.Tools.AddingNew;
 import Model.Tools.Packable;
 import javafx.scene.image.Image;
 import javafx.scene.media.MediaPlayer;
@@ -18,6 +19,14 @@ public class Medias implements Packable<Medias> {
     private Image image;
     private MediaPlayer player;
 
+    public static void setList(List<Medias> list) {
+        Medias.list = list;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public static Medias getMediasById(long id) throws ProductMediaNotFoundException {
         return list.stream()
                 .filter(productMedia -> id == productMedia.getId())
@@ -26,6 +35,7 @@ public class Medias implements Packable<Medias> {
     }
 
     public static void addMedia(Medias medias) {
+        medias.setId(AddingNew.getRegisteringId().apply(list));
         list.add(medias);
         DataBase.save(medias,true);
     }
