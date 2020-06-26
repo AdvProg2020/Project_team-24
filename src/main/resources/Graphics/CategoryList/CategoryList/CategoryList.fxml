@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.CategoryList.CategoryList.CategoryList">
+<AnchorPane prefHeight="436.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.CategoryList">
    <children>
       <TableView layoutX="150.0" layoutY="76.0" prefHeight="294.0" prefWidth="299.0">
         <columns>
@@ -16,6 +16,7 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Button layoutX="232.0" layoutY="385.0" mnemonicParsing="false" onAction="#back" text="بازگشت به صفحه ی قبل" />
    </children>
 
 </AnchorPane>
