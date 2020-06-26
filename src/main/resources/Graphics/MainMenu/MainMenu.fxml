@@ -40,7 +40,7 @@
                   <Font size="16.0" />
                </font>
                 </Button>
-                <Button alignment="CENTER_RIGHT" layoutX="364.0" layoutY="149.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="50.0" prefWidth="208.0" stylesheets="@MainMenu.css" text="ورود به حساب کاربری" textFill="#8a8a8a">
+                <Button fx:id="login_logout_btn" alignment="CENTER_RIGHT" layoutX="364.0" layoutY="149.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="50.0" prefWidth="208.0" stylesheets="@MainMenu.css" text="ورود به حساب کاربری" textFill="#8a8a8a">
                     <styleClass>
                         <String fx:value="button1" />
                         <String fx:value="taskbarButtons" />
@@ -83,7 +83,7 @@
                     <Image url="@../Product/icons8-search-50.png" />
                 </ImageView>
             <Button layoutX="1308.0" layoutY="72.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="45.0" styleClass="searchButton" stylesheets="@MainMenu.css" />
-            <Button layoutX="46.0" layoutY="150.0" mnemonicParsing="false" onAction="#goMainMenu" prefHeight="50.0" prefWidth="224.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="بازگشت به صفحه ی اصلی" textFill="#979797">
+            <Button fx:id="back_btn" disable="true" layoutX="46.0" layoutY="150.0" mnemonicParsing="false" onAction="#goMainMenu" prefHeight="50.0" prefWidth="224.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="بازگشت به صفحه ی اصلی" textFill="#979797">
                <font>
                   <Font size="18.0" />
                </font>
@@ -123,7 +123,7 @@
                     </ImageView>
                 </Pane>
                 <Pane layoutX="732.0" layoutY="388.0" prefHeight="312.0" prefWidth="624.0" styleClass="pane4" stylesheets="@MainMenu.css">
-                    <Button layoutX="68.0" layoutY="131.0" mnemonicParsing="false" onAction="#doCeSuT" prefHeight="51.0" prefWidth="244.0" styleClass="button4" stylesheets="@MainMenu.css" text="درباره ی سه سوت" textFill="#9f1111">
+                    <Button layoutX="68.0" layoutY="131.0" mnemonicParsing="false" onAction="#goUserArea" prefHeight="51.0" prefWidth="244.0" styleClass="button4" stylesheets="@MainMenu.css" text="درباره ی سه سوت" textFill="#9f1111">
                         <font>
                             <Font size="24.0" />
                         </font>

@@ -52,7 +52,7 @@
                 <Font size="18.0"/>
             </font>
         </Button>
-        <Button fx:id="viewaccounts" layoutX="212.0" layoutY="137.0" mnemonicParsing="false" onAction="#UserList"
+        <Button fx:id="viewAccounts" layoutX="212.0" layoutY="137.0" mnemonicParsing="false" onAction="#UserList"
                 prefHeight="41.0" prefWidth="227.0" text="لیست کاربران">
             <font>
                 <Font size="18.0"/>

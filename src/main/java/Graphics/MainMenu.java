@@ -40,10 +40,9 @@ import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
-    public Button cart_btn;
-    public Button userArea_btn;
     private ProductsController productsController = ProductsController.getInstance();
     private FilterController filterController = FilterController.getInstance();
+    private Account account = ControllerUnit.getInstance().getAccount();
     private static Stage primaryStage;
     private static BorderPane center;
     @FXML
@@ -52,6 +51,14 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     private BorderPane changeable;
     @FXML
     private TextField searchArea;
+    @FXML
+    private Button cart_btn;
+    @FXML
+    private Button userArea_btn;
+    @FXML
+    private Button back_btn;
+    @FXML
+    private Button login_logout_btn;
 
     @Override
     public void start(@NotNull Stage stage) {
@@ -69,7 +76,14 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
         playMusic();
-
+        if (account == null) return;
+        userArea_btn.setDisable(false);
+        cart_btn.setDisable(false);
+        login_logout_btn.setText("خروج ...");
+        login_logout_btn.setOnAction(event -> {
+            ControllerUnit.getInstance().setAccount(null);
+            MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
+        });
     }
 
     @Override
@@ -106,14 +120,17 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public void goMainMenu() {
         getPrimaryStage().setScene(new MainMenu().sceneBuilder());
+        changeState();
     }
 
     public void goLogin() {
         MainMenu.change(new Login().sceneBuilder());
+        changeState();
     }
 
     public void goCart() {
         MainMenu.change(new Cart().sceneBuilder());
+        changeState();
     }
 
     public void goPopulars() {
@@ -122,6 +139,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         ProductsMenu.setList(list);
         ProductCart.setProductList(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
+        changeState();
     }
 
     public void goAuction() {
@@ -129,13 +147,14 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goUserArea() {
-        Account account = ControllerUnit.getInstance().getAccount();
         if (account instanceof Manager)
-            MainMenu.change(new ProductsMenu().sceneBuilder());
-        if (account instanceof Seller)
-            MainMenu.change(new ProductsMenu().sceneBuilder());
-        if (account instanceof Customer)
-            MainMenu.change(new ProductsMenu().sceneBuilder());
+            MainMenu.change(new Graphics.Accounts.Manager().sceneBuilder());
+        else if (account instanceof Seller)
+            MainMenu.change(new Graphics.Accounts.Seller().sceneBuilder());
+        else if (account instanceof Customer)
+            MainMenu.change(new Graphics.Accounts.Customer().sceneBuilder());
+        else return;
+        changeState();
     }
 
     public void goProducts() {
@@ -144,6 +163,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         ProductsMenu.setList(productsController.showProducts());
         ProductCart.setProductList(Product.getList());
         MainMenu.change(new ProductsMenu().sceneBuilder());
+        changeState();
     }
 
     public void goSearch() {
@@ -159,18 +179,12 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         ProductsMenu.setList(list);
         ProductCart.setProductList(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
+        changeState();
     }
 
     public static void main(String[] args) {
         ModelUnit.getInstance().preprocess_loadLists();
         launch(args);
-    }
-
-    public static void failSound() {
-        new Thread(() -> new MediaPlayer(
-                new Media(
-                        new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
-                )).play()).start();
     }
 
     @NotNull
@@ -186,5 +200,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
             mediaPlayer.setCycleCount(Integer.MAX_VALUE);
             mediaPlayer.play();
         }).start();
+    }
+
+    private void changeState() {
+        back_btn.setDisable(false);
     }
 }

@@ -5,6 +5,7 @@ import Exceptions.*;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Account;
 import Model.Models.Accounts.Seller;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +22,9 @@ import java.util.ResourceBundle;
 
 public class SignUp implements SceneBuilder, Initializable {
 
-    private Account account = null;
-    private SignUpController instance = null;
+    private static boolean state = true;
+    private static Account account = null;
+    private static SignUpController instance = SignUpController.getInstance();
 
     @FXML
     private ChoiceBox<String> chooseType;
@@ -51,11 +53,13 @@ public class SignUp implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        chooseType.getItems().addAll("Manager", "Seller", "Customer");
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("اسمت چیه فرزندم ...؟");
-        username.setTooltip(toolTip_username);
+        if (state) {
+            chooseType.getItems().addAll(FXCollections.observableArrayList("Manager", "Seller", "Customer"));
+            Tooltip toolTip_username = new Tooltip();
+            toolTip_username.setText("اسمت چیه فرزندم ...؟");
+            username.setTooltip(toolTip_username);
+            state = false;
+        }
     }
 
     @Override
@@ -75,7 +79,7 @@ public class SignUp implements SceneBuilder, Initializable {
     }
 
     public void goMainMenu() {
-        MainMenu.change(new MainMenu().sceneBuilder());
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
     public void back() {
@@ -83,8 +87,6 @@ public class SignUp implements SceneBuilder, Initializable {
     }
 
     public void goNext() {
-
-        instance = SignUpController.getInstance();
 
         String username = this.username.getText();
         String passOne = this.passwordOne.getText();
@@ -95,12 +97,10 @@ public class SignUp implements SceneBuilder, Initializable {
 
             reset_Base();
 
-            account = instance.creatTheBaseOfAccount(typeMan, username);
-
             if (!passOne.equals(passTwo)) {
                 passwordNotMatch();
                 return;
-            }
+            } else account = instance.creatTheBaseOfAccount(typeMan, username);
 
             instance.creatPasswordForAccount(account, passOne);
 
@@ -125,7 +125,7 @@ public class SignUp implements SceneBuilder, Initializable {
 
         try {
             Scene scene = FXMLLoader.load(new File("src/main/resources/Graphics/Register/RegisterSeller.fxml").toURI().toURL());
-            MainMenu.getPrimaryStage().setScene(scene);
+            MainMenu.change(scene);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
@@ -136,7 +136,7 @@ public class SignUp implements SceneBuilder, Initializable {
 
         try {
             Scene scene = FXMLLoader.load(new File("src/main/resources/Graphics/Register/RegisterArea.fxml").toURI().toURL());
-            MainMenu.getPrimaryStage().setScene(scene);
+            MainMenu.change(scene);
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
@@ -151,7 +151,7 @@ public class SignUp implements SceneBuilder, Initializable {
         username.setTooltip(toolTip_username);
         username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("نام کاربری بیش از حد کوتاه است");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void usernameInvalid() {
@@ -162,7 +162,7 @@ public class SignUp implements SceneBuilder, Initializable {
         username.setTooltip(toolTip_username);
         username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("از نام کاربریت خوشم نیومد.");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void passwordNotMatch() {
@@ -175,7 +175,7 @@ public class SignUp implements SceneBuilder, Initializable {
         passwordTow.setTooltip(toolTip_username);
         passwordTow.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("دو پسورد یکسان نیستند.");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void typeInvalid() {
@@ -186,7 +186,7 @@ public class SignUp implements SceneBuilder, Initializable {
         chooseType.setTooltip(toolTip_username);
         chooseType.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("تایپ نامعتبر است.");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void duplicatedUsername() {
@@ -197,7 +197,7 @@ public class SignUp implements SceneBuilder, Initializable {
         username.setTooltip(toolTip_username);
         username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("نام کاربری تکراری است.");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void passwordInvalid() {
@@ -210,7 +210,7 @@ public class SignUp implements SceneBuilder, Initializable {
         passwordTow.setTooltip(toolTip_username);
         passwordTow.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("پسورد نادرست است.");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void reset_Base() {
@@ -241,7 +241,8 @@ public class SignUp implements SceneBuilder, Initializable {
 
         try {
 
-            instance.savePersonalInfo(account,firstName,lastName,phone,email);
+            instance.savePersonalInfo(account, firstName, lastName, phone, email);
+
         } catch (FirstNameInvalidException e) {
             firstNameInvalid();
         } catch (LastNameInvalidException e) {
@@ -251,6 +252,8 @@ public class SignUp implements SceneBuilder, Initializable {
         } catch (PhoneNumberInvalidException e) {
             phoneInvalid();
         }
+
+        if (!(account instanceof Seller)) goMainMenu();
     }
 
     private void firstNameInvalid() {
@@ -260,7 +263,7 @@ public class SignUp implements SceneBuilder, Initializable {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         firstName.setTooltip(toolTip_username);
         firstName.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void lastNameInvalid() {
@@ -270,7 +273,7 @@ public class SignUp implements SceneBuilder, Initializable {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         lastName.setTooltip(toolTip_username);
         lastName.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void emailInvalid() {
@@ -280,7 +283,7 @@ public class SignUp implements SceneBuilder, Initializable {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         Email.setTooltip(toolTip_username);
         Email.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void phoneInvalid() {
@@ -290,7 +293,7 @@ public class SignUp implements SceneBuilder, Initializable {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         Phone.setTooltip(toolTip_username);
         Phone.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void reset_next() {
@@ -320,8 +323,8 @@ public class SignUp implements SceneBuilder, Initializable {
         try {
 
             submitNext();
-
-            instance.saveCompanyInfo(account,companyName,comPhone,comEmail);
+            instance.saveCompanyInfo(account, companyName, comPhone, comEmail);
+            goMainMenu();
 
         } catch (EmailInvalidException e) {
             comEmailInvalid();
@@ -351,7 +354,7 @@ public class SignUp implements SceneBuilder, Initializable {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         companyName.setTooltip(toolTip_username);
         companyName.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void comEmailInvalid() {
@@ -361,7 +364,7 @@ public class SignUp implements SceneBuilder, Initializable {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         ComEmail.setTooltip(toolTip_username);
         ComEmail.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void comPhoneInvalid() {
@@ -371,6 +374,13 @@ public class SignUp implements SceneBuilder, Initializable {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         ComPhone.setTooltip(toolTip_username);
         ComPhone.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        MainMenu.failSound();
+        failSound();
+    }
+
+    public void failSound() {
+        new Thread(() -> {
+            MediaPlayer m = new MediaPlayer(new Media(new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()));
+            m.play();
+        }).start();
     }
 }
