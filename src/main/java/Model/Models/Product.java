@@ -126,7 +126,6 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 
     public void setMediaId(long mediaId) {
         this.mediaId = mediaId;
-        DataBase.save(this);
     }
 
     public Product setProduct_Info(Info product_Info) {
@@ -231,6 +230,11 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     }
 
     /***************************************************otherMethods****************************************************/
+
+    public void saveMediaId(long mediaId) {
+        this.mediaId = mediaId;
+        DataBase.save(this);
+    }
 
     public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException, CategoryDoesNotExistException {
 

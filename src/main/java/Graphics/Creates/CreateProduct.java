@@ -5,6 +5,7 @@ import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Models.Field.Field;
 import Model.Models.Structs.Medias;
@@ -174,7 +175,11 @@ public class CreateProduct implements SceneBuilder, Initializable {
             f_submit.setOnAction(event -> {
 
                 if (selectedImage != null || selectedMedia != null) {
+
                     Medias medias = new Medias();
+                    Medias.addMedia(medias);
+                    product.setMediaId(medias.getId());
+
                     if (selectedImage != null) {
                         setImage();
                         medias.setImage(new Image(selectedImage.toURI().toString()));
@@ -183,8 +188,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
                         setMedia();
                         medias.setPlayer(new MediaPlayer(new Media(selectedMedia.toURI().toString())));
                     }
-                    Medias.addMedia(medias);
-                    product.setMediaId(medias.getId());
+                    DataBase.save(medias);
                 }
 
                 sellerController.saveProductInfo(product, str_f_p, str_v_p);
@@ -254,7 +258,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private void setImage() {
         try {
             String[] str = selectedImage.getName().split("\\.");
-            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + str[str.length - 1];
+            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + "." +str[str.length - 1];
             Files.copy(
                     selectedImage.toPath(),
                     Paths.get(first),
