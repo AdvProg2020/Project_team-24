@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="571.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.AboutCeSut.AboutCeSut">
+   <children>
+      <ImageView fitHeight="460.0" fitWidth="523.0" layoutX="39.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@سه%20سوت.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="14.0" layoutY="36.0" prefHeight="512.0" prefWidth="568.0" styleClass="lable" stylesheets="@cesut.css" />
+   </children>
+</AnchorPane>

@@ -119,4 +119,7 @@ public class Manager implements SceneBuilder, Initializable {
     public void BackToMainMenu() {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
+
+    public void requestList(ActionEvent event) {
+    }
 }
