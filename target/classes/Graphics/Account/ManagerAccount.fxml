@@ -114,15 +114,17 @@
         <Separator layoutX="583.0" layoutY="62.0" orientation="VERTICAL" prefHeight="576.0" prefWidth="3.0" />
         <Separator layoutX="649.0" layoutY="319.0" prefHeight="7.0" prefWidth="604.0" />
         <TextField fx:id="UserName" alignment="CENTER" layoutX="759.0" layoutY="85.0" prefHeight="44.0" prefWidth="443.0" />
-        <TextField alignment="CENTER" editable="false" layoutX="759.0" layoutY="166.0" prefHeight="44.0" prefWidth="443.0" promptText="مدیر">
-            <font>
-               <Font size="20.0" />
-            </font></TextField>
+        <TextField alignment="CENTER" layoutX="759.0" layoutY="166.0" prefHeight="44.0" prefWidth="443.0" />
         <TextField fx:id="Password" alignment="CENTER" layoutX="760.0" layoutY="241.0" prefHeight="44.0" prefWidth="443.0" />
         <TextField fx:id="FirstName" alignment="CENTER" layoutX="760.0" layoutY="371.0" prefHeight="44.0" prefWidth="443.0" />
         <TextField fx:id="LastName" alignment="CENTER" layoutX="760.0" layoutY="441.0" prefHeight="44.0" prefWidth="443.0" />
         <TextField fx:id="PhoneNum" alignment="CENTER" layoutX="760.0" layoutY="515.0" prefHeight="44.0" prefWidth="443.0" />
         <TextField fx:id="Email" alignment="CENTER" layoutX="760.0" layoutY="591.0" prefHeight="44.0" prefWidth="443.0" />
+         <Button layoutX="1594.0" layoutY="528.0" mnemonicParsing="false" onAction="#requestList" prefHeight="45.0" prefWidth="231.0" text="لیست درخواست ها">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Button>
     </Pane>
 
 </AnchorPane>

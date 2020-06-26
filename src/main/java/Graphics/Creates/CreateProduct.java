@@ -218,7 +218,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     private void setImage() {
         try {
-            String[] str = selectedImage.getName().split(".");
+            String[] str = selectedImage.getName().split("\\.");
             String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + str[str.length - 1];
             Files.copy(
                     selectedImage.toPath(),
