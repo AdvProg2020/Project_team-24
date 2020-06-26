@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label alignment="CENTER" layoutX="238.0" layoutY="29.0" prefHeight="55.0" prefWidth="123.0" text="لیست کاربران">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TableView layoutX="142.0" layoutY="77.0" prefHeight="277.0" prefWidth="316.0">
+        <columns>
+          <TableColumn prefWidth="161.59996032714844" text="حذف کاربر" />
+          <TableColumn prefWidth="154.4000244140625" text="نام کاربری" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

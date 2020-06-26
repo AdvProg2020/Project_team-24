@@ -64,12 +64,12 @@
                 <TableColumn fx:id="Codes" prefWidth="404.20001220703125" text="کد تخفیف" />
             </columns>
         </TableView>
-        <Button layoutX="231.0" layoutY="593.0" mnemonicParsing="false" onAction="#back" prefHeight="29.0" prefWidth="254.0" text="بازگشت به صفحه ی اصلی">
+        <Button layoutX="231.0" layoutY="537.0" mnemonicParsing="false" onAction="#back" prefHeight="29.0" prefWidth="254.0" text="بازگشت به صفحه ی اصلی">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button layoutX="232.0" layoutY="436.0" mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="253.0" text="خروج از حساب کاربری">
+        <Button layoutX="231.0" layoutY="415.0" mnemonicParsing="false" onAction="#logout" prefHeight="40.0" prefWidth="253.0" text="خروج از حساب کاربری">
             <font>
                 <Font size="18.0" />
             </font>
@@ -90,7 +90,7 @@
             </font>
         </Label>
         <Separator layoutX="1590.0" layoutY="421.0" prefHeight="1.0" prefWidth="256.0" />
-        <Button layoutX="232.0" layoutY="513.0" mnemonicParsing="false" onAction="#submit" prefHeight="42.0" prefWidth="252.0" text="ثبت اطلاعات ویرایش شده">
+        <Button layoutX="232.0" layoutY="476.0" mnemonicParsing="false" onAction="#submit" prefHeight="42.0" prefWidth="252.0" text="ثبت اطلاعات ویرایش شده">
             <font>
                 <Font size="18.0" />
             </font>
@@ -136,6 +136,11 @@
         </TextField>
         <Separator layoutX="662.0" layoutY="65.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="4.0" />
         <Separator layoutX="722.0" layoutY="333.0" prefHeight="0.0" prefWidth="503.0" />
+         <Button layoutX="231.0" layoutY="593.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="253.0" text="حذف این حساب کاربری">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Button>
     </Pane>
 </AnchorPane>
 </Scene>
