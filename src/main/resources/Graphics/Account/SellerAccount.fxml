@@ -7,7 +7,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Accounts.Seller">
-    <AnchorPane prefHeight="745.0" prefWidth="2000">
+    <AnchorPane prefHeight="745.0" prefWidth="2000" styleClass="button" stylesheets="@AccountStyle.css">
         <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
             <Pane>
                 <ImageView fx:id="seller_image" fitHeight="301.0" fitWidth="258.0" layoutX="1589.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
@@ -55,7 +55,7 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label alignment="CENTER_RIGHT" layoutX="1237.0" layoutY="317.0" prefHeight="35.0" prefWidth="157.0" text="اطلاعات کاربر">
+                <Label alignment="CENTER_RIGHT" layoutX="1237.0" layoutY="317.0" prefHeight="35.0" prefWidth="157.0" text="اطلاعات کاربر" textFill="#df1515">
                     <font>
                         <Font size="24.0" />
                     </font>
@@ -143,7 +143,7 @@
                 </TextField>
             </Pane>
             <Separator layoutX="719.0" layoutY="336.0" prefHeight="2.0" prefWidth="515.0" />
-            <Button layoutX="238.0" layoutY="47.0" mnemonicParsing="false" onAction="#showProducts" prefHeight="40.0" prefWidth="217.0" text="محصولات فروشی">
+            <Button layoutX="238.0" layoutY="47.0" mnemonicParsing="false" onAction="#showProducts" prefHeight="40.0" prefWidth="217.0" stylesheets="@AccountStyle.css" text="محصولات فروشی">
                 <font>
                     <Font size="18.0" />
                 </font>
