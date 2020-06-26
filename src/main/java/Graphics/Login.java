@@ -13,6 +13,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -50,7 +53,7 @@ public class Login implements SceneBuilder, Initializable {
     }
 
     public void goSignUp() {
-        MainMenu.getPrimaryStage().setScene(new SignUp().sceneBuilder());
+        MainMenu.change(new SignUp().sceneBuilder());
     }
 
     public void goLogin() {
@@ -96,7 +99,7 @@ public class Login implements SceneBuilder, Initializable {
         username.setTooltip(toolTip_username);
         username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("نام کاربری بیش از حد کوتاه است");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void accountNotExist() {
@@ -107,7 +110,7 @@ public class Login implements SceneBuilder, Initializable {
         username.setTooltip(toolTip_username);
         username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 4px");
         status.setText("نام کاربری نامعتبر است.");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void usernameInvalid() {
@@ -118,7 +121,7 @@ public class Login implements SceneBuilder, Initializable {
         username.setTooltip(toolTip_username);
         username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         status.setText("از نام کاربریت خوشم نیومد.");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void passwordInvalid() {
@@ -128,8 +131,7 @@ public class Login implements SceneBuilder, Initializable {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         password.setTooltip(toolTip_username);
         password.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        status.setText("پسورد نادرست است.");
-        MainMenu.failSound();
+        failSound();
     }
 
     private void reset() {
@@ -141,5 +143,12 @@ public class Login implements SceneBuilder, Initializable {
 
         password.setStyle("-fx-border-color: white;");
         password.setTooltip(null);
+    }
+
+    public void failSound() {
+        new Thread(() -> {
+            MediaPlayer m = new MediaPlayer(new Media(new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()));
+            m.play();
+        }).start();
     }
 }

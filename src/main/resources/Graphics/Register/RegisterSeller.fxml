@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.Scene?>
-<Scene  xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
     <AnchorPane prefHeight="745.0" prefWidth="2000">
 
     <Label alignment="CENTER" layoutX="201.0" layoutY="114.0" prefHeight="19.0" prefWidth="250.0" text="صفحه اطلاعات فروشنده" />
@@ -12,9 +13,9 @@
     <TextField fx:id="ComEmail" alignment="CENTER" layoutX="252.0" layoutY="259.0" promptText="ایمیل" />
     <TextField fx:id="ComPhone" alignment="CENTER" layoutX="252.0" layoutY="293.0" promptText="شماره تماس" />
     <TextField fx:id="firstName" alignment="CENTER" layoutX="252.0" layoutY="186.0" promptText="نام" />
-    <TextField fx:id="lastName" alignment="CENTER" layoutX="428.0" layoutY="242.0" promptText="نام خانوادگی" />
-    <TextField fx:id="Email" alignment="CENTER" layoutX="252.0" layoutY="293.0" promptText="ایمیل" />
-    <TextField fx:id="Phone" alignment="CENTER" layoutX="252.0" layoutY="346.0" promptText="شماره تماس" />
+    <TextField fx:id="lastName" alignment="CENTER" layoutX="408.0" layoutY="224.0" promptText="نام خانوادگی" />
+    <TextField fx:id="Email" alignment="CENTER" layoutX="98.0" layoutY="293.0" promptText="ایمیل" />
+    <TextField fx:id="Phone" alignment="CENTER" layoutX="251.0" layoutY="328.0" promptText="شماره تماس" />
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="192.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true" />
@@ -24,4 +25,3 @@
 </AnchorPane>
 
 </Scene>
-
