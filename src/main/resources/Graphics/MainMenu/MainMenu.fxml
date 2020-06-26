@@ -74,7 +74,7 @@
                 <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="819.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-sale-64.png" />
                 </ImageView>
-                <TextField fx:id="searchArea" alignment="CENTER_RIGHT" layoutX="346.0" layoutY="71.0" prefHeight="53.0" prefWidth="1018.0" promptText="          جست و جو در سه سوت ...">
+                <TextField fx:id="searchArea" alignment="CENTER_RIGHT" layoutX="346.0" layoutY="67.0" prefHeight="58.0" prefWidth="1018.0" promptText="          جست و جو در سه سوت ...">
                     <font>
                         <Font size="17.0" />
                     </font>
@@ -82,6 +82,7 @@
                 <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="1318.0" layoutY="85.0" onMousePressed="#goSearch" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../Product/icons8-search-50.png" />
                 </ImageView>
+            <Button layoutX="1308.0" layoutY="72.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="45.0" styleClass="searchButton" stylesheets="@MainMenu.css" />
             </AnchorPane>
         </top>
         <center>
