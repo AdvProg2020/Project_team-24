@@ -21,7 +21,7 @@ public class Manager implements SceneBuilder, Initializable {
     public Button editOff;
     public Button newOff;
     public Button creatManager;
-    public Button viewaccounts;
+    public Button viewAccounts;
     public Button deleteAccount;
     public Button viewCategories;
     public Button editCategories;
