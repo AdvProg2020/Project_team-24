@@ -27,6 +27,10 @@ public class Field implements Cloneable{
         this.string = string;
     }
 
+    public Field(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

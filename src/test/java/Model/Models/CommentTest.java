@@ -4,7 +4,7 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
-import Model.Models.Field.Fields.SingleString;
+
 import Model.Models.Structs.ProductLog;
 import Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,11 +26,11 @@ class CommentTest {
         testList.forEach(account -> {
             if (account instanceof Seller) {
                 ((Seller) account).setBalance(100);
-                ((Seller) account).setCompanyInfo(new Info("companyInfo", new FieldList(Arrays.asList(new SingleString("brand", "ap2020"), new SingleString("phoneNumber", "09122222222"), new SingleString("email", "brand.ap@gmail.com"))), LocalDate.now()));
+                ((Seller) account).setCompanyInfo(new Info("companyInfo", new FieldList(Arrays.asList(new Field("brand", "ap2020"), new Field("phoneNumber", "09122222222"), new Field("email", "brand.ap@gmail.com"))), LocalDate.now()));
             } else if (account instanceof Customer) {
                 ((Customer) account).setCredit(100);
             }
-            account.setPersonalInfo(new Info("personalInfo", new FieldList(Arrays.asList(new SingleString("firstName", "Ali"), new SingleString("lastName", "Alien"), new SingleString("phoneNumber", "09122222222"), new SingleString("email", "customer.ap@gmail.com"))), LocalDate.now()));
+            account.setPersonalInfo(new Info("personalInfo", new FieldList(Arrays.asList(new Field("firstName", "Ali"), new Field("lastName", "Alien"), new Field("phoneNumber", "09122222222"), new Field("email", "customer.ap@gmail.com"))), LocalDate.now()));
             account.setPassword("12345678910");
             account.setId(AddingNew.getRegisteringId().apply(testList));
         });
@@ -55,7 +55,7 @@ class CommentTest {
         logHistory.setLogId(1);
         customer.addToLogHistoryList(logHistory.getId());
         //Comment
-        List<Field> fields = Arrays.asList(new SingleString("Title", "dar bareye aftabe"), new SingleString("Content", "mahsoole khaili khob va karbordi bood ,100 darsad pishnahad mishe"));
+        List<Field> fields = Arrays.asList(new Field("Title", "dar bareye aftabe"), new Field("Content", "mahsoole khaili khob va karbordi bood ,100 darsad pishnahad mishe"));
         FieldList fieldList = new FieldList(fields);
         Comment comment = new Comment(null,1,1,fieldList);
         comment.setCommentId(1);
@@ -65,7 +65,7 @@ class CommentTest {
 
     @Test
     void addComment() {
-        List<Field> fields = Arrays.asList(new SingleString("Title", "dar bareye aftabe"), new SingleString("Content", "mahsoole khaili khob va karbordi bood ,100 darsad pishnahad mishe"));
+        List<Field> fields = Arrays.asList(new Field("Title", "dar bareye aftabe"), new Field("Content", "mahsoole khaili khob va karbordi bood ,100 darsad pishnahad mishe"));
         FieldList fieldList = new FieldList(fields);
         Comment comment = new Comment(null,1,1,fieldList);
         assertDoesNotThrow(() ->Comment.addComment(comment));

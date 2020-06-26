@@ -3,7 +3,7 @@ package Model.Models.Accounts;
 
 import Model.Models.*;
 import Model.Models.Field.Field;
-import Model.Models.Field.Fields.SingleString;
+
 import Model.Models.Structs.Discount;
 import Model.Models.Structs.ProductOfSeller;
 import Model.Tools.AddingNew;
