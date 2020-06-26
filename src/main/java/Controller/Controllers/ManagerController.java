@@ -70,7 +70,7 @@ public class ManagerController extends AccountController {
                 DiscountCode discountCode;
                 try {
                     discountCode = DiscountCode.getDiscountCodeById(aLong);
-                    discountCode.checkExpiredDiscountCode();
+                    discountCode.checkExpiredDiscountCode(true);
                     discountCode.removeAccount(account.getId());
                 } catch (DiscountCodeExpiredException e) {
                     // do nothing.ok?
@@ -128,14 +128,14 @@ public class ManagerController extends AccountController {
     public void setDiscountCodeToSpecials(String discountCodeIdString) throws DiscountCodeExpiredException, NumberFormatException, AccountDoesNotExistException {
         long discountCodeId = Long.parseLong(discountCodeIdString);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
-        discountCode.checkExpiredDiscountCode();
+        discountCode.checkExpiredDiscountCode(true);
         findSpecialBuyers().forEach(customer -> customer.addToDiscountCodeList(discountCode.getId()));
     }
 
     public void setDiscountCodeToRandoms(String discountCodeIdString) throws DiscountCodeExpiredException, NumberFormatException, AccountDoesNotExistException {
         long discountCodeId = Long.parseLong(discountCodeIdString);
         DiscountCode discountCode = DiscountCode.getDiscountCodeById(discountCodeId);
-        discountCode.checkExpiredDiscountCode();
+        discountCode.checkExpiredDiscountCode(true);
         selectRandomBuyer().addToDiscountCodeList(discountCode.getId());
     }
 

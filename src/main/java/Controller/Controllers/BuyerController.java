@@ -6,7 +6,6 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
-import Model.Models.Field.Fields.SingleString;
 import Model.Models.Structs.ProductLog;
 import Model.Models.Structs.ProductOfSeller;
 import org.jetbrains.annotations.NotNull;
@@ -54,10 +53,10 @@ public class BuyerController extends AccountController {
     private void saveFieldToFieldList(String name, String value) throws FieldDoesNotExistException {
         FieldList fieldList = (controllerUnit.getAccount()).getPersonalInfo().getList();
         if (!fieldList.isFieldWithThisName(name)) {
-            fieldList.addFiled(new SingleString(name, value));
+            fieldList.addFiled(new Field(name, value));
         } else {
             Field field = fieldList.getFieldByName(name);
-            ((SingleString) field).setString(value);
+            field.setString(value);
         }
         DataBase.save(controllerUnit.getAccount());
     }
@@ -185,7 +184,7 @@ public class BuyerController extends AccountController {
         if (!((Customer) controllerUnit.getAccount()).getDiscountCodeList().contains(discountCode.getId())) {
             throw new InvalidDiscountCodeException("Invalid discountCode whit id:" + discountCode.getId() + " .");
         }
-        discountCode.checkExpiredDiscountCode();
+        discountCode.checkExpiredDiscountCode(true);
         this.setDiscountCodeEntered(discountCode);
     }
 
@@ -197,7 +196,7 @@ public class BuyerController extends AccountController {
                 showTotalPrice(),
                 discountCodeEntered == null ? 0 : discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
                 viewCart().getTotalAuctionDiscount(),
-                new FieldList(Arrays.asList(new SingleString("customerName", customer.getUserName()), new SingleString("date", LocalDate.now().toString()))), // I don't know now. (for check)
+                new FieldList(Arrays.asList(new Field("customerName", customer.getUserName()), new Field("date", LocalDate.now().toString()))), // I don't know now. (for check)
                 productLogs
         );
         LogHistory.addLog(logHistory);

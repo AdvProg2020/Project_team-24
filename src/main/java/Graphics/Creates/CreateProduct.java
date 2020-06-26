@@ -125,6 +125,8 @@ public class CreateProduct implements SceneBuilder, Initializable {
         String productPrice = product_price.getText();
         String productNumber = product_number.getText();
 
+        reset();
+
         if (productName.isEmpty() || productPrice.isEmpty() || productNumber.isEmpty()) {
             mustBeFilled();
             return;
@@ -163,6 +165,15 @@ public class CreateProduct implements SceneBuilder, Initializable {
         } catch (AuctionDoesNotExistException | CategoryDoesNotExistException e) {
             e.printStackTrace();
         }
+    }
+
+    private void reset() {
+        product_name.setTooltip(null);
+        product_name.setStyle("-fx-border-color: white;");
+        product_number.setTooltip(null);
+        product_number.setStyle("-fx-border-color: white;");
+        product_price.setTooltip(null);
+        product_price.setStyle("-fx-border-color: white;");
     }
 
     public void select_image() {

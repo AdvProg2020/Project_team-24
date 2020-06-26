@@ -61,6 +61,7 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
         return Collections.unmodifiableList(accountList);
     }
 
+
     @NotNull
     @Contract(pure = true)
     public static List<DiscountCode> getList() {
@@ -160,7 +161,7 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
 
     public static DiscountCode getDiscountCodeByCode(String code) throws DiscountCodeExpiredException {
         return list.stream()
-                .filter(discountCode ->  code.equals(discountCode.getDiscountCode()))
+                .filter(discountCode -> code.equals(discountCode.getDiscountCode()))
                 .findFirst()
                 .orElseThrow(() -> new DiscountCodeExpiredException(
                         "DiscountCode with the code:" + code + " does not exist in list of all discountCodes."
@@ -198,14 +199,16 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
         }
     }
 
-    public void checkExpiredDiscountCode() throws DiscountCodeExpiredException, AccountDoesNotExistException {
+    public void checkExpiredDiscountCode(boolean exception) throws DiscountCodeExpiredException, AccountDoesNotExistException {
         if (LocalDate.now().isAfter(end)) {
             DiscountCode.removeFromDiscountCode(this);
             List<Account> accounts = new ArrayList<>();
             for (long aLong : accountList) {
                 ((Customer) Account.getAccountById(aLong)).removeFromDiscountCodeList(id);
             }
-            throw new DiscountCodeExpiredException("DiscountCode with id:" + id + " expired.");
+            if (exception) {
+                throw new DiscountCodeExpiredException("DiscountCode with id:" + id + " expired.");
+            }
         }
     }
 

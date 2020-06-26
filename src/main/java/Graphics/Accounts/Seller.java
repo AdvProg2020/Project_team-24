@@ -87,12 +87,10 @@ public class Seller implements SceneBuilder, Initializable {
         username_txt.setText(seller.getUserName());
         password_txt.setText(seller.getPassword());
         try {
-            // Product Info
             lName_txt.setText(seller.getPersonalInfo().getList().getFieldByName("lName").getString());
             fName_txt.setText(seller.getPersonalInfo().getList().getFieldByName("fName").getString());
             phone_txt.setText(seller.getPersonalInfo().getList().getFieldByName("phone").getString());
             email_txt.setText(seller.getPersonalInfo().getList().getFieldByName("email").getString());
-            // Product Info
             bran_txt.setText(seller.getCompanyInfo().getList().getFieldByName("brand").getString());
             comEmail_txt.setText(seller.getCompanyInfo().getList().getFieldByName("comEmail").getString());
             comPhone_txt.setText(seller.getCompanyInfo().getList().getFieldByName("comPhone").getString());
