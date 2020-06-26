@@ -2,49 +2,80 @@
 
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
 <AnchorPane prefHeight="614.0" prefWidth="460.0">
       <children>
-         <ChoiceBox layoutX="135.0" layoutY="404.0" prefHeight="34.0" prefWidth="190.0" />
-         <ChoiceBox layoutX="134.0" layoutY="509.0" prefHeight="35.0" prefWidth="189.0" />
-         <CheckBox alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="170.0" layoutY="119.0" mnemonicParsing="false" text="تعداد بازدید" textAlignment="RIGHT">
+         <ImageView fitHeight="694.0" fitWidth="452.0" layoutX="3.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@greyBorder.jpg" />
+            </image>
+         </ImageView>
+         <ChoiceBox layoutX="127.0" layoutY="404.0" prefHeight="34.0" prefWidth="190.0" />
+         <ChoiceBox layoutX="127.0" layoutY="507.0" prefHeight="35.0" prefWidth="189.0" />
+         <CheckBox alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="171.0" layoutY="119.0" mnemonicParsing="false" text="تعداد بازدید" textAlignment="RIGHT" textFill="#6073df">
             <font>
                <Font size="18.0" />
             </font>
          </CheckBox>
-         <CheckBox layoutX="193.0" layoutY="173.0" mnemonicParsing="false" text="امتیاز">
+         <CheckBox layoutX="193.0" layoutY="173.0" mnemonicParsing="false" text="امتیاز" textFill="#f8c81b">
             <font>
                <Font size="18.0" />
             </font>
          </CheckBox>
-         <CheckBox layoutX="164.0" layoutY="225.0" mnemonicParsing="false" text="زمان بارگذاری">
+         <CheckBox layoutX="158.0" layoutY="225.0" mnemonicParsing="false" text="زمان بارگذاری" textFill="#dd0d0d">
             <font>
                <Font size="18.0" />
             </font>
          </CheckBox>
-         <Label alignment="CENTER" layoutX="113.0" layoutY="60.0" prefHeight="28.0" prefWidth="234.0" text=" (( مرتب کردن محصولات  ))">
+         <Label alignment="CENTER" layoutX="113.0" layoutY="60.0" prefHeight="28.0" prefWidth="234.0" text=" (( مرتب کردن محصولات  ))" textFill="#717171">
             <font>
                <Font size="18.0" />
             </font>
          </Label>
-         <Label layoutX="168.0" layoutY="313.0" prefHeight="27.0" prefWidth="123.0" text="(( فیلتر کردن ))">
+         <Label layoutX="161.0" layoutY="316.0" prefHeight="27.0" prefWidth="123.0" text="(( فیلتر کردن ))" textFill="#6f6f6f">
             <font>
                <Font size="18.0" />
             </font>
          </Label>
-         <Label alignment="CENTER" layoutX="131.0" layoutY="365.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات محصول">
+         <Label alignment="CENTER" layoutX="124.0" layoutY="365.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات محصول" textFill="#575859">
             <font>
                <Font size="14.0" />
             </font>
          </Label>
-         <Label alignment="CENTER" layoutX="130.0" layoutY="470.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات دسته">
+         <Label alignment="CENTER" layoutX="123.0" layoutY="470.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات دسته" textFill="#6c6b6b">
             <font>
                <Font size="14.0" />
             </font>
          </Label>
          <Separator layoutX="92.0" layoutY="286.0" prefHeight="2.0" prefWidth="273.0" />
+         <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="296.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@icons8-alarm-clock-48.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="273.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@icons8-christmas-star-48.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="294.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@icons8-dialing-number-48.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="317.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@icons8-aliexpress-48.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="317.0" layoutY="507.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@icons8-sorting-48.png" />
+            </image>
+         </ImageView>
       </children></AnchorPane>
 </Scene>
