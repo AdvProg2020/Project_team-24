@@ -1,7 +1,13 @@
 package Graphics.Accounts;
 
+import Controller.ControllerUnit;
+import Controller.Controllers.BuyerController;
+import Controller.Controllers.ManagerController;
+import Exceptions.FieldDoesNotExistException;
+import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -16,23 +22,42 @@ import java.util.ResourceBundle;
 
 public class Manager implements SceneBuilder, Initializable {
 
-    public Button back;
-    public Button viewOffs;
-    public Button editOff;
-    public Button newOff;
-    public Button creatManager;
-    public Button viewAccounts;
-    public Button deleteAccount;
-    public Button viewCategories;
-    public Button editCategories;
-    public Button creatCategory;
-    public Label role;
-    public TextField UserName;
-    public TextField AccountType;
-    public TextField Password;
-    public TextField FirstName;
-    public TextField LastName;
-    public TextField PhoneNum;
+    private static ManagerController managerController = ManagerController.getInstance();
+    private Model.Models.Accounts.Manager manager = (Model.Models.Accounts.Manager) ControllerUnit.getInstance().getAccount();
+    private File selectedImage;
+
+    @FXML
+    private TextField Email;
+    @FXML
+    private Button back;
+    @FXML
+    private Button viewOffs;
+    @FXML
+    private Button editOff;
+    @FXML
+    private Button newOff;
+    @FXML
+    private Button creatManager;
+    @FXML
+    private Button viewAccounts;
+    @FXML
+    private Button deleteAccount;
+    @FXML
+    private Button viewCategories;
+    @FXML
+    private Button editCategories;
+    @FXML
+    private Button creatCategory;
+    @FXML
+    private TextField UserName;
+    @FXML
+    private TextField Password;
+    @FXML
+    private TextField FirstName;
+    @FXML
+    private TextField LastName;
+    @FXML
+    private TextField PhoneNum;
 
     @Override
     public Scene sceneBuilder() {
@@ -48,7 +73,16 @@ public class Manager implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        UserName.setText(manager.getUserName());
+        Password.setText(manager.getPassword());
+        try {
+            LastName.setText(manager.getPersonalInfo().getList().getFieldByName("LastName").getString());
+            FirstName.setText(manager.getPersonalInfo().getList().getFieldByName("FirstName").getString());
+            PhoneNum.setText(manager.getPersonalInfo().getList().getFieldByName("PhoneNumber").getString());
+            Email.setText(manager.getPersonalInfo().getList().getFieldByName("Email").getString());
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
     public void ChoosePhoto() {
@@ -79,8 +113,10 @@ public class Manager implements SceneBuilder, Initializable {
     }
 
     public void DiscountCodeList(ActionEvent event) {
+
     }
 
-    public void BackToMainMenu(ActionEvent event) {
+    public void BackToMainMenu() {
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 }

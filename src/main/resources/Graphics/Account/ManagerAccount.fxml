@@ -7,160 +7,128 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Accounts.Manager">
-<AnchorPane prefHeight="745.0" prefWidth="2000" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-    <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
-        <Separator layoutX="1590.0" layoutY="390.0" prefHeight="0.0" prefWidth="239.0"/>
-        <Button fx:id="back" layoutX="176.0" layoutY="620.0" mnemonicParsing="false" onAction="#BackToMainMenu"
-                prefHeight="39.0" prefWidth="319.0" text="بازگشت به صفحه ی اصلی">
+    <AnchorPane prefHeight="745.0" prefWidth="2000" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+        <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
+            <Separator layoutX="1590.0" layoutY="390.0" prefHeight="0.0" prefWidth="239.0" />
+            <Button fx:id="back" layoutX="176.0" layoutY="620.0" mnemonicParsing="false" onAction="#BackToMainMenu" prefHeight="39.0" prefWidth="319.0" text="بازگشت به صفحه ی اصلی">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <Label alignment="CENTER" layoutX="1607.0" layoutY="426.0" prefHeight="23.0" prefWidth="200.0" text="(( کد های تخفیف ))">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Button fx:id="viewOffs" layoutX="1596.0" layoutY="484.0" mnemonicParsing="false" onAction="#DiscountCodeList" prefHeight="39.0" prefWidth="234.0" text="لیست کد های تخفیف">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <Button fx:id="newOff" layoutX="1597.0" layoutY="558.0" mnemonicParsing="false" onAction="#CreateDiscountCode" prefHeight="40.0" prefWidth="232.0" text="ایجاد کد جدید">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <Label alignment="CENTER" layoutX="284.0" layoutY="92.0" prefHeight="29.0" prefWidth="83.0" text="(( کاربران ))">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Button fx:id="creatManager" layoutX="211.0" layoutY="241.0" mnemonicParsing="false" onAction="#CreateManager" prefHeight="39.0" prefWidth="231.0" text="ایجاد مدیر جدید">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <Button fx:id="viewAccounts" layoutX="212.0" layoutY="167.0" mnemonicParsing="false" onAction="#UserList" prefHeight="41.0" prefWidth="227.0" text="لیست کاربران">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <Label alignment="CENTER" layoutX="278.0" layoutY="369.0" prefHeight="27.0" prefWidth="96.0" text="(( دسته ها ))">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Button fx:id="viewCategories" layoutX="214.0" layoutY="420.0" mnemonicParsing="false" onAction="#CategoryList" prefHeight="22.0" prefWidth="240.0" text="لیست دسته ها">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <Button fx:id="editCategories" layoutX="215.0" layoutY="476.0" mnemonicParsing="false" onAction="#EditCategory" prefHeight="40.0" prefWidth="239.0" text="ویرایش دسته">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <Button fx:id="creatCategory" layoutX="216.0" layoutY="529.0" mnemonicParsing="false" onAction="#AddCategory" prefHeight="41.0" prefWidth="238.0" text="افزودن دسته">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <Label alignment="CENTER_RIGHT" layoutX="404.0" layoutY="119.0" prefHeight="18.0" prefWidth="124.0" />
+            <Button layoutX="1590.0" layoutY="316.0" mnemonicParsing="false" onAction="#ChoosePhoto" prefHeight="39.0" prefWidth="236.0" text="انتخاب عکس">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="245.0" fitWidth="256.0" layoutX="1584.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-client-management-48.png" />
+            </ImageView>
+            <Label alignment="CENTER_RIGHT" layoutX="1225.0" layoutY="91.0" prefHeight="31.0" prefWidth="164.0" text="نام کاربری : ">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1240.0" layoutY="174.0" prefHeight="18.0" prefWidth="151.0" text="نوع حساب : ">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1214.0" layoutY="249.0" prefHeight="6.0" prefWidth="175.0" text="رمز عبور : ">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1237.0" layoutY="317.0" prefHeight="35.0" prefWidth="157.0" text="اطلاعات کاربر">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1352.0" layoutY="382.0" prefHeight="27.0" prefWidth="37.0" text="نام :">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1234.0" layoutY="449.0" prefHeight="16.0" prefWidth="163.0" text="نام خانوادگی :">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1273.0" layoutY="523.0" prefHeight="26.0" prefWidth="124.0" text="شماره تماس :">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="1335.0" layoutY="599.0" prefHeight="18.0" prefWidth="55.0" text="ایمیل :">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Separator layoutX="1502.0" layoutY="52.0" orientation="VERTICAL" prefHeight="606.0" prefWidth="1.0" />
+            <Separator layoutX="176.0" layoutY="342.0" prefHeight="4.0" prefWidth="299.0" />
+            <Separator layoutX="583.0" layoutY="62.0" orientation="VERTICAL" prefHeight="576.0" prefWidth="3.0" />
+            <Separator layoutX="649.0" layoutY="315.0" prefHeight="0.0" prefWidth="768.0" />
+            <TextField fx:id="UserName" layoutX="759.0" layoutY="85.0" prefHeight="44.0" prefWidth="443.0" />
+            <TextField alignment="CENTER" editable="false" layoutX="759.0" layoutY="166.0" prefHeight="44.0" prefWidth="443.0" promptText="مدیر">
             <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Label alignment="CENTER" layoutX="1610.0" layoutY="412.0" prefHeight="23.0" prefWidth="200.0"
-               text="(( کد های تخفیف ))">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Button fx:id="viewOffs" layoutX="1595.0" layoutY="463.0" mnemonicParsing="false" onAction="#DiscountCodeList"
-                prefHeight="39.0" prefWidth="234.0" text="لیست کد های تخفیف">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Button fx:id="editOff" layoutX="1595.0" layoutY="531.0" mnemonicParsing="false" onAction="#EditDiscountCode"
-                prefHeight="37.0" prefWidth="234.0" text="ویرایش کد تخفیف">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Button fx:id="newOff" layoutX="1596.0" layoutY="599.0" mnemonicParsing="false" onAction="#CreateDiscountCode"
-                prefHeight="40.0" prefWidth="232.0" text="ایجاد کد جدید">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Label alignment="CENTER" layoutX="285.0" layoutY="62.0" prefHeight="29.0" prefWidth="83.0"
-               text="(( کاربران ))">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Button fx:id="creatManager" layoutX="211.0" layoutY="263.0" mnemonicParsing="false" onAction="#CreateManager"
-                prefHeight="39.0" prefWidth="231.0" text="ایجاد مدیر جدید">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Button fx:id="viewAccounts" layoutX="212.0" layoutY="137.0" mnemonicParsing="false" onAction="#UserList"
-                prefHeight="41.0" prefWidth="227.0" text="لیست کاربران">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Button fx:id="deleteAccount" layoutX="210.0" layoutY="201.0" mnemonicParsing="false" onAction="#DeleteAccount"
-                prefHeight="42.0" prefWidth="232.0" text="حذف کاربر">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Label alignment="CENTER" layoutX="278.0" layoutY="369.0" prefHeight="27.0" prefWidth="96.0"
-               text="(( دسته ها ))">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Button fx:id="viewCategories" layoutX="214.0" layoutY="420.0" mnemonicParsing="false" onAction="#CategoryList"
-                prefHeight="22.0" prefWidth="241.0" text="لیست دسته ها">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Button fx:id="editCategories" layoutX="216.0" layoutY="483.0" mnemonicParsing="false" onAction="#EditCategory"
-                prefHeight="40.0" prefWidth="239.0" text="ویرایش دسته">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Button fx:id="creatCategory" layoutX="216.0" layoutY="537.0" mnemonicParsing="false" onAction="#AddCategory"
-                prefHeight="41.0" prefWidth="238.0" text="افزودن دسته">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <Label alignment="CENTER_RIGHT" layoutX="404.0" layoutY="119.0" prefHeight="18.0" prefWidth="124.0"/>
-        <Button layoutX="1590.0" layoutY="316.0" mnemonicParsing="false" onAction="#ChoosePhoto" prefHeight="39.0"
-                prefWidth="236.0" text="انتخاب عکس">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Button>
-        <ImageView fitHeight="245.0" fitWidth="256.0" layoutX="1584.0" layoutY="53.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <image>
-                <Image url="@icons8-client-management-48.png"/>
-            </image>
-        </ImageView>
-        <Label alignment="CENTER_RIGHT" layoutX="1225.0" layoutY="91.0" prefHeight="31.0" prefWidth="164.0"
-               text="نام کاربری : ">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Label fx:id="role" alignment="CENTER_RIGHT" layoutX="1240.0" layoutY="174.0" prefHeight="18.0"
-               prefWidth="151.0" text="نوع حساب : ">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Label alignment="CENTER_RIGHT" layoutX="1214.0" layoutY="249.0" prefHeight="6.0" prefWidth="175.0"
-               text="رمز عبور : ">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Label alignment="CENTER_RIGHT" layoutX="1237.0" layoutY="317.0" prefHeight="35.0" prefWidth="157.0"
-               text="اطلاعات کاربر">
-            <font>
-                <Font size="24.0"/>
-            </font>
-        </Label>
-        <Label alignment="CENTER_RIGHT" layoutX="1352.0" layoutY="382.0" prefHeight="27.0" prefWidth="37.0"
-               text="نام :">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Label alignment="CENTER_RIGHT" layoutX="1234.0" layoutY="449.0" prefHeight="16.0" prefWidth="163.0"
-               text="نام خانوادگی :">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Label alignment="CENTER_RIGHT" layoutX="1273.0" layoutY="523.0" prefHeight="26.0" prefWidth="124.0"
-               text="شماره تماس :">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Label alignment="CENTER_RIGHT" layoutX="1335.0" layoutY="599.0" prefHeight="18.0" prefWidth="55.0"
-               text="ایمیل :">
-            <font>
-                <Font size="18.0"/>
-            </font>
-        </Label>
-        <Separator layoutX="1502.0" layoutY="52.0" orientation="VERTICAL" prefHeight="606.0" prefWidth="1.0"/>
-        <Separator layoutX="176.0" layoutY="342.0" prefHeight="4.0" prefWidth="299.0"/>
-        <Separator layoutX="583.0" layoutY="62.0" orientation="VERTICAL" prefHeight="576.0" prefWidth="3.0"/>
-        <Separator layoutX="649.0" layoutY="315.0" prefHeight="0.0" prefWidth="768.0"/>
-        <TextField fx:id="UserName" layoutX="759.0" layoutY="85.0" prefHeight="44.0" prefWidth="443.0"/>
-        <TextField fx:id="AccountType" layoutX="759.0" layoutY="166.0" prefHeight="44.0" prefWidth="443.0"/>
-        <TextField fx:id="Password" layoutX="760.0" layoutY="241.0" prefHeight="44.0" prefWidth="443.0"/>
-        <TextField fx:id="FirstName" layoutX="760.0" layoutY="371.0" prefHeight="44.0" prefWidth="443.0"/>
-        <TextField fx:id="LastName" layoutX="760.0" layoutY="441.0" prefHeight="44.0" prefWidth="443.0"/>
-        <TextField fx:id="PhoneNum" layoutX="760.0" layoutY="515.0" prefHeight="44.0" prefWidth="443.0"/>
-        <TextField layoutX="760.0" layoutY="591.0" prefHeight="44.0" prefWidth="443.0"/>
-    </Pane>
+               <Font size="20.0" />
+            </font></TextField>
+            <TextField fx:id="Password" layoutX="760.0" layoutY="241.0" prefHeight="44.0" prefWidth="443.0" />
+            <TextField fx:id="FirstName" layoutX="760.0" layoutY="371.0" prefHeight="44.0" prefWidth="443.0" />
+            <TextField fx:id="LastName" layoutX="760.0" layoutY="441.0" prefHeight="44.0" prefWidth="443.0" />
+            <TextField fx:id="PhoneNum" layoutX="760.0" layoutY="515.0" prefHeight="44.0" prefWidth="443.0" />
+            <TextField fx:id="Email" layoutX="760.0" layoutY="591.0" prefHeight="44.0" prefWidth="443.0" />
+        </Pane>
 
-</AnchorPane>
+    </AnchorPane>
 </Scene>

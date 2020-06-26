@@ -1,28 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.Scene?>
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal"
-       xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
-<AnchorPane prefHeight="745.0" prefWidth="2000" >
-   <Label alignment="CENTER" layoutX="201.0" layoutY="114.0" prefHeight="19.0" prefWidth="250.0"
-          text="صفحه اطلاعات کاربر"/>
-   <TextField fx:id="firstName" alignment="CENTER" layoutX="252.0" layoutY="186.0" promptText="نام"/>
-   <TextField fx:id="lastName" alignment="CENTER" layoutX="252.0" layoutY="242.0" promptText="نام خانوادگی"/>
-   <TextField fx:id="Email" alignment="CENTER" layoutX="252.0" layoutY="293.0" promptText="ایمیل"/>
-   <TextField fx:id="Phone" alignment="CENTER" layoutX="252.0" layoutY="346.0" promptText="شماره تماس"/>
-   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="181.0" pickOnBounds="true"
-              preserveRatio="true"/>
-   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="192.0" layoutY="237.0" pickOnBounds="true"
-              preserveRatio="true"/>
-   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="288.0" pickOnBounds="true"
-              preserveRatio="true"/>
-   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="341.0" pickOnBounds="true"
-              preserveRatio="true"/>
-   <Button layoutX="276.0" layoutY="420.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="99.0"
-           text="ثبت اطلاعات" onAction="#submitNext"/>
-   <Button layoutX="59.0" layoutY="514.0" mnemonicParsing="false" text="بازگشت به صفحه ی قبلی" onAction="#back"/>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
+<AnchorPane prefHeight="745.0" prefWidth="2000">
+      <ImageView fitHeight="667.0" fitWidth="502.0" layoutX="750.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@background.png" />
+         </image>
+      </ImageView>
+   <Label alignment="CENTER" layoutX="874.0" layoutY="69.0" prefHeight="19.0" prefWidth="250.0" text="(( صفحه اطلاعات کاربر ))" textFill="#717070">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+   <TextField fx:id="firstName" alignment="CENTER" layoutX="887.0" layoutY="141.0" promptText="نام">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+   <TextField fx:id="lastName" alignment="CENTER" layoutX="887.0" layoutY="217.0" promptText="نام خانوادگی">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+   <TextField fx:id="Email" alignment="CENTER" layoutX="887.0" layoutY="286.0" promptText="ایمیل">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+   <TextField fx:id="Phone" alignment="CENTER" layoutX="887.0" layoutY="356.0" promptText="شماره تماس">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="192.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="341.0" pickOnBounds="true" preserveRatio="true" />
+   <Button layoutX="922.0" layoutY="455.0" mnemonicParsing="false" onAction="#submitNext" prefHeight="54.0" prefWidth="156.0" text="ثبت اطلاعات">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+   <Button layoutX="893.0" layoutY="588.0" mnemonicParsing="false" onAction="#back" text="بازگشت به صفحه ی قبلی">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
 </AnchorPane>
 </Scene>
