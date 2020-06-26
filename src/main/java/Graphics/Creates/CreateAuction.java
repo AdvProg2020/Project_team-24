@@ -59,12 +59,14 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         try {
             List<CheckMenuItem> checkMenuItems = sellerController.showProducts().stream()
                     .map(product -> product.getName() + " " + product.getId())
                     .map(CheckMenuItem::new).collect(Collectors.toList());
 
             selected_products.getItems().addAll(checkMenuItems);
+
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
         }
