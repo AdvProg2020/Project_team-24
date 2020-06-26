@@ -25,11 +25,6 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="editOff" layoutX="1595.0" layoutY="531.0" mnemonicParsing="false" onAction="#EditDiscountCode" prefHeight="37.0" prefWidth="234.0" text="ویرایش کد تخفیف">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Button>
         <Button fx:id="newOff" layoutX="1596.0" layoutY="599.0" mnemonicParsing="false" onAction="#CreateDiscountCode" prefHeight="40.0" prefWidth="232.0" text="ایجاد کد جدید">
             <font>
                 <Font size="18.0" />
@@ -50,22 +45,12 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="deleteAccount" layoutX="210.0" layoutY="201.0" mnemonicParsing="false" onAction="#DeleteAccount" prefHeight="42.0" prefWidth="232.0" text="حذف کاربر">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Button>
         <Label alignment="CENTER" layoutX="278.0" layoutY="369.0" prefHeight="27.0" prefWidth="96.0" text="(( دسته ها ))">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
         <Button fx:id="viewCategories" layoutX="214.0" layoutY="420.0" mnemonicParsing="false" onAction="#CategoryList" prefHeight="22.0" prefWidth="241.0" text="لیست دسته ها">
-            <font>
-                <Font size="18.0" />
-            </font>
-        </Button>
-        <Button fx:id="editCategories" layoutX="216.0" layoutY="483.0" mnemonicParsing="false" onAction="#EditCategory" prefHeight="40.0" prefWidth="239.0" text="ویرایش دسته">
             <font>
                 <Font size="18.0" />
             </font>
