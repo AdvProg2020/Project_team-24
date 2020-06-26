@@ -6,6 +6,7 @@ import Model.Models.*;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
+
 import Model.Models.Structs.ProductLog;
 import Model.Models.Structs.ProductOfSeller;
 import org.jetbrains.annotations.NotNull;
@@ -56,7 +57,7 @@ public class BuyerController extends AccountController {
             fieldList.addFiled(new Field(name, value));
         } else {
             Field field = fieldList.getFieldByName(name);
-            field.setString(value);
+            ( field).setString(value);
         }
         DataBase.save(controllerUnit.getAccount());
     }
@@ -184,7 +185,7 @@ public class BuyerController extends AccountController {
         if (!((Customer) controllerUnit.getAccount()).getDiscountCodeList().contains(discountCode.getId())) {
             throw new InvalidDiscountCodeException("Invalid discountCode whit id:" + discountCode.getId() + " .");
         }
-        discountCode.checkExpiredDiscountCode(true);
+        discountCode.checkExpiredDiscountCode();
         this.setDiscountCodeEntered(discountCode);
     }
 

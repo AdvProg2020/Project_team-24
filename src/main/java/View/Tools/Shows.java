@@ -1,7 +1,7 @@
 package View.Tools;
 
 import Model.Models.*;
-import Model.Models.Field.Fields.SingleString;
+import Model.Models.Field.Field;
 
 import java.util.function.Function;
 
@@ -33,13 +33,13 @@ public class Shows {
                     String.format("AccountId:%d \nAccountUsername:%s \n", account.getId(), account.getUserName()) +
                     String.format("AccountType:%s \nAccountRegisterDate:%s \n", account.getPersonalInfo().getSubject(), account.getPersonalInfo().getUploadDate()) +
                     account.getPersonalInfo().getList().getFieldList().stream().map(
-                            field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                            field -> String.format("%s : %s\n", field.getFieldName(), (field).getString())
                     ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
 
     private static Function<Info, String> showInfo = info ->
             "---------------------info---------------------" + System.lineSeparator() +
                     info.getList().getFieldList().stream().map(
-                            field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                            field -> String.format("%s : %s\n", field.getFieldName(), (field).getString())
                     ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
 
     private static Function<Category, String> showCategory = category ->
@@ -56,7 +56,7 @@ public class Shows {
                     String.format("DiscountAmount:%f \nAuctionDiscount:%f \n", logHistory.getDiscountAmount(), logHistory.getAuctionDiscount()) +
                     "Log fields: " +
                     logHistory.getFieldList().getFieldList().stream().map(
-                            field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                            field -> String.format("%s : %s\n", field.getFieldName(), (field).getString())
                     ).reduce("", (a, b) -> a + b) +
                     logHistory.getProductLogList().stream().map(
                             productLog -> String.format("ProductId:%d Price:%f FinalPrice:%f", productLog.getProductId(), productLog.getPrice(), productLog.getFinalPrice())
@@ -76,7 +76,7 @@ public class Shows {
                     String.format("CommentId:%d \nAccountId:%d \nGoodId:%d", comment.getId(), comment.getUserId(), comment.getGoodId()) +
                     "Comments : " + System.lineSeparator() +
                     comment.getFieldList().getFieldList().stream().map(
-                            field -> String.format("%s : %s\n", field.getFieldName(), ((SingleString) field).getString())
+                            field -> String.format("%s : %s\n", field.getFieldName(), (field).getString())
                     ).reduce("", (a, b) -> a + b) + "----------------------------------------------";
 
     private static Function<DiscountCode,String> showDiscountCode = discountCode ->

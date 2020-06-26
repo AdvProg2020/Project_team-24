@@ -7,7 +7,7 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Guest;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
-import Model.Models.Field.Fields.SingleString;
+
 import Model.Models.Structs.ProductOfSeller;
 
 
@@ -92,7 +92,7 @@ public class ProductController {
     public void addComment(String title, String content) throws ProductDoesNotExistException, CannotRateException {
         Account account = controllerUnit.getAccount();
         Product product = controllerUnit.getProduct();
-        List<Field> fields = Arrays.asList(new SingleString("Title", title), new SingleString("Content", content));
+        List<Field> fields = Arrays.asList(new Field("Title", title), new Field("Content", content));
         FieldList fieldList = new FieldList(fields);
         BuyerController.getInstance().checkIfProductBoughtToRate(product.getId());
         Comment comment = new Comment("ziba bood", account.getId(), product.getId(), fieldList);
