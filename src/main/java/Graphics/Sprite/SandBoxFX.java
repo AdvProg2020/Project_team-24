@@ -2,13 +2,10 @@ package Graphics.Sprite;
 
 import javafx.animation.Animation;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -23,9 +20,7 @@ public class SandBoxFX {
     private static final int WIDTH = 50;
     private static final int HEIGHT = 55;
 
-    public Pane sprite() {
-
-        Pane pane = new Pane();
+    public static @NotNull ImageView sprite() {
 
         final ImageView imageView = new ImageView(IMAGE);
         imageView.setViewport(new Rectangle2D(OFFSET_X, OFFSET_Y, WIDTH, HEIGHT));
@@ -40,7 +35,6 @@ public class SandBoxFX {
         animation.setCycleCount(Animation.INDEFINITE);
         animation.play();
 
-        pane.getChildren().add(imageView);
-        return pane;
+        return imageView;
     }
 }
