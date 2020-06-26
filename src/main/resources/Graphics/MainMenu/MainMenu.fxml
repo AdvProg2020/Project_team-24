@@ -64,7 +64,7 @@
                 </Button>
                 <Separator layoutX="1142.0" layoutY="148.0" orientation="VERTICAL" prefHeight="51.0" prefWidth="6.0" />
                 <Separator layoutX="342.0" layoutY="149.0" orientation="VERTICAL" prefHeight="47.0" prefWidth="7.0" />
-                <Button layoutX="101.0" layoutY="71.0" mnemonicParsing="false" onAction="#goCart" prefHeight="124.0" prefWidth="128.0" styleClass="shoppingBag" stylesheets="@MainMenu.css" />
+                <Button layoutX="113.0" layoutY="54.0" mnemonicParsing="false" onAction="#goCart" prefHeight="86.0" prefWidth="89.0" styleClass="shoppingBag" stylesheets="@MainMenu.css" />
                 <ImageView fitHeight="38.0" fitWidth="48.0" layoutX="374.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-customer-64.png" />
                 </ImageView>
@@ -83,6 +83,11 @@
                     <Image url="@../Product/icons8-search-50.png" />
                 </ImageView>
             <Button layoutX="1308.0" layoutY="72.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="45.0" styleClass="searchButton" stylesheets="@MainMenu.css" />
+            <Button layoutX="46.0" layoutY="150.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="224.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="بازگشت به صفحه ی اصلی" textFill="#979797">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
             </AnchorPane>
         </top>
         <center>
