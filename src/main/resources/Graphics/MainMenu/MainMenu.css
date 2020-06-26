@@ -48,3 +48,8 @@
 .hideBrand{
     -fx-background-color: #161623;
 }
+.searchButton{
+    -fx-background-color: white;
+    -fx-background-image: url("icons8-search-50.png");
+
+}
