@@ -149,6 +149,16 @@
                     </AnchorPane>
                 </Tab>
             </TabPane>
+      <Button layoutX="776.0" layoutY="738.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="311.0" text="میخواهم فروشنده این کالا باشم">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="866.0" layoutY="821.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="163.0" text="حذف این محصول">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
 
         </AnchorPane>
 <!--    </ScrollPane>-->
