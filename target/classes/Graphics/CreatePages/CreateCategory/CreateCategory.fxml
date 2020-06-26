@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Creates.CreateCategory">
    <Pane>
 <AnchorPane prefHeight="745.0" prefWidth="2000">
    <Label alignment="CENTER" layoutX="776.0" layoutY="36.0" prefHeight="59.0" prefWidth="352.0" styleClass="title" stylesheets="@CreateCategory.css" text="صفحه ی ایجاد دسته" textFill="#6c6b6b">
@@ -14,7 +14,7 @@
          <Font size="24.0" />
       </font>
    </Label>
-   <MenuButton alignment="CENTER" layoutX="899.0" layoutY="319.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="168.0" text="زیر دسته" textFill="#3ea5de">
+   <MenuButton fx:id="selected_subCategory" alignment="CENTER" layoutX="899.0" layoutY="319.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="168.0" text="زیر دسته" textFill="#3ea5de">
       <items>
          <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
          <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
@@ -28,56 +28,44 @@
          <Font size="18.0" />
       </font>
    </Label>
-   <Button layoutX="897.0" layoutY="689.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="126.0" stylesheets="@CreateCategory.css" text="ثبت نهایی" textFill="#2a90af">
+   <Button layoutX="897.0" layoutY="689.0" mnemonicParsing="false" onAction="#submit" prefHeight="15.0" prefWidth="126.0" stylesheets="@CreateCategory.css" text="ثبت نهایی" textFill="#2a90af">
       <font>
          <Font size="18.0" />
       </font></Button>
    <ImageView fitHeight="41.0" fitWidth="46.0" layoutX="793.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@icons8-add-file-48.png" />
-      </image>
+      <Image url="@icons8-add-file-48.png" />
    </ImageView>
-   <TextField alignment="CENTER" layoutX="996.0" layoutY="478.0" prefHeight="33.0" prefWidth="191.0" promptText="ویژگی : ">
+   <TextField fx:id="feature" alignment="CENTER" layoutX="788.0" layoutY="478.0" prefHeight="39.0" prefWidth="399.0" promptText="ویژگی : ">
       <font>
          <Font size="18.0" />
       </font>
    </TextField>
-   <TextField alignment="CENTER" layoutX="796.0" layoutY="478.0" prefHeight="38.0" prefWidth="187.0" promptText="مقدار">
-      <font>
-         <Font size="18.0" />
-      </font>
-   </TextField>
-   <Button layoutX="715.0" layoutY="478.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="68.0" text="ثبت ">
+   <Button layoutX="715.0" layoutY="478.0" mnemonicParsing="false" onAction="#addField" prefHeight="38.0" prefWidth="68.0" text="ثبت ">
       <font>
          <Font size="18.0" />
       </font>
    </Button>
    
-   <TableView layoutX="715.0" layoutY="532.0" prefHeight="116.0" prefWidth="473.0">
+   <TableView fx:id="table" layoutX="715.0" layoutY="532.0" prefHeight="116.0" prefWidth="473.0">
       <columns>
-         <TableColumn prefWidth="223.199951171875" text="مقدار" />
-         <TableColumn prefWidth="249.5999755859375" text="ویژگی" />
+         <TableColumn fx:id="feature_column" prefWidth="472.8000122070313" text="ویژگی" />
       </columns>
    </TableView>
-      <ImageView fitHeight="45.0" fitWidth="42.0" layoutX="1032.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@icons8-pin-48.png" />
-         </image>
-      </ImageView>
+   <ImageView fitHeight="45.0" fitWidth="42.0" layoutX="1032.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-pin-48.png" />
+   </ImageView>
       <Label alignment="CENTER" layoutX="838.0" layoutY="420.0" prefHeight="39.0" prefWidth="228.0" text="ساختن ویژگی برای دسته" textFill="#8a8a8a">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ImageView fitHeight="51.0" fitWidth="57.0" layoutX="825.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@icons8-sorting-48(1).png" />
-         </image>
-      </ImageView>
+   <ImageView fitHeight="51.0" fitWidth="57.0" layoutX="825.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@icons8-sorting-48(1).png" />
+   </ImageView>
       <Separator layoutX="714.0" layoutY="409.0" prefHeight="0.0" prefWidth="475.0" />
       <Separator layoutX="716.0" layoutY="667.0" prefHeight="0.0" prefWidth="471.0" />
       <Separator layoutX="777.0" layoutY="237.0" prefHeight="0.0" prefWidth="349.0" />
-      <TextField alignment="CENTER" layoutX="823.0" layoutY="138.0" prefHeight="62.0" prefWidth="258.0" promptText="نام دسته">
+      <TextField fx:id="Category_name" alignment="CENTER" layoutX="823.0" layoutY="138.0" prefHeight="62.0" prefWidth="258.0" promptText="نام دسته">
          <font>
             <Font size="18.0" />
          </font>

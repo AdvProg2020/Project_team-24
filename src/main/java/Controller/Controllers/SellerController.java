@@ -151,10 +151,6 @@ public class SellerController extends AccountController {
         this.sendRequest(product, information, "remove");
     }
 
-//    public ArrayList<Auction> viewOffInFilter() { // what is this?
-//        return null; //Discount.Disc;
-//    }
-
     public Auction viewOff(String offIdString) throws AuctionDoesNotExistException, NumberFormatException {
         long offId = Long.parseLong(offIdString);
         return Auction.getAuctionById(offId);

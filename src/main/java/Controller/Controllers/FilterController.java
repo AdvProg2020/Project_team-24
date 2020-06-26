@@ -21,8 +21,6 @@ public class FilterController {
 
     private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
-//    private static List<Product> listOfProductsFiltered = new ArrayList<>(Product.getList());
-
     private static FilterController filterController = new FilterController();
 
     private List<Filter> filterList = new ArrayList<>();

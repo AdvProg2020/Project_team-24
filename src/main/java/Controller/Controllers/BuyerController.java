@@ -185,7 +185,7 @@ public class BuyerController extends AccountController {
         if (!((Customer) controllerUnit.getAccount()).getDiscountCodeList().contains(discountCode.getId())) {
             throw new InvalidDiscountCodeException("Invalid discountCode whit id:" + discountCode.getId() + " .");
         }
-        discountCode.checkExpiredDiscountCode();
+        discountCode.checkExpiredDiscountCode(true);
         this.setDiscountCodeEntered(discountCode);
     }
 

@@ -91,14 +91,8 @@ public class ProductsController {
         return productList;
     }
 
-//    private void checkSortAvailable(String filter) throws NotAvailableSortException {
-//        if (!(filter.equals("Time") || filter.equals("Point") || filter.equals("NumberOfVisits"))) {
-//            throw new NotAvailableSortException("this sort isn't an available Sort.");
-//        }
-//    }
-
     public List<Product> sort(@NotNull String sortElement) throws NotAvailableSortException {
-//        checkSortAvailable(sortElement);
+
         switch (sortElement) {
             case "Time":
                 this.sortElement = SortElement.TIME;
