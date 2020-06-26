@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
-    private static ProductsController productsController = ProductsController.getInstance();
-    private static FilterController filterController = FilterController.getInstance();
+    private ProductsController productsController = ProductsController.getInstance();
+    private FilterController filterController = FilterController.getInstance();
     private static Stage primaryStage;
     private static BorderPane center;
     @FXML
@@ -56,7 +56,6 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ModelUnit.getInstance().preprocess_loadLists();
         setCenter(changeable);
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
@@ -143,6 +142,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public static void main(String[] args) {
+        ModelUnit.getInstance().preprocess_loadLists();
         launch(args);
     }
 
@@ -162,7 +162,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     private void playMusic() {
         new Thread(() -> {
-            MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()));
+            MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3").toURI().toString()));
             mediaPlayer.setCycleCount(Integer.MAX_VALUE);
             mediaPlayer.play();
         }).start();

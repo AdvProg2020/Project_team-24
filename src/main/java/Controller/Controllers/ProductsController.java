@@ -47,9 +47,9 @@ public class ProductsController {
 
     private static List<Product> productList = new ArrayList<>(Product.getList());
 
-    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
-
     private static ProductsController productsController = new ProductsController();
+
+    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
     /****************************************************singleTone***************************************************/
 
