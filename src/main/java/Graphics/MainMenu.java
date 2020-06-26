@@ -1,18 +1,25 @@
 package Graphics;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.FilterController;
 import Controller.Controllers.ProductsController;
 import Exceptions.InvalidFilterException;
 import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
 import Model.ModelUnit;
+import Model.Models.Account;
+import Model.Models.Accounts.Customer;
+import Model.Models.Accounts.Manager;
+import Model.Models.Accounts.Seller;
 import Model.Models.Product;
 import com.gilecode.yagson.com.google.gson.internal.$Gson$Preconditions;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -33,6 +40,8 @@ import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
+    public Button cart_btn;
+    public Button userArea_btn;
     private ProductsController productsController = ProductsController.getInstance();
     private FilterController filterController = FilterController.getInstance();
     private static Stage primaryStage;
@@ -60,6 +69,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
         playMusic();
+
     }
 
     @Override
@@ -94,8 +104,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         center.setCenter(scene.getRoot());
     }
 
-    public void doCeSuT() {
-        // new Scene need.
+    public void goMainMenu() {
+        getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
     public void goLogin() {
@@ -116,6 +126,16 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public void goAuction() {
         // new Scene need.
+    }
+
+    public void goUserArea() {
+        Account account = ControllerUnit.getInstance().getAccount();
+        if (account instanceof Manager)
+            MainMenu.change(new ProductsMenu().sceneBuilder());
+        if (account instanceof Seller)
+            MainMenu.change(new ProductsMenu().sceneBuilder());
+        if (account instanceof Customer)
+            MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public void goProducts() {
@@ -156,7 +176,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     @NotNull
     private List<Product> findPopulars(List<Product> list) {
         List<Product> newList = new ArrayList<>(list);
-        newList.sort((o1, o2) -> -1 * Long.compare(o1.getNumberOfVisitors(),o2.getNumberOfVisitors()));
+        newList.sort((o1, o2) -> -1 * Long.compare(o1.getNumberOfVisitors(), o2.getNumberOfVisitors()));
         return newList;
     }
 
