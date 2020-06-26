@@ -4,11 +4,13 @@ import Controller.ControllerUnit;
 import Controller.Controllers.BuyerController;
 import Exceptions.*;
 import Graphics.Cart;
+import Graphics.LogHistoryMenu;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.DiscountCode;
 import Model.Models.Structs.Medias;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -113,9 +115,6 @@ public class Customer implements Initializable, SceneBuilder {
         }
     }
 
-    public void showProducts() {
-        // ?
-    }
 
     public void logout() {
         ControllerUnit.getInstance().setAccount(null);
@@ -157,7 +156,7 @@ public class Customer implements Initializable, SceneBuilder {
     }
 
     public void goLogHistory() {
-        // ?
+        MainMenu.change(new LogHistoryMenu().sceneBuilder());
     }
 
     public void selectingImage() {
@@ -166,5 +165,9 @@ public class Customer implements Initializable, SceneBuilder {
         selectedImage = fc.showOpenDialog(null);
         Image image = new Image(selectedImage.toURI().toString());
         customer_image.setImage(image);
+    }
+
+    public void DeleteAccount(ActionEvent event) {
+        ///qre
     }
 }
