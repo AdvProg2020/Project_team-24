@@ -1,10 +1,13 @@
 package Graphics.Lists;
 
+import Graphics.Accounts.Manager;
+import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +16,7 @@ import java.util.ResourceBundle;
 
 public class CategoryList implements SceneBuilder, Initializable {
     public void back(ActionEvent event) {
+        MainMenu.change(new Manager().sceneBuilder());
     }
 
     @Override

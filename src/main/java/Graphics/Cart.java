@@ -173,7 +173,8 @@ public class Cart implements Initializable, SceneBuilder {
     }
 
     public void back() {
-        // ?
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
+
     }
 
     public void purchase() {
