@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Graphics.DiscountCodeList.DiscountCodeList"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="453.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.DiscountCodeList.DiscountCodeList">
+   <children>
+      <TableView layoutX="12.0" layoutY="60.0" prefHeight="378.0" prefWidth="576.0">
+        <columns>
+          <TableColumn prefWidth="104.20001220703125" text="سقف تخفیف" />
+            <TableColumn prefWidth="94.39999389648438" text="تخفیف" />
+            <TableColumn prefWidth="124.39994812011719" text="تاریخ پایان" />
+            <TableColumn prefWidth="118.0" text="تاریخ شروع" />
+          <TableColumn prefWidth="130.0" text="کد" />
+        </columns>
+      </TableView>
+      <Label layoutX="222.0" layoutY="14.0" text="لیست کد های تخفیف" textFill="#cf0e0e">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

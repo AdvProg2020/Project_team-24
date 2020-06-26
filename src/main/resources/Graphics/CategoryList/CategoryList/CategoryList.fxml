@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.CategoryList.CategoryList.CategoryList">
+   <children>
+      <TableView layoutX="150.0" layoutY="76.0" prefHeight="294.0" prefWidth="299.0">
+        <columns>
+          <TableColumn prefWidth="298.3999969482422" text="نام دسته" />
+        </columns>
+      </TableView>
+      <Label alignment="CENTER" layoutX="188.0" layoutY="25.0" prefHeight="21.0" prefWidth="224.0" text="لیست دسته ها" textFill="#ff1111">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+
+</AnchorPane>
