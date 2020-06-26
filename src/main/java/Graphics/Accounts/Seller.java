@@ -129,7 +129,7 @@ public class Seller implements SceneBuilder, Initializable {
     }
 
     public void showProducts() {
-        // ?
+
     }
 
     public void showLogHistories() {

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="340.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="340.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.LogHistoryCart">
 <Pane prefHeight="340.0" prefWidth="618.0">
       <children>
          <TableView layoutX="34.0" layoutY="62.0" prefHeight="189.0" prefWidth="550.0">
@@ -25,11 +25,11 @@
       <Label alignment="CENTER_RIGHT" layoutX="496.0" layoutY="313.0" text="تخفیف کد تخفیف:" />
       <Label alignment="CENTER_RIGHT" layoutX="193.0" layoutY="312.0" prefHeight="18.0" prefWidth="88.0" text="وضعیت تحویل :" />
       <Label alignment="CENTER_RIGHT" layoutX="193.0" layoutY="264.0" prefHeight="18.0" prefWidth="88.0" text="تاریخ خرید : " />
-      <Label alignment="CENTER_RIGHT" layoutX="327.0" layoutY="264.0" prefHeight="18.0" prefWidth="144.0" text="Label" />
-      <Label alignment="CENTER_RIGHT" layoutX="320.0" layoutY="286.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
-      <Label alignment="CENTER_RIGHT" layoutX="320.0" layoutY="313.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
-      <Label alignment="CENTER_RIGHT" layoutX="34.0" layoutY="264.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
-      <Label alignment="CENTER_RIGHT" layoutX="34.0" layoutY="312.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+      <Label fx:id="finalPrice" alignment="CENTER_RIGHT" layoutX="327.0" layoutY="264.0" prefHeight="18.0" prefWidth="144.0" text="Label" />
+      <Label fx:id="ActionDiscount" alignment="CENTER_RIGHT" layoutX="320.0" layoutY="286.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+      <Label fx:id="DiscountCodeDiscount" alignment="CENTER_RIGHT" layoutX="320.0" layoutY="313.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+      <Label fx:id="Date" alignment="CENTER_RIGHT" layoutX="34.0" layoutY="264.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+      <Label fx:id="PendingState" alignment="CENTER_RIGHT" layoutX="34.0" layoutY="312.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
       </children>
 </Pane>
 </AnchorPane>

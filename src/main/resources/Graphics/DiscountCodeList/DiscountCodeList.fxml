@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="453.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.DiscountCodeList.DiscountCodeList">
+<AnchorPane prefHeight="510.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.DiscountCodeList">
    <children>
       <TableView layoutX="12.0" layoutY="60.0" prefHeight="378.0" prefWidth="576.0">
         <columns>
@@ -15,10 +15,11 @@
           <TableColumn prefWidth="130.0" text="کد" />
         </columns>
       </TableView>
-      <Label layoutX="222.0" layoutY="14.0" text="لیست کد های تخفیف" textFill="#cf0e0e">
+      <Label layoutX="230.0" layoutY="22.0" text="لیست کد های تخفیف" textFill="#d22323">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
+      <Button layoutX="239.0" layoutY="456.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="137.0" text="بازگشت به صفحه ی قبل" />
    </children>
 </AnchorPane>
