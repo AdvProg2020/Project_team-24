@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.PopUp">
+<AnchorPane prefHeight="358.0" prefWidth="536.0">
+   <children>
+      <ImageView fitHeight="377.0" fitWidth="548.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@popup.png" />
+         </image></ImageView>
+      <WebView fx:id="webView" layoutY="-11.0" prefHeight="378.0" prefWidth="552.0" visible="false" />
+      <Button fx:id="viewPage" layoutX="197.0" layoutY="303.0" mnemonicParsing="false" onAction="#setViewPage" prefHeight="22.0" prefWidth="171.0" text="مشاهده تبلیغ">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+   </children>
+</AnchorPane>
+</Scene>
