@@ -73,10 +73,10 @@ public class Customer implements Initializable, SceneBuilder {
         username_txt.setText(customer.getUserName());
         password_txt.setText(customer.getPassword());
         try {
-            lName_txt.setText(customer.getPersonalInfo().getList().getFieldByName("lName").getString());
-            fName_txt.setText(customer.getPersonalInfo().getList().getFieldByName("fName").getString());
-            phone_txt.setText(customer.getPersonalInfo().getList().getFieldByName("phone").getString());
-            email_txt.setText(customer.getPersonalInfo().getList().getFieldByName("email").getString());
+            lName_txt.setText(customer.getPersonalInfo().getList().getFieldByName("LastName").getString());
+            fName_txt.setText(customer.getPersonalInfo().getList().getFieldByName("FirstName").getString());
+            phone_txt.setText(customer.getPersonalInfo().getList().getFieldByName("PhoneNumber").getString());
+            email_txt.setText(customer.getPersonalInfo().getList().getFieldByName("Email").getString());
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }

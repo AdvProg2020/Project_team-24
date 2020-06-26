@@ -40,8 +40,6 @@ import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
-
-
     private ProductsController productsController = ProductsController.getInstance();
     private FilterController filterController = FilterController.getInstance();
     private Account account = ControllerUnit.getInstance().getAccount();
@@ -59,6 +57,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     private Button userArea_btn;
     @FXML
     private Button back_btn;
+    @FXML
+    private Button login_logout_btn;
 
     @Override
     public void start(@NotNull Stage stage) {
@@ -79,8 +79,11 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         if (account == null) return;
         userArea_btn.setDisable(false);
         cart_btn.setDisable(false);
-        userArea_btn.setText("خروج");
-        userArea_btn.setOnAction(event -> ControllerUnit.getInstance().setAccount(null));
+        login_logout_btn.setText("خروج ...");
+        login_logout_btn.setOnAction(event -> {
+            ControllerUnit.getInstance().setAccount(null);
+            MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
+        });
     }
 
     @Override

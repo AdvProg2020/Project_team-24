@@ -40,7 +40,7 @@
                   <Font size="16.0" />
                </font>
                 </Button>
-                <Button alignment="CENTER_RIGHT" layoutX="364.0" layoutY="149.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="50.0" prefWidth="208.0" stylesheets="@MainMenu.css" text="ورود به حساب کاربری" textFill="#8a8a8a">
+                <Button fx:id="login_logout_btn" alignment="CENTER_RIGHT" layoutX="364.0" layoutY="149.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="50.0" prefWidth="208.0" stylesheets="@MainMenu.css" text="ورود به حساب کاربری" textFill="#8a8a8a">
                     <styleClass>
                         <String fx:value="button1" />
                         <String fx:value="taskbarButtons" />

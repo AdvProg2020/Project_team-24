@@ -87,13 +87,13 @@ public class Seller implements SceneBuilder, Initializable {
         username_txt.setText(seller.getUserName());
         password_txt.setText(seller.getPassword());
         try {
-            lName_txt.setText(seller.getPersonalInfo().getList().getFieldByName("lName").getString());
-            fName_txt.setText(seller.getPersonalInfo().getList().getFieldByName("fName").getString());
-            phone_txt.setText(seller.getPersonalInfo().getList().getFieldByName("phone").getString());
-            email_txt.setText(seller.getPersonalInfo().getList().getFieldByName("email").getString());
-            bran_txt.setText(seller.getCompanyInfo().getList().getFieldByName("brand").getString());
-            comEmail_txt.setText(seller.getCompanyInfo().getList().getFieldByName("comEmail").getString());
-            comPhone_txt.setText(seller.getCompanyInfo().getList().getFieldByName("comPhone").getString());
+            lName_txt.setText(seller.getPersonalInfo().getList().getFieldByName("LastName").getString());
+            fName_txt.setText(seller.getPersonalInfo().getList().getFieldByName("FirstName").getString());
+            phone_txt.setText(seller.getPersonalInfo().getList().getFieldByName("PhoneNumber").getString());
+            email_txt.setText(seller.getPersonalInfo().getList().getFieldByName("Email").getString());
+            bran_txt.setText(seller.getCompanyInfo().getList().getFieldByName("CompanyName").getString());
+            comEmail_txt.setText(seller.getCompanyInfo().getList().getFieldByName("CompanyEmail").getString());
+            comPhone_txt.setText(seller.getCompanyInfo().getList().getFieldByName("CompanyPhoneNumber").getString());
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
