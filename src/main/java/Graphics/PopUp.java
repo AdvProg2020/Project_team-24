@@ -22,7 +22,8 @@ public class PopUp implements Initializable {
     }
     public void setViewPage(){
         webView.setVisible(true);
-        engine.load( "https://www.google.com");
+        engine.load( "https://www.zoomit.ir/2018/12/3/309989/complete-guide-buying-best-sms-panel-and-sms-advertising");
+        viewPage.setVisible(false);
     }
 
 
