@@ -7,7 +7,9 @@ import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
 import Graphics.Creates.CreateCategory;
 import Graphics.Creates.CreateProduct;
+import Graphics.LogHistoryMenu;
 import Graphics.MainMenu;
+import Graphics.Product;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Account;
 import Model.Models.LogHistory;
@@ -26,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,11 +132,12 @@ public class Seller implements SceneBuilder, Initializable {
     }
 
     public void showProducts() {
+        MainMenu.change(new Product().sceneBuilder());
 
     }
 
     public void showLogHistories() {
-        // ?
+        MainMenu.change(new LogHistoryMenu().sceneBuilder());
     }
 
     public void logout() {
