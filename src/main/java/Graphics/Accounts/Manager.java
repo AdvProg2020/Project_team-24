@@ -100,7 +100,7 @@ public class Manager implements SceneBuilder, Initializable {
         }
         if (manager.getMediaId() != 0) {
             try {
-                product_image.setImage(Medias.getMediasById(manager.getMediaId()).getImage());
+                product_image.setImage(Medias.getImage(Medias.getMediasById(manager.getMediaId()).getImageSrc()));
             } catch (ProductMediaNotFoundException e) {
                 e.printStackTrace();
             }
@@ -129,15 +129,13 @@ public class Manager implements SceneBuilder, Initializable {
 
     public void CreateManager(ActionEvent event) {
         MainMenu.change(new SignUp().sceneBuilder());
-        //edameeeeee.....
     }
 
     public void CreateDiscountCode(ActionEvent event) {
         MainMenu.change(new CreateDiscountCode().sceneBuilder());
     }
-    
 
-    public void DiscountCodeList(ActionEvent event) {
+    public void DiscountCodeList() {
         MainMenu.change(new DiscountCodeList().sceneBuilder());
 
     }

@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
@@ -156,10 +157,7 @@ public class Cart implements Initializable, SceneBuilder {
         product_image.setCellValueFactory(param ->
                 {
                     try {
-                        return new SimpleObjectProperty<>(
-                                new ImageView(
-                                        Medias.getMediasById(param.getValue().getMediaId()).getImage())
-                        );
+                        return new SimpleObjectProperty<>(new ImageView(Medias.getImage(Medias.getMediasById(param.getValue().getMediaId()).getImageSrc())));
                     } catch (ProductMediaNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -174,7 +172,6 @@ public class Cart implements Initializable, SceneBuilder {
 
     public void back() {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
-
     }
 
     public void purchase() {

@@ -78,12 +78,14 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         playMusic();
         if (account == null) return;
         userArea_btn.setDisable(false);
-        cart_btn.setDisable(false);
         login_logout_btn.setText("خروج ...");
-        login_logout_btn.setOnAction(event -> {
-            ControllerUnit.getInstance().setAccount(null);
-            MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
-        });
+        login_logout_btn.setOnAction(event -> logout());
+        if (account instanceof Customer) cart_btn.setDisable(false);
+    }
+
+    private void logout() {
+        ControllerUnit.getInstance().setAccount(null);
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
     @Override

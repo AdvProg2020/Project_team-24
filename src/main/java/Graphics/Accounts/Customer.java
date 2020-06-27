@@ -87,7 +87,7 @@ public class Customer implements Initializable, SceneBuilder {
         try {
 
             if (customer.getMediaId() != 0) {
-                customer_image.setImage(Medias.getMediasById(customer.getMediaId()).getImage());
+                customer_image.setImage(Medias.getImage(Medias.getMediasById(customer.getMediaId()).getImageSrc()));
             }
 
             customer.getDiscountCodeList().forEach(aLong -> {
@@ -132,7 +132,7 @@ public class Customer implements Initializable, SceneBuilder {
                         Paths.get(first),
                         StandardCopyOption.REPLACE_EXISTING
                 );
-                Medias.getMediasById(customer.getMediaId()).setImage(new Image(new File(first).toURI().toString()));
+                Medias.getMediasById(customer.getMediaId()).setImageSrc(new File(first).toURI().toString());
 
                 customer.editField("password", password_txt.getText());
                 customer.editField("balance", balance_txt.getText());

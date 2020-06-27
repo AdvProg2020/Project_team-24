@@ -87,7 +87,7 @@ public class ProductCart implements Initializable {
     private void setProductCartFields() {
         if (product == null) return;
         try {
-            Image image = Medias.getMediasById(product.getId()).getImage();
+            Image image = Medias.getImage(Medias.getMediasById(product.getId()).getImageSrc());
             this.productImage.setImage(image);
         } catch (ProductMediaNotFoundException e) {
             e.printStackTrace();
@@ -114,10 +114,7 @@ public class ProductCart implements Initializable {
     public void prevSeller() {
 
         if (sellerIndex > 0)
-            this.price_ftx.setText(
-                    product.getSellersOfProduct()
-                            .get(--sellerIndex).getPrice() + ""
-            );
+            this.price_ftx.setText(product.getSellersOfProduct().get(--sellerIndex).getPrice() + "");
 
         if (product.getAuction() != null) newPrice(product.getAuction());
 

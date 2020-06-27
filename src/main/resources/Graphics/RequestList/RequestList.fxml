@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="439.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.RequestList.RequestList">
-   <children>
-      <TableView layoutX="14.0" layoutY="69.0" prefHeight="355.0" prefWidth="574.0">
-        <columns>
-          <TableColumn prefWidth="108.0" text="دکمه تایید" />
-          <TableColumn prefWidth="114.4000244140625" text="نوع درخواست" />
-            <TableColumn prefWidth="118.5999755859375" text="توضیحات" />
-            <TableColumn prefWidth="117.0" text="جنس" />
-            <TableColumn prefWidth="118.4000244140625" text="اسم" />
-        </columns>
-      </TableView>
-      <Label layoutX="229.0" layoutY="30.0" text="لیست درخواست ها" textFill="#d51313">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.RequestList">
+    <AnchorPane prefHeight="439.0" prefWidth="600.0">
+        <TableView fx:id="request_table" layoutX="14.0" layoutY="69.0" prefHeight="355.0" prefWidth="574.0">
+            <columns>
+                <TableColumn fx:id="ar_btn" prefWidth="108.0" text="دکمه تایید"/>
+                <TableColumn fx:id="request_type" prefWidth="114.4000244140625" text="نوع درخواست"/>
+                <TableColumn fx:id="request_info" prefWidth="118.5999755859375" text="توضیحات"/>
+                <TableColumn fx:id="request_mode" prefWidth="117.0" text="جنس"/>
+                <TableColumn fx:id="request_name" prefWidth="118.4000244140625" text="اسم"/>
+            </columns>
+        </TableView>
+        <Label layoutX="229.0" layoutY="30.0" text="لیست درخواست ها" textFill="#d51313">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Label>
+    </AnchorPane>
+</Scene>

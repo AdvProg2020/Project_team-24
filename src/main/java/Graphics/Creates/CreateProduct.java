@@ -178,9 +178,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
                 reset();
 
                 if (str_v_c.size() != str_fcc.size()) {
-
-                    category_value.setTooltip(getTooltip());
-                    category_value.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+                    mustFillCategoryValues();
                     return;
                 }
 
@@ -192,11 +190,11 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
                     if (selectedImage != null) {
                         setImage();
-                        medias.setImage(new Image(selectedImage.toURI().toString()));
+                        medias.setImageSrc(selectedImage.toURI().toString());
                     }
                     if (selectedMedia != null) {
                         setMedia();
-                        medias.setPlayer(new MediaPlayer(new Media(selectedMedia.toURI().toString())));
+                        medias.setPlayerSrc(selectedMedia.toURI().toString());
                     }
                     DataBase.save(medias);
                 }
@@ -212,6 +210,11 @@ public class CreateProduct implements SceneBuilder, Initializable {
         }
     }
 
+    private void mustFillCategoryValues() {
+        category_value.setTooltip(getTooltip());
+        category_value.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+    }
+
     private void reset() {
         product_name.setTooltip(null);
         product_name.setStyle("-fx-border-color: white;");
@@ -224,6 +227,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     public void select_image() {
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
         selectedImage = fc.showOpenDialog(null);
+        if (selectedImage == null) return;
         Image value = new Image(selectedImage.toURI().toString());
         product_image.setImage(value);
     }
@@ -287,7 +291,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
         try {
             String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + ".mp4";
             Files.copy(
-                    selectedImage.toPath(),
+                    selectedMedia.toPath(),
                     Paths.get(first),
                     StandardCopyOption.REPLACE_EXISTING
             );
@@ -297,7 +301,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
         }
     }
 
-    private void setTable(TableView<Field> table, TableColumn<Field, String> features, TableColumn<Field, String> values, List<String> featureList, List<String> valueList) {
+    private void setTable(TableView<Field> table, TableColumn<Field, String> features, TableColumn<Field, String> values, @NotNull List<String> featureList, List<String> valueList) {
         List<Field> fieldList = new ArrayList<>();
         for (int i = 0; i < featureList.size(); i++) {
             fieldList.add(new Field(featureList.get(i), valueList.get(i)));
