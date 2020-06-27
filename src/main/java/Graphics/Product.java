@@ -7,6 +7,7 @@ import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductOfSeller;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,6 +32,7 @@ public class Product implements Initializable, SceneBuilder {
     private static Model.Models.Product First_Compare;
     private static Model.Models.Product productObject;
     public MediaView gif;
+    public Label productName;
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
@@ -140,5 +142,11 @@ public class Product implements Initializable, SceneBuilder {
 
     private void goComparingArea() {
         // ?
+    }
+
+    public void AddMeAsSeller(ActionEvent event) {
+    }
+
+    public void deleteProduct(ActionEvent event) {
     }
 }
