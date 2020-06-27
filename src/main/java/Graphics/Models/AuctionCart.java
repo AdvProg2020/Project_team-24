@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -30,6 +31,8 @@ public class AuctionCart implements Initializable {
     private Auction auction;
 
     @FXML
+    private AnchorPane mainPane;
+    @FXML
     private ImageView auction_image;
     @FXML
     private Label auction_name;
@@ -42,7 +45,10 @@ public class AuctionCart implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (auctionList.isEmpty()) return;
+        if (auctionList.isEmpty()) {
+            mainPane.setDisable(true);
+            return;
+        }
         auction = auctionList.get(0);
         auctionList.remove(0);
         init(auction);
@@ -63,6 +69,7 @@ public class AuctionCart implements Initializable {
 
     private void init(@NotNull Auction auction) {
         auction_image.setImage(images.get(new Random().nextInt(images.size())));
+//        auction_image.setImage(images.get(new Random().nextInt(images.size())));
         auction_name.setText(auction.getName());
         auction_per.setText(auction.getDiscount().getPercent() + "%");
     }

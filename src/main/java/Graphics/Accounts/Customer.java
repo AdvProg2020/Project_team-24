@@ -8,6 +8,7 @@ import Graphics.LogHistoryCart;
 import Graphics.MainMenu;
 import Graphics.Menus.LogHistoryMenu;
 import Graphics.Tools.SceneBuilder;
+import Model.DataBase.DataBase;
 import Model.Models.Account;
 import Model.Models.DiscountCode;
 import Model.Models.LogHistory;
@@ -84,7 +85,6 @@ public class Customer implements Initializable, SceneBuilder {
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-
         balance_txt.setText(customer.getCredit() + "");
         try {
 
@@ -117,7 +117,6 @@ public class Customer implements Initializable, SceneBuilder {
         }
     }
 
-
     public void logout() {
         ControllerUnit.getInstance().setAccount(null);
         back();
@@ -125,27 +124,21 @@ public class Customer implements Initializable, SceneBuilder {
 
     public void submit() {
 
-        if (selectedImage != null) {
-            try {
+        try {
 
-                String first = "src/main/resources/DataBase/Images/" + customer.getMediaId() + ".jpg";
-                Files.copy(
-                        selectedImage.toPath(),
-                        Paths.get(first),
-                        StandardCopyOption.REPLACE_EXISTING
-                );
-                Medias.getMediasById(customer.getMediaId()).setImageSrc(new File(first).toURI().toString());
-
-                customer.editField("password", password_txt.getText());
-                customer.editField("balance", balance_txt.getText());
-                customer.editField("FirstName", fName_txt.getText());
-                customer.editField("LastName", lName_txt.getText());
-                customer.editField("Email", email_txt.getText());
-                customer.editField("PhoneNumber", phone_txt.getText());
-
-            } catch (IOException | ProductMediaNotFoundException | FieldDoesNotExistException e) {
-                e.printStackTrace();
+            if (selectedImage != null) {
+                setImage();
             }
+
+            customer.editField("password", password_txt.getText());
+            customer.editField("balance", balance_txt.getText());
+            customer.editField("FirstName", fName_txt.getText());
+            customer.editField("LastName", lName_txt.getText());
+            customer.editField("Email", email_txt.getText());
+            customer.editField("PhoneNumber", phone_txt.getText());
+
+        } catch (IOException | ProductMediaNotFoundException | FieldDoesNotExistException e) {
+            e.printStackTrace();
         }
     }
 
@@ -171,7 +164,7 @@ public class Customer implements Initializable, SceneBuilder {
 
     public void selectingImage() {
         FileChooser fc = new FileChooser();
-        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image","*.jpg"));
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg"));
         selectedImage = fc.showOpenDialog(null);
         Image image = new Image(selectedImage.toURI().toString());
         customer_image.setImage(image);
@@ -179,5 +172,25 @@ public class Customer implements Initializable, SceneBuilder {
 
     public void DeleteAccount() {
         Account.deleteAccount(customer);
+    }
+
+    private void setImage() throws IOException, ProductMediaNotFoundException {
+        String first = "src/main/resources/DataBase/Images/" + customer.getMediaId() + ".jpg";
+        Files.copy(
+                selectedImage.toPath(),
+                Paths.get(first),
+                StandardCopyOption.REPLACE_EXISTING
+        );
+
+        Medias medias;
+        if (customer.getMediaId() == 0) {
+            medias = new Medias();
+            Medias.addMedia(medias);
+            customer.setMediaId(medias.getId());
+        } else {
+            medias = Medias.getMediasById(customer.getMediaId());
+        }
+        medias.setImageSrc(new File(first).toURI().toString());
+        DataBase.save(medias);
     }
 }

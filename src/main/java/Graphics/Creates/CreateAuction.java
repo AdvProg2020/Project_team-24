@@ -57,6 +57,7 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
         try {
             List<CheckMenuItem> checkMenuItems = sellerController.showProducts().stream()
+                    .filter(product -> product.getAuction() == null)
                     .map(product -> product.getName() + " " + product.getId())
                     .map(CheckMenuItem::new).collect(Collectors.toList());
 

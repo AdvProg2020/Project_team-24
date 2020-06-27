@@ -84,26 +84,6 @@ public class Manager implements SceneBuilder, Initializable {
         }
     }
 
-    private void setImage() throws IOException, ProductMediaNotFoundException {
-        String first = "src/main/resources/DataBase/Images/" + manager.getMediaId() + ".jpg";
-        Files.copy(
-                selectedImage.toPath(),
-                Paths.get(first),
-                StandardCopyOption.REPLACE_EXISTING
-        );
-
-        Medias medias;
-        if (manager.getMediaId() == 0) {
-            medias = new Medias();
-            Medias.addMedia(medias);
-            manager.setMediaId(medias.getId());
-        } else {
-            medias = Medias.getMediasById(manager.getMediaId());
-        }
-        medias.setImageSrc(new File(first).toURI().toString());
-        DataBase.save(medias);
-    }
-
     public void ChoosePhoto() {
         FileChooser fc = new FileChooser();
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
@@ -144,5 +124,44 @@ public class Manager implements SceneBuilder, Initializable {
 
     public void requestList() {
         MainMenu.change(new RequestList().sceneBuilder());
+    }
+
+    public void submit() {
+
+        try {
+
+            if (selectedImage != null) {
+                setImage();
+            }
+
+            manager.editField("password", Password.getText());
+            manager.editField("FirstName", FirstName.getText());
+            manager.editField("LastName", LastName.getText());
+            manager.editField("Email", Email.getText());
+            manager.editField("PhoneNumber", PhoneNum.getText());
+
+        } catch (IOException | ProductMediaNotFoundException | FieldDoesNotExistException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setImage() throws IOException, ProductMediaNotFoundException {
+        String first = "src/main/resources/DataBase/Images/" + manager.getMediaId() + ".jpg";
+        Files.copy(
+                selectedImage.toPath(),
+                Paths.get(first),
+                StandardCopyOption.REPLACE_EXISTING
+        );
+
+        Medias medias;
+        if (manager.getMediaId() == 0) {
+            medias = new Medias();
+            Medias.addMedia(medias);
+            manager.setMediaId(medias.getId());
+        } else {
+            medias = Medias.getMediasById(manager.getMediaId());
+        }
+        medias.setImageSrc(new File(first).toURI().toString());
+        DataBase.save(medias);
     }
 }

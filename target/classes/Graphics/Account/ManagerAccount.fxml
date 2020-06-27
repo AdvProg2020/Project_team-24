@@ -8,9 +8,9 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Accounts.Manager">
 <AnchorPane prefHeight="745.0" prefWidth="2000" styleClass="button" stylesheets="@AccountStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-    <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
+    <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1838.0">
         <Separator layoutX="1590.0" layoutY="390.0" prefHeight="0.0" prefWidth="239.0" />
-        <Button fx:id="back" layoutX="176.0" layoutY="620.0" mnemonicParsing="false" onAction="#BackToMainMenu" prefHeight="39.0" prefWidth="319.0" text="بازگشت به صفحه ی اصلی">
+        <Button layoutX="176.0" layoutY="620.0" mnemonicParsing="false" onAction="#BackToMainMenu" prefHeight="39.0" prefWidth="319.0" text="بازگشت به صفحه ی اصلی">
             <font>
                 <Font size="18.0" />
             </font>
@@ -20,12 +20,12 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button fx:id="viewOffs" layoutX="1595.0" layoutY="463.0" mnemonicParsing="false" onAction="#DiscountCodeList" prefHeight="39.0" prefWidth="234.0" text="لیست کد های تخفیف">
+        <Button layoutX="1595.0" layoutY="463.0" mnemonicParsing="false" onAction="#DiscountCodeList" prefHeight="39.0" prefWidth="234.0" text="لیست کد های تخفیف">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="newOff" layoutX="1596.0" layoutY="599.0" mnemonicParsing="false" onAction="#CreateDiscountCode" prefHeight="40.0" prefWidth="232.0" text="ایجاد کد جدید">
+        <Button layoutX="1596.0" layoutY="599.0" mnemonicParsing="false" onAction="#CreateDiscountCode" prefHeight="40.0" prefWidth="232.0" text="ایجاد کد جدید">
             <font>
                 <Font size="18.0" />
             </font>
@@ -35,12 +35,12 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button fx:id="creatManager" layoutX="211.0" layoutY="263.0" mnemonicParsing="false" onAction="#CreateManager" prefHeight="39.0" prefWidth="231.0" text="ایجاد مدیر جدید">
+        <Button layoutX="211.0" layoutY="263.0" mnemonicParsing="false" onAction="#CreateManager" prefHeight="39.0" prefWidth="231.0" text="ایجاد مدیر جدید">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="viewAccounts" layoutX="212.0" layoutY="137.0" mnemonicParsing="false" onAction="#UserList" prefHeight="41.0" prefWidth="227.0" text="لیست کاربران">
+        <Button layoutX="212.0" layoutY="137.0" mnemonicParsing="false" onAction="#UserList" prefHeight="41.0" prefWidth="227.0" text="لیست کاربران">
             <font>
                 <Font size="18.0" />
             </font>
@@ -50,12 +50,12 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button fx:id="viewCategories" layoutX="214.0" layoutY="420.0" mnemonicParsing="false" onAction="#CategoryList" prefHeight="22.0" prefWidth="241.0" text="لیست دسته ها">
+        <Button layoutX="214.0" layoutY="420.0" mnemonicParsing="false" onAction="#CategoryList" prefHeight="22.0" prefWidth="241.0" text="لیست دسته ها">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="creatCategory" layoutX="216.0" layoutY="537.0" mnemonicParsing="false" onAction="#AddCategory" prefHeight="41.0" prefWidth="238.0" text="افزودن دسته">
+        <Button layoutX="216.0" layoutY="484.0" mnemonicParsing="false" onAction="#AddCategory" prefHeight="41.0" prefWidth="238.0" text="افزودن دسته">
             <font>
                 <Font size="18.0" />
             </font>
@@ -66,7 +66,7 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <ImageView fx:id="product_image" fitHeight="245.0" fitWidth="256.0" layoutX="1584.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="manager_image" fitHeight="245.0" fitWidth="256.0" layoutX="1584.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@icons8-client-management-48.png" />
         </ImageView>
         <Label alignment="CENTER_RIGHT" layoutX="1225.0" layoutY="91.0" prefHeight="31.0" prefWidth="164.0" text="نام کاربری : ">
@@ -124,6 +124,11 @@
         <TextField fx:id="PhoneNum" alignment="CENTER" layoutX="760.0" layoutY="515.0" prefHeight="44.0" prefWidth="443.0" />
         <TextField fx:id="Email" alignment="CENTER" layoutX="760.0" layoutY="591.0" prefHeight="44.0" prefWidth="443.0" />
          <Button layoutX="1594.0" layoutY="528.0" mnemonicParsing="false" onAction="#requestList" prefHeight="45.0" prefWidth="231.0" text="لیست درخواست ها">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Button>
+         <Button layoutX="212.0" layoutY="549.0" mnemonicParsing="false" onAction="#submit" prefHeight="41.0" prefWidth="245.0" text="ثبت تغییرات">
             <font>
                <Font size="18.0" />
             </font>

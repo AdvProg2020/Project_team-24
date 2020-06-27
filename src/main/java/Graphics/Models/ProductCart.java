@@ -58,6 +58,7 @@ public class ProductCart implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         if (productList.isEmpty()) {
             mainPane.setVisible(false);
+            mainPane.setDisable(true);
             return;
         }
         init();
