@@ -74,7 +74,6 @@ public class Seller extends Account {
 
     public void setCompanyInfo(Info companyInfo) {
         this.companyInfo = companyInfo;
-        DataBase.save(this);
     }
 
     /*****************************************************getters*******************************************************/

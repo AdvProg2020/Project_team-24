@@ -131,6 +131,7 @@ public class Seller implements SceneBuilder, Initializable {
         FileChooser fc = new FileChooser();
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg"));
         selectedImage = fc.showOpenDialog(null);
+        if (selectedImage == null) return;
         Image image = new Image(selectedImage.toURI().toString());
         seller_image.setImage(image);
     }

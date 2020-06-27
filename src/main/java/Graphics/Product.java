@@ -129,7 +129,10 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     private void setMedia() throws ProductMediaNotFoundException {
-        product_media.setMediaPlayer(Medias.getMediaPlayer(Medias.getMediasById(productObject.getMediaId()).getPlayerSrc()));
+        Medias mediasById = Medias.getMediasById(productObject.getMediaId());
+        if (mediasById.getPlayerSrc() != null) {
+            product_media.setMediaPlayer(Medias.getMediaPlayer(mediasById.getPlayerSrc()));
+        }
     }
 
     private void setStars() {

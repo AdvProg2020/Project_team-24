@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -88,7 +89,9 @@ public class ProductCart implements Initializable {
     }
 
     public void gotoProduct() {
-        ProductCart.setProductList(getSimilar());
+        if (product.getCategory() != null) {
+            ProductCart.setProductList(getSimilar());
+        }
         Product first_compare = Graphics.Product.getFirst_Compare();
         if (first_compare == null) {
             ControllerUnit.getInstance().setProduct(product);
@@ -105,7 +108,7 @@ public class ProductCart implements Initializable {
                         e.printStackTrace();
                     }
                     return null;
-                }).collect(Collectors.toList());
+                }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private void init() {

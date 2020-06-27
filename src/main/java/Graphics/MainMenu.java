@@ -158,6 +158,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goUserArea() {
+        popUp();
         if (account instanceof Manager)
             MainMenu.change(new Graphics.Accounts.Manager().sceneBuilder());
         else if (account instanceof Seller)
@@ -225,5 +226,11 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
             player.setCycleCount(Integer.MAX_VALUE);
             player.play();
         }).start();
+    }
+
+    private void popUp() {
+        Stage stage = new Stage();
+        stage.setScene(new PopUp().sceneBuilder());
+        stage.showAndWait();
     }
 }
