@@ -16,16 +16,15 @@ public class Sort {
     public ChoiceBox CategoryInfo;
 
 
-    public void Point(ActionEvent event) {
-        productsController.sort("Point");
-
+    public void Point() {
+        productsController.sort("Time");
     }
 
-    public void NumberOfViews(ActionEvent event) {
-        productsController.sort("NumberOfVisits");
+    public void NumberOfViews() {
+        productsController.sort("Time");
     }
 
-    public void TimeOfUpload(ActionEvent event) {
+    public void TimeOfUpload() {
         productsController.sort("Time");
     }
 }
