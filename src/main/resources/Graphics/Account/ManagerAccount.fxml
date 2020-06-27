@@ -55,7 +55,7 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="creatCategory" layoutX="216.0" layoutY="537.0" mnemonicParsing="false" onAction="#AddCategory" prefHeight="41.0" prefWidth="238.0" text="افزودن دسته">
+        <Button fx:id="creatCategory" layoutX="216.0" layoutY="484.0" mnemonicParsing="false" onAction="#AddCategory" prefHeight="41.0" prefWidth="238.0" text="افزودن دسته">
             <font>
                 <Font size="18.0" />
             </font>
@@ -66,7 +66,7 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <ImageView fx:id="product_image" fitHeight="245.0" fitWidth="256.0" layoutX="1584.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="manager_image" fitHeight="245.0" fitWidth="256.0" layoutX="1584.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@icons8-client-management-48.png" />
         </ImageView>
         <Label alignment="CENTER_RIGHT" layoutX="1225.0" layoutY="91.0" prefHeight="31.0" prefWidth="164.0" text="نام کاربری : ">

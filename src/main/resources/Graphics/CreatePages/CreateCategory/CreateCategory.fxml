@@ -15,10 +15,6 @@
       </font>
    </Label>
    <MenuButton fx:id="selected_subCategory" alignment="CENTER" layoutX="899.0" layoutY="319.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="168.0" text="زیر دسته" textFill="#3ea5de">
-      <items>
-         <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
-         <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
-      </items>
       <font>
          <Font size="18.0" />
       </font>

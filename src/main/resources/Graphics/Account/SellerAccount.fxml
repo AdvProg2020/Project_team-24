@@ -8,8 +8,8 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Accounts.Seller">
     <AnchorPane prefHeight="745.0" prefWidth="2000" styleClass="button" stylesheets="@AccountStyle.css">
-        <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
-            <Pane>
+<!--        <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">-->
+<!--            <Pane>-->
                 <ImageView fx:id="seller_image" fitHeight="301.0" fitWidth="258.0" layoutX="1589.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-client-management-48.png" />
                 </ImageView>
@@ -34,12 +34,6 @@
                         <Font size="18.0" />
                     </font>
                 </Label>
-
-                <Button layoutX="1648.0" layoutY="298.0" mnemonicParsing="false" onAction="#selectingImage" prefHeight="26.0" prefWidth="141.0" text="انتخاب عکس">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Button>
                 <Label alignment="CENTER_RIGHT" layoutX="1225.0" layoutY="91.0" prefHeight="31.0" prefWidth="164.0" text="نام کاربری : ">
                     <font>
                         <Font size="18.0" />
@@ -80,8 +74,14 @@
                         <Font size="18.0" />
                     </font>
                 </TextField>
-            </Pane>
-            <Pane>
+
+                <Button layoutX="1648.0" layoutY="298.0" mnemonicParsing="false" onAction="#selectingImage" prefHeight="26.0" prefWidth="141.0" text="انتخاب عکس">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+<!--            </Pane>-->
+<!--            <Pane>-->
                 <Label alignment="CENTER_RIGHT" layoutX="1352.0" layoutY="382.0" prefHeight="27.0" prefWidth="37.0" text="نام :">
                     <font>
                         <Font size="18.0" />
@@ -181,7 +181,7 @@
                        <Font size="18.0" />
                    </font>
                </Button>
-            </Pane>
+<!--            </Pane>-->
             <Separator layoutX="719.0" layoutY="336.0" prefHeight="2.0" prefWidth="515.0" />
             <Button layoutX="179.0" layoutY="635.0" mnemonicParsing="false" onAction="#back" prefHeight="43.0" prefWidth="335.0" text="بازگشت به صفحه ی اصلی">
                 <font>
@@ -195,6 +195,6 @@
                     <TableColumn fx:id="logId_column" prefWidth="50.0" text="شماره" />
                 </columns>
             </TableView>
-        </Pane>
+<!--        </Pane>-->
     </AnchorPane>
 </Scene>

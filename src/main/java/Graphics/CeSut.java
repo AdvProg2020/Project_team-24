@@ -2,7 +2,6 @@ package Graphics;
 
 import Graphics.Tools.SceneBuilder;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 
 import java.io.File;

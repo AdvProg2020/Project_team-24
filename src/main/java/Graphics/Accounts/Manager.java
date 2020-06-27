@@ -1,7 +1,6 @@
 package Graphics.Accounts;
 
 import Controller.ControllerUnit;
-import Controller.Controllers.BuyerController;
 import Controller.Controllers.ManagerController;
 import Exceptions.FieldDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
@@ -14,14 +13,12 @@ import Graphics.Lists.RequestList;
 import Graphics.MainMenu;
 import Graphics.SignUp;
 import Graphics.Tools.SceneBuilder;
+import Model.DataBase.DataBase;
 import Model.Models.Structs.Medias;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,15 +27,19 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 
 public class Manager implements SceneBuilder, Initializable {
 
     private static ManagerController managerController = ManagerController.getInstance();
-    public ImageView product_image;
     private Model.Models.Accounts.Manager manager = (Model.Models.Accounts.Manager) ControllerUnit.getInstance().getAccount();
-    private FileChooser fc = new FileChooser();
+    private File selectedImage;
 
+    @FXML
+    private ImageView manager_image;
     @FXML
     private TextField Email;
     @FXML
@@ -66,30 +67,49 @@ public class Manager implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        UserName.setText(manager.getUserName());
-        Password.setText(manager.getPassword());
+
         try {
+            UserName.setText(manager.getUserName());
+            Password.setText(manager.getPassword());
             LastName.setText(manager.getPersonalInfo().getList().getFieldByName("LastName").getString());
             FirstName.setText(manager.getPersonalInfo().getList().getFieldByName("FirstName").getString());
             PhoneNum.setText(manager.getPersonalInfo().getList().getFieldByName("PhoneNumber").getString());
             Email.setText(manager.getPersonalInfo().getList().getFieldByName("Email").getString());
-        } catch (FieldDoesNotExistException e) {
-            e.printStackTrace();
-        }
-        if (manager.getMediaId() != 0) {
-            try {
-                product_image.setImage(Medias.getImage(Medias.getMediasById(manager.getMediaId()).getImageSrc()));
-            } catch (ProductMediaNotFoundException e) {
-                e.printStackTrace();
+
+            if (manager.getMediaId() != 0) {
+                manager_image.setImage(Medias.getImage(Medias.getMediasById(manager.getMediaId()).getImageSrc()));
             }
+        } catch (FieldDoesNotExistException | ProductMediaNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
+    private void setImage() throws IOException, ProductMediaNotFoundException {
+        String first = "src/main/resources/DataBase/Images/" + manager.getMediaId() + ".jpg";
+        Files.copy(
+                selectedImage.toPath(),
+                Paths.get(first),
+                StandardCopyOption.REPLACE_EXISTING
+        );
+
+        Medias medias;
+        if (manager.getMediaId() == 0) {
+            medias = new Medias();
+            Medias.addMedia(medias);
+            manager.setMediaId(medias.getId());
+        } else {
+            medias = Medias.getMediasById(manager.getMediaId());
+        }
+        medias.setImageSrc(new File(first).toURI().toString());
+        DataBase.save(medias);
+    }
+
     public void ChoosePhoto() {
+        FileChooser fc = new FileChooser();
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
         File selectedImage = fc.showOpenDialog(null);
         Image value = new Image(selectedImage.toURI().toString());
-        product_image.setImage(value);
+        manager_image.setImage(value);
     }
 
     public void AddCategory() {

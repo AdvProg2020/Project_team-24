@@ -30,7 +30,7 @@ public class LogHistoryMenu implements SceneBuilder, Initializable {
     @Override
     public Scene sceneBuilder() {
         try {
-            return FXMLLoader.load(new File("src\\main\\java\\Graphics\\Menus\\LogHistoryMenu.java").toURI().toURL());
+            return FXMLLoader.load(new File("src/main/resources/Graphics/LogHistory/LogHistory.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);

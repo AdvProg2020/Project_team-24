@@ -16,6 +16,7 @@ import Graphics.Menus.ProductsMenu;
 import Graphics.Models.AuctionCart;
 import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
+import Model.DataBase.DataBase;
 import Model.Models.Auction;
 import Model.Models.Product;
 import Model.Models.Structs.Medias;
@@ -128,7 +129,7 @@ public class Seller implements SceneBuilder, Initializable {
 
     public void selectingImage() {
         FileChooser fc = new FileChooser();
-        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image","*.jpg"));
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg"));
         selectedImage = fc.showOpenDialog(null);
         Image image = new Image(selectedImage.toURI().toString());
         seller_image.setImage(image);
@@ -155,31 +156,45 @@ public class Seller implements SceneBuilder, Initializable {
 
     public void submit() {
 
-        if (selectedImage != null) {
-            try {
+        try {
 
-                String first = "src/main/resources/DataBase/Images/" + seller.getMediaId() + ".jpg";
-                Files.copy(
-                        selectedImage.toPath(),
-                        Paths.get(first),
-                        StandardCopyOption.REPLACE_EXISTING
-                );
-                Medias.getMediasById(seller.getMediaId()).setImageSrc(new File(first).toURI().toString());
-
-                seller.editField("password", password_txt.getText());
-                seller.editField("balance", balance_txt.getText());
-                seller.editField("FirstName", fName_txt.getText());
-                seller.editField("LastName", lName_txt.getText());
-                seller.editField("Email", email_txt.getText());
-                seller.editField("PhoneNumber", phone_txt.getText());
-                seller.editField("CompanyName", bran_txt.getText());
-                seller.editField("CompanyPhoneNumber", comPhone_txt.getText());
-                seller.editField("CompanyEmail", comEmail_txt.getText());
-
-            } catch (IOException | ProductMediaNotFoundException | FieldDoesNotExistException e) {
-                e.printStackTrace();
+            if (selectedImage != null) {
+                setImage();
             }
+
+            seller.editField("password", password_txt.getText());
+            seller.editField("balance", balance_txt.getText());
+            seller.editField("FirstName", fName_txt.getText());
+            seller.editField("LastName", lName_txt.getText());
+            seller.editField("Email", email_txt.getText());
+            seller.editField("PhoneNumber", phone_txt.getText());
+            seller.editField("CompanyName", bran_txt.getText());
+            seller.editField("CompanyPhoneNumber", comPhone_txt.getText());
+            seller.editField("CompanyEmail", comEmail_txt.getText());
+
+        } catch (IOException | ProductMediaNotFoundException | FieldDoesNotExistException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void setImage() throws IOException, ProductMediaNotFoundException {
+        String first = "src/main/resources/DataBase/Images/" + seller.getMediaId() + ".jpg";
+        Files.copy(
+                selectedImage.toPath(),
+                Paths.get(first),
+                StandardCopyOption.REPLACE_EXISTING
+        );
+
+        Medias medias;
+        if (seller.getMediaId() == 0) {
+            medias = new Medias();
+            Medias.addMedia(medias);
+            seller.setMediaId(medias.getId());
+        } else {
+            medias = Medias.getMediasById(seller.getMediaId());
+        }
+        medias.setImageSrc(new File(first).toURI().toString());
+        DataBase.save(medias);
     }
 
     public void back() {
