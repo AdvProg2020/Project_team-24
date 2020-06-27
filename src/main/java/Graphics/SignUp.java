@@ -1,5 +1,6 @@
 package Graphics;
 
+import Controller.Controllers.ManagerController;
 import Controller.Controllers.SignUpController;
 import Exceptions.*;
 import Graphics.Tools.SceneBuilder;
@@ -21,9 +22,11 @@ import java.util.ResourceBundle;
 
 public class SignUp implements SceneBuilder, Initializable {
 
+    private static Mode mode;
     private static boolean state = true;
     private static Account account = null;
-    private static SignUpController instance = SignUpController.getInstance();
+    private static SignUpController signUpController = SignUpController.getInstance();
+    private static ManagerController managerController = ManagerController.getInstance();
 
     @FXML
     private ChoiceBox<String> chooseType;
@@ -50,6 +53,10 @@ public class SignUp implements SceneBuilder, Initializable {
     @FXML
     private TextField ComPhone;
 
+    public static void setMode(Mode mode) {
+        SignUp.mode = mode;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (state) {
@@ -58,6 +65,11 @@ public class SignUp implements SceneBuilder, Initializable {
             toolTip_username.setText("اسمت چیه فرزندم ...؟");
             username.setTooltip(toolTip_username);
             state = false;
+
+            if (mode == Mode.ManagerMode) {
+                chooseType.setValue("Manager");
+                chooseType.setDisable(true);
+            }
         }
     }
 
@@ -99,9 +111,10 @@ public class SignUp implements SceneBuilder, Initializable {
             if (!passOne.equals(passTwo)) {
                 passwordNotMatch();
                 return;
-            } else account = instance.creatTheBaseOfAccount(typeMan, username);
+            } else if (mode == Mode.NormalMode) account = signUpController.creatTheBaseOfAccount(typeMan, username);
+            else account = managerController.createManagerProfileBaseAccount(username);
 
-            instance.creatPasswordForAccount(account, passOne);
+            signUpController.creatPasswordForAccount(account, passOne);
 
             if (account instanceof Seller) {
                 goSellerArea();
@@ -240,7 +253,7 @@ public class SignUp implements SceneBuilder, Initializable {
 
         try {
 
-            instance.savePersonalInfo(account, firstName, lastName, phone, email);
+            signUpController.savePersonalInfo(account, firstName, lastName, phone, email);
 
         } catch (FirstNameInvalidException e) {
             firstNameInvalid();
@@ -322,7 +335,7 @@ public class SignUp implements SceneBuilder, Initializable {
         try {
 
             submitNext();
-            instance.saveCompanyInfo(account, companyName, comPhone, comEmail);
+            signUpController.saveCompanyInfo(account, companyName, comPhone, comEmail);
             goMainMenu();
 
         } catch (EmailInvalidException e) {
@@ -381,5 +394,9 @@ public class SignUp implements SceneBuilder, Initializable {
             MediaPlayer m = new MediaPlayer(new Media(new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()));
             m.play();
         }).start();
+    }
+
+    public enum Mode {
+        NormalMode,ManagerMode
     }
 }

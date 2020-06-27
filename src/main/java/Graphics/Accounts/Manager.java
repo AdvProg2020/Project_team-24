@@ -26,7 +26,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,31 +37,10 @@ public class Manager implements SceneBuilder, Initializable {
     private static ManagerController managerController = ManagerController.getInstance();
     public ImageView product_image;
     private Model.Models.Accounts.Manager manager = (Model.Models.Accounts.Manager) ControllerUnit.getInstance().getAccount();
-    private File selectedImage;
     private FileChooser fc = new FileChooser();
 
     @FXML
     private TextField Email;
-    @FXML
-    private Button back;
-    @FXML
-    private Button viewOffs;
-    @FXML
-    private Button editOff;
-    @FXML
-    private Button newOff;
-    @FXML
-    private Button creatManager;
-    @FXML
-    private Button viewAccounts;
-    @FXML
-    private Button deleteAccount;
-    @FXML
-    private Button viewCategories;
-    @FXML
-    private Button editCategories;
-    @FXML
-    private Button creatCategory;
     @FXML
     private TextField UserName;
     @FXML
@@ -109,29 +87,29 @@ public class Manager implements SceneBuilder, Initializable {
 
     public void ChoosePhoto() {
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
-        selectedImage = fc.showOpenDialog(null);
+        File selectedImage = fc.showOpenDialog(null);
         Image value = new Image(selectedImage.toURI().toString());
         product_image.setImage(value);
     }
 
-    public void AddCategory(ActionEvent event) {
+    public void AddCategory() {
         MainMenu.change(new CreateCategory().sceneBuilder());
     }
 
-    public void CategoryList(ActionEvent event) {
+    public void CategoryList() {
         MainMenu.change(new CategoryList().sceneBuilder());
     }
 
-
-    public void UserList(ActionEvent event) {
+    public void UserList() {
         MainMenu.change(new AccountsList().sceneBuilder());
     }
 
-    public void CreateManager(ActionEvent event) {
+    public void CreateManager() {
+        SignUp.setMode(SignUp.Mode.ManagerMode);
         MainMenu.change(new SignUp().sceneBuilder());
     }
 
-    public void CreateDiscountCode(ActionEvent event) {
+    public void CreateDiscountCode() {
         MainMenu.change(new CreateDiscountCode().sceneBuilder());
     }
 
