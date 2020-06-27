@@ -9,10 +9,10 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
 <!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
-        <AnchorPane focusTraversable="true" prefHeight="745.0" prefWidth="2000">
-            <Pane layoutX="66.0" layoutY="61.0">
+        <AnchorPane focusTraversable="true" prefHeight="1070.0" prefWidth="1134">
+            <Pane layoutX="273.0" layoutY="65.0">
 
-                <Label alignment="CENTER" layoutX="265.0" layoutY="14.0" prefHeight="18.0" prefWidth="97.0" text="نام کالا " textFill="#716c6c">
+                <Label fx:id="productName" alignment="CENTER" layoutX="265.0" layoutY="14.0" prefHeight="18.0" prefWidth="97.0" text="نام کالا " textFill="#716c6c">
                     <font>
                         <Font name="Andalus" size="30.0" />
                     </font>
@@ -71,9 +71,9 @@
 
             </Pane>
 
-            <Separator layoutX="161.0" layoutY="339.0" prefHeight="3.0" prefWidth="477.0" />
+            <Separator layoutX="350.0" layoutY="333.0" prefHeight="3.0" prefWidth="477.0" />
 
-            <Pane layoutX="11.0" layoutY="357.0" prefHeight="333.0" prefWidth="778.0">
+            <Pane layoutX="199.0" layoutY="355.0" prefHeight="333.0" prefWidth="778.0">
 
                 <Label alignment="CENTER" layoutX="525.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" text="محصولات مشابه">
                     <font>
@@ -97,12 +97,12 @@
                         <fx:include fx:id="similar_0" source="../Models/ProductCart/ProductCart.fxml" />
                     </HBox>
                 </ScrollPane>
+   
+               <Separator layoutX="175.0" layoutY="332.0" prefHeight="3.0" prefWidth="477.0" />
 
             </Pane>
 
-            <Separator layoutX="161.0" layoutY="707.0" prefHeight="3.0" prefWidth="477.0" />
-
-            <TabPane layoutX="66.0" layoutY="729.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="354.0" prefWidth="668.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutX="261.0" layoutY="699.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="354.0" prefWidth="668.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">
 
                 <Tab styleClass="featurePane" text="مشخصات">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="273.0" prefWidth="640.0" styleClass="featurePane" stylesheets="@Product.css">
@@ -149,14 +149,15 @@
                     </AnchorPane>
                 </Tab>
             </TabPane>
-      <Button layoutX="776.0" layoutY="738.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="311.0" text="میخواهم فروشنده این کالا باشم">
+      <Button layoutX="26.0" layoutY="956.0" mnemonicParsing="false" onAction="#AddMeAsSeller" prefHeight="62.0" prefWidth="209.0" text="میخواهم فروشنده این کالا باشم">
          <font>
-            <Font size="18.0" />
+            <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="866.0" layoutY="821.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="163.0" text="حذف این محصول">
+      <MediaView fx:id="gif" fitHeight="50.0" fitWidth="50.0" layoutX="45.0" layoutY="242.0" />
+      <Button layoutX="940.0" layoutY="979.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="62.0" prefWidth="163.0" text="حذف این محصول">
          <font>
-            <Font size="18.0" />
+            <Font size="14.0" />
          </font>
       </Button>
 

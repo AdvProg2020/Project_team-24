@@ -15,6 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +29,7 @@ import java.util.ResourceBundle;
 public class DiscountCodeList implements SceneBuilder, Initializable {
 
     private static ManagerController managerController = ManagerController.getInstance();
+    public MediaView gif;
 
     @FXML
     private TableView<DiscountCode> discountCodeList;
@@ -55,6 +59,10 @@ public class DiscountCodeList implements SceneBuilder, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         init();
+        MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\DiscountCodeList\\slae.mp4").toURI().toString()));
+        gif.setMediaPlayer(value);
+        value.setCycleCount(Integer.MAX_VALUE);
+        value.play();
     }
 
     private void init() {
@@ -65,5 +73,7 @@ public class DiscountCodeList implements SceneBuilder, Initializable {
         endDate.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getEnd()));
         discount.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getDiscount().getPercent() + ""));
         maxDiscount.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getDiscount().getAmount()));
+
+
     }
 }
