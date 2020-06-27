@@ -160,5 +160,6 @@ public class ProductCart implements Initializable {
 
         this.price_ltx.setText(price - discountAmount + "");
         this.price_ftx.setStrikethrough(true);
+        this.discount.setText(auction.getDiscount().getPercent() + "%");
     }
 }

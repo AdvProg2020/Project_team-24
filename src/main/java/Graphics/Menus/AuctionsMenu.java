@@ -7,9 +7,11 @@ import Graphics.Tools.SceneBuilder;
 import Model.Models.Auction;
 import Model.Models.Product;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -25,6 +27,10 @@ public class AuctionsMenu implements Initializable, SceneBuilder {
 
     private static List<Auction> list = new ArrayList<>();
     private static int pageNum = 1;
+    @FXML
+    private Button next_btn;
+    @FXML
+    private Button previous_btn;
 
     public static void setList(List<Auction> list) {
         AuctionsMenu.list = list;
@@ -51,6 +57,7 @@ public class AuctionsMenu implements Initializable, SceneBuilder {
         for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < list.size(); i++) {
             list.add(list.get(i));
         }
+        checkButtons();
         AuctionCart.setAuctionList(list);
         MainMenu.change(new AuctionsMenu().sceneBuilder());
     }
@@ -60,7 +67,22 @@ public class AuctionsMenu implements Initializable, SceneBuilder {
         for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < list.size(); i++) {
             list.add(list.get(i));
         }
+        checkButtons();
         AuctionCart.setAuctionList(list);
         MainMenu.change(new AuctionsMenu().sceneBuilder());
+    }
+
+    private void checkButtons() {
+
+        if (pageNum == list.size() / 9 + 1) {
+            next_btn.setDisable(true);
+            return;
+        }
+        if (pageNum == 1) {
+            previous_btn.setDisable(true);
+            return;
+        }
+        next_btn.setDisable(false);
+        previous_btn.setDisable(false);
     }
 }

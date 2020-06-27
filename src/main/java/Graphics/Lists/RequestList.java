@@ -64,8 +64,8 @@ public class RequestList implements SceneBuilder, Initializable {
         });
         request_mode.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getClass().getSimpleName()));
         request_info.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getInformation()));
-        request_info.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getTypeOfRequest()));
-        ar_btn.setCellValueFactory(param -> new SimpleObjectProperty<Pane>(setChoicePane(param.getValue())));
+        request_type.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getTypeOfRequest()));
+        ar_btn.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
     }
 
     @NotNull

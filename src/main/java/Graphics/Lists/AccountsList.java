@@ -16,8 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AccountsList implements SceneBuilder, Initializable {
-    @FXML
-    public TableColumn<Account, > ;
+
     @Override
     public Scene sceneBuilder() {
         try {
