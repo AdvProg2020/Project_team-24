@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -193,12 +194,7 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     public void addComment(ActionEvent event) {
+        MainMenu.change(new CreateComment().sceneBuilder());
 
-        try {
-             FXMLLoader.load(new File("src\\main\\resources\\Graphics\\Models\\CommentCart\\CommentCart.fxml").toURI().toURL());
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
     }
 }
