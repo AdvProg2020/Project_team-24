@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
-<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
+    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
         <AnchorPane focusTraversable="true" prefHeight="1070.0" prefWidth="1134">
             <Pane layoutX="273.0" layoutY="65.0">
 
@@ -68,6 +68,7 @@
                       <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="40.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-add-shopping-cart-48.png" />
                 </ImageView>
+         <MediaView fx:id="gif" fitHeight="50.0" fitWidth="50.0" layoutX="90.0" layoutY="32.0" />
 
             </Pane>
 
@@ -154,13 +155,11 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <MediaView fx:id="gif" fitHeight="50.0" fitWidth="50.0" layoutX="45.0" layoutY="242.0" />
       <Button layoutX="940.0" layoutY="979.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="62.0" prefWidth="163.0" text="حذف این محصول">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-
         </AnchorPane>
-<!--    </ScrollPane>-->
+    </ScrollPane>
 </Scene>
