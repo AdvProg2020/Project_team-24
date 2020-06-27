@@ -88,13 +88,12 @@ public class ProductCart implements Initializable {
     }
 
     public void gotoProduct() {
-        setProductList(getSimilar());
-        MainMenu.change(new Graphics.Product().sceneBuilder());
+        ProductCart.setProductList(getSimilar());
         Product first_compare = Graphics.Product.getFirst_Compare();
         if (first_compare == null) {
             ControllerUnit.getInstance().setProduct(product);
         } else ControllerUnit.getInstance().setProduct(first_compare);
-        setProductList(new ArrayList<>());
+        MainMenu.change(new Graphics.Product().sceneBuilder());
     }
 
     private List<Product> getSimilar() {

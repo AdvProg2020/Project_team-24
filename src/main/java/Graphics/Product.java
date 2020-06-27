@@ -31,8 +31,7 @@ public class Product implements Initializable, SceneBuilder {
 
     private static Model.Models.Product First_Compare;
     private static Model.Models.Product productObject;
-    public MediaView gif;
-    public Label productName;
+
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
@@ -51,7 +50,14 @@ public class Product implements Initializable, SceneBuilder {
     private ImageView star_05;
     @FXML
     private MediaView product_media;
+    @FXML
+    private MediaView gif;
+    @FXML
+    private Label productName;
 
+    public static Model.Models.Product getFirst_Compare() {
+        return First_Compare;
+    }
 
     @Override
     public Scene sceneBuilder() {
@@ -82,6 +88,7 @@ public class Product implements Initializable, SceneBuilder {
         gif.setMediaPlayer(value);
         value.setCycleCount(Integer.MAX_VALUE);
         value.play();
+
     }
 
     public void compare() {
@@ -107,10 +114,6 @@ public class Product implements Initializable, SceneBuilder {
                             productOfSeller.getSellerId(), productObject.getId()
                     );
         }
-    }
-
-    public static Model.Models.Product getFirst_Compare() {
-        return First_Compare;
     }
 
     public static void setFirst_Compare(Model.Models.Product first_Compare) {
