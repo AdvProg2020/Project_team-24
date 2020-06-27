@@ -8,6 +8,7 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
 <AnchorPane prefHeight="745.0" prefWidth="2000">
+    <Pane prefHeight="500" prefWidth="500">
       <ImageView fitHeight="667.0" fitWidth="502.0" layoutX="750.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@background.png" />
@@ -45,5 +46,6 @@
          <font>
             <Font size="18.0" />
          </font></Button>
+    </Pane>
 </AnchorPane>
 </Scene>
