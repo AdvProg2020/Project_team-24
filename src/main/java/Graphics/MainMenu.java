@@ -1,10 +1,13 @@
 package Graphics;
 
 import Controller.ControllerUnit;
+import Controller.Controllers.AuctionController;
 import Controller.Controllers.FilterController;
 import Controller.Controllers.ProductsController;
 import Exceptions.InvalidFilterException;
+import Graphics.Menus.AuctionsMenu;
 import Graphics.Menus.ProductsMenu;
+import Graphics.Models.AuctionCart;
 import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
 import Model.ModelUnit;
@@ -12,6 +15,7 @@ import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
+import Model.Models.Auction;
 import Model.Models.Product;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -37,10 +41,13 @@ import java.util.ResourceBundle;
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
     private ProductsController productsController = ProductsController.getInstance();
+    private AuctionController auctionController = AuctionController.getInstance();
     private FilterController filterController = FilterController.getInstance();
     private Account account = ControllerUnit.getInstance().getAccount();
     private static Stage primaryStage;
+    private static MediaPlayer player;
     private static BorderPane center;
+
     @FXML
     private MediaView gif;
     @FXML
@@ -71,7 +78,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         setCenter(changeable);
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
-        playMusic();
+        playMusic("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");
         if (account == null) return;
         userArea_btn.setDisable(false);
         login_logout_btn.setText("خروج ...");
@@ -116,6 +123,13 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         center.setCenter(scene.getRoot());
     }
 
+    public void goAuction() {
+        ArrayList<Auction> list = new ArrayList<>(auctionController.offs());
+        AuctionsMenu.setList(list);
+        AuctionCart.setAuctionList(list);
+        MainMenu.change(new AuctionsMenu().sceneBuilder());
+    }
+
     public void goMainMenu() {
         getPrimaryStage().setScene(new MainMenu().sceneBuilder());
         enableBack();
@@ -137,10 +151,6 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         setProducts(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
-    }
-
-    public void goAuction() {
-        // new Scene need.
     }
 
     public void goUserArea() {
@@ -196,15 +206,16 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         return newList;
     }
 
-    private void playMusic() {
-        new Thread(() -> {
-            MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3").toURI().toString()));
-            mediaPlayer.setCycleCount(Integer.MAX_VALUE);
-            mediaPlayer.play();
-        }).start();
-    }
-
     private void enableBack() {
         back_btn.setDisable(false);
+    }
+
+    public static void playMusic(String addr) {
+        if (player != null) player.dispose();
+        new Thread(() -> {
+            player = new MediaPlayer(new Media(new File(addr).toURI().toString()));
+            player.setCycleCount(Integer.MAX_VALUE);
+            player.play();
+        }).start();
     }
 }

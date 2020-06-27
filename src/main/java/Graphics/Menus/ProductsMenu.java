@@ -80,22 +80,14 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         auctionImage_01.setVisible(true);
         auctionImage_02.setVisible(true);
         title.setText("صفحه محصولات");
-        playMusic("src/main/resources/Graphics/SoundEffect/Adventure - AShamaluevMusic.mp3");
+        MainMenu.playMusic("src/main/resources/Graphics/SoundEffect/Adventure - AShamaluevMusic.mp3");
     }
 
     private void setNormalMode() {
         auctionImage_01.setVisible(false);
         auctionImage_02.setVisible(false);
         title.setText("صفحه حراج");
-        playMusic("src/main/resources/Graphics/SoundEffect/Motivated - AShamaluevMusic.mp3");
-    }
-
-    private void playMusic(String addr) {
-        new Thread(() -> {
-            MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File(addr).toURI().toString()));
-            mediaPlayer.setCycleCount(Integer.MAX_VALUE);
-            mediaPlayer.play();
-        }).start();
+        MainMenu.playMusic("src/main/resources/Graphics/SoundEffect/Motivated - AShamaluevMusic.mp3");
     }
 
     public enum Modes {
