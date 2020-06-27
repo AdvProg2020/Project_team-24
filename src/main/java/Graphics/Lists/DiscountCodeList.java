@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -23,16 +24,21 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class DiscountCodeList implements SceneBuilder, Initializable {
+
     private static ManagerController managerController = ManagerController.getInstance();
 
-    public TableView<DiscountCode> discountCodeList;
-    public TableColumn<DiscountCode,Double> maxDiscount;
-    public TableColumn<DiscountCode,String> discount;
-    public TableColumn<DiscountCode, LocalDate> endDate;
-    public TableColumn<DiscountCode,LocalDate> startDate;
-    public TableColumn<DiscountCode,String> code;
-
-
+    @FXML
+    private TableView<DiscountCode> discountCodeList;
+    @FXML
+    private TableColumn<DiscountCode, Double> maxDiscount;
+    @FXML
+    private TableColumn<DiscountCode, String> discount;
+    @FXML
+    private TableColumn<DiscountCode, LocalDate> endDate;
+    @FXML
+    private TableColumn<DiscountCode, LocalDate> startDate;
+    @FXML
+    private TableColumn<DiscountCode, String> code;
 
     @Override
     public Scene sceneBuilder() {
@@ -59,7 +65,5 @@ public class DiscountCodeList implements SceneBuilder, Initializable {
         endDate.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getEnd()));
         discount.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getDiscount().getPercent() + ""));
         maxDiscount.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getDiscount().getAmount()));
-
     }
-
 }

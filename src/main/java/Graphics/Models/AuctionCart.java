@@ -46,6 +46,7 @@ public class AuctionCart implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (auctionList.isEmpty()) {
+            mainPane.setVisible(false);
             mainPane.setDisable(true);
             return;
         }
@@ -69,7 +70,6 @@ public class AuctionCart implements Initializable {
 
     private void init(@NotNull Auction auction) {
         auction_image.setImage(images.get(new Random().nextInt(images.size())));
-//        auction_image.setImage(images.get(new Random().nextInt(images.size())));
         auction_name.setText(auction.getName());
         auction_per.setText(auction.getDiscount().getPercent() + "%");
     }

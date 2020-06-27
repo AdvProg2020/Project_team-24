@@ -87,7 +87,7 @@ public class Manager implements SceneBuilder, Initializable {
     public void ChoosePhoto() {
         FileChooser fc = new FileChooser();
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
-        File selectedImage = fc.showOpenDialog(null);
+        selectedImage = fc.showOpenDialog(null);
         Image value = new Image(selectedImage.toURI().toString());
         manager_image.setImage(value);
     }

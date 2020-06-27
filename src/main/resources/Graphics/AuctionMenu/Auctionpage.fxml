@@ -13,9 +13,9 @@
                 <Font size="24.0" />
             </font>
         </Label>
-        <ScrollPane layoutX="722.0" layoutY="119.0" prefHeight="506.0" prefWidth="559.0">
-            <AnchorPane layoutX="804.0" layoutY="76.0" minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="540.0">
-                <VBox layoutX="900.0">
+        <ScrollPane layoutX="722.0" layoutY="119.0" prefHeight="506.0" prefWidth="600.0">
+            <AnchorPane layoutX="804.0" layoutY="76.0" minHeight="0.0" minWidth="0.0" prefHeight="1556.0" prefWidth="600.0">
+                <VBox layoutX="2.0" prefHeight="1556.0" prefWidth="500.0">
                     <fx:include source="../Models/AuctionCart/AuctionCart.fxml" />
                     <fx:include source="../Models/AuctionCart/AuctionCart.fxml" />
                     <fx:include source="../Models/AuctionCart/AuctionCart.fxml" />
