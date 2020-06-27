@@ -8,6 +8,7 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Menus.AuctionsMenu">
     <AnchorPane prefHeight="745.0" prefWidth="2000">
+        <Pane prefHeight="745.0" prefWidth="2000">
         <Label alignment="CENTER" layoutX="804.0" layoutY="28.0" prefHeight="24.0" prefWidth="391.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه حراج ها">
             <font>
                 <Font size="24.0" />
@@ -39,6 +40,6 @@
         <ImageView fitHeight="138.0" fitWidth="154.0" layoutX="1178.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true" rotate="-50.0">
             <Image url="@pngegg.png" />
         </ImageView>
-        
+        </Pane>
     </AnchorPane>
 </Scene>
