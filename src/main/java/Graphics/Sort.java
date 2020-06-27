@@ -17,15 +17,16 @@ public class Sort {
 
 
     public void Point(ActionEvent event) {
-        productsController.sort("Point");
+
+
 
     }
 
     public void NumberOfViews(ActionEvent event) {
-        productsController.sort("NumberOfVisits");
+
     }
 
     public void TimeOfUpload(ActionEvent event) {
-        productsController.sort("Time");
+
     }
 }
