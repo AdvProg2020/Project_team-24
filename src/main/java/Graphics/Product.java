@@ -2,19 +2,28 @@ package Graphics;
 
 import Controller.ControllerUnit;
 import Exceptions.ProductMediaNotFoundException;
+import Graphics.Models.CommentCart;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
+import Model.Models.Category;
+import Model.Models.Field.Field;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductOfSeller;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -31,6 +40,12 @@ public class Product implements Initializable, SceneBuilder {
 
     private static Model.Models.Product First_Compare;
     private static Model.Models.Product productObject;
+    public TableView<Field> categoryFeaturs;
+    public TableColumn<Field, String> vizhegiC;
+    public TableColumn<Field, String> meghdarC;
+    public TableView<Field> ProductFeatures;
+    public TableColumn<Field, String> vizhegiP;
+    public TableColumn<Field, String> meghdarP;
 
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
@@ -88,6 +103,10 @@ public class Product implements Initializable, SceneBuilder {
         gif.setMediaPlayer(value);
         value.setCycleCount(Integer.MAX_VALUE);
         value.play();
+
+        setcategoryfeaturs();
+        setProductFeatures();
+
 
     }
 
@@ -154,5 +173,32 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     public void deleteProduct() {
+    }
+    public void setcategoryfeaturs(){
+        if(productObject.getCategoryInfo().getList().getFieldList()!=null) {
+            List<Field> list = productObject.getCategoryInfo().getList().getFieldList();
+            categoryFeaturs.setItems(FXCollections.observableList(list));
+            vizhegiC.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFieldName()));
+            meghdarC.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getString()));
+        }
+    }
+    public void setProductFeatures(){
+        if(productObject.getProduct_Info().getList().getFieldList()!=null){
+            List<Field> list = productObject.getProduct_Info().getList().getFieldList();
+            ProductFeatures.setItems(FXCollections.observableList(list));
+            vizhegiP.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFieldName()));
+            meghdarP.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getString()));
+        }
+
+    }
+
+    public void addComment(ActionEvent event) {
+
+        try {
+             FXMLLoader.load(new File("src\\main\\resources\\Graphics\\Models\\CommentCart\\CommentCart.fxml").toURI().toURL());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
     }
 }
