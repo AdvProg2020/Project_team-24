@@ -12,20 +12,19 @@ public class Sort {
     public CheckBox Point;
     public CheckBox TimeOfUpload;
     public CheckBox NumberOfViews;
-    public ChoiceBox productInfo;
-    public ChoiceBox CategoryInfo;
-
-
-    public void Point(ActionEvent event) {
-        productsController.sort("Point");
-
-    }
-
-    public void NumberOfViews(ActionEvent event) {
-        productsController.sort("NumberOfVisits");
-    }
-
-    public void TimeOfUpload(ActionEvent event) {
-        productsController.sort("Time");
-    }
+//    public ChoiceBox productInfo;
+//    public ChoiceBox CategoryInfo;
+//
+//
+//    public void Point() {
+//        productsController.sort("Time");
+//    }
+//
+//    public void NumberOfViews() {
+//        productsController.sort("Time");
+//    }
+//
+//    public void TimeOfUpload() {
+//        productsController.sort("Time");
+//    }
 }
