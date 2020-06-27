@@ -1,5 +1,6 @@
 package Graphics.Lists;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
 import Controller.Controllers.SellerController;
 import Graphics.Accounts.Manager;
@@ -35,7 +36,7 @@ public class CategoryList implements SceneBuilder, Initializable {
     public TableColumn<Category,String> categoryName;
     public TableColumn<Category,Pane> editCategory;
 
-    public void back(ActionEvent event) {
+    public void back() {
         MainMenu.change(new Manager().sceneBuilder());
     }
 
@@ -43,7 +44,7 @@ public class CategoryList implements SceneBuilder, Initializable {
     public Scene sceneBuilder() {
 
         try {
-            return FXMLLoader.load(new File("src\\main\\resources\\Graphics\\CategoryList\\CategoryList\\CategoryList.fxml").toURI().toURL());
+            return FXMLLoader.load(new File("src/main/resources/Graphics/CategoryList/CategoryList.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
@@ -61,8 +62,8 @@ public class CategoryList implements SceneBuilder, Initializable {
         CategoryList.setItems(FXCollections.observableList(list));
         categoryName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName()));
         editCategory.setCellValueFactory(param -> new SimpleObjectProperty<Pane>(setChoicePane(param.getValue())));
-
     }
+
     @NotNull
     @Contract("_ -> new")
     private Pane setChoicePane(Category category) {
@@ -70,9 +71,9 @@ public class CategoryList implements SceneBuilder, Initializable {
         Button editCategory = new Button("ویرایش دسته");
         editCategory.setOnAction(event -> {
             MainMenu.change(new CreateCategory().sceneBuilder());
+            ControllerUnit.getInstance().setCategory(category);
             init();
         });
         return new Pane(editCategory);
     }
-
 }

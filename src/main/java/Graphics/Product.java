@@ -144,9 +144,9 @@ public class Product implements Initializable, SceneBuilder {
         // ?
     }
 
-    public void AddMeAsSeller(ActionEvent event) {
+    public void AddMeAsSeller() {
     }
 
-    public void deleteProduct(ActionEvent event) {
+    public void deleteProduct() {
     }
 }
