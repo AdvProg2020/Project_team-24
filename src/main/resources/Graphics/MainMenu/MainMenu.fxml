@@ -92,18 +92,18 @@
         </top>
         <center>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="745.0" prefWidth="1134.0" styleClass="base2" stylesheets="@MainMenu.css">
-                <Pane layoutX="345.0" layoutY="49.0" prefHeight="300.0" prefWidth="355.0" styleClass="button1" stylesheets="@MainMenu.css">
+                <Pane layoutX="345.0" layoutY="49.0" onMouseClicked="#goAuction" prefHeight="300.0" prefWidth="355.0" styleClass="button1" stylesheets="@MainMenu.css">
                     <ImageView fitHeight="301.0" fitWidth="218.0" layoutX="10.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@PngItem_1896439.png" />
                     </ImageView>
-                    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="176.0" layoutY="102.0" mnemonicParsing="false" onAction="#goAuction" prefHeight="113.0" prefWidth="217.0" rotate="-90" styleClass="button1" stylesheets="@MainMenu.css" text="حراج ها" textFill="#046969">
+                    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="176.0" layoutY="102.0" mnemonicParsing="false" prefHeight="113.0" prefWidth="217.0" rotate="-90" styleClass="button1" stylesheets="@MainMenu.css" text="حراج ها" textFill="#046969">
                         <font>
                             <Font size="24.0" />
                         </font>
                     </Button>
                 </Pane>
-                <Pane layoutX="731.0" layoutY="49.0" prefHeight="300.0" prefWidth="626.0" styleClass="pane2" stylesheets="@MainMenu.css">
-                    <Button layoutX="61.0" layoutY="108.0" mnemonicParsing="false" onAction="#goPopulars" prefHeight="67.0" prefWidth="277.0" styleClass="button2" stylesheets="@MainMenu.css" text="پر بازدید ترین ها" textFill="#2eb58e">
+                <Pane layoutX="731.0" layoutY="49.0" onMouseClicked="#goPopulars" prefHeight="300.0" prefWidth="626.0" styleClass="pane2" stylesheets="@MainMenu.css">
+                    <Button layoutX="61.0" layoutY="108.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="277.0" styleClass="button2" stylesheets="@MainMenu.css" text="پر بازدید ترین ها" textFill="#2eb58e">
                         <font>
                             <Font size="24.0" />
                         </font>
@@ -112,8 +112,8 @@
                         <Image url="@PngItem_1368952.png" />
                     </ImageView>
                 </Pane>
-                <Pane layoutX="347.0" layoutY="388.0" prefHeight="312.0" prefWidth="352.0" styleClass="pane3" stylesheets="@MainMenu.css">
-                    <Button layoutX="197.0" layoutY="111.0" mnemonicParsing="false" onAction="#goProducts" prefHeight="91.0" prefWidth="192.0" rotate="-90" styleClass="button3" text="محصولات" textFill="#947a7a">
+                <Pane layoutX="347.0" layoutY="388.0" onMouseClicked="#goProducts" prefHeight="312.0" prefWidth="352.0" styleClass="pane3" stylesheets="@MainMenu.css">
+                    <Button layoutX="197.0" layoutY="111.0" mnemonicParsing="false" prefHeight="91.0" prefWidth="192.0" rotate="-90" styleClass="button3" text="محصولات" textFill="#947a7a">
                         <font>
                             <Font size="24.0" />
                         </font>
@@ -122,8 +122,8 @@
                         <Image url="@PngItem_3256280.png" />
                     </ImageView>
                 </Pane>
-                <Pane  layoutX="732.0" layoutY="388.0" prefHeight="312.0" prefWidth="624.0" styleClass="pane4" stylesheets="@MainMenu.css">
-                    <Button layoutX="68.0" layoutY="131.0" mnemonicParsing="false" onAction="#goUserArea" prefHeight="51.0" prefWidth="244.0" styleClass="button4" stylesheets="@MainMenu.css" text="درباره ی سه سوت" textFill="#9f1111">
+                <Pane layoutX="732.0" layoutY="388.0" onMouseClicked="#goCeSut" prefHeight="312.0" prefWidth="624.0" styleClass="pane4" stylesheets="@MainMenu.css">
+                    <Button layoutX="68.0" layoutY="131.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="244.0" styleClass="button4" stylesheets="@MainMenu.css" text="درباره ی سه سوت" textFill="#9f1111">
                         <font>
                             <Font size="24.0" />
                         </font>

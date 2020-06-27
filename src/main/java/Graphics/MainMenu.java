@@ -24,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -172,6 +173,10 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         setProducts(productsController.showProducts());
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
+    }
+
+    public void goCeSut() {
+        MainMenu.change(new CeSut().sceneBuilder());
     }
 
     public void goSearching() {
