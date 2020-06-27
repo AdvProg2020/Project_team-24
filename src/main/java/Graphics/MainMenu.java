@@ -24,7 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -50,7 +50,10 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     private static Stage primaryStage;
     private static MediaPlayer player;
     private static BorderPane center;
+    private static Pane filter;
 
+    @FXML
+    private Pane filterArea;
     @FXML
     private MediaView gif;
     @FXML
@@ -76,9 +79,15 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         stage.show();
     }
 
+    public static void FilterEnable() {
+        filter.setDisable(false);
+        filter.setVisible(true);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setCenter(changeable);
+        filter = filterArea;
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
         playMusic("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");

@@ -107,8 +107,6 @@ public class Product implements Initializable, SceneBuilder {
 
         setcategoryfeaturs();
         setProductFeatures();
-
-
     }
 
     public void compare() {
@@ -175,6 +173,7 @@ public class Product implements Initializable, SceneBuilder {
 
     public void deleteProduct() {
     }
+
     public void setcategoryfeaturs(){
         if(productObject.getCategoryInfo().getList().getFieldList()!=null) {
             List<Field> list = productObject.getCategoryInfo().getList().getFieldList();
