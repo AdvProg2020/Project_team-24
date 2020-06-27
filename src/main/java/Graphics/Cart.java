@@ -21,6 +21,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +33,7 @@ import java.util.ResourceBundle;
 
 public class Cart implements Initializable, SceneBuilder {
 
+    public MediaView cartGif;
     private BuyerController buyerController = BuyerController.getInstance();
     private Model.Models.Cart cart = ((Customer) ControllerUnit.getInstance().getAccount()).getCart();
     private Product selected;
@@ -76,6 +80,8 @@ public class Cart implements Initializable, SceneBuilder {
         setProductsNumber();
         setProductFinalPrice();
         setProductsButton();
+        MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Cart\\openGif.mp4").toURI().toString()));
+        cartGif.setMediaPlayer(mediaPlayer);
     }
 
     private void setProductsButton() {
