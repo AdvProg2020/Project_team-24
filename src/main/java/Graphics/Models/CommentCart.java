@@ -7,8 +7,10 @@ import Model.Models.Account;
 import Model.Models.Comment;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,6 +21,7 @@ import java.util.ResourceBundle;
 public class CommentCart implements Initializable {
 
     private static List<Comment> commentList;
+    public Button submit;
 
     public static void setCommentList(List<Comment> commentList) {
         CommentCart.commentList = commentList;
@@ -29,9 +32,9 @@ public class CommentCart implements Initializable {
     @FXML
     private TextArea content;
     @FXML
-    private Label sender;
+    private TextField sender;
     @FXML
-    private Label title;
+    private TextField title;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
