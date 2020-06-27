@@ -50,7 +50,7 @@
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="192.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true" />
     <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="341.0" pickOnBounds="true" preserveRatio="true" />
-    <Button layoutX="663.0" layoutY="630.0" mnemonicParsing="false" onAction="#submitSeller" prefHeight="45.0" prefWidth="157.0" text="ثبت اطلاعات">
+    <Button layoutX="663.0" layoutY="630.0" mnemonicParsing="false" onAction="#submitSeller" prefHeight="45.0" prefWidth="157.0" stylesheets="@ButtonStyle.css" text="ثبت اطلاعات">
          <font>
             <Font size="18.0" />
          </font></Button>
