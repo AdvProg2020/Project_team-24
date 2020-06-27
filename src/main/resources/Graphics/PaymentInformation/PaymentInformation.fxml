@@ -46,11 +46,11 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label alignment="CENTER_RIGHT" layoutX="177.0" layoutY="477.0" prefHeight="47.0" prefWidth="331.0" styleClass="delivery" stylesheets="@PaymentInformation.css" text="   سفارش شما در اولین فرصت ارسال خواهد شد" textFill="#ff1818">
+      <Label alignment="CENTER_RIGHT" layoutX="157.0" layoutY="477.0" prefHeight="47.0" prefWidth="331.0" styleClass="delivery" stylesheets="@PaymentInformation.css" text="   سفارش شما در اولین فرصت ارسال خواهد شد" textFill="#ff1818">
             <font>
                <Font size="14.0" />
             </font></Label>
-      <ImageView fitHeight="33.0" fitWidth="37.0" layoutX="196.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="33.0" fitWidth="37.0" layoutX="167.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icons8-delivered-48.png" />
          </image></ImageView>
