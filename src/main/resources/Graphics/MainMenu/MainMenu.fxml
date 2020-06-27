@@ -122,7 +122,7 @@
                         <Image url="@PngItem_3256280.png" />
                     </ImageView>
                 </Pane>
-                <Pane layoutX="732.0" layoutY="388.0" prefHeight="312.0" prefWidth="624.0" styleClass="pane4" stylesheets="@MainMenu.css">
+                <Pane  layoutX="732.0" layoutY="388.0" prefHeight="312.0" prefWidth="624.0" styleClass="pane4" stylesheets="@MainMenu.css">
                     <Button layoutX="68.0" layoutY="131.0" mnemonicParsing="false" onAction="#goUserArea" prefHeight="51.0" prefWidth="244.0" styleClass="button4" stylesheets="@MainMenu.css" text="درباره ی سه سوت" textFill="#9f1111">
                         <font>
                             <Font size="24.0" />
