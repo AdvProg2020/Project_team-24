@@ -1,28 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.Scene?>
+
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.PaymentInformation">
-<AnchorPane prefHeight="547.0" prefWidth="654.0" >
+<AnchorPane prefHeight="547.0" prefWidth="654.0">
    <children>
-      <Label alignment="CENTER_RIGHT" layoutX="227.0" layoutY="26.0" prefHeight="47.0" prefWidth="231.0" styleClass="title" stylesheets="@PaymentInformation.css" text="   خرید شما با موفقیت انجام شد" textFill="#08b740">
+       <TableView layoutX="51.0" layoutY="105.0" prefHeight="189.0" prefWidth="550.0">
+           <columns>
+               <TableColumn prefWidth="134.4000015258789" text="قیمت نهایی" />
+               <TableColumn prefWidth="148.80001831054688" text="تخفیف حراج" />
+               <TableColumn prefWidth="115.0" text="قیمت" />
+               <TableColumn prefWidth="165.79995727539062" text="نام محصول" />
+           </columns>
+       </TableView>
+       <Label alignment="CENTER_RIGHT" layoutX="509.0" layoutY="330.0" prefHeight="18.0" prefWidth="74.0" text="قسمت نهایی : " />
+       <Label alignment="CENTER_RIGHT" layoutX="509.0" layoutY="366.0" prefHeight="18.0" prefWidth="74.0" text="تحفیف حراج : " />
+       <Label alignment="CENTER_RIGHT" layoutX="496.0" layoutY="430.0" text="تخفیف کد تخفیف:" />
+       <Label alignment="CENTER_RIGHT" layoutX="201.0" layoutY="406.0" prefHeight="18.0" prefWidth="88.0" text="وضعیت تحویل :" />
+       <Label alignment="CENTER_RIGHT" layoutX="184.0" layoutY="357.0" prefHeight="18.0" prefWidth="88.0" text="تاریخ خرید : " />
+       <Label fx:id="finalPrice" alignment="CENTER_RIGHT" layoutX="316.0" layoutY="330.0" prefHeight="18.0" prefWidth="144.0" text="Label" />
+       <Label fx:id="ActionDiscount" alignment="CENTER_RIGHT" layoutX="309.0" layoutY="397.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+       <Label fx:id="DiscountCodeDiscount" alignment="CENTER_RIGHT" layoutX="309.0" layoutY="448.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+       <Label fx:id="Date" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="348.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+       <Label fx:id="PendingState" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="421.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+      <Label alignment="CENTER_RIGHT" layoutX="192.0" layoutY="26.0" prefHeight="48.0" prefWidth="301.0" styleClass="title" stylesheets="@PaymentInformation.css" text="   خرید شما با موفقیت انجام شد" textFill="#08b740">
          <font>
-            <Font size="14.0" />
+            <Font size="18.0" />
          </font></Label>
-      <Label alignment="CENTER_RIGHT" layoutX="201.0" layoutY="470.0" prefHeight="47.0" prefWidth="283.0" styleClass="delivery" stylesheets="@PaymentInformation.css" text="   سفارش شما در اولین فرصت ارسال خواهد شد" textFill="#ff1818" />
-      <ImageView fitHeight="33.0" fitWidth="37.0" layoutX="211.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true">
+      <Label alignment="CENTER_RIGHT" layoutX="177.0" layoutY="477.0" prefHeight="47.0" prefWidth="331.0" styleClass="delivery" stylesheets="@PaymentInformation.css" text="   سفارش شما در اولین فرصت ارسال خواهد شد" textFill="#ff1818">
+            <font>
+               <Font size="14.0" />
+            </font></Label>
+      <ImageView fitHeight="33.0" fitWidth="37.0" layoutX="196.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icons8-delivered-48.png" />
          </image></ImageView>
-      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="238.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="212.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icons8-task-completed-48.png" />
          </image>
       </ImageView>
-      <Button layoutX="28.0" layoutY="470.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="130.0" text="بازگشت به منو اصلی" textFill="#777777" />
    </children>
 </AnchorPane>
 </Scene>
