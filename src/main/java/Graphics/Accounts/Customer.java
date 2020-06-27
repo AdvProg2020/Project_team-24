@@ -76,47 +76,42 @@ public class Customer implements Initializable, SceneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        username_txt.setText(customer.getUserName());
-        password_txt.setText(customer.getPassword());
         try {
+            username_txt.setText(customer.getUserName());
+            password_txt.setText(customer.getPassword());
             lName_txt.setText(customer.getPersonalInfo().getList().getFieldByName("LastName").getString());
             fName_txt.setText(customer.getPersonalInfo().getList().getFieldByName("FirstName").getString());
             phone_txt.setText(customer.getPersonalInfo().getList().getFieldByName("PhoneNumber").getString());
             email_txt.setText(customer.getPersonalInfo().getList().getFieldByName("Email").getString());
-        } catch (FieldDoesNotExistException e) {
-            e.printStackTrace();
-        }
-        balance_txt.setText(customer.getCredit() + "");
-        try {
 
             if (customer.getMediaId() != 0) {
                 customer_image.setImage(Medias.getImage(Medias.getMediasById(customer.getMediaId()).getImageSrc()));
-
             }
-
-            customer.getDiscountCodeList().forEach(aLong -> {
-
-                try {
-                    DiscountCode discountCode = DiscountCode.getDiscountCodeById(aLong);
-                    discountCode.checkExpiredDiscountCode(false);
-                } catch (DiscountCodeExpiredException | AccountDoesNotExistException e) {
-                    e.printStackTrace();
-                }
-            });
-            DiscountCodes_Table.setItems(FXCollections.observableArrayList(
-                    customer.getDiscountCodeList().stream().map(id -> {
-                        try {
-                            return DiscountCode.getDiscountCodeById(id);
-                        } catch (DiscountCodeExpiredException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }).filter(Objects::nonNull).collect(Collectors.toList())));
-            Codes.setCellValueFactory(new PropertyValueFactory<>("productId"));
-
-        } catch (ProductMediaNotFoundException e) {
+        } catch (FieldDoesNotExistException | ProductMediaNotFoundException e) {
             e.printStackTrace();
         }
+        balance_txt.setText(customer.getCredit() + "");
+
+        customer.getDiscountCodeList().forEach(aLong -> {
+
+            try {
+                DiscountCode discountCode = DiscountCode.getDiscountCodeById(aLong);
+                discountCode.checkExpiredDiscountCode(false);
+            } catch (DiscountCodeExpiredException | AccountDoesNotExistException e) {
+                e.printStackTrace();
+            }
+        });
+        DiscountCodes_Table.setItems(FXCollections.observableArrayList(
+                customer.getDiscountCodeList().stream().map(id -> {
+                    try {
+                        return DiscountCode.getDiscountCodeById(id);
+                    } catch (DiscountCodeExpiredException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).filter(Objects::nonNull).collect(Collectors.toList())));
+        Codes.setCellValueFactory(new PropertyValueFactory<>("productId"));
+
     }
 
     public void logout() {

@@ -104,7 +104,7 @@
             </font>
         </Button>
         <Separator layoutX="1498.0" layoutY="72.0" orientation="VERTICAL" prefHeight="599.0" prefWidth="9.0" />
-        <TextField fx:id="fName_txt" alignment="CENTER" editable="false" layoutX="796.0" layoutY="376.0" prefHeight="35.0" prefWidth="371.0">
+        <TextField fx:id="fName_txt" alignment="CENTER" layoutX="796.0" layoutY="376.0" prefHeight="35.0" prefWidth="371.0">
             <font>
                 <Font size="18.0" />
             </font>
@@ -114,22 +114,22 @@
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextField fx:id="lName_txt" alignment="CENTER" editable="false" layoutX="796.0" layoutY="443.0" prefHeight="35.0" prefWidth="371.0">
+        <TextField fx:id="lName_txt" alignment="CENTER" layoutX="796.0" layoutY="443.0" prefHeight="35.0" prefWidth="371.0">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextField fx:id="phone_txt" alignment="CENTER" editable="false" layoutX="796.0" layoutY="517.0" prefHeight="35.0" prefWidth="371.0">
+        <TextField fx:id="phone_txt" alignment="CENTER" layoutX="796.0" layoutY="517.0" prefHeight="35.0" prefWidth="371.0">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextField fx:id="email_txt" alignment="CENTER" editable="false" layoutX="796.0" layoutY="593.0" prefHeight="35.0" prefWidth="371.0">
+        <TextField fx:id="email_txt" alignment="CENTER" layoutX="796.0" layoutY="593.0" prefHeight="35.0" prefWidth="371.0">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextField fx:id="password_txt" alignment="CENTER" editable="false" layoutX="796.0" layoutY="243.0" prefHeight="35.0" prefWidth="371.0">
+        <TextField fx:id="password_txt" alignment="CENTER" layoutX="796.0" layoutY="243.0" prefHeight="35.0" prefWidth="371.0">
             <font>
                 <Font size="18.0" />
             </font>

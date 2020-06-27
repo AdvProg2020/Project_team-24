@@ -136,6 +136,9 @@ public class Customer extends Account {
             case "credit":
                 setCredit(Double.parseDouble(value));
                 break;
+            case "balance":
+                setCredit(Double.parseDouble(value));
+                break;
             default:
                 Field field = personalInfo.getList().getFieldByName(fieldName);
                 field.setString(value);
