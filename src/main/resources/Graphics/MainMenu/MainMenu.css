@@ -53,3 +53,6 @@
     -fx-background-image: url("icons8-search-50.png");
 
 }
+.button:hover{
+    -fx-background-color: lightgrey;
+}
