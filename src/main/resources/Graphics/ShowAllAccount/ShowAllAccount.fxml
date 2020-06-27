@@ -11,10 +11,10 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TableView layoutX="142.0" layoutY="77.0" prefHeight="277.0" prefWidth="316.0">
+      <TableView fx:id="accountTableView" layoutX="142.0" layoutY="77.0" prefHeight="277.0" prefWidth="316.0">
         <columns>
-          <TableColumn prefWidth="161.59996032714844" text="حذف کاربر" />
-          <TableColumn prefWidth="154.4000244140625" text="نام کاربری" />
+          <TableColumn fx:id="deleteAccount" prefWidth="161.59996032714844" text="حذف کاربر" />
+          <TableColumn fx:id="username" prefWidth="154.4000244140625" text="نام کاربری" />
         </columns>
       </TableView>
    </children>

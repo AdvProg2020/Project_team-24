@@ -4,15 +4,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="510.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.DiscountCodeList">
+<AnchorPane prefHeight="459.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.DiscountCodeList">
    <children>
-      <TableView layoutX="12.0" layoutY="60.0" prefHeight="378.0" prefWidth="576.0">
+      <TableView fx:id="discountCodeList" layoutX="12.0" layoutY="60.0" prefHeight="378.0" prefWidth="576.0">
         <columns>
-          <TableColumn prefWidth="104.20001220703125" text="سقف تخفیف" />
-            <TableColumn prefWidth="94.39999389648438" text="تخفیف" />
-            <TableColumn prefWidth="124.39994812011719" text="تاریخ پایان" />
-            <TableColumn prefWidth="118.0" text="تاریخ شروع" />
-          <TableColumn prefWidth="130.0" text="کد" />
+          <TableColumn fx:id="maxDiscount" prefWidth="104.20001220703125" text="سقف تخفیف" />
+            <TableColumn fx:id="discount" prefWidth="94.39999389648438" text="تخفیف" />
+            <TableColumn fx:id="endDate" prefWidth="124.39994812011719" text="تاریخ پایان" />
+            <TableColumn fx:id="startDate" prefWidth="118.0" text="تاریخ شروع" />
+          <TableColumn fx:id="code" prefWidth="130.0" text="کد" />
         </columns>
       </TableView>
       <Label layoutX="230.0" layoutY="22.0" text="لیست کد های تخفیف" textFill="#d22323">
@@ -20,6 +20,5 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="239.0" layoutY="456.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="137.0" text="بازگشت به صفحه ی قبل" />
    </children>
 </AnchorPane>
