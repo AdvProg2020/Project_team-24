@@ -15,9 +15,9 @@
             <TableColumn fx:id="editCategory" prefWidth="320.20001220703125" text="نام دسته" />
         </columns>
       </TableView>
-      <Label alignment="CENTER" layoutX="468.0" layoutY="71.0" prefHeight="21.0" prefWidth="224.0" text="((  لیست دسته ها  ))" textFill="#ff1111">
+      <Label alignment="CENTER" layoutX="449.0" layoutY="67.0" prefHeight="40.0" prefWidth="261.0" text="((  لیست دسته ها  ))" textFill="#129cff">
          <font>
-            <Font size="18.0" />
+            <Font size="24.0" />
          </font>
       </Label>
          <ImageView fitHeight="150.0" fitWidth="162.0" layoutX="496.0" layoutY="568.0" pickOnBounds="true" preserveRatio="true">
