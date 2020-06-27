@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.Scene?>
+
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Payment">
-<AnchorPane prefHeight="581.0" prefWidth="590.0" styleClass="backGround" stylesheets="@Payment.css" >
-   <Label layoutX="114.0" layoutY="19.0" prefHeight="543.0" prefWidth="394.0" styleClass="border" stylesheets="@Payment.css" />
-   <TextField fx:id="address" alignment="CENTER" layoutX="182.0" layoutY="258.0" prefHeight="105.0" prefWidth="274.0" promptText="لطفا آدرس تحویل گیرنده را وارد کنید" />
-   <TextField fx:id="postCode" alignment="CENTER" layoutX="182.0" layoutY="197.0" prefHeight="26.0" prefWidth="274.0" promptText="کد پستی" />
-   <TextField fx:id="discountCode" alignment="CENTER" layoutX="182.0" layoutY="393.0" prefHeight="26.0" prefWidth="274.0" promptText="کد تخفیف%" />
-   <Button fx:id="payment_btn" layoutX="271.0" layoutY="470.0" mnemonicParsing="false" onAction="#pay" prefHeight="51.0" prefWidth="95.0" styleClass="payButton" stylesheets="@Payment.css" text="پرداخت" textFill="#18941d">
+<AnchorPane prefHeight="745" prefWidth="1134" styleClass="backGround" stylesheets="@Payment.css">
+   <Label layoutX="293.0" layoutY="39.0" prefHeight="655.0" prefWidth="529.0" styleClass="border" stylesheets="@Payment.css" />
+   <TextField fx:id="address" alignment="CENTER" layoutX="437.0" layoutY="314.0" prefHeight="105.0" prefWidth="274.0" promptText="لطفا آدرس تحویل گیرنده را وارد کنید">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+   <TextField fx:id="postCode" alignment="CENTER" layoutX="430.0" layoutY="244.0" prefHeight="26.0" prefWidth="274.0" promptText="کد پستی">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+   <TextField fx:id="discountCode" alignment="CENTER" layoutX="437.0" layoutY="482.0" prefHeight="26.0" prefWidth="274.0" promptText="کد تخفیف%">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+   <Button fx:id="payment_btn" layoutX="334.0" layoutY="611.0" mnemonicParsing="false" onAction="#pay" prefHeight="51.0" prefWidth="95.0" styleClass="payButton" stylesheets="@Payment.css" text="پرداخت" textFill="#18941d">
       <font>
-         <Font size="15.0" />
+         <Font size="18.0" />
       </font>
    </Button>
-   <Label alignment="CENTER" layoutX="234.0" layoutY="39.0" prefHeight="51.0" prefWidth="154.0" styleClass="title" stylesheets="@Payment.css" text="صفحه ی پرداخت" textFill="#5c5b5b">
+   <Label alignment="CENTER" layoutX="455.0" layoutY="71.0" prefHeight="59.0" prefWidth="205.0" styleClass="title" stylesheets="@Payment.css" text="صفحه ی پرداخت" textFill="#5c5b5b">
       <font>
-         <Font size="14.0" />
+         <Font size="18.0" />
       </font>
    </Label>
-   <ImageView fitHeight="51.0" fitWidth="51.0" layoutX="293.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fitHeight="65.0" fitWidth="76.0" layoutX="532.0" layoutY="146.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@icons8-mobile-payment-48.png" />
    </ImageView>
-   <ImageView fitHeight="51.0" fitWidth="51.0" layoutX="199.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fitHeight="57.0" fitWidth="67.0" layoutX="427.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@icons8-barcode-scanner-48.png" />
    </ImageView>
-   <ImageView fitHeight="51.0" fitWidth="59.0" layoutX="388.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fitHeight="65.0" fitWidth="69.0" layoutX="646.0" layoutY="146.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@icons8-pos-terminal-48.png" />
    </ImageView>
+      <MediaView fx:id="paymentGif" fitHeight="100.0" fitWidth="100.0" layoutX="524.0" layoutY="549.0" />
 </AnchorPane>
 </Scene>

@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class Payment implements Initializable, SceneBuilder {
 
+    public MediaView paymentGif;
     @FXML
     private TextField address;
     @FXML
@@ -47,6 +49,11 @@ public class Payment implements Initializable, SceneBuilder {
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
+
+        MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Payment\\payment.mp4").toURI().toString()));
+        paymentGif.setMediaPlayer(value);
+        value.setCycleCount(Integer.MAX_VALUE);
+        value.play();
     }
 
     @Override
