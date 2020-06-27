@@ -37,11 +37,11 @@
    <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="192.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true" />
    <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true" />
    <ImageView fitHeight="35.0" fitWidth="42.0" layoutX="201.0" layoutY="341.0" pickOnBounds="true" preserveRatio="true" />
-   <Button layoutX="922.0" layoutY="455.0" mnemonicParsing="false" onAction="#submitNext" prefHeight="54.0" prefWidth="156.0" text="ثبت اطلاعات">
+   <Button layoutX="922.0" layoutY="455.0" mnemonicParsing="false" onAction="#submitNext" prefHeight="54.0" prefWidth="156.0" stylesheets="@ButtonStyle.css" text="ثبت اطلاعات">
          <font>
             <Font size="18.0" />
          </font></Button>
-   <Button layoutX="893.0" layoutY="588.0" mnemonicParsing="false" onAction="#back" text="بازگشت به صفحه ی قبلی">
+   <Button layoutX="893.0" layoutY="588.0" mnemonicParsing="false" onAction="#back" stylesheets="@ButtonStyle.css" text="بازگشت به صفحه ی قبلی">
          <font>
             <Font size="18.0" />
          </font></Button>

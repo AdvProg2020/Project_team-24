@@ -1,28 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.DiscountCodeList">
-    <AnchorPane prefHeight="459.0" prefWidth="600.0" >
-        <TableView fx:id="discountCodeList" layoutX="12.0" layoutY="60.0" prefHeight="378.0" prefWidth="576.0">
+    <AnchorPane prefHeight="745" prefWidth="1134">
+        <TableView fx:id="discountCodeList" layoutX="223.0" layoutY="69.0" prefHeight="418.0" prefWidth="706.0">
             <columns>
-                <TableColumn fx:id="maxDiscount" prefWidth="104.20001220703125" text="سقف تخفیف"/>
-                <TableColumn fx:id="discount" prefWidth="94.39999389648438" text="تخفیف"/>
-                <TableColumn fx:id="endDate" prefWidth="124.39994812011719" text="تاریخ پایان"/>
-                <TableColumn fx:id="startDate" prefWidth="118.0" text="تاریخ شروع"/>
-                <TableColumn fx:id="code" prefWidth="130.0" text="کد"/>
+                <TableColumn fx:id="maxDiscount" prefWidth="104.20001220703125" text="سقف تخفیف" />
+                <TableColumn fx:id="discount" prefWidth="137.39999389648438" text="تخفیف" />
+                <TableColumn fx:id="endDate" prefWidth="133.79998779296875" text="تاریخ پایان" />
+                <TableColumn fx:id="startDate" prefWidth="141.60003662109375" text="تاریخ شروع" />
+                <TableColumn fx:id="code" prefWidth="187.4000244140625" text="کد" />
             </columns>
         </TableView>
-        <Label layoutX="230.0" layoutY="22.0" text="لیست کد های تخفیف" textFill="#d22323">
+        <Label alignment="CENTER" layoutX="437.0" layoutY="26.0" prefHeight="35.0" prefWidth="237.0" text="((  لیست کد های تخفیف  ))" textFill="#d22323">
             <font>
-                <Font size="18.0"/>
+                <Font size="18.0" />
             </font>
         </Label>
+      <MediaView fx:id="gif" fitHeight="200.0" fitWidth="200.0" layoutX="489.0" layoutY="513.0" />
     </AnchorPane>
 </Scene>

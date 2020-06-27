@@ -7,8 +7,9 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.PaymentInformation">
-<AnchorPane prefHeight="547.0" prefWidth="654.0">
+<AnchorPane prefHeight="745" prefWidth="1134">
    <children>
+       <Pane layoutX="252.0" layoutY="35.0" prefHeight="696.0" prefWidth="725.0">
        <TableView layoutX="51.0" layoutY="105.0" prefHeight="189.0" prefWidth="550.0">
            <columns>
                <TableColumn prefWidth="134.4000015258789" text="قیمت نهایی" />
@@ -60,6 +61,7 @@
          </image>
       </ImageView>
          <Separator layoutX="323.0" layoutY="328.0" orientation="VERTICAL" prefHeight="118.0" prefWidth="0.0" />
+       </Pane>
    </children>
 </AnchorPane>
 </Scene>
