@@ -4,17 +4,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.AccountsList">
+<AnchorPane prefHeight="400.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.AccountsList">
    <children>
-      <Label alignment="CENTER" layoutX="238.0" layoutY="29.0" prefHeight="55.0" prefWidth="123.0" text="لیست کاربران">
+      <Label alignment="CENTER" layoutX="139.0" layoutY="14.0" prefHeight="55.0" prefWidth="231.0" text=" ((  لیست کاربران  ))" textFill="#ea1a1a">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="accountTableView" layoutX="142.0" layoutY="77.0" prefHeight="277.0" prefWidth="316.0">
+      <TableView fx:id="accountTableView" layoutX="53.0" layoutY="76.0" prefHeight="306.0" prefWidth="404.0">
         <columns>
-          <TableColumn fx:id="deleteAccount" prefWidth="161.59996032714844" text="حذف کاربر" />
-          <TableColumn fx:id="username" prefWidth="154.4000244140625" text="نام کاربری" />
+          <TableColumn fx:id="deleteAccount" prefWidth="200.59997940063477" text="حذف کاربر" />
+          <TableColumn fx:id="username" prefWidth="203.40000915527344" text="نام کاربری" />
         </columns>
       </TableView>
    </children>
