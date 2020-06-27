@@ -115,7 +115,6 @@ public class Manager implements SceneBuilder, Initializable {
 
     public void DiscountCodeList() {
         MainMenu.change(new DiscountCodeList().sceneBuilder());
-
     }
 
     public void BackToMainMenu() {

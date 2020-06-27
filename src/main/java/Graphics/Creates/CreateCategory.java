@@ -92,6 +92,7 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
     public void addField() {
         String feature = this.feature.getText();
+        this.feature.setText("");
         str_feature.add(feature);
         setTable(table, feature_column, str_feature);
     }

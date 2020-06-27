@@ -1,1 +1,0 @@
-{"@type":"Model.Models.Data.Data","@val":{"instance":{"@type":"Model.Models.Request","@val":{"requestId":0,"accountId":0}},"fields":[1,2,"new Auction","new",{"@type":"Model.Models.Auction","@val":{"auctionId":0,"auctionName":"Are","start":{"year":2001,"month":1,"day":1},"end":{"year":3001,"month":2,"day":2},"discount":{"percent":20.0,"amount":123.0},"productList":[3]}}]}}

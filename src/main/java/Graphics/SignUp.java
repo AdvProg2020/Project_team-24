@@ -71,6 +71,7 @@ public class SignUp implements SceneBuilder, Initializable {
                 chooseType.setDisable(true);
             }
         }
+        mode = Mode.NormalMode;
     }
 
     @Override
