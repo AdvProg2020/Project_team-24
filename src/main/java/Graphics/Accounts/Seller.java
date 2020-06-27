@@ -9,7 +9,7 @@ import Exceptions.ProductMediaNotFoundException;
 import Graphics.Creates.CreateAuction;
 import Graphics.Creates.CreateCategory;
 import Graphics.Creates.CreateProduct;
-import Graphics.LogHistoryMenu;
+import Graphics.Menus.LogHistoryMenu;
 import Graphics.MainMenu;
 import Graphics.Menus.AuctionsMenu;
 import Graphics.Menus.ProductsMenu;

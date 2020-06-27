@@ -136,7 +136,7 @@
         </TextField>
         <Separator layoutX="662.0" layoutY="65.0" orientation="VERTICAL" prefHeight="600.0" prefWidth="4.0" />
         <Separator layoutX="722.0" layoutY="333.0" prefHeight="0.0" prefWidth="503.0" />
-         <Button layoutX="231.0" layoutY="593.0" mnemonicParsing="false" onAction="#DeleteAccount" prefHeight="39.0" prefWidth="253.0" text="حذف این حساب کاربری">
+         <Button disable="true" layoutX="231.0" layoutY="593.0" mnemonicParsing="false" onAction="#DeleteAccount" prefHeight="39.0" prefWidth="253.0" text="حذف این حساب کاربری" visible="false">
             <font>
                <Font size="18.0" />
             </font>

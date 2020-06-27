@@ -4,10 +4,13 @@ import Controller.ControllerUnit;
 import Controller.Controllers.BuyerController;
 import Exceptions.*;
 import Graphics.Cart;
-import Graphics.LogHistoryMenu;
+import Graphics.LogHistoryCart;
+import Graphics.Menus.LogHistoryMenu;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
+import Model.Models.Account;
 import Model.Models.DiscountCode;
+import Model.Models.LogHistory;
 import Model.Models.Structs.Medias;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -156,6 +159,14 @@ public class Customer implements Initializable, SceneBuilder {
     }
 
     public void goLogHistory() {
+        List<LogHistory> logHistoryList = null;
+        try {
+            logHistoryList = buyerController.viewOrders();
+        } catch (LogHistoryDoesNotExistException e) {
+            e.printStackTrace();
+        }
+        LogHistoryMenu.setLogHistoryList(logHistoryList);
+        LogHistoryCart.setLogHistoryList(logHistoryList);
         MainMenu.change(new LogHistoryMenu().sceneBuilder());
     }
 
@@ -167,7 +178,7 @@ public class Customer implements Initializable, SceneBuilder {
         customer_image.setImage(image);
     }
 
-    public void DeleteAccount(ActionEvent event) {
-        ///qre
+    public void DeleteAccount() {
+        Account.deleteAccount(customer);
     }
 }

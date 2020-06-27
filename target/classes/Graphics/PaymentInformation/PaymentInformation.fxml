@@ -1,35 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="547.0" prefWidth="654.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.PaymentInformation.PaymentInformation">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.PaymentInformation">
+<AnchorPane prefHeight="547.0" prefWidth="654.0">
    <children>
-      <Label alignment="CENTER_RIGHT" layoutX="227.0" layoutY="26.0" prefHeight="47.0" prefWidth="231.0" styleClass="title" stylesheets="@PaymentInformation.css" text="   خرید شما با موفقیت انجام شد" textFill="#08b740">
-         <font>
-            <Font size="14.0" />
-         </font></Label>
-       <TableView layoutX="82.0" layoutY="106.0" prefHeight="333.0" prefWidth="489.0" stylesheets="@PaymentInformation.css">
+       <TableView layoutX="51.0" layoutY="105.0" prefHeight="189.0" prefWidth="550.0">
            <columns>
-               <TableColumn prefWidth="118.5999755859375" text="قیمت نهایی" />
-               <TableColumn prefWidth="57.399993896484375" text="تعداد" />
-               <TableColumn prefWidth="83.99996948242188" text="قیمت" />
-               <TableColumn prefWidth="127.39996337890625" text="عکس" />
-               <TableColumn fx:id="name" minWidth="5.0" prefWidth="120.800048828125" text="     نام محصول" />
+               <TableColumn prefWidth="134.4000015258789" text="قیمت نهایی" />
+               <TableColumn prefWidth="148.80001831054688" text="تخفیف حراج" />
+               <TableColumn prefWidth="115.0" text="قیمت" />
+               <TableColumn prefWidth="165.79995727539062" text="نام محصول" />
            </columns>
        </TableView>
-      <Label alignment="CENTER_RIGHT" layoutX="201.0" layoutY="470.0" prefHeight="47.0" prefWidth="283.0" styleClass="delivery" stylesheets="@PaymentInformation.css" text="   سفارش شما در اولین فرصت ارسال خواهد شد" textFill="#ff1818" />
-      <ImageView fitHeight="33.0" fitWidth="37.0" layoutX="211.0" layoutY="477.0" pickOnBounds="true" preserveRatio="true">
+       <Label alignment="CENTER_RIGHT" layoutX="477.0" layoutY="330.0" prefHeight="21.0" prefWidth="106.0" text="قسمت نهایی : ">
+            <font>
+               <Font size="14.0" />
+            </font></Label>
+       <Label alignment="CENTER_RIGHT" layoutX="479.0" layoutY="367.0" prefHeight="20.0" prefWidth="101.0" text="تحفیف حراج : ">
+            <font>
+               <Font size="14.0" />
+            </font></Label>
+       <Label alignment="CENTER_RIGHT" layoutX="480.0" layoutY="406.0" text="تخفیف کد تخفیف:">
+            <font>
+               <Font size="14.0" />
+            </font></Label>
+       <Label alignment="CENTER_RIGHT" layoutX="165.0" layoutY="406.0" prefHeight="15.0" prefWidth="115.0" text="وضعیت تحویل :">
+            <font>
+               <Font size="14.0" />
+            </font></Label>
+       <Label alignment="CENTER_RIGHT" layoutX="192.0" layoutY="330.0" prefHeight="18.0" prefWidth="88.0" text="تاریخ خرید : ">
+            <font>
+               <Font size="14.0" />
+            </font></Label>
+       <Label fx:id="finalPrice" alignment="CENTER" layoutX="313.0" layoutY="331.0" prefHeight="18.0" prefWidth="144.0" text="Label" />
+       <Label fx:id="ActionDiscount" alignment="CENTER" layoutX="309.0" layoutY="358.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+       <Label fx:id="DiscountCodeDiscount" alignment="CENTER" layoutX="309.0" layoutY="407.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+       <Label fx:id="Date" alignment="CENTER" layoutX="32.0" layoutY="331.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+       <Label fx:id="PendingState" alignment="CENTER" layoutX="32.0" layoutY="407.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+      <Label alignment="CENTER_RIGHT" layoutX="176.0" layoutY="27.0" prefHeight="48.0" prefWidth="301.0" styleClass="title" stylesheets="@PaymentInformation.css" text="   خرید شما با موفقیت انجام شد" textFill="#08b740">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label alignment="CENTER_RIGHT" layoutX="177.0" layoutY="477.0" prefHeight="47.0" prefWidth="331.0" styleClass="delivery" stylesheets="@PaymentInformation.css" text="   سفارش شما در اولین فرصت ارسال خواهد شد" textFill="#ff1818">
+            <font>
+               <Font size="14.0" />
+            </font></Label>
+      <ImageView fitHeight="33.0" fitWidth="37.0" layoutX="196.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icons8-delivered-48.png" />
          </image></ImageView>
-      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="238.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="33.0" fitWidth="33.0" layoutX="196.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icons8-task-completed-48.png" />
          </image>
       </ImageView>
-      <Button layoutX="28.0" layoutY="470.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="130.0" text="بازگشت به منو اصلی" textFill="#777777" />
+         <Separator layoutX="323.0" layoutY="328.0" orientation="VERTICAL" prefHeight="118.0" prefWidth="0.0" />
    </children>
 </AnchorPane>
+</Scene>
