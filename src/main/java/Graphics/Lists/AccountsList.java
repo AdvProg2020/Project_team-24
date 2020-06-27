@@ -3,6 +3,7 @@ package Graphics.Lists;
 import Controller.Controllers.ManagerController;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Account;
+import Model.Models.Accounts.Manager;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -49,7 +50,6 @@ public class AccountsList implements SceneBuilder, Initializable {
         accountTableView.setItems(FXCollections.observableList(list));
         username.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getUserName()));
         deleteAccount.setCellValueFactory(param -> new SimpleObjectProperty<Pane>(setChoicePane(param.getValue())));
-
     }
 
     @NotNull
@@ -57,6 +57,11 @@ public class AccountsList implements SceneBuilder, Initializable {
     private Pane setChoicePane(Account account) {
 
         Button deleteAccount = new Button("حذف کاربر");
+
+        if (account instanceof Manager) {
+            deleteAccount.setDisable(true);
+        }
+
         deleteAccount.setOnAction(event -> {
             Account.deleteAccount(account);
             init();

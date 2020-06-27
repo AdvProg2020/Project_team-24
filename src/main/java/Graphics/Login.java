@@ -53,6 +53,7 @@ public class Login implements SceneBuilder, Initializable {
     }
 
     public void goSignUp() {
+        SignUp.setMode(SignUp.Mode.NormalMode);
         MainMenu.change(new SignUp().sceneBuilder());
     }
 
