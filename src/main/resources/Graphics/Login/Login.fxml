@@ -9,7 +9,7 @@
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Login">
 
    <AnchorPane prefHeight="745.0" prefWidth="2000" styleClass="background" stylesheets="@Login.css">
-      <Pane layoutX="711.0" layoutY="-37.0" prefHeight="768.0" prefWidth="718.0">
+      <Pane layoutX="482.0" layoutY="-24.0" prefHeight="768.0" prefWidth="718.0">
       <ImageView fitHeight="703.0" fitWidth="535.0" layoutX="57.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@background.png" />
       </ImageView>
