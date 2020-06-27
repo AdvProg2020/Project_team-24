@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -90,6 +91,7 @@ public class Customer implements Initializable, SceneBuilder {
 
             if (customer.getMediaId() != 0) {
                 customer_image.setImage(Medias.getImage(Medias.getMediasById(customer.getMediaId()).getImageSrc()));
+
             }
 
             customer.getDiscountCodeList().forEach(aLong -> {
@@ -116,7 +118,6 @@ public class Customer implements Initializable, SceneBuilder {
             e.printStackTrace();
         }
     }
-
 
     public void logout() {
         ControllerUnit.getInstance().setAccount(null);

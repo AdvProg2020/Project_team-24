@@ -8,9 +8,9 @@
 <?import javafx.scene.text.*?>
 
 <Scene stylesheets="Cart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Cart">
-<AnchorPane prefHeight="745.0" prefWidth="2000">
+<AnchorPane prefHeight="745" prefWidth="1134">
     <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
-    <TableView fx:id="cart_Table" layoutX="640.0" layoutY="54.0" prefHeight="431.0" prefWidth="652.0" stylesheets="@Cart.css">
+    <TableView fx:id="cart_Table" layoutX="656.0" layoutY="34.0" prefHeight="431.0" prefWidth="652.0" stylesheets="@Cart.css">
         <columns>
             <TableColumn fx:id="inc_dec_product" prefWidth="141.4000244140625" text=" افزودن تعداد" />
             <TableColumn fx:id="product_f_price" prefWidth="118.5999755859375" text="قیمت نهایی" />
@@ -22,7 +22,7 @@
     </TableView>
 
     <Pane layoutX="640.0" layoutY="547.0" prefHeight="89.0" prefWidth="652.0">
-            <MediaView fx:id="cartGif" fitHeight="200.0" fitWidth="200.0" layoutX="74.0" layoutY="-51.0" />
+            <MediaView fx:id="cartGif" fitHeight="200.0" fitWidth="200.0" layoutX="73.0" layoutY="-51.0" />
    
         <Button alignment="CENTER_RIGHT" layoutX="493.0" layoutY="28.0" mnemonicParsing="false" onAction="#purchase" prefHeight="41.0" prefWidth="106.0" styleClass="buy" stylesheets="@Cart.css" text="خرید">
                <font>
@@ -33,7 +33,7 @@
             <Image url="@icons8-get-cash-48.png" />
         </ImageView>
     </Pane>
-     <Button alignment="CENTER_RIGHT" layoutX="1032.0" layoutY="644.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="223.0" styleClass="back" stylesheets="@Cart.css" text="بازگشت به منو اصلی">
+     <Button alignment="CENTER_RIGHT" layoutX="1042.0" layoutY="645.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="223.0" styleClass="back" stylesheets="@Cart.css" text="بازگشت به منو اصلی">
             <font>
                <Font size="18.0" />
             </font>

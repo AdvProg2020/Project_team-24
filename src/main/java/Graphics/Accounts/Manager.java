@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -78,7 +79,9 @@ public class Manager implements SceneBuilder, Initializable {
         }
         if (manager.getMediaId() != 0) {
             try {
+                
                 product_image.setImage(Medias.getImage(Medias.getMediasById(manager.getMediaId()).getImageSrc()));
+
             } catch (ProductMediaNotFoundException e) {
                 e.printStackTrace();
             }
