@@ -7,75 +7,76 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Sort">
-<AnchorPane prefHeight="614.0" prefWidth="460.0">
-      <children>
-         <ImageView fitHeight="694.0" fitWidth="452.0" layoutX="3.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@greyBorder.jpg" />
-            </image>
-         </ImageView>
-         <ChoiceBox fx:id="productInfo" layoutX="127.0" layoutY="404.0" prefHeight="34.0" prefWidth="190.0" />
-         <ChoiceBox fx:id="CategoryInfo" layoutX="127.0" layoutY="507.0" prefHeight="35.0" prefWidth="189.0" />
-         <CheckBox fx:id="NumberOfViews" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="163.0" layoutY="119.0" mnemonicParsing="false" onAction="#NumberOfViews" text="تعداد بازدید" textAlignment="RIGHT" textFill="#6073df">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </CheckBox>
-         <CheckBox fx:id="Point" layoutX="193.0" layoutY="173.0" mnemonicParsing="false" onAction="#Point" text="امتیاز" textFill="#f8c81b">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </CheckBox>
-         <CheckBox fx:id="TimeOfUpload" layoutX="158.0" layoutY="225.0" mnemonicParsing="false" onAction="#TimeOfUpload" text="زمان بارگذاری" textFill="#dd0d0d">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </CheckBox>
-         <Label alignment="CENTER" layoutX="113.0" layoutY="60.0" prefHeight="28.0" prefWidth="234.0" text=" (( مرتب کردن محصولات  ))" textFill="#717171">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Label>
-         <Label layoutX="161.0" layoutY="316.0" prefHeight="27.0" prefWidth="123.0" text="(( فیلتر کردن ))" textFill="#6f6f6f">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Label>
-         <Label alignment="CENTER" layoutX="124.0" layoutY="365.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات محصول" textFill="#575859">
-            <font>
-               <Font size="14.0" />
-            </font>
-         </Label>
-         <Label alignment="CENTER" layoutX="123.0" layoutY="470.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات دسته" textFill="#6c6b6b">
-            <font>
-               <Font size="14.0" />
-            </font>
-         </Label>
-         <Separator layoutX="92.0" layoutY="286.0" prefHeight="2.0" prefWidth="273.0" />
-         <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="296.0" layoutY="221.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-alarm-clock-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="273.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-christmas-star-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="288.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-dialing-number-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="317.0" layoutY="403.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-aliexpress-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="317.0" layoutY="507.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-sorting-48.png" />
-            </image>
-         </ImageView>
-      </children></AnchorPane>
+   <AnchorPane prefHeight="614.0" prefWidth="460.0">
+      <ImageView fitHeight="694.0" fitWidth="452.0" layoutX="3.0" layoutY="-7.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@greyBorder.jpg"/>
+      </ImageView>
+      <ChoiceBox fx:id="productInfo" layoutX="127.0" layoutY="404.0" prefHeight="34.0" prefWidth="190.0"/>
+      <ChoiceBox fx:id="CategoryInfo" layoutX="127.0" layoutY="507.0" prefHeight="35.0" prefWidth="189.0"/>
+      <CheckBox fx:id="NumberOfViews" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="163.0" layoutY="119.0"
+                mnemonicParsing="false" onAction="#NumberOfViews" text="تعداد بازدید" textAlignment="RIGHT"
+                textFill="#6073df">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="Point" layoutX="193.0" layoutY="173.0" mnemonicParsing="false" onAction="#Point" text="امتیاز"
+                textFill="#f8c81b">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="TimeOfUpload" layoutX="158.0" layoutY="225.0" mnemonicParsing="false" onAction="#TimeOfUpload"
+                text="زمان بارگذاری" textFill="#dd0d0d">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </CheckBox>
+      <Label alignment="CENTER" layoutX="113.0" layoutY="60.0" prefHeight="28.0" prefWidth="234.0"
+             text=" (( مرتب کردن محصولات  ))" textFill="#717171">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+      <Label layoutX="161.0" layoutY="316.0" prefHeight="27.0" prefWidth="123.0" text="(( فیلتر کردن ))"
+             textFill="#6f6f6f">
+         <font>
+            <Font size="18.0"/>
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="124.0" layoutY="365.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات محصول"
+             textFill="#575859">
+         <font>
+            <Font size="14.0"/>
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="123.0" layoutY="470.0" prefHeight="22.0" prefWidth="197.0" text="اطلاعات دسته"
+             textFill="#6c6b6b">
+         <font>
+            <Font size="14.0"/>
+         </font>
+      </Label>
+      <Separator layoutX="92.0" layoutY="286.0" prefHeight="2.0" prefWidth="273.0"/>
+      <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="296.0" layoutY="221.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-alarm-clock-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="273.0" layoutY="166.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-christmas-star-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="288.0" layoutY="112.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-dialing-number-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="317.0" layoutY="403.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-aliexpress-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="36.0" fitWidth="37.0" layoutX="317.0" layoutY="507.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-sorting-48.png"/>
+      </ImageView>
+   </AnchorPane>
 </Scene>

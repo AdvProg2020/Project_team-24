@@ -2,6 +2,7 @@ package Graphics.Menus;
 
 import Graphics.MainMenu;
 import Graphics.Models.ProductCart;
+import Graphics.Sort;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Product;
 import javafx.fxml.FXML;
@@ -108,6 +109,7 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         next_btn.setDisable(false);
         previous_btn.setDisable(false);
     }
+
 
     public enum Modes {
         AuctionMode, NormalMode

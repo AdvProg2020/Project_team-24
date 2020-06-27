@@ -46,7 +46,6 @@ public class ZoomPage extends Application {
 
         stage.setScene(new Scene(scrollPane, 400, 300));
         stage.show();
-
     }
 
 //    public static void main(String[] args) {
