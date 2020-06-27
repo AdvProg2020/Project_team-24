@@ -74,6 +74,7 @@ public class DataBase {
         String packed = yaGson.toJson(object.pack());
 
         FileWriter writer;
+
         try {
             writer = new FileWriter(file);
 

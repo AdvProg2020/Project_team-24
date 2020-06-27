@@ -5,21 +5,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="174.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-   <Pane prefHeight="174.0" prefWidth="595.0">
-      <ImageView fitHeight="175.0" fitWidth="594.0" pickOnBounds="true" preserveRatio="true"/>
-      <Label alignment="CENTER" layoutX="351.0" layoutY="14.0" prefHeight="45.0" prefWidth="186.0" text="نام حراج"
-             textFill="#545353">
-         <font>
+<AnchorPane onMousePressed="#gotoProductsMenu" prefHeight="174.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.AuctionCart">
+    <ImageView fx:id="auction_image" fitHeight="175.0" fitWidth="594.0" pickOnBounds="true" preserveRatio="true"/>
+    <Label fx:id="auction_name" alignment="CENTER" layoutX="351.0" layoutY="14.0" prefHeight="45.0" prefWidth="186.0" text="نام حراج"
+           textFill="#545353">
+        <font>
             <Font name="B Badr" size="18.0"/>
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="-37.0" layoutY="115.0" prefHeight="59.0" prefWidth="212.0" text="درصد %"
-             textFill="RED">
-         <font>
+        </font>
+    </Label>
+    <Label fx:id="auction_per" alignment="CENTER" layoutX="-37.0" layoutY="115.0" prefHeight="59.0" prefWidth="212.0" text="درصد %"
+           textFill="RED">
+        <font>
             <Font name="B Badr" size="18.0"/>
-         </font>
-      </Label>
-   </Pane>
+        </font>
+    </Label>
 </AnchorPane>
 

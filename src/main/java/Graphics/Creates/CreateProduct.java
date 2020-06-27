@@ -5,6 +5,7 @@ import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
+import Model.DataBase.DataBase;
 import Model.Models.*;
 import Model.Models.Field.Field;
 import Model.Models.Structs.Medias;
@@ -20,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -173,18 +175,28 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
             f_submit.setOnAction(event -> {
 
+                reset();
+
+                if (str_v_c.size() != str_fcc.size()) {
+                    mustFillCategoryValues();
+                    return;
+                }
+
                 if (selectedImage != null || selectedMedia != null) {
+
                     Medias medias = new Medias();
+                    Medias.addMedia(medias);
+                    product.setMediaId(medias.getId());
+
                     if (selectedImage != null) {
                         setImage();
-                        medias.setImage(new Image(selectedImage.toURI().toString()));
+                        medias.setImageSrc(selectedImage.toURI().toString());
                     }
                     if (selectedMedia != null) {
                         setMedia();
-                        medias.setPlayer(new MediaPlayer(new Media(selectedMedia.toURI().toString())));
+                        medias.setPlayerSrc(selectedMedia.toURI().toString());
                     }
-                    Medias.addMedia(medias);
-                    product.setMediaId(medias.getId());
+                    DataBase.save(medias);
                 }
 
                 sellerController.saveProductInfo(product, str_f_p, str_v_p);
@@ -196,6 +208,11 @@ public class CreateProduct implements SceneBuilder, Initializable {
         } catch (AuctionDoesNotExistException | CategoryDoesNotExistException e) {
             e.printStackTrace();
         }
+    }
+
+    private void mustFillCategoryValues() {
+        category_value.setTooltip(getTooltip());
+        category_value.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
     }
 
     private void reset() {
@@ -210,6 +227,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     public void select_image() {
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
         selectedImage = fc.showOpenDialog(null);
+        if (selectedImage == null) return;
         Image value = new Image(selectedImage.toURI().toString());
         product_image.setImage(value);
     }
@@ -237,6 +255,9 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
         setTable(category_table, feature_category_column, value_category_column, str_f_c, str_v_c);
 
+        category_value.setTooltip(null);
+        category_value.setStyle("-fx-border-color: white;");
+
         if (category_f_index >= str_fcc.size() - 1) {
 
             category_table.setDisable(true);
@@ -254,7 +275,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private void setImage() {
         try {
             String[] str = selectedImage.getName().split("\\.");
-            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + str[str.length - 1];
+            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + "." +str[str.length - 1];
             Files.copy(
                     selectedImage.toPath(),
                     Paths.get(first),
@@ -270,7 +291,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
         try {
             String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + ".mp4";
             Files.copy(
-                    selectedImage.toPath(),
+                    selectedMedia.toPath(),
                     Paths.get(first),
                     StandardCopyOption.REPLACE_EXISTING
             );
@@ -280,7 +301,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
         }
     }
 
-    private void setTable(TableView<Field> table, TableColumn<Field, String> features, TableColumn<Field, String> values, List<String> featureList, List<String> valueList) {
+    private void setTable(TableView<Field> table, TableColumn<Field, String> features, TableColumn<Field, String> values, @NotNull List<String> featureList, List<String> valueList) {
         List<Field> fieldList = new ArrayList<>();
         for (int i = 0; i < featureList.size(); i++) {
             fieldList.add(new Field(featureList.get(i), valueList.get(i)));
@@ -295,9 +316,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     private void mustBeFilled() {
-        Tooltip mustFilled = new Tooltip();
-        mustFilled.setText("این فیلد را باید پر کنید");
-        mustFilled.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        Tooltip mustFilled = getTooltip();
         product_name.setTooltip(mustFilled);
         product_name.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         product_number.setTooltip(mustFilled);
@@ -305,6 +324,14 @@ public class CreateProduct implements SceneBuilder, Initializable {
         product_price.setTooltip(mustFilled);
         product_price.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         failSound();
+    }
+
+    @NotNull
+    private Tooltip getTooltip() {
+        Tooltip mustFilled = new Tooltip();
+        mustFilled.setText("این فیلد را باید پر کنید");
+        mustFilled.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        return mustFilled;
     }
 
     private void afterFirstSubmit() {

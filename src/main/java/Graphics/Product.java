@@ -108,31 +108,19 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     private void setImage() throws ProductMediaNotFoundException {
-        product_image.setImage(
-                Medias.getMediasById(productObject.getMediaId()).getImage()
-        );
+        product_image.setImage(Medias.getImage(Medias.getMediasById(productObject.getMediaId()).getImageSrc()));
     }
 
     private void setPrice() {
-        product_price.setText(
-                productObject.getSellersOfProduct()
-                        .get(sellerIndex)
-                        .getPrice() + " "
-        );
+        product_price.setText(productObject.getSellersOfProduct().get(sellerIndex).getPrice() + "");
     }
 
     private void setMedia() throws ProductMediaNotFoundException {
-        product_media.setMediaPlayer(
-                Medias.getMediasById(productObject.getMediaId()).getPlayer()
-        );
+        product_media.setMediaPlayer(Medias.getMediaPlayer(Medias.getMediasById(productObject.getMediaId()).getPlayerSrc()));
     }
 
     private void setStars() {
-        Image filled = new Image(
-                new File("src/main/resources/Graphics/Product/icons8-star-filled-16.png")
-                        .toURI()
-                        .toString()
-        );
+        Image filled = new Image(new File("src/main/resources/Graphics/Product/icons8-star-filled-16.png").toURI().toString());
         for (int i = 0; i < productObject.getAverageScore(); i++) {
             stars.get(i).setImage(filled);
         }

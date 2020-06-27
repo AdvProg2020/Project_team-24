@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.List;
@@ -38,6 +39,10 @@ public class CommentCart implements Initializable {
         spritePane.getChildren().add(SandBoxFX.sprite());
         Comment comment = commentList.get(0);
         commentList.remove(0);
+        init(comment);
+    }
+
+    private void init(@NotNull Comment comment) {
         try {
             title.setText(comment.getFieldList().getFieldByName("Title").getString());
             sender.setText(Account.getAccountById(comment.getUserId()).getUserName());

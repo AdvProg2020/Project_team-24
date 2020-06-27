@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<Scene stylesheets="Cart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<Scene stylesheets="Cart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Cart">
 <AnchorPane prefHeight="745.0" prefWidth="2000">
     <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
     <TableView fx:id="cart_Table" layoutX="640.0" layoutY="78.0" prefHeight="460.0" prefWidth="652.0" stylesheets="@Cart.css">
@@ -26,14 +26,14 @@
 <!--            <Button layoutX="58.0" layoutY="1.0" mnemonicParsing="false" onAction="#increase" prefHeight="45.0"-->
 <!--                    prefWidth="47.0" styleClass="add" stylesheets="@Cart.css"/>-->
 <!--        </Pane>-->
-        <Label fx:id="totalPrice" alignment="CENTER" layoutX="254.0" layoutY="28.0" prefHeight="34.0" prefWidth="145.0" text="قیمت نهایی" textFill="#138a1e" />
+        <Label fx:id="totalPrice" alignment="CENTER" layoutX="232.0" layoutY="28.0" prefHeight="34.0" prefWidth="145.0" text="قیمت نهایی" textFill="#138a1e" />
    
-        <Button alignment="CENTER_RIGHT" layoutX="-38.0" layoutY="28.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="76.0" styleClass="buy" stylesheets="@Cart.css" text="خرید" />
-        <ImageView fitHeight="34.0" fitWidth="38.0" layoutX="-34.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+        <Button alignment="CENTER_RIGHT" layoutY="28.0" mnemonicParsing="false" onAction="#purchase" prefHeight="34.0" prefWidth="76.0" styleClass="buy" stylesheets="@Cart.css" text="خرید" />
+        <ImageView fitHeight="34.0" fitWidth="38.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@icons8-get-cash-48.png" />
         </ImageView>
-        <Button alignment="CENTER_RIGHT" layoutX="562.0" layoutY="28.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="153.0" styleClass="back" stylesheets="@Cart.css" text="بازگشت به منو اصلی" />
-        <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="569.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+        <Button alignment="CENTER_RIGHT" layoutX="499.0" layoutY="28.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="153.0" styleClass="back" stylesheets="@Cart.css" text="بازگشت به منو اصلی" />
+        <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="499.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@icons8-go-back-48.png" />
         </ImageView>
     </Pane>

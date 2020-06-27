@@ -6,7 +6,9 @@ import Model.Models.Data.Data;
 import Model.Tools.AddingNew;
 import Model.Tools.Packable;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -16,15 +18,11 @@ public class Medias implements Packable<Medias> {
     private static List<Medias> list;
 
     private long id;
-    private Image image;
-    private MediaPlayer player;
+    private String imageSrc;
+    private String playerSrc;
 
     public static void setList(List<Medias> list) {
         Medias.list = list;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public static Medias getMediasById(long id) throws ProductMediaNotFoundException {
@@ -34,7 +32,7 @@ public class Medias implements Packable<Medias> {
                 .orElseThrow(() -> new ProductMediaNotFoundException("Medias with id:" + id + " not found."));
     }
 
-    public static void addMedia(Medias medias) {
+    public static void addMedia(@NotNull Medias medias) {
         medias.setId(AddingNew.getRegisteringId().apply(list));
         list.add(medias);
         DataBase.save(medias,true);
@@ -45,21 +43,34 @@ public class Medias implements Packable<Medias> {
         DataBase.remove(medias);
     }
 
+    // Others
+    @NotNull
+    @Contract("_ -> new")
+    public static Image getImage(String src) {
+        return new Image(src);
+    }
+
+    @NotNull
+    @Contract("_ -> new")
+    public static MediaPlayer getMediaPlayer(String src) {
+        return new MediaPlayer(new Media(src));
+    }
+
     // Setter and Getter
-    public Image getImage() {
-        return image;
+    public String getImageSrc() {
+        return imageSrc;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 
-    public MediaPlayer getPlayer() {
-        return player;
+    public String getPlayerSrc() {
+        return playerSrc;
     }
 
-    public void setPlayer(MediaPlayer player) {
-        this.player = player;
+    public void setPlayerSrc(String playerSrc) {
+        this.playerSrc = playerSrc;
     }
 
     // Override
@@ -67,22 +78,26 @@ public class Medias implements Packable<Medias> {
     public Data<Medias> pack() {
         return new Data<Medias>()
                 .addField(id)
-                .addField(image)
-                .addField(player)
+                .addField(imageSrc)
+                .addField(playerSrc)
                 .setInstance(new Medias());
     }
 
     @Override
     public Medias dpkg(@NotNull Data<Medias> data) {
         this.id = (long) data.getFields().get(0);
-        this.image = (Image) data.getFields().get(1);
-        this.player = (MediaPlayer) data.getFields().get(2);
+        this.imageSrc = (String) data.getFields().get(1);
+        this.playerSrc = (String) data.getFields().get(2);
         return this;
     }
 
     @Override
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     // Constructor

@@ -1,9 +1,13 @@
 package Graphics;
 
 import Controller.ControllerUnit;
+import Controller.Controllers.AuctionController;
 import Controller.Controllers.FilterController;
 import Controller.Controllers.ProductsController;
 import Exceptions.InvalidFilterException;
+import Graphics.Menus.AuctionsMenu;
+import Graphics.Menus.ProductsMenu;
+import Graphics.Models.AuctionCart;
 import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
 import Model.ModelUnit;
@@ -11,17 +15,15 @@ import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
+import Model.Models.Auction;
 import Model.Models.Product;
-import com.gilecode.yagson.com.google.gson.internal.$Gson$Preconditions;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -32,19 +34,20 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
     private ProductsController productsController = ProductsController.getInstance();
+    private AuctionController auctionController = AuctionController.getInstance();
     private FilterController filterController = FilterController.getInstance();
     private Account account = ControllerUnit.getInstance().getAccount();
     private static Stage primaryStage;
+    private static MediaPlayer player;
     private static BorderPane center;
+
     @FXML
     private MediaView gif;
     @FXML
@@ -75,15 +78,17 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         setCenter(changeable);
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
-        playMusic();
+        playMusic("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");
         if (account == null) return;
         userArea_btn.setDisable(false);
-        cart_btn.setDisable(false);
         login_logout_btn.setText("خروج ...");
-        login_logout_btn.setOnAction(event -> {
-            ControllerUnit.getInstance().setAccount(null);
-            MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
-        });
+        login_logout_btn.setOnAction(event -> logout());
+        if (account instanceof Customer) cart_btn.setDisable(false);
+    }
+
+    private void logout() {
+        ControllerUnit.getInstance().setAccount(null);
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
     @Override
@@ -118,32 +123,34 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         center.setCenter(scene.getRoot());
     }
 
+    public void goAuction() {
+        ArrayList<Auction> list = new ArrayList<>(auctionController.offs());
+        AuctionsMenu.setList(list);
+        AuctionCart.setAuctionList(list);
+        MainMenu.change(new AuctionsMenu().sceneBuilder());
+    }
+
     public void goMainMenu() {
         getPrimaryStage().setScene(new MainMenu().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
     public void goLogin() {
         MainMenu.change(new Login().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
     public void goCart() {
         MainMenu.change(new Cart().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
     public void goPopulars() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
         List<Product> list = findPopulars(productsController.showProducts());
-        ProductsMenu.setList(list);
-        ProductCart.setProductList(list);
+        setProducts(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
-        changeState();
-    }
-
-    public void goAuction() {
-        // new Scene need.
+        enableBack();
     }
 
     public void goUserArea() {
@@ -154,32 +161,37 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         else if (account instanceof Customer)
             MainMenu.change(new Graphics.Accounts.Customer().sceneBuilder());
         else return;
-        changeState();
+        enableBack();
     }
 
     public void goProducts() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        setProducts(productsController.showProducts());
         MainMenu.change(new ProductsMenu().sceneBuilder());
-        ProductsMenu.setList(productsController.showProducts());
-        ProductCart.setProductList(Product.getList());
-        MainMenu.change(new ProductsMenu().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
-    public void goSearch() {
+    public void goSearching() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        addFilter_search();
+        List<Product> list = productsController.showProducts();
+        setProducts(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
+        enableBack();
+    }
+
+    private void setProducts(List<Product> list) {
+        ProductsMenu.setList(list);
+        ProductCart.setProductList(list);
+    }
+
+    private void addFilter_search() {
         String filterStr = searchArea.getText();
         try {
             filterController.filter("ProductName", filterStr);
         } catch (InvalidFilterException e) {
             e.printStackTrace();
         }
-        List<Product> list = productsController.showProducts();
-        ProductsMenu.setList(list);
-        ProductCart.setProductList(list);
-        MainMenu.change(new ProductsMenu().sceneBuilder());
-        changeState();
     }
 
     public static void main(String[] args) {
@@ -194,15 +206,16 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         return newList;
     }
 
-    private void playMusic() {
-        new Thread(() -> {
-            MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3").toURI().toString()));
-            mediaPlayer.setCycleCount(Integer.MAX_VALUE);
-            mediaPlayer.play();
-        }).start();
+    private void enableBack() {
+        back_btn.setDisable(false);
     }
 
-    private void changeState() {
-        back_btn.setDisable(false);
+    public static void playMusic(String addr) {
+        if (player != null) player.dispose();
+        new Thread(() -> {
+            player = new MediaPlayer(new Media(new File(addr).toURI().toString()));
+            player.setCycleCount(Integer.MAX_VALUE);
+            player.play();
+        }).start();
     }
 }

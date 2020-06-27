@@ -11,12 +11,9 @@ import Graphics.LogHistoryMenu;
 import Graphics.MainMenu;
 import Graphics.Product;
 import Graphics.Tools.SceneBuilder;
-import Model.Models.Account;
-import Model.Models.LogHistory;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductLog;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,7 +25,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,7 +103,7 @@ public class Seller implements SceneBuilder, Initializable {
         try {
 
             if (seller.getMediaId() != 0) {
-                seller_image.setImage(Medias.getMediasById(seller.getMediaId()).getImage());
+                seller_image.setImage(Medias.getImage(Medias.getMediasById(seller.getMediaId()).getImageSrc()));
             }
 
             List<ProductLog> productLogList = new ArrayList<>();
@@ -156,7 +152,7 @@ public class Seller implements SceneBuilder, Initializable {
                         Paths.get(first),
                         StandardCopyOption.REPLACE_EXISTING
                 );
-                Medias.getMediasById(seller.getMediaId()).setImage(new Image(new File(first).toURI().toString()));
+                Medias.getMediasById(seller.getMediaId()).setImageSrc(new File(first).toURI().toString());
 
                 seller.editField("password", password_txt.getText());
                 seller.editField("balance", balance_txt.getText());
