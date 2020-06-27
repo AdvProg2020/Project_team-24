@@ -82,6 +82,9 @@ public class Cart implements Initializable, SceneBuilder {
         setProductsButton();
         MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Cart\\openGif.mp4").toURI().toString()));
         cartGif.setMediaPlayer(mediaPlayer);
+        mediaPlayer.setCycleCount(Integer.MAX_VALUE);
+        mediaPlayer.play();
+
     }
 
     private void setProductsButton() {
