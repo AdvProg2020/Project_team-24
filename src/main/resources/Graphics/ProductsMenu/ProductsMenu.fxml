@@ -13,17 +13,17 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <Button layoutX="609.0" layoutY="589.0" mnemonicParsing="false" onAction="#next" prefHeight="30.0" prefWidth="56.0" stylesheets="@ProductsMenuStyle.css" text=" بعدی">
+        <Button fx:id="next_btn" layoutX="609.0" layoutY="589.0" mnemonicParsing="false" onAction="#next" prefHeight="30.0" prefWidth="56.0" stylesheets="@ProductsMenuStyle.css" text=" بعدی">
             <font>
                 <Font size="13.0" />
             </font>
         </Button>
-        <Button alignment="CENTER" layoutX="54.0" layoutY="589.0" mnemonicParsing="false" onAction="#previous" prefHeight="30.0" prefWidth="59.0" stylesheets="@ProductsMenuStyle.css" text="قبلی ">
+        <Button fx:id="previous_btn" alignment="CENTER" disable="true" layoutX="19.0" layoutY="589.0" mnemonicParsing="false" onAction="#previous" prefHeight="30.0" prefWidth="59.0" stylesheets="@ProductsMenuStyle.css" text="قبلی ">
             <font>
                 <Font size="13.0" />
             </font>
         </Button>
-        <ImageView fitHeight="35.0" fitWidth="38.0" layoutX="37.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="35.0" fitWidth="38.0" layoutX="2.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@icons8-chevron-left-48.png" />
         </ImageView>
         <ImageView fitHeight="35.0" fitWidth="38.0" layoutX="647.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">

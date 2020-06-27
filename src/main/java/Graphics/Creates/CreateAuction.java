@@ -1,15 +1,12 @@
 package Graphics.Creates;
 
-import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
 import Exceptions.InvalidInputByUserException;
 import Exceptions.ProductCantBeInMoreThanOneAuction;
 import Exceptions.ProductDoesNotExistException;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
-import Model.Models.Accounts.Seller;
 import Model.Models.Auction;
-import Model.Models.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,15 +19,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CreateAuction implements SceneBuilder, Initializable {
 
     private static SellerController sellerController = SellerController.getInstance();
-    private Seller seller = (Seller) ControllerUnit.getInstance().getAccount();
 
     @FXML
     private TextField start_time;

@@ -28,8 +28,8 @@
                 </VBox>
             </AnchorPane>
         </ScrollPane>
-      <Button layoutX="1241.0" layoutY="665.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="44.0" prefWidth="70.0" stylesheets="@ProductsMenuStyle.css" text="بعدی" />
-      <Button layoutX="677.0" layoutY="665.0" mnemonicParsing="false" onAction="#previousPage" prefHeight="44.0" prefWidth="72.0" stylesheets="@ProductsMenuStyle.css" text="قبلی" />
+      <Button fx:id="next_btn" layoutX="1241.0" layoutY="665.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="44.0" prefWidth="70.0" stylesheets="@ProductsMenuStyle.css" text="بعدی" />
+      <Button fx:id="previous_btn" layoutX="677.0" layoutY="665.0" mnemonicParsing="false" onAction="#previousPage" prefHeight="44.0" prefWidth="72.0" stylesheets="@ProductsMenuStyle.css" text="قبلی" />
         <ImageView fitHeight="64.0" fitWidth="53.0" layoutX="651.0" layoutY="661.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@icons8-chevron-left-48.png" />
         </ImageView>

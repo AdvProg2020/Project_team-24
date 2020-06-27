@@ -8,10 +8,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +24,10 @@ public class ProductsMenu implements Initializable, SceneBuilder {
     private static List<Product> list = new ArrayList<>();
     private static Modes mode = Modes.NormalMode;
     private static int pageNum = 1;
+    @FXML
+    private Button next_btn;
+    @FXML
+    private Button previous_btn;
     @FXML
     private ImageView auctionImage_01;
     @FXML
@@ -63,6 +66,7 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
             list.add(ProductsMenu.list.get(i));
         }
+        checkButtons();
         ProductCart.setProductList(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
@@ -72,6 +76,7 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
             list.add(ProductsMenu.list.get(i));
         }
+        checkButtons();
         ProductCart.setProductList(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
@@ -88,6 +93,20 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         auctionImage_02.setVisible(false);
         title.setText("صفحه حراج");
         MainMenu.playMusic("src/main/resources/Graphics/SoundEffect/Motivated - AShamaluevMusic.mp3");
+    }
+
+    private void checkButtons() {
+
+        if (pageNum == list.size() / 9 + 1) {
+            next_btn.setDisable(true);
+            return;
+        }
+        if (pageNum == 1) {
+            previous_btn.setDisable(true);
+            return;
+        }
+        next_btn.setDisable(false);
+        previous_btn.setDisable(false);
     }
 
     public enum Modes {

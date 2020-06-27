@@ -4,13 +4,20 @@ import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
 import Exceptions.FieldDoesNotExistException;
 import Exceptions.LogHistoryDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
+import Graphics.Creates.CreateAuction;
 import Graphics.Creates.CreateCategory;
 import Graphics.Creates.CreateProduct;
 import Graphics.Menus.LogHistoryMenu;
 import Graphics.MainMenu;
-import Graphics.Product;
+import Graphics.Menus.AuctionsMenu;
+import Graphics.Menus.ProductsMenu;
+import Graphics.Models.AuctionCart;
+import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
+import Model.Models.Auction;
+import Model.Models.Product;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductLog;
 import javafx.collections.FXCollections;
@@ -128,8 +135,13 @@ public class Seller implements SceneBuilder, Initializable {
     }
 
     public void showProducts() {
-        MainMenu.change(new Product().sceneBuilder());
-
+        ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        try {
+            setProducts(sellerController.showProducts());
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+        }
+        MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public void showLogHistories() {
@@ -180,5 +192,21 @@ public class Seller implements SceneBuilder, Initializable {
 
     public void newProduct() {
         MainMenu.change(new CreateProduct().sceneBuilder());
+    }
+
+    public void createAuction() {
+        MainMenu.change(new CreateAuction().sceneBuilder());
+    }
+
+    public void showAuctions() {
+        ArrayList<Auction> list = new ArrayList<>((sellerController.viewAllOffs()));
+        AuctionsMenu.setList(list);
+        AuctionCart.setAuctionList(list);
+        MainMenu.change(new AuctionsMenu().sceneBuilder());
+    }
+
+    private void setProducts(List<Product> list) {
+        ProductsMenu.setList(list);
+        ProductCart.setProductList(list);
     }
 }

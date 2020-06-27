@@ -61,10 +61,6 @@
                 <Image url="@6617035.png" />
             </ImageView>
             <MenuButton fx:id="selected_products" alignment="CENTER" layoutX="216.0" layoutY="557.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="168.0" text="محصول" textFill="#a20f0f">
-                <items>
-                    <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
-                    <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
-                </items>
                 <font>
                     <Font size="18.0" />
                 </font>

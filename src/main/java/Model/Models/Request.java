@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Request implements Packable<Request> {
 
@@ -106,6 +107,18 @@ public class Request implements Packable<Request> {
         } else if (forPend instanceof Auction) {
             Auction.addAuction((Auction) forPend);
             seller.addToAuctionList(((Auction) forPend).getId());
+            ((Auction) forPend).getProductList().stream().map(aLong -> {
+                try {
+                    return Product.getProductById(aLong);
+                } catch (ProductDoesNotExistException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }).filter(Objects::nonNull).filter(product -> product.getAuction() == null)
+                    .forEach(product -> {
+                        product.setAuction(((Auction) forPend));
+                        DataBase.save((Auction) forPend);
+                    });
         }
     }
 
