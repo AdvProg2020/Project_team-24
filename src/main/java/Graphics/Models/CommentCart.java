@@ -2,9 +2,11 @@ package Graphics.Models;
 
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.FieldDoesNotExistException;
+import Graphics.MainMenu;
 import Graphics.Sprite.SandBoxFX;
 import Model.Models.Account;
 import Model.Models.Comment;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -53,5 +55,9 @@ public class CommentCart implements Initializable {
         } catch (AccountDoesNotExistException | FieldDoesNotExistException e) {
             e.printStackTrace();
         }
+    }
+
+    public void submit(ActionEvent event) {
+
     }
 }

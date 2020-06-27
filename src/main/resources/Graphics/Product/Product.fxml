@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
-    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
+ <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
         <AnchorPane focusTraversable="true" prefHeight="1070.0" prefWidth="1134">
             <Pane layoutX="273.0" layoutY="65.0">
 
@@ -107,10 +107,10 @@
 
                 <Tab styleClass="featurePane" text="مشخصات">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="273.0" prefWidth="640.0" styleClass="featurePane" stylesheets="@Product.css">
-                        <TableView layoutX="45.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="commentTable" stylesheets="@Product.css">
+                        <TableView fx:id="ProductFeatures" layoutX="45.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="commentTable" stylesheets="@Product.css">
                             <columns>
-                                <TableColumn prefWidth="125.20001220703125" text="ویژگی" />
-                                <TableColumn prefWidth="124.4000244140625" text="مقدار" />
+                                <TableColumn fx:id="vizhegiP" prefWidth="125.20001220703125" text="ویژگی" />
+                                <TableColumn fx:id="meghdarP" prefWidth="124.4000244140625" text="مقدار" />
                             </columns>
                         </TableView>
                         <Label alignment="CENTER" layoutX="104.0" layoutY="26.0" prefHeight="3.0" prefWidth="120.0" text="ویژگی ها کالا" textFill="#0bca1b">
@@ -123,10 +123,10 @@
                                 <Font name="System Bold Italic" size="14.0" />
                             </font>
                         </Label>
-                        <TableView layoutX="361.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="featureTable" stylesheets="@Product.css">
+                        <TableView fx:id="categoryFeaturs" layoutX="361.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="featureTable" stylesheets="@Product.css">
                             <columns>
-                                <TableColumn prefWidth="125.20001220703125" text="ویژگی" />
-                                <TableColumn prefWidth="124.4000244140625" text="مقدار" />
+                                <TableColumn fx:id="vizhegiC" prefWidth="125.20001220703125" text="ویژگی" />
+                                <TableColumn fx:id="meghdarC" prefWidth="124.4000244140625" text="مقدار" />
                             </columns>
                         </TableView>
                     </AnchorPane>
@@ -146,7 +146,7 @@
                         <Pane layoutX="436.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
                         <Pane layoutX="229.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
 
-                        <Button layoutX="6.0" layoutY="23.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="120.0" text="نظر دهید" />
+                        <Button layoutX="6.0" layoutY="23.0" mnemonicParsing="false" onAction="#addComment" prefHeight="30.0" prefWidth="120.0" text="نظر دهید" />
                     </AnchorPane>
                 </Tab>
             </TabPane>
@@ -161,5 +161,5 @@
          </font>
       </Button>
         </AnchorPane>
-    </ScrollPane>
+ </ScrollPane>
 </Scene>
