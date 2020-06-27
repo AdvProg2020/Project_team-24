@@ -14,9 +14,9 @@
                <Image url="@greyBorder.jpg" />
             </image>
          </ImageView>
-         <ChoiceBox layoutX="127.0" layoutY="404.0" prefHeight="34.0" prefWidth="190.0" />
-         <ChoiceBox layoutX="127.0" layoutY="507.0" prefHeight="35.0" prefWidth="189.0" />
-         <CheckBox alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="163.0" layoutY="119.0" mnemonicParsing="false" onAction="#NumberOfViews" text="تعداد بازدید" textAlignment="RIGHT" textFill="#6073df">
+         <ChoiceBox fx:id="productInfo" layoutX="127.0" layoutY="404.0" prefHeight="34.0" prefWidth="190.0" />
+         <ChoiceBox fx:id="CategoryInfo" layoutX="127.0" layoutY="507.0" prefHeight="35.0" prefWidth="189.0" />
+         <CheckBox fx:id="NumberOfViews" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="163.0" layoutY="119.0" mnemonicParsing="false" onAction="#NumberOfViews" text="تعداد بازدید" textAlignment="RIGHT" textFill="#6073df">
             <font>
                <Font size="18.0" />
             </font>
