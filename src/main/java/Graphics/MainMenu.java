@@ -98,7 +98,6 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public Scene sceneBuilder() {
 
         try {
-
             return FXMLLoader.load(new File("src/main/resources/Graphics/MainMenu/MainMenu.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
