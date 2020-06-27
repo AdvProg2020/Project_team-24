@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -174,6 +175,15 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
             f_submit.setOnAction(event -> {
 
+                reset();
+
+                if (str_v_c.size() != str_fcc.size()) {
+
+                    category_value.setTooltip(getTooltip());
+                    category_value.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+                    return;
+                }
+
                 if (selectedImage != null || selectedMedia != null) {
 
                     Medias medias = new Medias();
@@ -241,6 +251,9 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
         setTable(category_table, feature_category_column, value_category_column, str_f_c, str_v_c);
 
+        category_value.setTooltip(null);
+        category_value.setStyle("-fx-border-color: white;");
+
         if (category_f_index >= str_fcc.size() - 1) {
 
             category_table.setDisable(true);
@@ -299,9 +312,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     private void mustBeFilled() {
-        Tooltip mustFilled = new Tooltip();
-        mustFilled.setText("این فیلد را باید پر کنید");
-        mustFilled.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        Tooltip mustFilled = getTooltip();
         product_name.setTooltip(mustFilled);
         product_name.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         product_number.setTooltip(mustFilled);
@@ -309,6 +320,14 @@ public class CreateProduct implements SceneBuilder, Initializable {
         product_price.setTooltip(mustFilled);
         product_price.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
         failSound();
+    }
+
+    @NotNull
+    private Tooltip getTooltip() {
+        Tooltip mustFilled = new Tooltip();
+        mustFilled.setText("این فیلد را باید پر کنید");
+        mustFilled.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        return mustFilled;
     }
 
     private void afterFirstSubmit() {

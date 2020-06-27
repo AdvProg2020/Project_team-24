@@ -38,7 +38,7 @@ public class SellerController extends AccountController {
     @Contract("_, _ -> new")
     private FieldList createFieldList(@NotNull List<String> fieldName, List<String> values) {
         List<Field> fields = new ArrayList<>();
-        for (int i = 0; i < fieldName.size(); i++) {
+        if (fieldName.size() > 0) for (int i = 0; i < fieldName.size(); i++) {
             fields.add(new Field(fieldName.get(i), values.get(i)));
         }
         return new FieldList(fields);
