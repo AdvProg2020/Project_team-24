@@ -1,6 +1,7 @@
 package Graphics.Models;
 
 import Controller.ControllerUnit;
+import Controller.Controllers.ProductsController;
 import Exceptions.ProductDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
 import Graphics.MainMenu;
@@ -25,7 +26,9 @@ import java.util.stream.Collectors;
 
 public class ProductCart implements Initializable {
 
-    private static List<Product> productList = new ArrayList<>();
+    private static List<Product> productList = ProductsController
+            .getInstance()
+            .showProducts();
     private Product product;
     private int sellerIndex;
     @FXML
@@ -57,9 +60,30 @@ public class ProductCart implements Initializable {
             mainPane.setVisible(false);
             return;
         }
-        this.product = productList.get(0);
-        productList.remove(0);
-        setProductCartFields();
+        init();
+    }
+
+    public void nextSeller() {
+
+        if (sellerIndex + 1 < product.getSellersOfProduct().size())
+            this.price_ftx.setText(
+                    product.getSellersOfProduct()
+                            .get(++sellerIndex).getPrice() + ""
+            );
+
+        if (product.getAuction() != null) newPrice(product.getAuction());
+
+        checkButtons();
+    }
+
+    public void prevSeller() {
+
+        if (sellerIndex > 0)
+            this.price_ftx.setText(product.getSellersOfProduct().get(--sellerIndex).getPrice() + "");
+
+        if (product.getAuction() != null) newPrice(product.getAuction());
+
+        checkButtons();
     }
 
     public void gotoProduct() {
@@ -84,41 +108,34 @@ public class ProductCart implements Initializable {
                 }).collect(Collectors.toList());
     }
 
-    private void setProductCartFields() {
-        if (product == null) return;
+    private void init() {
+        this.product = productList.get(0);
+        productList.remove(0);
+        setProductCart();
+    }
+
+    private void setProductCart() {
+        if (product != null) {
+            if (product.getMediaId() != 0) setImage();
+            setTexts();
+            if (product.getAuction() == null) return;
+            newPrice(product.getAuction());
+        }
+    }
+
+    private void setTexts() {
+        this.product_name.setText(product.getName());
+        this.price_ftx.setText(product.getSellersOfProduct().get(sellerIndex).getPrice() + "");
+    }
+
+    private void setImage() {
+        Image image = null;
         try {
-            Image image = Medias.getImage(Medias.getMediasById(product.getId()).getImageSrc());
-            this.productImage.setImage(image);
+            image = Medias.getImage(Medias.getMediasById(product.getId()).getImageSrc());
         } catch (ProductMediaNotFoundException e) {
             e.printStackTrace();
         }
-        this.product_name.setText(product.getName());
-        this.price_ftx.setText(product.getSellersOfProduct().get(sellerIndex).getPrice() + "");
-        if(product.getAuction() == null) return;
-        newPrice(product.getAuction());
-    }
-
-    public void nextSeller() {
-
-        if (sellerIndex + 1 < product.getSellersOfProduct().size())
-            this.price_ftx.setText(
-                    product.getSellersOfProduct()
-                            .get(++sellerIndex).getPrice() + ""
-            );
-
-        if (product.getAuction() != null) newPrice(product.getAuction());
-
-        checkButtons();
-    }
-
-    public void prevSeller() {
-
-        if (sellerIndex > 0)
-            this.price_ftx.setText(product.getSellersOfProduct().get(--sellerIndex).getPrice() + "");
-
-        if (product.getAuction() != null) newPrice(product.getAuction());
-
-        checkButtons();
+        this.productImage.setImage(image);
     }
 
     private void checkButtons() {

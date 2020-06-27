@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.ProductsMenu">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Menus.ProductsMenu">
     <AnchorPane prefHeight="745.0" prefWidth="2000">
         <Label fx:id="title" alignment="CENTER" layoutX="158.0" layoutY="23.0" prefHeight="24.0" prefWidth="391.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه ی محصولات">
             <font>

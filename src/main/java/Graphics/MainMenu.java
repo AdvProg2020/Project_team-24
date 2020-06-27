@@ -4,6 +4,7 @@ import Controller.ControllerUnit;
 import Controller.Controllers.FilterController;
 import Controller.Controllers.ProductsController;
 import Exceptions.InvalidFilterException;
+import Graphics.Menus.ProductsMenu;
 import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
 import Model.ModelUnit;
@@ -12,16 +13,13 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Product;
-import com.gilecode.yagson.com.google.gson.internal.$Gson$Preconditions;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -32,11 +30,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
@@ -122,26 +118,25 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public void goMainMenu() {
         getPrimaryStage().setScene(new MainMenu().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
     public void goLogin() {
         MainMenu.change(new Login().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
     public void goCart() {
         MainMenu.change(new Cart().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
     public void goPopulars() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
         List<Product> list = findPopulars(productsController.showProducts());
-        ProductsMenu.setList(list);
-        ProductCart.setProductList(list);
+        setProducts(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
     public void goAuction() {
@@ -156,32 +151,37 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         else if (account instanceof Customer)
             MainMenu.change(new Graphics.Accounts.Customer().sceneBuilder());
         else return;
-        changeState();
+        enableBack();
     }
 
     public void goProducts() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        setProducts(productsController.showProducts());
         MainMenu.change(new ProductsMenu().sceneBuilder());
-        ProductsMenu.setList(productsController.showProducts());
-        ProductCart.setProductList(Product.getList());
-        MainMenu.change(new ProductsMenu().sceneBuilder());
-        changeState();
+        enableBack();
     }
 
-    public void goSearch() {
+    public void goSearching() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        addFilter_search();
+        List<Product> list = productsController.showProducts();
+        setProducts(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
+        enableBack();
+    }
+
+    private void setProducts(List<Product> list) {
+        ProductsMenu.setList(list);
+        ProductCart.setProductList(list);
+    }
+
+    private void addFilter_search() {
         String filterStr = searchArea.getText();
         try {
             filterController.filter("ProductName", filterStr);
         } catch (InvalidFilterException e) {
             e.printStackTrace();
         }
-        List<Product> list = productsController.showProducts();
-        ProductsMenu.setList(list);
-        ProductCart.setProductList(list);
-        MainMenu.change(new ProductsMenu().sceneBuilder());
-        changeState();
     }
 
     public static void main(String[] args) {
@@ -204,7 +204,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         }).start();
     }
 
-    private void changeState() {
+    private void enableBack() {
         back_btn.setDisable(false);
     }
 }
