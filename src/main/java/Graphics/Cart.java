@@ -11,6 +11,8 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Product;
 import Model.Models.Structs.Medias;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -141,9 +145,7 @@ public class Cart implements Initializable, SceneBuilder {
 
     private void setProductsNumber() {
         product_number.setCellValueFactory(param ->
-            new SimpleObjectProperty<>(cart.getProductList().stream()
-                    .filter(LoNg -> LoNg == param.getValue().getId())
-                    .count())
+            new SimpleObjectProperty<>(cart.getProductList().stream().filter(LoNg -> LoNg == param.getValue().getId()).count())
         );
     }
 
@@ -163,20 +165,21 @@ public class Cart implements Initializable, SceneBuilder {
     }
 
     private void setProductsImage() {
-        product_image.setCellValueFactory(param ->
-                {
-                    try {
-                        return new SimpleObjectProperty<>(new ImageView(Medias.getImage(Medias.getMediasById(param.getValue().getMediaId()).getImageSrc())));
-                    } catch (ProductMediaNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-        );
+        product_image.setCellValueFactory(this::getImageViewObservableValue);
+    }
+
+    @Nullable
+    private ObservableValue<ImageView> getImageViewObservableValue(TableColumn.@NotNull CellDataFeatures<Product, ImageView> param) {
+        try {
+            return new SimpleObjectProperty<>(new ImageView(Medias.getImage(Medias.getMediasById(param.getValue().getMediaId()).getImageSrc())));
+        } catch (ProductMediaNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void setProductsName() {
-        Product_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        Product_name.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName()));
     }
 
     public void back() {
