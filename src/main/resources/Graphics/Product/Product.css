@@ -42,3 +42,6 @@
 .table{
     -fx-border-color: #28a428;
 }
+.leftPane{
+    -fx-background-color: #d4ad00;
+}
