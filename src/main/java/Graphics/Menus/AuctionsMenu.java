@@ -61,6 +61,7 @@ public class AuctionsMenu implements Initializable, SceneBuilder {
         leftGif.setMediaPlayer(v);
         v.setCycleCount(Integer.MAX_VALUE);
         v.play();
+        MainMenu.playMusic("");
         
     }
 

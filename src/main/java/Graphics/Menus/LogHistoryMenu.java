@@ -10,6 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +25,8 @@ public class LogHistoryMenu implements SceneBuilder, Initializable {
 
     private static List<LogHistory> list = new ArrayList<>();
     private static int pageNum = 1;
+    public MediaView leftGif;
+    public MediaView rightGif;
     @FXML
     private Button next_btn;
     @FXML
@@ -42,10 +47,20 @@ public class LogHistoryMenu implements SceneBuilder, Initializable {
         LogHistoryMenu.list = logHistoryList;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //?
-    }
+
+        @Override
+        public void initialize(URL location, ResourceBundle resources) {
+            MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\LogHistory\\loghistory.mp4").toURI().toString()));
+            rightGif.setMediaPlayer(value);
+            value.setCycleCount(Integer.MAX_VALUE);
+            value.play();
+            MediaPlayer v = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\LogHistory\\shopping.mp4").toURI().toString()));
+            leftGif.setMediaPlayer(v);
+            v.setCycleCount(Integer.MAX_VALUE);
+            v.play();
+
+        }
+
 
     public void next() {
         List<Product> list = new ArrayList<>();
