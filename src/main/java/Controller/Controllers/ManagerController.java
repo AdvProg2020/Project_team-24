@@ -86,7 +86,7 @@ public class ManagerController extends AccountController {
         Product.removeProduct(product);
     }
 
-    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws InvalidStartAndEndDateForDiscountCodeException {
+    public DiscountCode creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws InvalidStartAndEndDateForDiscountCodeException {
 
         LocalDate start = LocalDate.parse(strStart, formatter);
         LocalDate end = LocalDate.parse(strEnd, formatter);
@@ -104,6 +104,7 @@ public class ManagerController extends AccountController {
                     frequentUse
             );
             DiscountCode.addDiscountCode(discountCode);
+            return discountCode;
         } else
             throw new InvalidStartAndEndDateForDiscountCodeException("Start and end date are Invalid.");
     }
@@ -166,7 +167,7 @@ public class ManagerController extends AccountController {
         Category.removeCategory(category);
     }
 
-    public void createEmptyCategory(String categoryName, @NotNull List<String> fieldNames, @NotNull List<String> strCategoriesIds) throws CategoryDoesNotExistException, NumberFormatException {
+    public Category createEmptyCategory(String categoryName, @NotNull List<String> fieldNames, @NotNull List<String> strCategoriesIds) throws CategoryDoesNotExistException, NumberFormatException {
 
         List<Long> subCategory = strCategoriesIds.stream().map(Long::parseLong).collect(Collectors.toList());
 
@@ -181,6 +182,8 @@ public class ManagerController extends AccountController {
         Category category = new Category(categoryName, fieldList, subCategory);
 
         Category.addCategory(category);
+
+        return category;
     }
 
     public Manager createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException, ThisUserNameAlreadyExistsException {

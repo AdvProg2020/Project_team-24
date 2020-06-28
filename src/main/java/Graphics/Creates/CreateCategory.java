@@ -4,10 +4,13 @@ import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
 import Controller.Controllers.SellerController;
 import Exceptions.CategoryDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
+import Model.DataBase.DataBase;
 import Model.Models.Category;
 import Model.Models.Field.Field;
+import Model.Models.Product;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -64,7 +67,9 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
         selected_subCategory.getItems().addAll(checkMenuItems);
 
-        init_editMode();
+        if (mode == Mode.Edit) {
+            init_editMode();
+        }
     }
 
     private void init_editMode() {
@@ -80,7 +85,7 @@ public class CreateCategory implements SceneBuilder, Initializable {
     public void submit() {
         String category_name = Category_name.getText();
 
-        if(category_name.isEmpty()) {
+        if (category_name.isEmpty()) {
             mustBeFilled();
             return;
         }
@@ -94,13 +99,23 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
                 }).collect(Collectors.toList());
 
-        if (mode == Mode.Edit) {
-            Category category = ControllerUnit.getInstance().getCategory();
-            Category.removeCategory(category);
-        }
-
         try {
-            managerController.createEmptyCategory(category_name, str_feature, ids);
+            Category category = managerController.createEmptyCategory(category_name, str_feature, ids);
+            if (mode == Mode.Edit) {
+                Category categoryFirst = ControllerUnit.getInstance().getCategory();
+                categoryFirst.getProductList().forEach(aLong -> {
+                    category.addToProductList(aLong);
+                    try {
+                        Product productById = Product.getProductById(aLong);
+                        productById.setCategory(category);
+                        DataBase.save(productById);
+                    } catch (ProductDoesNotExistException e) {
+                        e.printStackTrace();
+                    }
+                });
+                Category.removeCategory(category);
+                DataBase.save(category);
+            }
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
         }

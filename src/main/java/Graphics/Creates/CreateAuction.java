@@ -99,11 +99,6 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
         reset();
 
-        if (mode == Mode.Edit) {
-            Auction auction = ControllerUnit.getInstance().getAuction();
-            Auction.removeAuction(auction);
-        }
-
         if (start.isEmpty() || end.isEmpty() || name.isEmpty() || percent.isEmpty() || limit.isEmpty()) {
             mustBeFilled();
             return;

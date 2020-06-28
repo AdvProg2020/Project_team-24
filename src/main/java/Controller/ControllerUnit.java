@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Models.Account;
-import Model.Models.Auction;
-import Model.Models.Category;
-import Model.Models.Product;
+import Model.Models.*;
 
 public class ControllerUnit {
 
@@ -13,9 +10,18 @@ public class ControllerUnit {
     private Product currentProduct;
     private Auction currentAuction;
     private Category currentCategory;
+    private DiscountCode currentDiscountCode;
 
     public static ControllerUnit getInstance() {
         return controllerUnit;
+    }
+
+    public DiscountCode getCurrentDiscountCode() {
+        return currentDiscountCode;
+    }
+
+    public void setCurrentDiscountCode(DiscountCode currentDiscountCode) {
+        this.currentDiscountCode = currentDiscountCode;
     }
 
     public void setAccount(Account account) {

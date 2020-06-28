@@ -1,5 +1,6 @@
 package Graphics.Creates;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
 import Exceptions.InvalidInputByUserException;
 import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
@@ -8,6 +9,8 @@ import Exceptions.ProductDoesNotExistException;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Auction;
+import Model.Models.DiscountCode;
+import Model.Models.Structs.Discount;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,6 +32,7 @@ import java.util.stream.Collectors;
 public class CreateDiscountCode implements SceneBuilder, Initializable {
 
     private static ManagerController managerController = ManagerController.getInstance();
+    private static Mode mode = Mode.New;
 
     public TextField start_date;
     public TextField end_date;
@@ -51,7 +55,14 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //?
+        if (mode == Mode.Edit) {
+            DiscountCode discount = ControllerUnit.getInstance().getCurrentDiscountCode();
+            start_date.setText(discount.getStart() + "");
+            end_date.setText(discount.getEnd() + "");
+            percent_discount.setText(discount.getDiscount().getPercent() + "");
+            limit_discount.setText(discount.getDiscount().getAmount() + "");
+            numberOfUse.setText(discount.getFrequentUse() + "");
+        }
     }
 
     public void submit() {
@@ -70,7 +81,13 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
         }
 
         try {
-            managerController.creatDiscountCode(start, end, percent, limit, num);
+            DiscountCode discountCode = managerController.creatDiscountCode(start, end, percent, limit, num);
+
+            if (mode == Mode.Edit) {
+
+                DiscountCode currentDiscountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
+            }
+
             goMainMenu();
         } catch (InvalidStartAndEndDateForDiscountCodeException e) {
             InvalidEndAndStart();
@@ -119,5 +136,9 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
                 )).play()).start();
+    }
+
+    public enum Mode {
+        Edit, New
     }
 }
