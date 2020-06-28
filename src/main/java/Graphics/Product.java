@@ -1,29 +1,26 @@
 package Graphics;
 
 import Controller.ControllerUnit;
+import Controller.Controllers.BuyerController;
 import Controller.Controllers.ProductController;
 import Controller.Controllers.ProductsController;
-import Exceptions.CannotRateException;
-import Exceptions.CommentDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
-import Exceptions.ProductMediaNotFoundException;
+import Exceptions.*;
 import Graphics.Creates.CreateProduct;
 import Graphics.Menus.ProductsMenu;
 import Graphics.Models.CommentCart;
 import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
-import Model.DataBase.DataBase;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Comment;
 import Model.Models.Field.Field;
 import Model.Models.Request;
+import Model.Models.Score;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductOfSeller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -31,11 +28,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +44,10 @@ public class Product implements Initializable, SceneBuilder {
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
+    private Button setPoint_btn;
+    @FXML
+    private TextField pointArea;
+    @FXML
     private Button submit_comment;
     @FXML
     private TextField title;
@@ -56,8 +55,6 @@ public class Product implements Initializable, SceneBuilder {
     private TextField sender;
     @FXML
     private TextArea content;
-    @FXML
-    private Pane spritePane;
     @FXML
     private ImageView product_image;
     @FXML
@@ -147,6 +144,8 @@ public class Product implements Initializable, SceneBuilder {
         if (account instanceof Customer) {
             addToCart_btn.setDisable(false);
             sender.setText(account.getUserName());
+            pointArea.setDisable(false);
+            setPoint_btn.setDisable(false);
         }
 
         MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Product\\addToCart.mp4").toURI().toString()));
@@ -314,5 +313,34 @@ public class Product implements Initializable, SceneBuilder {
         toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
         submit_comment.setTooltip(toolTip_username);
         submit_comment.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+    }
+
+    public void PointButton() {
+        long id = ControllerUnit.getInstance().getAccount().getId();
+        if (productObject.getBuyerList().contains(id) &&
+                productObject.getScoreList().stream().noneMatch(aLong -> {
+                    try {
+                        Score score = Score.getScoreById(aLong);
+                        return score.getUserId() == id;
+                    } catch (ScoreDoesNotExistException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                })) try {
+            BuyerController.getInstance().rate(productObject.getId() + "", pointArea.getText());
+        } catch (ProductDoesNotExistException e) {
+            alertError("Product not found", e.getMessage());
+        } catch (CannotRateException e) {
+            alertError("Can't rate", e.getMessage());
+        }
+        else alertError("Can't score", "You did it before , Or you didn't buy it.");
+        setStars();
+    }
+
+    private void alertError(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

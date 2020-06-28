@@ -34,6 +34,10 @@ public class Score implements Packable<Score> {
 
     /*****************************************************getters*******************************************************/
 
+    public long getUserId() {
+        return userId;
+    }
+
     @Override
     public long getId() {
         return scoreId;
