@@ -103,7 +103,7 @@ public class ProductCart implements Initializable {
         return product.getCategory().getProductList().stream()
                 .map(id -> {
                     try {
-                        return Product.getProductById(id);
+                        return id == 0 ? null : Product.getProductById(id);
                     } catch (ProductDoesNotExistException e) {
                         e.printStackTrace();
                     }

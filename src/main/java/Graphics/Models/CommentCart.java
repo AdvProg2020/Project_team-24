@@ -17,12 +17,13 @@ import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class CommentCart implements Initializable {
 
-    private static List<Comment> commentList;
+    private static List<Comment> commentList = new ArrayList<>();
     public Button submit;
 
     public static void setCommentList(List<Comment> commentList) {
