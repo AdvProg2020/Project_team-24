@@ -153,4 +153,8 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
     public enum Mode {
         Edit, New
     }
+
+    public static void setMode(Mode mode) {
+        CreateDiscountCode.mode = mode;
+    }
 }

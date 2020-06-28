@@ -18,3 +18,10 @@
     -fx-text-fill: grey;
     -fx-border-radius: 99/999%;
 }
+.rightPane{
+    -fx-background-color: #fdfdfd;
+
+}
+.leftpane{
+    -fx-background-color: #fd8a00;
+}
