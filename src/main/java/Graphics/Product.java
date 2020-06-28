@@ -18,10 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
@@ -168,7 +165,16 @@ public class Product implements Initializable, SceneBuilder {
                     .addProductToCart(
                             productOfSeller.getSellerId(), productObject.getId()
                     );
+
+            show();
         }
+    }
+
+    private void show() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("ثبت سفارش");
+        alert.setContentText("سفارش شما با موفقیت ثبت شد");
+        alert.showAndWait();
     }
 
     public static void setFirst_Compare(Model.Models.Product first_Compare) {

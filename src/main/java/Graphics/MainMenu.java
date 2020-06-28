@@ -178,6 +178,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         AuctionsMenu.setList(list);
         AuctionCart.setAuctionList(list);
         MainMenu.change(new AuctionsMenu().sceneBuilder());
+        MainMenu.FilterDisable();
         enableBack();
     }
 
@@ -188,11 +189,13 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public void goLogin() {
         MainMenu.change(new Login().sceneBuilder());
+        MainMenu.FilterDisable();
         enableBack();
     }
 
     public void goCart() {
         MainMenu.change(new Cart().sceneBuilder());
+        MainMenu.FilterDisable();
         enableBack();
     }
 
@@ -212,6 +215,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         else if (account instanceof Customer)
             MainMenu.change(new Graphics.Accounts.Customer().sceneBuilder());
         else return;
+        MainMenu.FilterDisable();
         popUp();
         enableBack();
     }
@@ -225,6 +229,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public void goCeSut() {
         MainMenu.change(new CeSut().sceneBuilder());
+        MainMenu.FilterDisable();
         enableBack();
     }
 

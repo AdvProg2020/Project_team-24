@@ -61,6 +61,7 @@ public class SignUp implements SceneBuilder, Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         if (state) {
             chooseType.getItems().addAll(FXCollections.observableArrayList("Manager", "Seller", "Customer"));
+            chooseType.setValue("Customer");
             Tooltip toolTip_username = new Tooltip();
             toolTip_username.setText("اسمت چیه فرزندم ...؟");
             username.setTooltip(toolTip_username);

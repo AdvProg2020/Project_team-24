@@ -100,6 +100,7 @@ public class ProductCart implements Initializable {
             ControllerUnit.getInstance().setProduct(product);
         } else ControllerUnit.getInstance().setProduct(first_compare);
         MainMenu.change(new Graphics.Product().sceneBuilder());
+        MainMenu.FilterDisable();
         if (product.getCommentList() == null) return;
         try {
             CommentCart.setCommentList(ProductController.getInstance().viewComments());

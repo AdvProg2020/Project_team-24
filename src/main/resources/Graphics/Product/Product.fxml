@@ -99,7 +99,6 @@
                         <fx:include fx:id="similar_0" source="../Models/ProductCart/ProductCart.fxml" />
                     </HBox>
                 </ScrollPane>
-
             </Pane>
 
             <TabPane layoutX="414.0" layoutY="938.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="373.0" prefWidth="752.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">

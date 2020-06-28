@@ -10,48 +10,43 @@
 <Scene stylesheets="Cart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Cart">
 <AnchorPane prefHeight="745" prefWidth="1134">
     <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1963.0">
-    <TableView fx:id="cart_Table" layoutX="656.0" layoutY="34.0" prefHeight="431.0" prefWidth="652.0" stylesheets="@Cart.css">
+    <TableView fx:id="cart_Table" layoutX="574.0" layoutY="39.0" prefHeight="431.0" prefWidth="937.0" stylesheets="@Cart.css">
         <columns>
-            <TableColumn fx:id="inc_dec_product" prefWidth="141.4000244140625" text=" افزودن تعداد" />
-            <TableColumn fx:id="product_f_price" prefWidth="118.5999755859375" text="قیمت نهایی" />
-            <TableColumn fx:id="product_number" prefWidth="57.399993896484375" text="تعداد" />
-            <TableColumn fx:id="product_price" prefWidth="83.99996948242188" text="قیمت" />
-            <TableColumn fx:id="product_image" prefWidth="127.39996337890625" text="عکس" />
-            <TableColumn fx:id="Product_name" prefWidth="123.5999755859375" text="نام محصول" />
+            <TableColumn fx:id="inc_dec_product" prefWidth="174.5999755859375" text=" افزودن تعداد" />
+            <TableColumn fx:id="product_f_price" prefWidth="105.4000244140625" text="قیمت نهایی" />
+            <TableColumn fx:id="product_number" prefWidth="54.20001220703125" text="تعداد" />
+            <TableColumn fx:id="product_price" prefWidth="78.60003662109375" text="قیمت" />
+            <TableColumn fx:id="product_image" prefWidth="394.79998779296875" text="عکس" />
+            <TableColumn fx:id="Product_name" minWidth="0.0" prefWidth="131.5999755859375" text="نام محصول" />
         </columns>
     </TableView>
 
-    <Pane layoutX="640.0" layoutY="547.0" prefHeight="89.0" prefWidth="652.0">
-            <MediaView fx:id="cartGif" fitHeight="200.0" fitWidth="200.0" layoutX="73.0" layoutY="-51.0" />
+    <Pane layoutX="575.0" layoutY="478.0" prefHeight="210.0" prefWidth="937.0">
+            <MediaView fx:id="cartGif" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="5.0" />
    
-        <Button alignment="CENTER_RIGHT" layoutX="493.0" layoutY="28.0" mnemonicParsing="false" onAction="#purchase" prefHeight="41.0" prefWidth="106.0" styleClass="buy" stylesheets="@Cart.css" text="خرید">
+        <Button alignment="CENTER_RIGHT" layoutX="767.0" layoutY="69.0" mnemonicParsing="false" onAction="#purchase" prefHeight="41.0" prefWidth="106.0" styleClass="buy" stylesheets="@Cart.css" text="خرید">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-        <ImageView fitHeight="34.0" fitWidth="38.0" layoutX="505.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="34.0" fitWidth="38.0" layoutX="776.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@icons8-get-cash-48.png" />
         </ImageView>
+        <Button alignment="CENTER_RIGHT" layoutX="712.0" layoutY="144.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="223.0" styleClass="back" stylesheets="@Cart.css" text="بازگشت به منو اصلی">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+        <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="717.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@icons8-go-back-48.png" />
+        </ImageView>
+            <MediaView fx:id="cartGif1" fitHeight="200.0" fitWidth="200.0" layoutX="14.0" layoutY="3.0" />
+        <Label fx:id="totalPrice" alignment="CENTER" layoutX="751.0" layoutY="20.0" prefHeight="34.0" prefWidth="145.0" text="قیمت نهایی" textFill="#138a1e">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
     </Pane>
-     <Button alignment="CENTER_RIGHT" layoutX="1042.0" layoutY="645.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="223.0" styleClass="back" stylesheets="@Cart.css" text="بازگشت به منو اصلی">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Button>
-     <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="1042.0" layoutY="648.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@icons8-go-back-48.png" />
-     </ImageView>
-<!--        <Pane layoutX="273.0" layoutY="19.0" prefHeight="47.0" prefWidth="107.0">-->
-<!--            <Button layoutY="1.0" mnemonicParsing="false" onAction="#decrease" prefHeight="46.0" prefWidth="47.0"-->
-<!--                    styleClass="deduct" stylesheets="@Cart.css" text="-"/>-->
-<!--            <Button layoutX="58.0" layoutY="1.0" mnemonicParsing="false" onAction="#increase" prefHeight="45.0"-->
-<!--                    prefWidth="47.0" styleClass="add" stylesheets="@Cart.css"/>-->
-<!--        </Pane>-->
-     <Label fx:id="totalPrice" alignment="CENTER" layoutX="1118.0" layoutY="521.0" prefHeight="34.0" prefWidth="145.0" text="قیمت نهایی" textFill="#138a1e">
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Label>
     </Pane>
 </AnchorPane>
 </Scene>

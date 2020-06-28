@@ -33,14 +33,14 @@ import java.util.ResourceBundle;
 
 public class Cart implements Initializable, SceneBuilder {
 
-    public MediaView cartGif;
-    private BuyerController buyerController = BuyerController.getInstance();
+    private static BuyerController buyerController = BuyerController.getInstance();
     private Model.Models.Cart cart = ((Customer) ControllerUnit.getInstance().getAccount()).getCart();
-    private Product selected;
     @FXML
     private TableView<Product> cart_Table;
     @FXML
     private Label totalPrice;
+    @FXML
+    private MediaView cartGif;
     @FXML
     public TableColumn<Product, Pane> inc_dec_product;
     @FXML
@@ -67,9 +67,8 @@ public class Cart implements Initializable, SceneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<Product> list;
         try {
-            list = buyerController.showProducts();
+            List<Product> list = buyerController.showProducts();
             cart_Table.setItems(FXCollections.observableList(list));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
@@ -80,11 +79,14 @@ public class Cart implements Initializable, SceneBuilder {
         setProductsNumber();
         setProductFinalPrice();
         setProductsButton();
+        playMedia();
+    }
+
+    private void playMedia() {
         MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Cart\\openGif.mp4").toURI().toString()));
         cartGif.setMediaPlayer(mediaPlayer);
         mediaPlayer.setCycleCount(Integer.MAX_VALUE);
         mediaPlayer.play();
-
     }
 
     private void setProductsButton() {
@@ -116,7 +118,7 @@ public class Cart implements Initializable, SceneBuilder {
                 }
             });
             Pane pane = new Pane();
-            pane.getChildren().addAll(increase,decrease);
+            pane.getChildren().addAll(increase, decrease);
 
             return new SimpleObjectProperty<>(pane);
         });
@@ -141,9 +143,9 @@ public class Cart implements Initializable, SceneBuilder {
 
     private void setProductsNumber() {
         product_number.setCellValueFactory(param ->
-            new SimpleObjectProperty<>(cart.getProductList().stream()
-                    .filter(LoNg -> LoNg == param.getValue().getId())
-                    .count())
+                new SimpleObjectProperty<>(cart.getProductList().stream()
+                        .filter(LoNg -> LoNg == param.getValue().getId())
+                        .count())
         );
     }
 
