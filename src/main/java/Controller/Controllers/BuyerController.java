@@ -74,7 +74,7 @@ public class BuyerController extends AccountController {
         for (int i = 0; i < showProducts().size(); i++) {
             Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
             Product product = listOfProduct.get(i);
-
+            product.addBuyer(controllerUnit.getAccount().getId());
             double productPrice = product.getProductOfSellerById(listOfSellers.get(i)).getPrice();
             double productAuctionAmount = product.getAuction() == null ? 0 : product.getAuction().getAuctionDiscount(productPrice);
             double productFinalPrice = productPrice - productAuctionAmount;
