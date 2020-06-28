@@ -8,41 +8,41 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
-    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
-        <AnchorPane focusTraversable="true" prefHeight="1070.0" prefWidth="1134">
-            <Pane layoutX="558.0" layoutY="87.0">
+<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
+        <AnchorPane focusTraversable="true" prefHeight="1347.0" prefWidth="1198.0">
+            <Pane layoutX="382.0" layoutY="7.0" prefHeight="336.0" prefWidth="816.0">
 
-                <Label fx:id="productName" alignment="CENTER" layoutX="134.0" layoutY="14.0" prefHeight="36.0" prefWidth="400.0" text="نام کالا " textFill="#716c6c">
+                <Label fx:id="productName" alignment="CENTER" layoutX="176.0" layoutY="1.0" prefHeight="36.0" prefWidth="400.0" text="نام کالا " textFill="#716c6c">
                     <font>
                         <Font name="Algerian" size="33.0" />
                     </font>
                 </Label>
 
-                <ImageView fitHeight="41.0" fitWidth="56.0" layoutX="505.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="41.0" fitWidth="56.0" layoutX="645.0" layoutY="121.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-split-transaction-48.png" />
                 </ImageView>
 
-                <Separator layoutX="207.0" layoutY="73.0" prefHeight="3.0" prefWidth="254.0" />
+                <Separator layoutX="221.0" layoutY="51.0" prefHeight="2.0" prefWidth="374.0" />
 
-                <ImageView fx:id="product_image" fitHeight="183.0" fitWidth="294.0" layoutX="208.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="product_image" fitHeight="269.0" fitWidth="383.0" layoutX="218.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@kisspng-sports-shoes-adidas-ultraboost-uncaged-adidas-ultr-5b9a6582580752.2001169715368451863606.png" />
                 </ImageView>
-                <Label alignment="CENTER" layoutX="546.0" layoutY="117.0" prefHeight="27.0" prefWidth="85.0" text="قیمت " textFill="#8a8686">
+                <Label alignment="CENTER" layoutX="696.0" layoutY="128.0" prefHeight="27.0" prefWidth="85.0" text="قیمت " textFill="#8a8686">
                     <font>
                         <Font name="Algerian" size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="product_price" alignment="CENTER" layoutX="498.0" layoutY="166.0" prefHeight="22.0" prefWidth="142.0" text="؟؟؟؟" textFill="#1c1a1a">
+                <Label fx:id="product_price" alignment="CENTER" layoutX="653.0" layoutY="198.0" prefHeight="22.0" prefWidth="142.0" text="؟؟؟؟" textFill="#1c1a1a">
             <font>
                <Font size="18.0" />
             </font></Label>
-                <Label alignment="CENTER" layoutX="511.0" layoutY="200.0" prefHeight="17.0" prefWidth="44.0" text="تومان">
+                <Label alignment="CENTER" layoutX="643.0" layoutY="258.0" prefHeight="17.0" prefWidth="44.0" text="تومان">
                     <font>
                         <Font name="Algerian" size="18.0" />
                     </font>
                 </Label>
 
-                <Pane layoutX="33.0" layoutY="153.0" prefHeight="30.0" prefWidth="149.0">
+                <Pane layoutX="47.0" layoutY="181.0" prefHeight="30.0" prefWidth="149.0">
                     <ImageView fx:id="star_01" fitHeight="29.0" fitWidth="22.0" layoutX="3.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@icons8-star-filled-16(1).png" />
                     </ImageView>
@@ -60,14 +60,14 @@
                     </ImageView>
                 </Pane>
 
-                <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" defaultButton="true" layoutX="20.0" layoutY="195.0" mnemonicParsing="false" onAction="#addToCart" prefHeight="30.0" prefWidth="176.0" styleClass="addToCart" stylesheets="@Product.css" text="افزودن به سبد خرید" textAlignment="CENTER" textFill="#5f5d5d" textOverrun="CENTER_ELLIPSIS" />
+                <Button fx:id="addToCart_btn" alignment="CENTER_RIGHT" contentDisplay="CENTER" defaultButton="true" disable="true" layoutX="33.0" layoutY="239.0" mnemonicParsing="false" onAction="#addToCart" prefHeight="38.0" prefWidth="176.0" styleClass="addToCart" stylesheets="@Product.css" text="افزودن به سبد خرید" textAlignment="CENTER" textFill="#5f5d5d" textOverrun="CENTER_ELLIPSIS" />
 
-                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="33.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="32.0" fitWidth="35.0" layoutX="47.0" layoutY="242.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-add-shopping-cart-48.png" />
                 </ImageView>
                 <MediaView fx:id="gif" fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="1.0" />
 
-                <Label alignment="CENTER" layoutX="63.0" layoutY="114.0" prefHeight="38.0" prefWidth="90.0" text="امتیاز " textFill="#7f7979">
+                <Label alignment="CENTER" layoutX="76.0" layoutY="123.0" prefHeight="38.0" prefWidth="90.0" text="امتیاز " textFill="#7f7979">
                     <font>
                         <Font name="Algerian" size="24.0" />
                     </font>
@@ -75,9 +75,9 @@
 
             </Pane>
 
-            <Pane layoutX="489.0" layoutY="354.0" prefHeight="333.0" prefWidth="778.0">
+            <Pane layoutX="401.0" layoutY="355.0" prefHeight="333.0" prefWidth="778.0">
 
-                <Label alignment="CENTER" layoutX="558.0" layoutY="17.0" prefHeight="25.0" prefWidth="165.0" text="محصولات مشابه">
+                <Label alignment="CENTER" layoutX="590.0" layoutY="17.0" prefHeight="25.0" prefWidth="165.0" text="محصولات مشابه">
                     <font>
                         <Font name="Algerian" size="14.0" />
                     </font>
@@ -85,8 +85,8 @@
 
                 <Button layoutX="148.0" layoutY="16.0" mnemonicParsing="false" onAction="#compare" prefHeight="27.0" prefWidth="66.0" text="مقایسه" />
 
-                <ScrollPane layoutX="29.0" layoutY="56.0" prefHeight="260.0" prefWidth="720.0">
-                    <HBox layoutX="18.0" layoutY="47.0" prefHeight="204.0" prefWidth="577.0">
+                <ScrollPane layoutX="29.0" layoutY="56.0" prefHeight="500.0" prefWidth="720.0">
+                    <HBox layoutX="18.0" layoutY="47.0" prefHeight="462.0" prefWidth="3397.0">
                         <fx:include fx:id="similar_1" source="../Models/ProductCart/ProductCart.fxml" />
                         <fx:include fx:id="similar_2" source="../Models/ProductCart/ProductCart.fxml" />
                         <fx:include fx:id="similar_3" source="../Models/ProductCart/ProductCart.fxml" />
@@ -100,31 +100,29 @@
                     </HBox>
                 </ScrollPane>
 
-                <Separator layoutX="22.0" layoutY="332.0" prefHeight="3.0" prefWidth="740.0" />
-
             </Pane>
 
-            <TabPane layoutX="524.0" layoutY="701.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="348.0" prefWidth="708.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutX="414.0" layoutY="938.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="373.0" prefWidth="752.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">
 
                 <Tab styleClass="featurePane" text="مشخصات">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="273.0" prefWidth="640.0" styleClass="featurePane" stylesheets="@Product.css">
-                        <TableView fx:id="ProductFeatures" layoutX="45.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="commentTable" stylesheets="@Product.css">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="711.0" styleClass="featurePane" stylesheets="@Product.css">
+                        <TableView fx:id="ProductFeatures" layoutX="86.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="commentTable" stylesheets="@Product.css">
                             <columns>
                                 <TableColumn fx:id="vizhegiP" prefWidth="125.20001220703125" text="ویژگی" />
                                 <TableColumn fx:id="meghdarP" prefWidth="124.4000244140625" text="مقدار" />
                             </columns>
                         </TableView>
-                        <Label alignment="CENTER" layoutX="71.0" layoutY="21.0" prefHeight="23.0" prefWidth="188.0" text="ویژگی های کالا" textFill="#0bca1b">
+                        <Label alignment="CENTER" layoutX="118.0" layoutY="21.0" prefHeight="23.0" prefWidth="188.0" text="ویژگی های کالا" textFill="#0bca1b">
                             <font>
                                 <Font name="System Bold Italic" size="18.0" />
                             </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="428.0" layoutY="20.0" prefHeight="29.0" prefWidth="154.0" text="ویژگی های دسته" textFill="#2ccf0f">
+                        <Label alignment="CENTER" layoutX="444.0" layoutY="20.0" prefHeight="29.0" prefWidth="154.0" text="ویژگی های دسته" textFill="#2ccf0f">
                             <font>
                                 <Font name="System Bold Italic" size="18.0" />
                             </font>
                         </Label>
-                        <TableView fx:id="categoryFeature" layoutX="385.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="featureTable" stylesheets="@Product.css">
+                        <TableView fx:id="categoryFeature" layoutX="404.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="featureTable" stylesheets="@Product.css">
                             <columns>
                                 <TableColumn fx:id="vizhegiC" prefWidth="125.20001220703125" text="ویژگی" />
                                 <TableColumn fx:id="meghdarC" prefWidth="124.4000244140625" text="مقدار" />
@@ -155,7 +153,7 @@
                     </AnchorPane>
                 </Tab>
             </TabPane>
-            <Pane layoutX="73.0" layoutY="-1.0" prefHeight="1074.0" prefWidth="223.0" styleClass="leftPane" stylesheets="@Product.css">
+            <Pane layoutX="73.0" layoutY="-1.0" prefHeight="1350.0" prefWidth="230.0" styleClass="leftPane" stylesheets="@Product.css">
                 <Button fx:id="addMe_btn" disable="true" layoutX="9.0" layoutY="973.0" mnemonicParsing="false" onAction="#AddMeAsSeller" prefHeight="62.0" prefWidth="205.0" text="میخواهم فروشنده این کالا باشم">
                     <font>
                         <Font size="14.0" />
@@ -170,7 +168,8 @@
                 <MediaView fx:id="leftGif" fitHeight="200.0" fitWidth="200.0" layoutX="12.0" layoutY="398.0" />
             </Pane>
 
-               <Separator layoutX="553.0" layoutY="352.0" prefHeight="0.0" prefWidth="649.0" />
+               <Separator layoutX="465.0" layoutY="353.0" prefHeight="0.0" prefWidth="649.0" />
+      <Separator layoutX="368.0" layoutY="922.0" prefHeight="0.0" prefWidth="807.0" />
         </AnchorPane>
-    </ScrollPane>
+<!--    </ScrollPane>-->
 </Scene>
