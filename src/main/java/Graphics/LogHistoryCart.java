@@ -43,6 +43,6 @@ public class LogHistoryCart implements Initializable {
     }
 
     private void init() {
-        PaymentInformation.setFieldOfLogHistory(logHistoryTable, logHistory, productName, productPrice, auctionDiscount, finalPrice, ActionDiscount, DiscountCodeDiscount, PendingState, finalPriceOfAll, DateOfPurchase);
+        PaymentInformation.setTable(logHistoryTable, logHistory, productName, productPrice, auctionDiscount, finalPrice, ActionDiscount, DiscountCodeDiscount, PendingState, finalPriceOfAll, DateOfPurchase);
     }
 }
