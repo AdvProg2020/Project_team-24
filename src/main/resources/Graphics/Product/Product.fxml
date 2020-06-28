@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
-    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
+<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
         <AnchorPane focusTraversable="true" prefHeight="1347.0" prefWidth="1198.0">
             <Pane layoutX="382.0" layoutY="7.0" prefHeight="336.0" prefWidth="816.0">
 
@@ -193,5 +193,5 @@
             <Separator layoutX="465.0" layoutY="353.0" prefHeight="0.0" prefWidth="649.0" />
             <Separator layoutX="368.0" layoutY="922.0" prefHeight="0.0" prefWidth="807.0" />
         </AnchorPane>
-    </ScrollPane>
+<!--    </ScrollPane>-->
 </Scene>
