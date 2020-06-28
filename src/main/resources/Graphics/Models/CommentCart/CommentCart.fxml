@@ -4,20 +4,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="215.0" prefWidth="410.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.CommentCart">
-    <Label alignment="CENTER" layoutX="305.0" layoutY="38.0" prefHeight="34.0" prefWidth="84.0" text=" : عنوان " textFill="#61bd4f">
+<AnchorPane prefHeight="252.0" prefWidth="357.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.CommentCart">
+    <Label alignment="CENTER" layoutX="235.0" layoutY="36.0" prefHeight="34.0" prefWidth="84.0" text=" : عنوان " textFill="#61bd4f">
         <font>
             <Font size="14.0" />
         </font>
     </Label>
-    <TextArea fx:id="content" editable="false" layoutX="21.0" layoutY="78.0" prefHeight="105.0" prefWidth="368.0" />
-    <Label alignment="CENTER" layoutX="305.0" layoutY="14.0" prefHeight="15.0" prefWidth="75.0" text=" : فرستنده" textFill="#33b8ff">
+    <TextArea fx:id="content" layoutX="28.0" layoutY="75.0" prefHeight="86.0" prefWidth="298.0" />
+    <Label alignment="CENTER" layoutX="239.0" layoutY="14.0" prefHeight="15.0" prefWidth="75.0" text=" : فرستنده" textFill="#33b8ff">
         <font>
             <Font size="14.0" />
         </font>
     </Label>
-    <Pane fx:id="spritePane" layoutX="21.0" layoutY="8.0" prefHeight="59.0" prefWidth="114.0" />
-    <TextField fx:id="sender" layoutX="159.0" layoutY="11.0" prefHeight="20.0" prefWidth="150.0" />
-    <TextField fx:id="title" layoutX="160.0" layoutY="42.0" />
-    <Button fx:id="submit" layoutX="22.0" layoutY="186.0" mnemonicParsing="false" onAction="#submit" prefHeight="26.0" prefWidth="75.0" text="ثبت" />
+    <Pane fx:id="spritePane" layoutX="36.0" layoutY="181.0" prefHeight="58.0" prefWidth="84.0" />
+    <TextField fx:id="sender" layoutX="62.0" layoutY="11.0" prefHeight="20.0" prefWidth="150.0" />
+    <TextField fx:id="title" layoutX="63.0" layoutY="41.0" />
+    <Button fx:id="submit" layoutX="225.0" layoutY="197.0" mnemonicParsing="false" onAction="#submit" prefHeight="26.0" prefWidth="75.0" text="ثبت" />
 </AnchorPane>

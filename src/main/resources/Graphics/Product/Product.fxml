@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
-<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
+    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
         <AnchorPane focusTraversable="true" prefHeight="1347.0" prefWidth="1198.0">
             <Pane layoutX="382.0" layoutY="7.0" prefHeight="336.0" prefWidth="816.0">
 
@@ -102,7 +102,7 @@
 
             </Pane>
 
-            <TabPane layoutX="414.0" layoutY="938.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="373.0" prefWidth="752.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">
+            <TabPane layoutX="370.0" layoutY="938.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="376.0" prefWidth="804.0" stylesheets="@Product.css" tabClosingPolicy="UNAVAILABLE">
 
                 <Tab styleClass="featurePane" text="مشخصات">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="711.0" styleClass="featurePane" stylesheets="@Product.css">
@@ -134,33 +134,45 @@
                 <Tab text="ویدیو محصولات">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <MediaView fx:id="product_media" fitHeight="200.0" fitWidth="600.0" layoutX="28.0" layoutY="30.0" />
-                        <Button layoutX="259.0" layoutY="240.0" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="141.0" text="مشاهده ی ویدیو" />
+                        <Button layoutX="343.0" layoutY="281.0" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="141.0" text="مشاهده ی ویدیو" />
                     </AnchorPane>
                 </Tab>
 
                 <Tab styleClass="commentPane" text="نظرات">
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="commentPane" stylesheets="@Product.css">
-
-                        <Pane layoutX="19.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
-                        <Pane layoutX="436.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
-                        <Pane layoutX="229.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
-
-
-                        <Button layoutX="6.0" layoutY="23.0" mnemonicParsing="false" onAction="#addComment" prefHeight="30.0" prefWidth="120.0" text="نظر دهید" />
-                        <ScrollPane layoutX="20.0" layoutY="72.0" prefHeight="215.0" prefWidth="619.0">
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="231.0" prefWidth="629.0" styleClass="commentPane" stylesheets="@Product.css">
+                        <Pane layoutX="454.0" layoutY="54.0" prefHeight="275.0" prefWidth="342.0">
+                        <fx:include source="../Models/CommentCart/CommentCart.fxml" />
+                        </Pane>
+                        <ScrollPane layoutX="21.0" layoutY="56.0" prefHeight="270.0" prefWidth="415.0">
+<!--                            <HBox layoutX="18.0" layoutY="47.0" prefHeight="384.0" prefWidth="500.0">-->
+<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
+<!--                            </HBox>-->
                         </ScrollPane>
+               <Label alignment="CENTER" layoutX="573.0" layoutY="22.0" prefHeight="30.0" prefWidth="136.0" text="(( نظر دهید ))" textFill="#5911a2">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
+               <Label layoutX="178.0" layoutY="24.0" text="((نظرات))" textFill="#560aa7">
+                  <font>
+                     <Font size="18.0" />
+                  </font>
+               </Label>
                     </AnchorPane>
                 </Tab>
             </TabPane>
             <Pane layoutX="73.0" layoutY="-1.0" prefHeight="1350.0" prefWidth="230.0" styleClass="leftPane" stylesheets="@Product.css">
-                <Button fx:id="addMe_btn" disable="true" layoutX="9.0" layoutY="973.0" mnemonicParsing="false" onAction="#AddMeAsSeller" prefHeight="62.0" prefWidth="205.0" text="میخواهم فروشنده این کالا باشم">
+                <Button fx:id="addMe_btn" disable="true" layoutX="8.0" layoutY="1226.0" mnemonicParsing="false" onAction="#AddMeAsSeller" prefHeight="62.0" prefWidth="211.0" text="میخواهم فروشنده این کالا باشم">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Button>
-                <Button fx:id="edit_btn" disable="true" layoutX="7.0" layoutY="791.0" mnemonicParsing="false" onAction="#editProduct" prefHeight="61.0" prefWidth="209.0" text="ویرایش" />
-                <Button fx:id="deleteProduct_btn" disable="true" layoutX="8.0" layoutY="885.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="59.0" prefWidth="208.0" text="حذف این محصول">
+                <Button fx:id="edit_btn" disable="true" layoutX="8.0" layoutY="1081.0" mnemonicParsing="false" onAction="#editProduct" prefHeight="61.0" prefWidth="214.0" text="ویرایش" />
+                <Button fx:id="deleteProduct_btn" disable="true" layoutX="9.0" layoutY="1154.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="59.0" prefWidth="212.0" text="حذف این محصول">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -171,5 +183,5 @@
                <Separator layoutX="465.0" layoutY="353.0" prefHeight="0.0" prefWidth="649.0" />
       <Separator layoutX="368.0" layoutY="922.0" prefHeight="0.0" prefWidth="807.0" />
         </AnchorPane>
-<!--    </ScrollPane>-->
+    </ScrollPane>
 </Scene>
