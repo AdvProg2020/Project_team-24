@@ -11,10 +11,12 @@ import Graphics.Lists.CategoryList;
 import Graphics.Lists.DiscountCodeList;
 import Graphics.Lists.RequestList;
 import Graphics.MainMenu;
+import Graphics.Menus.AuctionsMenu;
 import Graphics.SignUp;
 import Graphics.Tools.SceneBuilder;
 import Model.DataBase.DataBase;
 import Model.Models.Structs.Medias;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -162,5 +165,9 @@ public class Manager implements SceneBuilder, Initializable {
         }
         medias.setImageSrc(new File(first).toURI().toString());
         DataBase.save(medias);
+    }
+
+    public void viewAuctions(ActionEvent event) {
+        MainMenu.change(new AuctionsMenu().sceneBuilder());
     }
 }
