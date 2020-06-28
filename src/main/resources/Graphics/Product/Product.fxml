@@ -60,7 +60,7 @@
                     </ImageView>
                 </Pane>
 
-                <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" defaultButton="true" layoutX="20.0" layoutY="195.0" mnemonicParsing="false" onAction="#addToCart" prefHeight="30.0" prefWidth="176.0" styleClass="addToCart" stylesheets="@Product.css" text="افزودن به سبد خرید" textAlignment="CENTER" textFill="#5f5d5d" textOverrun="CENTER_ELLIPSIS" />
+                <Button fx:id="addToCart_btn" alignment="CENTER_RIGHT" contentDisplay="CENTER" defaultButton="true" disable="true" layoutX="20.0" layoutY="195.0" mnemonicParsing="false" onAction="#addToCart" prefHeight="30.0" prefWidth="176.0" styleClass="addToCart" stylesheets="@Product.css" text="افزودن به سبد خرید" textAlignment="CENTER" textFill="#5f5d5d" textOverrun="CENTER_ELLIPSIS" />
 
                 <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="33.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-add-shopping-cart-48.png" />
