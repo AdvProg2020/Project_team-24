@@ -22,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -37,26 +38,26 @@ import java.util.ResourceBundle;
 
 public class Cart implements Initializable, SceneBuilder {
 
-    public MediaView cartGif;
     private BuyerController buyerController = BuyerController.getInstance();
     private Model.Models.Cart cart = ((Customer) ControllerUnit.getInstance().getAccount()).getCart();
-    private Product selected;
     @FXML
     private TableView<Product> cart_Table;
     @FXML
     private Label totalPrice;
     @FXML
-    public TableColumn<Product, Pane> inc_dec_product;
+    private TableColumn<Product, Pane> inc_dec_product;
     @FXML
-    public TableColumn<Product, Double> product_f_price;
+    private TableColumn<Product, Double> product_f_price;
     @FXML
-    public TableColumn<Product, Long> product_number;
+    private TableColumn<Product, Long> product_number;
     @FXML
-    public TableColumn<Product, Double> product_price;
+    private TableColumn<Product, Double> product_price;
     @FXML
-    public TableColumn<Product, ImageView> product_image;
+    private TableColumn<Product, ImageView> product_image;
     @FXML
-    public TableColumn<Product, String> Product_name;
+    private TableColumn<Product, String> Product_name;
+    @FXML
+    private MediaView cartGif;
 
     @Override
     public Scene sceneBuilder() {
@@ -84,23 +85,23 @@ public class Cart implements Initializable, SceneBuilder {
         setProductsNumber();
         setProductFinalPrice();
         setProductsButton();
+        playMedia();
+    }
+
+    private void playMedia() {
         MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Cart\\openGif.mp4").toURI().toString()));
         cartGif.setMediaPlayer(mediaPlayer);
         mediaPlayer.setCycleCount(Integer.MAX_VALUE);
         mediaPlayer.play();
-
     }
 
     private void setProductsButton() {
         inc_dec_product.setCellValueFactory(param -> {
-
             Product value = param.getValue();
-            long sellerId = cart.getProductSellers()
-                    .get(cart.getProductList().indexOf(value.getId()));
-            Button increase = new Button();
-            Button decrease = new Button();
-            increase.setStyle("-fx-background-image: url(../Graphics/Cart/icons8-add-48.png)");
-            decrease.setStyle("-fx-background-image: url(../Graphics/Cart/icons8-minus-48.png)");
+            long sellerId = cart.getProductSellers().get(cart.getProductList().indexOf(value.getId()));
+            HBox hBox = new HBox();
+            Button increase = new Button("+");
+            Button decrease = new Button("-");
             increase.setOnAction(event -> {
                 try {
                     buyerController.increase(value.getId() + "", sellerId + "");
@@ -119,15 +120,14 @@ public class Cart implements Initializable, SceneBuilder {
                     e.printStackTrace();
                 }
             });
-            Pane pane = new Pane();
-            pane.getChildren().addAll(increase,decrease);
-
+            hBox.getChildren().addAll(increase, decrease);
+            Pane pane = new Pane(hBox);
             return new SimpleObjectProperty<>(pane);
         });
     }
 
     private void setProductFinalPrice() {
-        product_price.setCellValueFactory(param -> {
+        product_f_price.setCellValueFactory(param -> {
             Product value = param.getValue();
             long sellerId = cart.getProductSellers()
                     .get(cart.getProductList().indexOf(value.getId()));
@@ -145,7 +145,7 @@ public class Cart implements Initializable, SceneBuilder {
 
     private void setProductsNumber() {
         product_number.setCellValueFactory(param ->
-            new SimpleObjectProperty<>(cart.getProductList().stream().filter(LoNg -> LoNg == param.getValue().getId()).count())
+                new SimpleObjectProperty<>(cart.getProductList().stream().filter(LoNg -> LoNg == param.getValue().getId()).count())
         );
     }
 
@@ -169,7 +169,7 @@ public class Cart implements Initializable, SceneBuilder {
     }
 
     @Nullable
-    private ObservableValue<ImageView> getImageViewObservableValue(TableColumn.@NotNull CellDataFeatures<Product, ImageView> param) {
+    private ObservableValue<ImageView> getImageViewObservableValue(@NotNull TableColumn.@NotNull CellDataFeatures<Product, ImageView> param) {
         try {
             return new SimpleObjectProperty<>(new ImageView(Medias.getImage(Medias.getMediasById(param.getValue().getMediaId()).getImageSrc())));
         } catch (ProductMediaNotFoundException e) {

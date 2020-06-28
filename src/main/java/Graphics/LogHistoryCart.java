@@ -1,13 +1,6 @@
 package Graphics;
 
-import Controller.Controllers.BuyerController;
-import Controller.Controllers.SellerController;
-import Exceptions.LogHistoryDoesNotExistException;
-import Graphics.Tools.SceneBuilder;
-import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Seller;
 import Model.Models.LogHistory;
-import Model.Models.Product;
 import Model.Models.Structs.ProductLog;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -50,15 +43,6 @@ public class LogHistoryCart implements Initializable {
     }
 
     private void init() {
-        logHistoryTable.setItems(FXCollections.observableList(logHistory.getProductLogList()));
-        productName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProductName()));
-        productPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPrice() + ""));
-        auctionDiscount.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getAuctionDiscount() + ""));
-        finalPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFinalPrice() + ""));
-        ActionDiscount.setText(logHistory.getAuctionDiscount()+"");
-        DiscountCodeDiscount.setText(logHistory.getDiscountAmount()+"");
-        PendingState.setText("در حال ارسال");
-        finalPriceOfAll.setText(logHistory.getFinalAmount()+"");
-        DateOfPurchase.setText(LocalDate.now()+"");
+        PaymentInformation.setFieldOfLogHistory(logHistoryTable, logHistory, productName, productPrice, auctionDiscount, finalPrice, ActionDiscount, DiscountCodeDiscount, PendingState, finalPriceOfAll, DateOfPurchase);
     }
 }

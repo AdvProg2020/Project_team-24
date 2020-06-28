@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,17 +51,20 @@ public class PaymentInformation implements SceneBuilder, Initializable {
     }
 
     private void init() {
+        setFieldOfLogHistory(logHistoryTable, logHistory, productName, productPrice, auctionDiscount, finalPrice, ActionDiscount, DiscountCodeDiscount, PendingState, finalPriceOfAll, DateOfPurchase);
+    }
+
+    static void setFieldOfLogHistory(@NotNull TableView<ProductLog> logHistoryTable, @NotNull LogHistory logHistory, @NotNull TableColumn<ProductLog, String> productName, @NotNull TableColumn<ProductLog, String> productPrice, @NotNull TableColumn<ProductLog, String> auctionDiscount, @NotNull TableColumn<ProductLog, String> finalPrice, @NotNull Label actionDiscount, @NotNull Label discountCodeDiscount, @NotNull Label pendingState, @NotNull Label finalPriceOfAll, @NotNull Label dateOfPurchase) {
         logHistoryTable.setItems(FXCollections.observableList(logHistory.getProductLogList()));
         productName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProductName()));
         productPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPrice() + ""));
         auctionDiscount.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getAuctionDiscount() + ""));
         finalPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFinalPrice() + ""));
-        ActionDiscount.setText(logHistory.getAuctionDiscount()+"");
-        DiscountCodeDiscount.setText(logHistory.getDiscountAmount()+"");
-        PendingState.setText("در حال ارسال");
+        actionDiscount.setText(logHistory.getAuctionDiscount()+"");
+        discountCodeDiscount.setText(logHistory.getDiscountAmount()+"");
+        pendingState.setText("در حال ارسال");
         finalPriceOfAll.setText(logHistory.getFinalAmount()+"");
-        DateOfPurchase.setText(LocalDate.now()+"");
-
+        dateOfPurchase.setText(LocalDate.now()+"");
     }
 
     @Override
