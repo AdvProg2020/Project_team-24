@@ -22,13 +22,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,14 +37,14 @@ import java.util.ResourceBundle;
 
 public class Cart implements Initializable, SceneBuilder {
 
-    private static BuyerController buyerController = BuyerController.getInstance();
+    public MediaView cartGif;
+    private BuyerController buyerController = BuyerController.getInstance();
     private Model.Models.Cart cart = ((Customer) ControllerUnit.getInstance().getAccount()).getCart();
+    private Product selected;
     @FXML
     private TableView<Product> cart_Table;
     @FXML
     private Label totalPrice;
-    @FXML
-    private MediaView cartGif;
     @FXML
     public TableColumn<Product, Pane> inc_dec_product;
     @FXML
@@ -72,8 +71,9 @@ public class Cart implements Initializable, SceneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        List<Product> list;
         try {
-            List<Product> list = buyerController.showProducts();
+            list = buyerController.showProducts();
             cart_Table.setItems(FXCollections.observableList(list));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
@@ -84,53 +84,46 @@ public class Cart implements Initializable, SceneBuilder {
         setProductsNumber();
         setProductFinalPrice();
         setProductsButton();
-        playMedia();
-    }
-
-    private void playMedia() {
         MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Cart\\openGif.mp4").toURI().toString()));
         cartGif.setMediaPlayer(mediaPlayer);
         mediaPlayer.setCycleCount(Integer.MAX_VALUE);
         mediaPlayer.play();
+
     }
 
     private void setProductsButton() {
-        inc_dec_product.setCellValueFactory(this::getPaneObservableValue);
-    }
+        inc_dec_product.setCellValueFactory(param -> {
 
-    @Contract("_ -> new")
-    @NotNull
-    private ObservableValue<Pane> getPaneObservableValue(@NotNull TableColumn.CellDataFeatures<Product, Pane> param) {
-        Product value = param.getValue();
+            Product value = param.getValue();
+            long sellerId = cart.getProductSellers()
+                    .get(cart.getProductList().indexOf(value.getId()));
+            Button increase = new Button();
+            Button decrease = new Button();
+            increase.setStyle("-fx-background-image: url(../Graphics/Cart/icons8-add-48.png)");
+            decrease.setStyle("-fx-background-image: url(../Graphics/Cart/icons8-minus-48.png)");
+            increase.setOnAction(event -> {
+                try {
+                    buyerController.increase(value.getId() + "", sellerId + "");
+                } catch (ProductDoesNotExistException e) {
+                    productDoesNotExist();
+                } catch (ProductIsOutOfStockException e) {
+                    productOutOfStack();
+                } catch (SellerDoesNotSellOfThisProduct e) {
+                    e.printStackTrace();
+                }
+            });
+            decrease.setOnAction(event -> {
+                try {
+                    buyerController.decrease(value.getId() + "", sellerId + "");
+                } catch (ProductDoesNotExistException e) {
+                    e.printStackTrace();
+                }
+            });
+            Pane pane = new Pane();
+            pane.getChildren().addAll(increase,decrease);
 
-        HBox hBox = new HBox();
-
-        long sellerId = cart.getProductSellers().get(cart.getProductList().indexOf(value.getId()));
-
-        Button increase = new Button();
-        Button decrease = new Button();
-//            increase.setStyle("-fx-background-image: url(../Graphics/Cart/icons8-add-48.png)");
-//            decrease.setStyle("-fx-background-image: url(../Graphics/Cart/icons8-minus-48.png)");
-        increase.setOnAction(event -> {
-            try {
-                buyerController.increase(value.getId() + "", sellerId + "");
-            } catch (ProductDoesNotExistException e) {
-                productDoesNotExist();
-            } catch (ProductIsOutOfStockException e) {
-                productOutOfStack();
-            } catch (SellerDoesNotSellOfThisProduct e) {
-                e.printStackTrace();
-            }
+            return new SimpleObjectProperty<>(pane);
         });
-        decrease.setOnAction(event -> {
-            try {
-                buyerController.decrease(value.getId() + "", sellerId + "");
-            } catch (ProductDoesNotExistException e) {
-                e.printStackTrace();
-            }
-        });
-        hBox.getChildren().addAll(increase,decrease);
-        return new SimpleObjectProperty<>(new Pane(hBox));
     }
 
     private void setProductFinalPrice() {
@@ -143,8 +136,8 @@ public class Cart implements Initializable, SceneBuilder {
                     .count();
             try {
                 return new SimpleObjectProperty<>(number * value.getProductOfSellerById(sellerId).getPrice());
-            } catch (SellerDoesNotSellOfThisProduct e) {
-                e.printStackTrace();
+            } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
+                sellerDoesNotSellOfThisProduct.printStackTrace();
             }
             return null;
         });
@@ -152,8 +145,7 @@ public class Cart implements Initializable, SceneBuilder {
 
     private void setProductsNumber() {
         product_number.setCellValueFactory(param ->
-                new SimpleObjectProperty<>(cart.getProductList().stream()
-                        .filter(LoNg -> LoNg == param.getValue().getId()).count())
+            new SimpleObjectProperty<>(cart.getProductList().stream().filter(LoNg -> LoNg == param.getValue().getId()).count())
         );
     }
 
@@ -165,24 +157,25 @@ public class Cart implements Initializable, SceneBuilder {
             try {
                 double price = value.getProductOfSellerById(sellerId).getPrice();
                 return new SimpleObjectProperty<>(price);
-            } catch (SellerDoesNotSellOfThisProduct e) {
-                e.printStackTrace();
+            } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
+                sellerDoesNotSellOfThisProduct.printStackTrace();
             }
             return null;
         });
     }
 
     private void setProductsImage() {
-        product_image.setCellValueFactory(param ->
-                {
-                    try {
-                        return new SimpleObjectProperty<>(new ImageView(Medias.getImage(Medias.getMediasById(param.getValue().getMediaId()).getImageSrc())));
-                    } catch (ProductMediaNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-        );
+        product_image.setCellValueFactory(this::getImageViewObservableValue);
+    }
+
+    @Nullable
+    private ObservableValue<ImageView> getImageViewObservableValue(TableColumn.@NotNull CellDataFeatures<Product, ImageView> param) {
+        try {
+            return new SimpleObjectProperty<>(new ImageView(Medias.getImage(Medias.getMediasById(param.getValue().getMediaId()).getImageSrc())));
+        } catch (ProductMediaNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void setProductsName() {

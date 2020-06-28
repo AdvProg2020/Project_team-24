@@ -257,8 +257,10 @@ public class CreateProduct implements SceneBuilder, Initializable {
                             .collect(Collectors.toList())
             );
 
-            category_feature.setText(str_fcc.get(0));
-            str_f_c.add(str_fcc.get(0));
+            if (!str_fcc.isEmpty()) {
+                category_feature.setText(str_fcc.get(0));
+                str_f_c.add(str_fcc.get(0));
+            }
         }
 
         f_submit.setOnAction(event -> {
