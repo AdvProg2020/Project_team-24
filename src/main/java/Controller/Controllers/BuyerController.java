@@ -189,7 +189,7 @@ public class BuyerController extends AccountController {
         this.setDiscountCodeEntered(discountCode);
     }
 
-    public void buyProductsOfCart() throws NotEnoughCreditException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
+    public LogHistory buyProductsOfCart() throws NotEnoughCreditException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         this.checkEnoughCredit();
         Customer customer = ((Customer) controllerUnit.getAccount());
         List<ProductLog> productLogs = this.payment();
@@ -213,6 +213,7 @@ public class BuyerController extends AccountController {
             this.setDiscountCodeEntered(null);
         }
         DataBase.save(customer);
+        return logHistory;
     }
 
     public LogHistory showOrder(String orderIdString) throws NumberFormatException, LogHistoryDoesNotExistException {

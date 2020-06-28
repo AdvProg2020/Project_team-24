@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,9 +25,7 @@ import java.util.ResourceBundle;
 
 public class PaymentInformation implements SceneBuilder, Initializable {
 
-    private static List<LogHistory> logHistoryList = new ArrayList<>();
-
-    private LogHistory logHistory;
+    private static LogHistory logHistory;
 
     public Label ActionDiscount;
     public Label DiscountCodeDiscount;
@@ -41,20 +38,21 @@ public class PaymentInformation implements SceneBuilder, Initializable {
     public TableColumn<ProductLog,String> productName;
     public TableView<ProductLog> logHistoryTable;
 
+    public static void setLogHistory(LogHistory logHistory) {
+        PaymentInformation.logHistory = logHistory;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (logHistoryList.isEmpty()) return;
-        logHistory = logHistoryList.get(0);
-        logHistoryList.remove(0);
+        if (logHistory == null) return;
         init();
     }
 
     private void init() {
-        setFieldOfLogHistory(logHistoryTable, logHistory, productName, productPrice, auctionDiscount, finalPrice, ActionDiscount, DiscountCodeDiscount, PendingState, finalPriceOfAll, DateOfPurchase);
+        setTable(logHistoryTable, logHistory, productName, productPrice, auctionDiscount, finalPrice, ActionDiscount, DiscountCodeDiscount, PendingState, finalPriceOfAll, DateOfPurchase);
     }
 
-    static void setFieldOfLogHistory(@NotNull TableView<ProductLog> logHistoryTable, @NotNull LogHistory logHistory, @NotNull TableColumn<ProductLog, String> productName, @NotNull TableColumn<ProductLog, String> productPrice, @NotNull TableColumn<ProductLog, String> auctionDiscount, @NotNull TableColumn<ProductLog, String> finalPrice, @NotNull Label actionDiscount, @NotNull Label discountCodeDiscount, @NotNull Label pendingState, @NotNull Label finalPriceOfAll, @NotNull Label dateOfPurchase) {
+    static void setTable(TableView<ProductLog> logHistoryTable, LogHistory logHistory, TableColumn<ProductLog, String> productName, TableColumn<ProductLog, String> productPrice, TableColumn<ProductLog, String> auctionDiscount, TableColumn<ProductLog, String> finalPrice, Label actionDiscount, Label discountCodeDiscount, Label pendingState, Label finalPriceOfAll, Label dateOfPurchase) {
         logHistoryTable.setItems(FXCollections.observableList(logHistory.getProductLogList()));
         productName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProductName()));
         productPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPrice() + ""));
