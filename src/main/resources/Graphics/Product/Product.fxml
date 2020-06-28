@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Product">
- <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
+<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
         <AnchorPane focusTraversable="true" prefHeight="1070.0" prefWidth="1134">
             <Pane layoutX="273.0" layoutY="65.0">
 
@@ -64,11 +64,11 @@
                 </Pane>
 
                 <Button alignment="CENTER_RIGHT" contentDisplay="CENTER" defaultButton="true" layoutX="33.0" layoutY="194.0" mnemonicParsing="false" onAction="#addToCart" prefHeight="30.0" prefWidth="149.0" styleClass="addToCart" stylesheets="@Product.css" text="افزودن به سبد خرید" textAlignment="CENTER" textFill="#5f5d5d" textOverrun="CENTER_ELLIPSIS" />
-   
-                      <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="40.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
+
+                <ImageView fitHeight="30.0" fitWidth="27.0" layoutX="40.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-add-shopping-cart-48.png" />
                 </ImageView>
-         <MediaView fx:id="gif" fitHeight="50.0" fitWidth="50.0" layoutX="90.0" layoutY="32.0" />
+                <MediaView fx:id="gif" fitHeight="100.0" fitWidth="150.0" layoutX="33.0" layoutY="14.0" />
 
             </Pane>
 
@@ -98,8 +98,8 @@
                         <fx:include fx:id="similar_0" source="../Models/ProductCart/ProductCart.fxml" />
                     </HBox>
                 </ScrollPane>
-   
-               <Separator layoutX="175.0" layoutY="332.0" prefHeight="3.0" prefWidth="477.0" />
+
+                <Separator layoutX="175.0" layoutY="332.0" prefHeight="3.0" prefWidth="477.0" />
 
             </Pane>
 
@@ -123,7 +123,7 @@
                                 <Font name="System Bold Italic" size="14.0" />
                             </font>
                         </Label>
-                        <TableView fx:id="categoryFeaturs" layoutX="361.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="featureTable" stylesheets="@Product.css">
+                        <TableView fx:id="categoryFeature" layoutX="361.0" layoutY="61.0" prefHeight="237.0" prefWidth="250.0" styleClass="featureTable" stylesheets="@Product.css">
                             <columns>
                                 <TableColumn fx:id="vizhegiC" prefWidth="125.20001220703125" text="ویژگی" />
                                 <TableColumn fx:id="meghdarC" prefWidth="124.4000244140625" text="مقدار" />
@@ -142,24 +142,34 @@
                 <Tab styleClass="commentPane" text="نظرات">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" styleClass="commentPane" stylesheets="@Product.css">
 
-                        <Pane layoutX="19.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
-                        <Pane layoutX="436.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
-                        <Pane layoutX="229.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0" styleClass="featurePane" stylesheets="@Product.css" />
+<!--                        <Pane layoutX="19.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0"-->
+<!--                              styleClass="featurePane" stylesheets="@Product.css"/>-->
+<!--                        <Pane layoutX="436.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0"-->
+<!--                              styleClass="featurePane" stylesheets="@Product.css"/>-->
+<!--                        <Pane layoutX="229.0" layoutY="114.0" prefHeight="196.0" prefWidth="200.0"-->
+<!--                              styleClass="featurePane" stylesheets="@Product.css"/>-->
+
 
                         <Button layoutX="6.0" layoutY="23.0" mnemonicParsing="false" onAction="#addComment" prefHeight="30.0" prefWidth="120.0" text="نظر دهید" />
+               <ScrollPane layoutX="20.0" layoutY="72.0" prefHeight="215.0" prefWidth="619.0">
+                 <content>
+                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                 </content>
+               </ScrollPane>
                     </AnchorPane>
                 </Tab>
             </TabPane>
-      <Button layoutX="26.0" layoutY="956.0" mnemonicParsing="false" onAction="#AddMeAsSeller" prefHeight="62.0" prefWidth="209.0" text="میخواهم فروشنده این کالا باشم">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      <Button layoutX="940.0" layoutY="979.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="62.0" prefWidth="163.0" text="حذف این محصول">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
+            <Button layoutX="26.0" layoutY="956.0" mnemonicParsing="false" onAction="#AddMeAsSeller" prefHeight="62.0" prefWidth="209.0" text="میخواهم فروشنده این کالا باشم">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Button>
+            <Button layoutX="940.0" layoutY="979.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="62.0" prefWidth="163.0" text="حذف این محصول">
+                <font>
+                    <Font size="14.0" />
+                </font>
+            </Button>
+            <Button fx:id="edit_btn" disable="true" layoutX="970.0" layoutY="898.0" mnemonicParsing="false" onAction="#editProduct" prefHeight="57.0" prefWidth="104.0" text="ویرایش" />
         </AnchorPane>
- </ScrollPane>
+<!--    </ScrollPane>-->
 </Scene>

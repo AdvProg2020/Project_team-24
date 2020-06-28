@@ -203,14 +203,17 @@ public class Seller implements SceneBuilder, Initializable {
     }
 
     public void newCategory() {
+        CreateCategory.setMode(CreateCategory.Mode.New);
         MainMenu.change(new CreateCategory().sceneBuilder());
     }
 
     public void newProduct() {
+        CreateProduct.setMode(CreateProduct.Mode.New);
         MainMenu.change(new CreateProduct().sceneBuilder());
     }
 
     public void createAuction() {
+        CreateAuction.setMode(CreateAuction.Mode.New);
         MainMenu.change(new CreateAuction().sceneBuilder());
     }
 

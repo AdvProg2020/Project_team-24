@@ -10,11 +10,11 @@
     <AnchorPane prefHeight="745" prefWidth="1134">
         <TableView fx:id="discountCodeList" layoutX="223.0" layoutY="69.0" prefHeight="418.0" prefWidth="706.0">
             <columns>
-                <TableColumn fx:id="maxDiscount" prefWidth="104.20001220703125" text="سقف تخفیف" />
-                <TableColumn fx:id="discount" prefWidth="137.39999389648438" text="تخفیف" />
-                <TableColumn fx:id="endDate" prefWidth="133.79998779296875" text="تاریخ پایان" />
-                <TableColumn fx:id="startDate" prefWidth="141.60003662109375" text="تاریخ شروع" />
-                <TableColumn fx:id="code" prefWidth="187.4000244140625" text="کد" />
+                <TableColumn fx:id="maxDiscount" prefWidth="167.8000030517578" text="سقف تخفیف" />
+                <TableColumn fx:id="discount" prefWidth="74.60000610351562" text="تخفیف" />
+                <TableColumn fx:id="endDate" prefWidth="83.79998779296875" text="تاریخ پایان" />
+                <TableColumn fx:id="startDate" prefWidth="98.60003662109375" text="تاریخ شروع" />
+                <TableColumn fx:id="code" prefWidth="286.20001220703125" text="کد" />
             </columns>
         </TableView>
         <Label alignment="CENTER" layoutX="437.0" layoutY="26.0" prefHeight="35.0" prefWidth="237.0" text="((  لیست کد های تخفیف  ))" textFill="#d22323">

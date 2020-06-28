@@ -10,8 +10,8 @@
     <AnchorPane prefHeight="745" prefWidth="1134">
         <TableView fx:id="request_table" layoutX="182.0" layoutY="120.0" prefHeight="459.0" prefWidth="770.0">
             <columns>
-                <TableColumn fx:id="ar_btn" prefWidth="134.99996948242188" text="دکمه تایید" />
-                <TableColumn fx:id="request_type" prefWidth="153.0" text="نوع درخواست" />
+                <TableColumn fx:id="ar_btn" prefWidth="150.19998168945312" text="دکمه تایید" />
+                <TableColumn fx:id="request_type" prefWidth="138.5999755859375" text="نوع درخواست" />
                 <TableColumn fx:id="request_info" prefWidth="173.5999755859375" text="توضیحات" />
                 <TableColumn fx:id="request_mode" prefWidth="151.20001220703125" text="جنس" />
                 <TableColumn fx:id="request_name" prefWidth="161.20001220703125" text="اسم" />

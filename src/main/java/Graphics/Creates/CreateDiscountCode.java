@@ -40,6 +40,10 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
     public Button submit_btn;
     public TextField numberOfUse;
 
+    public static void setMode(Mode mode) {
+        CreateDiscountCode.mode = mode;
+    }
+
     @Override
     public Scene sceneBuilder() {
 

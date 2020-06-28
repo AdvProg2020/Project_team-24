@@ -67,11 +67,11 @@ public class CategoryList implements SceneBuilder, Initializable {
     @NotNull
     @Contract("_ -> new")
     private Pane setChoicePane(Category category) {
-
         Button editCategory = new Button("ویرایش دسته");
         editCategory.setOnAction(event -> {
-            MainMenu.change(new CreateCategory().sceneBuilder());
+            CreateCategory.setMode(CreateCategory.Mode.Edit);
             ControllerUnit.getInstance().setCategory(category);
+            MainMenu.change(new CreateCategory().sceneBuilder());
             init();
         });
         return new Pane(editCategory);

@@ -1,10 +1,10 @@
 package Graphics;
 
 import Controller.ControllerUnit;
-import Controller.Controllers.AuctionController;
-import Controller.Controllers.FilterController;
-import Controller.Controllers.ProductsController;
+import Controller.Controllers.*;
+import Exceptions.CategoryDoesNotExistException;
 import Exceptions.InvalidFilterException;
+import Exceptions.ProductDoesNotExistException;
 import Graphics.Menus.AuctionsMenu;
 import Graphics.Menus.ProductsMenu;
 import Graphics.Models.AuctionCart;
@@ -16,15 +16,18 @@ import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Manager;
 import Model.Models.Accounts.Seller;
 import Model.Models.Auction;
+import Model.Models.Category;
 import Model.Models.Product;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -38,10 +41,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
-
 
     private ProductsController productsController = ProductsController.getInstance();
     private AuctionController auctionController = AuctionController.getInstance();
@@ -52,6 +56,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     private static BorderPane center;
     private static Pane filter;
 
+    @FXML
+    private MenuButton category_select;
     @FXML
     private Pane filterArea;
     @FXML
@@ -88,6 +94,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void initialize(URL location, ResourceBundle resources) {
         setCenter(changeable);
         filter = filterArea;
+        List<MenuItem> collect = ManagerController.getInstance().showAllCategories().stream().map(this::getCategorySelection).collect(Collectors.toList());
+        category_select.getItems().addAll(FXCollections.observableArrayList(collect));
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
         playMusic("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");
@@ -96,6 +104,31 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         login_logout_btn.setText("خروج ...");
         login_logout_btn.setOnAction(event -> logout());
         if (account instanceof Customer) cart_btn.setDisable(false);
+    }
+
+    @NotNull
+    private MenuItem getCategorySelection(@NotNull Category category) {
+        MenuItem menuItem = new MenuItem();
+        menuItem.setText(category.getName());
+        menuItem.setOnAction(event ->showCategoryProducts(category));
+        return menuItem;
+    }
+
+    private void showCategoryProducts(@NotNull Category category) {
+        ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        List<Product> list = findPopulars(
+                category.getProductList().stream().map(aLong -> {
+                    try {
+                        return Product.getProductById(aLong);
+                    } catch (ProductDoesNotExistException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).filter(Objects::nonNull).collect(Collectors.toList())
+        );
+        setProducts(list);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
+        enableBack();
     }
 
     private void logout() {
@@ -140,6 +173,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         AuctionsMenu.setList(list);
         AuctionCart.setAuctionList(list);
         MainMenu.change(new AuctionsMenu().sceneBuilder());
+        enableBack();
     }
 
     public void goMainMenu() {

@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.CommentCart">
-<AnchorPane prefHeight="324.0" prefWidth="413.0">
-   <Label alignment="CENTER" layoutX="305.0" layoutY="40.0" prefHeight="34.0" prefWidth="84.0" text="عنوان : " textFill="#61bd4f">
-      <font>
-         <Font size="14.0" />
-      </font>
-   </Label>
-   <TextArea fx:id="content" editable="false" layoutX="21.0" layoutY="78.0" prefHeight="190.0" prefWidth="368.0" />
-   <Label alignment="CENTER" layoutX="305.0" layoutY="14.0" prefHeight="15.0" prefWidth="75.0" text="فرستنده : " textFill="#33b8ff">
-      <font>
-         <Font size="14.0" />
-      </font>
-   </Label>
-   <Pane fx:id="spritePane" layoutX="21.0" layoutY="8.0" prefHeight="59.0" prefWidth="114.0" />
-   <TextField fx:id="sender" layoutX="159.0" layoutY="11.0" prefHeight="26.0" prefWidth="149.0" />
-   <TextField fx:id="title" layoutX="160.0" layoutY="44.0" />
-   <Button fx:id="submit" layoutX="21.0" layoutY="284.0" mnemonicParsing="false" onAction="#submit" prefHeight="26.0" prefWidth="75.0" text="ثبت" />
+<AnchorPane prefHeight="324.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.CommentCart">
+    <Label alignment="CENTER" layoutX="305.0" layoutY="40.0" prefHeight="34.0" prefWidth="84.0" text="عنوان : "
+           textFill="#61bd4f">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <TextArea fx:id="content" editable="false" layoutX="21.0" layoutY="78.0" prefHeight="190.0" prefWidth="368.0"/>
+    <Label alignment="CENTER" layoutX="305.0" layoutY="14.0" prefHeight="15.0" prefWidth="75.0" text="فرستنده : "
+           textFill="#33b8ff">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <Pane fx:id="spritePane" layoutX="21.0" layoutY="8.0" prefHeight="59.0" prefWidth="114.0"/>
+    <TextField fx:id="sender" layoutX="159.0" layoutY="11.0" prefHeight="26.0" prefWidth="149.0"/>
+    <TextField fx:id="title" layoutX="160.0" layoutY="44.0"/>
+    <Button fx:id="submit" layoutX="21.0" layoutY="284.0" mnemonicParsing="false" onAction="#submit" prefHeight="26.0"
+            prefWidth="75.0" text="ثبت"/>
 </AnchorPane>
-</Scene>

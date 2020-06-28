@@ -93,6 +93,7 @@ public class Manager implements SceneBuilder, Initializable {
     }
 
     public void AddCategory() {
+        CreateCategory.setMode(CreateCategory.Mode.New);
         MainMenu.change(new CreateCategory().sceneBuilder());
     }
 
@@ -110,6 +111,7 @@ public class Manager implements SceneBuilder, Initializable {
     }
 
     public void CreateDiscountCode() {
+        CreateDiscountCode.setMode(CreateDiscountCode.Mode.New);
         MainMenu.change(new CreateDiscountCode().sceneBuilder());
     }
 

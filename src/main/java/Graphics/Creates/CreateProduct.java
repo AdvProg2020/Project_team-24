@@ -2,10 +2,7 @@ package Graphics.Creates;
 
 import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
-import Exceptions.AuctionDoesNotExistException;
-import Exceptions.CategoryDoesNotExistException;
-import Exceptions.ProductMediaNotFoundException;
-import Exceptions.SellerDoesNotSellOfThisProduct;
+import Exceptions.*;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import Model.DataBase.DataBase;
@@ -138,7 +135,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
         if (product.getCategory() != null)
             category.setValue(product.getCategory().getName());
         if (product.getAuction() != null)
-            category.setValue(product.getAuction().getName());
+            auction.setValue(product.getAuction().getName());
         if (product.getMediaId() != 0) {
             try {
                 product_image.setImage(Medias.getImage(Medias.getMediasById(product.getMediaId()).getImageSrc()));
@@ -186,65 +183,86 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
         try {
 
-            product = sellerController.createTheBaseOfProduct(productName, productCategory, productAction, productNumber, productPrice);
-            afterFirstSubmit();
-
-            Category category = product.getCategory();
-
-            if (category != null) {
-
-                category_table.setDisable(false);
-                category_feature.setDisable(false);
-                category_value.setDisable(false);
-                s_category.setDisable(false);
-
-                str_fcc.addAll(
-                        category.getCategoryFields()
-                                .getFieldList()
-                                .stream()
-                                .map(Field::getFieldName)
-                                .collect(Collectors.toList())
-                );
-
-                category_feature.setText(str_fcc.get(0));
-                str_f_c.add(str_fcc.get(0));
+            if (mode == Mode.New)
+                submit_newMode(productName, productPrice, productNumber, productAction, productCategory);
+            if (mode == Mode.Edit) {
+                submit_editMode(productName, productAction, productCategory);
             }
 
-            f_submit.setOnAction(event -> {
-
-                reset();
-
-                if (str_v_c.size() != str_fcc.size()) {
-                    mustFillCategoryValues();
-                    return;
-                }
-
-                if (selectedImage != null || selectedMedia != null) {
-
-                    Medias medias = new Medias();
-                    Medias.addMedia(medias);
-                    product.setMediaId(medias.getId());
-
-                    if (selectedImage != null) {
-                        setImage();
-                        medias.setImageSrc(selectedImage.toURI().toString());
-                    }
-                    if (selectedMedia != null) {
-                        setMedia();
-                        medias.setPlayerSrc(selectedMedia.toURI().toString());
-                    }
-                    DataBase.save(medias);
-                }
-
-                sellerController.saveProductInfo(product, str_f_p, str_v_p);
-                sellerController.saveCategoryInfo(product, str_f_c, str_v_c);
-                sellerController.sendRequest(product, "new Product", "new");
-                goMainMenu();
-            });
-
-        } catch (AuctionDoesNotExistException | CategoryDoesNotExistException e) {
+        } catch (AuctionDoesNotExistException | CategoryDoesNotExistException | ProductDoesNotExistException | FieldDoesNotExistException e) {
             e.printStackTrace();
         }
+    }
+
+    private void submit_editMode(String productName, String productAction, @NotNull String productCategory) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException, ProductDoesNotExistException {
+        Product product = ControllerUnit.getInstance().getProduct();
+        sellerController.editProduct(product.getId() + "", "productName", productName, "edit product name");
+        if (!productCategory.equals("0")) sellerController.editProduct(product.getId() + "", "category", productCategory, "edit product name");
+        if (!productAction.equals("0")) sellerController.editProduct(product.getId() + "", "Auction", productAction, "edit product name");
+        goMainMenu();
+    }
+
+    private void submit_newMode(String productName, String productPrice, String productNumber, String productAction, String productCategory) throws AuctionDoesNotExistException, CategoryDoesNotExistException {
+        product = sellerController.createTheBaseOfProduct(productName, productCategory, productAction, productNumber, productPrice);
+        afterFirstSubmit();
+
+        Category category = product.getCategory();
+
+        if (category != null) {
+
+            category_table.setDisable(false);
+            category_feature.setDisable(false);
+            category_value.setDisable(false);
+            s_category.setDisable(false);
+
+            str_fcc.addAll(
+                    category.getCategoryFields()
+                            .getFieldList()
+                            .stream()
+                            .map(Field::getFieldName)
+                            .collect(Collectors.toList())
+            );
+
+            category_feature.setText(str_fcc.get(0));
+            str_f_c.add(str_fcc.get(0));
+        }
+
+        f_submit.setOnAction(event -> {
+
+            if (next_submit_newMode()) return;
+
+            sellerController.saveProductInfo(product, str_f_p, str_v_p);
+            sellerController.saveCategoryInfo(product, str_f_c, str_v_c);
+            sellerController.sendRequest(product, "new Product", "new");
+            goMainMenu();
+        });
+    }
+
+    private boolean next_submit_newMode() {
+        reset();
+
+        if (str_v_c.size() != str_fcc.size()) {
+            mustFillCategoryValues();
+            return true;
+        }
+
+        if (selectedImage != null || selectedMedia != null) {
+
+            Medias medias = new Medias();
+            Medias.addMedia(medias);
+            product.setMediaId(medias.getId());
+
+            if (selectedImage != null) {
+                setImage();
+                medias.setImageSrc(selectedImage.toURI().toString());
+            }
+            if (selectedMedia != null) {
+                setMedia();
+                medias.setPlayerSrc(selectedMedia.toURI().toString());
+            }
+            DataBase.save(medias);
+        }
+        return false;
     }
 
     private void mustFillCategoryValues() {
