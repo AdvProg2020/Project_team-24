@@ -1,12 +1,16 @@
 package Graphics.Creates;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
+import Exceptions.ProductMediaNotFoundException;
+import Exceptions.SellerDoesNotSellOfThisProduct;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import Model.DataBase.DataBase;
 import Model.Models.*;
+import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
 import Model.Models.Structs.Medias;
 import javafx.collections.FXCollections;
@@ -35,6 +39,7 @@ import java.util.stream.Collectors;
 public class CreateProduct implements SceneBuilder, Initializable {
 
     private static SellerController sellerController = SellerController.getInstance();
+    private static Mode mode = Mode.New;
     private Product product;
     private File selectedImage;
     private File selectedMedia;
@@ -98,6 +103,10 @@ public class CreateProduct implements SceneBuilder, Initializable {
     @FXML
     private TableColumn<Field, String> feature_product_column;
 
+    public static void setMode(Mode mode) {
+        CreateProduct.mode = mode;
+    }
+
     @Override
     public Scene sceneBuilder() {
 
@@ -112,6 +121,34 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        init_newMode();
+        if (mode == Mode.Edit) init_editMode();
+    }
+
+    private void init_editMode() {
+        Product product = ControllerUnit.getInstance().getProduct();
+        Seller seller = (Seller) ControllerUnit.getInstance().getAccount();
+        product_name.setText(product.getName());
+        try {
+            product_price.setText(product.getProductOfSellerById(seller.getId()).getPrice() + "");
+            product_number.setText(product.getProductOfSellerById(seller.getId()).getNumber() + "");
+        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
+            sellerDoesNotSellOfThisProduct.printStackTrace();
+        }
+        if (product.getCategory() != null)
+            category.setValue(product.getCategory().getName());
+        if (product.getAuction() != null)
+            category.setValue(product.getAuction().getName());
+        if (product.getMediaId() != 0) {
+            try {
+                product_image.setImage(Medias.getImage(Medias.getMediasById(product.getMediaId()).getImageSrc()));
+            } catch (ProductMediaNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void init_newMode() {
         category.setItems(
                 FXCollections.observableArrayList(Category.getList().stream()
                         .map(categoryPrime -> categoryPrime.getName() + " " + categoryPrime.getId())
@@ -275,7 +312,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private void setImage() {
         try {
             String[] str = selectedImage.getName().split("\\.");
-            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + "." +str[str.length - 1];
+            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + "." + str[str.length - 1];
             Files.copy(
                     selectedImage.toPath(),
                     Paths.get(first),
@@ -361,5 +398,9 @@ public class CreateProduct implements SceneBuilder, Initializable {
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
                 )).play()).start();
+    }
+
+    public enum Mode {
+        Edit, New
     }
 }

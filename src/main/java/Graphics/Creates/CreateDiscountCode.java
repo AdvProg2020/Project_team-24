@@ -2,12 +2,11 @@ package Graphics.Creates;
 
 import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
-import Exceptions.InvalidInputByUserException;
-import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
-import Exceptions.ProductCantBeInMoreThanOneAuction;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
+import Model.Models.Account;
+import Model.Models.Accounts.Customer;
 import Model.Models.Auction;
 import Model.Models.DiscountCode;
 import Model.Models.Structs.Discount;
@@ -55,14 +54,7 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (mode == Mode.Edit) {
-            DiscountCode discount = ControllerUnit.getInstance().getCurrentDiscountCode();
-            start_date.setText(discount.getStart() + "");
-            end_date.setText(discount.getEnd() + "");
-            percent_discount.setText(discount.getDiscount().getPercent() + "");
-            limit_discount.setText(discount.getDiscount().getAmount() + "");
-            numberOfUse.setText(discount.getFrequentUse() + "");
-        }
+        if (mode == Mode.Edit) init_editMode();
     }
 
     public void submit() {
@@ -81,17 +73,33 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
         }
 
         try {
-            DiscountCode discountCode = managerController.creatDiscountCode(start, end, percent, limit, num);
-
-            if (mode == Mode.Edit) {
-
-                DiscountCode currentDiscountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
-            }
-
+            if (mode == Mode.New)
+            managerController.creatDiscountCode(start, end, percent, limit, num);
+            if (mode == Mode.Edit)
+                submit_editMode(start, end, percent, limit, num);
             goMainMenu();
         } catch (InvalidStartAndEndDateForDiscountCodeException e) {
             InvalidEndAndStart();
+        } catch (DiscountCodeExpiredException | FieldDoesNotExistException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void submit_editMode(String start, String end, String percent, String limit, String num) throws DiscountCodeExpiredException, FieldDoesNotExistException {
+        DiscountCode discountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
+        managerController.editDiscountCode(discountCode.getId() + "",  "start", start);
+        managerController.editDiscountCode(discountCode.getId() + "",  "end", end);
+        managerController.editDiscountCode(discountCode.getId() + "",  "frequentUse", num);
+        managerController.editDiscountCode(discountCode.getId() + "",  "maxDiscountAmount", limit);
+        managerController.editDiscountCode(discountCode.getId() + "",  "discountPercent",percent);
+    }
+
+    private void init_editMode() {
+        DiscountCode discountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
+        start_date.setText(discountCode.getStart().toString());
+        end_date.setText(discountCode.getEnd().toString());
+        percent_discount.setText(discountCode.getDiscount().getPercent() + "");
+        limit_discount.setText(discountCode.getDiscount().getAmount() + "");
     }
 
     private void InvalidEndAndStart() {

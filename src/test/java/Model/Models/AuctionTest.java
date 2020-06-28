@@ -44,7 +44,7 @@ public class AuctionTest {
     void addAuction() {
         Discount discount3 = new Discount(10, 40);
         Auction auction3 = new Auction("haraje bahare", LocalDate.parse("10/6/1379", formatter), LocalDate.parse("29/6/1377", formatter), discount3);
-        assertDoesNotThrow(() -> Auction.addAuction(auction3));
+        assertDoesNotThrow(() -> Auction.addAuction(auction3, true));
         assertTrue(Auction.getList().contains(auction3));
 
     }

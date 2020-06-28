@@ -217,8 +217,8 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 //        DataBase.save(this);
 //    }
 
-    public static void addProduct(@NotNull Product product) {
-        product.setProductId(AddingNew.getRegisteringId().apply(getList()));
+    public static void addProduct(@NotNull Product product, boolean New) {
+        if (New) product.setProductId(AddingNew.getRegisteringId().apply(getList()));
         list.add(product);
         DataBase.save(product, true);
     }

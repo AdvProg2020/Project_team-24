@@ -35,6 +35,14 @@ public class Category implements Packable<Category> , Cloneable {
         this.name = name;
     }
 
+    public void setSubCategories(List<Long> subCategories) {
+        this.subCategories = subCategories;
+    }
+
+    public void setCategoryFields(FieldList categoryFields) {
+        this.categoryFields = categoryFields;
+    }
+
     public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }

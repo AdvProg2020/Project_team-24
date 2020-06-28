@@ -4,12 +4,14 @@ import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
 import Controller.Controllers.SellerController;
 import Exceptions.CategoryDoesNotExistException;
+import Exceptions.FieldDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
 import Model.DataBase.DataBase;
 import Model.Models.Category;
 import Model.Models.Field.Field;
+import Model.Models.FieldList;
 import Model.Models.Product;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -20,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import org.jetbrains.annotations.NotNull;
 
 import javax.management.modelmbean.ModelMBeanOperationInfo;
 import java.io.File;
@@ -60,16 +63,16 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        init_newMode();
+        if (mode == Mode.Edit) init_editMode();
+    }
 
+    private void init_newMode() {
         List<CheckMenuItem> checkMenuItems = sellerController.showCategories().stream()
                 .map(product -> product.getName() + " " + product.getId())
                 .map(CheckMenuItem::new).collect(Collectors.toList());
 
         selected_subCategory.getItems().addAll(checkMenuItems);
-
-        if (mode == Mode.Edit) {
-            init_editMode();
-        }
     }
 
     private void init_editMode() {
@@ -100,27 +103,24 @@ public class CreateCategory implements SceneBuilder, Initializable {
                 }).collect(Collectors.toList());
 
         try {
-            Category category = managerController.createEmptyCategory(category_name, str_feature, ids);
+            if (mode == Mode.New)
+                managerController.createEmptyCategory(category_name, str_feature, ids);
             if (mode == Mode.Edit) {
-                Category categoryFirst = ControllerUnit.getInstance().getCategory();
-                categoryFirst.getProductList().forEach(aLong -> {
-                    category.addToProductList(aLong);
-                    try {
-                        Product productById = Product.getProductById(aLong);
-                        productById.setCategory(category);
-                        DataBase.save(productById);
-                    } catch (ProductDoesNotExistException e) {
-                        e.printStackTrace();
-                    }
-                });
-                Category.removeCategory(category);
-                DataBase.save(category);
+                submit_editMode(category_name, ids);
             }
-        } catch (CategoryDoesNotExistException e) {
+        } catch (CategoryDoesNotExistException | FieldDoesNotExistException e) {
             e.printStackTrace();
         }
 
         goMainMenu();
+    }
+
+    private void submit_editMode(String category_name, @NotNull List<String> ids) throws FieldDoesNotExistException, CategoryDoesNotExistException {
+        Category category = ControllerUnit.getInstance().getCategory();
+        managerController.editCategory(category.getId() + "","name",category_name);
+        category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
+        category.setCategoryFields(new FieldList(str_feature.stream().map(Field::new).collect(Collectors.toList())));
+        DataBase.save(category);
     }
 
     private void goMainMenu() {

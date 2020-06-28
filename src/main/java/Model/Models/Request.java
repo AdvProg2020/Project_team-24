@@ -72,7 +72,7 @@ public class Request implements Packable<Request> {
 
         switch (typeOfRequest) {
             case "new":
-                accept_new();
+                accept_new(true);
                 break;
             case "remove":
                 accept_remove();
@@ -89,7 +89,7 @@ public class Request implements Packable<Request> {
         forPend.setStateForPend("Accepted");
     }
 
-    private void accept_new() throws AccountDoesNotExistException {
+    private void accept_new(boolean New) throws AccountDoesNotExistException {
 
         Seller seller = (Seller) Account.getAccountById(accountId);
 
@@ -102,10 +102,10 @@ public class Request implements Packable<Request> {
             if (category != null) {
                 category.addToProductList(((Product) forPend).getId());
             }
-            Product.addProduct((Product) forPend);
+            Product.addProduct((Product) forPend, New);
             seller.addToProductList(((Product) forPend).getId());
         } else if (forPend instanceof Auction) {
-            Auction.addAuction((Auction) forPend);
+            Auction.addAuction((Auction) forPend , New);
             seller.addToAuctionList(((Auction) forPend).getId());
             ((Auction) forPend).getProductList().stream().map(aLong -> {
                 try {
@@ -124,7 +124,7 @@ public class Request implements Packable<Request> {
 
     private void accept_edit() throws AccountDoesNotExistException {
         accept_remove();
-        accept_new();
+        accept_new(false);
     }
 
     private void accept_remove() throws AccountDoesNotExistException {

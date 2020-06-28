@@ -102,8 +102,8 @@ public class Auction implements Packable<Auction>, ForPend, Cloneable {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public static void addAuction(@NotNull Auction auction) {
-        auction.setAuctionId(AddingNew.getRegisteringId().apply(getList()));
+    public static void addAuction(@NotNull Auction auction, boolean New) {
+        if (New) auction.setAuctionId(AddingNew.getRegisteringId().apply(getList()));
         list.add(auction);
         DataBase.save(auction, true);
     }

@@ -2,11 +2,10 @@ package Graphics.Creates;
 
 import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
-import Exceptions.InvalidInputByUserException;
-import Exceptions.ProductCantBeInMoreThanOneAuction;
-import Exceptions.ProductDoesNotExistException;
+import Exceptions.*;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
+import Model.Models.Accounts.Seller;
 import Model.Models.Auction;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -104,6 +103,27 @@ public class CreateAuction implements SceneBuilder, Initializable {
             return;
         }
 
+        try {
+            if (mode == Mode.New)
+                submit_newMode(start, end, name, percent, limit);
+            if (mode == Mode.Edit)
+                submit_edit();
+            goMainMenu();
+        } catch (InvalidInputByUserException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException | AuctionDoesNotExistException | FieldDoesNotExistException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void submit_edit() throws AuctionDoesNotExistException, FieldDoesNotExistException, InvalidInputByUserException {
+        Seller seller = (Seller) ControllerUnit.getInstance().getAccount();
+        sellerController.editAuction(seller.getId() + "", "auctionName", auction_name.getText(), "edit Auction");
+        sellerController.editAuction(seller.getId() + "", "start", start_time.getText(), "edit Auction");
+        sellerController.editAuction(seller.getId() + "", "end", end_time.getText(), "edit Auction");
+        sellerController.editAuction(seller.getId() + "", "discountMaxAmount", auction_limit.getText(), "edit Auction");
+        sellerController.editAuction(seller.getId() + "", "discountPercent", auction_percent.getText(), "edit Auction");
+    }
+
+    private void submit_newMode(String start, String end, String name, String percent, String limit) throws InvalidInputByUserException, ProductDoesNotExistException, ProductCantBeInMoreThanOneAuction {
         List<String> ids = selected_products.getItems().stream()
                 .filter(menuItem -> ((CheckMenuItem) menuItem).isSelected())
                 .map(menuItem -> {
@@ -113,17 +133,10 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
                 }).collect(Collectors.toList());
 
-        try {
-            Auction auction = sellerController.addOff(name, start, end, percent, limit);
-            if (mode == Mode.Edit) auction.setAuctionId(ControllerUnit.getInstance().getAuction().getId());
-            sellerController.addProductsToAuction(auction, ids);
-            sellerController.sendRequest(auction, "new Auction", mode == Mode.Edit ? "edit" : "new");
-            goMainMenu();
-        } catch (InvalidInputByUserException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        Auction auction = sellerController.addOff(name, start, end, percent, limit);
+        sellerController.addProductsToAuction(auction, ids);
+        sellerController.sendRequest(auction, "new Auction", "new");
     }
-
 
     private void goMainMenu() {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
