@@ -10,12 +10,12 @@
 <AnchorPane prefHeight="745" prefWidth="1134">
    <children>
        <Pane layoutX="252.0" layoutY="35.0" prefHeight="696.0" prefWidth="725.0">
-       <TableView layoutX="51.0" layoutY="105.0" prefHeight="189.0" prefWidth="550.0">
+       <TableView fx:id="logHistoryTable" layoutX="51.0" layoutY="105.0" prefHeight="189.0" prefWidth="550.0">
            <columns>
                <TableColumn prefWidth="134.4000015258789" text="قیمت نهایی" />
                <TableColumn prefWidth="148.80001831054688" text="تخفیف حراج" />
-               <TableColumn prefWidth="115.0" text="قیمت" />
-               <TableColumn prefWidth="165.79995727539062" text="نام محصول" />
+               <TableColumn fx:id="productPrice" prefWidth="115.0" text="قیمت" />
+               <TableColumn fx:id="productName" prefWidth="165.79995727539062" text="نام محصول" />
            </columns>
        </TableView>
        <Label alignment="CENTER_RIGHT" layoutX="477.0" layoutY="330.0" prefHeight="21.0" prefWidth="106.0" text="قسمت نهایی : ">

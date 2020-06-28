@@ -81,7 +81,8 @@ public class Payment implements Initializable, SceneBuilder {
         try {
 
             instance.receiveInformation(postCode, address);
-            instance.discountCodeUse(discountCode);
+            if (!discountCode.isEmpty())
+                instance.discountCodeUse(discountCode);
             instance.buyProductsOfCart();
 
         } catch (PostCodeInvalidException e) {
@@ -97,6 +98,8 @@ public class Payment implements Initializable, SceneBuilder {
         } catch (ProductDoesNotExistException | FieldDoesNotExistException | AccountDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
             e.printStackTrace();
         }
+
+        MainMenu.change(new PaymentInformation().sceneBuilder());
     }
 
     private void reset() {

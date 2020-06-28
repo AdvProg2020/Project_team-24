@@ -7,6 +7,7 @@ import Graphics.Cart;
 import Graphics.LogHistoryCart;
 import Graphics.MainMenu;
 import Graphics.Menus.LogHistoryMenu;
+import Graphics.PaymentInformation;
 import Graphics.Tools.SceneBuilder;
 import Model.DataBase.DataBase;
 import Model.Models.Account;
@@ -157,6 +158,7 @@ public class Customer implements Initializable, SceneBuilder {
         LogHistoryMenu.setLogHistoryList(logHistoryList);
         LogHistoryCart.setLogHistoryList(logHistoryList);
         MainMenu.change(new LogHistoryMenu().sceneBuilder());
+
     }
 
     public void selectingImage() {

@@ -101,9 +101,12 @@ public class Cart implements Initializable, SceneBuilder {
     @Contract("_ -> new")
     @NotNull
     private ObservableValue<Pane> getPaneObservableValue(@NotNull TableColumn.CellDataFeatures<Product, Pane> param) {
-        HBox hBox = new HBox();
         Product value = param.getValue();
+
+        HBox hBox = new HBox();
+
         long sellerId = cart.getProductSellers().get(cart.getProductList().indexOf(value.getId()));
+
         Button increase = new Button();
         Button decrease = new Button();
 //            increase.setStyle("-fx-background-image: url(../Graphics/Cart/icons8-add-48.png)");
