@@ -31,10 +31,14 @@ import java.util.ResourceBundle;
 
 public class AccountsList implements SceneBuilder, Initializable {
     private static final ManagerController managerController = ManagerController.getInstance();
+    private static Mode mode = Mode.Normal;
     public TableView<Account> accountTableView;
     public TableColumn<Account, String> username;
-    public TableColumn<Account, Pane> deleteAccount;
-    public TableColumn<Account,Pane> discountCode;
+    public TableColumn<Account, Pane>  buttons;
+
+    public static void setMode(Mode mode) {
+        AccountsList.mode = mode;
+    }
 
     @Override
     public Scene sceneBuilder() {
@@ -56,8 +60,7 @@ public class AccountsList implements SceneBuilder, Initializable {
         List<Account> list = managerController.viewAllAccounts();
         accountTableView.setItems(FXCollections.observableList(list));
         username.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getUserName()));
-        deleteAccount.setCellValueFactory(param -> new SimpleObjectProperty<Pane>(setChoicePane(param.getValue())));
-        discountCode.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
+        buttons.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
     }
 
     @NotNull
@@ -71,24 +74,32 @@ public class AccountsList implements SceneBuilder, Initializable {
 
         if (account instanceof Manager) {
             deleteAccount.setDisable(true);
+            deleteAccount.setVisible(false);
         }
 
         deleteAccount.setOnAction(event -> {
-            Account.deleteAccount(account);
+            try {
+                managerController.deleteAccount(account.getUserName());
+            } catch (AccountDoesNotExistException e) {
+                e.printStackTrace();
+            }
             init();
         });
 
-        if (!(account instanceof Customer)) {
+        if (!(ControllerUnit.getInstance().getAccount() instanceof Manager &&
+                account instanceof Customer &&
+                mode == Mode.addDiscountCode)) {
             addDiscountCode.setDisable(true);
+            addDiscountCode.setVisible(false);
         }
 
         addDiscountCode.setOnAction(event -> {
             DiscountCode discountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
             if (discountCode != null && account instanceof Customer) {
                 ((Customer) account).addToDiscountCodeList(discountCode.getId());
-                DataBase.save(account);
                 discountCode.addAccount(account.getId());
                 DataBase.save(discountCode);
+                DataBase.save(account);
             }
             init();
         });
@@ -96,4 +107,7 @@ public class AccountsList implements SceneBuilder, Initializable {
         return new Pane(hBox);
     }
 
+    public enum Mode {
+        addDiscountCode,Normal
+    }
 }

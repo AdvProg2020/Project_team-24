@@ -63,6 +63,11 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         MainMenu.FilterEnable();
     }
 
+    @Override
+    protected void finalize() {
+        MainMenu.FilterDisable();
+    }
+
     public void next() {
         List<Product> list = new ArrayList<>();
         for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
@@ -110,7 +115,6 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         next_btn.setDisable(false);
         previous_btn.setDisable(false);
     }
-
 
     public enum Modes {
         AuctionMode, NormalMode

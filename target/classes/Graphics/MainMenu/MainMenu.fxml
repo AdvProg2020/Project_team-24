@@ -18,12 +18,6 @@
                     <URL value="@MainMenu.css" />
                 </stylesheets>
                 <MenuButton fx:id="category_select" alignment="CENTER_RIGHT" layoutX="1167.0" layoutY="148.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="199.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="دسته بندی کالا ها" textFill="#646363">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="لپ تاپ" />
-                        <MenuItem mnemonicParsing="false" text="پوشاک" />
-                        <MenuItem mnemonicParsing="false" text="خوراکی" />
-                        <MenuItem mnemonicParsing="false" text="لوازم خانه" />
-                    </items>
                     <font>
                         <Font size="16.0" />
                     </font>

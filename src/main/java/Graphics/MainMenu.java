@@ -90,6 +90,11 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         filter.setVisible(true);
     }
 
+    public static void FilterDisable() {
+        filter.setDisable(true);
+        filter.setVisible(false);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setCenter(changeable);
@@ -200,7 +205,6 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goUserArea() {
-        popUp();
         if (account instanceof Manager)
             MainMenu.change(new Graphics.Accounts.Manager().sceneBuilder());
         else if (account instanceof Seller)
@@ -208,6 +212,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         else if (account instanceof Customer)
             MainMenu.change(new Graphics.Accounts.Customer().sceneBuilder());
         else return;
+        popUp();
         enableBack();
     }
 

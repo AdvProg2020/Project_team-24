@@ -8,15 +8,14 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.DiscountCodeList">
     <AnchorPane prefHeight="745" prefWidth="1134">
-        <TableView fx:id="discountCodeList" layoutX="96.0" layoutY="94.0" prefHeight="418.0" prefWidth="875.0">
+        <TableView fx:id="discountCodeList" layoutX="43.0" layoutY="94.0" prefHeight="418.0" prefWidth="1025.0">
             <columns>
-                <TableColumn fx:id="editbutton" prefWidth="144.80000686645508" text="ویرایش" />
-                <TableColumn fx:id="addacountbutton" prefWidth="144.80000686645508" text="افزودن به حساب کاربر" />
-                <TableColumn fx:id="maxDiscount" prefWidth="132.7999725341797" text="سقف تخفیف" />
-                <TableColumn fx:id="discount" prefWidth="104.39999389648438" text="تخفیف" />
-                <TableColumn fx:id="endDate" prefWidth="155.60003662109375" text="تاریخ پایان" />
-                <TableColumn fx:id="startDate" prefWidth="146.20001220703125" text="تاریخ شروع" />
-                <TableColumn fx:id="code" prefWidth="196.79998779296875" text="کد" />
+                <TableColumn fx:id="buttons" prefWidth="349.99997329711914" text="افزودن به حساب کاربر / ویرایش" />
+                <TableColumn fx:id="maxDiscount" prefWidth="77.00006103515625" text="سقف تخفیف" />
+                <TableColumn fx:id="discount" prefWidth="63.5999755859375" text="تخفیف" />
+                <TableColumn fx:id="endDate" prefWidth="108.4000244140625" text="تاریخ پایان" />
+                <TableColumn fx:id="startDate" prefWidth="106.39996337890625" text="تاریخ شروع" />
+                <TableColumn fx:id="code" prefWidth="332.40008544921875" text="کد" />
             </columns>
         </TableView>
         <Label alignment="CENTER" layoutX="437.0" layoutY="26.0" prefHeight="35.0" prefWidth="237.0" text="((  لیست کد های تخفیف  ))" textFill="#d22323">

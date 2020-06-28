@@ -24,6 +24,8 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -100,10 +102,11 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
 
     private void init_editMode() {
         DiscountCode discountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
-        start_date.setText(discountCode.getStart().toString());
-        end_date.setText(discountCode.getEnd().toString());
+        start_date.setText(discountCode.getStart().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        end_date.setText(discountCode.getEnd().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         percent_discount.setText(discountCode.getDiscount().getPercent() + "");
         limit_discount.setText(discountCode.getDiscount().getAmount() + "");
+        numberOfUse.setText(discountCode.getFrequentUse() + "");
     }
 
     private void InvalidEndAndStart() {

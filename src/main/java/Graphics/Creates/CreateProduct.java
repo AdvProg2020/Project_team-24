@@ -118,8 +118,10 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        product = ControllerUnit.getInstance().getProduct();
         init_newMode();
         if (mode == Mode.Edit) init_editMode();
+        if (mode == Mode.AddSeller) init_addSellerMode();
     }
 
     private void init_editMode() {
@@ -143,6 +145,27 @@ public class CreateProduct implements SceneBuilder, Initializable {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void init_addSellerMode() {
+        Product product = ControllerUnit.getInstance().getProduct();
+        product_name.setText(product.getName());
+        product_price.setPromptText("مقدار مورد نظر را وارد کنید");
+        product_number.setPromptText("مقدار مورد نظر را وارد کنید");
+        if (product.getCategory() != null)
+            category.setValue(product.getCategory().getName());
+        if (product.getAuction() != null)
+            auction.setValue(product.getAuction().getName());
+        if (product.getMediaId() != 0) {
+            try {
+                product_image.setImage(Medias.getImage(Medias.getMediasById(product.getMediaId()).getImageSrc()));
+            } catch (ProductMediaNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        product_name.setEditable(false);
+        category.setDisable(true);
+        auction.setDisable(true);
     }
 
     private void init_newMode() {
@@ -185,20 +208,31 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
             if (mode == Mode.New)
                 submit_newMode(productName, productPrice, productNumber, productAction, productCategory);
-            if (mode == Mode.Edit) {
+            if (mode == Mode.Edit)
                 submit_editMode(productName, productAction, productCategory);
-            }
+            if (mode == Mode.AddSeller)
+                submit_addSellerMode(productPrice, productNumber);
 
         } catch (AuctionDoesNotExistException | CategoryDoesNotExistException | ProductDoesNotExistException | FieldDoesNotExistException e) {
             e.printStackTrace();
         }
     }
 
+    private void submit_addSellerMode(String productPrice, String productNumber) {
+        Account account = ControllerUnit.getInstance().getAccount();
+        product.addSeller(account.getId(), Double.parseDouble(productPrice), Long.parseLong(productNumber));
+        ((Seller) account).addToProductList(product.getId());
+        DataBase.save(product);
+        goMainMenu();
+    }
+
     private void submit_editMode(String productName, String productAction, @NotNull String productCategory) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException, ProductDoesNotExistException {
         Product product = ControllerUnit.getInstance().getProduct();
         sellerController.editProduct(product.getId() + "", "productName", productName, "edit product name");
-        if (!productCategory.equals("0")) sellerController.editProduct(product.getId() + "", "category", productCategory, "edit product name");
-        if (!productAction.equals("0")) sellerController.editProduct(product.getId() + "", "Auction", productAction, "edit product name");
+        if (!productCategory.equals("0"))
+            sellerController.editProduct(product.getId() + "", "category", productCategory, "edit product name");
+        if (!productAction.equals("0"))
+            sellerController.editProduct(product.getId() + "", "Auction", productAction, "edit product name");
         goMainMenu();
     }
 
@@ -419,6 +453,6 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     public enum Mode {
-        Edit, New
+        Edit, New, AddSeller
     }
 }

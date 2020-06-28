@@ -1,7 +1,6 @@
 package Graphics.Accounts;
 
 import Controller.ControllerUnit;
-import Controller.Controllers.ManagerController;
 import Exceptions.FieldDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
 import Graphics.Creates.CreateCategory;
@@ -16,7 +15,6 @@ import Graphics.SignUp;
 import Graphics.Tools.SceneBuilder;
 import Model.DataBase.DataBase;
 import Model.Models.Structs.Medias;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,7 +23,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +34,6 @@ import java.util.ResourceBundle;
 
 public class Manager implements SceneBuilder, Initializable {
 
-    private static ManagerController managerController = ManagerController.getInstance();
     private Model.Models.Accounts.Manager manager = (Model.Models.Accounts.Manager) ControllerUnit.getInstance().getAccount();
     private File selectedImage;
 
@@ -105,6 +101,7 @@ public class Manager implements SceneBuilder, Initializable {
     }
 
     public void UserList() {
+        AccountsList.setMode(AccountsList.Mode.Normal);
         MainMenu.change(new AccountsList().sceneBuilder());
     }
 
@@ -169,7 +166,7 @@ public class Manager implements SceneBuilder, Initializable {
         DataBase.save(medias);
     }
 
-    public void viewAuctions(ActionEvent event) {
+    public void viewAuctions() {
         MainMenu.change(new AuctionsMenu().sceneBuilder());
     }
 }

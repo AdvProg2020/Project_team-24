@@ -1,15 +1,15 @@
 package Graphics;
 
 import Controller.ControllerUnit;
-import Controller.Controllers.SellerController;
-import Exceptions.ProductDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
 import Graphics.Creates.CreateProduct;
 import Graphics.Tools.SceneBuilder;
+import Model.DataBase.DataBase;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
 import Model.Models.Field.Field;
+import Model.Models.Request;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductOfSeller;
 import javafx.beans.property.SimpleStringProperty;
@@ -40,7 +40,6 @@ public class Product implements Initializable, SceneBuilder {
 
     private static Model.Models.Product First_Compare;
     private static Model.Models.Product productObject;
-    public MediaView leftGif;
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
@@ -77,6 +76,12 @@ public class Product implements Initializable, SceneBuilder {
     private TableColumn<Field, String> vizhegiP;
     @FXML
     private TableColumn<Field, String> meghdarP;
+    @FXML
+    private MediaView leftGif;
+    @FXML
+    private Button addMe_btn;
+    @FXML
+    private Button deleteProduct_btn;
 
     public static Model.Models.Product getFirst_Compare() {
         return First_Compare;
@@ -110,8 +115,11 @@ public class Product implements Initializable, SceneBuilder {
         }
 
         Account account = ControllerUnit.getInstance().getAccount();
-        if (account instanceof Seller && ((Seller) account).getProductList().contains(productObject.getId())) {
-            edit_btn.setDisable(false);
+        if (account instanceof Seller) {
+            if (((Seller) account).getProductList().contains(productObject.getId())) {
+                edit_btn.setDisable(false);
+                deleteProduct_btn.setDisable(false);
+            } else addMe_btn.setDisable(false);
         }
 
         MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Product\\addToCart.mp4").toURI().toString()));
@@ -192,11 +200,13 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     public void AddMeAsSeller() {
-        //?
+        CreateProduct.setMode(CreateProduct.Mode.AddSeller);
+        MainMenu.change(new CreateProduct().sceneBuilder());
     }
 
     public void deleteProduct() {
-        //?
+        Account account = ControllerUnit.getInstance().getAccount();
+        new Request(account.getId(), "remove product", "remove", productObject);
     }
 
     public void setCategoryFeature() {

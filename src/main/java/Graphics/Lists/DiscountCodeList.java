@@ -5,15 +5,10 @@ import Controller.Controllers.ManagerController;
 import Graphics.Creates.CreateDiscountCode;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
-import Model.DataBase.DataBase;
-import Model.Models.Account;
-import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Manager;
 import Model.Models.DiscountCode;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,8 +35,6 @@ import java.util.ResourceBundle;
 public class DiscountCodeList implements SceneBuilder, Initializable {
 
     private static ManagerController managerController = ManagerController.getInstance();
-    public MediaView gif;
-
 
     @FXML
     private TableView<DiscountCode> discountCodeList;
@@ -56,9 +49,9 @@ public class DiscountCodeList implements SceneBuilder, Initializable {
     @FXML
     private TableColumn<DiscountCode, String> code;
     @FXML
-    public TableColumn<DiscountCode,Pane> editbutton;
+    private MediaView gif;
     @FXML
-    public TableColumn<DiscountCode, Pane> addacountbutton;
+    private TableColumn<DiscountCode, Pane> buttons;
 
     @Override
     public Scene sceneBuilder() {
@@ -75,6 +68,10 @@ public class DiscountCodeList implements SceneBuilder, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         init();
+        gifPlay();
+    }
+
+    private void gifPlay() {
         MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\DiscountCodeList\\slae.mp4").toURI().toString()));
         gif.setMediaPlayer(value);
         value.setCycleCount(Integer.MAX_VALUE);
@@ -84,15 +81,14 @@ public class DiscountCodeList implements SceneBuilder, Initializable {
     private void init() {
         List<DiscountCode> list = managerController.viewDiscountCodes();
         discountCodeList.setItems(FXCollections.observableList(list));
-        code.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getId() + ""));
+        code.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getDiscountCode()));
         startDate.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getStart()));
         endDate.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getEnd()));
         discount.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getDiscount().getPercent() + ""));
         maxDiscount.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getDiscount().getAmount()));
-        editbutton.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
-        addacountbutton.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
-
+        buttons.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
     }
+
     @NotNull
     @Contract("_ -> new")
     private Pane setChoicePane(DiscountCode discountCode) {
@@ -102,18 +98,18 @@ public class DiscountCodeList implements SceneBuilder, Initializable {
 
         HBox hBox = new HBox();
 
-
         editButton.setOnAction(event -> {
+            ControllerUnit.getInstance().setCurrentDiscountCode(discountCode);
             CreateDiscountCode.setMode(CreateDiscountCode.Mode.Edit);
             MainMenu.change(new CreateDiscountCode().sceneBuilder());
         });
         addAccountButton.setOnAction(event -> {
             ControllerUnit.getInstance().setCurrentDiscountCode(discountCode);
+            AccountsList.setMode(AccountsList.Mode.addDiscountCode);
             MainMenu.change(new AccountsList().sceneBuilder());
         });
 
-
-        hBox.getChildren().addAll(editButton,addAccountButton);
+        hBox.getChildren().addAll(editButton, addAccountButton);
         return new Pane(hBox);
     }
 }
