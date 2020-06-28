@@ -19,8 +19,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -72,6 +70,10 @@ public class Cart implements Initializable, SceneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        init();
+    }
+
+    private void init() {
         List<Product> list;
         try {
             list = buyerController.showProducts();
@@ -86,6 +88,17 @@ public class Cart implements Initializable, SceneBuilder {
         setProductFinalPrice();
         setProductsButton();
         playMedia();
+        setTotalPrice();
+    }
+
+    private void setTotalPrice() {
+        try {
+            totalPrice.setText(cart.getTotalPrice() + "");
+        } catch (ProductDoesNotExistException e) {
+            alertError("Error product" , e.getMessage());
+        } catch (SellerDoesNotSellOfThisProduct e) {
+            alertError("Error seller" , e.getMessage());
+        }
     }
 
     private void playMedia() {
@@ -112,6 +125,7 @@ public class Cart implements Initializable, SceneBuilder {
                 } catch (SellerDoesNotSellOfThisProduct e) {
                     e.printStackTrace();
                 }
+                init();
             });
             decrease.setOnAction(event -> {
                 try {
@@ -119,6 +133,7 @@ public class Cart implements Initializable, SceneBuilder {
                 } catch (ProductDoesNotExistException e) {
                     e.printStackTrace();
                 }
+                init();
             });
             hBox.getChildren().addAll(increase, decrease);
             Pane pane = new Pane(hBox);
