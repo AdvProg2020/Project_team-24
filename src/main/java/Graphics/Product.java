@@ -82,6 +82,8 @@ public class Product implements Initializable, SceneBuilder {
     private Button addMe_btn;
     @FXML
     private Button deleteProduct_btn;
+    @FXML
+    private Button addToCart_btn;
 
     public static Model.Models.Product getFirst_Compare() {
         return First_Compare;
@@ -120,6 +122,10 @@ public class Product implements Initializable, SceneBuilder {
                 edit_btn.setDisable(false);
                 deleteProduct_btn.setDisable(false);
             } else addMe_btn.setDisable(false);
+        }
+
+        if (account instanceof Customer) {
+            addToCart_btn.setDisable(false);
         }
 
         MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Product\\addToCart.mp4").toURI().toString()));
