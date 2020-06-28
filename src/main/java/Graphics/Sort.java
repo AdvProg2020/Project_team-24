@@ -5,8 +5,12 @@ import Controller.Controllers.FilterController;
 import Controller.Controllers.ProductsController;
 import Exceptions.InvalidFilterException;
 import Exceptions.NotAvailableSortException;
+import Graphics.Menus.ProductsMenu;
+import Graphics.Models.ProductCart;
 import Model.Models.Category;
 import Model.Models.Field.Field;
+import Model.Models.Product;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -20,15 +24,22 @@ import java.util.stream.Collectors;
 
 public class Sort implements Initializable {
 
-    public FilterController filterController = FilterController.getInstance();
-    public ProductsController productsController = ProductsController.getInstance();
-    public CheckBox Point;
-    public CheckBox TimeOfUpload;
-    public CheckBox NumberOfViews;
-    public ChoiceBox<String> productInfo;
-    public ChoiceBox<String> CategoryInfo;
-    public TextField product_f_value;
-    public TextField category_f_value;
+    public static FilterController filterController = FilterController.getInstance();
+    public static ProductsController productsController = ProductsController.getInstance();
+    @FXML
+    private CheckBox Point;
+    @FXML
+    private CheckBox TimeOfUpload;
+    @FXML
+    private CheckBox NumberOfViews;
+    @FXML
+    private ChoiceBox<String> productInfo;
+    @FXML
+    private ChoiceBox<String> CategoryInfo;
+    @FXML
+    private TextField product_f_value;
+    @FXML
+    private TextField category_f_value;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -114,6 +125,7 @@ public class Sort implements Initializable {
             } catch (InvalidFilterException e) {
                 e.printStackTrace();
             }
+            setLists();
         }
     }
 
@@ -127,6 +139,18 @@ public class Sort implements Initializable {
             } catch (InvalidFilterException e) {
                 e.printStackTrace();
             }
+            setLists();
         }
+    }
+
+    private void setLists() {
+        List<Product> list = productsController.showProducts();
+        setProducts(list);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
+    }
+
+    private void setProducts(List<Product> list) {
+        ProductsMenu.setList(list);
+        ProductCart.setProductList(list);
     }
 }

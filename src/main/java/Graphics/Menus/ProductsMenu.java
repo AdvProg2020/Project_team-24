@@ -60,7 +60,7 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         if (mode == Modes.NormalMode)
             setNormalMode();
         else if (mode == Modes.AuctionMode) setAuctionMode();
-//        MainMenu.FilterEnable();
+        MainMenu.FilterEnable();
     }
 
     public void next() {

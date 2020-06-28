@@ -1,5 +1,6 @@
 package Graphics.Creates;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.SellerController;
 import Exceptions.InvalidInputByUserException;
 import Exceptions.ProductCantBeInMoreThanOneAuction;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class CreateAuction implements SceneBuilder, Initializable {
 
     private static SellerController sellerController = SellerController.getInstance();
+    private static Mode mode = Mode.New;
 
     @FXML
     private TextField start_time;
@@ -41,6 +44,10 @@ public class CreateAuction implements SceneBuilder, Initializable {
     @FXML
     private Button submit_btn;
 
+    public static void setMode(Mode mode) {
+        CreateAuction.mode = mode;
+    }
+
     @Override
     public Scene sceneBuilder() {
         try {
@@ -54,7 +61,21 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (mode == Mode.New) init_newMode();
+        else
+            init_editMode();
+    }
 
+    private void init_editMode() {
+        Auction auction = ControllerUnit.getInstance().getAuction();
+        start_time.setText(auction.getStart().toString());
+        end_time.setText(auction.getEnd().toString());
+        auction_name.setText(auction.getName());
+        auction_percent.setText(auction.getDiscount().getPercent() + "");
+        auction_limit.setText(auction.getDiscount().getAmount() + "");
+    }
+
+    private void init_newMode() {
         try {
             List<CheckMenuItem> checkMenuItems = sellerController.showProducts().stream()
                     .filter(product -> product.getAuction() == null)
@@ -78,6 +99,11 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
         reset();
 
+        if (mode == Mode.Edit) {
+            Auction auction = ControllerUnit.getInstance().getAuction();
+            Auction.removeAuction(auction);
+        }
+
         if (start.isEmpty() || end.isEmpty() || name.isEmpty() || percent.isEmpty() || limit.isEmpty()) {
             mustBeFilled();
             return;
@@ -94,13 +120,15 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
         try {
             Auction auction = sellerController.addOff(name, start, end, percent, limit);
+            if (mode == Mode.Edit) auction.setAuctionId(ControllerUnit.getInstance().getAuction().getId());
             sellerController.addProductsToAuction(auction, ids);
-            sellerController.sendRequest(auction, "new Auction", "new");
+            sellerController.sendRequest(auction, "new Auction", mode == Mode.Edit ? "edit" : "new");
             goMainMenu();
         } catch (InvalidInputByUserException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException e) {
             e.printStackTrace();
         }
     }
+
 
     private void goMainMenu() {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
@@ -125,5 +153,9 @@ public class CreateAuction implements SceneBuilder, Initializable {
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
                 )).play()).start();
+    }
+
+    public enum Mode {
+        Edit, New
     }
 }

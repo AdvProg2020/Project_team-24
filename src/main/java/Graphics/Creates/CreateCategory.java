@@ -1,10 +1,13 @@
 package Graphics.Creates;
 
+import Controller.ControllerUnit;
 import Controller.Controllers.ManagerController;
 import Controller.Controllers.SellerController;
 import Exceptions.CategoryDoesNotExistException;
 import Graphics.MainMenu;
 import Graphics.Tools.SceneBuilder;
+import Model.Models.Category;
+import Model.Models.Field.Field;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -15,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import javax.management.modelmbean.ModelMBeanOperationInfo;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +31,7 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
     private static SellerController sellerController = SellerController.getInstance();
     private static ManagerController managerController = ManagerController.getInstance();
+    private static Mode mode = Mode.New;
     private List<String> str_feature = new ArrayList<>();
     @FXML
     private MenuButton selected_subCategory;
@@ -58,6 +63,18 @@ public class CreateCategory implements SceneBuilder, Initializable {
                 .map(CheckMenuItem::new).collect(Collectors.toList());
 
         selected_subCategory.getItems().addAll(checkMenuItems);
+
+        init_editMode();
+    }
+
+    private void init_editMode() {
+        Category category = ControllerUnit.getInstance().getCategory();
+        Category_name.setText(category.getName());
+        List<String> collect = category.getCategoryFields()
+                .getFieldList().stream()
+                .map(Field::getFieldName)
+                .collect(Collectors.toList());
+        setTable(table, feature_column, collect);
     }
 
     public void submit() {
@@ -76,6 +93,11 @@ public class CreateCategory implements SceneBuilder, Initializable {
                     return units[units.length - 1];
 
                 }).collect(Collectors.toList());
+
+        if (mode == Mode.Edit) {
+            Category category = ControllerUnit.getInstance().getCategory();
+            Category.removeCategory(category);
+        }
 
         try {
             managerController.createEmptyCategory(category_name, str_feature, ids);
@@ -116,5 +138,9 @@ public class CreateCategory implements SceneBuilder, Initializable {
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
                 )).play()).start();
+    }
+
+    public enum Mode {
+        Edit, New
     }
 }

@@ -219,7 +219,6 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 
     public static void addProduct(@NotNull Product product) {
         product.setProductId(AddingNew.getRegisteringId().apply(getList()));
-        Auction auction = product.getAuction();
         list.add(product);
         DataBase.save(product, true);
     }

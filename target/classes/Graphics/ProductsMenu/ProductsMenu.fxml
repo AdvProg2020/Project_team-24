@@ -8,7 +8,7 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Menus.ProductsMenu">
     <AnchorPane prefHeight="745.0" prefWidth="2000">
-        <Pane layoutX="516.0" prefHeight="719.0" prefWidth="1484.0">
+        <Pane layoutX="529.0" layoutY="33.0" prefHeight="687.0" prefWidth="685.0">
         <Label fx:id="title" alignment="CENTER" layoutX="158.0" layoutY="23.0" prefHeight="24.0" prefWidth="391.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه ی محصولات">
             <font>
                 <Font size="14.0" />
