@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ import java.util.ResourceBundle;
 public class PaymentInformation implements SceneBuilder, Initializable {
 
     private static List<LogHistory> logHistoryList = new ArrayList<>();
+
     private LogHistory logHistory;
 
     public Label ActionDiscount;
@@ -55,6 +57,9 @@ public class PaymentInformation implements SceneBuilder, Initializable {
         finalPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFinalPrice() + ""));
         ActionDiscount.setText(logHistory.getAuctionDiscount()+"");
         DiscountCodeDiscount.setText(logHistory.getDiscountAmount()+"");
+        PendingState.setText("در حال ارسال");
+        finalPriceOfAll.setText(logHistory.getFinalAmount()+"");
+        DateOfPurchase.setText(LocalDate.now()+"");
 
     }
 

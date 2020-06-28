@@ -13,7 +13,7 @@
        <TableView fx:id="logHistoryTable" layoutX="51.0" layoutY="105.0" prefHeight="189.0" prefWidth="550.0">
            <columns>
                <TableColumn prefWidth="134.4000015258789" text="قیمت نهایی" />
-               <TableColumn prefWidth="148.80001831054688" text="تخفیف حراج" />
+               <TableColumn fx:id="auctionDiscount" prefWidth="148.80001831054688" text="تخفیف حراج" />
                <TableColumn fx:id="productPrice" prefWidth="115.0" text="قیمت" />
                <TableColumn fx:id="productName" prefWidth="165.79995727539062" text="نام محصول" />
            </columns>
@@ -38,10 +38,10 @@
             <font>
                <Font size="14.0" />
             </font></Label>
-       <Label fx:id="finalPrice" alignment="CENTER" layoutX="313.0" layoutY="331.0" prefHeight="18.0" prefWidth="144.0" text="Label" />
+       <Label fx:id="finalPriceOfAll" alignment="CENTER" layoutX="313.0" layoutY="331.0" prefHeight="18.0" prefWidth="144.0" text="Label" />
        <Label fx:id="ActionDiscount" alignment="CENTER" layoutX="309.0" layoutY="358.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
        <Label fx:id="DiscountCodeDiscount" alignment="CENTER" layoutX="309.0" layoutY="407.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
-       <Label fx:id="Date" alignment="CENTER" layoutX="32.0" layoutY="331.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
+       <Label fx:id="DateOfPurchase" alignment="CENTER" layoutX="32.0" layoutY="331.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
        <Label fx:id="PendingState" alignment="CENTER" layoutX="32.0" layoutY="407.0" prefHeight="18.0" prefWidth="151.0" text="Label" />
       <Label alignment="CENTER_RIGHT" layoutX="176.0" layoutY="27.0" prefHeight="48.0" prefWidth="301.0" styleClass="title" stylesheets="@PaymentInformation.css" text="   خرید شما با موفقیت انجام شد" textFill="#08b740">
          <font>

@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -54,5 +55,10 @@ public class LogHistoryCart implements Initializable {
         productPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPrice() + ""));
         auctionDiscount.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getAuctionDiscount() + ""));
         finalPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFinalPrice() + ""));
+        ActionDiscount.setText(logHistory.getAuctionDiscount()+"");
+        DiscountCodeDiscount.setText(logHistory.getDiscountAmount()+"");
+        PendingState.setText("در حال ارسال");
+        finalPriceOfAll.setText(logHistory.getFinalAmount()+"");
+        DateOfPurchase.setText(LocalDate.now()+"");
     }
 }
