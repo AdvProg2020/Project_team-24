@@ -33,9 +33,10 @@
                     </font>
                 </Label>
                 <Label fx:id="product_price" alignment="CENTER" layoutX="653.0" layoutY="198.0" prefHeight="22.0" prefWidth="142.0" text="؟؟؟؟" textFill="#1c1a1a">
-            <font>
-               <Font size="18.0" />
-            </font></Label>
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
                 <Label alignment="CENTER" layoutX="643.0" layoutY="258.0" prefHeight="17.0" prefWidth="44.0" text="تومان">
                     <font>
                         <Font name="Algerian" size="18.0" />
@@ -72,7 +73,6 @@
                         <Font name="Algerian" size="24.0" />
                     </font>
                 </Label>
-
             </Pane>
 
             <Pane layoutX="401.0" layoutY="355.0" prefHeight="333.0" prefWidth="778.0">
@@ -129,38 +129,50 @@
                         </TableView>
                     </AnchorPane>
                 </Tab>
-
                 <Tab text="ویدیو محصولات">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                         <MediaView fx:id="product_media" fitHeight="200.0" fitWidth="600.0" layoutX="28.0" layoutY="30.0" />
                         <Button layoutX="343.0" layoutY="281.0" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="141.0" text="مشاهده ی ویدیو" />
                     </AnchorPane>
                 </Tab>
-
                 <Tab styleClass="commentPane" text="نظرات">
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="231.0" prefWidth="629.0" styleClass="commentPane" stylesheets="@Product.css">
                         <Pane layoutX="454.0" layoutY="54.0" prefHeight="275.0" prefWidth="342.0">
-                        <fx:include source="../Models/CommentCart/CommentCart.fxml" />
+                            <Label alignment="CENTER" layoutX="235.0" layoutY="36.0" prefHeight="34.0" prefWidth="84.0" text=" : عنوان " textFill="#61bd4f">
+                                <font>
+                                    <Font size="14.0" />
+                                </font>
+                            </Label>
+                            <TextArea fx:id="content" layoutX="28.0" layoutY="75.0" prefHeight="86.0" prefWidth="298.0" />
+                            <Label alignment="CENTER" layoutX="239.0" layoutY="14.0" prefHeight="15.0" prefWidth="75.0" text=" : فرستنده" textFill="#33b8ff">
+                                <font>
+                                    <Font size="14.0" />
+                                </font>
+                            </Label>
+                            <Pane fx:id="spritePane" layoutX="36.0" layoutY="181.0" prefHeight="58.0" prefWidth="84.0" />
+                            <TextField fx:id="sender" editable="false" layoutX="62.0" layoutY="11.0" prefHeight="20.0" prefWidth="150.0" />
+                            <TextField fx:id="title" layoutX="63.0" layoutY="41.0" />
+                            <Button fx:id="submit_comment" layoutX="225.0" layoutY="197.0" mnemonicParsing="false" onAction="#submit_comment_btn" prefHeight="26.0" prefWidth="75.0" text="ثبت" />
                         </Pane>
                         <ScrollPane layoutX="21.0" layoutY="56.0" prefHeight="270.0" prefWidth="415.0">
-<!--                            <HBox layoutX="18.0" layoutY="47.0" prefHeight="384.0" prefWidth="500.0">-->
-<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />&ndash;&gt;-->
-<!--                            </HBox>-->
+                            <HBox layoutX="18.0" layoutY="47.0" prefHeight="384.0" prefWidth="500.0">
+                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />
+                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />
+                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />
+                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />
+                                <fx:include source="../Models/CommentCart/CommentCart.fxml" />
+                            </HBox>
                         </ScrollPane>
-               <Label alignment="CENTER" layoutX="573.0" layoutY="22.0" prefHeight="30.0" prefWidth="136.0" text="(( نظر دهید ))" textFill="#5911a2">
-                  <font>
-                     <Font size="18.0" />
-                  </font>
-               </Label>
-               <Label layoutX="178.0" layoutY="24.0" text="((نظرات))" textFill="#560aa7">
-                  <font>
-                     <Font size="18.0" />
-                  </font>
-               </Label>
+                        <Label alignment="CENTER" layoutX="573.0" layoutY="22.0" prefHeight="30.0" prefWidth="136.0" text="(( نظر دهید ))" textFill="#5911a2">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="178.0" layoutY="24.0" text="((نظرات))" textFill="#560aa7">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
                     </AnchorPane>
                 </Tab>
             </TabPane>
@@ -178,9 +190,8 @@
                 </Button>
                 <MediaView fx:id="leftGif" fitHeight="200.0" fitWidth="200.0" layoutX="12.0" layoutY="398.0" />
             </Pane>
-
-               <Separator layoutX="465.0" layoutY="353.0" prefHeight="0.0" prefWidth="649.0" />
-      <Separator layoutX="368.0" layoutY="922.0" prefHeight="0.0" prefWidth="807.0" />
+            <Separator layoutX="465.0" layoutY="353.0" prefHeight="0.0" prefWidth="649.0" />
+            <Separator layoutX="368.0" layoutY="922.0" prefHeight="0.0" prefWidth="807.0" />
         </AnchorPane>
     </ScrollPane>
 </Scene>

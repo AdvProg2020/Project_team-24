@@ -1,19 +1,29 @@
 package Graphics;
 
 import Controller.ControllerUnit;
+import Controller.Controllers.ProductController;
+import Controller.Controllers.ProductsController;
+import Exceptions.CannotRateException;
+import Exceptions.CommentDoesNotExistException;
+import Exceptions.ProductDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
 import Graphics.Creates.CreateProduct;
+import Graphics.Menus.ProductsMenu;
+import Graphics.Models.CommentCart;
+import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
 import Model.DataBase.DataBase;
 import Model.Models.Account;
 import Model.Models.Accounts.Customer;
 import Model.Models.Accounts.Seller;
+import Model.Models.Comment;
 import Model.Models.Field.Field;
 import Model.Models.Request;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductOfSeller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,17 +31,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import sun.applet.Main;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Product implements Initializable, SceneBuilder {
 
@@ -39,6 +48,16 @@ public class Product implements Initializable, SceneBuilder {
     private static Model.Models.Product productObject;
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
+    @FXML
+    private Button submit_comment;
+    @FXML
+    private TextField title;
+    @FXML
+    private TextField sender;
+    @FXML
+    private TextArea content;
+    @FXML
+    private Pane spritePane;
     @FXML
     private ImageView product_image;
     @FXML
@@ -127,6 +146,7 @@ public class Product implements Initializable, SceneBuilder {
 
         if (account instanceof Customer) {
             addToCart_btn.setDisable(false);
+            sender.setText(account.getUserName());
         }
 
         MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Product\\addToCart.mp4").toURI().toString()));
@@ -208,7 +228,14 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     private void goProductsArea() {
-        // ?
+        ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
+        setProducts(ProductsController.getInstance().showProducts());
+        MainMenu.change(new ProductsMenu().sceneBuilder());
+    }
+
+    private void setProducts(List<Model.Models.Product> list) {
+        ProductsMenu.setList(list);
+        ProductCart.setProductList(list);
     }
 
     private void goComparingArea() {
@@ -241,15 +268,51 @@ public class Product implements Initializable, SceneBuilder {
             vizhegiP.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFieldName()));
             meghdarP.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getString()));
         }
-
-    }
-
-    public void addComment() {
-        MainMenu.change(new CreateComment().sceneBuilder());
     }
 
     public void editProduct() {
         CreateProduct.setMode(CreateProduct.Mode.Edit);
         MainMenu.change(new CreateProduct().sceneBuilder());
+    }
+
+    public void submit_comment_btn() {
+
+        reset_btn();
+
+        if (ControllerUnit.getInstance().getAccount() instanceof Customer)
+            try {
+                ProductController.getInstance().addComment(title.getText(), content.getText());
+                MainMenu.change(new Product().sceneBuilder());
+            } catch (ProductDoesNotExistException | CannotRateException e) {
+                e.printStackTrace();
+            }
+        else commentError();
+
+        if (productObject.getCommentList() != null) {
+            setCommentListToShow();
+        }
+        MainMenu.change(new Graphics.Product().sceneBuilder());
+    }
+
+    private void setCommentListToShow() {
+        try {
+            List<Comment> commentList = ProductController.getInstance().viewComments();
+            commentList.sort(Collections.reverseOrder());
+            CommentCart.setCommentList(commentList);
+        } catch (CommentDoesNotExistException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void reset_btn() {
+        submit_comment.setStyle("-fx-border-color: #eeba00;");
+    }
+
+    private void commentError() {
+        Tooltip toolTip_username = new Tooltip();
+        toolTip_username.setText("نمی توانید کامنت بگذارید");
+        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+        submit_comment.setTooltip(toolTip_username);
+        submit_comment.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
     }
 }

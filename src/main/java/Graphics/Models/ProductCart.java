@@ -1,7 +1,6 @@
 package Graphics.Models;
 
 import Controller.ControllerUnit;
-import Controller.Controllers.ManagerController;
 import Controller.Controllers.ProductController;
 import Controller.Controllers.ProductsController;
 import Exceptions.CommentDoesNotExistException;
@@ -9,6 +8,7 @@ import Exceptions.ProductDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
 import Graphics.MainMenu;
 import Model.Models.Auction;
+import Model.Models.Comment;
 import Model.Models.Product;
 import Model.Models.Structs.Medias;
 import javafx.fxml.FXML;
@@ -22,10 +22,7 @@ import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductCart implements Initializable {
@@ -99,11 +96,18 @@ public class ProductCart implements Initializable {
         if (first_compare == null) {
             ControllerUnit.getInstance().setProduct(product);
         } else ControllerUnit.getInstance().setProduct(first_compare);
+        if (product.getCommentList() != null) {
+            setCommentListToShow();
+        }
         MainMenu.change(new Graphics.Product().sceneBuilder());
         MainMenu.FilterDisable();
-        if (product.getCommentList() == null) return;
+    }
+
+    private void setCommentListToShow() {
         try {
-            CommentCart.setCommentList(ProductController.getInstance().viewComments());
+            List<Comment> commentList = ProductController.getInstance().viewComments()
+                    .stream().sorted((c1, c2) -> -1).collect(Collectors.toList());
+            CommentCart.setCommentList(commentList);
         } catch (CommentDoesNotExistException e) {
             e.printStackTrace();
         }

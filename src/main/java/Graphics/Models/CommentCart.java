@@ -31,6 +31,7 @@ public class CommentCart implements Initializable {
     public Button submit;
     public ProductController productController = ProductController.getInstance();
 
+
     public static void setCommentList(List<Comment> commentList) {
         CommentCart.commentList = commentList;
     }
@@ -43,12 +44,16 @@ public class CommentCart implements Initializable {
     private TextField sender;
     @FXML
     private TextField title;
+    @FXML
+    private Pane spritePane1;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (commentList.isEmpty()) return;
         ImageView sprite = SandBoxFX.sprite();
+        ImageView sprite1 = SandBoxFX.sprite();
         spritePane.getChildren().add(sprite);
+        spritePane1.getChildren().add(sprite1);
         Comment comment = commentList.get(0);
         commentList.remove(0);
         init(comment);
@@ -63,32 +68,4 @@ public class CommentCart implements Initializable {
             e.printStackTrace();
         }
     }
-
-    public void submit() {
-
-        reset_btn();
-
-        if (ControllerUnit.getInstance().getAccount() instanceof Customer)
-            try {
-                productController.addComment(title.getText(), content.getText());
-            } catch (ProductDoesNotExistException | CannotRateException e) {
-                e.printStackTrace();
-            }
-        else commentError();
-
-    }
-
-    private void reset_btn() {
-        submit.setStyle("-fx-border-color: #eeba00;");
-    }
-
-    private void commentError() {
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("نمی توانید کامنت بگذارید");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        submit.setTooltip(toolTip_username);
-        submit.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-    }
-
-
 }
