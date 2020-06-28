@@ -2,10 +2,7 @@ package Graphics;
 
 import Controller.ControllerUnit;
 import Controller.Controllers.BuyerController;
-import Exceptions.ProductDoesNotExistException;
-import Exceptions.ProductIsOutOfStockException;
-import Exceptions.ProductMediaNotFoundException;
-import Exceptions.SellerDoesNotSellOfThisProduct;
+import Exceptions.*;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.Accounts.Customer;
 import Model.Models.Product;

@@ -5,6 +5,7 @@ import Controller.Controllers.BuyerController;
 import Exceptions.*;
 import Graphics.Tools.SceneBuilder;
 import Model.Models.FieldList;
+import Model.Models.LogHistory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +24,7 @@ import java.util.ResourceBundle;
 
 public class Payment implements Initializable, SceneBuilder {
 
+    private LogHistory logHistory;
     public MediaView paymentGif;
     @FXML
     private TextField address;
@@ -83,7 +85,7 @@ public class Payment implements Initializable, SceneBuilder {
             instance.receiveInformation(postCode, address);
             if (!discountCode.isEmpty())
                 instance.discountCodeUse(discountCode);
-            instance.buyProductsOfCart();
+            logHistory = instance.buyProductsOfCart();
 
         } catch (PostCodeInvalidException e) {
             invalidPostCode();
@@ -98,7 +100,7 @@ public class Payment implements Initializable, SceneBuilder {
         } catch (ProductDoesNotExistException | FieldDoesNotExistException | AccountDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
             e.printStackTrace();
         }
-
+        PaymentInformation.setLogHistory(logHistory);
         MainMenu.change(new PaymentInformation().sceneBuilder());
     }
 

@@ -12,7 +12,7 @@
        <Pane layoutX="252.0" layoutY="35.0" prefHeight="696.0" prefWidth="725.0">
        <TableView fx:id="logHistoryTable" layoutX="51.0" layoutY="105.0" prefHeight="189.0" prefWidth="550.0">
            <columns>
-               <TableColumn prefWidth="134.4000015258789" text="قیمت نهایی" />
+               <TableColumn fx:id="finalPrice" prefWidth="134.4000015258789" text="قیمت نهایی" />
                <TableColumn fx:id="auctionDiscount" prefWidth="148.80001831054688" text="تخفیف حراج" />
                <TableColumn fx:id="productPrice" prefWidth="115.0" text="قیمت" />
                <TableColumn fx:id="productName" prefWidth="165.79995727539062" text="نام محصول" />

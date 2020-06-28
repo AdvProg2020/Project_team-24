@@ -25,9 +25,7 @@ import java.util.ResourceBundle;
 
 public class PaymentInformation implements SceneBuilder, Initializable {
 
-    private static List<LogHistory> logHistoryList = new ArrayList<>();
-
-    private LogHistory logHistory;
+    private static LogHistory logHistory;
 
     public Label ActionDiscount;
     public Label DiscountCodeDiscount;
@@ -40,27 +38,31 @@ public class PaymentInformation implements SceneBuilder, Initializable {
     public TableColumn<ProductLog,String> productName;
     public TableView<ProductLog> logHistoryTable;
 
+    public static void setLogHistory(LogHistory logHistory) {
+        PaymentInformation.logHistory = logHistory;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (logHistoryList.isEmpty()) return;
-        logHistory = logHistoryList.get(0);
-        logHistoryList.remove(0);
+        if (logHistory == null) return;
         init();
     }
 
     private void init() {
+        setTable(logHistoryTable, logHistory, productName, productPrice, auctionDiscount, finalPrice, ActionDiscount, DiscountCodeDiscount, PendingState, finalPriceOfAll, DateOfPurchase);
+    }
+
+    static void setTable(TableView<ProductLog> logHistoryTable, LogHistory logHistory, TableColumn<ProductLog, String> productName, TableColumn<ProductLog, String> productPrice, TableColumn<ProductLog, String> auctionDiscount, TableColumn<ProductLog, String> finalPrice, Label actionDiscount, Label discountCodeDiscount, Label pendingState, Label finalPriceOfAll, Label dateOfPurchase) {
         logHistoryTable.setItems(FXCollections.observableList(logHistory.getProductLogList()));
         productName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProductName()));
         productPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPrice() + ""));
         auctionDiscount.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getAuctionDiscount() + ""));
         finalPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFinalPrice() + ""));
-        ActionDiscount.setText(logHistory.getAuctionDiscount()+"");
-        DiscountCodeDiscount.setText(logHistory.getDiscountAmount()+"");
-        PendingState.setText("در حال ارسال");
+        actionDiscount.setText(logHistory.getAuctionDiscount()+"");
+        discountCodeDiscount.setText(logHistory.getDiscountAmount()+"");
+        pendingState.setText("در حال ارسال");
         finalPriceOfAll.setText(logHistory.getFinalAmount()+"");
-        DateOfPurchase.setText(LocalDate.now()+"");
-
+        dateOfPurchase.setText(LocalDate.now()+"");
     }
 
     @Override

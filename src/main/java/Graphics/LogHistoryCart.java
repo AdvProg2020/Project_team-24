@@ -50,15 +50,6 @@ public class LogHistoryCart implements Initializable {
     }
 
     private void init() {
-        logHistoryTable.setItems(FXCollections.observableList(logHistory.getProductLogList()));
-        productName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProductName()));
-        productPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPrice() + ""));
-        auctionDiscount.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getAuctionDiscount() + ""));
-        finalPrice.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFinalPrice() + ""));
-        ActionDiscount.setText(logHistory.getAuctionDiscount()+"");
-        DiscountCodeDiscount.setText(logHistory.getDiscountAmount()+"");
-        PendingState.setText("در حال ارسال");
-        finalPriceOfAll.setText(logHistory.getFinalAmount()+"");
-        DateOfPurchase.setText(LocalDate.now()+"");
+        PaymentInformation.setTable(logHistoryTable, logHistory, productName, productPrice, auctionDiscount, finalPrice, ActionDiscount, DiscountCodeDiscount, PendingState, finalPriceOfAll, DateOfPurchase);
     }
 }
