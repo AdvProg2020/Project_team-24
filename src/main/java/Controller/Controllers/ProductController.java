@@ -97,5 +97,6 @@ public class ProductController {
         BuyerController.getInstance().checkIfProductBoughtToRate(product.getId());
         Comment comment = new Comment("ziba bood", account.getId(), product.getId(), fieldList);
         Comment.addComment(comment);
+        product.addComment(comment.getId());
     }
 }
