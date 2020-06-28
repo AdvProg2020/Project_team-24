@@ -40,6 +40,7 @@ public class Product implements Initializable, SceneBuilder {
 
     private static Model.Models.Product First_Compare;
     private static Model.Models.Product productObject;
+    public MediaView leftGif;
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
@@ -117,6 +118,11 @@ public class Product implements Initializable, SceneBuilder {
         gif.setMediaPlayer(value);
         value.setCycleCount(Integer.MAX_VALUE);
         value.play();
+
+        MediaPlayer v = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Product\\productPage.mp4").toURI().toString()));
+        leftGif.setMediaPlayer(v);
+        v.setCycleCount(Integer.MAX_VALUE);
+        v.play();
 
         setCategoryFeature();
         setProductFeatures();
