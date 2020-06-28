@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.AccountsList">
+    <AnchorPane prefHeight="745" prefWidth="1134">
+        <Label alignment="CENTER" layoutX="485.0" layoutY="69.0" prefHeight="55.0" prefWidth="203.0" text="((  لیست کاربران  ))" textFill="#31a719">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TableView fx:id="accountTableView" layoutX="166.0" layoutY="155.0" prefHeight="480.0" prefWidth="828.0" stylesheets="@TableStyle.css">
+            <columns>
+                <TableColumn fx:id="buttons" prefWidth="412.1999969482422" text="انتخاب کد تخفیف / حذف کاربر" />
+                <TableColumn fx:id="username" prefWidth="410.79998779296875" text="نام کاربری" />
+            </columns>
+        </TableView>
+        <ImageView fitHeight="119.0" fitWidth="87.0" layoutX="409.0" layoutY="53.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <Image url="@icons8-google-classroom-48.png"/>
+        </ImageView>
+    </AnchorPane>
+</Scene>
