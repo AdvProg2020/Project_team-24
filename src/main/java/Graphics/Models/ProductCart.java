@@ -1,7 +1,10 @@
 package Graphics.Models;
 
 import Controller.ControllerUnit;
+import Controller.Controllers.ManagerController;
+import Controller.Controllers.ProductController;
 import Controller.Controllers.ProductsController;
+import Exceptions.CommentDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;
 import Graphics.MainMenu;
@@ -97,6 +100,12 @@ public class ProductCart implements Initializable {
             ControllerUnit.getInstance().setProduct(product);
         } else ControllerUnit.getInstance().setProduct(first_compare);
         MainMenu.change(new Graphics.Product().sceneBuilder());
+        if (product.getCommentList() == null) return;
+        try {
+            CommentCart.setCommentList(ProductController.getInstance().viewComments());
+        } catch (CommentDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
     private List<Product> getSimilar() {
