@@ -105,12 +105,16 @@ public class Product implements Initializable, SceneBuilder {
     public void initialize(URL location, ResourceBundle resources) {
         stars.addAll(Arrays.asList(star_01, star_02, star_03, star_04, star_05));
         productObject = ControllerUnit.getInstance().getProduct();
+
         if (productObject == null) return;
         try {
+            if (productObject.getMediaId() != 0) {
+                Medias medias = Medias.getMediasById(productObject.getMediaId());
+                if (medias.getImageSrc() != null) setImage();
+                if (medias.getPlayerSrc() != null) setMedia();
+            }
             setStars();
-            setMedia();
             setPrice();
-            setImage();
             setName();
         } catch (ProductMediaNotFoundException e) {
             e.printStackTrace();
