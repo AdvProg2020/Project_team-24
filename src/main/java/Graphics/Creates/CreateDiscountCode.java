@@ -154,7 +154,5 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
         Edit, New
     }
 
-    public static void setMode(Mode mode) {
-        CreateDiscountCode.mode = mode;
-    }
+
 }

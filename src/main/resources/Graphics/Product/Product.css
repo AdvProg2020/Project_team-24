@@ -35,3 +35,10 @@
 .commentTable{
     -fx-background-color: lightgrey;
 }
+.viewVideo{
+    -fx-border-color: #00cccc;
+    -fx-background-color: white;
+}
+.table{
+    -fx-border-color: #28a428;
+}
