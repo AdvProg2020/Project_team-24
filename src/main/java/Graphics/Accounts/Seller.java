@@ -9,6 +9,7 @@ import Exceptions.ProductMediaNotFoundException;
 import Graphics.Creates.CreateAuction;
 import Graphics.Creates.CreateCategory;
 import Graphics.Creates.CreateProduct;
+import Graphics.LogHistoryCart;
 import Graphics.Menus.LogHistoryMenu;
 import Graphics.MainMenu;
 import Graphics.Menus.AuctionsMenu;
@@ -18,6 +19,7 @@ import Graphics.Models.ProductCart;
 import Graphics.Tools.SceneBuilder;
 import Model.DataBase.DataBase;
 import Model.Models.Auction;
+import Model.Models.LogHistory;
 import Model.Models.Product;
 import Model.Models.Structs.Medias;
 import Model.Models.Structs.ProductLog;
@@ -147,6 +149,14 @@ public class Seller implements SceneBuilder, Initializable {
     }
 
     public void showLogHistories() {
+        List<LogHistory> logHistoryList = null;
+        try {
+            logHistoryList = sellerController.viewSalesHistory();
+        } catch (LogHistoryDoesNotExistException e) {
+            e.printStackTrace();
+        }
+        LogHistoryMenu.setLogHistoryList(logHistoryList);
+        LogHistoryCart.setLogHistoryList(logHistoryList);
         MainMenu.change(new LogHistoryMenu().sceneBuilder());
     }
 

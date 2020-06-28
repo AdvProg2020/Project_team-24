@@ -1,13 +1,6 @@
 package Graphics;
 
-import Controller.Controllers.BuyerController;
-import Controller.Controllers.SellerController;
-import Exceptions.LogHistoryDoesNotExistException;
-import Graphics.Tools.SceneBuilder;
-import Model.Models.Accounts.Customer;
-import Model.Models.Accounts.Seller;
 import Model.Models.LogHistory;
-import Model.Models.Product;
 import Model.Models.Structs.ProductLog;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
