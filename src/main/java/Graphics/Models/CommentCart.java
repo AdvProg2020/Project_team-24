@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,10 +28,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class CommentCart implements Initializable {
-    private static List<Comment> commentList = new ArrayList<>();
-    public Button submit;
-    public ProductController productController = ProductController.getInstance();
 
+    private static List<Comment> commentList = new ArrayList<>();
 
     public static void setCommentList(List<Comment> commentList) {
         CommentCart.commentList = commentList;
@@ -46,10 +45,16 @@ public class CommentCart implements Initializable {
     private TextField title;
     @FXML
     private Pane spritePane1;
+    @FXML
+    private AnchorPane mainPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (commentList.isEmpty()) return;
+        if (commentList.isEmpty()) {
+            mainPane.setVisible(false);
+            mainPane.setDisable(true);
+            return;
+        }
         ImageView sprite = SandBoxFX.sprite();
         ImageView sprite1 = SandBoxFX.sprite();
         spritePane.getChildren().add(sprite);

@@ -1,9 +1,6 @@
 package Graphics;
 
-import Controller.ControllerUnit;
-import Exceptions.LogHistoryDoesNotExistException;
 import Graphics.Tools.SceneBuilder;
-import Model.Models.Accounts.Customer;
 import Model.Models.LogHistory;
 import Model.Models.Structs.ProductLog;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,8 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class PaymentInformation implements SceneBuilder, Initializable {
@@ -76,7 +71,5 @@ public class PaymentInformation implements SceneBuilder, Initializable {
         }
         return null;
     }
-
-
 }
 
