@@ -1,0 +1,8 @@
+.table-view{
+    -fx-border-color: #28a428;
+    -fx-text-fill: dimgrey;
+    -fx-progress-color: #28a428;
+}
+.button{
+    -fx-background-color: #28a428;
+}

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Login">
+
+   <AnchorPane prefHeight="745.0" prefWidth="2000" styleClass="background" stylesheets="@Login.css">
+      <Pane layoutX="482.0" layoutY="-24.0" prefHeight="768.0" prefWidth="718.0">
+      <ImageView fitHeight="703.0" fitWidth="535.0" layoutX="57.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@background.png" />
+      </ImageView>
+      <TextField fx:id="username" layoutX="210.0" layoutY="264.0" prefHeight="38.0" prefWidth="227.0" promptText="نام کاربری">
+         <tooltip>
+            <Tooltip text="Empty Tooltip" />
+         </tooltip>
+            <font>
+               <Font size="18.0" />
+            </font></TextField>
+
+      <PasswordField fx:id="password" layoutX="211.0" layoutY="324.0" prefHeight="38.0" prefWidth="227.0" promptText="رمز عبور">
+            <font>
+               <Font size="18.0" />
+            </font></PasswordField>
+
+      <CheckBox fx:id="remember" layoutX="267.0" layoutY="402.0" mnemonicParsing="false" text="مرا به خاطر بسپار" textFill="#797777" />
+
+      <Button alignment="CENTER_RIGHT" layoutX="210.0" layoutY="599.0" mnemonicParsing="false" onAction="#goSignUp" prefHeight="42.0" prefWidth="253.0" text="به خانواده سه سوت بپیوندید" textFill="#3094ac">
+            <font>
+               <Font size="18.0" />
+            </font></Button>
+
+      <Button alignment="CENTER_RIGHT" layoutX="273.0" layoutY="472.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="39.0" prefWidth="108.0" text=" ورود " textFill="#b71c1c">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER" layoutX="247.0" layoutY="193.0" prefHeight="25.0" prefWidth="154.0" text=" صفحه ی ورود" textFill="#717171">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="240.0" layoutY="553.0" prefHeight="25.0" prefWidth="174.0" text="کاربر جدید هستید؟" textFill="#1d90ba">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="27.0" fitWidth="25.0" layoutX="173.0" layoutY="272.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../icons/icons8-person-64.png" />
+      </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="25.0" layoutX="173.0" layoutY="332.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../icons/icons8-lock-26(2).png" />
+      </ImageView>
+      <ImageView fitHeight="153.0" fitWidth="210.0" layoutX="225.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@3Sut-logo.png" />
+      </ImageView>
+      <Separator layoutX="181.0" layoutY="533.0" prefHeight="3.0" prefWidth="286.0" />
+      <Separator layoutX="178.0" layoutY="238.0" prefHeight="3.0" prefWidth="286.0" />
+      <ImageView fitHeight="50.0" fitWidth="75.0" layoutX="273.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../icons/icons8-forward-button-100.png" />
+      </ImageView>
+      <ImageView fitHeight="38.0" fitWidth="36.0" layoutX="192.0" layoutY="602.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../icons/icons8-add-user-group-man-man-50.png" />
+      </ImageView>
+      <Label fx:id="status" alignment="CENTER" layoutX="240.0" layoutY="443.0" prefHeight="18.0" prefWidth="174.0" text=":)" textFill="#cedfde" />
+      <Button layoutX="193.0" layoutY="674.0" mnemonicParsing="false" onAction="#goMainMenu" prefHeight="40.0" prefWidth="260.0" text="بازگشت به صفحه ی اصلی">
+            <font>
+               <Font size="18.0" />
+            </font></Button>
+      </Pane>
+   </AnchorPane>
+
+</Scene>

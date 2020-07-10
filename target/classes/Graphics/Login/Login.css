@@ -1,0 +1,17 @@
+.background {
+    -fx-background-color: white;
+}
+
+.text-field {
+    -fx-text-fill: black;
+    -fx-highlight-text-fill: black;
+    -fx-border-color: beige;
+}
+
+.button {
+    -fx-background-color: white;
+}
+
+.check-box {
+    -fx-progress-color: red;
+}

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
+    <AnchorPane prefHeight="745.0" prefWidth="2000" styleClass="background" stylesheets="@../Login/Login.css">
+        <Pane layoutX="461.0">
+
+        <ImageView fitHeight="709.0" fitWidth="548.0" layoutX="59.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@background.png" />
+        </ImageView>
+
+        <TextField fx:id="username" layoutX="221.0" layoutY="239.0" prefHeight="39.0" prefWidth="249.0" promptText="نام کاربری">
+            <font>
+               <Font size="18.0" />
+            </font></TextField>
+
+        <PasswordField fx:id="passwordOne" layoutX="222.0" layoutY="300.0" prefHeight="38.0" prefWidth="247.0" promptText="رمز عبور">
+            <font>
+               <Font size="18.0" />
+            </font></PasswordField>
+        <PasswordField fx:id="passwordTow" layoutX="224.0" layoutY="360.0" prefHeight="40.0" prefWidth="243.0" promptText="تکرار رمز عبور">
+            <font>
+               <Font size="18.0" />
+            </font></PasswordField>
+
+        <CheckBox layoutX="220.0" layoutY="427.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="128.0" text="مرا به خاطر بسپار" textFill="#797777">
+            <font>
+               <Font size="14.0" />
+            </font></CheckBox>
+
+        <Button alignment="CENTER_RIGHT" layoutX="185.0" layoutY="574.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="39.0" prefWidth="126.0" text="ورود" textFill="#2c80b0">
+            <font>
+               <Font size="18.0" />
+            </font></Button>
+        <Button alignment="CENTER_RIGHT" layoutX="248.0" layoutY="503.0" mnemonicParsing="false" onAction="#goNext" prefHeight="39.0" prefWidth="153.0" text="مرحله بعدی" textFill="#b71c1c">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <Label alignment="CENTER" layoutX="201.0" layoutY="168.0" prefHeight="27.0" prefWidth="227.0" text="ثبت نام" textFill="#717171">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER_RIGHT" layoutX="311.0" layoutY="581.0" prefHeight="26.0" prefWidth="137.0" text="سه سوتی هستید؟" textFill="#1d90ba">
+            <font>
+               <Font size="18.0" />
+            </font></Label>
+        <ImageView fitHeight="27.0" fitWidth="25.0" layoutX="190.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../icons/icons8-person-64.png" />
+        </ImageView>
+        <ImageView fitHeight="27.0" fitWidth="25.0" layoutX="187.0" layoutY="308.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../icons/icons8-lock-26(2).png" />
+        </ImageView>
+        <ImageView fitHeight="27.0" fitWidth="25.0" layoutX="187.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../icons/icons8-lock-26(2).png" />
+        </ImageView>
+        <ImageView fitHeight="163.0" fitWidth="210.0" layoutX="213.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@logo.png" />
+        </ImageView>
+        <Separator layoutX="185.0" layoutY="553.0" prefHeight="3.0" prefWidth="286.0" />
+        <Separator layoutX="185.0" layoutY="216.0" prefHeight="3.0" prefWidth="286.0" />
+        <ImageView fitHeight="46.0" fitWidth="42.0" layoutX="218.0" layoutY="573.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../icons/icons8-add-fingerprint-64.png" />
+        </ImageView>
+        <ImageView fitHeight="38.0" fitWidth="36.0" layoutX="248.0" layoutY="505.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../icons/icons8-add-user-group-man-man-50(1).png" />
+        </ImageView>
+
+        <Label fx:id="status" alignment="CENTER" layoutX="202.0" layoutY="472.0" prefHeight="18.0" prefWidth="245.0" text=";)" textAlignment="CENTER" />
+
+        <Button layoutX="109.0" layoutY="659.0" mnemonicParsing="false" onAction="#goMainMenu" prefHeight="41.0" prefWidth="261.0" text="بازگشت به صفحه ی اصلی">
+            <font>
+               <Font size="18.0" />
+            </font></Button>
+        <ChoiceBox fx:id="chooseType" layoutX="368.0" layoutY="424.0" prefHeight="26.0" prefWidth="98.0" />
+        </Pane>
+    </AnchorPane>
+</Scene>

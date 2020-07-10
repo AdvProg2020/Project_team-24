@@ -1,0 +1,20 @@
+.border{
+    -fx-border-color: darkgreen;
+    -fx-border-width: 4px;
+    -fx-border-radius: 99/75%;
+}
+.title{
+    -fx-border-radius: 95%;
+    -fx-border-color: dimgrey;
+    -fx-text-fill: darkgreen;
+}
+.payButton{
+    -fx-border-radius: 95%;
+    -fx-border-color: dimgrey;
+    -fx-text-fill: darkgreen;
+    -fx-background-color: white;
+}
+.backGround{
+    -fx-background-color: white;
+
+}

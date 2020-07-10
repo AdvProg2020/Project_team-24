@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Menus.LogHistoryMenu">
+<AnchorPane prefHeight="745.0" prefWidth="2000">
+    <Label alignment="CENTER" layoutX="543.0" layoutY="56.0" prefHeight="24.0" prefWidth="391.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه لاگ خرید/فروش">
+        <font>
+            <Font size="24.0" />
+        </font>
+    </Label>
+    <ScrollPane layoutX="419.0" layoutY="116.0" prefHeight="512.0" prefWidth="638.0">
+        <AnchorPane layoutX="500.0" layoutY="76.0" minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="540.0">
+            <VBox>
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+                <fx:include source="../Models/LogHistoryCart/LogHistoryCart.fxml" />
+            </VBox>
+        </AnchorPane>
+    </ScrollPane>
+    <Button fx:id="next_btn" layoutX="1009.0" layoutY="665.0" mnemonicParsing="false" onAction="#next" prefHeight="44.0" prefWidth="70.0" stylesheets="@ProductsMenuStyle.css" text="بعدی" />
+    <ImageView fitHeight="52.0" fitWidth="54.0" layoutX="1053.0" layoutY="662.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@icons8-chevron-right-48.png" />
+    </ImageView>
+      <Pane layoutX="109.0" layoutY="8.0" prefHeight="774.0" prefWidth="200.0" styleClass="leftpane" stylesheets="@ProductsMenuStyle.css">
+         <children>
+            <MediaView fx:id="leftGif" fitHeight="200.0" fitWidth="200.0" layoutY="287.0" />
+         </children></Pane>
+    <Button fx:id="previous_btn" layoutX="422.0" layoutY="665.0" mnemonicParsing="false" onAction="#previous" prefHeight="44.0" prefWidth="72.0" stylesheets="@ProductsMenuStyle.css" text="قبلی" />
+    <ImageView fitHeight="64.0" fitWidth="53.0" layoutX="395.0" layoutY="661.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@icons8-chevron-left-48.png" />
+    </ImageView>
+      <Pane layoutX="1205.0" layoutY="-1.0" prefHeight="792.0" prefWidth="200.0" styleClass="rightPane">
+         <children>
+            <MediaView fx:id="rightGif" fitHeight="200.0" fitWidth="200.0" layoutY="296.0" />
+         </children>
+         <stylesheets>
+            <URL value="@../AuctionMenu/ProductsMenuStyle.css" />
+            <URL value="@ProductsMenuStyle.css" />
+         </stylesheets></Pane>
+</AnchorPane>
+</Scene>

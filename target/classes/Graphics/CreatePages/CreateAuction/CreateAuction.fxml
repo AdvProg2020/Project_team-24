@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Creates.CreateAuction">
+
+    <AnchorPane prefHeight="745.0" prefWidth="2000">
+        <Pane layoutX="587.0" layoutY="37.0" prefWidth="600.0">
+            <TextField fx:id="start_time" alignment="CENTER" layoutX="98.0" layoutY="134.0" prefHeight="48.0" prefWidth="404.0" promptText="تاریخ آغاز  ( به صورت DD/MM/YYYY )" styleClass="startDate" stylesheets="@CreateAuction.css">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </TextField>
+            <TextField fx:id="end_time" alignment="CENTER" layoutX="99.0" layoutY="203.0" prefHeight="50.0" prefWidth="403.0" promptText="تاریخ پایان ( به صورت DD/MM/YYYY )" styleClass="endDate" stylesheets="@CreateAuction.css">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </TextField>
+            <TextField fx:id="auction_name" alignment="CENTER" layoutX="99.0" layoutY="281.0" prefHeight="46.0" prefWidth="403.0" promptText="نام حراج" styleClass="name" stylesheets="@CreateAuction.css">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </TextField>
+            <TextField fx:id="auction_percent" alignment="CENTER" layoutX="98.0" layoutY="352.0" prefHeight="49.0" prefWidth="404.0" promptText="درصد تحفیف" styleClass="percentage" stylesheets="@CreateAuction.css">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </TextField>
+            <Label alignment="CENTER" layoutX="146.0" layoutY="57.0" prefHeight="41.0" prefWidth="309.0" styleClass="title" stylesheets="@CreateAuction.css" text="صفحه ی ایجاد حراج" textFill="#848484">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <Button fx:id="submit_btn" layoutX="222.0" layoutY="629.0" mnemonicParsing="false" onAction="#submit" prefHeight="40.0" prefWidth="156.0" stylesheets="@CreateAuction.css" text="ثبت اطلاعات" textFill="#7e9a01">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="98.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-pay-date-48.png" />
+            </ImageView>
+            <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="98.0" layoutY="206.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-schedule-48.png" />
+            </ImageView>
+            <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="108.0" layoutY="282.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-tags-48.png" />
+            </ImageView>
+            <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="108.0" layoutY="355.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-discount-48.png" />
+            </ImageView>
+            <TextField fx:id="auction_limit" alignment="CENTER" layoutX="98.0" layoutY="426.0" prefHeight="47.0" prefWidth="405.0" promptText="سقف تخفیف" styleClass="percentage" stylesheets="@CreateAuction.css">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </TextField>
+            <ImageView fitHeight="44.0" fitWidth="44.0" layoutX="108.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@6617035.png" />
+            </ImageView>
+            <MenuButton fx:id="selected_products" alignment="CENTER" layoutX="216.0" layoutY="557.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="168.0" text="محصول" textFill="#a20f0f">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </MenuButton>
+            <Label alignment="CENTER" layoutX="130.0" layoutY="504.0" prefHeight="38.0" prefWidth="341.0" text="((  افزودن محصول به این حراج   ))" textFill="#5c5c5c">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+        </Pane>
+    </AnchorPane>
+</Scene>

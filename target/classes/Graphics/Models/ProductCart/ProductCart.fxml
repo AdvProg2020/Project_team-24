@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="mainPane" onMousePressed="#gotoProduct" prefHeight="454.0" prefWidth="347.0" styleClass="background" stylesheets="@ProductCart.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.ProductCart">
+<Pane layoutX="-6.0" prefHeight="455.0" prefWidth="345.0">
+    
+    <ImageView fx:id="productImage" fitHeight="211.0" fitWidth="210.0" layoutX="71.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@SoldOut.jpg" />
+    </ImageView>
+
+    <Text fx:id="price_ftx" layoutX="176.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1200000000" wrappingWidth="149.99998474121094">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+    <Text fx:id="price_ltx" layoutX="67.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="600000000" visible="false" wrappingWidth="75.0">
+         <font>
+            <Font size="10.0" />
+         </font></Text>
+
+    <Label fx:id="discount" layoutX="24.0" layoutY="146.0" prefHeight="15.0" prefWidth="30.0" style="-fx-background-color: #db2121; -fx-background-radius: 5; -fx-alignment: center; -fx-text-fill: white;" text="50%" visible="false" />
+
+    <Label alignment="CENTER" layoutX="85.0" layoutY="291.0" prefHeight="41.0" prefWidth="66.0" text="تومان">
+         <font>
+            <Font name="Akhbar MT" size="24.0" />
+         </font></Label>
+
+    <Text fx:id="product_name" layoutX="84.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="محصول جدید غیرفروشی" textAlignment="CENTER" wrappingWidth="189.0">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+
+    <Button fx:id="nextButton" layoutX="184.0" layoutY="369.0" mnemonicParsing="false" onAction="#nextSeller" prefHeight="53.0" prefWidth="124.0" text="بعدی" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+    <Button fx:id="prevButton" layoutX="54.0" layoutY="369.0" mnemonicParsing="false" onAction="#prevSeller" prefHeight="53.0" prefWidth="124.0" text="قبلی" textAlignment="CENTER">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+    
+    <ImageView fx:id="discountImage" fitHeight="34.0" fitWidth="30.0" layoutX="15.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true" rotate="-28.0" visible="false">
+        <Image url="@discount.png" />
+    </ImageView>
+</Pane>
+</AnchorPane>

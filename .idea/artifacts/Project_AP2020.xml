@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="Project_AP2020">
+    <output-path>$PROJECT_DIR$/out/artifacts/Project_AP2020</output-path>
+    <root id="root" />
+  </artifact>
+</component>
