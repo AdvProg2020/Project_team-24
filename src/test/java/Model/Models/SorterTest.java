@@ -1,6 +1,10 @@
 package Model.Models;
 
-import Model.Models.Accounts.Seller;
+import B_Server.Model.Models.Account;
+import B_Server.Model.Models.Accounts.Seller;
+import B_Server.Model.Models.Info;
+import B_Server.Model.Models.Product;
+import B_Server.Model.Models.Sorter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

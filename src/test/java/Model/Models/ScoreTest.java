@@ -1,7 +1,10 @@
 package Model.Models;
 
+import B_Server.Model.Models.Account;
+import B_Server.Model.Models.Product;
+import B_Server.Model.Models.Score;
 import Exceptions.ScoreDoesNotExistException;
-import Model.Models.Accounts.Customer;
+import B_Server.Model.Models.Accounts.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -7,7 +7,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.PopUp">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.PopUp">
 <AnchorPane prefHeight="489.0" prefWidth="735.0">
    <children>
       <ImageView fitHeight="485.0" fitWidth="771.0" layoutX="2.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">

@@ -1,8 +1,9 @@
 package Controller.Controllers;
 
+import B_Server.Controller.Controllers.SignUpController;
 import Exceptions.*;
-import Model.ModelUnit;
-import Model.Models.Account;
+import B_Server.Model.ModelUnit;
+import B_Server.Model.Models.Account;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.SignUp">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.SignUp">
 <AnchorPane prefHeight="745.0" prefWidth="2000">
     <Pane layoutX="-226.0" layoutY="14.0" prefHeight="1000" prefWidth="2000">
       <ImageView fitHeight="667.0" fitWidth="502.0" layoutX="750.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">

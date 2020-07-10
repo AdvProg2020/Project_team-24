@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Creates.CreateAuction">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Creates.CreateAuction">
 
     <AnchorPane prefHeight="745.0" prefWidth="2000">
         <Pane layoutX="587.0" layoutY="37.0" prefWidth="600.0">

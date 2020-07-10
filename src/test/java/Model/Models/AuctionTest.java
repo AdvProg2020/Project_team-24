@@ -1,10 +1,13 @@
 package Model.Models;
 
+import B_Server.Model.Models.Account;
+import B_Server.Model.Models.Auction;
+import B_Server.Model.Models.Product;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
-import Model.Models.Structs.Discount;
-import Model.Tools.AddingNew;
+import B_Server.Model.Models.Structs.Discount;
+import B_Server.Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

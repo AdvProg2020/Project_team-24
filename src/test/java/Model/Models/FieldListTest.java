@@ -1,14 +1,13 @@
 package Model.Models;
 
-import Model.Models.Field.Field;
+import B_Server.Model.Models.Field.Field;
 
+import B_Server.Model.Models.FieldList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class FieldListTest {
     @BeforeEach

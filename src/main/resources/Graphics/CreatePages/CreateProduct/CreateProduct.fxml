@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Creates.CreateProduct">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Creates.CreateProduct">
    <AnchorPane prefHeight="745.0" prefWidth="2000">
       <TextField fx:id="product_name" alignment="CENTER" layoutX="866.0" layoutY="117.0" prefHeight="55.0" prefWidth="268.0" promptText="نام محصول" styleClass="name" stylesheets="@CreateProduct.css">
          <font>

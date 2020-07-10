@@ -1,5 +1,6 @@
 package Model.Models;
 
+import B_Server.Model.Models.LogHistory;
 import Exceptions.LogHistoryDoesNotExistException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

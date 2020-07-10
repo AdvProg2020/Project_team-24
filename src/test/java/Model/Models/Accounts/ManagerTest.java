@@ -1,10 +1,13 @@
 package Model.Models.Accounts;
 
-import Model.Models.*;
-import Model.Models.Field.Field;
+import B_Server.Model.Models.*;
+import B_Server.Model.Models.Accounts.Customer;
+import B_Server.Model.Models.Accounts.Manager;
+import B_Server.Model.Models.Accounts.Seller;
+import B_Server.Model.Models.Field.Field;
 
-import Model.Models.Structs.Discount;
-import Model.Tools.AddingNew;
+import B_Server.Model.Models.Structs.Discount;
+import B_Server.Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
