@@ -19,7 +19,11 @@ public interface MessageSupplier {
 
     Map<RequestType, Function<List<String>,String>> messageSuppliers = Collections.unmodifiableMap(setListOfSuppliers());
 
-    static String generateMessage(RequestType type, List<String> list) {
+    default String generateMessage(List<String> list) {
+        return generateMessage(RequestType.valueOf(list.get(0)), list.subList(1,list.size()));
+    }
+
+    default String generateMessage(RequestType type, List<String> list) {
         return messageSuppliers.get(type).apply(list);
     }
 

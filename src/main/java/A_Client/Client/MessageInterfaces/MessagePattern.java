@@ -8,6 +8,8 @@ import java.util.stream.IntStream;
 
 public interface MessagePattern {
 
+    Pattern splitTypeRequest = Pattern.compile("(.+)::(.+)");
+
     static Map<RequestType, Pattern> setListOfPatterns() {
         HashMap<RequestType, Pattern> requestTypeSupplierHashMap = new HashMap<>();
         requestTypeSupplierHashMap.put(RequestType.IDontKnow1, Pattern.compile(""));
@@ -19,7 +21,13 @@ public interface MessagePattern {
 
     Map<RequestType, Pattern> messageMatchers = Collections.unmodifiableMap(setListOfPatterns());
 
-    static List<String> readMessage(RequestType type, String message) {
+    default List<String> readMessage(String message) {
+        Matcher matcher = splitTypeRequest.matcher(message);
+        RequestType requestType = RequestType.valueOf(matcher.group(1));
+        return readMessage(requestType, matcher.group(2));
+    }
+
+    default List<String> readMessage(RequestType type, String message) {
         Matcher matcher = messageMatchers.get(type).matcher(message);
         return IntStream.range(1,matcher.groupCount() + 1).mapToObj(matcher::group).collect(Collectors.toList());
     }
