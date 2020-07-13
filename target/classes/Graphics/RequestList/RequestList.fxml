@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.RequestList">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Lists.RequestList">
     <AnchorPane prefHeight="745" prefWidth="1134">
         <TableView fx:id="request_table" layoutX="182.0" layoutY="120.0" prefHeight="459.0" prefWidth="770.0">
             <columns>

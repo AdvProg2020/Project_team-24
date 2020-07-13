@@ -7,7 +7,7 @@
 <?import javafx.scene.media.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Payment">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Pages.Payment">
 <AnchorPane prefHeight="745" prefWidth="1134" styleClass="backGround" stylesheets="@Payment.css">
    <Label layoutX="293.0" layoutY="39.0" prefHeight="655.0" prefWidth="529.0" styleClass="border" stylesheets="@Payment.css" />
    <TextField fx:id="address" alignment="CENTER" layoutX="437.0" layoutY="314.0" prefHeight="105.0" prefWidth="274.0" promptText="لطفا آدرس تحویل گیرنده را وارد کنید">

@@ -1,6 +1,6 @@
 package A_Client.Graphics.Accounts;
 
-import A_Client.Graphics.LogHistoryCart;
+import A_Client.Graphics.Models.LogHistoryCart;
 import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.SellerController;
 import Exceptions.FieldDoesNotExistException;

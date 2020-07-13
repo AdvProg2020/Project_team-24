@@ -6,7 +6,7 @@
 <?import javafx.scene.media.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.DiscountCodeList">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Lists.DiscountCodeList">
     <AnchorPane prefHeight="745" prefWidth="1134">
         <TableView fx:id="discountCodeList" layoutX="43.0" layoutY="94.0" prefHeight="418.0" prefWidth="1025.0">
             <columns>

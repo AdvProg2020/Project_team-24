@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Lists.CategoryList">
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Lists.CategoryList">
    <AnchorPane prefHeight="745" prefWidth="1134">
 
       <TableView fx:id="CategoryList" layoutX="257.0" layoutY="146.0" prefHeight="389.0" prefWidth="645.0">

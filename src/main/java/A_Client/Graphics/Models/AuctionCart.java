@@ -1,5 +1,6 @@
 package A_Client.Graphics.Models;
 
+import A_Client.Structs.MiniAuction;
 import B_Server.Controller.Controllers.AuctionController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
@@ -21,14 +22,13 @@ import java.util.*;
 
 public class AuctionCart implements Initializable {
 
-    private static List<Image> images = Arrays.asList(
+    private static final List<Image> images = Arrays.asList(
         new Image(new File("src/main/resources/DataBase/AuctionsImage-src/auctionImage-1.jpg").toURI().toString()),
         new Image(new File("src/main/resources/DataBase/AuctionsImage-src/auctionImage-1.jpg").toURI().toString()),
         new Image(new File("src/main/resources/DataBase/AuctionsImage-src/auctionImage-1.jpg").toURI().toString())
     );
-    private static AuctionController auctionController = AuctionController.getInstance();
-    private static List<Auction> auctionList = new ArrayList<>();
-    private Auction auction;
+    private static List<MiniAuction> auctionList = new ArrayList<>();
+    private MiniAuction auction;
 
     @FXML
     private AnchorPane mainPane;
@@ -39,7 +39,7 @@ public class AuctionCart implements Initializable {
     @FXML
     private Label auction_per;
 
-    public static void setAuctionList(List<Auction> auctionList) {
+    public static void setAuctionList(List<MiniAuction> auctionList) {
         AuctionCart.auctionList = auctionList;
     }
 
@@ -59,7 +59,7 @@ public class AuctionCart implements Initializable {
         ProductsMenu.setMode(ProductsMenu.Modes.AuctionMode);
         List<Product> productOfAuction = null;
         try {
-            productOfAuction = auctionController.getProductOfAuction(auction.getId());
+            productOfAuction = auctionController.getProductOfAuction(auction.getId()); //?
         } catch (AuctionDoesNotExistException | ProductDoesNotExistException e) {
             e.printStackTrace();
         }
@@ -68,9 +68,9 @@ public class AuctionCart implements Initializable {
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
-    private void init(@NotNull Auction auction) {
+    private void init(@NotNull MiniAuction auction) {
         auction_image.setImage(images.get(new Random().nextInt(images.size())));
-        auction_name.setText(auction.getName());
-        auction_per.setText(auction.getDiscount().getPercent() + "%");
+        auction_name.setText(auction.getAuctionName());
+        auction_per.setText(auction.getAuctionPercent() + "%");
     }
 }

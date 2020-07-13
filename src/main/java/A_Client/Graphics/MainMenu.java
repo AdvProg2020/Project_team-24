@@ -1,24 +1,23 @@
 package A_Client.Graphics;
 
+import A_Client.Client.Client;
+import A_Client.Client.MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.AuctionCart;
 import A_Client.Graphics.Models.ProductCart;
+import A_Client.Graphics.Other.PopUp;
+import A_Client.Graphics.Pages.Cart;
+import A_Client.Graphics.Pages.CeSut;
+import A_Client.Graphics.Pages.Login;
 import A_Client.Graphics.Tools.SceneBuilder;
+import A_Client.JsonHandler.JsonHandler;
+import A_Client.Structs.MiniAuction;
+import A_Client.Structs.MiniProduct;
 import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.AuctionController;
-import B_Server.Controller.Controllers.FilterController;
 import B_Server.Controller.Controllers.ManagerController;
-import B_Server.Controller.Controllers.ProductsController;
-import Controller.Controllers.*;
 import Exceptions.InvalidFilterException;
 import Exceptions.ProductDoesNotExistException;
-import B_Server.Model.ModelUnit;
-import B_Server.Model.Models.Account;
-import B_Server.Model.Models.Accounts.Customer;
-import B_Server.Model.Models.Accounts.Manager;
-import B_Server.Model.Models.Accounts.Seller;
-import B_Server.Model.Models.Auction;
 import B_Server.Model.Models.Category;
 import B_Server.Model.Models.Product;
 import javafx.application.Application;
@@ -38,22 +37,19 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
-    private ProductsController productsController = ProductsController.getInstance();
-    private AuctionController auctionController = AuctionController.getInstance();
-    private FilterController filterController = FilterController.getInstance();
-    private Account account = ControllerUnit.getInstance().getAccount();
+    //    private ProductsController productsController = ProductsController.getInstance();
+//    private AuctionController auctionController = AuctionController.getInstance();
+//    private FilterController filterController = FilterController.getInstance();
+//    private Account account = ControllerUnit.getInstance().getAccount();
+    private static final Client client = new Client("localhost", 5431);
     private static Stage primaryStage;
     private static MediaPlayer player;
     private static BorderPane center;
@@ -98,43 +94,42 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         filter.setVisible(false);
     }
 
+    public static void setFilter(Pane filter) {
+        MainMenu.filter = filter;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setCenter(changeable);
-        filter = filterArea;
+        setFilter(filterArea);
         List<MenuItem> collect = ManagerController.getInstance().showAllCategories().stream().map(this::getCategorySelection).collect(Collectors.toList());
         category_select.getItems().addAll(FXCollections.observableArrayList(collect));
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
         playMusic("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");
-        if (account == null) return;
+        if (client.getClientInfo().getAccountId() == null) return;
         userArea_btn.setDisable(false);
         login_logout_btn.setText("خروج ...");
         login_logout_btn.setOnAction(event -> logout());
-        if (account instanceof Customer) cart_btn.setDisable(false);
+        if (client.getClientInfo().getAccountTy().equals("Customer")) cart_btn.setDisable(false);
     }
 
     @NotNull
     private MenuItem getCategorySelection(@NotNull Category category) {
         MenuItem menuItem = new MenuItem();
         menuItem.setText(category.getName());
-        menuItem.setOnAction(event ->showCategoryProducts(category));
+        menuItem.setOnAction(event -> showCategoryProducts(category));
         return menuItem;
     }
 
     private void showCategoryProducts(@NotNull Category category) {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        List<Product> list = findPopulars(
-                category.getProductList().stream().map(aLong -> {
-                    try {
-                        return Product.getProductById(aLong);
-                    } catch (ProductDoesNotExistException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }).filter(Objects::nonNull).collect(Collectors.toList())
-        );
-        setProducts(list);
+        List<String> list = new ArrayList<>(Collections.singletonList(client.getClientInfo().getToken()));
+        list.addAll(category.getProductList().stream().map(aLong -> aLong + "").collect(Collectors.toList()));
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductsOfCategory, list);
+        List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>()
+                .JsonsToObjectList(answers, MiniProduct.class);
+        setProducts(miniProducts);
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
     }
@@ -148,7 +143,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public Scene sceneBuilder() {
 
         try {
-           return FXMLLoader.load(new File("src/main/resources/Graphics/MainMenu/MainMenu.fxml").toURI().toURL());
+            return FXMLLoader.load(new File("src/main/resources/Graphics/MainMenu/MainMenu.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
@@ -177,9 +172,13 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goAuction() {
-        ArrayList<Auction> list = new ArrayList<>(auctionController.offs());
-        AuctionsMenu.setList(list);
-        AuctionCart.setAuctionList(list);
+        List<String> answers = client.sendAndReceive(
+                MessageSupplier.RequestType.GetAllAuctions, Collections.singletonList(client.getClientInfo().getToken())
+        );
+        List<MiniAuction> miniAuctions = new JsonHandler<MiniAuction>()
+                .JsonsToObjectList(answers, MiniAuction.class);
+        AuctionsMenu.setList(miniAuctions);
+        AuctionCart.setAuctionList(miniAuctions);
         MainMenu.change(new AuctionsMenu().sceneBuilder());
         MainMenu.FilterDisable();
         enableBack();
@@ -203,21 +202,26 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goPopulars() {
-        ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        List<Product> list = findPopulars(productsController.showProducts());
-        setProducts(list);
+        GetAllProducts(MessageSupplier.RequestType.GetAllPopularProducts);
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
     }
 
     public void goUserArea() {
-        if (account instanceof Manager)
-            MainMenu.change(new A_Client.Graphics.Accounts.Manager().sceneBuilder());
-        else if (account instanceof Seller)
-            MainMenu.change(new A_Client.Graphics.Accounts.Seller().sceneBuilder());
-        else if (account instanceof Customer)
-            MainMenu.change(new A_Client.Graphics.Accounts.Customer().sceneBuilder());
-        else return;
+        String accountTy = client.getClientInfo().getAccountTy();
+        switch (accountTy) {
+            case "Manager":
+                MainMenu.change(new A_Client.Graphics.Accounts.Manager().sceneBuilder());
+                break;
+            case "Seller":
+                MainMenu.change(new A_Client.Graphics.Accounts.Seller().sceneBuilder());
+                break;
+            case "Customer":
+                MainMenu.change(new A_Client.Graphics.Accounts.Customer().sceneBuilder());
+                break;
+            default:
+                return;
+        }
         MainMenu.FilterDisable();
         popUp();
         enableBack();
@@ -225,7 +229,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public void goProducts() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        setProducts(productsController.showProducts());
+        GetAllProducts(MessageSupplier.RequestType.GetAllProducts);
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
     }
@@ -239,13 +243,21 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void goSearching() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
         addFilter_search();
-        List<Product> list = productsController.showProducts();
-        setProducts(list);
+        GetAllProducts(MessageSupplier.RequestType.GetAllProducts);
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
     }
 
-    private void setProducts(List<Product> list) {
+    private void GetAllProducts(MessageSupplier.RequestType getAllProducts) {
+        List<String> answers = client.sendAndReceive(
+                getAllProducts, Collections.singletonList(client.getClientInfo().getToken())
+        );
+        List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>()
+                .JsonsToObjectList(answers, MiniProduct.class);
+        setProducts(miniProducts);
+    }
+
+    private void setProducts(List<MiniProduct> list) {
         ProductsMenu.setList(list);
         ProductCart.setProductList(list);
     }
@@ -260,7 +272,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public static void main(String[] args) {
-        ModelUnit.getInstance().preprocess_loadLists();
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetNewToken, null);
+        client.getClientInfo().setToken(answers.get(0));
         launch(args);
     }
 
@@ -269,6 +282,12 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         List<Product> newList = new ArrayList<>(list);
         newList.sort((o1, o2) -> -1 * Long.compare(o1.getNumberOfVisitors(), o2.getNumberOfVisitors()));
         return newList;
+    }
+
+    private void popUp() {
+        Stage stage = new Stage();
+        stage.setScene(new PopUp().sceneBuilder());
+        stage.showAndWait();
     }
 
     private void enableBack() {
@@ -282,11 +301,5 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
             player.setCycleCount(Integer.MAX_VALUE);
             player.play();
         }).start();
-    }
-
-    private void popUp() {
-        Stage stage = new Stage();
-        stage.setScene(new PopUp().sceneBuilder());
-        stage.showAndWait();
     }
 }

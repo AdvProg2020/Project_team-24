@@ -4,7 +4,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="A_Client.Graphics.ZoomPage"
+            fx:controller="A_Client.Graphics.Other.ZoomPage"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>

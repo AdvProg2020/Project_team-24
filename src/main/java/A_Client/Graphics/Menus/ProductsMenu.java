@@ -3,6 +3,7 @@ package A_Client.Graphics.Menus;
 import A_Client.Graphics.Models.ProductCart;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;
+import A_Client.Structs.MiniProduct;
 import B_Server.Model.Models.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class ProductsMenu implements Initializable, SceneBuilder {
 
-    private static List<Product> list = new ArrayList<>();
+    private static List<MiniProduct> list = new ArrayList<>();
     private static Modes mode = Modes.NormalMode;
     private static int pageNum = 1;
     @FXML
@@ -39,7 +40,7 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         ProductsMenu.mode = mode;
     }
 
-    public static void setList(List<Product> list) {
+    public static void setList(List<MiniProduct> list) {
         ProductsMenu.list = list;
     }
 
@@ -63,7 +64,7 @@ public class ProductsMenu implements Initializable, SceneBuilder {
     }
 
     public void next() {
-        List<Product> list = new ArrayList<>();
+        List<MiniProduct> list = new ArrayList<>();
         for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
             list.add(ProductsMenu.list.get(i));
         }
@@ -73,7 +74,7 @@ public class ProductsMenu implements Initializable, SceneBuilder {
     }
 
     public void previous() {
-        List<Product> list = new ArrayList<>();
+        List<MiniProduct> list = new ArrayList<>();
         for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
             list.add(ProductsMenu.list.get(i));
         }

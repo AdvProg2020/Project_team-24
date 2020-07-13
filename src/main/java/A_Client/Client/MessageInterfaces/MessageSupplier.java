@@ -10,27 +10,25 @@ public interface MessageSupplier {
 
     static Map<RequestType, Function<List<String>,String>> setListOfSuppliers() {
         HashMap<RequestType, Function<List<String>,String>> requestTypeSupplierHashMap = new HashMap<>();
-        requestTypeSupplierHashMap.put(RequestType.IDontKnow1, (list) -> "Patterns1");
-        requestTypeSupplierHashMap.put(RequestType.IDontKnow2, (list) -> "Patterns2");
-        requestTypeSupplierHashMap.put(RequestType.IDontKnow3, (list) -> "Patterns3");
-        requestTypeSupplierHashMap.put(RequestType.IDontKnow4, (list) -> "Patterns4");
+        requestTypeSupplierHashMap.put(RequestType.SetNewToken, list -> "SetNewToken::Please");
+        requestTypeSupplierHashMap.put(RequestType.GetAllAuctions, list -> list.get(0) + "::GetAllAuctions");
+        requestTypeSupplierHashMap.put(RequestType.GetAllProducts, list -> list.get(0) + "::GetAllProducts");
+        requestTypeSupplierHashMap.put(RequestType.GetAllPopularProducts, list -> list.get(0) + "::GetAllPopularProducts");
+        requestTypeSupplierHashMap.put(RequestType.GetAllProductsOfCategory, list -> list.get(0) + "::GetAllProductsOfCategory ");
         return requestTypeSupplierHashMap;
     }
 
     Map<RequestType, Function<List<String>,String>> messageSuppliers = Collections.unmodifiableMap(setListOfSuppliers());
-
-    default String generateMessage(List<String> list) {
-        return generateMessage(RequestType.valueOf(list.get(0)), list.subList(1,list.size()));
-    }
 
     default String generateMessage(RequestType type, List<String> list) {
         return messageSuppliers.get(type).apply(list);
     }
 
     enum RequestType {
-        IDontKnow1,
-        IDontKnow2,
-        IDontKnow3,
-        IDontKnow4
+        SetNewToken,
+        GetAllAuctions,
+        GetAllProducts,
+        GetAllPopularProducts,
+        GetAllProductsOfCategory
     }
 }

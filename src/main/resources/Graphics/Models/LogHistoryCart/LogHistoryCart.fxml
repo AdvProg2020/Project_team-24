@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="340.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.LogHistoryCart">
+<AnchorPane prefHeight="340.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Models.LogHistoryCart">
     <Pane prefHeight="340.0" prefWidth="618.0">
         <TableView fx:id="logHistoryTable" layoutX="34.0" layoutY="62.0" prefHeight="189.0" prefWidth="550.0">
             <columns>

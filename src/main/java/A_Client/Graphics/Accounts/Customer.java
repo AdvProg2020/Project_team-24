@@ -1,7 +1,7 @@
 package A_Client.Graphics.Accounts;
 
-import A_Client.Graphics.Cart;
-import A_Client.Graphics.LogHistoryCart;
+import A_Client.Graphics.Pages.Cart;
+import A_Client.Graphics.Models.LogHistoryCart;
 import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.BuyerController;
 import Exceptions.*;

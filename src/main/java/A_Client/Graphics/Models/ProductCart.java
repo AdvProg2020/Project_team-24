@@ -1,5 +1,6 @@
 package A_Client.Graphics.Models;
 
+import A_Client.Structs.MiniProduct;
 import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.ProductController;
 import B_Server.Controller.Controllers.ProductsController;
@@ -27,10 +28,10 @@ import java.util.stream.Collectors;
 
 public class ProductCart implements Initializable {
 
-    private static List<Product> productList = ProductsController
+    private static List<MiniProduct> productList = null;/*ProductsController
             .getInstance()
-            .showProducts();
-    private Product product;
+            .showProducts();*/
+    private MiniProduct product;
     private int sellerIndex;
     @FXML
     private Button nextButton;
@@ -51,7 +52,7 @@ public class ProductCart implements Initializable {
     @FXML
     private Pane mainPane;
 
-    public static void setProductList(List<Product> productList) {
+    public static void setProductList(List<MiniProduct> productList) {
         ProductCart.productList = productList;
     }
 
@@ -92,14 +93,14 @@ public class ProductCart implements Initializable {
         if (product.getCategory() != null) {
             ProductCart.setProductList(getSimilar());
         }
-        Product first_compare = A_Client.Graphics.Product.getFirst_Compare();
+        Product first_compare = A_Client.Graphics.Pages.Product.getFirst_Compare();
         if (first_compare == null) {
             ControllerUnit.getInstance().setProduct(product);
         } else ControllerUnit.getInstance().setProduct(first_compare);
         if (product.getCommentList() != null) {
             setCommentListToShow();
         }
-        MainMenu.change(new A_Client.Graphics.Product().sceneBuilder());
+        MainMenu.change(new A_Client.Graphics.Pages.Product().sceneBuilder());
         MainMenu.FilterDisable();
     }
 
@@ -113,7 +114,7 @@ public class ProductCart implements Initializable {
         }
     }
 
-    private List<Product> getSimilar() {
+    private List<MiniProduct> getSimilar() {
         return product.getCategory().getProductList().stream()
                 .map(id -> {
                     try {

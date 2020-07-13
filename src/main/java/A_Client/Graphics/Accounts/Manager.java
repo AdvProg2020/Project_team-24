@@ -1,6 +1,6 @@
 package A_Client.Graphics.Accounts;
 
-import A_Client.Graphics.SignUp;
+import A_Client.Graphics.Pages.SignUp;
 import B_Server.Controller.ControllerUnit;
 import Exceptions.FieldDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;

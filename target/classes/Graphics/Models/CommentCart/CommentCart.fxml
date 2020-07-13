@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="252.0" prefWidth="357.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Graphics.Models.CommentCart">
+<AnchorPane fx:id="mainPane" prefHeight="252.0" prefWidth="357.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Models.CommentCart">
     <Label alignment="CENTER" layoutX="235.0" layoutY="36.0" prefHeight="34.0" prefWidth="84.0" text=" : عنوان " textFill="#61bd4f">
         <font>
             <Font size="14.0" />
@@ -20,5 +20,4 @@
     <TextField fx:id="sender" layoutX="62.0" layoutY="11.0" prefHeight="20.0" prefWidth="150.0" />
     <TextField fx:id="title" layoutX="63.0" layoutY="41.0" />
    <Pane fx:id="spritePane1" layoutX="242.0" layoutY="179.0" prefHeight="58.0" prefWidth="84.0" />
-<!--    <Button fx:id="submit" layoutX="225.0" layoutY="197.0" mnemonicParsing="false" onAction="#submit" prefHeight="26.0" prefWidth="75.0" text="ثبت" />-->
 </AnchorPane>

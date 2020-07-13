@@ -3,6 +3,7 @@ package A_Client.Graphics.Menus;
 import A_Client.Graphics.Models.AuctionCart;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;
+import A_Client.Structs.MiniAuction;
 import B_Server.Model.Models.Auction;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class AuctionsMenu implements Initializable, SceneBuilder {
 
-    private static List<Auction> list = new ArrayList<>();
+    private static List<MiniAuction> list = new ArrayList<>();
     private static int pageNum = 1;
     public MediaView rightGif;
     public MediaView leftGif;
@@ -31,7 +32,7 @@ public class AuctionsMenu implements Initializable, SceneBuilder {
     @FXML
     private Button previous_btn;
 
-    public static void setList(List<Auction> list) {
+    public static void setList(List<MiniAuction> list) {
         AuctionsMenu.list = list;
     }
 
@@ -61,7 +62,7 @@ public class AuctionsMenu implements Initializable, SceneBuilder {
     }
 
     public void nextPage() {
-        List<Auction> list = new ArrayList<>();
+        List<MiniAuction> list = new ArrayList<>();
         for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < list.size(); i++) {
             list.add(list.get(i));
         }

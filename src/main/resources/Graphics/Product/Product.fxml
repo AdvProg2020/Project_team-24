@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-       fx:controller="A_Client.Graphics.Product">
+       fx:controller="A_Client.Graphics.Pages.Product">
     <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
         <AnchorPane focusTraversable="true" prefHeight="1347.0" prefWidth="1198.0">
             <Pane layoutX="382.0" layoutY="7.0" prefHeight="336.0" prefWidth="816.0">
