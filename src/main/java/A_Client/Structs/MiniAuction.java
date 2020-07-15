@@ -2,6 +2,7 @@ package A_Client.Structs;
 
 public class MiniAuction {
 
+    private final String auctionId;
     private final String auctionName;
     private final double auctionPercent;
 
@@ -13,7 +14,12 @@ public class MiniAuction {
         return auctionPercent;
     }
 
-    public MiniAuction(String auctionName, double auctionPercent) {
+    public String getAuctionId() {
+        return auctionId;
+    }
+
+    public MiniAuction(String auctionId, String auctionName, double auctionPercent) {
+        this.auctionId = auctionId;
         this.auctionName = auctionName;
         this.auctionPercent = auctionPercent;
     }

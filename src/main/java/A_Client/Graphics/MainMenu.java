@@ -13,13 +13,8 @@ import A_Client.Graphics.Pages.Login;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.JsonHandler.JsonHandler;
 import A_Client.Structs.MiniAuction;
+import A_Client.Structs.MiniCate;
 import A_Client.Structs.MiniProduct;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.ManagerController;
-import Exceptions.InvalidFilterException;
-import Exceptions.ProductDoesNotExistException;
-import B_Server.Model.Models.Category;
-import B_Server.Model.Models.Product;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -37,6 +32,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -45,10 +41,6 @@ import java.util.stream.Collectors;
 
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
-    //    private ProductsController productsController = ProductsController.getInstance();
-//    private AuctionController auctionController = AuctionController.getInstance();
-//    private FilterController filterController = FilterController.getInstance();
-//    private Account account = ControllerUnit.getInstance().getAccount();
     private static final Client client = new Client("localhost", 5431);
     private static Stage primaryStage;
     private static MediaPlayer player;
@@ -102,7 +94,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void initialize(URL location, ResourceBundle resources) {
         setCenter(changeable);
         setFilter(filterArea);
-        List<MenuItem> collect = ManagerController.getInstance().showAllCategories().stream().map(this::getCategorySelection).collect(Collectors.toList());
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllCategories, Collections.singletonList(client.getClientInfo().getToken()));
+        List<MenuItem> collect = new JsonHandler<MiniCate>().JsonsToObjectList(answers, MiniCate.class)
+                .stream().map(this::getCategorySelection).collect(Collectors.toList());
         category_select.getItems().addAll(FXCollections.observableArrayList(collect));
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
@@ -115,17 +109,18 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     @NotNull
-    private MenuItem getCategorySelection(@NotNull Category category) {
+    private MenuItem getCategorySelection(@NotNull MiniCate category) {
         MenuItem menuItem = new MenuItem();
-        menuItem.setText(category.getName());
+        menuItem.setText(category.getCateName());
         menuItem.setOnAction(event -> showCategoryProducts(category));
         return menuItem;
     }
 
-    private void showCategoryProducts(@NotNull Category category) {
+    private void showCategoryProducts(@NotNull MiniCate category) {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        List<String> list = new ArrayList<>(Collections.singletonList(client.getClientInfo().getToken()));
-        list.addAll(category.getProductList().stream().map(aLong -> aLong + "").collect(Collectors.toList()));
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.add(category.getCateId());
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductsOfCategory, list);
         List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>()
                 .JsonsToObjectList(answers, MiniProduct.class);
@@ -135,7 +130,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     private void logout() {
-        ControllerUnit.getInstance().setAccount(null);
+        client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
@@ -264,24 +259,16 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     private void addFilter_search() {
         String filterStr = searchArea.getText();
-        try {
-            filterController.filter("ProductName", filterStr);
-        } catch (InvalidFilterException e) {
-            e.printStackTrace();
-        }
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.add(filterStr);
+        client.sendAndReceive(MessageSupplier.RequestType.SetNewFilter, list);
     }
 
     public static void main(String[] args) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetNewToken, null);
         client.getClientInfo().setToken(answers.get(0));
         launch(args);
-    }
-
-    @NotNull
-    private List<Product> findPopulars(List<Product> list) {
-        List<Product> newList = new ArrayList<>(list);
-        newList.sort((o1, o2) -> -1 * Long.compare(o1.getNumberOfVisitors(), o2.getNumberOfVisitors()));
-        return newList;
     }
 
     private void popUp() {

@@ -14,7 +14,10 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.GetAllAuctions, list -> list.get(0) + "::GetAllAuctions");
         requestTypeSupplierHashMap.put(RequestType.GetAllProducts, list -> list.get(0) + "::GetAllProducts");
         requestTypeSupplierHashMap.put(RequestType.GetAllPopularProducts, list -> list.get(0) + "::GetAllPopularProducts");
-        requestTypeSupplierHashMap.put(RequestType.GetAllProductsOfCategory, list -> list.get(0) + "::GetAllProductsOfCategory ");
+        requestTypeSupplierHashMap.put(RequestType.GetAllProductsOfCategory, list -> list.get(0) + "::GetAllProductsOfCategory " + list.get(1));
+        requestTypeSupplierHashMap.put(RequestType.SetNewFilter, list -> list.get(0) + "::SetNewFilter " + list.get(1));
+        requestTypeSupplierHashMap.put(RequestType.Logout, list -> list.get(0) + "::Logout");
+        requestTypeSupplierHashMap.put(RequestType.GetAllCategories, list -> list.get(0) + "::GetAllCategories");
         return requestTypeSupplierHashMap;
     }
 
@@ -29,6 +32,9 @@ public interface MessageSupplier {
         GetAllAuctions,
         GetAllProducts,
         GetAllPopularProducts,
-        GetAllProductsOfCategory
+        GetAllProductsOfCategory,
+        SetNewFilter,
+        Logout,
+        GetAllCategories,
     }
 }

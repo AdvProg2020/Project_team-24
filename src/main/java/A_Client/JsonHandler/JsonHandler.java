@@ -12,7 +12,7 @@ public class JsonHandler <T> {
     }
 
     public List<T> JsonsToObjectList(List<String> jsons, Class<T> clazz) {
-        return jsons.stream().map(s -> new YaGson().fromJson(s, clazz))
+        return jsons.stream().map(s -> JsonToObject(s,clazz))
                 .collect(Collectors.toList());
     }
 }
