@@ -1,12 +1,10 @@
 package A_Client.Graphics.Models;
 
-import A_Client.Structs.MiniAuction;
-import B_Server.Controller.Controllers.AuctionController;
+import A_Client.Graphics.MiniModels.Structs.MiniAuction;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
-import B_Server.Model.Models.Auction;
 import B_Server.Model.Models.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

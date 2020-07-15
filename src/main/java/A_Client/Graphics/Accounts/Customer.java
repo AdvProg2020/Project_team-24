@@ -1,18 +1,16 @@
 package A_Client.Graphics.Accounts;
 
+import A_Client.Client.Client;
+import A_Client.Client.MessageInterfaces.MessageSupplier;
+import A_Client.Graphics.MiniModels.Structs.MiniDiscountCode;
 import A_Client.Graphics.Pages.Cart;
 import A_Client.Graphics.Models.LogHistoryCart;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.BuyerController;
+import A_Client.JsonHandler.JsonHandler;
+import A_Client.Graphics.MiniModels.Structs.MiniAccount;
 import Exceptions.*;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.LogHistoryMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.DataBase.DataBase;
-import B_Server.Model.Models.Account;
-import B_Server.Model.Models.DiscountCode;
-import B_Server.Model.Models.LogHistory;
-import B_Server.Model.Models.Structs.Medias;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,14 +31,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Customer implements Initializable, SceneBuilder {
 
-    private static BuyerController buyerController = BuyerController.getInstance();
-    private B_Server.Model.Models.Accounts.Customer customer = (B_Server.Model.Models.Accounts.Customer) ControllerUnit.getInstance().getAccount();
+    private final Client client = MainMenu.getClient();
+    private MiniAccount customer;
     private File selectedImage;
-
     @FXML
     private ImageView customer_image;
     @FXML
@@ -58,9 +54,9 @@ public class Customer implements Initializable, SceneBuilder {
     @FXML
     private TextField fName_txt;
     @FXML
-    private TableView<DiscountCode> DiscountCodes_Table;
+    private TableView<MiniDiscountCode> DiscountCodes_Table;
     @FXML
-    private TableColumn<DiscountCode, String> Codes;
+    private TableColumn<MiniDiscountCode, String> Codes;
 
     @Override
     public Scene sceneBuilder() {
@@ -75,46 +71,38 @@ public class Customer implements Initializable, SceneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            username_txt.setText(customer.getUserName());
-            password_txt.setText(customer.getPassword());
-            lName_txt.setText(customer.getPersonalInfo().getList().getFieldByName("LastName").getString());
-            fName_txt.setText(customer.getPersonalInfo().getList().getFieldByName("FirstName").getString());
-            phone_txt.setText(customer.getPersonalInfo().getList().getFieldByName("PhoneNumber").getString());
-            email_txt.setText(customer.getPersonalInfo().getList().getFieldByName("Email").getString());
 
-            if (customer.getMediaId() != 0) {
-                customer_image.setImage(Medias.getImage(Medias.getMediasById(customer.getMediaId()).getImageSrc()));
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMiniAccount, Collections.singletonList(client.getClientInfo().getToken()));
+        customer = new JsonHandler<MiniAccount>().JsonToObject(answers.get(0), MiniAccount.class);
+
+        try {
+            username_txt.setText(customer.getUsername());
+            password_txt.setText(customer.getPassword());
+            lName_txt.setText(customer.getPersonalInfo().getFieldByName("LastName").getString());
+            fName_txt.setText(customer.getPersonalInfo().getFieldByName("FirstName").getString());
+            phone_txt.setText(customer.getPersonalInfo().getFieldByName("PhoneNumber").getString());
+            email_txt.setText(customer.getPersonalInfo().getFieldByName("Email").getString());
+
+            if (customer.getMediasId() == null) {
+                answers = MainMenu.getClient().sendAndReceive(MessageSupplier.RequestType.GetAccountImage, Collections.singletonList(client.getClientInfo().getToken()));
+                customer_image.setImage(new JsonHandler<Image>().JsonToObject(answers.get(0), Image.class));
             }
-        } catch (FieldDoesNotExistException | ProductMediaNotFoundException e) {
+
+        } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-        balance_txt.setText(customer.getCredit() + "");
+        balance_txt.setText(customer.getWallet().getAmount() + "");
 
-        customer.getDiscountCodeList().forEach(aLong -> {
+        client.sendAndReceive(MessageSupplier.RequestType.CheckMyDiscountCodes, Collections.singletonList(client.getClientInfo().getToken()));
 
-            try {
-                DiscountCode discountCode = DiscountCode.getDiscountCodeById(aLong);
-                discountCode.checkExpiredDiscountCode(false);
-            } catch (DiscountCodeExpiredException | AccountDoesNotExistException e) {
-                e.printStackTrace();
-            }
-        });
-        DiscountCodes_Table.setItems(FXCollections.observableArrayList(
-                customer.getDiscountCodeList().stream().map(id -> {
-                    try {
-                        return DiscountCode.getDiscountCodeById(id);
-                    } catch (DiscountCodeExpiredException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }).filter(Objects::nonNull).collect(Collectors.toList())));
+        answers = MainMenu.getClient().sendAndReceive(MessageSupplier.RequestType.GetMyDiscountCodes, Collections.singletonList(client.getClientInfo().getToken()));
+        DiscountCodes_Table.setItems(FXCollections.observableArrayList(new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answers, MiniDiscountCode.class)));
         Codes.setCellValueFactory(new PropertyValueFactory<>("productId"));
 
     }
 
     public void logout() {
-        ControllerUnit.getInstance().setAccount(null);
+        client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
         back();
     }
 
@@ -122,9 +110,7 @@ public class Customer implements Initializable, SceneBuilder {
 
         try {
 
-            if (selectedImage != null) {
-                setImage();
-            }
+            if (selectedImage != null) setImage();
 
             customer.editField("password", password_txt.getText());
             customer.editField("balance", balance_txt.getText());

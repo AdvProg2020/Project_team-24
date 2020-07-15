@@ -12,9 +12,9 @@ import A_Client.Graphics.Pages.CeSut;
 import A_Client.Graphics.Pages.Login;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.JsonHandler.JsonHandler;
-import A_Client.Structs.MiniAuction;
-import A_Client.Structs.MiniCate;
-import A_Client.Structs.MiniProduct;
+import A_Client.Graphics.MiniModels.Structs.MiniAuction;
+import A_Client.Graphics.MiniModels.Structs.MiniCate;
+import A_Client.Graphics.MiniModels.Structs.MiniProduct;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -88,6 +88,10 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public static void setFilter(Pane filter) {
         MainMenu.filter = filter;
+    }
+
+    public static Client getClient() {
+        return client;
     }
 
     @Override

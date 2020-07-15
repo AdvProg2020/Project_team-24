@@ -1,9 +1,8 @@
 package A_Client.Graphics.Models;
 
-import A_Client.Structs.MiniProduct;
+import A_Client.Graphics.MiniModels.Structs.MiniProduct;
 import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.ProductController;
-import B_Server.Controller.Controllers.ProductsController;
 import Exceptions.CommentDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Exceptions.ProductMediaNotFoundException;

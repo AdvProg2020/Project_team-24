@@ -18,6 +18,10 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.SetNewFilter, list -> list.get(0) + "::SetNewFilter " + list.get(1));
         requestTypeSupplierHashMap.put(RequestType.Logout, list -> list.get(0) + "::Logout");
         requestTypeSupplierHashMap.put(RequestType.GetAllCategories, list -> list.get(0) + "::GetAllCategories");
+        requestTypeSupplierHashMap.put(RequestType.GetAccountImage, list -> list.get(0) + "::GetAccountImage");
+        requestTypeSupplierHashMap.put(RequestType.GetMiniAccount, list -> list.get(0) + "::GetMiniAccount");
+        requestTypeSupplierHashMap.put(RequestType.CheckMyDiscountCodes, list -> list.get(0) + "::CheckMyDiscountCode");
+        requestTypeSupplierHashMap.put(RequestType.GetMyDiscountCodes, list -> list.get(0) + "::GetMyDiscountCodes");
         return requestTypeSupplierHashMap;
     }
 
@@ -36,5 +40,9 @@ public interface MessageSupplier {
         SetNewFilter,
         Logout,
         GetAllCategories,
+        GetAccountImage,
+        GetMiniAccount,
+        CheckMyDiscountCodes,
+        GetMyDiscountCodes
     }
 }
