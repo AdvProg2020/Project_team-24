@@ -112,16 +112,24 @@ public class Customer implements Initializable, SceneBuilder {
 
             if (selectedImage != null) setImage();
 
-            customer.editField("password", password_txt.getText());
-            customer.editField("balance", balance_txt.getText());
-            customer.editField("FirstName", fName_txt.getText());
-            customer.editField("LastName", lName_txt.getText());
-            customer.editField("Email", email_txt.getText());
-            customer.editField("PhoneNumber", phone_txt.getText());
+            RequestForEdit("password", password_txt.getText());
+            RequestForEdit("balance", balance_txt.getText());
+            RequestForEdit("FirstName", fName_txt.getText());
+            RequestForEdit("LastName", lName_txt.getText());
+            RequestForEdit("Email", email_txt.getText());
+            RequestForEdit("PhoneNumber", phone_txt.getText());
 
-        } catch (IOException | ProductMediaNotFoundException | FieldDoesNotExistException e) {
+        } catch (IOException | ProductMediaNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void RequestForEdit(String fieldName, String fieldValue) {
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add(client.getClientInfo().getToken());
+        objects.add(fieldName);
+        objects.add(fieldValue);
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfAccount, objects);
     }
 
     public void back() {
@@ -154,7 +162,10 @@ public class Customer implements Initializable, SceneBuilder {
     }
 
     public void DeleteAccount() {
-        Account.deleteAccount(customer);
+        client.sendAndReceive(
+                MessageSupplier.RequestType.DeleteMyAccount,
+                Collections.singletonList(client.getClientInfo().getToken())
+        );
     }
 
     private void setImage() throws IOException, ProductMediaNotFoundException {
