@@ -166,22 +166,25 @@ public class Customer implements Initializable, SceneBuilder {
     }
 
     private void setImage() throws IOException, ProductMediaNotFoundException {
-        String first = "src/main/resources/DataBase/Images/" + customer.getMediasId() + ".jpg";
-        Files.copy(
-                selectedImage.toPath(),
-                Paths.get(first),
-                StandardCopyOption.REPLACE_EXISTING
-        );
 
-        Medias medias;
-        if (customer.getMediaId() == 0) {
-            medias = new Medias();
-            Medias.addMedia(medias);
-            customer.setMediaId(medias.getId());
-        } else {
-            medias = Medias.getMediasById(customer.getMediaId());
-        }
-        medias.setImageSrc(new File(first).toURI().toString());
-        DataBase.save(medias);
+        client.sendAndReceive(MessageSupplier.RequestType.SetImageOfAccount, )
+
+//        String first = "src/main/resources/DataBase/Images/" + customer.getMediasId() + ".jpg";
+//        Files.copy(
+//                selectedImage.toPath(),
+//                Paths.get(first),
+//                StandardCopyOption.REPLACE_EXISTING
+//        );
+//
+//        Medias medias;
+//        if (customer.getMediaId() == 0) {
+//            medias = new Medias();
+//            Medias.addMedia(medias);
+//            customer.setMediaId(medias.getId());
+//        } else {
+//            medias = Medias.getMediasById(customer.getMediaId());
+//        }
+//        medias.setImageSrc(new File(first).toURI().toString());
+//        DataBase.save(medias);
     }
 }

@@ -24,6 +24,7 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.GetMyDiscountCodes, list -> list.get(0) + "::GetMyDiscountCodes");
         requestTypeSupplierHashMap.put(RequestType.DeleteMyAccount, list -> list.get(0) + "::DeleteMyAccount");
         requestTypeSupplierHashMap.put(RequestType.GetMyLogHistory, list -> list.get(0) + "::GetMyLogHistory");
+        requestTypeSupplierHashMap.put(RequestType.SetImageOfAccount, list -> list.get(0) + "::SetImageOfAccount " + );
         requestTypeSupplierHashMap.put(RequestType.EditFieldOfAccount, list -> list.get(0) + "::EditFieldOfAccount " + list.get(1) + " " + list.get(2));
         return requestTypeSupplierHashMap;
     }
@@ -49,6 +50,7 @@ public interface MessageSupplier {
         GetMyDiscountCodes,
         EditFieldOfAccount,
         DeleteMyAccount,
-        GetMyLogHistory
+        GetMyLogHistory,
+        SetImageOfAccount
     }
 }
