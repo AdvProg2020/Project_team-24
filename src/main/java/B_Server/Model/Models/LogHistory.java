@@ -22,7 +22,6 @@ public class LogHistory implements Packable<LogHistory> {
     private double discountAmount;
     private double auctionDiscount;
     //    String customerName
-    //    String deliveryStatus
     //    Date date
     private FieldList fieldList;
     private List<ProductLog> productLogList;

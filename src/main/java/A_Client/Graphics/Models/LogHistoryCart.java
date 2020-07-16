@@ -1,8 +1,8 @@
 package A_Client.Graphics.Models;
 
+import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
+import A_Client.Graphics.MiniModels.Structs.MiniProductLog;
 import A_Client.Graphics.Pages.PaymentInformation;
-import B_Server.Model.Models.LogHistory;
-import B_Server.Model.Models.Structs.ProductLog;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -14,21 +14,20 @@ import java.util.ResourceBundle;
 
 public class LogHistoryCart implements Initializable {
 
-    private static List<LogHistory> logHistoryList = new ArrayList<>();
-    private LogHistory logHistory;
-
+    private static List<MiniLogHistory> logHistoryList = new ArrayList<>();
+    private MiniLogHistory logHistory;
     public Label ActionDiscount;
     public Label DiscountCodeDiscount;
     public Label PendingState;
     public Label finalPriceOfAll;
     public Label DateOfPurchase;
-    public TableColumn<ProductLog,String> finalPrice;
-    public TableColumn<ProductLog,String> auctionDiscount;
-    public TableColumn<ProductLog,String> productPrice;
-    public TableColumn<ProductLog,String> productName;
-    public TableView<ProductLog> logHistoryTable;
+    public TableColumn<MiniProductLog,String> finalPrice;
+    public TableColumn<MiniProductLog,String> auctionDiscount;
+    public TableColumn<MiniProductLog,String> productPrice;
+    public TableColumn<MiniProductLog,String> productName;
+    public TableView<MiniProductLog> logHistoryTable;
 
-    public static void setLogHistoryList(List<LogHistory> logHistoryList) {
+    public static void setLogHistoryList(List<MiniLogHistory> logHistoryList) {
         LogHistoryCart.logHistoryList = logHistoryList;
     }
 

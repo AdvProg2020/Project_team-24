@@ -1,5 +1,7 @@
 package A_Client.Graphics.Menus;
 
+import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
+import A_Client.Graphics.Models.LogHistoryCart;
 import A_Client.Graphics.Models.ProductCart;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;
@@ -23,10 +25,12 @@ import java.util.ResourceBundle;
 
 public class LogHistoryMenu implements SceneBuilder, Initializable {
 
-    private static List<LogHistory> list = new ArrayList<>();
+    private static List<MiniLogHistory> list = new ArrayList<>();
     private static int pageNum = 1;
-    public MediaView leftGif;
-    public MediaView rightGif;
+    @FXML
+    private MediaView leftGif;
+    @FXML
+    private MediaView rightGif;
     @FXML
     private Button next_btn;
     @FXML
@@ -43,42 +47,38 @@ public class LogHistoryMenu implements SceneBuilder, Initializable {
         return null;
     }
 
-    public static void setLogHistoryList(List<LogHistory> logHistoryList) {
+    public static void setLogHistoryList(List<MiniLogHistory> logHistoryList) {
         LogHistoryMenu.list = logHistoryList;
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\LogHistory\\loghistory.mp4").toURI().toString()));
+        rightGif.setMediaPlayer(value);
+        value.setCycleCount(Integer.MAX_VALUE);
+        value.play();
+        MediaPlayer v = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\LogHistory\\shopping.mp4").toURI().toString()));
+        leftGif.setMediaPlayer(v);
+        v.setCycleCount(Integer.MAX_VALUE);
+        v.play();
 
-        @Override
-        public void initialize(URL location, ResourceBundle resources) {
-            MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\LogHistory\\loghistory.mp4").toURI().toString()));
-            rightGif.setMediaPlayer(value);
-            value.setCycleCount(Integer.MAX_VALUE);
-            value.play();
-            MediaPlayer v = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\LogHistory\\shopping.mp4").toURI().toString()));
-            leftGif.setMediaPlayer(v);
-            v.setCycleCount(Integer.MAX_VALUE);
-            v.play();
-
-        }
-
+    }
 
     public void next() {
-        List<Product> list = new ArrayList<>();
-        for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < list.size(); i++) {
-            list.add(list.get(i));
-        }
+        List<MiniLogHistory> list = new ArrayList<>();
+        for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < LogHistoryMenu.list.size(); i++)
+            list.add(LogHistoryMenu.list.get(i));
         checkButtons();
-        ProductCart.setProductList(list);
+        LogHistoryCart.setLogHistoryList(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public void previous() {
-        List<Product> list = new ArrayList<>();
-        for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < list.size(); i++) {
-            list.add(list.get(i));
-        }
+        List<MiniLogHistory> list = new ArrayList<>();
+        for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < LogHistoryMenu.list.size(); i++)
+            list.add(LogHistoryMenu.list.get(i));
         checkButtons();
-        ProductCart.setProductList(list);
+        LogHistoryCart.setLogHistoryList(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 

@@ -21,7 +21,7 @@ public class BuyerController extends AccountController {
 
     /****************************************************fields*******************************************************/
 
-    private static BuyerController buyerController = new BuyerController();
+    private static final BuyerController buyerController = new BuyerController();
 
     private DiscountCode discountCodeEntered = null;
 

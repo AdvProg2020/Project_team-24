@@ -3,6 +3,7 @@ package A_Client.Graphics.Accounts;
 import A_Client.Client.Client;
 import A_Client.Client.MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MiniModels.Structs.MiniDiscountCode;
+import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
 import A_Client.Graphics.Pages.Cart;
 import A_Client.Graphics.Models.LogHistoryCart;
 import A_Client.JsonHandler.JsonHandler;
@@ -141,12 +142,8 @@ public class Customer implements Initializable, SceneBuilder {
     }
 
     public void goLogHistory() {
-        List<LogHistory> logHistoryList = null;
-        try {
-            logHistoryList = buyerController.viewOrders();
-        } catch (LogHistoryDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMyLogHistory, Collections.singletonList(client.getClientInfo().getToken()));
+        List<MiniLogHistory> logHistoryList = new JsonHandler<MiniLogHistory>().JsonsToObjectList(answers, MiniLogHistory.class);
         LogHistoryMenu.setLogHistoryList(logHistoryList);
         LogHistoryCart.setLogHistoryList(logHistoryList);
         MainMenu.change(new LogHistoryMenu().sceneBuilder());
@@ -169,7 +166,7 @@ public class Customer implements Initializable, SceneBuilder {
     }
 
     private void setImage() throws IOException, ProductMediaNotFoundException {
-        String first = "src/main/resources/DataBase/Images/" + customer.getMediaId() + ".jpg";
+        String first = "src/main/resources/DataBase/Images/" + customer.getMediasId() + ".jpg";
         Files.copy(
                 selectedImage.toPath(),
                 Paths.get(first),
