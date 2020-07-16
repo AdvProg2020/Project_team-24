@@ -3,7 +3,6 @@ package B_Server.Controller.Controllers;
 import B_Server.Model.Models.*;
 import Exceptions.*;
 import B_Server.Model.DataBase.DataBase;
-import Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Seller;
 import B_Server.Model.Models.Field.Field;
@@ -62,6 +61,7 @@ public class BuyerController extends AccountController {
         }
         DataBase.save(controllerUnit.getAccount());
     }
+
 
     @NotNull
     private List<ProductLog> payment() throws AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
@@ -242,5 +242,16 @@ public class BuyerController extends AccountController {
         Customer account = (Customer) controllerUnit.getAccount();
         account.setCredit(account.getCredit() + amount);
         DataBase.save(account);
+    }
+
+    // wallet
+    public void payByWallet(){
+
+    }
+
+    public void chargeWallet(double addAmount){
+        Customer customer = (Customer) controllerUnit.getAccount();
+        Wallet wallet = customer.getWallet();
+        wallet.setBalance(wallet.getBalance()+addAmount);
     }
 }
