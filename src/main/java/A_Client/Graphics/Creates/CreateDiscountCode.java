@@ -1,13 +1,13 @@
 package A_Client.Graphics.Creates;
 
+import A_Client.Client.Client;
+import A_Client.Client.MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.ManagerController;
 import B_Server.Model.Models.DiscountCode;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.FieldDoesNotExistException;
-import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,11 +22,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CreateDiscountCode implements SceneBuilder, Initializable {
 
-    private static ManagerController managerController = ManagerController.getInstance();
+    private final Client client = MainMenu.getClient();
     private static Mode mode = Mode.New;
 
     @FXML
@@ -78,26 +79,40 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
             return;
         }
 
-        try {
-            if (mode == Mode.New)
-                managerController.creatDiscountCode(start, end, percent, limit, num);
-            if (mode == Mode.Edit)
-                submit_editMode(start, end, percent, limit, num);
-            goMainMenu();
-        } catch (InvalidStartAndEndDateForDiscountCodeException e) {
-            InvalidEndAndStart();
-        } catch (DiscountCodeExpiredException | FieldDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        if (mode == Mode.New)
+            submit_addMode(start, end, percent, limit, num);
+        if (mode == Mode.Edit)
+            submit_editMode(start, end, percent, limit, num);
+
+        goMainMenu();
     }
 
-    private void submit_editMode(String start, String end, String percent, String limit, String num) throws DiscountCodeExpiredException, FieldDoesNotExistException {
-        DiscountCode discountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
-        managerController.editDiscountCode(discountCode.getId() + "", "start", start);
-        managerController.editDiscountCode(discountCode.getId() + "", "end", end);
-        managerController.editDiscountCode(discountCode.getId() + "", "frequentUse", num);
-        managerController.editDiscountCode(discountCode.getId() + "", "maxDiscountAmount", limit);
-        managerController.editDiscountCode(discountCode.getId() + "", "discountPercent", percent);
+    private void submit_addMode(String start, String end, String percent, String limit, String num) {
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add(client.getClientInfo().getToken());
+        objects.add(start);
+        objects.add(end);
+        objects.add(percent);
+        objects.add(limit);
+        objects.add(num);
+        client.sendAndReceive(MessageSupplier.RequestType.AddNewDiscountCode, objects);
+    }
+
+    private void submit_editMode(String start, String end, String percent, String limit, String num) {
+        RequestForEdit("start", start);
+        RequestForEdit("end", end);
+        RequestForEdit("frequentUse", num);
+        RequestForEdit("maxDiscountAmount", limit);
+        RequestForEdit("discountPercent", percent);
+    }
+
+    private void RequestForEdit(String fieldName, String fieldValue) {
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add(client.getClientInfo().getToken());
+        objects.add(client.getClientInfo().getCodeId());
+        objects.add(fieldName);
+        objects.add(fieldValue);
+        client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfDiscountCode, objects);
     }
 
     private void init_editMode() {
@@ -150,12 +165,11 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
         new Thread(() -> new MediaPlayer(
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
-                )).play()).start();
+                )).play()
+        ).start();
     }
 
     public enum Mode {
         Edit, New
     }
-
-
 }

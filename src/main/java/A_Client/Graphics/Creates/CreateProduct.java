@@ -1,19 +1,14 @@
 package A_Client.Graphics.Creates;
 
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.SellerController;
-import B_Server.Model.Models.Account;
-import B_Server.Model.Models.Auction;
-import B_Server.Model.Models.Category;
-import B_Server.Model.Models.Product;
-import Exceptions.*;
+import A_Client.Client.Client;
+import A_Client.Client.MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MainMenu;
+import A_Client.Graphics.MiniModels.FieldAndFieldList.Field;
+import A_Client.Graphics.MiniModels.Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.DataBase.DataBase;
-import Model.Models.*;
-import B_Server.Model.Models.Accounts.Seller;
-import B_Server.Model.Models.Field.Field;
-import B_Server.Model.Models.Structs.Medias;
+import A_Client.JsonHandler.JsonHandler;
+import Exceptions.*;
+import com.gilecode.yagson.YaGson;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +23,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -39,9 +37,9 @@ import java.util.stream.Collectors;
 
 public class CreateProduct implements SceneBuilder, Initializable {
 
-    private static SellerController sellerController = SellerController.getInstance();
+    private final Client client = MainMenu.getClient();
     private static Mode mode = Mode.New;
-    private Product product;
+    private MiniProduct product;
     private File selectedImage;
     private File selectedMedia;
     private int category_f_index;
@@ -122,19 +120,19 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        product = ControllerUnit.getInstance().getProduct();
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetProductById,
+                Arrays.asList(client.getClientInfo().getToken(), client.getClientInfo().getProductId()));
+        product = new JsonHandler<MiniProduct>().JsonToObject(answer.get(0), MiniProduct.class);
         init_newMode();
         if (mode == Mode.Edit) init_editMode();
         if (mode == Mode.AddSeller) init_addSellerMode();
     }
 
     private void init_editMode() {
-        Product product = ControllerUnit.getInstance().getProduct();
-        Seller seller = (Seller) ControllerUnit.getInstance().getAccount();
-        product_name.setText(product.getName());
+        product_name.setText(product.getProductName());
         try {
-            product_price.setText(product.getProductOfSellerById(seller.getId()).getPrice() + "");
-            product_number.setText(product.getProductOfSellerById(seller.getId()).getNumber() + "");
+            product_price.setText(product.getProfSell().getPrice() + "");
+            product_number.setText(product.getProfSell(seller.getId()).getNumber() + "");
         } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
             sellerDoesNotSellOfThisProduct.printStackTrace();
         }
@@ -383,8 +381,9 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     private void setMedia() {
+
         try {
-            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + ".mp4";
+            String first = "src/main/resources/DataBase/Images/" + product.getMediasId() + ".mp4";
             Files.copy(
                     selectedMedia.toPath(),
                     Paths.get(first),
@@ -394,6 +393,15 @@ public class CreateProduct implements SceneBuilder, Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    protected void SettingImage(String first) throws IOException {
+        File image = new File(first);
+        BufferedImage bufferedImage = ImageIO.read(image);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "Jpg", outputStream);
+        String o = new YaGson().toJson(outputStream.toByteArray());
+        client.sendAndReceive(MessageSupplier.RequestType.SetImageOfAccount, Collections.singletonList(o));
     }
 
     private void setTable(TableView<Field> table, TableColumn<Field, String> features, TableColumn<Field, String> values, @NotNull List<String> featureList, List<String> valueList) {
@@ -455,7 +463,8 @@ public class CreateProduct implements SceneBuilder, Initializable {
         new Thread(() -> new MediaPlayer(
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
-                )).play()).start();
+                )).play()
+        ).start();
     }
 
     public enum Mode {
