@@ -13,6 +13,7 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.SetNewToken, list -> "SetNewToken::Please");
         requestTypeSupplierHashMap.put(RequestType.GetAllAuctions, list -> list.get(0) + "::GetAllAuctions");
         requestTypeSupplierHashMap.put(RequestType.GetAllProducts, list -> list.get(0) + "::GetAllProducts");
+        requestTypeSupplierHashMap.put(RequestType.GetAllOfMyProducts, list -> list.get(0) + "::GetAllOfMyProducts");
         requestTypeSupplierHashMap.put(RequestType.GetAllPopularProducts, list -> list.get(0) + "::GetAllPopularProducts");
         requestTypeSupplierHashMap.put(RequestType.GetAllProductsOfCategory, list -> list.get(0) + "::GetAllProductsOfCategory " + list.get(1));
         requestTypeSupplierHashMap.put(RequestType.SetNewFilter, list -> list.get(0) + "::SetNewFilter " + list.get(1));
@@ -24,7 +25,7 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.GetMyDiscountCodes, list -> list.get(0) + "::GetMyDiscountCodes");
         requestTypeSupplierHashMap.put(RequestType.DeleteMyAccount, list -> list.get(0) + "::DeleteMyAccount");
         requestTypeSupplierHashMap.put(RequestType.GetMyLogHistory, list -> list.get(0) + "::GetMyLogHistory");
-        requestTypeSupplierHashMap.put(RequestType.SetImageOfAccount, list -> list.get(0) + "::SetImageOfAccount " + );
+        requestTypeSupplierHashMap.put(RequestType.SetImageOfAccount, list -> list.get(0) + "::SetImageOfAccount " + list.get(1));
         requestTypeSupplierHashMap.put(RequestType.EditFieldOfAccount, list -> list.get(0) + "::EditFieldOfAccount " + list.get(1) + " " + list.get(2));
         return requestTypeSupplierHashMap;
     }
@@ -51,6 +52,7 @@ public interface MessageSupplier {
         EditFieldOfAccount,
         DeleteMyAccount,
         GetMyLogHistory,
-        SetImageOfAccount
+        SetImageOfAccount,
+        GetAllOfMyProducts
     }
 }

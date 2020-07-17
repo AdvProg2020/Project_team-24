@@ -1,9 +1,10 @@
 package A_Client.Graphics.Accounts;
 
+import A_Client.Client.MessageInterfaces.MessageSupplier;
+import A_Client.Graphics.MiniModels.Structs.MiniAccount;
 import A_Client.Graphics.Pages.SignUp;
-import B_Server.Controller.ControllerUnit;
+import A_Client.JsonHandler.JsonHandler;
 import Exceptions.FieldDoesNotExistException;
-import Exceptions.ProductMediaNotFoundException;
 import A_Client.Graphics.Creates.CreateCategory;
 import A_Client.Graphics.Creates.CreateDiscountCode;
 import A_Client.Graphics.Lists.AccountsList;
@@ -13,8 +14,6 @@ import A_Client.Graphics.Lists.RequestList;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.DataBase.DataBase;
-import B_Server.Model.Models.Structs.Medias;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,15 +26,11 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class Manager implements SceneBuilder, Initializable {
-
-    private B_Server.Model.Models.Accounts.Manager manager = (B_Server.Model.Models.Accounts.Manager) ControllerUnit.getInstance().getAccount();
-    private File selectedImage;
+public class Manager extends BaseAccount implements SceneBuilder, Initializable {
 
     @FXML
     private ImageView manager_image;
@@ -67,18 +62,23 @@ public class Manager implements SceneBuilder, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        try {
-            UserName.setText(manager.getUserName());
-            Password.setText(manager.getPassword());
-            LastName.setText(manager.getPersonalInfo().getList().getFieldByName("LastName").getString());
-            FirstName.setText(manager.getPersonalInfo().getList().getFieldByName("FirstName").getString());
-            PhoneNum.setText(manager.getPersonalInfo().getList().getFieldByName("PhoneNumber").getString());
-            Email.setText(manager.getPersonalInfo().getList().getFieldByName("Email").getString());
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMiniAccount, Collections.singletonList(client.getClientInfo().getToken()));
+        account = new JsonHandler<MiniAccount>().JsonToObject(answers.get(0), MiniAccount.class);
 
-            if (manager.getMediaId() != 0) {
-                manager_image.setImage(Medias.getImage(Medias.getMediasById(manager.getMediaId()).getImageSrc()));
+        try {
+            UserName.setText(account.getUsername());
+            Password.setText(account.getPassword());
+            LastName.setText(account.getPersonalInfo().getFieldByName("LastName").getString());
+            FirstName.setText(account.getPersonalInfo().getFieldByName("FirstName").getString());
+            PhoneNum.setText(account.getPersonalInfo().getFieldByName("PhoneNumber").getString());
+            Email.setText(account.getPersonalInfo().getFieldByName("Email").getString());
+
+            if (account.getMediasId() == null) {
+                answers = MainMenu.getClient().sendAndReceive(MessageSupplier.RequestType.GetAccountImage, Collections.singletonList(client.getClientInfo().getToken()));
+                manager_image.setImage(new JsonHandler<Image>().JsonToObject(answers.get(0), Image.class));
             }
-        } catch (FieldDoesNotExistException | ProductMediaNotFoundException e) {
+
+        } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
     }
@@ -135,35 +135,20 @@ public class Manager implements SceneBuilder, Initializable {
                 setImage();
             }
 
-            manager.editField("password", Password.getText());
-            manager.editField("FirstName", FirstName.getText());
-            manager.editField("LastName", LastName.getText());
-            manager.editField("Email", Email.getText());
-            manager.editField("PhoneNumber", PhoneNum.getText());
+            RequestForEdit("password", Password.getText());
+            RequestForEdit("FirstName", FirstName.getText());
+            RequestForEdit("LastName", LastName.getText());
+            RequestForEdit("Email", Email.getText());
+            RequestForEdit("PhoneNumber", PhoneNum.getText());
 
-        } catch (IOException | ProductMediaNotFoundException | FieldDoesNotExistException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void setImage() throws IOException, ProductMediaNotFoundException {
-        String first = "src/main/resources/DataBase/Images/" + manager.getMediaId() + ".jpg";
-        Files.copy(
-                selectedImage.toPath(),
-                Paths.get(first),
-                StandardCopyOption.REPLACE_EXISTING
-        );
-
-        Medias medias;
-        if (manager.getMediaId() == 0) {
-            medias = new Medias();
-            Medias.addMedia(medias);
-            manager.setMediaId(medias.getId());
-        } else {
-            medias = Medias.getMediasById(manager.getMediaId());
-        }
-        medias.setImageSrc(new File(first).toURI().toString());
-        DataBase.save(medias);
+    private void setImage() throws IOException {
+        String first = "src/main/resources/DataBase/Images/" + account.getMediasId() + ".jpg";
+        super.SettingImage(first);
     }
 
     public void viewAuctions() {

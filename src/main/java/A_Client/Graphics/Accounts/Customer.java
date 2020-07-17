@@ -1,6 +1,5 @@
 package A_Client.Graphics.Accounts;
 
-import A_Client.Client.Client;
 import A_Client.Client.MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MiniModels.Structs.MiniDiscountCode;
 import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
@@ -21,23 +20,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 
-public class Customer implements Initializable, SceneBuilder {
+public class Customer extends BaseAccount implements Initializable, SceneBuilder {
 
-    private final Client client = MainMenu.getClient();
-    private MiniAccount customer;
-    private File selectedImage;
     @FXML
     private ImageView customer_image;
     @FXML
@@ -74,25 +65,22 @@ public class Customer implements Initializable, SceneBuilder {
     public void initialize(URL location, ResourceBundle resources) {
 
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMiniAccount, Collections.singletonList(client.getClientInfo().getToken()));
-        customer = new JsonHandler<MiniAccount>().JsonToObject(answers.get(0), MiniAccount.class);
+        account = new JsonHandler<MiniAccount>().JsonToObject(answers.get(0), MiniAccount.class);
 
         try {
-            username_txt.setText(customer.getUsername());
-            password_txt.setText(customer.getPassword());
-            lName_txt.setText(customer.getPersonalInfo().getFieldByName("LastName").getString());
-            fName_txt.setText(customer.getPersonalInfo().getFieldByName("FirstName").getString());
-            phone_txt.setText(customer.getPersonalInfo().getFieldByName("PhoneNumber").getString());
-            email_txt.setText(customer.getPersonalInfo().getFieldByName("Email").getString());
+            username_txt.setText(account.getUsername());
+            password_txt.setText(account.getPassword());
+            lName_txt.setText(account.getPersonalInfo().getFieldByName("LastName").getString());
+            fName_txt.setText(account.getPersonalInfo().getFieldByName("FirstName").getString());
+            phone_txt.setText(account.getPersonalInfo().getFieldByName("PhoneNumber").getString());
+            email_txt.setText(account.getPersonalInfo().getFieldByName("Email").getString());
 
-            if (customer.getMediasId() == null) {
-                answers = MainMenu.getClient().sendAndReceive(MessageSupplier.RequestType.GetAccountImage, Collections.singletonList(client.getClientInfo().getToken()));
-                customer_image.setImage(new JsonHandler<Image>().JsonToObject(answers.get(0), Image.class));
-            }
+            if (account.getMediasId() == null) ImageInit(customer_image);
 
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-        balance_txt.setText(customer.getWallet().getAmount() + "");
+        balance_txt.setText(account.getWallet().getAmount() + "");
 
         client.sendAndReceive(MessageSupplier.RequestType.CheckMyDiscountCodes, Collections.singletonList(client.getClientInfo().getToken()));
 
@@ -103,7 +91,7 @@ public class Customer implements Initializable, SceneBuilder {
     }
 
     public void logout() {
-        client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
+        super.logout();
         back();
     }
 
@@ -120,21 +108,9 @@ public class Customer implements Initializable, SceneBuilder {
             RequestForEdit("Email", email_txt.getText());
             RequestForEdit("PhoneNumber", phone_txt.getText());
 
-        } catch (IOException | ProductMediaNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void RequestForEdit(String fieldName, String fieldValue) {
-        ArrayList<String> objects = new ArrayList<>();
-        objects.add(client.getClientInfo().getToken());
-        objects.add(fieldName);
-        objects.add(fieldValue);
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfAccount, objects);
-    }
-
-    public void back() {
-        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
     public void goCart() {
@@ -151,11 +127,7 @@ public class Customer implements Initializable, SceneBuilder {
     }
 
     public void selectingImage() {
-        FileChooser fc = new FileChooser();
-        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg"));
-        selectedImage = fc.showOpenDialog(null);
-        Image image = new Image(selectedImage.toURI().toString());
-        customer_image.setImage(image);
+        super.selectFile(customer_image);
     }
 
     public void DeleteAccount() {
@@ -165,26 +137,9 @@ public class Customer implements Initializable, SceneBuilder {
         );
     }
 
-    private void setImage() throws IOException, ProductMediaNotFoundException {
-
-        client.sendAndReceive(MessageSupplier.RequestType.SetImageOfAccount, )
-
-//        String first = "src/main/resources/DataBase/Images/" + customer.getMediasId() + ".jpg";
-//        Files.copy(
-//                selectedImage.toPath(),
-//                Paths.get(first),
-//                StandardCopyOption.REPLACE_EXISTING
-//        );
-//
-//        Medias medias;
-//        if (customer.getMediaId() == 0) {
-//            medias = new Medias();
-//            Medias.addMedia(medias);
-//            customer.setMediaId(medias.getId());
-//        } else {
-//            medias = Medias.getMediasById(customer.getMediaId());
-//        }
-//        medias.setImageSrc(new File(first).toURI().toString());
-//        DataBase.save(medias);
+    private void setImage() throws IOException {
+        String first = "src/main/resources/DataBase/Images/"
+                + account.getMediasId() + ".jpg";
+        SettingImage(first);
     }
 }

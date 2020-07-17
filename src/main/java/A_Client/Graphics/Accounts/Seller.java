@@ -1,28 +1,23 @@
 package A_Client.Graphics.Accounts;
 
-import A_Client.Graphics.Models.LogHistoryCart;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.SellerController;
-import Exceptions.FieldDoesNotExistException;
-import Exceptions.LogHistoryDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
-import Exceptions.ProductMediaNotFoundException;
+import A_Client.Client.MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.Creates.CreateAuction;
 import A_Client.Graphics.Creates.CreateCategory;
 import A_Client.Graphics.Creates.CreateProduct;
-import A_Client.Graphics.Menus.LogHistoryMenu;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.AuctionsMenu;
+import A_Client.Graphics.Menus.LogHistoryMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
+import A_Client.Graphics.MiniModels.Structs.MiniAuction;
+import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
+import A_Client.Graphics.MiniModels.Structs.MiniProduct;
+import A_Client.Graphics.MiniModels.Structs.MiniProductLog;
 import A_Client.Graphics.Models.AuctionCart;
+import A_Client.Graphics.Models.LogHistoryCart;
 import A_Client.Graphics.Models.ProductCart;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.DataBase.DataBase;
-import B_Server.Model.Models.Auction;
-import B_Server.Model.Models.LogHistory;
-import B_Server.Model.Models.Product;
-import B_Server.Model.Models.Structs.Medias;
-import B_Server.Model.Models.Structs.ProductLog;
+import A_Client.JsonHandler.JsonHandler;
+import Exceptions.FieldDoesNotExistException;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,25 +27,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class Seller implements SceneBuilder, Initializable {
-
-    private static SellerController sellerController = SellerController.getInstance();
-    private B_Server.Model.Models.Accounts.Seller seller = (B_Server.Model.Models.Accounts.Seller) ControllerUnit.getInstance().getAccount();
-    private File selectedImage;
+public class Seller extends BaseAccount implements SceneBuilder, Initializable {
 
     @FXML
     private ImageView seller_image;
@@ -75,13 +62,13 @@ public class Seller implements SceneBuilder, Initializable {
     @FXML
     private TextField fName_txt;
     @FXML
-    private TableView<ProductLog> soldTable;
+    private TableView<MiniProductLog> soldTable;
     @FXML
-    private TableColumn<ProductLog, String> prices_column;
+    private TableColumn<MiniProductLog, String> prices_column;
     @FXML
-    private TableColumn<ProductLog, String> sold_column;
+    private TableColumn<MiniProductLog, String> sold_column;
     @FXML
-    private TableColumn<ProductLog, String> logId_column;
+    private TableColumn<MiniProductLog, String> logId_column;
 
     @Override
     public Scene sceneBuilder() {
@@ -96,72 +83,62 @@ public class Seller implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        username_txt.setText(seller.getUserName());
-        password_txt.setText(seller.getPassword());
+        username_txt.setText(account.getUsername());
+        password_txt.setText(account.getPassword());
         try {
-            lName_txt.setText(seller.getPersonalInfo().getList().getFieldByName("LastName").getString());
-            fName_txt.setText(seller.getPersonalInfo().getList().getFieldByName("FirstName").getString());
-            phone_txt.setText(seller.getPersonalInfo().getList().getFieldByName("PhoneNumber").getString());
-            email_txt.setText(seller.getPersonalInfo().getList().getFieldByName("Email").getString());
-            bran_txt.setText(seller.getCompanyInfo().getList().getFieldByName("CompanyName").getString());
-            comEmail_txt.setText(seller.getCompanyInfo().getList().getFieldByName("CompanyEmail").getString());
-            comPhone_txt.setText(seller.getCompanyInfo().getList().getFieldByName("CompanyPhoneNumber").getString());
+
+            lName_txt.setText(account.getPersonalInfo().getFieldByName("LastName").getString());
+            fName_txt.setText(account.getPersonalInfo().getFieldByName("FirstName").getString());
+            phone_txt.setText(account.getPersonalInfo().getFieldByName("PhoneNumber").getString());
+            email_txt.setText(account.getPersonalInfo().getFieldByName("Email").getString());
+            bran_txt.setText(account.getCompanyInfo().getFieldByName("CompanyName").getString());
+            comEmail_txt.setText(account.getCompanyInfo().getFieldByName("CompanyEmail").getString());
+            comPhone_txt.setText(account.getCompanyInfo().getFieldByName("CompanyPhoneNumber").getString());
+            balance_txt.setText(account.getWallet().getAmount() + "");
+
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-        balance_txt.setText(seller.getBalance() + "");
-        try {
 
-            if (seller.getMediaId() != 0) {
-                seller_image.setImage(Medias.getImage(Medias.getMediasById(seller.getMediaId()).getImageSrc()));
-            }
+        if (account.getMediasId() != null) ImageInit(seller_image);
 
-            List<ProductLog> productLogList = new ArrayList<>();
-            sellerController.viewSalesHistory()
-                    .forEach(logHistory -> productLogList.addAll(logHistory.getProductLogList()));
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMyLogHistory, Collections.singletonList(client.getClientInfo().getToken()));
+        ArrayList<MiniProductLog> miniProductLogs = new ArrayList<>();
 
-            soldTable.setItems(FXCollections.observableArrayList(productLogList));
-            logId_column.setCellValueFactory(new PropertyValueFactory<>("productId"));
-            sold_column.setCellValueFactory(new PropertyValueFactory<>("productName"));
-            prices_column.setCellValueFactory(new PropertyValueFactory<>("finalPrice"));
-        } catch (LogHistoryDoesNotExistException | ProductMediaNotFoundException e) {
-            e.printStackTrace();
-        }
+        new JsonHandler<MiniLogHistory>().JsonsToObjectList(answers, MiniLogHistory.class)
+                .forEach(logHistory -> miniProductLogs.addAll(logHistory.getProductLogList()));
+
+        soldTable.setItems(FXCollections.observableArrayList(miniProductLogs));
+        logId_column.setCellValueFactory(
+                new PropertyValueFactory<>("productId"));
+        sold_column.setCellValueFactory(
+                new PropertyValueFactory<>("productName"));
+        prices_column.setCellValueFactory(
+                new PropertyValueFactory<>("finalPrice"));
     }
 
     public void selectingImage() {
-        FileChooser fc = new FileChooser();
-        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg"));
-        selectedImage = fc.showOpenDialog(null);
-        if (selectedImage == null) return;
-        Image image = new Image(selectedImage.toURI().toString());
-        seller_image.setImage(image);
+        super.selectFile(seller_image);
     }
 
     public void showProducts() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        try {
-            setProducts(sellerController.showProducts());
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllOfMyProducts, Collections.singletonList(client.getClientInfo().getToken()));
+        List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>().JsonsToObjectList(answers, MiniProduct.class);
+        setProducts(miniProducts);
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public void showLogHistories() {
-        List<LogHistory> logHistoryList = null;
-        try {
-            logHistoryList = sellerController.viewSalesHistory();
-        } catch (LogHistoryDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMyLogHistory, Collections.singletonList(client.getClientInfo().getToken()));
+        List<MiniLogHistory> logHistoryList = new JsonHandler<MiniLogHistory>().JsonsToObjectList(answers, MiniLogHistory.class);
         LogHistoryMenu.setLogHistoryList(logHistoryList);
         LogHistoryCart.setLogHistoryList(logHistoryList);
         MainMenu.change(new LogHistoryMenu().sceneBuilder());
     }
 
     public void logout() {
-        ControllerUnit.getInstance().setAccount(null);
+        super.logout();
         back();
     }
 
@@ -173,39 +150,24 @@ public class Seller implements SceneBuilder, Initializable {
                 setImage();
             }
 
-            seller.editField("password", password_txt.getText());
-            seller.editField("balance", balance_txt.getText());
-            seller.editField("FirstName", fName_txt.getText());
-            seller.editField("LastName", lName_txt.getText());
-            seller.editField("Email", email_txt.getText());
-            seller.editField("PhoneNumber", phone_txt.getText());
-            seller.editField("CompanyName", bran_txt.getText());
-            seller.editField("CompanyPhoneNumber", comPhone_txt.getText());
-            seller.editField("CompanyEmail", comEmail_txt.getText());
+            RequestForEdit("password", password_txt.getText());
+            RequestForEdit("balance", balance_txt.getText());
+            RequestForEdit("FirstName", fName_txt.getText());
+            RequestForEdit("LastName", lName_txt.getText());
+            RequestForEdit("Email", email_txt.getText());
+            RequestForEdit("PhoneNumber", phone_txt.getText());
+            RequestForEdit("CompanyName", bran_txt.getText());
+            RequestForEdit("CompanyPhoneNumber", comPhone_txt.getText());
+            RequestForEdit("CompanyEmail", comEmail_txt.getText());
 
-        } catch (IOException | ProductMediaNotFoundException | FieldDoesNotExistException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void setImage() throws IOException, ProductMediaNotFoundException {
-        String first = "src/main/resources/DataBase/Images/" + seller.getMediaId() + ".jpg";
-        Files.copy(
-                selectedImage.toPath(),
-                Paths.get(first),
-                StandardCopyOption.REPLACE_EXISTING
-        );
-
-        Medias medias;
-        if (seller.getMediaId() == 0) {
-            medias = new Medias();
-            Medias.addMedia(medias);
-            seller.setMediaId(medias.getId());
-        } else {
-            medias = Medias.getMediasById(seller.getMediaId());
-        }
-        medias.setImageSrc(new File(first).toURI().toString());
-        DataBase.save(medias);
+    private void setImage() throws IOException {
+        String first = "src/main/resources/DataBase/Images/" + account.getMediasId() + ".jpg";
+        super.SettingImage(first);
     }
 
     public void back() {
@@ -228,13 +190,17 @@ public class Seller implements SceneBuilder, Initializable {
     }
 
     public void showAuctions() {
-        ArrayList<Auction> list = new ArrayList<>((sellerController.viewAllOffs()));
-        AuctionsMenu.setList(list);
-        AuctionCart.setAuctionList(list);
+        List<String> answers = client.sendAndReceive(
+                MessageSupplier.RequestType.GetAllAuctions, Collections.singletonList(client.getClientInfo().getToken())
+        );
+        List<MiniAuction> miniAuctions = new JsonHandler<MiniAuction>()
+                .JsonsToObjectList(answers, MiniAuction.class);
+        AuctionsMenu.setList(miniAuctions);
+        AuctionCart.setAuctionList(miniAuctions);
         MainMenu.change(new AuctionsMenu().sceneBuilder());
     }
 
-    private void setProducts(List<Product> list) {
+    private void setProducts(List<MiniProduct> list) {
         ProductsMenu.setList(list);
         ProductCart.setProductList(list);
     }
