@@ -2,8 +2,8 @@ package A_Client.Graphics.MiniModels.Wallet;
 
 public class Wallet {
 
-    private final double upperLimit = 100000000;
-    private final double lowerLimit = 1000;
+    private double upperLimit = 100000000;
+    private double lowerLimit = 1000;
     private double amount = 1000;
 
     public double getAmount() {
@@ -16,6 +16,10 @@ public class Wallet {
 
     public double getLowerLimit() {
         return lowerLimit;
+    }
+
+    public void setLowerLimit(double lowerLimit) {
+        this.lowerLimit = lowerLimit;
     }
 
     public boolean increase(double plus) {

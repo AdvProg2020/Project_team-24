@@ -1,16 +1,13 @@
 package A_Client.Graphics.Creates;
 
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.ManagerController;
-import B_Server.Controller.Controllers.SellerController;
-import Exceptions.CategoryDoesNotExistException;
-import Exceptions.FieldDoesNotExistException;
+import A_Client.Client.Client;
+import A_Client.Client.MessageInterfaces.MessageSupplier;
+import A_Client.Graphics.MiniModels.FieldAndFieldList.Field;
+import A_Client.Graphics.MiniModels.Structs.MiniCate;
+import A_Client.JsonHandler.JsonHandler;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.DataBase.DataBase;
-import B_Server.Model.Models.Category;
-import B_Server.Model.Models.Field.Field;
-import B_Server.Model.Models.FieldList;
+import com.gilecode.yagson.YaGson;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -25,15 +22,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CreateCategory implements SceneBuilder, Initializable {
 
-    private static SellerController sellerController = SellerController.getInstance();
-    private static ManagerController managerController = ManagerController.getInstance();
+    private final Client client = MainMenu.getClient();
     private static Mode mode = Mode.New;
     private List<String> str_feature = new ArrayList<>();
     @FXML
@@ -65,22 +59,25 @@ public class CreateCategory implements SceneBuilder, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         init_newMode();
-        if (mode == Mode.Edit) init_editMode();
+        if (mode == Mode.Edit)
+            init_editMode();
     }
 
     private void init_newMode() {
-        List<CheckMenuItem> checkMenuItems = sellerController.showCategories().stream()
-                .map(product -> product.getName() + " " + product.getId())
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllCategories, Collections.singletonList(client.getClientInfo().getToken()));
+        List<CheckMenuItem> checkMenuItems = new JsonHandler<MiniCate>().JsonsToObjectList(answers, MiniCate.class).stream()
+                .map(product -> product.getCateName() + " " + product.getCateId())
                 .map(CheckMenuItem::new).collect(Collectors.toList());
 
         selected_subCategory.getItems().addAll(checkMenuItems);
     }
 
     private void init_editMode() {
-        Category category = ControllerUnit.getInstance().getCategory();
-        Category_name.setText(category.getName());
-        List<String> collect = category.getCategoryFields()
-                .getFieldList().stream()
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetCategoryById, Arrays.asList(client.getClientInfo().getToken(), client.getClientInfo().getCateId()));
+        MiniCate miniCate = new JsonHandler<MiniCate>().JsonToObject(answers.get(0), MiniCate.class);
+        Category_name.setText(miniCate.getCateName());
+        List<String> collect = miniCate.getFieldList()
+                .getList().stream()
                 .map(Field::getFieldName)
                 .collect(Collectors.toList());
         setTable(table, feature_column, collect);
@@ -103,25 +100,35 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
                 }).collect(Collectors.toList());
 
-        try {
-            if (mode == Mode.New)
-                managerController.createEmptyCategory(category_name, str_feature, ids);
-            if (mode == Mode.Edit) {
-                submit_editMode(category_name, ids);
-            }
-        } catch (CategoryDoesNotExistException | FieldDoesNotExistException e) {
-            e.printStackTrace();
+        if (mode == Mode.New) {
+            addNewCate(category_name, ids);
+        }
+        if (mode == Mode.Edit) {
+            submit_editMode(category_name, ids);
         }
 
         goMainMenu();
     }
 
-    private void submit_editMode(String category_name, @NotNull List<String> ids) throws FieldDoesNotExistException, CategoryDoesNotExistException {
-        Category category = ControllerUnit.getInstance().getCategory();
-        managerController.editCategory(category.getId() + "", "name", category_name);
-        category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
-        category.setCategoryFields(new FieldList(str_feature.stream().map(Field::new).collect(Collectors.toList())));
-        DataBase.save(category);
+    private void addNewCate(String category_name, List<String> ids) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.add(category_name);
+        list.add(new YaGson().toJson(str_feature));
+        list.add(new YaGson().toJson(ids));
+        client.sendAndReceive(MessageSupplier.RequestType.AddNewCate, list);
+    }
+
+    private void submit_editMode(String category_name, @NotNull List<String> ids) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.add(category_name);
+        list.add(new YaGson().toJson(ids));
+        client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfCate, list);
+//        managerController.editCategory(category.getId() + "", "name", category_name);
+//        category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
+//        category.setCategoryFields(new FieldList(str_feature.stream().map(Field::new).collect(Collectors.toList())));
+//        DataBase.save(category);
     }
 
     private void goMainMenu() {
@@ -153,7 +160,8 @@ public class CreateCategory implements SceneBuilder, Initializable {
         new Thread(() -> new MediaPlayer(
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
-                )).play()).start();
+                )).play()
+        ).start();
     }
 
     public enum Mode {

@@ -2,7 +2,7 @@ package A_Client.Graphics.MiniModels.FieldAndFieldList;
 
 public class Field implements Cloneable {
 
-    protected String fieldName;
+    private String fieldName;
     private String string;
 
     public String getString() {

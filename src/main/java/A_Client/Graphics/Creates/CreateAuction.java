@@ -1,12 +1,14 @@
 package A_Client.Graphics.Creates;
 
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.SellerController;
-import Exceptions.*;
+import A_Client.Client.Client;
+import A_Client.Client.MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MainMenu;
+import A_Client.Graphics.MiniModels.Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.Models.Accounts.Seller;
+import A_Client.JsonHandler.JsonHandler;
+import B_Server.Controller.ControllerUnit;
 import B_Server.Model.Models.Auction;
+import com.gilecode.yagson.YaGson;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,15 +20,16 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class CreateAuction implements SceneBuilder, Initializable {
 
-    private static SellerController sellerController = SellerController.getInstance();
+    private final Client client = MainMenu.getClient();
     private static Mode mode = Mode.New;
-
     @FXML
     private TextField start_time;
     @FXML
@@ -59,7 +62,8 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (mode == Mode.New) init_newMode();
+        if (mode == Mode.New)
+            init_newMode();
         else
             init_editMode();
     }
@@ -74,17 +78,17 @@ public class CreateAuction implements SceneBuilder, Initializable {
     }
 
     private void init_newMode() {
-        try {
-            List<CheckMenuItem> checkMenuItems = sellerController.showProducts().stream()
-                    .filter(product -> product.getAuction() == null)
-                    .map(product -> product.getName() + " " + product.getId())
-                    .map(CheckMenuItem::new).collect(Collectors.toList());
+        List<String> answers = client.sendAndReceive(
+                MessageSupplier.RequestType.GetAllProducts, Collections.singletonList(client.getClientInfo().getToken())
+        );
+        List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>()
+                .JsonsToObjectList(answers, MiniProduct.class);
 
-            selected_products.getItems().addAll(checkMenuItems);
+        List<CheckMenuItem> checkMenuItems = miniProducts.stream().filter(product -> product.getAuctionId() == null)
+                .map(product -> product.getProductName() + " " + product.getProductId())
+                .map(CheckMenuItem::new).collect(Collectors.toList());
 
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        selected_products.getItems().addAll(checkMenuItems);
     }
 
     public void submit() {
@@ -102,27 +106,33 @@ public class CreateAuction implements SceneBuilder, Initializable {
             return;
         }
 
-        try {
-            if (mode == Mode.New)
-                submit_newMode(start, end, name, percent, limit);
-            if (mode == Mode.Edit)
-                submit_edit();
-            goMainMenu();
-        } catch (InvalidInputByUserException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException | AuctionDoesNotExistException | FieldDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        if (mode == Mode.New)
+            submit_newMode(start, end, name, percent, limit);
+        if (mode == Mode.Edit)
+            submit_edit();
+
+        goMainMenu();
     }
 
-    private void submit_edit() throws AuctionDoesNotExistException, FieldDoesNotExistException, InvalidInputByUserException {
-        Seller seller = (Seller) ControllerUnit.getInstance().getAccount();
-        sellerController.editAuction(seller.getId() + "", "auctionName", auction_name.getText(), "edit Auction");
-        sellerController.editAuction(seller.getId() + "", "start", start_time.getText(), "edit Auction");
-        sellerController.editAuction(seller.getId() + "", "end", end_time.getText(), "edit Auction");
-        sellerController.editAuction(seller.getId() + "", "discountMaxAmount", auction_limit.getText(), "edit Auction");
-        sellerController.editAuction(seller.getId() + "", "discountPercent", auction_percent.getText(), "edit Auction");
+    private void submit_edit() {
+        RequestForEdit("auctionName", auction_name.getText());
+        RequestForEdit("start", start_time.getText());
+        RequestForEdit("end", end_time.getText());
+        RequestForEdit("discountMaxAmount", auction_limit.getText());
+        RequestForEdit("discountPercent", auction_percent.getText());
     }
 
-    private void submit_newMode(String start, String end, String name, String percent, String limit) throws InvalidInputByUserException, ProductDoesNotExistException, ProductCantBeInMoreThanOneAuction {
+    private void RequestForEdit(String fieldName, String fieldValue) {
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add(client.getClientInfo().getToken());
+        objects.add(client.getClientInfo().getAccountId());
+        objects.add(fieldName);
+        objects.add(fieldValue);
+        objects.add("edit Auction");
+        client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfAuction, objects);
+    }
+
+    private void submit_newMode(String start, String end, String name, String percent, String limit) {
         List<String> ids = selected_products.getItems().stream()
                 .filter(menuItem -> ((CheckMenuItem) menuItem).isSelected())
                 .map(menuItem -> {
@@ -132,9 +142,23 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
                 }).collect(Collectors.toList());
 
-        Auction auction = sellerController.addOff(name, start, end, percent, limit);
-        sellerController.addProductsToAuction(auction, ids);
-        sellerController.sendRequest(auction, "new Auction", "new");
+        requestForAdd(start, end, name, percent, limit, ids);
+
+//        Auction auction = sellerController.addOff(name, start, end, percent, limit);
+//        sellerController.addProductsToAuction(auction, ids);
+//        sellerController.sendRequest(auction, "new Auction", "new");
+    }
+
+    private void requestForAdd(String start, String end, String name, String percent, String limit, List<String> ids) {
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add(client.getClientInfo().getToken());
+        objects.add(name);
+        objects.add(start);
+        objects.add(end);
+        objects.add(percent);
+        objects.add(limit);
+        objects.add(new YaGson().toJson(ids));
+        client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfAuction, objects);
     }
 
     private void goMainMenu() {
@@ -159,7 +183,8 @@ public class CreateAuction implements SceneBuilder, Initializable {
         new Thread(() -> new MediaPlayer(
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
-                )).play()).start();
+                )).play()
+        ).start();
     }
 
     public enum Mode {

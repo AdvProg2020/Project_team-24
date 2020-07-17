@@ -1,11 +1,14 @@
 package A_Client.Graphics.Creates;
 
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.ManagerController;
-import Exceptions.*;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
+import B_Server.Controller.ControllerUnit;
+import B_Server.Controller.Controllers.ManagerController;
 import B_Server.Model.Models.DiscountCode;
+import Exceptions.DiscountCodeExpiredException;
+import Exceptions.FieldDoesNotExistException;
+import Exceptions.InvalidStartAndEndDateForDiscountCodeException;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -26,12 +29,18 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
     private static ManagerController managerController = ManagerController.getInstance();
     private static Mode mode = Mode.New;
 
-    public TextField start_date;
-    public TextField end_date;
-    public TextField percent_discount;
-    public TextField limit_discount;
-    public Button submit_btn;
-    public TextField numberOfUse;
+    @FXML
+    private TextField start_date;
+    @FXML
+    private TextField end_date;
+    @FXML
+    private TextField percent_discount;
+    @FXML
+    private TextField limit_discount;
+    @FXML
+    private Button submit_btn;
+    @FXML
+    private TextField numberOfUse;
 
     public static void setMode(Mode mode) {
         CreateDiscountCode.mode = mode;
@@ -71,7 +80,7 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
 
         try {
             if (mode == Mode.New)
-            managerController.creatDiscountCode(start, end, percent, limit, num);
+                managerController.creatDiscountCode(start, end, percent, limit, num);
             if (mode == Mode.Edit)
                 submit_editMode(start, end, percent, limit, num);
             goMainMenu();
@@ -84,11 +93,11 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
 
     private void submit_editMode(String start, String end, String percent, String limit, String num) throws DiscountCodeExpiredException, FieldDoesNotExistException {
         DiscountCode discountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
-        managerController.editDiscountCode(discountCode.getId() + "",  "start", start);
-        managerController.editDiscountCode(discountCode.getId() + "",  "end", end);
-        managerController.editDiscountCode(discountCode.getId() + "",  "frequentUse", num);
-        managerController.editDiscountCode(discountCode.getId() + "",  "maxDiscountAmount", limit);
-        managerController.editDiscountCode(discountCode.getId() + "",  "discountPercent",percent);
+        managerController.editDiscountCode(discountCode.getId() + "", "start", start);
+        managerController.editDiscountCode(discountCode.getId() + "", "end", end);
+        managerController.editDiscountCode(discountCode.getId() + "", "frequentUse", num);
+        managerController.editDiscountCode(discountCode.getId() + "", "maxDiscountAmount", limit);
+        managerController.editDiscountCode(discountCode.getId() + "", "discountPercent", percent);
     }
 
     private void init_editMode() {

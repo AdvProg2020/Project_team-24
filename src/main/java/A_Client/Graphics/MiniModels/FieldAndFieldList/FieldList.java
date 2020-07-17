@@ -1,6 +1,5 @@
 package A_Client.Graphics.MiniModels.FieldAndFieldList;
 
-import B_Server.Model.Models.Field.Field;
 import Exceptions.FieldDoesNotExistException;
 
 import java.util.List;
