@@ -27,6 +27,8 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.GetMyDiscountCodes, list -> list.get(0) + "::GetMyDiscountCodes");
         requestTypeSupplierHashMap.put(RequestType.DeleteMyAccount, list -> list.get(0) + "::DeleteMyAccount");
         requestTypeSupplierHashMap.put(RequestType.GetMyLogHistory, list -> list.get(0) + "::GetMyLogHistory");
+        requestTypeSupplierHashMap.put(RequestType.EditFieldOfDiscountCode, list -> list.get(0) + "::EditFieldOfDiscountCode "
+                + list.get(1) + " " + list.get(2) + " " + list.get(3));
         requestTypeSupplierHashMap.put(RequestType.SetImageOfAccount, list -> list.get(0) + "::SetImageOfAccount "
                 + list.get(1));
         requestTypeSupplierHashMap.put(RequestType.EditFieldOfAccount, list -> list.get(0) + "::EditFieldOfAccount "
@@ -41,6 +43,8 @@ public interface MessageSupplier {
                         + list.get(1) + " " + list.get(2));
         requestTypeSupplierHashMap.put(RequestType.AddNewCate, list -> list.get(0) + "::EditFieldOfCate "
                 + list.get(1) + " " + list.get(2) + " " + list.get(3));
+        requestTypeSupplierHashMap.put(RequestType.GetProductById, list -> list.get(0) + "::GetProductById "
+                + list.get(1));
         return requestTypeSupplierHashMap;
     }
 
@@ -73,5 +77,8 @@ public interface MessageSupplier {
         GetCategoryById,
         EditFieldOfCate,
         AddNewCate,
+        AddNewDiscountCode,
+        EditFieldOfDiscountCode,
+        GetProductById,
     }
 }
