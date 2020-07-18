@@ -49,7 +49,7 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button layoutX="1611.0" layoutY="536.0" mnemonicParsing="false" onAction="#goCart" prefHeight="36.0" prefWidth="213.0" text="سبد خرید">
+        <Button layoutX="1612.0" layoutY="558.0" mnemonicParsing="false" onAction="#goCart" prefHeight="36.0" prefWidth="213.0" text="سبد خرید">
             <font>
                 <Font size="18.0" />
             </font>
