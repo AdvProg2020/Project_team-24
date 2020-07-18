@@ -6,6 +6,7 @@ public class ClientInfo {
     private String auctionId;
     private String productId;
     private String accountTy;
+    private String medias_Id;
     private String cateId;
     private String codeId;
     private String token;
@@ -34,6 +35,22 @@ public class ClientInfo {
         this.productId = productId;
     }
 
+    public String getAccountTy() {
+        return accountTy;
+    }
+
+    public void setAccountTy(String accountTy) {
+        this.accountTy = accountTy;
+    }
+
+    public String getMedias_Id() {
+        return medias_Id;
+    }
+
+    public void setMedias_Id(String medias_Id) {
+        this.medias_Id = medias_Id;
+    }
+
     public String getCateId() {
         return cateId;
     }
@@ -48,14 +65,6 @@ public class ClientInfo {
 
     public void setCodeId(String codeId) {
         this.codeId = codeId;
-    }
-
-    public String getAccountTy() {
-        return accountTy;
-    }
-
-    public void setAccountTy(String accountTy) {
-        this.accountTy = accountTy;
     }
 
     public String getToken() {

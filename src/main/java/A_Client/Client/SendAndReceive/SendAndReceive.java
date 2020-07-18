@@ -1,12 +1,16 @@
-package A_Client.Client;
+package A_Client.Client.SendAndReceive;
 
+import A_Client.Client.Client;
 import A_Client.Graphics.MiniModels.Structs.*;
 import A_Client.JsonHandler.JsonHandler;
 import MessageFormates.MessageSupplier;
+import com.gilecode.yagson.YaGson;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,14 +68,30 @@ public class SendAndReceive {
         return new JsonHandler<Media>().JsonToObject(answer.get(0), Media.class);
     }
 
-    public static void setImageById(String mediaId, File file) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.SetImageById,
-                file, Arrays.asList(client.getClientInfo().getToken(), mediaId));
+    public static void setImageById(String mediasId, File file) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.add(mediasId);
+        list.add(GetByteOfFile(file));
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.SetImageById, list);
     }
 
-    public static void setMediaById(String mediaId, File file) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.SetMovieById,
-                file, Arrays.asList(client.getClientInfo().getToken(), mediaId));
+    private static String GetByteOfFile(File file) {
+        byte[] bytes = new byte[0];
+        try {
+            bytes = Files.readAllBytes(file.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new YaGson().toJson(bytes);
+    }
+
+    public static void setMediaById(String mediasId, File file) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.add(mediasId);
+        list.add(GetByteOfFile(file));
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.SetMovieById, list);
     }
 
     // Get All
@@ -96,6 +116,18 @@ public class SendAndReceive {
     public static List<MiniDiscountCode> getAllDiscountCodes() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAuctions,
                 Collections.singletonList(client.getClientInfo().getToken()));
+        return new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answer, MiniDiscountCode.class);
+    }
+
+    public static List<MiniLogHistory> GetLogsOfUserById(String accountId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAuctions,
+                Arrays.asList(client.getClientInfo().getToken(), accountId));
+        return new JsonHandler<MiniLogHistory>().JsonsToObjectList(answer, MiniLogHistory.class);
+    }
+
+    public static List<MiniDiscountCode> GetCodesOfUserById(String accountId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetCodesOfUserById,
+                Arrays.asList(client.getClientInfo().getToken(), accountId));
         return new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answer, MiniDiscountCode.class);
     }
 
@@ -202,11 +234,14 @@ public class SendAndReceive {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewFilter, list);
     }
 
-    public static void CheckMyDiscountCodes(List<String> fields) {
-        List<String> list = new ArrayList<>();
-        list.add(client.getClientInfo().getToken());
-        list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.CheckCodesById, list);
+    public static void DeleteAccountById(String accountId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.DeleteAccountById,
+                Arrays.asList(client.getClientInfo().getToken(), accountId));
+    }
+
+    public static void CheckMyDiscountCodes() {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.CheckDiscountCodes,
+                Collections.singletonList(client.getClientInfo().getToken()));
     }
 
     public static void Login(List<String> fields) {

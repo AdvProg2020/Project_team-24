@@ -90,8 +90,7 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.addNewFilter, list -> list.get(0) + "::addNewFilter "
                 + list.get(1));
 
-        requestTypeSupplierHashMap.put(RequestType.CheckCodesById, list -> list.get(0) + "::CheckCodesById "
-                + list.get(1));
+        requestTypeSupplierHashMap.put(RequestType.CheckDiscountCodes, list -> list.get(0) + "::CheckCodesById");
 
         return requestTypeSupplierHashMap;
     }
@@ -136,6 +135,6 @@ public interface MessageSupplier {
         EditDiscountCode,
         DeleteAccountById,
         addNewFilter,
-        CheckCodesById,
+        CheckDiscountCodes,
     }
 }

@@ -1,6 +1,6 @@
 package A_Client.Graphics.Lists;
 
-import A_Client.Graphics.Accounts.Manager;
+import A_Client.Graphics.Accounts.Roles.Manager;
 import A_Client.Graphics.Creates.CreateCategory;
 import A_Client.Graphics.Tools.SceneBuilder;
 import B_Server.Controller.ControllerUnit;

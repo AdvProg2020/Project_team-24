@@ -1,6 +1,7 @@
 package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import MessageFormates.MessageSupplier;
 import A_Client.Graphics.MiniModels.FieldAndFieldList.Field;
 import A_Client.Graphics.MiniModels.Structs.MiniCate;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 public class CreateCategory implements SceneBuilder, Initializable {
 
-    private final Client client = MainMenu.getClient();
+    private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.New;
     private List<String> str_feature = new ArrayList<>();
     @FXML
@@ -64,8 +65,7 @@ public class CreateCategory implements SceneBuilder, Initializable {
     }
 
     private void init_newMode() {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllCategories, Collections.singletonList(client.getClientInfo().getToken()));
-        List<CheckMenuItem> checkMenuItems = new JsonHandler<MiniCate>().JsonsToObjectList(answers, MiniCate.class).stream()
+        List<CheckMenuItem> checkMenuItems = SendAndReceive.getAllCategories().stream()
                 .map(product -> product.getCateName() + " " + product.getCateId())
                 .map(CheckMenuItem::new).collect(Collectors.toList());
 

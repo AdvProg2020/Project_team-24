@@ -17,7 +17,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
     private Blabber blabber;
     private boolean goodBye;
 
-    public RequestHandler(Socket socket, String token) {
+    public RequestHandler(Socket socket) {
         blabber = new Blabber(socket);
     }
 
@@ -39,15 +39,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
     public synchronized void sendMessage(String message) {
         try {
             blabber.sendMessage(message);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public synchronized void sendFile(File file) {
-        try {
-            InputStream inputStream = new FileInputStream(file);
-            blabber.sendFile(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,10 +99,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         public synchronized void sendMessage(String message) throws IOException {
             outputStream.writeUTF(message);
             outputStream.flush();
-        }
-
-        public synchronized void sendFile(InputStream inputStream) throws IOException {
-            IOUtil.copy(inputStream, outputStream);
         }
 
         public synchronized String receiveMessage() throws IOException {

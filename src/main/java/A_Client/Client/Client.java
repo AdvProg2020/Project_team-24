@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Client {
 
-    private ClientInfo clientInfo;
+    private ClientInfo clientInfo = new ClientInfo();
     private RequestHandler requestHandler;
 
     public Client(String host, int port) {
@@ -36,13 +36,6 @@ public class Client {
 
     public void sendMessage(String message) {
         requestHandler.sendMessage(message);
-    }
-
-    public List<String> sendAndReceive(MessageSupplier.RequestType requestType, File file, List<String> list) {
-        sendMessage(generateMessage(requestType, list));
-        requestHandler.sendFile(file);
-        String answer = receiveMessage();
-        return readMessage(answer);
     }
 
     public String generateMessage(MessageSupplier.RequestType requestType, List<String> inputs) {

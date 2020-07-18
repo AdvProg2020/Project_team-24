@@ -1,7 +1,10 @@
 package A_Client.Graphics;
 
 import A_Client.Client.Client;
-import A_Client.Client.SendAndReceive;
+import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.Accounts.Roles.Customer;
+import A_Client.Graphics.Accounts.Roles.Manager;
+import A_Client.Graphics.Accounts.Roles.Seller;
 import MessageFormates.MessageSupplier;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
@@ -198,13 +201,13 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         String accountTy = client.getClientInfo().getAccountTy();
         switch (accountTy) {
             case "Manager":
-                MainMenu.change(new A_Client.Graphics.Accounts.Manager().sceneBuilder());
+                MainMenu.change(new Manager().sceneBuilder());
                 break;
             case "Seller":
-                MainMenu.change(new A_Client.Graphics.Accounts.Seller().sceneBuilder());
+                MainMenu.change(new Seller().sceneBuilder());
                 break;
             case "Customer":
-                MainMenu.change(new A_Client.Graphics.Accounts.Customer().sceneBuilder());
+                MainMenu.change(new Customer().sceneBuilder());
                 break;
             default:
                 return;

@@ -1,5 +1,7 @@
-package A_Client.Graphics.Accounts;
+package A_Client.Graphics.Accounts.Roles;
 
+import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.Accounts.BaseAccount;
 import MessageFormates.MessageSupplier;
 import A_Client.Graphics.Creates.CreateAuction;
 import A_Client.Graphics.Creates.CreateCategory;
@@ -83,10 +85,9 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        username_txt.setText(account.getUsername());
-        password_txt.setText(account.getPassword());
         try {
-
+            username_txt.setText(account.getUsername());
+            password_txt.setText(account.getPassword());
             lName_txt.setText(account.getPersonalInfo().getFieldByName("LastName").getString());
             fName_txt.setText(account.getPersonalInfo().getFieldByName("FirstName").getString());
             phone_txt.setText(account.getPersonalInfo().getFieldByName("PhoneNumber").getString());
@@ -96,25 +97,23 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
             comPhone_txt.setText(account.getCompanyInfo().getFieldByName("CompanyPhoneNumber").getString());
             balance_txt.setText(account.getWallet().getAmount() + "");
 
+            if (account.getMediasId() != null) ImageInit(seller_image);
+
+            ArrayList<MiniProductLog> miniProductLogs = new ArrayList<>();
+            SendAndReceive.GetLogsOfUserById(client.getClientInfo().getAccountId())
+                    .forEach(logHistory -> miniProductLogs.addAll(logHistory.getProductLogList()));
+
+            soldTable.setItems(FXCollections.observableArrayList(miniProductLogs));
+            logId_column.setCellValueFactory(
+                    new PropertyValueFactory<>("productId"));
+            sold_column.setCellValueFactory(
+                    new PropertyValueFactory<>("productName"));
+            prices_column.setCellValueFactory(
+                    new PropertyValueFactory<>("finalPrice"));
+
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-
-        if (account.getMediasId() != null) ImageInit(seller_image);
-
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMyLogHistory, Collections.singletonList(client.getClientInfo().getToken()));
-        ArrayList<MiniProductLog> miniProductLogs = new ArrayList<>();
-
-        new JsonHandler<MiniLogHistory>().JsonsToObjectList(answers, MiniLogHistory.class)
-                .forEach(logHistory -> miniProductLogs.addAll(logHistory.getProductLogList()));
-
-        soldTable.setItems(FXCollections.observableArrayList(miniProductLogs));
-        logId_column.setCellValueFactory(
-                new PropertyValueFactory<>("productId"));
-        sold_column.setCellValueFactory(
-                new PropertyValueFactory<>("productName"));
-        prices_column.setCellValueFactory(
-                new PropertyValueFactory<>("finalPrice"));
     }
 
     public void selectingImage() {
@@ -123,17 +122,18 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
 
     public void showProducts() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllOfMyProducts, Collections.singletonList(client.getClientInfo().getToken()));
-        List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>().JsonsToObjectList(answers, MiniProduct.class);
+        List<MiniProduct> miniProducts = SendAndReceive.getAllMyProducts();
         setProducts(miniProducts);
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public void showLogHistories() {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMyLogHistory, Collections.singletonList(client.getClientInfo().getToken()));
-        List<MiniLogHistory> logHistoryList = new JsonHandler<MiniLogHistory>().JsonsToObjectList(answers, MiniLogHistory.class);
+        List<MiniLogHistory> logHistoryList = SendAndReceive
+                .GetLogsOfUserById(client.getClientInfo().getAccountId());
+
         LogHistoryMenu.setLogHistoryList(logHistoryList);
         LogHistoryCart.setLogHistoryList(logHistoryList);
+
         MainMenu.change(new LogHistoryMenu().sceneBuilder());
     }
 
@@ -143,35 +143,21 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
     }
 
     public void submit() {
-
-        try {
-
-            if (selectedImage != null) {
-                setImage();
-            }
-
-            RequestForEdit("password", password_txt.getText());
-            RequestForEdit("balance", balance_txt.getText());
-            RequestForEdit("FirstName", fName_txt.getText());
-            RequestForEdit("LastName", lName_txt.getText());
-            RequestForEdit("Email", email_txt.getText());
-            RequestForEdit("PhoneNumber", phone_txt.getText());
-            RequestForEdit("CompanyName", bran_txt.getText());
-            RequestForEdit("CompanyPhoneNumber", comPhone_txt.getText());
-            RequestForEdit("CompanyEmail", comEmail_txt.getText());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (selectedImage != null) setImage();
+        RequestForEdit("password", password_txt.getText());
+        RequestForEdit("balance", balance_txt.getText());
+        RequestForEdit("FirstName", fName_txt.getText());
+        RequestForEdit("LastName", lName_txt.getText());
+        RequestForEdit("Email", email_txt.getText());
+        RequestForEdit("PhoneNumber", phone_txt.getText());
+        RequestForEdit("CompanyName", bran_txt.getText());
+        RequestForEdit("CompanyPhoneNumber", comPhone_txt.getText());
+        RequestForEdit("CompanyEmail", comEmail_txt.getText());
     }
 
-    private void setImage() throws IOException {
+    private void setImage() {
         String first = "src/main/resources/DataBase/Images/" + account.getMediasId() + ".jpg";
-        super.SettingImage(first);
-    }
-
-    public void back() {
-        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
+        super.setImage(first);
     }
 
     public void newCategory() {
@@ -190,11 +176,7 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
     }
 
     public void showAuctions() {
-        List<String> answers = client.sendAndReceive(
-                MessageSupplier.RequestType.GetAllAuctions, Collections.singletonList(client.getClientInfo().getToken())
-        );
-        List<MiniAuction> miniAuctions = new JsonHandler<MiniAuction>()
-                .JsonsToObjectList(answers, MiniAuction.class);
+        List<MiniAuction> miniAuctions = SendAndReceive.getAllAuctions();
         AuctionsMenu.setList(miniAuctions);
         AuctionCart.setAuctionList(miniAuctions);
         MainMenu.change(new AuctionsMenu().sceneBuilder());

@@ -1,5 +1,7 @@
-package A_Client.Graphics.Accounts;
+package A_Client.Graphics.Accounts.Roles;
 
+import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.Accounts.BaseAccount;
 import MessageFormates.MessageSupplier;
 import A_Client.Graphics.MiniModels.Structs.MiniDiscountCode;
 import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
@@ -64,8 +66,7 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMiniAccount, Collections.singletonList(client.getClientInfo().getToken()));
-        account = new JsonHandler<MiniAccount>().JsonToObject(answers.get(0), MiniAccount.class);
+        account = SendAndReceive.getAccountById(client.getClientInfo().getAccountId());
 
         try {
             username_txt.setText(account.getUsername());
@@ -82,10 +83,9 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
         }
         balance_txt.setText(account.getWallet().getAmount() + "");
 
-        client.sendAndReceive(MessageSupplier.RequestType.CheckMyDiscountCodes, Collections.singletonList(client.getClientInfo().getToken()));
+        SendAndReceive.CheckMyDiscountCodes();
 
-        answers = MainMenu.getClient().sendAndReceive(MessageSupplier.RequestType.GetMyDiscountCodes, Collections.singletonList(client.getClientInfo().getToken()));
-        DiscountCodes_Table.setItems(FXCollections.observableArrayList(new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answers, MiniDiscountCode.class)));
+        DiscountCodes_Table.setItems(FXCollections.observableArrayList(SendAndReceive.GetCodesOfUserById(client.getClientInfo().getAccountId())));
         Codes.setCellValueFactory(new PropertyValueFactory<>("productId"));
 
     }
@@ -96,21 +96,13 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
     }
 
     public void submit() {
-
-        try {
-
-            if (selectedImage != null) setImage();
-
-            RequestForEdit("password", password_txt.getText());
-            RequestForEdit("balance", balance_txt.getText());
-            RequestForEdit("FirstName", fName_txt.getText());
-            RequestForEdit("LastName", lName_txt.getText());
-            RequestForEdit("Email", email_txt.getText());
-            RequestForEdit("PhoneNumber", phone_txt.getText());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (selectedImage != null) setImage();
+        RequestForEdit("password", password_txt.getText());
+        RequestForEdit("balance", balance_txt.getText());
+        RequestForEdit("FirstName", fName_txt.getText());
+        RequestForEdit("LastName", lName_txt.getText());
+        RequestForEdit("Email", email_txt.getText());
+        RequestForEdit("PhoneNumber", phone_txt.getText());
     }
 
     public void goCart() {
@@ -118,12 +110,13 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
     }
 
     public void goLogHistory() {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetMyLogHistory, Collections.singletonList(client.getClientInfo().getToken()));
-        List<MiniLogHistory> logHistoryList = new JsonHandler<MiniLogHistory>().JsonsToObjectList(answers, MiniLogHistory.class);
+        List<MiniLogHistory> logHistoryList = SendAndReceive.
+                GetLogsOfUserById(client.getClientInfo().getAccountId());
+
         LogHistoryMenu.setLogHistoryList(logHistoryList);
         LogHistoryCart.setLogHistoryList(logHistoryList);
-        MainMenu.change(new LogHistoryMenu().sceneBuilder());
 
+        MainMenu.change(new LogHistoryMenu().sceneBuilder());
     }
 
     public void selectingImage() {
@@ -131,15 +124,12 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
     }
 
     public void DeleteAccount() {
-        client.sendAndReceive(
-                MessageSupplier.RequestType.DeleteMyAccount,
-                Collections.singletonList(client.getClientInfo().getToken())
-        );
+        SendAndReceive.DeleteAccountById(client.getClientInfo().getAccountId());
     }
 
-    private void setImage() throws IOException {
+    private void setImage() {
         String first = "src/main/resources/DataBase/Images/"
                 + account.getMediasId() + ".jpg";
-        SettingImage(first);
+        setImage(first);
     }
 }

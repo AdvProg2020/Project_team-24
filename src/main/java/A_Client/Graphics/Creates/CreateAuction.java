@@ -1,13 +1,13 @@
 package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.MiniModels.Structs.MiniAuction;
 import MessageFormates.MessageSupplier;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.MiniModels.Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.JsonHandler.JsonHandler;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Model.Models.Auction;
 import com.gilecode.yagson.YaGson;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 public class CreateAuction implements SceneBuilder, Initializable {
 
-    private final Client client = MainMenu.getClient();
+    private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.New;
     @FXML
     private TextField start_time;
@@ -69,20 +69,16 @@ public class CreateAuction implements SceneBuilder, Initializable {
     }
 
     private void init_editMode() {
-        Auction auction = ControllerUnit.getInstance().getAuction();
+        MiniAuction auction = SendAndReceive.getAuctionById(client.getClientInfo().getAuctionId());
         start_time.setText(auction.getStart().toString());
         end_time.setText(auction.getEnd().toString());
-        auction_name.setText(auction.getName());
-        auction_percent.setText(auction.getDiscount().getPercent() + "");
-        auction_limit.setText(auction.getDiscount().getAmount() + "");
+        auction_name.setText(auction.getAuctionName());
+        auction_percent.setText(auction.getAuctionPercent() + "");
+        auction_limit.setText(auction.getAuctionLimit() + "");
     }
 
     private void init_newMode() {
-        List<String> answers = client.sendAndReceive(
-                MessageSupplier.RequestType.GetAllProducts, Collections.singletonList(client.getClientInfo().getToken())
-        );
-        List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>()
-                .JsonsToObjectList(answers, MiniProduct.class);
+        List<MiniProduct> miniProducts = SendAndReceive.getAllProducts();
 
         List<CheckMenuItem> checkMenuItems = miniProducts.stream().filter(product -> product.getAuctionId() == null)
                 .map(product -> product.getProductName() + " " + product.getProductId())
@@ -124,12 +120,11 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
     private void RequestForEdit(String fieldName, String fieldValue) {
         ArrayList<String> objects = new ArrayList<>();
-        objects.add(client.getClientInfo().getToken());
         objects.add(client.getClientInfo().getAccountId());
         objects.add(fieldName);
         objects.add(fieldValue);
         objects.add("edit Auction");
-        client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfAuction, objects);
+        SendAndReceive.EditAuction(objects);
     }
 
     private void submit_newMode(String start, String end, String name, String percent, String limit) {
@@ -143,7 +138,6 @@ public class CreateAuction implements SceneBuilder, Initializable {
                 }).collect(Collectors.toList());
 
         requestForAdd(start, end, name, percent, limit, ids);
-
 //        Auction auction = sellerController.addOff(name, start, end, percent, limit);
 //        sellerController.addProductsToAuction(auction, ids);
 //        sellerController.sendRequest(auction, "new Auction", "new");
@@ -151,14 +145,13 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
     private void requestForAdd(String start, String end, String name, String percent, String limit, List<String> ids) {
         ArrayList<String> objects = new ArrayList<>();
-        objects.add(client.getClientInfo().getToken());
         objects.add(name);
         objects.add(start);
         objects.add(end);
         objects.add(percent);
         objects.add(limit);
         objects.add(new YaGson().toJson(ids));
-        client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfAuction, objects);
+        SendAndReceive.addAuction(objects);
     }
 
     private void goMainMenu() {
