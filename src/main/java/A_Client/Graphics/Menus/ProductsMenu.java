@@ -3,7 +3,7 @@ package A_Client.Graphics.Menus;
 import A_Client.Graphics.Models.ProductCart;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;
-import A_Client.Graphics.MiniModels.Structs.MiniProduct;
+import A_Client.MiniModels.Structs.MiniProduct;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

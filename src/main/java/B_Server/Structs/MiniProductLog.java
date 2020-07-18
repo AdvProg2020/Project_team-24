@@ -1,4 +1,4 @@
-package A_Client.Graphics.MiniModels.Structs;
+package B_Server.Structs;
 
 public class MiniProductLog {
 

@@ -1,12 +1,9 @@
 package A_Client.Graphics.Menus;
 
-import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
+import A_Client.MiniModels.Structs.MiniLogHistory;
 import A_Client.Graphics.Models.LogHistoryCart;
-import A_Client.Graphics.Models.ProductCart;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;
-import B_Server.Model.Models.LogHistory;
-import B_Server.Model.Models.Product;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

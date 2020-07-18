@@ -1,6 +1,6 @@
-package A_Client.Graphics.MiniModels.Structs;
+package A_Client.MiniModels.Structs;
 
-import A_Client.Graphics.MiniModels.ProfSell.ProductOfSeller;
+import A_Client.MiniModels.ProfSell.ProductOfSeller;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class MiniProduct {
         return cateId;
     }
 
-    public MiniProduct(String productId, String productName, String auctionId, String cateId, String mediasId, String profSell, List<ProductOfSeller> profSell1) {
+    public MiniProduct(String productId, String productName, String auctionId, String cateId, String mediasId, List<ProductOfSeller> profSell1) {
         this.productId = productId;
         this.productName = productName;
         this.auctionId = auctionId;

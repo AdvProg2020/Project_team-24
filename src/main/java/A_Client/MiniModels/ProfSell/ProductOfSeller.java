@@ -1,4 +1,4 @@
-package A_Client.Graphics.MiniModels.ProfSell;
+package A_Client.MiniModels.ProfSell;
 
 public class ProductOfSeller {
 

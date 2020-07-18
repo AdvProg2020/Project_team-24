@@ -34,6 +34,7 @@ public class Server {
     }
 
     private void listener() {
+
         while (true) {
 
             try {
@@ -53,7 +54,7 @@ public class Server {
         // errorHandling
     }
 
-    private String createToken() {
+    public static String createToken() {
         return UUID.randomUUID().toString();
     }
 }

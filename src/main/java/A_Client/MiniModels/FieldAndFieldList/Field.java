@@ -1,4 +1,4 @@
-package A_Client.Graphics.MiniModels.FieldAndFieldList;
+package A_Client.MiniModels.FieldAndFieldList;
 
 public class Field implements Cloneable {
 

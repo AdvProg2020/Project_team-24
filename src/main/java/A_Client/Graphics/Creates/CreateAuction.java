@@ -5,7 +5,7 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MiniModels.Structs.MiniAuction;
 import MessageFormates.MessageSupplier;
 import A_Client.Graphics.MainMenu;
-import A_Client.Graphics.MiniModels.Structs.MiniProduct;
+import A_Client.MiniModels.Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.JsonHandler.JsonHandler;
 import com.gilecode.yagson.YaGson;
