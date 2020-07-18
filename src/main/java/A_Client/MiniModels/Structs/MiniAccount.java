@@ -1,7 +1,7 @@
-package A_Client.Graphics.MiniModels.Structs;
+package A_Client.MiniModels.Structs;
 
-import A_Client.Graphics.MiniModels.FieldAndFieldList.FieldList;
-import A_Client.Graphics.MiniModels.Wallet.Wallet;
+import A_Client.MiniModels.FieldAndFieldList.FieldList;
+import A_Client.MiniModels.Wallet.Wallet;
 
 public class MiniAccount {
 

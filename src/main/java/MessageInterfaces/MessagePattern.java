@@ -8,11 +8,11 @@ import java.util.stream.IntStream;
 
 public interface MessagePattern {
 
-    Pattern splitTypeRequest = Pattern.compile("^(.+)::(.+)$");
+    Pattern splitTypeRequest = Pattern.compile("(.+)::(.+)");
 
     static Map<RequestType, Pattern> setListOfPatterns() {
         HashMap<RequestType, Pattern> requestTypeSupplierHashMap = new HashMap<>();
-        requestTypeSupplierHashMap.put(RequestType.SetNewToken, Pattern.compile("^(.+)$"));
+        requestTypeSupplierHashMap.put(RequestType.GetToken, Pattern.compile("^(.+)$"));
         requestTypeSupplierHashMap.put(RequestType.GetAllAuctions, Pattern.compile("^(.+)$"));
         requestTypeSupplierHashMap.put(RequestType.IDontKnow3, Pattern.compile(""));
         requestTypeSupplierHashMap.put(RequestType.IDontKnow4, Pattern.compile(""));
@@ -33,7 +33,7 @@ public interface MessagePattern {
     }
 
     enum RequestType {
-        SetNewToken,
+        GetToken,
         GetAllAuctions,
         IDontKnow3,
         IDontKnow4

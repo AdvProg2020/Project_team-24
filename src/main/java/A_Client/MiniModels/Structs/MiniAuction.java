@@ -1,4 +1,4 @@
-package A_Client.Graphics.MiniModels.Structs;
+package A_Client.MiniModels.Structs;
 
 import java.time.LocalDate;
 

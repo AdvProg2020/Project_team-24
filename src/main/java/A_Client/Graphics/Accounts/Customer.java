@@ -1,12 +1,12 @@
 package A_Client.Graphics.Accounts;
 
 import MessageInterfaces.MessageSupplier;
-import A_Client.Graphics.MiniModels.Structs.MiniDiscountCode;
-import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
+import A_Client.MiniModels.Structs.MiniDiscountCode;
+import A_Client.MiniModels.Structs.MiniLogHistory;
 import A_Client.Graphics.Pages.Cart;
 import A_Client.Graphics.Models.LogHistoryCart;
 import A_Client.JsonHandler.JsonHandler;
-import A_Client.Graphics.MiniModels.Structs.MiniAccount;
+import A_Client.MiniModels.Structs.MiniAccount;
 import Exceptions.*;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.LogHistoryMenu;

@@ -3,7 +3,7 @@ package A_Client.Graphics.Accounts;
 import A_Client.Client.Client;
 import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MainMenu;
-import A_Client.Graphics.MiniModels.Structs.MiniAccount;
+import A_Client.MiniModels.Structs.MiniAccount;
 import A_Client.JsonHandler.JsonHandler;
 import com.gilecode.yagson.YaGson;
 import javafx.scene.image.Image;

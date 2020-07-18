@@ -1,4 +1,4 @@
-package A_Client.Graphics.MiniModels.Wallet;
+package A_Client.MiniModels.Wallet;
 
 public class Wallet {
 

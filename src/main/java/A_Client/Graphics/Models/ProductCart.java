@@ -1,6 +1,6 @@
 package A_Client.Graphics.Models;
 
-import A_Client.Graphics.MiniModels.Structs.MiniProduct;
+import A_Client.MiniModels.Structs.MiniProduct;
 import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.ProductController;
 import Exceptions.CommentDoesNotExistException;
@@ -68,10 +68,7 @@ public class ProductCart implements Initializable {
     public void nextSeller() {
 
         if (sellerIndex + 1 < product.getSellersOfProduct().size())
-            this.price_ftx.setText(
-                    product.getSellersOfProduct()
-                            .get(++sellerIndex).getPrice() + ""
-            );
+            this.price_ftx.setText(/);
 
         if (product.getAuction() != null) newPrice(product.getAuction());
 

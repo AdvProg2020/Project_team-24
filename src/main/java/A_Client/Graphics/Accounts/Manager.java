@@ -1,7 +1,7 @@
 package A_Client.Graphics.Accounts;
 
 import MessageInterfaces.MessageSupplier;
-import A_Client.Graphics.MiniModels.Structs.MiniAccount;
+import A_Client.MiniModels.Structs.MiniAccount;
 import A_Client.Graphics.Pages.SignUp;
 import A_Client.JsonHandler.JsonHandler;
 import Exceptions.FieldDoesNotExistException;

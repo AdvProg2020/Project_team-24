@@ -2,8 +2,8 @@ package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
 import MessageInterfaces.MessageSupplier;
-import A_Client.Graphics.MiniModels.FieldAndFieldList.Field;
-import A_Client.Graphics.MiniModels.Structs.MiniCate;
+import A_Client.MiniModels.FieldAndFieldList.Field;
+import A_Client.MiniModels.Structs.MiniCate;
 import A_Client.JsonHandler.JsonHandler;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
