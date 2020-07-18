@@ -1,6 +1,6 @@
 package A_Client.Graphics.Accounts;
 
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.Creates.CreateAuction;
 import A_Client.Graphics.Creates.CreateCategory;
 import A_Client.Graphics.Creates.CreateProduct;

@@ -1,9 +1,10 @@
 package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.MiniModels.FieldAndFieldList.Field;
+import A_Client.Graphics.MiniModels.ProfSell.ProductOfSeller;
 import A_Client.Graphics.MiniModels.Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.JsonHandler.JsonHandler;
@@ -130,17 +131,17 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     private void init_editMode() {
         product_name.setText(product.getProductName());
-        try {
-            product_price.setText(product.getProfSell().getPrice() + "");
-            product_number.setText(product.getProfSell(seller.getId()).getNumber() + "");
-        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
-            sellerDoesNotSellOfThisProduct.printStackTrace();
-        }
-        if (product.getCategory() != null)
+        long accountId = Long.parseLong(client.getClientInfo().getAccountId());
+        ProductOfSeller productOfSeller = product.getProfSell().stream()
+                .filter(p -> accountId == p.getSellerId()).findFirst().orElseThrow(() -> new NullPointerException("Seller Not Found!"));
+        product_price.setText(productOfSeller.getPrice() + "");
+        product_number.setText(productOfSeller.getNumber() + "");
+
+        if (product.getCateId() != null)
             category.setValue(product.getCategory().getName());
-        if (product.getAuction() != null)
+        if (product.getAuctionId() != null)
             auction.setValue(product.getAuction().getName());
-        if (product.getMediaId() != 0) {
+        if (product.getMediasId() != null) {
             try {
                 product_image.setImage(Medias.getImage(Medias.getMediasById(product.getMediaId()).getImageSrc()));
             } catch (ProductMediaNotFoundException e) {
@@ -368,7 +369,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private void setImage() {
         try {
             String[] str = selectedImage.getName().split("\\.");
-            String first = "src/main/resources/DataBase/Images/" + product.getMediaId() + "." + str[str.length - 1];
+            String first = "src/main/resources/DataBase/Images/" + product.getMediasId() + "." + str[str.length - 1];
             Files.copy(
                     selectedImage.toPath(),
                     Paths.get(first),

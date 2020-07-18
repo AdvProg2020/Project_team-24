@@ -1,10 +1,11 @@
 package A_Client.Client;
 
 import A_Client.Client.ClientInfo.ClientInfo;
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Client.RequestHandler.RequestHandler;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
@@ -35,6 +36,13 @@ public class Client {
 
     public void sendMessage(String message) {
         requestHandler.sendMessage(message);
+    }
+
+    public List<String> sendAndReceive(MessageSupplier.RequestType requestType, File file, List<String> list) {
+        sendMessage(generateMessage(requestType, list));
+        requestHandler.sendFile(file);
+        String answer = receiveMessage();
+        return readMessage(answer);
     }
 
     public String generateMessage(MessageSupplier.RequestType requestType, List<String> inputs) {

@@ -1,4 +1,4 @@
-package A_Client.Client.RequestHandler;
+package B_Server.Server.RequestHandler;
 
 import MessageInterfaces.MessagePattern;
 import MessageInterfaces.MessageSupplier;
@@ -12,6 +12,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class RequestHandler extends Thread implements MessagePattern, MessageSupplier {
 
+    private final String token;
     private CountDownLatch downLatch = new CountDownLatch(1);
     private List<String> messages = new ArrayList<>();
     private Blabber blabber;
@@ -19,6 +20,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
 
     public RequestHandler(Socket socket, String token) {
         blabber = new Blabber(socket);
+        this.token = token;
     }
 
     public String getFirstElementAndRemove() {

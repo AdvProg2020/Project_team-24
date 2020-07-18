@@ -1,7 +1,7 @@
 package A_Client.Graphics.Accounts;
 
 import A_Client.Client.Client;
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.MiniModels.Structs.MiniAccount;
 import A_Client.JsonHandler.JsonHandler;
@@ -9,7 +9,6 @@ import com.gilecode.yagson.YaGson;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -56,8 +55,7 @@ public class BaseAccount {
     }
 
     protected void ImageInit(ImageView imageView) {
-        List<String> answers;
-        answers = MainMenu.getClient().sendAndReceive(MessageSupplier.RequestType.GetAccountImage, Collections.singletonList(client.getClientInfo().getToken()));
+        List<String> answers = MainMenu.getClient().sendAndReceive(MessageSupplier.RequestType.GetAccountImage, Collections.singletonList(client.getClientInfo().getToken()));
         imageView.setImage(new JsonHandler<Image>().JsonToObject(answers.get(0), Image.class));
     }
 

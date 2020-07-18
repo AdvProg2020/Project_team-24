@@ -1,4 +1,4 @@
-package A_Client.Client.MessageInterfaces;
+package MessageInterfaces;
 
 import java.util.*;
 import java.util.regex.Matcher;
