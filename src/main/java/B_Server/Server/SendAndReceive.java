@@ -1,17 +1,11 @@
 package B_Server.Server;
 
 import B_Server.Controller.Controllers.SellerController;
-import B_Server.Model.Models.Account;
+import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Seller;
-import B_Server.Model.Models.Auction;
-import B_Server.Model.Models.Category;
-import B_Server.Model.Models.Product;
 import B_Server.Model.Models.Structs.Medias;
 import B_Server.Server.RequestHandler.RequestHandler;
-import B_Server.Structs.MiniAccount;
-import B_Server.Structs.MiniAuction;
-import B_Server.Structs.MiniCate;
-import B_Server.Structs.MiniProduct;
+import B_Server.Structs.*;
 import Exceptions.*;
 import com.gilecode.yagson.YaGson;
 import javafx.scene.image.Image;
@@ -68,36 +62,102 @@ public class SendAndReceive {
 
                 break;
             case "GetAllAccounts":
-                List<Account> accountList = Account.getList();
-                List<MiniAccount> miniAccounts = accountList.stream().map(account -> new MiniAccount(
-                        account.getMediaId() + "",
-                        account.getUserName() + "",
-                        account.getPassword() + "",
-                        account.getPersonalInfo().getList(),
-                        account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                        account.getWallet());
-
-
-
+                getAllAcounts(requestHandler);
                 break;
             case "GetAllAuctions":
-
+                getAllAuctions(requestHandler);
                 break;
             case "GetAllDiscountCodes":
+                List<DiscountCode> discountCodes = DiscountCode.getList();
+                List<MiniDiscountCode> miniDiscountCodes = discountCodes.stream().map(discountCode -> new MiniDiscountCode());
 
                 break;
             case "GetAllCate":
-
+                getAllCategories(requestHandler);
                 break;
             case "GetAllProductOfCate":
+                getAllProductOfCate(inputs, requestHandler);
 
                 break;
             case "GetAllPopularProducts":
+                getAllPopularProducts(requestHandler);
 
                 break;
 
 
         }
+    }
+
+    private static void getAllCategories(RequestHandler requestHandler) {
+        List<Category> categories = Category.getList();
+        List<MiniCate> miniCates = categories.stream().map(category -> new MiniCate(
+                        category.getId()+"",
+                        category.getName(),
+                        category.getCategoryFields())).collect(Collectors.toList());
+        requestHandler.sendMessage(yaGson.toJson(miniCates));
+    }
+
+    private static void getAllProductOfCate(List<String> inputs, RequestHandler requestHandler) {
+        int categoryId = Integer.parseInt(inputs.get(0));
+        Category category = null;
+        try {
+            category = Category.getCategoryById(categoryId);
+        } catch (CategoryDoesNotExistException e) {
+            e.printStackTrace();
+        }
+        List<Long> productIds = category.getProductList();
+        List<MiniProduct> products = productIds.stream().map(id -> {
+                Product product = Product.getProductById(id);
+                MiniProduct miniProduct = new MiniProduct(
+                        product.getId() + "",
+                        product.getName(),
+                        product.getAuction().getId() + "",
+                        product.getCategory().getId() + "",
+                        product.getMediaId() + "",
+                        product.getSellersOfProduct());
+                return miniProduct;
+        });
+        requestHandler.sendMessage(yaGson.toJson(products));
+    }
+
+    private static void getAllPopularProducts(RequestHandler requestHandler) {
+        List<Product> productList = Product.getList();
+        List<MiniProduct> miniProducts = productList.stream().map(product ->
+                new MiniProduct(
+                        product.getId() + "",
+                        product.getName(),
+                        product.getAuction().getId() + "",
+                        product.getCategory().getId() + "",
+                        product.getMediaId() + "",
+                        product.getSellersOfProduct()
+                )
+        ).collect(Collectors.toList());
+        requestHandler.sendMessage(yaGson.toJson(miniProducts));
+    }
+
+    private static void getAllAuctions(RequestHandler requestHandler) {
+        List<Auction> auctionList = Auction.getList();
+        List<MiniAuction> miniAuctions = auctionList.stream().map(auction -> new MiniAuction(
+                auction.getId() + "",
+                auction.getName(),
+                auction.getDiscount().getPercent() ,
+                auction.getDiscount().getAmount() ,
+                auction.getStart() ,
+                auction.getEnd())).collect(Collectors.toList());
+        requestHandler.sendMessage(yaGson.toJson(miniAuctions));
+    }
+
+    private static void getAllAcounts(RequestHandler requestHandler) {
+        List<Account> accountList = Account.getList();
+        List<MiniAccount> miniAccounts = accountList.stream().map(account -> new MiniAccount(
+                account.getMediaId() + "",
+                account.getUserName() + "",
+                account.getPassword() + "",
+                account.getPersonalInfo().getList(),
+                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
+                account.getWallet()
+        )).collect(Collectors.toList());
+        requestHandler.sendMessage(yaGson.toJson(miniAccounts));
     }
 
     private static void getAllProducts(RequestHandler requestHandler, List<Product> list) {
