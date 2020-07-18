@@ -1,7 +1,7 @@
 package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
-import MessageInterfaces.MessageSupplier;
+import MessageFormates.MessageSupplier;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.MiniModels.Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;

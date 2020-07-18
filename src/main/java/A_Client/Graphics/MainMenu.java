@@ -1,7 +1,8 @@
 package A_Client.Graphics;
 
 import A_Client.Client.Client;
-import MessageInterfaces.MessageSupplier;
+import A_Client.Client.SendAndReceive;
+import MessageFormates.MessageSupplier;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.AuctionCart;
@@ -11,7 +12,6 @@ import A_Client.Graphics.Pages.Cart;
 import A_Client.Graphics.Pages.CeSut;
 import A_Client.Graphics.Pages.Login;
 import A_Client.Graphics.Tools.SceneBuilder;
-import A_Client.JsonHandler.JsonHandler;
 import A_Client.Graphics.MiniModels.Structs.MiniAuction;
 import A_Client.Graphics.MiniModels.Structs.MiniCate;
 import A_Client.Graphics.MiniModels.Structs.MiniProduct;
@@ -39,9 +39,10 @@ import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// MainMenu finished.
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
-    private static final Client client = new Client("localhost", 5431);
+    private static Client client = SendAndReceive.getClient();
     private static Stage primaryStage;
     private static MediaPlayer player;
     private static BorderPane center;
@@ -90,29 +91,25 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         MainMenu.filter = filter;
     }
 
-    public static Client getClient() {
-        return client;
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setCenter(changeable);
         setFilter(filterArea);
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllCategories, Collections.singletonList(client.getClientInfo().getToken()));
-        List<MenuItem> collect = new JsonHandler<MiniCate>().JsonsToObjectList(answers, MiniCate.class)
-                .stream().map(this::getCategorySelection).collect(Collectors.toList());
+        List<MenuItem> collect = SendAndReceive.getAllCategories().stream().map(this::getCategorySelection).collect(Collectors.toList());
         category_select.getItems().addAll(FXCollections.observableArrayList(collect));
+
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
         playMusic("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");
-        if (client.getClientInfo().getAccountId() == null) return;
-        userArea_btn.setDisable(false);
-        login_logout_btn.setText("خروج ...");
-        login_logout_btn.setOnAction(event -> logout());
-        if (client.getClientInfo().getAccountTy().equals("Customer")) cart_btn.setDisable(false);
+
+        if (client.getClientInfo().getAccountId() != null) {
+            userArea_btn.setDisable(false);
+            login_logout_btn.setText("خروج ...");
+            login_logout_btn.setOnAction(event -> logout());
+            if (client.getClientInfo().getAccountTy().equals("Customer")) cart_btn.setDisable(false);
+        }
     }
 
-    @NotNull
     private MenuItem getCategorySelection(@NotNull MiniCate category) {
         MenuItem menuItem = new MenuItem();
         menuItem.setText(category.getCateName());
@@ -122,12 +119,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     private void showCategoryProducts(@NotNull MiniCate category) {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        List<String> list = new ArrayList<>();
-        list.add(client.getClientInfo().getToken());
-        list.add(category.getCateId());
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductsOfCategory, list);
-        List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>()
-                .JsonsToObjectList(answers, MiniProduct.class);
+        List<MiniProduct> miniProducts = SendAndReceive.getAllProductsOfCategoryById(category.getCateId());
         setProducts(miniProducts);
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
@@ -171,11 +163,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goAuction() {
-        List<String> answers = client.sendAndReceive(
-                MessageSupplier.RequestType.GetAllAuctions, Collections.singletonList(client.getClientInfo().getToken())
-        );
-        List<MiniAuction> miniAuctions = new JsonHandler<MiniAuction>()
-                .JsonsToObjectList(answers, MiniAuction.class);
+        List<MiniAuction> miniAuctions = SendAndReceive.getAllAuctions();
         AuctionsMenu.setList(miniAuctions);
         AuctionCart.setAuctionList(miniAuctions);
         MainMenu.change(new AuctionsMenu().sceneBuilder());
@@ -201,7 +189,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public void goPopulars() {
-        GetAllProducts(MessageSupplier.RequestType.GetAllPopularProducts);
+        setProducts(SendAndReceive.getAllPopularProducts());
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
     }
@@ -228,7 +216,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public void goProducts() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        GetAllProducts(MessageSupplier.RequestType.GetAllProducts);
+        setProducts(SendAndReceive.getAllProducts());
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
     }
@@ -242,18 +230,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void goSearching() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
         addFilter_search();
-        GetAllProducts(MessageSupplier.RequestType.GetAllProducts);
+        setProducts(SendAndReceive.getAllProducts());
         MainMenu.change(new ProductsMenu().sceneBuilder());
         enableBack();
-    }
-
-    private void GetAllProducts(MessageSupplier.RequestType getAllProducts) {
-        List<String> answers = client.sendAndReceive(
-                getAllProducts, Collections.singletonList(client.getClientInfo().getToken())
-        );
-        List<MiniProduct> miniProducts = new JsonHandler<MiniProduct>()
-                .JsonsToObjectList(answers, MiniProduct.class);
-        setProducts(miniProducts);
     }
 
     private void setProducts(List<MiniProduct> list) {
@@ -263,15 +242,11 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     private void addFilter_search() {
         String filterStr = searchArea.getText();
-        List<String> list = new ArrayList<>();
-        list.add(client.getClientInfo().getToken());
-        list.add(filterStr);
-        client.sendAndReceive(MessageSupplier.RequestType.SetNewFilter, list);
+        SendAndReceive.addNewFilter(Collections.singletonList(filterStr));
     }
 
     public static void main(String[] args) {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetNewToken, null);
-        client.getClientInfo().setToken(answers.get(0));
+        client.getClientInfo().setToken(SendAndReceive.getToken());
         launch(args);
     }
 

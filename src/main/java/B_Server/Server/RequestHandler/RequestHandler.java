@@ -1,7 +1,7 @@
 package B_Server.Server.RequestHandler;
 
-import MessageInterfaces.MessagePattern;
-import MessageInterfaces.MessageSupplier;
+import MessageFormates.MessagePattern;
+import MessageFormates.MessageSupplier;
 import org.codehaus.plexus.util.IOUtil;
 
 import java.io.*;
@@ -55,9 +55,14 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         }
     }
 
+    public void close() {
+        goodBye = true;
+    }
+
     @Override
     public void run() {
 
+        sendMessage(token);
         while (true) {
 
             try {
@@ -75,10 +80,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
                 e.printStackTrace();
             }
         }
-    }
-
-    public void close() {
-        goodBye = true;
     }
 
     private static class Blabber {

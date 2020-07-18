@@ -1,4 +1,4 @@
-package MessageInterfaces;
+package MessageFormates;
 
 import java.util.*;
 import java.util.regex.Matcher;

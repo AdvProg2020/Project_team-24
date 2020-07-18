@@ -1,7 +1,7 @@
 package A_Client.Client.RequestHandler;
 
-import MessageInterfaces.MessagePattern;
-import MessageInterfaces.MessageSupplier;
+import MessageFormates.MessagePattern;
+import MessageFormates.MessageSupplier;
 import org.codehaus.plexus.util.IOUtil;
 
 import java.io.*;

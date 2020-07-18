@@ -1,4 +1,4 @@
-package MessageInterfaces;
+package MessageFormates;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,10 +8,16 @@ import java.util.function.Function;
 
 public interface MessageSupplier {
 
-    static Map<RequestType, Function<List<String>,String>> setListOfSuppliers() {
-        HashMap<RequestType, Function<List<String>,String>> requestTypeSupplierHashMap = new HashMap<>();
+    static Map<RequestType, Function<List<String>, String>> setListOfSuppliers() {
+        HashMap<RequestType, Function<List<String>, String>> requestTypeSupplierHashMap = new HashMap<>();
 
         requestTypeSupplierHashMap.put(RequestType.GetToken, list -> "Slm-Slm" + "::GetToken");
+
+        requestTypeSupplierHashMap.put(RequestType.Logout, list -> list.get(0) + "::Logout");
+
+        requestTypeSupplierHashMap.put(RequestType.Login, list -> list.get(0) + "::Login "
+                + list.get(1) + " " + list.get(2));
+
         // Single Object
         requestTypeSupplierHashMap.put(RequestType.GetProductById, list -> list.get(0) + "::GetProductById "
                 + list.get(1));
@@ -37,9 +43,15 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.GetAllAuctions, list -> list.get(0) + "::GetAllAuctions");
 
+        requestTypeSupplierHashMap.put(RequestType.GetLogsOfUserById, list -> list.get(0) + "::GetLogsOfUserById "
+                + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.GetAllProducts, list -> list.get(0) + "::GetAllProducts");
 
         requestTypeSupplierHashMap.put(RequestType.GetAllDiscountCodes, list -> list.get(0) + "::GetAllDiscountCodes");
+
+        requestTypeSupplierHashMap.put(RequestType.GetCodesOfUserById, list -> list.get(0) + "::GetCodesOfUserById "
+                + list.get(1));
 
         requestTypeSupplierHashMap.put(RequestType.GetAllCate, list -> list.get(0) + "::GetAllCate");
 
@@ -50,38 +62,50 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.GetAllPopularProducts, list -> list.get(0) + "::GetAllPopularProducts");
 
-        // Add Or Edit
-        requestTypeSupplierHashMap.put(RequestType.GetAllPopularProducts, list -> list.get(0) + "::GetAllPopularProducts");
+        // Add Or Edit Or Delete
+        requestTypeSupplierHashMap.put(RequestType.addNewAccount, list -> list.get(0) + "::addNewAccount");
+
+        requestTypeSupplierHashMap.put(RequestType.addNewAuction, list -> list.get(0) + "::addNewAuction");
+
+        requestTypeSupplierHashMap.put(RequestType.addNewCate, list -> list.get(0) + "::addNewCate");
+
+        requestTypeSupplierHashMap.put(RequestType.addNewDiscountCode, list -> list.get(0) + "::addNewDiscountCode");
+
+        requestTypeSupplierHashMap.put(RequestType.addNewProduct, list -> list.get(0) + "::addNewProduct");
+
+        requestTypeSupplierHashMap.put(RequestType.EditAccount, list -> list.get(0) + "::EditAccount");
+
+        requestTypeSupplierHashMap.put(RequestType.EditAuction, list -> list.get(0) + "::EditAuction");
+
+        requestTypeSupplierHashMap.put(RequestType.EditCate, list -> list.get(0) + "::EditCate");
+
+        requestTypeSupplierHashMap.put(RequestType.EditDiscountCode, list -> list.get(0) + "::EditDiscountCode");
+
+        requestTypeSupplierHashMap.put(RequestType.EditProduct, list -> list.get(0) + "::EditProduct");
+
+        requestTypeSupplierHashMap.put(RequestType.DeleteAccountById, list -> list.get(0) + "::DeleteAccountById "
+                + list.get(1));
+
+        // Other
+        requestTypeSupplierHashMap.put(RequestType.addNewFilter, list -> list.get(0) + "::addNewFilter "
+                + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.CheckCodesById, list -> list.get(0) + "::CheckCodesById "
+                + list.get(1));
 
         return requestTypeSupplierHashMap;
     }
 
-    Map<RequestType, Function<List<String>,String>> messageSuppliers = Collections.unmodifiableMap(setListOfSuppliers());
+    Map<RequestType, Function<List<String>, String>> messageSuppliers = Collections.unmodifiableMap(setListOfSuppliers());
 
     default String generateMessage(RequestType type, List<String> list) {
         return messageSuppliers.get(type).apply(list);
     }
 
     enum RequestType {
-//        SetNewFilter,
-//        Logout,
-//        GetAllCategories,
-//        GetAccountImage,
-//        GetMiniAccount,
-//        CheckMyDiscountCodes,
-//        GetMyDiscountCodes,
-//        EditFieldOfAccount,
-//        DeleteMyAccount,
-//        GetMyLogHistory,
-//        SetImageOfAccount,
-//        GetAllOfMyProducts,
-//        EditFieldOfAuction,
-//        AddNewAction,
-//        EditFieldOfCate,
-//        AddNewCate,
-//        AddNewDiscountCode,
-//        EditFieldOfDiscountCode,
         GetToken,
+        Login,
+        Logout,
         GetProductById,
         GetAccountById,
         GetCateById,
@@ -94,11 +118,24 @@ public interface MessageSupplier {
         GetAllAccounts,
         GetAllAuctions,
         GetAllDiscountCodes,
+        GetCodesOfUserById,
+        GetLogsOfUserById,
         GetAllCate,
         GetAllProductOfCate,
         GetAllMyProducts,
         GetAllPopularProducts,
         addNewAccount,
+        addNewAuction,
+        addNewCate,
+        addNewProduct,
+        addNewDiscountCode,
         EditAccount,
+        EditAuction,
+        EditCate,
+        EditProduct,
+        EditDiscountCode,
+        DeleteAccountById,
+        addNewFilter,
+        CheckCodesById,
     }
 }

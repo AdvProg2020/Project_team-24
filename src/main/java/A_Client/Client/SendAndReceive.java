@@ -1,12 +1,13 @@
 package A_Client.Client;
 
-import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MiniModels.Structs.*;
 import A_Client.JsonHandler.JsonHandler;
+import MessageFormates.MessageSupplier;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -15,9 +16,13 @@ public class SendAndReceive {
 
     private final static Client client = new Client("localhost", 8013);
 
+    public static Client getClient() {
+        return client;
+    }
+
     // GetToken
     public static String getToken() {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetToken,null);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetToken, null);
         return answer.get(0);
     }
 
@@ -100,10 +105,10 @@ public class SendAndReceive {
         return new JsonHandler<MiniAuction>().JsonsToObjectList(answer, MiniAuction.class);
     }
 
-    public static List<MiniAuction> getAllProductsOfCategoryById(String cateId) {
+    public static List<MiniProduct> getAllProductsOfCategoryById(String cateId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductOfCate,
                 Arrays.asList(client.getClientInfo().getToken(), cateId));
-        return new JsonHandler<MiniAuction>().JsonsToObjectList(answer, MiniAuction.class);
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
     }
 
     public static List<MiniProduct> getAllMyProducts() {
@@ -120,22 +125,98 @@ public class SendAndReceive {
 
     // Add Or Edit
     public static void addAccount(List<String> fields) {
-
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewAccount, list);
     }
 
     public static void addProduct(List<String> fields) {
-
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewProduct, list);
     }
 
     public static void addAuction(List<String> fields) {
-
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewAuction, list);
     }
 
     public static void addCategory(List<String> fields) {
-
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewCate, list);
     }
 
     public static void addDiscountCode(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewDiscountCode, list);
+    }
 
+    public static void EditAccount(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditAccount, list);
+    }
+
+    public static void EditProduct(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditProduct, list);
+    }
+
+    public static void EditAuction(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditAuction, list);
+    }
+
+    public static void EditCategory(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditCate, list);
+    }
+
+    public static void EditDiscountCode(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditDiscountCode, list);
+    }
+
+    // Others
+    public static void addNewFilter(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewFilter, list);
+    }
+
+    public static void CheckMyDiscountCodes(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.CheckCodesById, list);
+    }
+
+    public static void Login(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Login, list);
+    }
+
+    public static void Logout() {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
     }
 }
