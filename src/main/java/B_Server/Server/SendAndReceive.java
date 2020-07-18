@@ -49,12 +49,15 @@ public class SendAndReceive {
                 getImageById(inputs, requestHandler);
                 break;
             case "GetMovieById":
+                //...
 
                 break;
             case "SetImageById":
+                ///...
 
                 break;
             case "SetMovieById":
+                //...
 
                 break;
             case "GetAllProducts":
@@ -70,18 +73,16 @@ public class SendAndReceive {
             case "GetAllDiscountCodes":
                 List<DiscountCode> discountCodes = DiscountCode.getList();
                 List<MiniDiscountCode> miniDiscountCodes = discountCodes.stream().map(discountCode -> new MiniDiscountCode());
-
+                //...
                 break;
             case "GetAllCate":
                 getAllCategories(requestHandler);
                 break;
             case "GetAllProductOfCate":
                 getAllProductOfCate(inputs, requestHandler);
-
                 break;
             case "GetAllPopularProducts":
                 getAllPopularProducts(requestHandler);
-
                 break;
 
 
@@ -91,9 +92,9 @@ public class SendAndReceive {
     private static void getAllCategories(RequestHandler requestHandler) {
         List<Category> categories = Category.getList();
         List<MiniCate> miniCates = categories.stream().map(category -> new MiniCate(
-                        category.getId()+"",
-                        category.getName(),
-                        category.getCategoryFields())).collect(Collectors.toList());
+                category.getId() + "",
+                category.getName(),
+                category.getCategoryFields())).collect(Collectors.toList());
         requestHandler.sendMessage(yaGson.toJson(miniCates));
     }
 
@@ -107,15 +108,15 @@ public class SendAndReceive {
         }
         List<Long> productIds = category.getProductList();
         List<MiniProduct> products = productIds.stream().map(id -> {
-                Product product = Product.getProductById(id);
-                MiniProduct miniProduct = new MiniProduct(
-                        product.getId() + "",
-                        product.getName(),
-                        product.getAuction().getId() + "",
-                        product.getCategory().getId() + "",
-                        product.getMediaId() + "",
-                        product.getSellersOfProduct());
-                return miniProduct;
+            Product product = Product.getProductById(id);
+            MiniProduct miniProduct = new MiniProduct(
+                    product.getId() + "",
+                    product.getName(),
+                    product.getAuction().getId() + "",
+                    product.getCategory().getId() + "",
+                    product.getMediaId() + "",
+                    product.getSellersOfProduct());
+            return miniProduct;
         });
         requestHandler.sendMessage(yaGson.toJson(products));
     }
@@ -140,9 +141,9 @@ public class SendAndReceive {
         List<MiniAuction> miniAuctions = auctionList.stream().map(auction -> new MiniAuction(
                 auction.getId() + "",
                 auction.getName(),
-                auction.getDiscount().getPercent() ,
-                auction.getDiscount().getAmount() ,
-                auction.getStart() ,
+                auction.getDiscount().getPercent(),
+                auction.getDiscount().getAmount(),
+                auction.getStart(),
                 auction.getEnd())).collect(Collectors.toList());
         requestHandler.sendMessage(yaGson.toJson(miniAuctions));
     }
@@ -190,7 +191,7 @@ public class SendAndReceive {
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            ImageIO.write(image,"jpg",byteArrayOutputStream);
+            ImageIO.write(image, "jpg", byteArrayOutputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -208,10 +209,10 @@ public class SendAndReceive {
         MiniAuction miniAuction = new MiniAuction(
                 auction.getId() + "",
                 auction.getName(),
-                auction.getDiscount().getPercent() ,
-                auction.getDiscount().getAmount() ,
-                auction.getStart() ,
-                auction.getEnd() );
+                auction.getDiscount().getPercent(),
+                auction.getDiscount().getAmount(),
+                auction.getStart(),
+                auction.getEnd());
         requestHandler.sendMessage(yaGson.toJson(miniAuction));
     }
 
@@ -222,8 +223,8 @@ public class SendAndReceive {
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
         }
-        MiniCate miniCate  = new MiniCate(
-                category.getId()+"",
+        MiniCate miniCate = new MiniCate(
+                category.getId() + "",
                 category.getName(),
                 category.getCategoryFields());
         requestHandler.sendMessage(yaGson.toJson(miniCate));
