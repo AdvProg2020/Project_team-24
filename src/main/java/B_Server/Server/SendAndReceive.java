@@ -8,10 +8,8 @@ import B_Server.Server.RequestHandler.RequestHandler;
 import B_Server.Structs.*;
 import Exceptions.*;
 import com.gilecode.yagson.YaGson;
-import javafx.scene.image.Image;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,9 +69,7 @@ public class SendAndReceive {
                 getAllAuctions(requestHandler);
                 break;
             case "GetAllDiscountCodes":
-                List<DiscountCode> discountCodes = DiscountCode.getList();
-                List<MiniDiscountCode> miniDiscountCodes = discountCodes.stream().map(discountCode -> new MiniDiscountCode());
-                //...
+                getAllDiscountCodes(requestHandler);
                 break;
             case "GetAllCate":
                 getAllCategories(requestHandler);
@@ -89,6 +85,18 @@ public class SendAndReceive {
         }
     }
 
+    private static void getAllDiscountCodes(RequestHandler requestHandler) {
+        List<DiscountCode> discountCodes = DiscountCode.getList();
+        List<MiniDiscountCode> miniDiscountCodes = discountCodes.stream().map(discountCode -> new MiniDiscountCode(
+                discountCode.getId() ,
+                discountCode.getDiscountCode(),
+                discountCode.getDiscount().getPercent(),
+                discountCode.getDiscount().getAmount(),
+                discountCode.getStart(),
+                discountCode.getEnd())).collect(Collectors.toList());
+        requestHandler.sendMessage(yaGson.toJson(miniDiscountCodes));
+    }
+
     private static void getAllCategories(RequestHandler requestHandler) {
         List<Category> categories = Category.getList();
         List<MiniCate> miniCates = categories.stream().map(category -> new MiniCate(
@@ -100,25 +108,31 @@ public class SendAndReceive {
 
     private static void getAllProductOfCate(List<String> inputs, RequestHandler requestHandler) {
         int categoryId = Integer.parseInt(inputs.get(0));
-        Category category = null;
         try {
-            category = Category.getCategoryById(categoryId);
+            Category category = Category.getCategoryById(categoryId);
+            List<Long> productIds = category.getProductList();
+            List<MiniProduct> products = productIds.stream().map(id -> {
+
+                try {
+                    Product product = Product.getProductById(id);
+                    return new MiniProduct(
+                            product.getId() + "",
+                            product.getName(),
+                            product.getAuction().getId() + "",
+                            product.getCategory().getId() + "",
+                            product.getMediaId() + "",
+                            product.getSellersOfProduct());
+
+                } catch (ProductDoesNotExistException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }).collect(Collectors.toList());
+
+            requestHandler.sendMessage(yaGson.toJson(products));
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
         }
-        List<Long> productIds = category.getProductList();
-        List<MiniProduct> products = productIds.stream().map(id -> {
-            Product product = Product.getProductById(id);
-            MiniProduct miniProduct = new MiniProduct(
-                    product.getId() + "",
-                    product.getName(),
-                    product.getAuction().getId() + "",
-                    product.getCategory().getId() + "",
-                    product.getMediaId() + "",
-                    product.getSellersOfProduct());
-            return miniProduct;
-        });
-        requestHandler.sendMessage(yaGson.toJson(products));
     }
 
     private static void getAllPopularProducts(RequestHandler requestHandler) {
