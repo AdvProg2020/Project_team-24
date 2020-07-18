@@ -1,7 +1,7 @@
 package A_Client.Client;
 
 import A_Client.Client.ClientInfo.ClientInfo;
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Client.RequestHandler.RequestHandler;
 
 import java.io.File;

@@ -1,6 +1,6 @@
 package A_Client.Client;
 
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MiniModels.Structs.*;
 import A_Client.JsonHandler.JsonHandler;
 import javafx.scene.image.Image;

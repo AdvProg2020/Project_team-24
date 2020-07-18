@@ -1,7 +1,7 @@
 package A_Client.Client.RequestHandler;
 
-import A_Client.Client.MessageInterfaces.MessagePattern;
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessagePattern;
+import MessageInterfaces.MessageSupplier;
 import org.codehaus.plexus.util.IOUtil;
 
 import java.io.*;
@@ -17,7 +17,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
     private Blabber blabber;
     private boolean goodBye;
 
-    public RequestHandler(Socket socket) {
+    public RequestHandler(Socket socket, String token) {
         blabber = new Blabber(socket);
     }
 

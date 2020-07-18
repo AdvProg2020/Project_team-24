@@ -1,7 +1,7 @@
 package A_Client.Graphics.Accounts;
 
 import A_Client.Client.Client;
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.MiniModels.Structs.MiniAccount;
 import A_Client.JsonHandler.JsonHandler;

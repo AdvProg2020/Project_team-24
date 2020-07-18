@@ -1,7 +1,7 @@
 package A_Client.Graphics;
 
 import A_Client.Client.Client;
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.AuctionCart;

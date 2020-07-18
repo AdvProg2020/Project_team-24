@@ -1,6 +1,6 @@
 package A_Client.Graphics.Accounts;
 
-import A_Client.Client.MessageInterfaces.MessageSupplier;
+import MessageInterfaces.MessageSupplier;
 import A_Client.Graphics.MiniModels.Structs.MiniDiscountCode;
 import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
 import A_Client.Graphics.Pages.Cart;
