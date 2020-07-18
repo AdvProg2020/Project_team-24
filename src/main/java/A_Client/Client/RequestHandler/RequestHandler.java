@@ -2,6 +2,7 @@ package A_Client.Client.RequestHandler;
 
 import A_Client.Client.MessageInterfaces.MessagePattern;
 import A_Client.Client.MessageInterfaces.MessageSupplier;
+import org.codehaus.plexus.util.IOUtil;
 
 import java.io.*;
 import java.net.Socket;
@@ -38,6 +39,15 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
     public synchronized void sendMessage(String message) {
         try {
             blabber.sendMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void sendFile(File file) {
+        try {
+            InputStream inputStream = new FileInputStream(file);
+            blabber.sendFile(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,6 +108,10 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         public synchronized void sendMessage(String message) throws IOException {
             outputStream.writeUTF(message);
             outputStream.flush();
+        }
+
+        public synchronized void sendFile(InputStream inputStream) throws IOException {
+            IOUtil.copy(inputStream, outputStream);
         }
 
         public synchronized String receiveMessage() throws IOException {
