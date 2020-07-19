@@ -140,6 +140,92 @@ public class SendAndReceive {
             case "CheckDiscountCodes":
                     //....
                 break;
+            case "addNewFilter":
+                addNewFilter(inputs, requestHandler);
+                break;
+            case "CheckDiscountCodes":
+
+                break;
+            case "addNewSellerOfPro":
+
+                break;
+            case "saveInfoOfProduct":
+                //...
+                break;
+            case "addToCodesList":
+                addToCodesList(inputs, requestHandler);
+                break;
+            case "acceptRequest":
+                acceptRequest(inputs, requestHandler);
+                break;
+            case "declineRequest":
+                declineRequest(inputs, requestHandler);
+                break;
+            case "SetCurrentCate":
+                //...
+                break;
+            case "SetCurrentCode":
+                //...
+                break;
+            case "SetCurrentProduct":
+                //...
+                break;
+            case "Sort":
+                sort(inputs, requestHandler);
+                break;
+        }
+    }
+
+    private static void sort(List<String> inputs, RequestHandler requestHandler) {
+        String sortElement = inputs.get(0);
+        try {
+            ProductsController.getInstance().sort(sortElement);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (NotAvailableSortException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        }
+    }
+
+    private static void declineRequest(List<String> inputs, RequestHandler requestHandler) {
+        String id = inputs.get(0);
+        try {
+            ManagerController.getInstance().denyRequest(id);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (RequestDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        }
+    }
+
+    private static void acceptRequest(List<String> inputs, RequestHandler requestHandler) {
+        String id = inputs.get(0);
+        try {
+            ManagerController.getInstance().acceptRequest(id);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (RequestDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        }
+    }
+
+    private static void addToCodesList(List<String> inputs, RequestHandler requestHandler) {
+        String accountId = inputs.get(0);
+        String discountId = inputs.get(1);
+        Customer account = null;
+        try {
+            account = (Customer) Account.getAccountById(Long.parseLong(accountId));
+            account.addToDiscountCodeList(Long.parseLong(discountId));
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
     }
 
