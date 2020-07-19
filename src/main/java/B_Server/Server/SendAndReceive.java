@@ -1,13 +1,19 @@
 package B_Server.Server;
 
+import B_Server.Controller.Controllers.BuyerController;
+import B_Server.Controller.Controllers.LoginController;
+import B_Server.Controller.Controllers.ManagerController;
 import B_Server.Controller.Controllers.SellerController;
 import B_Server.Model.Models.*;
+import B_Server.Model.Models.Accounts.Customer;
+import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
 import B_Server.Model.Models.Structs.Medias;
 import B_Server.Server.RequestHandler.RequestHandler;
 import B_Server.Structs.*;
 import Exceptions.*;
 import com.gilecode.yagson.YaGson;
+import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -80,15 +86,152 @@ public class SendAndReceive {
             case "GetAllPopularProducts":
                 getAllPopularProducts(requestHandler);
                 break;
+            case "Login":
+                login(inputs, requestHandler);
+                break;
+            case "Logout":
+                //...
+                break;
+            case "GetCodesOfUserById":
+                getCodesOfUsersById(inputs, requestHandler);
+                break;
+            case "GetLogsOfUserById":
+                getLogsOfUserById(inputs);
+                break;
+            case "addNew":
+
+                break;
+            case "addNewAccount":
+
+                break;
+            case "addNewAuction":
+                break;
+            case "addNewCate":
+                break;
+            case "EditCate":
+                break;
+            case "addNewDiscountCode":
+                break;
+            case "addNewProduct":
+                break;
+            case "EditAccount":
+                break;
+            case "EditAuction":
+                break;
+            case "EditProduct":
+                break;
+            case "EditDiscountCode":
+                break;
+            case "DeleteAccountById":
+                break;
+            case "addNewFilter":
+                break;
+            case "CheckDiscountCodes":
+                BuyerController.getInstance().
+                break;
 
 
         }
     }
 
+    private static void getLogsOfUserById(List<String> inputs) {
+        Account account = null;
+        try {
+            account = Account.getAccountById(Long.parseLong(inputs.get(0)));
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+        }
+        List<Long> logHistoriesIds = null;
+        if(account instanceof Customer){
+           logHistoriesIds = ((Customer) account).getLogHistoryList();
+        }
+        if(account instanceof Seller){
+           logHistoriesIds = ((Seller) account).getLogHistoryList();
+        }
+        List<MiniLogHistory> logHistoryList = logHistoriesIds.stream().map(id -> {
+
+            try {
+                LogHistory logHistory = LogHistory.getLogHistoryById(id);
+                return new MiniLogHistory(
+                        logHistory.getId() + "",
+                        logHistory.getFinalAmount() + "",
+                        logHistory.getDiscountAmount() + "",
+                        logHistory.getAuctionDiscount() + "",
+                        logHistory.getFieldList(),
+                        logHistory.getProductLogList());
+                ////ishala farda
+
+                );
+            } catch (LogHistoryDoesNotExistException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }).collect(Collectors.toList());
+    }
+
+    private static void getCodesOfUsersById(List<String> inputs, RequestHandler requestHandler) {
+        Customer account = null;
+        try {
+            account = (Customer) Account.getAccountById(Long.parseLong(inputs.get(0)));
+            List<Long> discountCodeIds = account.getDiscountCodeList();
+            List<MiniDiscountCode> miniDiscountCodes = discountCodeIds.stream().map(id -> {
+
+                DiscountCode discountCode = null;
+                try {
+                    discountCode = DiscountCode.getDiscountCodeById(id);
+                    return new MiniDiscountCode(
+                            discountCode.getId(),
+                            discountCode.getDiscountCode(),
+                            discountCode.getDiscount().getPercent(),
+                            discountCode.getDiscount().getAmount(),
+                            discountCode.getStart(),
+                            discountCode.getEnd());
+                } catch (DiscountCodeExpiredException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }).collect(Collectors.toList());
+            requestHandler.sendMessage(yaGson.toJson(miniDiscountCodes));
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void login(List<String> inputs, RequestHandler requestHandler) {
+        try {
+            String username = inputs.get(0);
+            String password = inputs.get(1);
+            Account account = LoginController.getInstance().login(username, password);
+            MiniAccount miniAccount = getMiniAccount(account);
+            requestHandler.sendMessage(yaGson.toJson(miniAccount));
+        } catch (PassIncorrectException e) {
+            e.printStackTrace();
+        } catch (UserNameInvalidException e) {
+            e.printStackTrace();
+        } catch (UserNameTooShortException e) {
+            e.printStackTrace();
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @NotNull
+    private static MiniAccount getMiniAccount(Account account) {
+        return new MiniAccount(
+                account.getMediaId() + "",
+                account.getUserName() + "",
+                account.getPassword() + "",
+                account.getPersonalInfo().getList(),
+                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
+                account.getWallet()
+        );
+    }
+
     private static void getAllDiscountCodes(RequestHandler requestHandler) {
         List<DiscountCode> discountCodes = DiscountCode.getList();
         List<MiniDiscountCode> miniDiscountCodes = discountCodes.stream().map(discountCode -> new MiniDiscountCode(
-                discountCode.getId() ,
+                discountCode.getId(),
                 discountCode.getDiscountCode(),
                 discountCode.getDiscount().getPercent(),
                 discountCode.getDiscount().getAmount(),
@@ -245,21 +388,14 @@ public class SendAndReceive {
     }
 
     private static void getAccountById(List<String> inputs, RequestHandler requestHandler) {
-        Account account = null;
         try {
-            account = Account.getAccountById(Long.parseLong(inputs.get(0)));
+            Account account = Account.getAccountById(Long.parseLong(inputs.get(0)));
+            MiniAccount miniAccount = getMiniAccount(account);
+            requestHandler.sendMessage(yaGson.toJson(miniAccount));
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
         }
-        MiniAccount miniAccount = new MiniAccount(
-                account.getMediaId() + "",
-                account.getUserName() + "",
-                account.getPassword() + "",
-                account.getPersonalInfo().getList(),
-                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                account.getWallet()
-        );
-        requestHandler.sendMessage(yaGson.toJson(miniAccount));
+
     }
 
     private static void getProductById(List<String> inputs, RequestHandler requestHandler) {

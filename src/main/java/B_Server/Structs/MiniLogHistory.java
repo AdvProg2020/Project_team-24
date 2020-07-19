@@ -1,6 +1,6 @@
 package B_Server.Structs;
 
-import A_Client.MiniModels.FieldAndFieldList.FieldList;
+import B_Server.Model.Models.FieldList;
 
 import java.util.List;
 
