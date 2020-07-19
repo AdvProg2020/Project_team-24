@@ -173,6 +173,50 @@ public class SendAndReceive {
             case "Sort":
                 sort(inputs, requestHandler);
                 break;
+            case "increaseProduct":
+                increaseProduct(inputs, requestHandler);
+
+                break;
+            case "decreaseProduct":
+                decreaseProduct(inputs, requestHandler);
+                break;
+
+        }
+    }
+
+    private static void decreaseProduct(List<String> inputs, RequestHandler requestHandler) {
+        String productId = inputs.get(0);
+        String sellerId = inputs.get(1);
+        try {
+            BuyerController.getInstance().decrease(productId,sellerId);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        } catch (ProductIsOutOfStockException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
+            sellerDoesNotSellOfThisProduct.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        }
+    }
+
+    private static void increaseProduct(List<String> inputs, RequestHandler requestHandler) {
+        String productId = inputs.get(0);
+        String sellerId = inputs.get(1);
+        try {
+            BuyerController.getInstance().increase(productId,sellerId);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        } catch (ProductIsOutOfStockException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
+            sellerDoesNotSellOfThisProduct.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
     }
 
