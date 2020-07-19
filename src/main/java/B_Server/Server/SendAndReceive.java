@@ -1,18 +1,16 @@
 package B_Server.Server;
-
-import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.*;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
+import B_Server.Model.Models.Field.Field;
 import B_Server.Model.Models.Structs.Medias;
 import B_Server.Server.RequestHandler.RequestHandler;
 import Exceptions.*;
 import Structs.*;
 import com.gilecode.yagson.YaGson;
 import org.jetbrains.annotations.NotNull;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -52,19 +50,15 @@ public class SendAndReceive {
                 break;
             case "GetMovieById":
                 //...
-
                 break;
             case "SetImageById":
                 ///...
-
                 break;
             case "SetMovieById":
                 //...
-
                 break;
             case "GetAllProducts":
                 getAllProducts(requestHandler, ProductsController.getInstance().showProducts());
-
                 break;
             case "GetAllAccounts":
                 getAllAcounts(requestHandler);
@@ -109,7 +103,15 @@ public class SendAndReceive {
                 addNewCategory(inputs, requestHandler);
                 break;
             case "EditCate":
-
+                ///????
+                String categoryName = inputs.get(0);
+                List<String> ids = yaGson.fromJson(inputs.get(1),List.class);
+                Category category = null;
+                ManagerController managerController = ManagerController.getInstance();
+                managerController.editCategory(category.getId() + "", "name", categoryName);
+                category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
+                category.setCategoryFields(new FieldList(str_feature.stream().map(Field::new).collect(Collectors.toList())));
+                DataBase.save(category);
                 break;
             case "addNewDiscountCode":
                 addNewDiscountCode(inputs, requestHandler);
@@ -118,8 +120,10 @@ public class SendAndReceive {
                 addNewProduct(inputs, requestHandler);
                 break;
             case "EditAccount":
+                editAccount(inputs, requestHandler);
                 break;
             case "EditAuction":
+                editAuction(inputs, requestHandler);
                 break;
             case "EditProduct":
                 editProduct(inputs, requestHandler);
@@ -139,6 +143,116 @@ public class SendAndReceive {
         }
     }
 
+    private static void editAuction(List<String> inputs, RequestHandler requestHandler) {
+        Seller seller = null;
+        String auctionName = inputs.get(0);
+        String startTime = inputs.get(1);
+        String endTime = inputs.get(2);
+        String auctionLimit = inputs.get(3);
+        String auctionPercent = inputs.get(4);
+        try {
+            sellerController.editAuction(seller.getId() + "", "auctionName", auctionName, "edit Auction");
+            sellerController.editAuction(seller.getId() + "", "start", startTime, "edit Auction");
+            sellerController.editAuction(seller.getId() + "", "end", endTime, "edit Auction");
+            sellerController.editAuction(seller.getId() + "", "discountMaxAmount", auctionLimit, "edit Auction");
+            sellerController.editAuction(seller.getId() + "", "discountPercent", auctionPercent, "edit Auction");
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (AuctionDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        } catch (InvalidInputByUserException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        }
+    }
+
+    private static void editAccount(List<String> inputs, RequestHandler requestHandler) {
+        String id = inputs.get(0);
+        String type = inputs.get(1);
+        String password = inputs.get(2);
+        String balance = inputs.get(3);
+        String firstName = inputs.get(4);
+        String lastName = inputs.get(5);
+        String email = inputs.get(6);
+        String phoneNumber = inputs.get(7);
+        editAccountManager(requestHandler, type, password, balance, firstName, lastName, email, phoneNumber);
+        editAccountSeller(inputs, requestHandler, id, type, password, balance, firstName, lastName, email, phoneNumber);
+        editAccountCustomer(requestHandler, type, password, balance, firstName, lastName, email, phoneNumber);
+    }
+
+    private static void editAccountSeller(List<String> inputs, RequestHandler requestHandler, String id, String type, String password, String balance, String firstName, String lastName, String email, String phoneNumber) {
+        if(type.equals("Seller")){
+            String companyName = inputs.get(8);
+            String companyPhoneNumber = inputs.get(9);
+            String companyEmail = inputs.get(10);
+            Seller seller = null;
+            try {
+                seller = (Seller) Account.getAccountById(Long.parseLong(id));
+                seller.editField("password", password);
+                seller.editField("balance", balance);
+                seller.editField("FirstName", firstName);
+                seller.editField("LastName", lastName);
+                seller.editField("Email", email);
+                seller.editField("PhoneNumber", phoneNumber);
+                seller.editField("CompanyName", companyName);
+                seller.editField("CompanyPhoneNumber", companyPhoneNumber);
+                seller.editField("CompanyEmail", companyEmail);
+                requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            } catch (AccountDoesNotExistException e) {
+                e.printStackTrace();
+                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            }
+             catch (FieldDoesNotExistException e) {
+                e.printStackTrace();
+                 requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            }
+
+
+        }
+    }
+
+    private static void editAccountCustomer(RequestHandler requestHandler, String type, String password, String balance, String firstName, String lastName, String email, String phoneNumber) {
+        if(type.equals("Customer")){
+            Customer customer = null;
+            try {
+                customer.editField("password", password);
+                customer.editField("balance", balance);
+                customer.editField("FirstName", firstName);
+                customer.editField("LastName", lastName);
+                customer.editField("Email", email);
+                customer.editField("PhoneNumber", phoneNumber);
+                requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            } catch (FieldDoesNotExistException e) {
+                e.printStackTrace();
+                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            }
+        }
+    }
+
+    private static void editAccountManager(RequestHandler requestHandler, String type, String password, String balance, String firstName, String lastName, String email, String phoneNumber) {
+        if(type.equals("Manager")){
+
+            Manager manager = null;
+            try {
+                manager.editField("password", password);
+                manager.editField("Balance",balance);
+                manager.editField("FirstName",firstName);
+                manager.editField("LastName", lastName);
+                manager.editField("Email", email);
+                manager.editField("PhoneNumber", phoneNumber);
+                requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            } catch (FieldDoesNotExistException e) {
+                e.printStackTrace();
+                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            }
+
+
+        }
+    }
+
     private static void deleteAccountById(List<String> inputs, RequestHandler requestHandler) {
         String id = inputs.get(0);
         try {
@@ -150,7 +264,7 @@ public class SendAndReceive {
         }
         return;
     }
-\\
+
     private static void editDiscountCode(List<String> inputs, RequestHandler requestHandler) {
         DiscountCode discountCode = null;
         String start = inputs.get(0);
