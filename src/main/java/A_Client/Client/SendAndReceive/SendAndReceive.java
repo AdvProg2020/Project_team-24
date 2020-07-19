@@ -43,6 +43,12 @@ public class SendAndReceive {
         return new JsonHandler<MiniAccount>().JsonToObject(answer.get(0), MiniAccount.class);
     }
 
+    public static MiniCart getCartByUserId(String accountId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetCartByUserId,
+                Arrays.asList(client.getClientInfo().getToken(), accountId));
+        return new JsonHandler<MiniCart>().JsonToObject(answer.get(0), MiniCart.class);
+    }
+
     public static MiniCate getCateById(String cateId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetCateById,
                 Arrays.asList(client.getClientInfo().getToken(), cateId));
@@ -300,6 +306,16 @@ public class SendAndReceive {
     public static void DeleteAccountById(String accountId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.DeleteAccountById,
                 Arrays.asList(client.getClientInfo().getToken(), accountId));
+    }
+
+    public static void increaseProduct(String productId, String sellerId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.increaseProduct,
+                Arrays.asList(client.getClientInfo().getToken(), productId, sellerId));
+    }
+
+    public static void decreaseProduct(String productId, String sellerId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.decreaseProduct,
+                Arrays.asList(client.getClientInfo().getToken(), productId, sellerId));
     }
 
     public static void acceptRequest(String requestId) {
