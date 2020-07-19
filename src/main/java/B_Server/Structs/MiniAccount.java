@@ -1,7 +1,8 @@
 package B_Server.Structs;
 
-import A_Client.MiniModels.FieldAndFieldList.FieldList;
-import A_Client.MiniModels.Wallet.Wallet;
+
+import B_Server.Model.Models.FieldList;
+import B_Server.Model.Models.Wallet;
 
 public class MiniAccount {
 

@@ -1,9 +1,6 @@
 package B_Server.Server;
 
-import B_Server.Controller.Controllers.BuyerController;
-import B_Server.Controller.Controllers.LoginController;
-import B_Server.Controller.Controllers.ManagerController;
-import B_Server.Controller.Controllers.SellerController;
+import B_Server.Controller.Controllers.*;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
@@ -98,10 +95,28 @@ public class SendAndReceive {
             case "GetLogsOfUserById":
                 getLogsOfUserById(inputs);
                 break;
-            case "addNew":
+            case "addNewCustomerOrManager":
+                String type = inputs.get(0);
+                String username = inputs.get(1);
+                String password = inputs.get(2);
+                String firstName = inputs.get(3);
+                String lastName = inputs.get(4);
+                String phoneNumeber = inputs.get(5);
+                String email = inputs.get(6);
+                if(type.equals("Manager")){
+                   Account account =  SignUpController.getInstance().creatTheBaseOfAccount("Manager",username);
+
+                }
+                if(type.equals("Customer")){
+
+                }
 
                 break;
-            case "addNewAccount":
+            case "addNewSeller":
+                String brand = inputs.get(7);
+                String companyPhoneNumber = inputs.get(8);
+                String companyEmail = inputs.get(9);
+
 
                 break;
             case "addNewAuction":
