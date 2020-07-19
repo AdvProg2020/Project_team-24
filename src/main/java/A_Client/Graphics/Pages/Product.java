@@ -6,20 +6,9 @@ import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.CommentCart;
 import A_Client.Graphics.Models.ProductCart;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.BuyerController;
-import B_Server.Controller.Controllers.ProductController;
-import B_Server.Controller.Controllers.ProductsController;
+import A_Client.MiniModels.FieldAndFieldList.Field;
 import Exceptions.*;
-import B_Server.Model.Models.Account;
-import B_Server.Model.Models.Accounts.Customer;
-import B_Server.Model.Models.Accounts.Seller;
-import B_Server.Model.Models.Comment;
-import B_Server.Model.Models.Field.Field;
-import B_Server.Model.Models.Request;
-import B_Server.Model.Models.Score;
-import B_Server.Model.Models.Structs.Medias;
-import B_Server.Model.Models.Structs.ProductOfSeller;
+import Structs.MiniProduct;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -40,8 +29,8 @@ import java.util.*;
 
 public class Product implements Initializable, SceneBuilder {
 
-    private static B_Server.Model.Models.Product First_Compare;
-    private static B_Server.Model.Models.Product productObject;
+    private static MiniProduct First_Compare;
+    private static MiniProduct productObject;
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
@@ -99,7 +88,7 @@ public class Product implements Initializable, SceneBuilder {
     @FXML
     private Button addToCart_btn;
 
-    public static B_Server.Model.Models.Product getFirst_Compare() {
+    public static MiniProduct getFirst_Compare() {
         return First_Compare;
     }
 

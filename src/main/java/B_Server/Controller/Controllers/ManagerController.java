@@ -162,7 +162,7 @@ public class ManagerController extends AccountController {
         Category.removeCategory(category);
     }
 
-    public Category createEmptyCategory(String categoryName, @NotNull List<String> fieldNames, @NotNull List<String> strCategoriesIds) throws CategoryDoesNotExistException, NumberFormatException {
+    public void createEmptyCategory(String categoryName, @NotNull List<String> fieldNames, @NotNull List<String> strCategoriesIds) throws CategoryDoesNotExistException, NumberFormatException {
 
         List<Long> subCategory = strCategoriesIds.stream().map(Long::parseLong).collect(Collectors.toList());
 
@@ -178,7 +178,6 @@ public class ManagerController extends AccountController {
 
         Category.addCategory(category);
 
-        return category;
     }
 
     public Manager createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException, ThisUserNameAlreadyExistsException {

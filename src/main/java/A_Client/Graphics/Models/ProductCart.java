@@ -1,16 +1,13 @@
 package A_Client.Graphics.Models;
 
-import Structs.MiniProduct;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.ProductController;
+import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.MainMenu;
+import A_Client.Graphics.Pages.Product;
 import Exceptions.CommentDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
-import Exceptions.ProductMediaNotFoundException;
-import A_Client.Graphics.MainMenu;
-import B_Server.Model.Models.Auction;
-import B_Server.Model.Models.Comment;
-import B_Server.Model.Models.Product;
-import B_Server.Model.Models.Structs.Medias;
+import Structs.MiniAuction;
+import Structs.MiniProduct;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,14 +19,15 @@ import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class ProductCart implements Initializable {
 
-    private static List<MiniProduct> productList = null;/*ProductsController
-            .getInstance()
-            .showProducts();*/
+    private final Client client = SendAndReceive.getClient();
+    private static List<MiniProduct> productList = SendAndReceive.getAllMyProducts();
     private MiniProduct product;
     private int sellerIndex;
     @FXML
@@ -67,10 +65,11 @@ public class ProductCart implements Initializable {
 
     public void nextSeller() {
 
-        if (sellerIndex + 1 < product.getSellersOfProduct().size())
-            this.price_ftx.setText(/);
+        if (sellerIndex + 1 < product.getProfSell().size())
+            this.price_ftx.setText(product.getProfSell().get(++sellerIndex).getPrice() + "");
 
-        if (product.getAuction() != null) newPrice(product.getAuction());
+        if (product.getAuctionId() != null) newPrice(SendAndReceive
+                .getAuctionById(product.getAuctionId()));
 
         checkButtons();
     }
@@ -78,26 +77,32 @@ public class ProductCart implements Initializable {
     public void prevSeller() {
 
         if (sellerIndex > 0)
-            this.price_ftx.setText(product.getSellersOfProduct().get(--sellerIndex).getPrice() + "");
+            this.price_ftx.setText(product.getProfSell().get(--sellerIndex).getPrice() + "");
 
-        if (product.getAuction() != null) newPrice(product.getAuction());
+        if (product.getAuctionId() != null) newPrice(SendAndReceive
+                .getAuctionById(product.getAuctionId()));
 
         checkButtons();
     }
 
     public void gotoProduct() {
-        if (product.getCategory() != null) {
+        if (product.getCateId() != null) {
             ProductCart.setProductList(getSimilar());
         }
-        Product first_compare = A_Client.Graphics.Pages.Product.getFirst_Compare();
-        if (first_compare == null) {
-            ControllerUnit.getInstance().setProduct(product);
-        } else ControllerUnit.getInstance().setProduct(first_compare);
+        MiniProduct first_compare = Product.getFirst_Compare();
+        if (first_compare == null) setCurrentProduct(product);
+        else setCurrentProduct(first_compare);
+
         if (product.getCommentList() != null) {
             setCommentListToShow();
         }
         MainMenu.change(new A_Client.Graphics.Pages.Product().sceneBuilder());
         MainMenu.FilterDisable();
+    }
+
+    private void setCurrentProduct(MiniProduct miniProduct) {
+        SendAndReceive.SetCurrentProduct(miniProduct.getProductId());
+        client.getClientInfo().setProductId(miniProduct.getProductId());
     }
 
     private void setCommentListToShow() {
@@ -130,25 +135,20 @@ public class ProductCart implements Initializable {
 
     private void setProductCart() {
         if (product != null) {
-            if (product.getMediaId() != 0) setImage();
+            if (product.getMediasId() != null) setImage();
             setTexts();
-            if (product.getAuction() == null) return;
-            newPrice(product.getAuction());
+            if (product.getAuctionId() != null) newPrice(product.getAuction());
         }
     }
 
     private void setTexts() {
-        this.product_name.setText(product.getName());
-        this.price_ftx.setText(product.getSellersOfProduct().get(sellerIndex).getPrice() + "");
+        this.product_name.setText(product.getProductName());
+        this.price_ftx.setText(product.getProfSell()
+                .get(sellerIndex).getPrice() + "");
     }
 
     private void setImage() {
-        Image image = null;
-        try {
-            image = Medias.getImage(Medias.getMediasById(product.getId()).getImageSrc());
-        } catch (ProductMediaNotFoundException e) {
-            e.printStackTrace();
-        }
+        Image image = SendAndReceive.getImageById(product.getMediasId());
         this.productImage.setImage(image);
     }
 
@@ -163,13 +163,13 @@ public class ProductCart implements Initializable {
         } else prevButton.setDisable(false);
     }
 
-    private void newPrice(@NotNull Auction auction) {
+    private void newPrice(@NotNull MiniAuction auction) {
 
         this.discount.setVisible(true);
         this.price_ltx.setVisible(true);
         this.discountImage.setVisible(true);
 
-        double price = product.getSellersOfProduct().get(sellerIndex).getPrice();
+        double price = product.getProfSell().get(sellerIndex).getPrice();
         double discountAmount = auction.getAuctionDiscount(price);
 
         this.price_ltx.setText(price - discountAmount + "");

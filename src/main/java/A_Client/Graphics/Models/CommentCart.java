@@ -1,10 +1,7 @@
 package A_Client.Graphics.Models;
 
 import A_Client.Graphics.Sprite.SandBoxFX;
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.FieldDoesNotExistException;
-import B_Server.Model.Models.Account;
-import B_Server.Model.Models.Comment;
+import Structs.MiniComment;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -20,9 +17,9 @@ import java.util.ResourceBundle;
 
 public class CommentCart implements Initializable {
 
-    private static List<Comment> commentList = new ArrayList<>();
+    private static List<MiniComment> commentList = new ArrayList<>();
 
-    public static void setCommentList(List<Comment> commentList) {
+    public static void setCommentList(List<MiniComment> commentList) {
         CommentCart.commentList = commentList;
     }
 
@@ -50,18 +47,14 @@ public class CommentCart implements Initializable {
         ImageView sprite1 = SandBoxFX.sprite();
         spritePane.getChildren().add(sprite);
         spritePane1.getChildren().add(sprite1);
-        Comment comment = commentList.get(0);
+        MiniComment comment = commentList.get(0);
         commentList.remove(0);
         init(comment);
     }
 
-    private void init(@NotNull Comment comment) {
-        try {
-            title.setText(comment.getFieldList().getFieldByName("Title").getString());
-            sender.setText(Account.getAccountById(comment.getUserId()).getUserName());
-            content.setText(comment.getFieldList().getFieldByName("Content").getString());
-        } catch (AccountDoesNotExistException | FieldDoesNotExistException e) {
-            e.printStackTrace();
-        }
+    private void init(@NotNull MiniComment comment) {
+        title.setText(comment.getTitle());
+        sender.setText(comment.getSender());
+        content.setText(comment.getContent());
     }
 }

@@ -2,7 +2,6 @@ package A_Client.Client.SendAndReceive;
 
 import A_Client.Client.Client;
 import A_Client.JsonHandler.JsonHandler;
-import A_Client.MiniModels.Structs.*;
 import MessageFormates.MessageSupplier;
 import Structs.*;
 import com.gilecode.yagson.YaGson;
@@ -120,6 +119,12 @@ public class SendAndReceive {
         return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
     }
 
+    public static List<MiniRequest> getAllRequest() {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllRequest,
+                Collections.singletonList(client.getClientInfo().getToken()));
+        return new JsonHandler<MiniRequest>().JsonsToObjectList(answer, MiniRequest.class);
+    }
+
     public static List<MiniCate> getAllCategories() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllCate,
                 Collections.singletonList(client.getClientInfo().getToken()));
@@ -153,6 +158,12 @@ public class SendAndReceive {
     public static List<MiniProduct> getAllProductsOfCategoryById(String cateId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductOfCate,
                 Arrays.asList(client.getClientInfo().getToken(), cateId));
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+    }
+
+    public static List<MiniProduct> getAllProductOfAuction(String auctionId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductOfAuction,
+                Arrays.asList(client.getClientInfo().getToken(), auctionId));
         return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
     }
 
@@ -273,6 +284,16 @@ public class SendAndReceive {
                 Arrays.asList(client.getClientInfo().getToken(), accountId));
     }
 
+    public static void acceptRequest(String requestId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.acceptRequest,
+                Arrays.asList(client.getClientInfo().getToken(), requestId));
+    }
+
+    public static void declineRequest(String requestId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.declineRequest,
+                Arrays.asList(client.getClientInfo().getToken(), requestId));
+    }
+
     public static void CheckMyDiscountCodes() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.CheckDiscountCodes,
                 Collections.singletonList(client.getClientInfo().getToken()));
@@ -290,7 +311,6 @@ public class SendAndReceive {
     }
 
     // Set Current
-
     public static void SetCurrentCate(String cateId) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentCate,
                 Arrays.asList(client.getClientInfo().getToken(), cateId));
@@ -299,5 +319,10 @@ public class SendAndReceive {
     public static void SetCurrentCode(String codeId) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentCode,
                 Arrays.asList(client.getClientInfo().getToken(), codeId));
+    }
+
+    public static void SetCurrentProduct(String productId) {
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentProduct,
+                Arrays.asList(client.getClientInfo().getToken(), productId));
     }
 }

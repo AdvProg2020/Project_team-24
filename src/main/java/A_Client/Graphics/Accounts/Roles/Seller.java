@@ -92,7 +92,7 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
             bran_txt.setText(account.getCompanyInfo().getFieldByName("CompanyName").getString());
             comEmail_txt.setText(account.getCompanyInfo().getFieldByName("CompanyEmail").getString());
             comPhone_txt.setText(account.getCompanyInfo().getFieldByName("CompanyPhoneNumber").getString());
-            balance_txt.setText(account.getWallet().getAmount() + "");
+            balance_txt.setText(account.getWallet().getBalance() + "");
 
             if (account.getMediasId() != null) ImageInit(seller_image);
 

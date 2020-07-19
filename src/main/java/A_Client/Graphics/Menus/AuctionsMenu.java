@@ -4,7 +4,6 @@ import A_Client.Graphics.Models.AuctionCart;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;
 import Structs.MiniAuction;
-import B_Server.Model.Models.Auction;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -63,8 +62,8 @@ public class AuctionsMenu implements Initializable, SceneBuilder {
 
     public void nextPage() {
         List<MiniAuction> list = new ArrayList<>();
-        for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < list.size(); i++) {
-            list.add(list.get(i));
+        for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < AuctionsMenu.list.size(); i++) {
+            list.add(AuctionsMenu.list.get(i));
         }
         checkButtons();
         AuctionCart.setAuctionList(list);
@@ -72,9 +71,9 @@ public class AuctionsMenu implements Initializable, SceneBuilder {
     }
 
     public void previousPage() {
-        List<Auction> list = new ArrayList<>();
-        for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < list.size(); i++) {
-            list.add(list.get(i));
+        List<MiniAuction> list = new ArrayList<>();
+        for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < AuctionsMenu.list.size(); i++) {
+            list.add(AuctionsMenu.list.get(i));
         }
         checkButtons();
         AuctionCart.setAuctionList(list);

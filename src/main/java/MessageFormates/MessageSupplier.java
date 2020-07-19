@@ -55,7 +55,12 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.GetAllAuctions, list -> list.get(0) + "::GetAllAuctions");
 
+        requestTypeSupplierHashMap.put(RequestType.GetAllRequest, list -> list.get(0) + "::GetAllRequest");
+
         requestTypeSupplierHashMap.put(RequestType.GetLogsOfUserById, list -> list.get(0) + "::GetLogsOfUserById "
+                + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.GetAllProductOfAuction, list -> list.get(0) + "::GetAllProductOfAuction "
                 + list.get(1));
 
         requestTypeSupplierHashMap.put(RequestType.GetAllProducts, list -> list.get(0) + "::GetAllProducts");
@@ -105,6 +110,12 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.addNewFilter, list -> list.get(0) + "::addNewFilter "
                 + list.get(1));
 
+        requestTypeSupplierHashMap.put(RequestType.acceptRequest, list -> list.get(0) + "::acceptRequest "
+                + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.declineRequest, list -> list.get(0) + "::declineRequest "
+                + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.CheckDiscountCodes, list -> list.get(0) + "::CheckCodesById");
 
         requestTypeSupplierHashMap.put(RequestType.addNewSellerOfPro, list -> list.get(0) + "::addNewSellerOfPro " +
@@ -118,6 +129,9 @@ public interface MessageSupplier {
                 + list.get(1));
 
         requestTypeSupplierHashMap.put(RequestType.SetCurrentCode, list -> list.get(0) + "::SetCurrentCode "
+                + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.SetCurrentProduct, list -> list.get(0) + "::SetCurrentProduct "
                 + list.get(1));
 
         return requestTypeSupplierHashMap;
@@ -146,11 +160,13 @@ public interface MessageSupplier {
         GetAllProducts,
         GetAllAccounts,
         GetAllAuctions,
+        GetAllRequest,
         GetAllDiscountCodes,
         GetCodesOfUserById,
         GetLogsOfUserById,
         GetAllCate,
         GetAllProductOfCate,
+        GetAllProductOfAuction,
         GetAllMyProducts,
         GetAllPopularProducts,
         addNewAccount,
@@ -169,7 +185,10 @@ public interface MessageSupplier {
         addNewSellerOfPro,
         saveInfoOfProduct,
         addToCodesList,
+        acceptRequest,
+        declineRequest,
         SetCurrentCate,
         SetCurrentCode,
+        SetCurrentProduct,
     }
 }

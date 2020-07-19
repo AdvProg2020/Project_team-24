@@ -2,17 +2,14 @@ package A_Client.Graphics.Accounts.Roles;
 
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.BaseAccount;
-import MessageFormates.MessageSupplier;
-import A_Client.Graphics.MiniModels.Structs.MiniDiscountCode;
-import A_Client.Graphics.MiniModels.Structs.MiniLogHistory;
 import A_Client.Graphics.Pages.Cart;
 import A_Client.Graphics.Models.LogHistoryCart;
-import A_Client.JsonHandler.JsonHandler;
-import A_Client.Graphics.MiniModels.Structs.MiniAccount;
 import Exceptions.*;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.LogHistoryMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
+import Structs.MiniDiscountCode;
+import Structs.MiniLogHistory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -81,7 +78,7 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-        balance_txt.setText(account.getWallet().getAmount() + "");
+        balance_txt.setText(account.getWallet().getBalance() + "");
 
         SendAndReceive.CheckMyDiscountCodes();
 

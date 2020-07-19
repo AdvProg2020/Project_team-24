@@ -1,16 +1,12 @@
 package A_Client.Graphics.Lists;
 
-import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Tools.SceneBuilder;
-import Exceptions.AccountDoesNotExistException;
-import B_Server.Model.Models.Auction;
-import B_Server.Model.Models.Product;
-import B_Server.Model.Models.Request;
-import B_Server.Model.Tools.ForPend;
+import Structs.MiniRequest;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -30,13 +26,18 @@ import java.util.ResourceBundle;
 
 public class RequestList implements SceneBuilder, Initializable {
 
-    private final Client client = SendAndReceive.getClient();
-    public TableView<Request> request_table;
-    public TableColumn<Request, Pane> ar_btn;
-    public TableColumn<Request, String> request_type;
-    public TableColumn<Request, String> request_info;
-    public TableColumn<Request, String> request_mode;
-    public TableColumn<Request, String> request_name;
+    @FXML
+    private TableView<MiniRequest> request_table;
+    @FXML
+    private TableColumn<MiniRequest, Pane> ar_btn;
+    @FXML
+    private TableColumn<MiniRequest, String> request_type;
+    @FXML
+    private TableColumn<MiniRequest, String> request_info;
+    @FXML
+    private TableColumn<MiniRequest, String> request_mode;
+    @FXML
+    private TableColumn<MiniRequest, String> request_name;
 
     @Override
     public Scene sceneBuilder() {
@@ -55,21 +56,18 @@ public class RequestList implements SceneBuilder, Initializable {
     }
 
     private void init() {
-        List<Request> list = managerController.showAllRequests();
+        List<MiniRequest> list = SendAndReceive.getAllRequest();
         request_table.setItems(FXCollections.observableList(list));
-        request_name.setCellValueFactory(param -> {
-            ForPend forPend = param.getValue().getForPend();
-            return new SimpleStringProperty(forPend instanceof Product ? ((Product) forPend).getName() : ((Auction) forPend).getName());
-        });
+        request_name.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName()));
         request_mode.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getClass().getSimpleName()));
-        request_info.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getInformation()));
-        request_type.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getTypeOfRequest()));
+        request_info.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getInfo()));
+        request_type.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType()));
         ar_btn.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
     }
 
     @NotNull
     @Contract("_ -> new")
-    private Pane setChoicePane(Request request) {
+    private Pane setChoicePane(MiniRequest request) {
 
         HBox hBox = new HBox();
 
@@ -77,24 +75,17 @@ public class RequestList implements SceneBuilder, Initializable {
         Button decline = new Button("decline");
 
         accept.setOnAction(event -> {
-            try {
-                request.acceptRequest();
-            } catch (AccountDoesNotExistException e) {
-                e.printStackTrace();
-            }
-            init();
-        });
-        decline.setOnAction(event -> {
-            try {
-                request.declineRequest();
-            } catch (AccountDoesNotExistException e) {
-                e.printStackTrace();
-            }
+            SendAndReceive.acceptRequest(request.getId());
             init();
         });
 
-        hBox.getChildren().addAll(accept,decline);
+        decline.setOnAction(event -> {
+            SendAndReceive.declineRequest(request.getId());
+            init();
+        });
+
+        hBox.getChildren().addAll(accept, decline);
 
         return new Pane(hBox);
     }
- }
+}

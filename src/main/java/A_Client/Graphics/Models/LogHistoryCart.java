@@ -1,12 +1,14 @@
 package A_Client.Graphics.Models;
 
+import A_Client.Graphics.Pages.PaymentInformation;
 import Structs.MiniLogHistory;
 import Structs.MiniProductLog;
-import A_Client.Graphics.Pages.PaymentInformation;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +18,26 @@ public class LogHistoryCart implements Initializable {
 
     private static List<MiniLogHistory> logHistoryList = new ArrayList<>();
     private MiniLogHistory logHistory;
-    public Label ActionDiscount;
-    public Label DiscountCodeDiscount;
-    public Label PendingState;
-    public Label finalPriceOfAll;
-    public Label DateOfPurchase;
-    public TableColumn<MiniProductLog,String> finalPrice;
-    public TableColumn<MiniProductLog,String> auctionDiscount;
-    public TableColumn<MiniProductLog,String> productPrice;
-    public TableColumn<MiniProductLog,String> productName;
-    public TableView<MiniProductLog> logHistoryTable;
+    @FXML
+    private Label ActionDiscount;
+    @FXML
+    private Label DiscountCodeDiscount;
+    @FXML
+    private Label PendingState;
+    @FXML
+    private Label finalPriceOfAll;
+    @FXML
+    private Label DateOfPurchase;
+    @FXML
+    private TableColumn<MiniProductLog, String> finalPrice;
+    @FXML
+    private TableColumn<MiniProductLog, String> auctionDiscount;
+    @FXML
+    private TableColumn<MiniProductLog, String> productPrice;
+    @FXML
+    private TableColumn<MiniProductLog, String> productName;
+    @FXML
+    private TableView<MiniProductLog> logHistoryTable;
 
     public static void setLogHistoryList(List<MiniLogHistory> logHistoryList) {
         LogHistoryCart.logHistoryList = logHistoryList;

@@ -1,11 +1,10 @@
 package A_Client.Graphics.Models;
 
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import Structs.MiniAuction;
-import Exceptions.AuctionDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
-import B_Server.Model.Models.Product;
+import Structs.MiniProduct;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -55,12 +54,7 @@ public class AuctionCart implements Initializable {
 
     public void gotoProductsMenu() {
         ProductsMenu.setMode(ProductsMenu.Modes.AuctionMode);
-        List<Product> productOfAuction = null;
-        try {
-            productOfAuction = auctionController.getProductOfAuction(auction.getId()); //?
-        } catch (AuctionDoesNotExistException | ProductDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        List<MiniProduct> productOfAuction = SendAndReceive.getAllProductOfAuction(auction.getAuctionId());
         ProductsMenu.setList(productOfAuction);
         ProductCart.setProductList(productOfAuction);
         MainMenu.change(new ProductsMenu().sceneBuilder());
