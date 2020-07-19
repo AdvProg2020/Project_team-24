@@ -1,4 +1,5 @@
 package B_Server.Server;
+
 import B_Server.Controller.Controllers.*;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
@@ -11,6 +12,7 @@ import Exceptions.*;
 import Structs.*;
 import com.gilecode.yagson.YaGson;
 import org.jetbrains.annotations.NotNull;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -105,7 +107,7 @@ public class SendAndReceive {
             case "EditCate":
                 ///????
                 String categoryName = inputs.get(0);
-                List<String> ids = yaGson.fromJson(inputs.get(1),List.class);
+                List<String> ids = yaGson.fromJson(inputs.get(1), List.class);
                 Category category = null;
                 ManagerController managerController = ManagerController.getInstance();
                 managerController.editCategory(category.getId() + "", "name", categoryName);
@@ -138,16 +140,14 @@ public class SendAndReceive {
                 addNewFilter(inputs, requestHandler);
                 break;
             case "CheckDiscountCodes":
-                    //....
-                break;
-            case "addNewFilter":
-                addNewFilter(inputs, requestHandler);
-                break;
-            case "CheckDiscountCodes":
-
+                DiscountCode.getList().forEach(discountCode -> {
+                    try {
+                        discountCode.checkExpiredDiscountCode(false);
+                    } catch (DiscountCodeExpiredException | AccountDoesNotExistException ignored) {}
+                });
                 break;
             case "addNewSellerOfPro":
-
+                addNewSellerOfPro(inputs, requestHandler);
                 break;
             case "saveInfoOfProduct":
                 //...
@@ -173,6 +173,21 @@ public class SendAndReceive {
             case "Sort":
                 sort(inputs, requestHandler);
                 break;
+        }
+    }
+
+    private static void addNewSellerOfPro(List<String> inputs, RequestHandler requestHandler) {
+        String productId = inputs.get(0);
+        String sellerId = inputs.get(1);
+        String newPrice = inputs.get(2);
+        String numberOfProducts = inputs.get(3);
+        try {
+            Product product = Product.getProductById(Long.parseLong(productId));
+            product.addSeller(Long.parseLong(sellerId),Long.parseLong(newPrice),Long.parseLong(numberOfProducts));
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL);
         }
     }
 
@@ -270,7 +285,7 @@ public class SendAndReceive {
     }
 
     private static void editAccountSeller(List<String> inputs, RequestHandler requestHandler, String id, String type, String password, String balance, String firstName, String lastName, String email, String phoneNumber) {
-        if(type.equals("Seller")){
+        if (type.equals("Seller")) {
             String companyName = inputs.get(8);
             String companyPhoneNumber = inputs.get(9);
             String companyEmail = inputs.get(10);
@@ -290,10 +305,9 @@ public class SendAndReceive {
             } catch (AccountDoesNotExistException e) {
                 e.printStackTrace();
                 requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-            }
-             catch (FieldDoesNotExistException e) {
+            } catch (FieldDoesNotExistException e) {
                 e.printStackTrace();
-                 requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
             }
 
 
@@ -301,7 +315,7 @@ public class SendAndReceive {
     }
 
     private static void editAccountCustomer(RequestHandler requestHandler, String type, String password, String balance, String firstName, String lastName, String email, String phoneNumber) {
-        if(type.equals("Customer")){
+        if (type.equals("Customer")) {
             Customer customer = null;
             try {
                 customer.editField("password", password);
@@ -319,13 +333,13 @@ public class SendAndReceive {
     }
 
     private static void editAccountManager(RequestHandler requestHandler, String type, String password, String balance, String firstName, String lastName, String email, String phoneNumber) {
-        if(type.equals("Manager")){
+        if (type.equals("Manager")) {
 
             Manager manager = null;
             try {
                 manager.editField("password", password);
-                manager.editField("Balance",balance);
-                manager.editField("FirstName",firstName);
+                manager.editField("Balance", balance);
+                manager.editField("FirstName", firstName);
                 manager.editField("LastName", lastName);
                 manager.editField("Email", email);
                 manager.editField("PhoneNumber", phoneNumber);
@@ -358,13 +372,13 @@ public class SendAndReceive {
         String percent = inputs.get(2);
         String limit = inputs.get(3);
         String num = inputs.get(4);
-        ManagerController managerController  = ManagerController.getInstance();
+        ManagerController managerController = ManagerController.getInstance();
         try {
-            managerController.editDiscountCode(discountCode.getId() + "",  "start", start);
-            managerController.editDiscountCode(discountCode.getId() + "",  "end", end);
-            managerController.editDiscountCode(discountCode.getId() + "",  "frequentUse", num);
-            managerController.editDiscountCode(discountCode.getId() + "",  "maxDiscountAmount", limit);
-            managerController.editDiscountCode(discountCode.getId() + "",  "discountPercent",percent);
+            managerController.editDiscountCode(discountCode.getId() + "", "start", start);
+            managerController.editDiscountCode(discountCode.getId() + "", "end", end);
+            managerController.editDiscountCode(discountCode.getId() + "", "frequentUse", num);
+            managerController.editDiscountCode(discountCode.getId() + "", "maxDiscountAmount", limit);
+            managerController.editDiscountCode(discountCode.getId() + "", "discountPercent", percent);
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (DiscountCodeExpiredException e) {
             e.printStackTrace();
@@ -387,7 +401,7 @@ public class SendAndReceive {
                 sellerController.editProduct(product.getId() + "", "category", productCategory, "edit product categpry");
             if (!productAction.equals("0"))
                 sellerController.editProduct(product.getId() + "", "Auction", productAction, "edit product auction");
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
@@ -407,7 +421,7 @@ public class SendAndReceive {
         String filterName = inputs.get(0);
         String filterValue = inputs.get(1);
         try {
-            FilterController.getInstance().filter(filterName,filterValue);
+            FilterController.getInstance().filter(filterName, filterValue);
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (InvalidFilterException e) {
             e.printStackTrace();
@@ -421,11 +435,11 @@ public class SendAndReceive {
         String auctionId = inputs.get(2);
         String numberOfThis = inputs.get(3);
         String price = inputs.get(4);
-        List<String> fieldNames = yaGson.fromJson(inputs.get(5),List.class);
-        List<String> values = yaGson.fromJson(inputs.get(6),List.class);
+        List<String> fieldNames = yaGson.fromJson(inputs.get(5), List.class);
+        List<String> values = yaGson.fromJson(inputs.get(6), List.class);
         try {
-            Product product = SellerController.getInstance().createTheBaseOfProduct(productName,categoryId,auctionId,numberOfThis,price);
-            SellerController.getInstance().saveProductInfo(product,fieldNames,values);
+            Product product = SellerController.getInstance().createTheBaseOfProduct(productName, categoryId, auctionId, numberOfThis, price);
+            SellerController.getInstance().saveProductInfo(product, fieldNames, values);
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
@@ -443,7 +457,7 @@ public class SendAndReceive {
         String max = inputs.get(3);
         String frequentUse = inputs.get(4);
         try {
-            ManagerController.getInstance().creatDiscountCode(start,end,percentage,max,frequentUse);
+            ManagerController.getInstance().creatDiscountCode(start, end, percentage, max, frequentUse);
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (InvalidStartAndEndDateForDiscountCodeException e) {
             e.printStackTrace();
@@ -453,10 +467,10 @@ public class SendAndReceive {
 
     private static void addNewCategory(List<String> inputs, RequestHandler requestHandler) {
         String categoryName = inputs.get(0);
-        List<String> features = yaGson.fromJson(inputs.get(1),List.class);
-        List<String> subCategories =yaGson.fromJson(inputs.get(2),List.class);
+        List<String> features = yaGson.fromJson(inputs.get(1), List.class);
+        List<String> subCategories = yaGson.fromJson(inputs.get(2), List.class);
         try {
-            Category category = ManagerController.getInstance().createEmptyCategory(categoryName,features,subCategories);
+            Category category = ManagerController.getInstance().createEmptyCategory(categoryName, features, subCategories);
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
@@ -471,7 +485,7 @@ public class SendAndReceive {
         String percentage = inputs.get(3);
         String maxAmount = inputs.get(4);
         try {
-            SellerController.getInstance().addOff(auctionName,start,end,percentage,maxAmount);
+            SellerController.getInstance().addOff(auctionName, start, end, percentage, maxAmount);
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (InvalidInputByUserException e) {
             e.printStackTrace();
@@ -873,7 +887,8 @@ public class SendAndReceive {
             e.printStackTrace();
         }
     }
-    enum successOrFailMessage{
+
+    enum successOrFailMessage {
         SUCCESS,
         FAIL
 
