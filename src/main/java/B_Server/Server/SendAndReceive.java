@@ -3,12 +3,11 @@ package B_Server.Server;
 import B_Server.Controller.Controllers.*;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
-import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
 import B_Server.Model.Models.Structs.Medias;
 import B_Server.Server.RequestHandler.RequestHandler;
-import B_Server.Structs.*;
 import Exceptions.*;
+import Structs.*;
 import com.gilecode.yagson.YaGson;
 import org.jetbrains.annotations.NotNull;
 

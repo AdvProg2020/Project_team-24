@@ -1,4 +1,4 @@
-package A_Client.MiniModels.Structs;
+package Structs;
 
 import A_Client.MiniModels.FieldAndFieldList.FieldList;
 

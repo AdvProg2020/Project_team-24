@@ -1,7 +1,8 @@
 package A_Client.Graphics.Lists;
 
+import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Controller.Controllers.ManagerController;
 import Exceptions.AccountDoesNotExistException;
 import B_Server.Model.Models.Auction;
 import B_Server.Model.Models.Product;
@@ -29,8 +30,7 @@ import java.util.ResourceBundle;
 
 public class RequestList implements SceneBuilder, Initializable {
 
-    private static ManagerController managerController = ManagerController.getInstance();
-
+    private final Client client = SendAndReceive.getClient();
     public TableView<Request> request_table;
     public TableColumn<Request, Pane> ar_btn;
     public TableColumn<Request, String> request_type;

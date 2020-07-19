@@ -3,7 +3,7 @@ package A_Client.Graphics.Creates;
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.MiniModels.FieldAndFieldList.Field;
-import A_Client.MiniModels.Structs.MiniCate;
+import Structs.MiniCate;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import com.gilecode.yagson.YaGson;
@@ -78,7 +78,7 @@ public class CreateCategory implements SceneBuilder, Initializable {
                 .getList().stream()
                 .map(Field::getFieldName)
                 .collect(Collectors.toList());
-        
+
         setTable(table, feature_column, collect);
     }
 

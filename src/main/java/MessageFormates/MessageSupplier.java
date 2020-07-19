@@ -113,6 +113,13 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.saveInfoOfProduct, list -> list.get(0) + "::saveInfoOfProduct " +
                 list.get(1) + " " + list.get(2) + " " + list.get(3) + " " + list.get(4));
 
+        // Set Currents
+        requestTypeSupplierHashMap.put(RequestType.SetCurrentCate, list -> list.get(0) + "::SetCurrentCate "
+                + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.SetCurrentCode, list -> list.get(0) + "::SetCurrentCode "
+                + list.get(1));
+
         return requestTypeSupplierHashMap;
     }
 
@@ -162,5 +169,7 @@ public interface MessageSupplier {
         addNewSellerOfPro,
         saveInfoOfProduct,
         addToCodesList,
+        SetCurrentCate,
+        SetCurrentCode,
     }
 }

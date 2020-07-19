@@ -1,7 +1,7 @@
 package A_Client.Graphics.Models;
 
-import A_Client.MiniModels.Structs.MiniLogHistory;
-import A_Client.MiniModels.Structs.MiniProductLog;
+import Structs.MiniLogHistory;
+import Structs.MiniProductLog;
 import A_Client.Graphics.Pages.PaymentInformation;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

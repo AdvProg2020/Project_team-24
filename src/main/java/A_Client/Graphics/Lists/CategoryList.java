@@ -6,7 +6,7 @@ import A_Client.Graphics.Accounts.Roles.Manager;
 import A_Client.Graphics.Creates.CreateCategory;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;
-import B_Server.Structs.MiniCate;
+import Structs.MiniCate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class CategoryList implements SceneBuilder, Initializable {
@@ -53,19 +54,20 @@ public class CategoryList implements SceneBuilder, Initializable {
     }
 
     private void init() {
-        List<Category> list = sellerController.showCategories();
+        List<MiniCate> list = SendAndReceive.getAllCategories();
         CategoryList.setItems(FXCollections.observableList(list));
-        categoryName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName()));
-        editCategory.setCellValueFactory(param -> new SimpleObjectProperty<Pane>(setChoicePane(param.getValue())));
+        categoryName.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getCateName()));
+        editCategory.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
     }
 
     @NotNull
     @Contract("_ -> new")
-    private Pane setChoicePane(Category category) {
+    private Pane setChoicePane(MiniCate category) {
         Button editCategory = new Button("ویرایش دسته");
         editCategory.setOnAction(event -> {
             CreateCategory.setMode(CreateCategory.Mode.Edit);
-            ControllerUnit.getInstance().setCategory(category);
+            client.getClientInfo().setCateId(category.getCateId());
+            SendAndReceive.SetCurrentCate(category.getCateId());
             MainMenu.change(new CreateCategory().sceneBuilder());
             init();
         });

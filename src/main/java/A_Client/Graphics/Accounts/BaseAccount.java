@@ -3,7 +3,7 @@ package A_Client.Graphics.Accounts;
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
-import A_Client.MiniModels.Structs.MiniAccount;
+import Structs.MiniAccount;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;

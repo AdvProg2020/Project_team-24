@@ -4,6 +4,7 @@ import A_Client.Client.Client;
 import A_Client.JsonHandler.JsonHandler;
 import A_Client.MiniModels.Structs.*;
 import MessageFormates.MessageSupplier;
+import Structs.*;
 import com.gilecode.yagson.YaGson;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
@@ -286,5 +287,17 @@ public class SendAndReceive {
 
     public static void Logout() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
+    }
+
+    // Set Current
+
+    public static void SetCurrentCate(String cateId) {
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentCate,
+                Arrays.asList(client.getClientInfo().getToken(), cateId));
+    }
+
+    public static void SetCurrentCode(String codeId) {
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentCode,
+                Arrays.asList(client.getClientInfo().getToken(), codeId));
     }
 }

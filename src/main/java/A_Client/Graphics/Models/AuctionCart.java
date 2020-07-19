@@ -1,6 +1,6 @@
 package A_Client.Graphics.Models;
 
-import A_Client.MiniModels.Structs.MiniAuction;
+import Structs.MiniAuction;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import A_Client.Graphics.MainMenu;

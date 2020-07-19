@@ -2,36 +2,39 @@ package A_Client.MiniModels.Wallet;
 
 public class Wallet {
 
-    private double upperLimit = 100000000;
-    private double lowerLimit = 1000;
-    private double amount = 1000;
+    /*****************************************************fields*******************************************************/
 
-    public double getAmount() {
-        return amount;
+    private static double lowerLimit;
+    private double balance;
+    private double minBalance;
+
+    /*****************************************************getters*******************************************************/
+
+    public double getBalance() {
+        return balance;
     }
 
-    public double getUpperLimit() {
-        return upperLimit;
+    public double getMinBalance() {
+        return minBalance;
     }
 
-    public double getLowerLimit() {
-        return lowerLimit;
+    /*****************************************************setters*******************************************************/
+
+    public static void setLowerLimit(double lowerLimit) {
+        Wallet.lowerLimit = lowerLimit;
     }
 
-    public void setLowerLimit(double lowerLimit) {
-        this.lowerLimit = lowerLimit;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
-    public boolean increase(double plus) {
-        if (amount + plus <= upperLimit) {
-            amount = amount + plus;
-            return true;
-        } else return false;
+    public void setMinBalance(double minBalance) {
+        this.minBalance = minBalance;
     }
 
-    public boolean decrease(double minus) {
-        if (amount - minus >= lowerLimit) {
-            amount = amount - minus;
+    public boolean addMoney(double plus) {
+        if (balance + plus >= minBalance) {
+            balance += plus;
             return true;
         } else return false;
     }

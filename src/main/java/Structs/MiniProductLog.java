@@ -1,4 +1,4 @@
-package B_Server.Structs;
+package Structs;
 
 public class MiniProductLog {
 

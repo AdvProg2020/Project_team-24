@@ -1,6 +1,6 @@
 package A_Client.Graphics.Menus;
 
-import A_Client.MiniModels.Structs.MiniLogHistory;
+import Structs.MiniLogHistory;
 import A_Client.Graphics.Models.LogHistoryCart;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;

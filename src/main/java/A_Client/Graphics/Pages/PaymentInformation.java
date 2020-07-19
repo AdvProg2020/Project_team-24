@@ -1,7 +1,7 @@
 package A_Client.Graphics.Pages;
 
-import A_Client.MiniModels.Structs.MiniLogHistory;
-import A_Client.MiniModels.Structs.MiniProductLog;
+import Structs.MiniLogHistory;
+import Structs.MiniProductLog;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Exceptions.FieldDoesNotExistException;
 import javafx.beans.property.SimpleStringProperty;

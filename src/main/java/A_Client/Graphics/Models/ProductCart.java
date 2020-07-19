@@ -1,6 +1,6 @@
 package A_Client.Graphics.Models;
 
-import A_Client.MiniModels.Structs.MiniProduct;
+import Structs.MiniProduct;
 import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.ProductController;
 import Exceptions.CommentDoesNotExistException;

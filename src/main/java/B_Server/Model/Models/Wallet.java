@@ -1,20 +1,14 @@
 package B_Server.Model.Models;
 
-import java.util.List;
-
 public class Wallet {
 
     /*****************************************************fields*******************************************************/
 
-    protected static List<Wallet> list;
-    protected double balance;
-    protected double minBalance;
+    private static double lowerLimit;
+    private double balance;
+    private double minBalance;
 
     /*****************************************************getters*******************************************************/
-
-    public static List<Wallet> getList() {
-        return list;
-    }
 
     public double getBalance() {
         return balance;
@@ -25,8 +19,9 @@ public class Wallet {
     }
 
     /*****************************************************setters*******************************************************/
-    public static void setList(List<Wallet> list) {
-        Wallet.list = list;
+
+    public static void setLowerLimit(double lowerLimit) {
+        Wallet.lowerLimit = lowerLimit;
     }
 
     public void setBalance(double balance) {
@@ -35,5 +30,12 @@ public class Wallet {
 
     public void setMinBalance(double minBalance) {
         this.minBalance = minBalance;
+    }
+
+    public boolean addMoney(double plus) {
+        if (balance + plus >= minBalance) {
+            balance += plus;
+            return true;
+        } else return false;
     }
 }

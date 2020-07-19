@@ -4,7 +4,7 @@ import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
-import A_Client.MiniModels.Structs.MiniDiscountCode;
+import Structs.MiniDiscountCode;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

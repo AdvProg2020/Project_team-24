@@ -1,4 +1,4 @@
-package B_Server.Structs;
+package Structs;
 
 
 import B_Server.Model.Models.FieldList;

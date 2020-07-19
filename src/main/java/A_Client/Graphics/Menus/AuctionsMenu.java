@@ -3,7 +3,7 @@ package A_Client.Graphics.Menus;
 import A_Client.Graphics.Models.AuctionCart;
 import A_Client.Graphics.Tools.SceneBuilder;
 import A_Client.Graphics.MainMenu;
-import A_Client.MiniModels.Structs.MiniAuction;
+import Structs.MiniAuction;
 import B_Server.Model.Models.Auction;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
