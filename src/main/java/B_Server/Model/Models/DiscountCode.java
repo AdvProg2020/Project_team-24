@@ -202,7 +202,6 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
     public void checkExpiredDiscountCode(boolean exception) throws DiscountCodeExpiredException, AccountDoesNotExistException {
         if (LocalDate.now().isAfter(end)) {
             DiscountCode.removeFromDiscountCode(this);
-            List<Account> accounts = new ArrayList<>();
             for (long aLong : accountList) {
                 ((Customer) Account.getAccountById(aLong)).removeFromDiscountCodeList(id);
             }
