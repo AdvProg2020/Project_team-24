@@ -134,16 +134,15 @@ public class Cart implements Initializable, SceneBuilder {
         product_f_price.setCellValueFactory(param -> {
             MiniProduct value = param.getValue();
 
-            long sellerId = cart.getProductsId()
-                    .get(cart.getSellersId().indexOf(Long.parseLong(value.getProductId())));
+            long sellerId = cart.getSellersId()
+                    .get(cart.getProductsId().indexOf(Long.parseLong(value.getProductId())));
 
             long number = cart.getProductsId().stream()
                     .filter(LoNg -> value.getProductId().equals(LoNg + ""))
                     .count();
 
             double price = value.getProfSell().stream().filter(productOfSeller ->
-                    productOfSeller.getSellerId() == sellerId)
-                    .findFirst()
+                    productOfSeller.getSellerId() == sellerId).findFirst()
                     .orElse(new ProductOfSeller(0,0,0)).getPrice();
 
             return new SimpleObjectProperty<>(number * price);
@@ -152,37 +151,29 @@ public class Cart implements Initializable, SceneBuilder {
 
     private void setProductsNumber() {
         product_number.setCellValueFactory(param ->
-                new SimpleObjectProperty<>(cart.getProductList().stream().filter(LoNg -> LoNg == param.getValue().getId()).count())
+                new SimpleObjectProperty<>(cart.getProductsId()
+                        .stream().filter(LoNg -> param.getValue()
+                                .getProductId().equals(LoNg + "")).count())
         );
     }
 
     private void setProductsPrice() {
         product_price.setCellValueFactory(param -> {
-            Product value = param.getValue();
-            long sellerId = cart.getProductSellers()
-                    .get(cart.getProductList().indexOf(value.getId()));
-            try {
-                double price = value.getProductOfSellerById(sellerId).getPrice();
-                return new SimpleObjectProperty<>(price);
-            } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
-                sellerDoesNotSellOfThisProduct.printStackTrace();
-            }
-            return null;
+            MiniProduct value = param.getValue();
+            long sellerId = cart.getSellersId()
+                    .get(cart.getProductsId().indexOf(Long.parseLong(value.getProductId())));
+
+            double price = value.getProfSell().stream().filter(productOfSeller ->
+                    productOfSeller.getSellerId() == sellerId).findFirst()
+                    .orElse(new ProductOfSeller(0,0,0)).getPrice();
+
+            return new SimpleObjectProperty<>(price);
         });
     }
 
     private void setProductsImage() {
-        product_image.setCellValueFactory(this::getImageViewObservableValue);
-    }
-
-    @Nullable
-    private ObservableValue<ImageView> getImageViewObservableValue(@NotNull TableColumn<?> CellDataFeatures<>param) {
-        try {
-            return new SimpleObjectProperty<>(new ImageView(SendAndReceive.getImageById()));
-        } catch (ProductMediaNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+        product_image.setCellValueFactory(param -> new SimpleObjectProperty<>(
+                new ImageView(SendAndReceive.getImageById(param.getValue().getMediasId()))));
     }
 
     private void setProductsName() {
