@@ -27,6 +27,10 @@ public class MiniAuction {
         return Math.min(auctionPercent * price / 100, auctionLimit);
     }
 
+    public double getAuctionLimit() {
+        return auctionLimit;
+    }
+
     public LocalDate getStart() {
         return start;
     }

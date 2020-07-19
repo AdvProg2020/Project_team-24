@@ -2,8 +2,8 @@ package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
-import A_Client.Graphics.MiniModels.Structs.MiniAuction;
 import A_Client.Graphics.MainMenu;
+import Structs.MiniAuction;
 import Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;
 import com.gilecode.yagson.YaGson;

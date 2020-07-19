@@ -55,6 +55,9 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.GetAllAuctions, list -> list.get(0) + "::GetAllAuctions");
 
+        requestTypeSupplierHashMap.put(RequestType.GetAllProductOfCart, list -> list.get(0) + "::GetAllProductOfCart "
+                + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.GetAllRequest, list -> list.get(0) + "::GetAllRequest");
 
         requestTypeSupplierHashMap.put(RequestType.GetAllCommentOfProduct, list -> list.get(0) + "::GetAllCommentOfProduct "
@@ -67,6 +70,8 @@ public interface MessageSupplier {
                 + list.get(1));
 
         requestTypeSupplierHashMap.put(RequestType.GetAllProducts, list -> list.get(0) + "::GetAllProducts");
+
+        requestTypeSupplierHashMap.put(RequestType.GetAllProductsPrime, list -> list.get(0) + "::GetAllProductsPrime");
 
         requestTypeSupplierHashMap.put(RequestType.GetAllDiscountCodes, list -> list.get(0) + "::GetAllDiscountCodes");
 
@@ -111,6 +116,9 @@ public interface MessageSupplier {
 
         // Other
         requestTypeSupplierHashMap.put(RequestType.addNewFilter, list -> list.get(0) + "::addNewFilter "
+                + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.Sort, list -> list.get(0) + "::Sort "
                 + list.get(1));
 
         requestTypeSupplierHashMap.put(RequestType.acceptRequest, list -> list.get(0) + "::acceptRequest "
@@ -161,6 +169,7 @@ public interface MessageSupplier {
         SetMedias,
         SetMovieById,
         GetAllProducts,
+        GetAllProductsPrime,
         GetAllAccounts,
         GetAllAuctions,
         GetAllRequest,
@@ -171,6 +180,7 @@ public interface MessageSupplier {
         GetAllProductOfCate,
         GetAllProductOfAuction,
         GetAllCommentOfProduct,
+        GetAllProductOfCart,
         GetAllMyProducts,
         GetAllPopularProducts,
         addNewAccount,
@@ -194,5 +204,6 @@ public interface MessageSupplier {
         SetCurrentCate,
         SetCurrentCode,
         SetCurrentProduct,
+        Sort
     }
 }

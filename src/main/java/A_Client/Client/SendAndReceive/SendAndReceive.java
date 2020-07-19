@@ -119,6 +119,12 @@ public class SendAndReceive {
         return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
     }
 
+    public static List<MiniProduct> getAllProductsPrime() {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductsPrime,
+                Collections.singletonList(client.getClientInfo().getToken()));
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+    }
+
     public static List<MiniRequest> getAllRequest() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllRequest,
                 Collections.singletonList(client.getClientInfo().getToken()));
@@ -164,6 +170,12 @@ public class SendAndReceive {
     public static List<MiniProduct> getAllProductsOfCategoryById(String cateId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductOfCate,
                 Arrays.asList(client.getClientInfo().getToken(), cateId));
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+    }
+
+    public static List<MiniProduct> getAllProductOfUserCart(String accountId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductOfCart,
+                Arrays.asList(client.getClientInfo().getToken(), accountId));
         return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
     }
 
@@ -314,6 +326,11 @@ public class SendAndReceive {
 
     public static void Logout() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
+    }
+
+    public static void ProductSort(String sort) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Sort,
+                Arrays.asList(client.getClientInfo().getToken(), sort));
     }
 
     // Set Current

@@ -1,13 +1,11 @@
 package A_Client.Graphics.Pages;
 
+import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.BuyerController;
 import Exceptions.*;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.Models.Accounts.Customer;
-import B_Server.Model.Models.Product;
-import B_Server.Model.Models.Structs.Medias;
+import Structs.MiniProduct;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -34,24 +32,23 @@ import java.util.ResourceBundle;
 
 public class Cart implements Initializable, SceneBuilder {
 
-    private BuyerController buyerController = BuyerController.getInstance();
-    private B_Server.Model.Models.Cart cart = ((Customer) ControllerUnit.getInstance().getAccount()).getCart();
+    private final Client client = SendAndReceive.getClient();
     @FXML
-    private TableView<Product> cart_Table;
+    private TableView<MiniProduct> cart_Table;
     @FXML
     private Label totalPrice;
     @FXML
-    private TableColumn<Product, Pane> inc_dec_product;
+    private TableColumn<MiniProduct, Pane> inc_dec_product;
     @FXML
-    private TableColumn<Product, Double> product_f_price;
+    private TableColumn<MiniProduct, Double> product_f_price;
     @FXML
-    private TableColumn<Product, Long> product_number;
+    private TableColumn<MiniProduct, Long> product_number;
     @FXML
-    private TableColumn<Product, Double> product_price;
+    private TableColumn<MiniProduct, Double> product_price;
     @FXML
-    private TableColumn<Product, ImageView> product_image;
+    private TableColumn<MiniProduct, ImageView> product_image;
     @FXML
-    private TableColumn<Product, String> Product_name;
+    private TableColumn<MiniProduct, String> Product_name;
     @FXML
     private MediaView cartGif;
 
@@ -72,21 +69,20 @@ public class Cart implements Initializable, SceneBuilder {
     }
 
     private void init() {
-        List<Product> list;
-        try {
-            list = buyerController.showProducts();
-            cart_Table.setItems(FXCollections.observableList(list));
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-        }
+
+        List<MiniProduct> list = SendAndReceive
+                .getAllProductOfUserCart(client.getClientInfo().getAccountId());
+        cart_Table.setItems(FXCollections.observableList(list));
+
         setProductsName();
         setProductsImage();
         setProductsPrice();
         setProductsNumber();
         setProductFinalPrice();
         setProductsButton();
-        playMedia();
         setTotalPrice();
+
+        playMedia();
     }
 
     private void setTotalPrice() {
@@ -182,9 +178,9 @@ public class Cart implements Initializable, SceneBuilder {
     }
 
     @Nullable
-    private ObservableValue<ImageView> getImageViewObservableValue(@NotNull TableColumn.@NotNull CellDataFeatures<Product, ImageView> param) {
+    private ObservableValue<ImageView> getImageViewObservableValue(@NotNull TableColumn CellDataFeatures<Product, ImageView> param) {
         try {
-            return new SimpleObjectProperty<>(new ImageView(Medias.getImage(Medias.getMediasById(param.getValue().getMediaId()).getImageSrc())));
+            return new SimpleObjectProperty<>(new ImageView(SendAndReceive.getImageById()));
         } catch (ProductMediaNotFoundException e) {
             e.printStackTrace();
         }

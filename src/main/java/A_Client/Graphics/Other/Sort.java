@@ -1,16 +1,13 @@
 package A_Client.Graphics.Other;
 
+import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.FilterController;
-import B_Server.Controller.Controllers.ProductsController;
-import Exceptions.InvalidFilterException;
-import Exceptions.NotAvailableSortException;
+import A_Client.MiniModels.FieldAndFieldList.Field;
 import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.ProductCart;
-import B_Server.Model.Models.Category;
-import B_Server.Model.Models.Field.Field;
-import B_Server.Model.Models.Product;
+import Structs.MiniCate;
+import Structs.MiniProduct;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -25,8 +22,7 @@ import java.util.stream.Collectors;
 
 public class Sort implements Initializable {
 
-    public static FilterController filterController = FilterController.getInstance();
-    public static ProductsController productsController = ProductsController.getInstance();
+    private final Client client = SendAndReceive.getClient();
     @FXML
     private CheckBox Point;
     @FXML
@@ -49,12 +45,12 @@ public class Sort implements Initializable {
         productInfo.getItems().setAll(infos);
         productInfo.setValue("Nothing");
 
-        Category category = ControllerUnit.getInstance().getCategory();
+        MiniCate category = SendAndReceive.getCateById(client.getClientInfo().getCateId());
 
         if (category != null) {
 
-            infos = category.getCategoryFields()
-                    .getFieldList()
+            infos = category.getFieldList()
+                    .getList()
                     .stream()
                     .map(Field::getFieldName)
                     .collect(Collectors.toList());
@@ -72,27 +68,19 @@ public class Sort implements Initializable {
 
         if (Point.isSelected()) {
 
-            try {
-                productsController.sort("Point");
-            } catch (NotAvailableSortException e) {
-                e.printStackTrace();
-            }
+            SendAndReceive.ProductSort("Point");
             NumberOfViews.setDisable(true);
             TimeOfUpload.setDisable(true);
         } else {
             NumberOfViews.setDisable(false);
             TimeOfUpload.setDisable(false);
-
         }
     }
 
     public void NumberOfViews() {
         if (NumberOfViews.isSelected()) {
-            try {
-                productsController.sort("NumberOfVisits");
-            } catch (NotAvailableSortException e) {
-                e.printStackTrace();
-            }
+
+            SendAndReceive.ProductSort("NumberOfVisits");
             Point.setDisable(true);
             TimeOfUpload.setDisable(true);
         } else {
@@ -103,11 +91,8 @@ public class Sort implements Initializable {
 
     public void TimeOfUpload() {
         if (TimeOfUpload.isSelected()) {
-            try {
-                productsController.sort("Time");
-            } catch (NotAvailableSortException e) {
-                e.printStackTrace();
-            }
+
+            SendAndReceive.ProductSort("Time");
             Point.setDisable(true);
             NumberOfViews.setDisable(true);
         } else {
@@ -119,13 +104,8 @@ public class Sort implements Initializable {
     public void product_f_enter(KeyEvent keyEvent) {
         String item = productInfo.getValue();
         if (!item.equals("Nothing") && keyEvent.getCode() == KeyCode.ENTER) {
-
             String value = product_f_value.getText();
-            try {
-                filterController.filter(item, value);
-            } catch (InvalidFilterException e) {
-                e.printStackTrace();
-            }
+            SendAndReceive.addNewFilter(Arrays.asList(item, value));
             setLists();
         }
     }
@@ -133,24 +113,19 @@ public class Sort implements Initializable {
     public void category_f_enter(KeyEvent keyEvent) {
         String item = productInfo.getValue();
         if (!item.equals("Nothing") && keyEvent.getCode() == KeyCode.ENTER) {
-
             String value = category_f_value.getText();
-            try {
-                filterController.filter(item, value);
-            } catch (InvalidFilterException e) {
-                e.printStackTrace();
-            }
+            SendAndReceive.addNewFilter(Arrays.asList(item, value));
             setLists();
         }
     }
 
     private void setLists() {
-        List<Product> list = productsController.showProducts();
+        List<MiniProduct> list = SendAndReceive.getAllProducts();
         setProducts(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
-    private void setProducts(List<Product> list) {
+    private void setProducts(List<MiniProduct> list) {
         ProductsMenu.setList(list);
         ProductCart.setProductList(list);
     }
