@@ -3,8 +3,11 @@ package A_Client.Graphics.Pages;
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
-import Exceptions.*;
 import A_Client.Graphics.Tools.SceneBuilder;
+import A_Client.MiniModels.ProfSell.ProductOfSeller;
+import Exceptions.ProductMediaNotFoundException;
+import Exceptions.SellerDoesNotSellOfThisProduct;
+import Structs.MiniCart;
 import Structs.MiniProduct;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -33,6 +36,7 @@ import java.util.ResourceBundle;
 public class Cart implements Initializable, SceneBuilder {
 
     private final Client client = SendAndReceive.getClient();
+    private MiniCart cart;
     @FXML
     private TableView<MiniProduct> cart_Table;
     @FXML
@@ -70,6 +74,8 @@ public class Cart implements Initializable, SceneBuilder {
 
     private void init() {
 
+        cart = SendAndReceive.getCartByUserId(client.getClientInfo().getAccountId());
+
         List<MiniProduct> list = SendAndReceive
                 .getAllProductOfUserCart(client.getClientInfo().getAccountId());
         cart_Table.setItems(FXCollections.observableList(list));
@@ -86,17 +92,12 @@ public class Cart implements Initializable, SceneBuilder {
     }
 
     private void setTotalPrice() {
-        try {
-            totalPrice.setText(cart.getTotalPrice() + "");
-        } catch (ProductDoesNotExistException e) {
-            alertError("Error product" , e.getMessage());
-        } catch (SellerDoesNotSellOfThisProduct e) {
-            alertError("Error seller" , e.getMessage());
-        }
+        totalPrice.setText(cart.getTotalPrice() + "");
     }
 
     private void playMedia() {
-        MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Cart\\openGif.mp4").toURI().toString()));
+        String source = new File("src\\main\\resources\\Graphics\\Cart\\openGif.mp4").toURI().toString();
+        MediaPlayer mediaPlayer = new MediaPlayer(new Media(source));
         cartGif.setMediaPlayer(mediaPlayer);
         mediaPlayer.setCycleCount(Integer.MAX_VALUE);
         mediaPlayer.play();
@@ -104,31 +105,25 @@ public class Cart implements Initializable, SceneBuilder {
 
     private void setProductsButton() {
         inc_dec_product.setCellValueFactory(param -> {
-            Product value = param.getValue();
-            long sellerId = cart.getProductSellers().get(cart.getProductList().indexOf(value.getId()));
+
+            MiniProduct value = param.getValue();
+            long sellerId = cart.getProductsId()
+                    .get(cart.getSellersId().indexOf(Long.parseLong(value.getProductId())));
+
             HBox hBox = new HBox();
             Button increase = new Button("+");
             Button decrease = new Button("-");
+
             increase.setOnAction(event -> {
-                try {
-                    buyerController.increase(value.getId() + "", sellerId + "");
-                } catch (ProductDoesNotExistException e) {
-                    productDoesNotExist();
-                } catch (ProductIsOutOfStockException e) {
-                    productOutOfStack();
-                } catch (SellerDoesNotSellOfThisProduct e) {
-                    e.printStackTrace();
-                }
+                SendAndReceive.increaseProduct(value.getProductId(), sellerId + "");
                 init();
             });
+
             decrease.setOnAction(event -> {
-                try {
-                    buyerController.decrease(value.getId() + "", sellerId + "");
-                } catch (ProductDoesNotExistException e) {
-                    e.printStackTrace();
-                }
+                SendAndReceive.decreaseProduct(value.getProductId(), sellerId + "");
                 init();
             });
+
             hBox.getChildren().addAll(increase, decrease);
             Pane pane = new Pane(hBox);
             return new SimpleObjectProperty<>(pane);
@@ -137,18 +132,21 @@ public class Cart implements Initializable, SceneBuilder {
 
     private void setProductFinalPrice() {
         product_f_price.setCellValueFactory(param -> {
-            Product value = param.getValue();
-            long sellerId = cart.getProductSellers()
-                    .get(cart.getProductList().indexOf(value.getId()));
-            long number = cart.getProductList().stream()
-                    .filter(LoNg -> LoNg == param.getValue().getId())
+            MiniProduct value = param.getValue();
+
+            long sellerId = cart.getProductsId()
+                    .get(cart.getSellersId().indexOf(Long.parseLong(value.getProductId())));
+
+            long number = cart.getProductsId().stream()
+                    .filter(LoNg -> value.getProductId().equals(LoNg + ""))
                     .count();
-            try {
-                return new SimpleObjectProperty<>(number * value.getProductOfSellerById(sellerId).getPrice());
-            } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
-                sellerDoesNotSellOfThisProduct.printStackTrace();
-            }
-            return null;
+
+            double price = value.getProfSell().stream().filter(productOfSeller ->
+                    productOfSeller.getSellerId() == sellerId)
+                    .findFirst()
+                    .orElse(new ProductOfSeller(0,0,0)).getPrice();
+
+            return new SimpleObjectProperty<>(number * price);
         });
     }
 
@@ -178,7 +176,7 @@ public class Cart implements Initializable, SceneBuilder {
     }
 
     @Nullable
-    private ObservableValue<ImageView> getImageViewObservableValue(@NotNull TableColumn CellDataFeatures<Product, ImageView> param) {
+    private ObservableValue<ImageView> getImageViewObservableValue(@NotNull TableColumn<?> CellDataFeatures<>param) {
         try {
             return new SimpleObjectProperty<>(new ImageView(SendAndReceive.getImageById()));
         } catch (ProductMediaNotFoundException e) {
@@ -188,7 +186,7 @@ public class Cart implements Initializable, SceneBuilder {
     }
 
     private void setProductsName() {
-        Product_name.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getName()));
+        Product_name.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProductName()));
     }
 
     public void back() {

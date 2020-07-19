@@ -85,6 +85,9 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.GetAllMyProducts, list -> list.get(0) + "::GetAllMyProducts");
 
+        requestTypeSupplierHashMap.put(RequestType.GetCartByUserId, list -> list.get(0) + "::GetCartByUserId "
+                + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.GetAllPopularProducts, list -> list.get(0) + "::GetAllPopularProducts");
 
         // Add Or Edit Or Delete
@@ -127,6 +130,12 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.declineRequest, list -> list.get(0) + "::declineRequest "
                 + list.get(1));
 
+        requestTypeSupplierHashMap.put(RequestType.increaseProduct, list -> list.get(0) + "::increaseProduct "
+                + list.get(1) + " " + list.get(2));
+
+        requestTypeSupplierHashMap.put(RequestType.decreaseProduct, list -> list.get(0) + "::decreaseProduct "
+                + list.get(1) + " " + list.get(2));
+
         requestTypeSupplierHashMap.put(RequestType.CheckDiscountCodes, list -> list.get(0) + "::CheckCodesById");
 
         requestTypeSupplierHashMap.put(RequestType.addNewSellerOfPro, list -> list.get(0) + "::addNewSellerOfPro " +
@@ -161,6 +170,7 @@ public interface MessageSupplier {
         GetProductById,
         GetAccountById,
         GetCateById,
+        GetCartByUserId,
         GetAuctionById,
         GetImageById,
         GetMovieById,
@@ -204,6 +214,8 @@ public interface MessageSupplier {
         SetCurrentCate,
         SetCurrentCode,
         SetCurrentProduct,
-        Sort
+        Sort,
+        increaseProduct,
+        decreaseProduct,
     }
 }
