@@ -1,8 +1,8 @@
 package A_Client.Client.SendAndReceive;
 
 import A_Client.Client.Client;
-import A_Client.Graphics.MiniModels.Structs.*;
 import A_Client.JsonHandler.JsonHandler;
+import A_Client.MiniModels.Structs.*;
 import MessageFormates.MessageSupplier;
 import com.gilecode.yagson.YaGson;
 import javafx.scene.image.Image;
@@ -49,6 +49,12 @@ public class SendAndReceive {
         return new JsonHandler<MiniCate>().JsonToObject(answer.get(0), MiniCate.class);
     }
 
+    public static MiniDiscountCode getCodeById(String codeId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetCateById,
+                Arrays.asList(client.getClientInfo().getToken(), codeId));
+        return new JsonHandler<MiniDiscountCode>().JsonToObject(answer.get(0), MiniDiscountCode.class);
+    }
+
     public static MiniAuction getAuctionById(String auctionId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAuctionById,
                 Arrays.asList(client.getClientInfo().getToken(), auctionId));
@@ -92,6 +98,12 @@ public class SendAndReceive {
         list.add(mediasId);
         list.add(GetByteOfFile(file));
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.SetMovieById, list);
+    }
+
+    public static void setMedias(File image, File movie) {
+        String s = GetByteOfFile(image);
+        String o = GetByteOfFile(movie);
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetMedias, Arrays.asList(client.getClientInfo().getToken(), s, o));
     }
 
     // Get All
@@ -191,6 +203,13 @@ public class SendAndReceive {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewDiscountCode, list);
     }
 
+    public static void addToCodesList(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addToCodesList, list);
+    }
+
     public static void EditAccount(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
@@ -232,6 +251,20 @@ public class SendAndReceive {
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewFilter, list);
+    }
+
+    public static void addNewSellerOfPro(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewSellerOfPro, list);
+    }
+
+    public static void saveInfoOfProduct(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewSellerOfPro, list);
     }
 
     public static void DeleteAccountById(String accountId) {

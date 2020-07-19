@@ -1,14 +1,13 @@
 package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
-import MessageFormates.MessageSupplier;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.MiniModels.FieldAndFieldList.Field;
 import A_Client.MiniModels.ProfSell.ProductOfSeller;
+import A_Client.MiniModels.Structs.MiniCate;
 import A_Client.MiniModels.Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;
-import A_Client.JsonHandler.JsonHandler;
-import Exceptions.*;
 import com.gilecode.yagson.YaGson;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -24,21 +23,15 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class CreateProduct implements SceneBuilder, Initializable {
 
-    private final Client client = MainMenu.getClient();
+    private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.New;
     private MiniProduct product;
     private File selectedImage;
@@ -121,9 +114,9 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetProductById,
-                Arrays.asList(client.getClientInfo().getToken(), client.getClientInfo().getProductId()));
-        product = new JsonHandler<MiniProduct>().JsonToObject(answer.get(0), MiniProduct.class);
+        product = SendAndReceive
+                .getProductById(client.getClientInfo().getProductId());
+
         init_newMode();
         if (mode == Mode.Edit) init_editMode();
         if (mode == Mode.AddSeller) init_addSellerMode();
@@ -131,41 +124,43 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     private void init_editMode() {
         product_name.setText(product.getProductName());
-        long accountId = Long.parseLong(client.getClientInfo().getAccountId());
+        long accountId = Long.parseLong(
+                client.getClientInfo().getAccountId());
+
         ProductOfSeller productOfSeller = product.getProfSell().stream()
-                .filter(p -> accountId == p.getSellerId()).findFirst().orElseThrow(() -> new NullPointerException("Seller Not Found!"));
+                .filter(p -> accountId == p.getSellerId()).findFirst()
+                .orElseThrow(() -> new NullPointerException("Seller Not Found!"));
+
         product_price.setText(productOfSeller.getPrice() + "");
         product_number.setText(productOfSeller.getNumber() + "");
 
+        SomeOfSetting();
+    }
+
+    private void SomeOfSetting() {
+
         if (product.getCateId() != null)
-            category.setValue(product.getCategory().getName());
+            category.setValue(SendAndReceive.getCateById(
+                    product.getCateId()).getCateName());
+
         if (product.getAuctionId() != null)
-            auction.setValue(product.getAuction().getName());
-        if (product.getMediasId() != null) {
-            try {
-                product_image.setImage(Medias.getImage(Medias.getMediasById(product.getMediaId()).getImageSrc()));
-            } catch (ProductMediaNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+            auction.setValue(SendAndReceive.getAuctionById(
+                    product.getAuctionId()).getAuctionName());
+
+        if (product.getMediasId() != null)
+            product_image.setImage(SendAndReceive.getImageById(
+                    product.getMediasId()));
     }
 
     private void init_addSellerMode() {
-        Product product = ControllerUnit.getInstance().getProduct();
-        product_name.setText(product.getName());
+        MiniProduct product = SendAndReceive.getProductById(client.getClientInfo().getProductId());
+
+        product_name.setText(product.getProductName());
         product_price.setPromptText("مقدار مورد نظر را وارد کنید");
         product_number.setPromptText("مقدار مورد نظر را وارد کنید");
-        if (product.getCategory() != null)
-            category.setValue(product.getCategory().getName());
-        if (product.getAuction() != null)
-            auction.setValue(product.getAuction().getName());
-        if (product.getMediaId() != 0) {
-            try {
-                product_image.setImage(Medias.getImage(Medias.getMediasById(product.getMediaId()).getImageSrc()));
-            } catch (ProductMediaNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+
+        SomeOfSetting();
+
         product_name.setEditable(false);
         category.setDisable(true);
         auction.setDisable(true);
@@ -173,16 +168,16 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     private void init_newMode() {
         category.setItems(
-                FXCollections.observableArrayList(Category.getList().stream()
-                        .map(categoryPrime -> categoryPrime.getName() + " " + categoryPrime.getId())
+                FXCollections.observableArrayList(SendAndReceive.getAllCategories().stream()
+                        .map(categoryPrime -> categoryPrime.getCateName() + " " + categoryPrime.getCateId())
                         .collect(Collectors.toList()))
         );
         category.getItems().add("Nothing");
         category.setValue("Nothing");
 
         auction.setItems(
-                FXCollections.observableArrayList(Auction.getList().stream()
-                        .map(auctionPrime -> auctionPrime.getName() + " " + auctionPrime.getId())
+                FXCollections.observableArrayList(SendAndReceive.getAllAuctions().stream()
+                        .map(auctionPrime -> auctionPrime.getAuctionName() + " " + auctionPrime.getAuctionId())
                         .collect(Collectors.toList()))
         );
         auction.getItems().add("Nothing");
@@ -207,54 +202,54 @@ public class CreateProduct implements SceneBuilder, Initializable {
         String productCategory = category.getValue().equals("Nothing") ? "0" : category.getValue()
                 .split(" ")[category.getValue().split(" ").length - 1];
 
-        try {
-
-            if (mode == Mode.New)
-                submit_newMode(productName, productPrice, productNumber, productAction, productCategory);
-            if (mode == Mode.Edit)
-                submit_editMode(productName, productAction, productCategory);
-            if (mode == Mode.AddSeller)
-                submit_addSellerMode(productPrice, productNumber);
-
-        } catch (AuctionDoesNotExistException | CategoryDoesNotExistException | ProductDoesNotExistException | FieldDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        if (mode == Mode.New)
+            submit_newMode(productName, productPrice, productNumber, productAction, productCategory);
+        if (mode == Mode.Edit)
+            submit_editMode(productName, productAction, productCategory);
+        if (mode == Mode.AddSeller)
+            submit_addSellerMode(productPrice, productNumber);
     }
 
     private void submit_addSellerMode(String productPrice, String productNumber) {
-        Account account = ControllerUnit.getInstance().getAccount();
-        product.addSeller(account.getId(), Double.parseDouble(productPrice), Long.parseLong(productNumber));
-        ((Seller) account).addToProductList(product.getId());
-        DataBase.save(product);
+        SendAndReceive.addNewSellerOfPro(Arrays.asList(client.getClientInfo().getAccountId(), productPrice, productNumber));
+//        product.addSeller(account.getId(), Double.parseDouble(productPrice), Long.parseLong(productNumber));
+//        ((Seller) account).addToProductList(product.getId());
+//        DataBase.save(product);
         goMainMenu();
     }
 
-    private void submit_editMode(String productName, String productAction, @NotNull String productCategory) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException, ProductDoesNotExistException {
-        Product product = ControllerUnit.getInstance().getProduct();
-        sellerController.editProduct(product.getId() + "", "productName", productName, "edit product name");
+    private void submit_editMode(String productName, String productAction, @NotNull String productCategory) {
+        MiniProduct product = SendAndReceive.getProductById(client.getClientInfo().getProductId());
+        sendRequestForEdit(product.getProductId(), "productName", productName, "edit product name");
         if (!productCategory.equals("0"))
-            sellerController.editProduct(product.getId() + "", "category", productCategory, "edit product name");
+            sendRequestForEdit(product.getProductId(), "category", productCategory, "edit product category");
         if (!productAction.equals("0"))
-            sellerController.editProduct(product.getId() + "", "Auction", productAction, "edit product name");
+            sendRequestForEdit(product.getProductId(), "Auction", productAction, "edit product Auction");
         goMainMenu();
     }
 
-    private void submit_newMode(String productName, String productPrice, String productNumber, String productAction, String productCategory) throws AuctionDoesNotExistException, CategoryDoesNotExistException {
-        product = sellerController.createTheBaseOfProduct(productName, productCategory, productAction, productNumber, productPrice);
+    private void sendRequestForEdit(String productId, String fieldName, String value, String information) {
+        SendAndReceive.EditProduct(Arrays.asList(productId, fieldName, value, information));
+    }
+
+    private void submit_newMode(String productName, String productPrice, String productNumber, String productAction, String productCategory) {
+
+        SendAndReceive.addProduct(Arrays.asList(productName, productCategory, productAction, productNumber, productPrice));
+
         afterFirstSubmit();
 
-        Category category = product.getCategory();
-
-        if (category != null) {
+        if (!productCategory.equals("0")) {
 
             category_table.setDisable(false);
             category_feature.setDisable(false);
             category_value.setDisable(false);
             s_category.setDisable(false);
 
+            MiniCate miniCate = SendAndReceive.getCateById(productCategory);
+
             str_fcc.addAll(
-                    category.getCategoryFields()
-                            .getFieldList()
+                    miniCate.getFieldList()
+                            .getList()
                             .stream()
                             .map(Field::getFieldName)
                             .collect(Collectors.toList())
@@ -270,9 +265,14 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
             if (next_submit_newMode()) return;
 
-            sellerController.saveProductInfo(product, str_f_p, str_v_p);
-            sellerController.saveCategoryInfo(product, str_f_c, str_v_c);
-            sellerController.sendRequest(product, "new Product", "new");
+//            sellerController.saveProductInfo(product, str_f_p, str_v_p);
+//            sellerController.saveCategoryInfo(product, str_f_c, str_v_c);
+//            sellerController.sendRequest(product, "new Product", "new");
+
+            YaGson yaGson = new YaGson();
+            SendAndReceive.saveInfoOfProduct(Arrays.asList(yaGson.toJson(str_f_p),
+                    yaGson.toJson(str_v_p),yaGson.toJson(str_f_c), yaGson.toJson(str_v_c)));
+
             goMainMenu();
         });
     }
@@ -287,19 +287,21 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
         if (selectedImage != null || selectedMedia != null) {
 
-            Medias medias = new Medias();
-            Medias.addMedia(medias);
-            product.setMediaId(medias.getId());
+//            Medias medias = new Medias();
+//            Medias.addMedia(medias);
+//            product.setMediaId(medias.getId());
+//
+//            if (selectedImage != null) {
+//                setImage();
+//                medias.setImageSrc(selectedImage.toURI().toString());
+//            }
+//            if (selectedMedia != null) {
+//                setMedia();
+//                medias.setPlayerSrc(selectedMedia.toURI().toString());
+//            }
+            SendAndReceive.setMedias(selectedImage, selectedMedia);
 
-            if (selectedImage != null) {
-                setImage();
-                medias.setImageSrc(selectedImage.toURI().toString());
-            }
-            if (selectedMedia != null) {
-                setMedia();
-                medias.setPlayerSrc(selectedMedia.toURI().toString());
-            }
-            DataBase.save(medias);
+//            DataBase.save(medias);
         }
         return false;
     }
@@ -364,45 +366,6 @@ public class CreateProduct implements SceneBuilder, Initializable {
         int index = ++category_f_index;
         category_feature.setText(str_fcc.get(index));
         str_f_c.add(str_fcc.get(index));
-    }
-
-    private void setImage() {
-        try {
-            String[] str = selectedImage.getName().split("\\.");
-            String first = "src/main/resources/DataBase/Images/" + product.getMediasId() + "." + str[str.length - 1];
-            Files.copy(
-                    selectedImage.toPath(),
-                    Paths.get(first),
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-            selectedImage = new File(first);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setMedia() {
-
-        try {
-            String first = "src/main/resources/DataBase/Images/" + product.getMediasId() + ".mp4";
-            Files.copy(
-                    selectedMedia.toPath(),
-                    Paths.get(first),
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-            selectedMedia = new File(first);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected void SettingImage(String first) throws IOException {
-        File image = new File(first);
-        BufferedImage bufferedImage = ImageIO.read(image);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "Jpg", outputStream);
-        String o = new YaGson().toJson(outputStream.toByteArray());
-        client.sendAndReceive(MessageSupplier.RequestType.SetImageOfAccount, Collections.singletonList(o));
     }
 
     private void setTable(TableView<Field> table, TableColumn<Field, String> features, TableColumn<Field, String> values, @NotNull List<String> featureList, List<String> valueList) {

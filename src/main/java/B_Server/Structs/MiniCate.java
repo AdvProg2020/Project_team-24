@@ -1,6 +1,6 @@
 package B_Server.Structs;
 
-import B_Server.Model.Models.FieldList;
+import A_Client.MiniModels.FieldAndFieldList.FieldList;
 
 public class MiniCate {
 

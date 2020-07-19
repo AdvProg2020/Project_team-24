@@ -3,7 +3,9 @@ package A_Client.MiniModels.Structs;
 import java.time.LocalDate;
 
 public class MiniDiscountCode {
+
     private final String id;
+    private final int frequent;
     private final String discountCode;
     private final double discountCodePercent;
     private final double discountCodeLimit;
@@ -22,6 +24,10 @@ public class MiniDiscountCode {
         return discountCodePercent;
     }
 
+    public int getFrequent() {
+        return frequent;
+    }
+
     public double getDiscountCodeLimit() {
         return discountCodeLimit;
     }
@@ -34,8 +40,9 @@ public class MiniDiscountCode {
         return end;
     }
 
-    public MiniDiscountCode(String id, String discountCode, double discountCodePercent, double discountCodeLimit, LocalDate start, LocalDate end) {
+    public MiniDiscountCode(String id, int frequent, String discountCode, double discountCodePercent, double discountCodeLimit, LocalDate start, LocalDate end) {
         this.id = id;
+        this.frequent = frequent;
         this.discountCode = discountCode;
         this.discountCodePercent = discountCodePercent;
         this.discountCodeLimit = discountCodeLimit;

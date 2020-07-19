@@ -1,12 +1,12 @@
 package A_Client.Graphics.Lists;
 
+import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.Roles.Manager;
 import A_Client.Graphics.Creates.CreateCategory;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.SellerController;
 import A_Client.Graphics.MainMenu;
-import B_Server.Model.Models.Category;
+import B_Server.Structs.MiniCate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,14 +23,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class CategoryList implements SceneBuilder, Initializable {
-    private static SellerController sellerController = SellerController.getInstance();
-    public TableView<Category> CategoryList;
-    public TableColumn<Category,String> categoryName;
-    public TableColumn<Category,Pane> editCategory;
+    private final Client client = SendAndReceive.getClient();
+    public TableView<MiniCate> CategoryList;
+    public TableColumn<MiniCate,String> categoryName;
+    public TableColumn<MiniCate,Pane> editCategory;
 
     public void back() {
         MainMenu.change(new Manager().sceneBuilder());
