@@ -21,22 +21,34 @@ public interface MessageSupplier {
         // Single Object
         requestTypeSupplierHashMap.put(RequestType.GetProductById, list -> list.get(0) + "::GetProductById "
                 + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.GetAccountById, list -> list.get(0) + "::GetAccountById "
                 + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.GetCodeById, list -> list.get(0) + "::GetCodeById "
+                + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.GetCateById, list -> list.get(0) + "::GetCateById "
                 + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.GetAuctionById, list -> list.get(0) + "::GetAuctionById "
                 + list.get(1));
 
         // Get/Set image or movie
         requestTypeSupplierHashMap.put(RequestType.GetImageById, list -> list.get(0) + "::GetImageById "
                 + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.GetMovieById, list -> list.get(0) + "::GetMovieById "
                 + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.SetImageById, list -> list.get(0) + "::SetImageById "
-                + list.get(1) + list.get(2));
+                + list.get(1) + " " + list.get(2));
+
         requestTypeSupplierHashMap.put(RequestType.SetMovieById, list -> list.get(0) + "::SetMovieById "
-                + list.get(1) + list.get(2));
+                + list.get(1) + " " + list.get(2));
+
+        requestTypeSupplierHashMap.put(RequestType.SetMedias, list -> list.get(0) + "::SetMedias "
+                + list.get(1) + " " + list.get(2));
 
         // Get All
         requestTypeSupplierHashMap.put(RequestType.GetAllAccounts, list -> list.get(0) + "::GetAllAccounts");
@@ -65,6 +77,9 @@ public interface MessageSupplier {
         // Add Or Edit Or Delete
         requestTypeSupplierHashMap.put(RequestType.addNewAccount, list -> list.get(0) + "::addNewAccount");
 
+        requestTypeSupplierHashMap.put(RequestType.addToCodesList, list -> list.get(0) + "::addToCodesList "
+                + list.get(1) + " " + list.get(2));
+
         requestTypeSupplierHashMap.put(RequestType.addNewAuction, list -> list.get(0) + "::addNewAuction");
 
         requestTypeSupplierHashMap.put(RequestType.addNewCate, list -> list.get(0) + "::addNewCate");
@@ -92,6 +107,12 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.CheckDiscountCodes, list -> list.get(0) + "::CheckCodesById");
 
+        requestTypeSupplierHashMap.put(RequestType.addNewSellerOfPro, list -> list.get(0) + "::addNewSellerOfPro " +
+                list.get(1) + " " + list.get(2) + " " + list.get(3));
+
+        requestTypeSupplierHashMap.put(RequestType.saveInfoOfProduct, list -> list.get(0) + "::saveInfoOfProduct " +
+                list.get(1) + " " + list.get(2) + " " + list.get(3) + " " + list.get(4));
+
         return requestTypeSupplierHashMap;
     }
 
@@ -111,7 +132,9 @@ public interface MessageSupplier {
         GetAuctionById,
         GetImageById,
         GetMovieById,
+        GetCodeById,
         SetImageById,
+        SetMedias,
         SetMovieById,
         GetAllProducts,
         GetAllAccounts,
@@ -136,5 +159,8 @@ public interface MessageSupplier {
         DeleteAccountById,
         addNewFilter,
         CheckDiscountCodes,
+        addNewSellerOfPro,
+        saveInfoOfProduct,
+        addToCodesList,
     }
 }

@@ -1,14 +1,10 @@
 package A_Client.Graphics.Lists;
 
+import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.ManagerController;
-import Exceptions.AccountDoesNotExistException;
-import B_Server.Model.DataBase.DataBase;
-import B_Server.Model.Models.Account;
-import B_Server.Model.Models.Accounts.Customer;
-import B_Server.Model.Models.Accounts.Manager;
-import B_Server.Model.Models.DiscountCode;
+import A_Client.MiniModels.Structs.MiniAccount;
+import A_Client.MiniModels.Structs.MiniDiscountCode;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -26,15 +22,17 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class AccountsList implements SceneBuilder, Initializable {
-    private static final ManagerController managerController = ManagerController.getInstance();
+
+    private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.Normal;
-    public TableView<Account> accountTableView;
-    public TableColumn<Account, String> username;
-    public TableColumn<Account, Pane>  buttons;
+    public TableView<MiniAccount> accountTableView;
+    public TableColumn<MiniAccount, String> username;
+    public TableColumn<MiniAccount, Pane> buttons;
 
     public static void setMode(Mode mode) {
         AccountsList.mode = mode;
@@ -57,57 +55,55 @@ public class AccountsList implements SceneBuilder, Initializable {
     }
 
     private void init() {
-        List<Account> list = managerController.viewAllAccounts();
+        List<MiniAccount> list = SendAndReceive.getAllAccounts();
         accountTableView.setItems(FXCollections.observableList(list));
-        username.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getUserName()));
+        username.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getUsername()));
         buttons.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
     }
 
     @NotNull
     @Contract("_ -> new")
-    private Pane setChoicePane(Account account) {
+    private Pane setChoicePane(MiniAccount account) {
 
         Button deleteAccount = new Button("حذف کاربر");
         Button addDiscountCode = new Button("افزودن کد تحفیف");
 
         HBox hBox = new HBox();
 
-        if (account instanceof Manager) {
+        if (account.getAccountT().equals("Manager")) {
             deleteAccount.setDisable(true);
             deleteAccount.setVisible(false);
         }
 
         deleteAccount.setOnAction(event -> {
-            try {
-                managerController.deleteAccount(account.getUserName());
-            } catch (AccountDoesNotExistException e) {
-                e.printStackTrace();
-            }
+            SendAndReceive.DeleteAccountById(
+                    account.getAccountId());
             init();
         });
 
-        if (!(ControllerUnit.getInstance().getAccount() instanceof Manager &&
-                account instanceof Customer &&
+        if (!(client.getClientInfo().getAccountTy().equals("Manager") &&
+                account.getAccountT().equals("Customer") &&
                 mode == Mode.addDiscountCode)) {
             addDiscountCode.setDisable(true);
             addDiscountCode.setVisible(false);
         }
 
         addDiscountCode.setOnAction(event -> {
-            DiscountCode discountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
-            if (discountCode != null && account instanceof Customer) {
-                ((Customer) account).addToDiscountCodeList(discountCode.getId());
-                discountCode.addAccount(account.getId());
-                DataBase.save(discountCode);
-                DataBase.save(account);
+            MiniDiscountCode discountCode = SendAndReceive.getCodeById(client.getClientInfo().getCodeId());
+            if (discountCode != null && account.getAccountT().equals("Customer")) {
+                SendAndReceive.addToCodesList(Arrays.asList(account.getAccountId(), discountCode.getId()));
+//                ((Customer) account).addToDiscountCodeList(discountCode.getId());
+//                discountCode.addAccount(account.getId());
+//                DataBase.save(discountCode);
+//                DataBase.save(account);
             }
             init();
         });
-        hBox.getChildren().addAll(deleteAccount,addDiscountCode);
+        hBox.getChildren().addAll(deleteAccount, addDiscountCode);
         return new Pane(hBox);
     }
 
     public enum Mode {
-        addDiscountCode,Normal
+        addDiscountCode, Normal
     }
 }

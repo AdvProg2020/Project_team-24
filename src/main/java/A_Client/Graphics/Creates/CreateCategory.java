@@ -2,10 +2,8 @@ package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
-import MessageFormates.MessageSupplier;
-import A_Client.Graphics.MiniModels.FieldAndFieldList.Field;
-import A_Client.Graphics.MiniModels.Structs.MiniCate;
-import A_Client.JsonHandler.JsonHandler;
+import A_Client.MiniModels.FieldAndFieldList.Field;
+import A_Client.MiniModels.Structs.MiniCate;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import com.gilecode.yagson.YaGson;
@@ -66,20 +64,21 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
     private void init_newMode() {
         List<CheckMenuItem> checkMenuItems = SendAndReceive.getAllCategories().stream()
-                .map(product -> product.getCateName() + " " + product.getCateId())
+                .map(cate -> cate.getCateName() + " " + cate.getCateId())
                 .map(CheckMenuItem::new).collect(Collectors.toList());
 
         selected_subCategory.getItems().addAll(checkMenuItems);
     }
 
     private void init_editMode() {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.GetCategoryById, Arrays.asList(client.getClientInfo().getToken(), client.getClientInfo().getCateId()));
-        MiniCate miniCate = new JsonHandler<MiniCate>().JsonToObject(answers.get(0), MiniCate.class);
+        MiniCate miniCate = SendAndReceive.getCateById(client.getClientInfo().getCateId());
+
         Category_name.setText(miniCate.getCateName());
         List<String> collect = miniCate.getFieldList()
                 .getList().stream()
                 .map(Field::getFieldName)
                 .collect(Collectors.toList());
+        
         setTable(table, feature_column, collect);
     }
 
@@ -112,19 +111,17 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
     private void addNewCate(String category_name, List<String> ids) {
         List<String> list = new ArrayList<>();
-        list.add(client.getClientInfo().getToken());
         list.add(category_name);
         list.add(new YaGson().toJson(str_feature));
         list.add(new YaGson().toJson(ids));
-        client.sendAndReceive(MessageSupplier.RequestType.AddNewCate, list);
+        SendAndReceive.addCategory(list);
     }
 
     private void submit_editMode(String category_name, @NotNull List<String> ids) {
         List<String> list = new ArrayList<>();
-        list.add(client.getClientInfo().getToken());
         list.add(category_name);
         list.add(new YaGson().toJson(ids));
-        client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfCate, list);
+        SendAndReceive.EditCategory(list);
 //        managerController.editCategory(category.getId() + "", "name", category_name);
 //        category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
 //        category.setCategoryFields(new FieldList(str_feature.stream().map(Field::new).collect(Collectors.toList())));

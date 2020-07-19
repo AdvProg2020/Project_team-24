@@ -1,11 +1,10 @@
 package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
-import MessageFormates.MessageSupplier;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Model.Models.DiscountCode;
+import A_Client.MiniModels.Structs.MiniDiscountCode;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class CreateDiscountCode implements SceneBuilder, Initializable {
 
-    private final Client client = MainMenu.getClient();
+    private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.New;
 
     @FXML
@@ -87,13 +86,12 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
 
     private void submit_addMode(String start, String end, String percent, String limit, String num) {
         ArrayList<String> objects = new ArrayList<>();
-        objects.add(client.getClientInfo().getToken());
         objects.add(start);
         objects.add(end);
         objects.add(percent);
         objects.add(limit);
         objects.add(num);
-        client.sendAndReceive(MessageSupplier.RequestType.AddNewDiscountCode, objects);
+        SendAndReceive.addDiscountCode(objects);
     }
 
     private void submit_editMode(String start, String end, String percent, String limit, String num) {
@@ -106,20 +104,19 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
 
     private void RequestForEdit(String fieldName, String fieldValue) {
         ArrayList<String> objects = new ArrayList<>();
-        objects.add(client.getClientInfo().getToken());
         objects.add(client.getClientInfo().getCodeId());
         objects.add(fieldName);
         objects.add(fieldValue);
-        client.sendAndReceive(MessageSupplier.RequestType.EditFieldOfDiscountCode, objects);
+        SendAndReceive.EditDiscountCode(objects);
     }
 
     private void init_editMode() {
-        DiscountCode discountCode = ControllerUnit.getInstance().getCurrentDiscountCode();
+        MiniDiscountCode discountCode = SendAndReceive.getCodeById(client.getClientInfo().getCodeId());
         start_date.setText(discountCode.getStart().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         end_date.setText(discountCode.getEnd().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        percent_discount.setText(discountCode.getDiscount().getPercent() + "");
-        limit_discount.setText(discountCode.getDiscount().getAmount() + "");
-        numberOfUse.setText(discountCode.getFrequentUse() + "");
+        percent_discount.setText(discountCode.getDiscountCodePercent() + "");
+        limit_discount.setText(discountCode.getDiscountCodeLimit() + "");
+        numberOfUse.setText(discountCode.getFrequent() + "");
     }
 
     private void InvalidEndAndStart() {

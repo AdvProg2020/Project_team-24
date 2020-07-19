@@ -1,7 +1,6 @@
 package B_Server.Structs;
 
-
-import B_Server.Model.Models.Structs.ProductOfSeller;
+import A_Client.MiniModels.ProfSell.ProductOfSeller;
 
 import java.util.List;
 

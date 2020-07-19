@@ -3,12 +3,11 @@ package B_Server.Controller.Controllers;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
 import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 import B_Server.Model.Models.*;
-import Exceptions.*;
-import Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Field.Field;
 import B_Server.Model.Models.Structs.Discount;
+import Exceptions.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
@@ -64,19 +63,15 @@ public class ManagerController extends AccountController {
         return Account.getAccountByUserName(username);
     }
 
-    public void deleteAccount(String username) throws AccountDoesNotExistException {
-        Account account = Account.getAccountByUserName(username);
-        if (account instanceof Customer) {
-            for (Long aLong : ((Customer) account).getDiscountCodeList()) {
-                DiscountCode discountCode;
-                try {
-                    discountCode = DiscountCode.getDiscountCodeById(aLong);
-                    discountCode.checkExpiredDiscountCode(true);
-                    discountCode.removeAccount(account.getId());
-                } catch (DiscountCodeExpiredException e) {
-                    // do nothing.ok?
-                }
-            }
+    public void deleteAccount(String accountId) throws AccountDoesNotExistException {
+        Account account = Account.getAccountById(Long.parseLong(accountId));
+        if (account instanceof Customer) for (Long aLong : ((Customer) account).getDiscountCodeList()) {
+            DiscountCode discountCode;
+            try {
+                discountCode = DiscountCode.getDiscountCodeById(aLong);
+                discountCode.checkExpiredDiscountCode(true);
+                discountCode.removeAccount(account.getId());
+            } catch (DiscountCodeExpiredException ignored) {}
         }
         Account.deleteAccount(account);
     }
@@ -87,7 +82,7 @@ public class ManagerController extends AccountController {
         Product.removeProduct(product);
     }
 
-    public DiscountCode creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws InvalidStartAndEndDateForDiscountCodeException {
+    public void creatDiscountCode(String strStart, String strEnd, String strPercent, String strMaxAmount, String strFrequentUse) throws InvalidStartAndEndDateForDiscountCodeException {
 
         LocalDate start = LocalDate.parse(strStart, formatter);
         LocalDate end = LocalDate.parse(strEnd, formatter);
@@ -105,7 +100,6 @@ public class ManagerController extends AccountController {
                     frequentUse
             );
             DiscountCode.addDiscountCode(discountCode);
-            return discountCode;
         } else
             throw new InvalidStartAndEndDateForDiscountCodeException("Start and end date are Invalid.");
     }
