@@ -23,8 +23,8 @@ public class MiniAuction {
         return auctionId;
     }
 
-    public double getAuctionLimit() {
-        return auctionLimit;
+    public double getAuctionDiscount(double price) {
+        return Math.min(auctionPercent * price / 100, auctionLimit);
     }
 
     public LocalDate getStart() {

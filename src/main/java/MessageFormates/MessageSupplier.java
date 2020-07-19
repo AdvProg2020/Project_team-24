@@ -57,6 +57,9 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.GetAllRequest, list -> list.get(0) + "::GetAllRequest");
 
+        requestTypeSupplierHashMap.put(RequestType.GetAllCommentOfProduct, list -> list.get(0) + "::GetAllCommentOfProduct "
+                + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.GetLogsOfUserById, list -> list.get(0) + "::GetLogsOfUserById "
                 + list.get(1));
 
@@ -167,6 +170,7 @@ public interface MessageSupplier {
         GetAllCate,
         GetAllProductOfCate,
         GetAllProductOfAuction,
+        GetAllCommentOfProduct,
         GetAllMyProducts,
         GetAllPopularProducts,
         addNewAccount,

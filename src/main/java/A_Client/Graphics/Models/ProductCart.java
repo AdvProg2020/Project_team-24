@@ -4,9 +4,8 @@ import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Pages.Product;
-import Exceptions.CommentDoesNotExistException;
-import Exceptions.ProductDoesNotExistException;
 import Structs.MiniAuction;
+import Structs.MiniComment;
 import Structs.MiniProduct;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -86,17 +84,16 @@ public class ProductCart implements Initializable {
     }
 
     public void gotoProduct() {
-        if (product.getCateId() != null) {
+        if (product.getCateId() != null)
             ProductCart.setProductList(getSimilar());
-        }
+
         MiniProduct first_compare = Product.getFirst_Compare();
         if (first_compare == null) setCurrentProduct(product);
         else setCurrentProduct(first_compare);
 
-        if (product.getCommentList() != null) {
-            setCommentListToShow();
-        }
-        MainMenu.change(new A_Client.Graphics.Pages.Product().sceneBuilder());
+        setCommentListToShow();
+
+        MainMenu.change(new Product().sceneBuilder());
         MainMenu.FilterDisable();
     }
 
@@ -106,25 +103,13 @@ public class ProductCart implements Initializable {
     }
 
     private void setCommentListToShow() {
-        try {
-            List<Comment> commentList = ProductController.getInstance().viewComments()
-                    .stream().sorted((c1, c2) -> -1).collect(Collectors.toList());
-            CommentCart.setCommentList(commentList);
-        } catch (CommentDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        List<MiniComment> commentList = SendAndReceive.getAllCommentOfProduct(product.getProductId())
+                .stream().sorted((c1, c2) -> -1).collect(Collectors.toList());
+        CommentCart.setCommentList(commentList);
     }
 
     private List<MiniProduct> getSimilar() {
-        return product.getCategory().getProductList().stream()
-                .map(id -> {
-                    try {
-                        return id == 0 ? null : Product.getProductById(id);
-                    } catch (ProductDoesNotExistException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }).filter(Objects::nonNull).collect(Collectors.toList());
+        return SendAndReceive.getAllProductsOfCategoryById(product.getCateId());
     }
 
     private void init() {
@@ -137,7 +122,7 @@ public class ProductCart implements Initializable {
         if (product != null) {
             if (product.getMediasId() != null) setImage();
             setTexts();
-            if (product.getAuctionId() != null) newPrice(product.getAuction());
+            if (product.getAuctionId() != null) newPrice(SendAndReceive.getAuctionById(product.getAuctionId()));
         }
     }
 
@@ -154,7 +139,7 @@ public class ProductCart implements Initializable {
 
     private void checkButtons() {
 
-        if (sellerIndex == product.getSellersOfProduct().size() - 1) {
+        if (sellerIndex == product.getProfSell().size() - 1) {
             nextButton.setDisable(true);
         } else nextButton.setDisable(false);
 
@@ -174,6 +159,6 @@ public class ProductCart implements Initializable {
 
         this.price_ltx.setText(price - discountAmount + "");
         this.price_ftx.setStrikethrough(true);
-        this.discount.setText(auction.getDiscount().getPercent() + "%");
+        this.discount.setText(auction.getAuctionPercent() + "%");
     }
 }

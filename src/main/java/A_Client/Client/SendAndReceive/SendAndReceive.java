@@ -149,6 +149,12 @@ public class SendAndReceive {
         return new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answer, MiniDiscountCode.class);
     }
 
+    public static List<MiniComment> getAllCommentOfProduct(String productId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllCommentOfProduct,
+                Arrays.asList(client.getClientInfo().getToken(), productId));
+        return new JsonHandler<MiniComment>().JsonsToObjectList(answer, MiniComment.class);
+    }
+
     public static List<MiniAuction> getAllAuctions() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAuctions,
                 Collections.singletonList(client.getClientInfo().getToken()));
