@@ -1,8 +1,9 @@
 package A_Client.Graphics.Pages;
 
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
-import Exceptions.*;
 import A_Client.Graphics.Tools.SceneBuilder;
+import Structs.MiniAccount;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,13 +16,16 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class SignUp implements SceneBuilder, Initializable {
 
+    private List<String> inputs;
     private static Mode mode;
     private static boolean state = true;
-    private static Account account = null;
+    private static MiniAccount account = null;
 
     @FXML
     private ChoiceBox<String> chooseType;
@@ -95,39 +99,26 @@ public class SignUp implements SceneBuilder, Initializable {
     }
 
     public void goNext() {
-
+        inputs = new ArrayList<>();
         String username = this.username.getText();
         String passOne = this.passwordOne.getText();
         String passTwo = this.passwordTow.getText();
         String typeMan = this.chooseType.getValue();
 
-        try {
+        reset_Base();
 
-            reset_Base();
+        if (!passOne.equals(passTwo)) {
+            passwordNotMatch();
+            return;
+        } else if (mode == Mode.NormalMode) {
+            inputs.add(typeMan);
+            inputs.add(username);
+        } else inputs.add(username);
+        inputs.add(passOne);
 
-            if (!passOne.equals(passTwo)) {
-                passwordNotMatch();
-                return;
-            } else if (mode == Mode.NormalMode) account = signUpController.creatTheBaseOfAccount(typeMan, username);
-            else account = managerController.createManagerProfileBaseAccount(username);
-
-            signUpController.creatPasswordForAccount(account, passOne);
-
-            if (account instanceof Seller) {
-                goSellerArea();
-            } else goNextArea();
-
-        } catch (UserNameInvalidException e) {
-            usernameInvalid();
-        } catch (UserNameTooShortException e) {
-            usernameTooShort();
-        } catch (TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp e) {
-            typeInvalid();
-        } catch (ThisUserNameAlreadyExistsException e) {
-            duplicatedUsername();
-        } catch (PasswordInvalidException e) {
-            passwordInvalid();
-        }
+        if (typeMan.equals("Seller")) {
+            goSellerArea();
+        } else goNextArea();
     }
 
     private void goSellerArea() {
@@ -241,28 +232,17 @@ public class SignUp implements SceneBuilder, Initializable {
 
     public void submitNext() {
 
-        String firstName = this.firstName.getText();
-        String lastName = this.lastName.getText();
-        String email = this.Email.getText();
-        String phone = this.Phone.getText();
+        inputs.add(this.firstName.getText());
+        inputs.add(this.lastName.getText());
+        inputs.add(this.Email.getText());
+        inputs.add(this.Phone.getText());
 
         reset_next();
 
-        try {
-
-            signUpController.savePersonalInfo(account, firstName, lastName, phone, email);
-
-        } catch (FirstNameInvalidException e) {
-            firstNameInvalid();
-        } catch (LastNameInvalidException e) {
-            lastNameInvalid();
-        } catch (EmailInvalidException e) {
-            emailInvalid();
-        } catch (PhoneNumberInvalidException e) {
-            phoneInvalid();
+        if (!(inputs.get(0).equals("Seller"))) {
+            SendAndReceive.addAccount(inputs, inputs.get(0));
+            goMainMenu();
         }
-
-        if (!(account instanceof Seller)) goMainMenu();
     }
 
     private void firstNameInvalid() {
@@ -322,26 +302,16 @@ public class SignUp implements SceneBuilder, Initializable {
 
     public void submitSeller() {
 
-        String companyName = this.companyName.getText();
-        String comEmail = this.ComEmail.getText();
-        String comPhone = this.ComPhone.getText();
+        inputs.add(this.companyName.getText());
+        inputs.add(this.ComEmail.getText());
+        inputs.add(this.ComPhone.getText());
 
         reset_next();
         reset_seller();
 
-        try {
-
-            submitNext();
-            signUpController.saveCompanyInfo(account, companyName, comPhone, comEmail);
-            goMainMenu();
-
-        } catch (EmailInvalidException e) {
-            comEmailInvalid();
-        } catch (PhoneNumberInvalidException e) {
-            comPhoneInvalid();
-        } catch (CompanyNameInvalidException e) {
-            companyNameInvalid();
-        }
+        submitNext();
+        SendAndReceive.addAccount(inputs, inputs.get(0));
+        goMainMenu();
     }
 
     private void reset_seller() {
@@ -394,6 +364,6 @@ public class SignUp implements SceneBuilder, Initializable {
     }
 
     public enum Mode {
-        NormalMode,ManagerMode
+        NormalMode, ManagerMode
     }
 }

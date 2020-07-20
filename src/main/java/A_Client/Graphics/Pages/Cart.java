@@ -6,6 +6,7 @@ import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniCart;
 import Structs.MiniProduct;
+import Structs.ProductVsSeller.ProductOfSeller;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

@@ -3,9 +3,11 @@ package A_Client.Graphics.Creates;
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
+import Structs.FieldAndFieldList.Field;
 import Structs.MiniCate;
 import Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;
+import Structs.ProductVsSeller.ProductOfSeller;
 import com.gilecode.yagson.YaGson;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -247,7 +249,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
             str_fcc.addAll(
                     miniCate.getFieldList()
-                            .getList()
+                            .getFieldList()
                             .stream()
                             .map(Field::getFieldName)
                             .collect(Collectors.toList())

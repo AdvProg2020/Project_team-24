@@ -1,5 +1,7 @@
 package Structs;
 
+import Structs.FieldAndFieldList.FieldList;
+
 public class MiniCate {
 
     private final String cateId;

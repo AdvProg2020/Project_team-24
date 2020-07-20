@@ -5,6 +5,7 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.ProductCart;
+import Structs.FieldAndFieldList.Field;
 import Structs.MiniCate;
 import Structs.MiniProduct;
 import javafx.fxml.FXML;
@@ -49,7 +50,7 @@ public class Sort implements Initializable {
         if (category != null) {
 
             infos = category.getFieldList()
-                    .getList()
+                    .getFieldList()
                     .stream()
                     .map(Field::getFieldName)
                     .collect(Collectors.toList());

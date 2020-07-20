@@ -2,6 +2,7 @@ package A_Client.Graphics.Creates;
 
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
+import Structs.FieldAndFieldList.Field;
 import Structs.MiniCate;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
@@ -74,7 +75,8 @@ public class CreateCategory implements SceneBuilder, Initializable {
 
         Category_name.setText(miniCate.getCateName());
         List<String> collect = miniCate.getFieldList()
-                .getList().stream()
+                .getFieldList()
+                .stream()
                 .map(Field::getFieldName)
                 .collect(Collectors.toList());
 

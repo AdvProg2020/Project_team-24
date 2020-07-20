@@ -1,4 +1,4 @@
-package A_Client.MiniModels.Wallet;
+package Structs.Wallet;
 
 public class Wallet {
 

@@ -197,11 +197,13 @@ public class SendAndReceive {
     }
 
     // Add Or Edit
-    public static void addAccount(List<String> fields) {
+    public static void addAccount(List<String> fields, String type) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewAccount, list);
+        MessageSupplier.RequestType addNewAccount = type.equals("Seller") ? MessageSupplier.RequestType.addNewSeller
+                : MessageSupplier.RequestType.addNewCustomerOrManager;
+        List<String> answer = client.sendAndReceive(addNewAccount, list);
     }
 
     public static void addProduct(List<String> fields) {

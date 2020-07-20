@@ -91,7 +91,13 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.GetAllPopularProducts, list -> list.get(0) + "::GetAllPopularProducts");
 
         // Add Or Edit Or Delete
-        requestTypeSupplierHashMap.put(RequestType.addNewAccount, list -> list.get(0) + "::addNewAccount");
+        requestTypeSupplierHashMap.put(RequestType.addNewCustomerOrManager, list -> list.get(0) + "::addNewCustomerOrManager "
+                + list.get(1) + " " + list.get(2) + " " + list.get(3) + " " + list.get(4) + " " + list.get(5) + " "
+                + list.get(6) + " " + list.get(7));
+
+        requestTypeSupplierHashMap.put(RequestType.addNewSeller, list -> list.get(0) + "::addNewSeller "
+                + list.get(1) + " " + list.get(2) + " " + list.get(3) + " " + list.get(4) + " " + list.get(5) + " "
+                + list.get(6) + " " + list.get(7) + " " + list.get(8) + " " + list.get(9) + " " + list.get(10));
 
         requestTypeSupplierHashMap.put(RequestType.DeleteProductById, list -> list.get(0) + "::DeleteProductById "
                 + list.get(1) + " " + list.get(2));
@@ -216,7 +222,8 @@ public interface MessageSupplier {
         GetAllProductOfCart,
         GetAllMyProducts,
         GetAllPopularProducts,
-        addNewAccount,
+        addNewCustomerOrManager,
+        addNewSeller,
         addNewAuction,
         addNewCate,
         addNewProduct,

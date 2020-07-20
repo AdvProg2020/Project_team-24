@@ -1,10 +1,11 @@
-package B_Server.Server;
+package B_Server.Server.SendAndReceive;
 
 import B_Server.Controller.Controllers.*;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
+import B_Server.Server.Server;
 import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.Medias;
 import B_Server.Server.RequestHandler.RequestHandler;
@@ -64,7 +65,7 @@ public class SendAndReceive {
                 getAllProducts(requestHandler, ProductsController.getInstance().showProducts());
                 break;
             case "GetAllAccounts":
-                getAllAcounts(requestHandler);
+                getAllAccounts(requestHandler);
                 break;
             case "GetAllAuctions":
                 getAllAuctions(requestHandler);
@@ -141,11 +142,7 @@ public class SendAndReceive {
                 addNewFilter(inputs, requestHandler);
                 break;
             case "CheckDiscountCodes":
-                DiscountCode.getList().forEach(discountCode -> {
-                    try {
-                        discountCode.checkExpiredDiscountCode(false);
-                    } catch (DiscountCodeExpiredException | AccountDoesNotExistException ignored) {}
-                });
+                checkAllDiscountCodes();
                 break;
             case "addNewSellerOfPro":
                 addNewSellerOfPro(inputs, requestHandler);
@@ -185,6 +182,14 @@ public class SendAndReceive {
         }
     }
 
+    private static void checkAllDiscountCodes() {
+        DiscountCode.getList().forEach(discountCode -> {
+            try {
+                discountCode.checkExpiredDiscountCode(false);
+            } catch (DiscountCodeExpiredException | AccountDoesNotExistException ignored) {}
+        });
+    }
+
     private static void decreaseProduct(List<String> inputs, RequestHandler requestHandler) {
         String productId = inputs.get(0);
         String sellerId = inputs.get(1);
@@ -197,8 +202,8 @@ public class SendAndReceive {
         } catch (ProductIsOutOfStockException e) {
             e.printStackTrace();
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
-            sellerDoesNotSellOfThisProduct.printStackTrace();
+        } catch (SellerDoesNotSellOfThisProduct e) {
+            e.printStackTrace();
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
     }
@@ -215,8 +220,8 @@ public class SendAndReceive {
         } catch (ProductIsOutOfStockException e) {
             e.printStackTrace();
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-        } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
-            sellerDoesNotSellOfThisProduct.printStackTrace();
+        } catch (SellerDoesNotSellOfThisProduct e) {
+            e.printStackTrace();
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
     }
@@ -515,7 +520,7 @@ public class SendAndReceive {
         List<String> features = yaGson.fromJson(inputs.get(1), List.class);
         List<String> subCategories = yaGson.fromJson(inputs.get(2), List.class);
         try {
-            Category category = ManagerController.getInstance().createEmptyCategory(categoryName, features, subCategories);
+            ManagerController.getInstance().createEmptyCategory(categoryName, features, subCategories);
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
@@ -544,7 +549,7 @@ public class SendAndReceive {
         String password = inputs.get(2);
         String firstName = inputs.get(3);
         String lastName = inputs.get(4);
-        String phoneNumeber = inputs.get(5);
+        String phoneNumber = inputs.get(5);
         String email = inputs.get(6);
         String accountType = null;
 
@@ -559,7 +564,7 @@ public class SendAndReceive {
         try {
             account = signUpController.creatTheBaseOfAccount(accountType, username);
             signUpController.creatPasswordForAccount(account, password);
-            signUpController.savePersonalInfo(account, firstName, lastName, phoneNumeber, email);
+            signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
 
         } catch (UserNameInvalidException e) {
             e.printStackTrace();
@@ -590,7 +595,7 @@ public class SendAndReceive {
         String password = inputs.get(2);
         String firstName = inputs.get(3);
         String lastName = inputs.get(4);
-        String phoneNumeber = inputs.get(5);
+        String phoneNumber = inputs.get(5);
         String email = inputs.get(6);
         String brand = inputs.get(7);
         String companyPhoneNumber = inputs.get(8);
@@ -600,7 +605,7 @@ public class SendAndReceive {
         try {
             account = signUpController.creatTheBaseOfAccount("Seller", username);
             signUpController.creatPasswordForAccount(account, password);
-            signUpController.savePersonalInfo(account, firstName, lastName, phoneNumeber, email);
+            signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
             signUpController.saveCompanyInfo(account, brand, companyPhoneNumber, companyEmail);
 
 
@@ -741,11 +746,11 @@ public class SendAndReceive {
 
     private static void getAllCategories(RequestHandler requestHandler) {
         List<Category> categories = Category.getList();
-        List<MiniCate> miniCates = categories.stream().map(category -> new MiniCate(
+        List<MiniCate> miniCateList = categories.stream().map(category -> new MiniCate(
                 category.getId() + "",
                 category.getName(),
                 category.getCategoryFields())).collect(Collectors.toList());
-        requestHandler.sendMessage(yaGson.toJson(miniCates));
+        requestHandler.sendMessage(yaGson.toJson(miniCateList));
     }
 
     private static void getAllProductOfCate(List<String> inputs, RequestHandler requestHandler) {
@@ -804,7 +809,7 @@ public class SendAndReceive {
         requestHandler.sendMessage(yaGson.toJson(miniAuctions));
     }
 
-    private static void getAllAcounts(RequestHandler requestHandler) {
+    private static void getAllAccounts(RequestHandler requestHandler) {
         List<Account> accountList = Account.getList();
         List<MiniAccount> miniAccounts = accountList.stream().map(account -> new MiniAccount(
                 account.getMediaId() + "",
@@ -936,6 +941,5 @@ public class SendAndReceive {
     enum successOrFailMessage {
         SUCCESS,
         FAIL
-
     }
 }
