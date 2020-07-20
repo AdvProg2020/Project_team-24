@@ -7,6 +7,8 @@ public class ControllerUnit {
 
     private static ControllerUnit controllerUnit = new ControllerUnit();
 
+//    private ThreadLocal<Account> currentAccount;
+
     private Account currentAccount;
     private Product currentProduct;
     private Auction currentAuction;

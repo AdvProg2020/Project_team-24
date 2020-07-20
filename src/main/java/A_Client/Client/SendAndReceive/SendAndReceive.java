@@ -99,10 +99,10 @@ public class SendAndReceive {
         return new YaGson().toJson(bytes);
     }
 
-    public static void setMedias(File image, File movie) {
+    public static void setMedias(String productId, File image, File movie) {
         String s = GetByteOfFile(image);
         String o = GetByteOfFile(movie);
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetMedias, Arrays.asList(client.getClientInfo().getToken(), s, o));
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct, Arrays.asList(client.getClientInfo().getToken(), productId, s, o));
     }
 
     // Get All
@@ -335,13 +335,13 @@ public class SendAndReceive {
     public static List<Field> getCateInfoOdProduct(String productId) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getCateInfoOdProduct,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
-        return new JsonHandler<Field>().JsonsToObjectList(answers,Field.class);
+        return new JsonHandler<Field>().JsonsToObjectList(answers, Field.class);
     }
 
     public static List<Field> getProductInfoById(String productId) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getProductInfoById,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
-        return new JsonHandler<Field>().JsonsToObjectList(answers,Field.class);
+        return new JsonHandler<Field>().JsonsToObjectList(answers, Field.class);
     }
 
     public static void addProductToCart(String productId, String sellerId) {
