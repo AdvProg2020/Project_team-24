@@ -1,4 +1,4 @@
-package B_Server.Model.Models.Structs;
+package Structs.ProductVsSeller;
 
 public class ProductOfSeller {
 

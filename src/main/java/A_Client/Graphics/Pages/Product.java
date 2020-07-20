@@ -1,14 +1,18 @@
 package A_Client.Graphics.Pages;
 
+import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Creates.CreateProduct;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.CommentCart;
 import A_Client.Graphics.Models.ProductCart;
 import A_Client.Graphics.Tools.SceneBuilder;
-import A_Client.MiniModels.FieldAndFieldList.Field;
-import Exceptions.*;
+import Structs.FieldAndFieldList.Field;
+import Structs.MiniAccount;
+import Structs.MiniComment;
 import Structs.MiniProduct;
+import Structs.ProductVsSeller.ProductOfSeller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -31,6 +35,7 @@ public class Product implements Initializable, SceneBuilder {
 
     private static MiniProduct First_Compare;
     private static MiniProduct productObject;
+    private final Client client = SendAndReceive.getClient();
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
@@ -72,13 +77,13 @@ public class Product implements Initializable, SceneBuilder {
     @FXML
     private TableView<Field> ProductFeatures;
     @FXML
-    private TableColumn<Field, String> vizhegiC;
+    private TableColumn<Field, String> featureC;
     @FXML
-    private TableColumn<Field, String> meghdarC;
+    private TableColumn<Field, String> valueC;
     @FXML
-    private TableColumn<Field, String> vizhegiP;
+    private TableColumn<Field, String> featureP;
     @FXML
-    private TableColumn<Field, String> meghdarP;
+    private TableColumn<Field, String> valueP;
     @FXML
     private MediaView leftGif;
     @FXML
@@ -107,43 +112,56 @@ public class Product implements Initializable, SceneBuilder {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         stars.addAll(Arrays.asList(star_01, star_02, star_03, star_04, star_05));
-        productObject = ControllerUnit.getInstance().getProduct();
+        productObject = SendAndReceive.getProductById(client.getClientInfo().getProductId());
 
         if (productObject == null) return;
-        try {
-            if (productObject.getMediaId() != 0) {
-                Medias medias = Medias.getMediasById(productObject.getMediaId());
-                if (medias.getImageSrc() != null) setImage();
-                if (medias.getPlayerSrc() != null) setMedia();
-            }
-            setStars();
-            setPrice();
-            setName();
-        } catch (ProductMediaNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        Account account = ControllerUnit.getInstance().getAccount();
-        if (account instanceof Seller) {
-            if (((Seller) account).getProductList().contains(productObject.getId())) {
+        if (productObject.getMediasId() != null) {
+            Media media = SendAndReceive
+                    .getMediaById(productObject.getMediasId());
+            Image image = SendAndReceive
+                    .getImageById(productObject.getMediasId());
+
+            if (image != null)
+                product_image.setImage(image);
+            if (media != null)
+                product_media.setMediaPlayer(new MediaPlayer(media));
+        }
+        setStars();
+        setPrice();
+        setName();
+
+        MiniAccount account = SendAndReceive
+                .getAccountById(client.getClientInfo().getAccountId());
+
+        if (account.getAccountT().equals("Seller")) {
+
+            boolean anyMatch = SendAndReceive.getAllMyProducts().stream()
+                    .anyMatch(miniProduct -> miniProduct.getProductId().equals(productObject.getProductId()));
+
+            if (anyMatch) {
                 edit_btn.setDisable(false);
                 deleteProduct_btn.setDisable(false);
             } else addMe_btn.setDisable(false);
         }
 
-        if (account instanceof Customer) {
+        if (account.getAccountT().equals("Customer")) {
             addToCart_btn.setDisable(false);
-            sender.setText(account.getUserName());
+            sender.setText(account.getUsername());
             pointArea.setDisable(false);
             setPoint_btn.setDisable(false);
         }
 
-        MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Product\\addToCart.mp4").toURI().toString()));
+        MediaPlayer value = new MediaPlayer(
+                new Media(
+                        new File("src\\main\\resources\\Graphics\\Product\\addToCart.mp4").toURI().toString()));
         gif.setMediaPlayer(value);
         value.setCycleCount(Integer.MAX_VALUE);
         value.play();
 
-        MediaPlayer v = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Product\\productPage.mp4").toURI().toString()));
+        MediaPlayer v = new MediaPlayer(
+                new Media(
+                        new File("src\\main\\resources\\Graphics\\Product\\productPage.mp4").toURI().toString()));
         leftGif.setMediaPlayer(v);
         v.setCycleCount(Integer.MAX_VALUE);
         v.play();
@@ -153,7 +171,11 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     private void setName() {
-        productName.setText(productObject.getName());
+        productName.setText(productObject.getProductName());
+    }
+
+    public void play() {
+        product_media.getMediaPlayer().play();
     }
 
     public void compare() {
@@ -163,22 +185,14 @@ public class Product implements Initializable, SceneBuilder {
         } else goComparingArea();
     }
 
-    public void play() {
-        product_media.getMediaPlayer().play();
-    }
-
     public void addToCart() {
-        Account account = ControllerUnit.getInstance().getAccount();
-        if (account instanceof Customer) {
+        String accountTy = client.getClientInfo().getAccountTy();
+        if (accountTy.equals("Customer")) {
             ProductOfSeller productOfSeller = productObject
-                    .getSellersOfProduct().get(sellerIndex);
+                    .getProfSell().get(sellerIndex);
 
-            ((Customer) account)
-                    .getCart()
-                    .addProductToCart(
-                            productOfSeller.getSellerId(), productObject.getId()
-                    );
-
+            SendAndReceive.addProductToCart(productObject.getProductId(),
+                    productOfSeller.getSellerId() + "");
             show();
         }
     }
@@ -190,39 +204,29 @@ public class Product implements Initializable, SceneBuilder {
         alert.showAndWait();
     }
 
-    public static void setFirst_Compare(B_Server.Model.Models.Product first_Compare) {
+    public static void setFirst_Compare(MiniProduct first_Compare) {
         First_Compare = first_Compare;
     }
 
-    private void setImage() throws ProductMediaNotFoundException {
-        product_image.setImage(Medias.getImage(Medias.getMediasById(productObject.getMediaId()).getImageSrc()));
-    }
-
     private void setPrice() {
-        product_price.setText(productObject.getSellersOfProduct().get(sellerIndex).getPrice() + "");
-    }
-
-    private void setMedia() throws ProductMediaNotFoundException {
-        Medias mediasById = Medias.getMediasById(productObject.getMediaId());
-        if (mediasById.getPlayerSrc() != null) {
-            product_media.setMediaPlayer(Medias.getMediaPlayer(mediasById.getPlayerSrc()));
-        }
+        product_price.setText(productObject.getProfSell().get(sellerIndex).getPrice() + "");
     }
 
     private void setStars() {
-        Image filled = new Image(new File("src/main/resources/Graphics/Product/icons8-star-filled-16.png").toURI().toString());
-        for (int i = 0; i < productObject.getAverageScore(); i++) {
+        Image filled = new Image(
+                new File("src/main/resources/Graphics/Product/icons8-star-filled-16.png").toURI().toString());
+        for (int i = 0; i < Integer.parseInt(productObject.getAveRate()); i++) {
             stars.get(i).setImage(filled);
         }
     }
 
     private void goProductsArea() {
         ProductsMenu.setMode(ProductsMenu.Modes.NormalMode);
-        setProducts(ProductsController.getInstance().showProducts());
+        setProducts(SendAndReceive.getAllProductsPrime());
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
-    private void setProducts(List<B_Server.Model.Models.Product> list) {
+    private void setProducts(List<MiniProduct> list) {
         ProductsMenu.setList(list);
         ProductCart.setProductList(list);
     }
@@ -237,26 +241,22 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     public void deleteProduct() {
-        Account account = ControllerUnit.getInstance().getAccount();
-        new Request(account.getId(), "remove product", "remove", productObject);
+        SendAndReceive.DeleteProductById(productObject.getProductId(),
+                client.getClientInfo().getAccountId());
     }
 
     public void setCategoryFeature() {
-        if (productObject.getCategoryInfo().getList().getFieldList() != null) {
-            List<Field> list = productObject.getCategoryInfo().getList().getFieldList();
-            categoryFeature.setItems(FXCollections.observableList(list));
-            vizhegiC.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFieldName()));
-            meghdarC.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getString()));
-        }
+        List<Field> list = SendAndReceive.getCateInfoOdProduct(productObject.getProductId());
+        categoryFeature.setItems(FXCollections.observableList(list));
+        featureC.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFieldName()));
+        valueC.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getString()));
     }
 
     public void setProductFeatures() {
-        if (productObject.getProduct_Info().getList().getFieldList() != null) {
-            List<Field> list = productObject.getProduct_Info().getList().getFieldList();
-            ProductFeatures.setItems(FXCollections.observableList(list));
-            vizhegiP.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFieldName()));
-            meghdarP.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getString()));
-        }
+        List<Field> list = SendAndReceive.getProductInfoById(productObject.getProductId());
+        ProductFeatures.setItems(FXCollections.observableList(list));
+        featureP.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getFieldName()));
+        valueP.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getString()));
     }
 
     public void editProduct() {
@@ -265,32 +265,24 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     public void submit_comment_btn() {
-
         reset_btn();
+        if (client.getClientInfo().getAccountTy().equals("Customer")) {
+            List<String> list = Arrays.asList(client.getClientInfo().getAccountId(),
+                    client.getClientInfo().getProductId(), title.getText(), content.getText());
 
-        if (ControllerUnit.getInstance().getAccount() instanceof Customer)
-            try {
-                ProductController.getInstance().addComment(title.getText(), content.getText());
-                MainMenu.change(new Product().sceneBuilder());
-            } catch (ProductDoesNotExistException | CannotRateException e) {
-                e.printStackTrace();
-            }
-        else commentError();
-
-        if (productObject.getCommentList() != null) {
-            setCommentListToShow();
-        }
+            SendAndReceive.addCommentToProduct(list);
+            MainMenu.change(new Product().sceneBuilder());
+        } else commentError();
+        setCommentListToShow();
         MainMenu.change(new Product().sceneBuilder());
     }
 
     private void setCommentListToShow() {
-        try {
-            List<Comment> commentList = ProductController.getInstance().viewComments();
-            commentList.sort(Collections.reverseOrder());
-            CommentCart.setCommentList(commentList);
-        } catch (CommentDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        List<MiniComment> commentList = SendAndReceive
+                .getAllCommentOfProduct(productObject.getProductId());
+
+        commentList.sort(Collections.reverseOrder());
+        CommentCart.setCommentList(commentList);
     }
 
     private void reset_btn() {
@@ -306,24 +298,8 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     public void PointButton() {
-        long id = ControllerUnit.getInstance().getAccount().getId();
-        if (productObject.getBuyerList().contains(id) &&
-                productObject.getScoreList().stream().noneMatch(aLong -> {
-                    try {
-                        Score score = Score.getScoreById(aLong);
-                        return score.getUserId() == id;
-                    } catch (ScoreDoesNotExistException e) {
-                        e.printStackTrace();
-                    }
-                    return false;
-                })) try {
-            BuyerController.getInstance().rate(productObject.getId() + "", pointArea.getText());
-        } catch (ProductDoesNotExistException e) {
-            alertError("Product not found", e.getMessage());
-        } catch (CannotRateException e) {
-            alertError("Can't rate", e.getMessage());
-        }
-        else alertError("Can't score", "You did it before , Or you didn't buy it.");
+        String accountId = client.getClientInfo().getAccountId();
+        SendAndReceive.rate(productObject.getProductId(), accountId, pointArea.getText());
         setStars();
     }
 

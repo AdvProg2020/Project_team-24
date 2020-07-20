@@ -1,7 +1,5 @@
 package Structs;
 
-import A_Client.MiniModels.FieldAndFieldList.FieldList;
-
 public class MiniCate {
 
     private final String cateId;

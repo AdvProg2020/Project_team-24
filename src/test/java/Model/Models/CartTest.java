@@ -5,9 +5,10 @@ import Exceptions.CartDoesNotExistException;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Seller;
 
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.Discount;
 import B_Server.Model.Tools.AddingNew;
+import Structs.FieldAndFieldList.FieldList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

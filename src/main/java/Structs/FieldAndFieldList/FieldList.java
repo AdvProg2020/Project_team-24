@@ -1,22 +1,33 @@
-package A_Client.MiniModels.FieldAndFieldList;
+package Structs.FieldAndFieldList;
 
 import Exceptions.FieldDoesNotExistException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FieldList implements Cloneable{
 
     /*****************************************************fields*******************************************************/
 
-    private final List<Field> fieldList;
+    private List<Field> fieldList;
 
     /*****************************************************getters*******************************************************/
 
-    public List<Field> getList() {
+    public List<Field> getFieldList() {
         return fieldList;
     }
 
+    public FieldList setFieldList(List<Field> fieldList) {
+        this.fieldList = fieldList;
+        return this;
+    }
+
     /**************************************************addAndRemove*****************************************************/
+
+    public FieldList addFiled(Field field) {
+        fieldList.add(field);
+        return this;
+    }
 
     public Field getFieldByName(String name) throws FieldDoesNotExistException {
         return fieldList.stream()
@@ -27,6 +38,10 @@ public class FieldList implements Cloneable{
                 ));
     }
 
+    public boolean isFieldWithThisName(String name) {
+        return fieldList.stream().anyMatch(field -> name.equals(field.getFieldName()));
+    }
+
     /**************************************************constructors*****************************************************/
 
     public FieldList(List<Field> fieldList) {
@@ -34,6 +49,15 @@ public class FieldList implements Cloneable{
     }
 
     /****************************************************overrides******************************************************/
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        List<Field> fields = new ArrayList<>();
+        for (Field field : fieldList) {
+            fields.add((Field) field.clone());
+        }
+        return ((FieldList) super.clone()).setFieldList(fields);
+    }
 
     @Override
     public String toString() {

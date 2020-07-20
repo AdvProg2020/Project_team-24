@@ -1,8 +1,8 @@
 package Model.Models;
 
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 
-import B_Server.Model.Models.FieldList;
+import Structs.FieldAndFieldList.FieldList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

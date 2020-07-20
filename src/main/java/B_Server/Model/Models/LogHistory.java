@@ -6,6 +6,7 @@ import B_Server.Model.Models.Structs.ProductLog;
 import Exceptions.*;
 import B_Server.Model.Tools.AddingNew;
 import B_Server.Model.Tools.Packable;
+import Structs.FieldAndFieldList.FieldList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;

@@ -7,8 +7,8 @@ import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
 import B_Server.Model.Models.Cart;
-import B_Server.Model.Models.Field.Field;
-import B_Server.Model.Models.FieldList;
+import Structs.FieldAndFieldList.Field;
+import Structs.FieldAndFieldList.FieldList;
 import B_Server.Model.Models.Info;
 import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 

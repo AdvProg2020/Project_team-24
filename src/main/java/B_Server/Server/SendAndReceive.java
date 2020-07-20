@@ -5,11 +5,12 @@ import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.Medias;
 import B_Server.Server.RequestHandler.RequestHandler;
 import Exceptions.*;
 import Structs.*;
+import Structs.FieldAndFieldList.FieldList;
 import com.gilecode.yagson.YaGson;
 import org.jetbrains.annotations.NotNull;
 
@@ -762,7 +763,7 @@ public class SendAndReceive {
                             product.getAuction().getId() + "",
                             product.getCategory().getId() + "",
                             product.getMediaId() + "",
-                            product.getSellersOfProduct());
+                            aveRate, product.getSellersOfProduct());
 
                 } catch (ProductDoesNotExistException e) {
                     e.printStackTrace();
@@ -785,7 +786,7 @@ public class SendAndReceive {
                         product.getAuction().getId() + "",
                         product.getCategory().getId() + "",
                         product.getMediaId() + "",
-                        product.getSellersOfProduct()
+                        aveRate, product.getSellersOfProduct()
                 )
         ).collect(Collectors.toList());
         requestHandler.sendMessage(yaGson.toJson(miniProducts));
@@ -825,7 +826,7 @@ public class SendAndReceive {
                         product.getAuction().getId() + "",
                         product.getCategory().getId() + "",
                         product.getMediaId() + "",
-                        product.getSellersOfProduct()
+                        aveRate, product.getSellersOfProduct()
                 )
         ).collect(Collectors.toList());
         requestHandler.sendMessage(yaGson.toJson(miniProducts));
@@ -909,7 +910,7 @@ public class SendAndReceive {
                 product.getAuction().getId() + "",
                 product.getCategory().getId() + "",
                 product.getMediaId() + "",
-                product.getSellersOfProduct());
+                aveRate, product.getSellersOfProduct());
         requestHandler.sendMessage(yaGson.toJson(miniProduct));
     }
 
@@ -923,7 +924,7 @@ public class SendAndReceive {
                             product.getAuction().getId() + "",
                             product.getCategory().getId() + "",
                             product.getMediaId() + "",
-                            product.getSellersOfProduct()
+                            aveRate, product.getSellersOfProduct()
                     )
             ).collect(Collectors.toList());
             requestHandler.sendMessage(yaGson.toJson(miniProducts));

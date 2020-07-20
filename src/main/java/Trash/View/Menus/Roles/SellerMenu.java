@@ -5,7 +5,7 @@ import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
 import Exceptions.LogHistoryDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Product;
 import Trash.View.MenuHandler;
 import Trash.View.Menus.BySellers.ManageProductsBySellerMenu;

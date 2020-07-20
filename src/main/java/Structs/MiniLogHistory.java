@@ -1,6 +1,6 @@
 package Structs;
 
-import B_Server.Model.Models.FieldList;
+import Structs.FieldAndFieldList.FieldList;
 
 import java.util.List;
 

@@ -1,12 +1,8 @@
 package A_Client.Graphics.Pages;
 
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
-import Exceptions.AccountDoesNotExistException;
-import Exceptions.PassIncorrectException;
-import Exceptions.UserNameInvalidException;
-import Exceptions.UserNameTooShortException;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.Models.Account;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +14,7 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class Login implements SceneBuilder, Initializable {
@@ -65,24 +62,8 @@ public class Login implements SceneBuilder, Initializable {
 
         remember.isSelected();
 
-        try {
-
-            Account account = LoginController.getInstance().login(username,password);
-            ControllerUnit.getInstance().setAccount(account);
-
-        } catch (PassIncorrectException e) {
-            passwordInvalid();
-            return;
-        } catch (UserNameTooShortException e) {
-            usernameTooShort();
-            return;
-        } catch (UserNameInvalidException e) {
-            usernameInvalid();
-            return;
-        } catch (AccountDoesNotExistException e) {
-            accountNotExist();
-            return;
-        }
+        String accountId = SendAndReceive.Login(Arrays.asList(username, password));
+        SendAndReceive.getClient().getClientInfo().setAccountId(accountId);
 
         goMainMenu();
     }

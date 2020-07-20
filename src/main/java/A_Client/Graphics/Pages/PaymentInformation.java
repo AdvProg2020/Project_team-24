@@ -1,11 +1,12 @@
 package A_Client.Graphics.Pages;
 
-import Structs.MiniLogHistory;
-import Structs.MiniProductLog;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Exceptions.FieldDoesNotExistException;
+import Structs.MiniLogHistory;
+import Structs.MiniProductLog;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -22,19 +23,42 @@ public class PaymentInformation implements SceneBuilder, Initializable {
 
     private static MiniLogHistory logHistory;
 
-    public Label ActionDiscount;
-    public Label DiscountCodeDiscount;
-    public Label PendingState;
-    public Label finalPriceOfAll;
-    public Label DateOfPurchase;
-    public TableColumn<MiniProductLog, String> finalPrice;
-    public TableColumn<MiniProductLog, String> auctionDiscount;
-    public TableColumn<MiniProductLog, String> productPrice;
-    public TableColumn<MiniProductLog, String> productName;
-    public TableView<MiniProductLog> logHistoryTable;
+    @FXML
+    private
+    Label ActionDiscount;
+    @FXML
+    private Label DiscountCodeDiscount;
+    @FXML
+    private Label PendingState;
+    @FXML
+    private Label finalPriceOfAll;
+    @FXML
+    private Label DateOfPurchase;
+    @FXML
+    private TableColumn<MiniProductLog, String> finalPrice;
+    @FXML
+    private TableColumn<MiniProductLog, String> auctionDiscount;
+    @FXML
+    private TableColumn<MiniProductLog, String> productPrice;
+    @FXML
+    private TableColumn<MiniProductLog, String> productName;
+    @FXML
+    private TableView<MiniProductLog> logHistoryTable;
 
     public static void setLogHistory(MiniLogHistory logHistory) {
         PaymentInformation.logHistory = logHistory;
+    }
+
+    @Override
+    public Scene sceneBuilder() {
+
+        try {
+            return FXMLLoader.load(new File("src/main/resources/Graphics/PaymentInformation/PaymentInformation.fxml").toURI().toURL());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        return null;
     }
 
     @Override
@@ -63,18 +87,6 @@ public class PaymentInformation implements SceneBuilder, Initializable {
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Scene sceneBuilder() {
-
-        try {
-            return FXMLLoader.load(new File("src/main/resources/Graphics/PaymentInformation/PaymentInformation.fxml").toURI().toURL());
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-        return null;
     }
 }
 

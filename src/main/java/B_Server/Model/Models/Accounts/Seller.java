@@ -6,7 +6,7 @@ import B_Server.Model.Models.Info;
 import Exceptions.*;
 import Model.Models.*;
 import B_Server.Model.Models.Data.Data;
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Tools.ForPend;
 import org.jetbrains.annotations.NotNull;
 

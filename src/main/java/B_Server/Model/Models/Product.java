@@ -2,8 +2,8 @@ package B_Server.Model.Models;
 
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.Data.Data;
-import B_Server.Model.Models.Field.Field;
-import B_Server.Model.Models.Structs.ProductOfSeller;
+import Structs.FieldAndFieldList.Field;
+import Structs.ProductVsSeller.ProductOfSeller;
 import Exceptions.*;
 import B_Server.Model.Tools.AddingNew;
 import B_Server.Model.Tools.Filterable;

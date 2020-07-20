@@ -5,9 +5,10 @@ import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.Discount;
 import Exceptions.*;
+import Structs.FieldAndFieldList.FieldList;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;

@@ -93,6 +93,9 @@ public interface MessageSupplier {
         // Add Or Edit Or Delete
         requestTypeSupplierHashMap.put(RequestType.addNewAccount, list -> list.get(0) + "::addNewAccount");
 
+        requestTypeSupplierHashMap.put(RequestType.DeleteProductById, list -> list.get(0) + "::DeleteProductById "
+                + list.get(1) + " " + list.get(2));
+
         requestTypeSupplierHashMap.put(RequestType.addToCodesList, list -> list.get(0) + "::addToCodesList "
                 + list.get(1) + " " + list.get(2));
 
@@ -121,8 +124,20 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.addNewFilter, list -> list.get(0) + "::addNewFilter "
                 + list.get(1));
 
+        requestTypeSupplierHashMap.put(RequestType.getCateInfoOdProduct, list -> list.get(0) + "::getCateInfoOdProduct "
+                + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.addCommentToProduct, list -> list.get(0) + "::addCommentToProduct "
+                + list.get(1) + " " + list.get(2) + " " + list.get(3) + " " + list.get(4));
+
+        requestTypeSupplierHashMap.put(RequestType.getProductInfoById, list -> list.get(0) + "::getProductInfoById "
+                + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.Sort, list -> list.get(0) + "::Sort "
                 + list.get(1));
+
+        requestTypeSupplierHashMap.put(RequestType.addProductToCart, list -> list.get(0) + "::addProductToCart "
+                + list.get(1) + " " + list.get(2));
 
         requestTypeSupplierHashMap.put(RequestType.acceptRequest, list -> list.get(0) + "::acceptRequest "
                 + list.get(1));
@@ -143,6 +158,14 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.saveInfoOfProduct, list -> list.get(0) + "::saveInfoOfProduct " +
                 list.get(1) + " " + list.get(2) + " " + list.get(3) + " " + list.get(4));
+
+        requestTypeSupplierHashMap.put(RequestType.sendPaymentInfo, list -> list.get(0) + "::sendPaymentInfo "
+                + list.get(1) + " " + list.get(2) + " " + list.get(3));
+
+        requestTypeSupplierHashMap.put(RequestType.Purchase, list -> list.get(0) + "::Purchase");
+
+        requestTypeSupplierHashMap.put(RequestType.rate, list -> list.get(0) + "::rate "
+                + list.get(1) + " " + list.get(2));
 
         // Set Currents
         requestTypeSupplierHashMap.put(RequestType.SetCurrentCate, list -> list.get(0) + "::SetCurrentCate "
@@ -204,6 +227,7 @@ public interface MessageSupplier {
         EditProduct,
         EditDiscountCode,
         DeleteAccountById,
+        DeleteProductById,
         addNewFilter,
         CheckDiscountCodes,
         addNewSellerOfPro,
@@ -217,5 +241,12 @@ public interface MessageSupplier {
         Sort,
         increaseProduct,
         decreaseProduct,
+        sendPaymentInfo,
+        Purchase,
+        addProductToCart,
+        getCateInfoOdProduct,
+        getProductInfoById,
+        addCommentToProduct,
+        rate,
     }
 }

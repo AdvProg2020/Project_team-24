@@ -5,10 +5,11 @@ import Exceptions.*;
 import Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Seller;
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.Discount;
-import B_Server.Model.Models.Structs.ProductOfSeller;
+import Structs.ProductVsSeller.ProductOfSeller;
 import B_Server.Model.Tools.ForPend;
+import Structs.FieldAndFieldList.FieldList;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

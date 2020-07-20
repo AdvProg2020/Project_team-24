@@ -1,4 +1,4 @@
-package B_Server.Model.Models.Field;
+package Structs.FieldAndFieldList;
 
 public class Field implements Cloneable{
 

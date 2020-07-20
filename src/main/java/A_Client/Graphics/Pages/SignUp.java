@@ -1,12 +1,8 @@
 package A_Client.Graphics.Pages;
 
 import A_Client.Graphics.MainMenu;
-import B_Server.Controller.Controllers.ManagerController;
-import B_Server.Controller.Controllers.SignUpController;
 import Exceptions.*;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.Models.Account;
-import B_Server.Model.Models.Accounts.Seller;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,8 +22,6 @@ public class SignUp implements SceneBuilder, Initializable {
     private static Mode mode;
     private static boolean state = true;
     private static Account account = null;
-    private static SignUpController signUpController = SignUpController.getInstance();
-    private static ManagerController managerController = ManagerController.getInstance();
 
     @FXML
     private ChoiceBox<String> chooseType;

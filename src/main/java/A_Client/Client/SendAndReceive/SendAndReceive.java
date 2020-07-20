@@ -4,6 +4,7 @@ import A_Client.Client.Client;
 import A_Client.JsonHandler.JsonHandler;
 import MessageFormates.MessageSupplier;
 import Structs.*;
+import Structs.FieldAndFieldList.Field;
 import com.gilecode.yagson.YaGson;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
@@ -96,14 +97,6 @@ public class SendAndReceive {
             e.printStackTrace();
         }
         return new YaGson().toJson(bytes);
-    }
-
-    public static void setMediaById(String mediasId, File file) {
-        List<String> list = new ArrayList<>();
-        list.add(client.getClientInfo().getToken());
-        list.add(mediasId);
-        list.add(GetByteOfFile(file));
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.SetMovieById, list);
     }
 
     public static void setMedias(File image, File movie) {
@@ -303,9 +296,28 @@ public class SendAndReceive {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewSellerOfPro, list);
     }
 
+    public static void addCommentToProduct(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addCommentToProduct, list);
+    }
+
+    public static void sendPaymentInfo(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.sendPaymentInfo, list);
+    }
+
     public static void DeleteAccountById(String accountId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.DeleteAccountById,
                 Arrays.asList(client.getClientInfo().getToken(), accountId));
+    }
+
+    public static void DeleteProductById(String productId, String howDelete) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.DeleteProductById,
+                Arrays.asList(client.getClientInfo().getToken(), productId, howDelete));
     }
 
     public static void increaseProduct(String productId, String sellerId) {
@@ -315,6 +327,23 @@ public class SendAndReceive {
 
     public static void decreaseProduct(String productId, String sellerId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.decreaseProduct,
+                Arrays.asList(client.getClientInfo().getToken(), productId, sellerId));
+    }
+
+    public static List<Field> getCateInfoOdProduct(String productId) {
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getCateInfoOdProduct,
+                Arrays.asList(client.getClientInfo().getToken(), productId));
+        return new JsonHandler<Field>().JsonsToObjectList(answers,Field.class);
+    }
+
+    public static List<Field> getProductInfoById(String productId) {
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getProductInfoById,
+                Arrays.asList(client.getClientInfo().getToken(), productId));
+        return new JsonHandler<Field>().JsonsToObjectList(answers,Field.class);
+    }
+
+    public static void addProductToCart(String productId, String sellerId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addProductToCart,
                 Arrays.asList(client.getClientInfo().getToken(), productId, sellerId));
     }
 
@@ -333,15 +362,27 @@ public class SendAndReceive {
                 Collections.singletonList(client.getClientInfo().getToken()));
     }
 
-    public static void Login(List<String> fields) {
+    public static String Login(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Login, list);
+        return answer.get(0);
     }
 
     public static void Logout() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
+    }
+
+    public static void rate(String productId, String accountId, String rate) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Logout,
+                Arrays.asList(client.getClientInfo().getToken(), productId, accountId, rate));
+    }
+
+    public static MiniLogHistory Purchase() {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Purchase,
+                Collections.singletonList(client.getClientInfo().getToken()));
+        return new JsonHandler<MiniLogHistory>().JsonToObject(answer.get(0), MiniLogHistory.class);
     }
 
     public static void ProductSort(String sort) {

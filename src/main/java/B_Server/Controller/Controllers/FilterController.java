@@ -3,7 +3,7 @@ package B_Server.Controller.Controllers;
 import B_Server.Controller.ControllerUnit;
 import Exceptions.InvalidFilterException;
 import B_Server.Model.Models.Category;
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Filter;
 import java.util.ArrayList;
 

@@ -3,8 +3,6 @@ package A_Client.Graphics.Creates;
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
-import A_Client.MiniModels.FieldAndFieldList.Field;
-import A_Client.MiniModels.ProfSell.ProductOfSeller;
 import Structs.MiniCate;
 import Structs.MiniProduct;
 import A_Client.Graphics.Tools.SceneBuilder;

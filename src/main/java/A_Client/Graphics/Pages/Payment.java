@@ -1,12 +1,12 @@
 package A_Client.Graphics.Pages;
 
+import A_Client.Client.Client;
+import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
-import B_Server.Controller.ControllerUnit;
-import B_Server.Controller.Controllers.BuyerController;
-import Exceptions.*;
 import A_Client.Graphics.Tools.SceneBuilder;
-import B_Server.Model.Models.FieldList;
-import B_Server.Model.Models.LogHistory;
+import Exceptions.FieldDoesNotExistException;
+import Structs.FieldAndFieldList.FieldList;
+import Structs.MiniLogHistory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,11 +21,13 @@ import javafx.scene.media.MediaView;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class Payment implements Initializable, SceneBuilder {
 
-    private LogHistory logHistory;
+    private final Client client = SendAndReceive.getClient();
+    private MiniLogHistory logHistory;
     public MediaView paymentGif;
     @FXML
     private TextField address;
@@ -38,9 +40,9 @@ public class Payment implements Initializable, SceneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FieldList list = ControllerUnit.getInstance()
-                .getAccount().getPersonalInfo()
-                .getList();
+        FieldList list = SendAndReceive
+                .getAccountById(client.getClientInfo().getAccountId())
+                .getPersonalInfo();
         try {
 
             if (list.isFieldWithThisName("postCode"))
@@ -73,34 +75,15 @@ public class Payment implements Initializable, SceneBuilder {
 
     public void pay() {
 
-        BuyerController instance = BuyerController.getInstance();
-
         String postCode = this.postCode.getText();
         String address = this.address.getText();
         String discountCode = this.discountCode.getText();
 
         reset();
 
-        try {
+        SendAndReceive.sendPaymentInfo(Arrays.asList(postCode, address, discountCode));
+        logHistory = SendAndReceive.Purchase();
 
-            instance.receiveInformation(postCode, address);
-            if (!discountCode.isEmpty())
-                instance.discountCodeUse(discountCode);
-            logHistory = instance.buyProductsOfCart();
-
-        } catch (PostCodeInvalidException e) {
-            invalidPostCode();
-        } catch (AddresInvalidException e) {
-            invalidAddress();
-        } catch (InvalidDiscountCodeException e) {
-            invalidDiscountCode();
-        } catch (DiscountCodeExpiredException e) {
-            discountCodeExpired();
-        } catch (NotEnoughCreditException e) {
-            notEnoughCredit();
-        } catch (ProductDoesNotExistException | FieldDoesNotExistException | AccountDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
-            e.printStackTrace();
-        }
         PaymentInformation.setLogHistory(logHistory);
         MainMenu.change(new PaymentInformation().sceneBuilder());
     }
@@ -166,6 +149,7 @@ public class Payment implements Initializable, SceneBuilder {
         new Thread(() -> new MediaPlayer(
                 new Media(
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
-                )).play()).start();
+                )).play()
+        ).start();
     }
 }

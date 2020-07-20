@@ -1,5 +1,7 @@
 package B_Server.Model.Models;
 
+import Structs.FieldAndFieldList.FieldList;
+
 import java.time.LocalDate;
 
 public class Info implements Cloneable{

@@ -1,7 +1,7 @@
 package Model.Models;
 
 import B_Server.Model.Models.Account;
-import B_Server.Model.Models.FieldList;
+import Structs.FieldAndFieldList.FieldList;
 import B_Server.Model.Models.Info;
 import B_Server.Model.Models.Product;
 import Exceptions.ProductDoesNotExistException;
@@ -9,7 +9,7 @@ import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
 
-import B_Server.Model.Models.Field.Field;
+import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Tools.AddingNew;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
