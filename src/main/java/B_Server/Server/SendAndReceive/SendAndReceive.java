@@ -455,12 +455,6 @@ public class SendAndReceive {
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-        } catch (ProductIsOutOfStockException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-        } catch (SellerDoesNotSellOfThisProduct e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
     }
 
@@ -493,7 +487,7 @@ public class SendAndReceive {
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
     }
 
@@ -799,7 +793,7 @@ public class SendAndReceive {
         }
     }
 
-    private static void addNewCustomerOrManager(List<String> inputs) {
+    private static void addNewCustomerOrManager(List<String> inputs,RequestHandler requestHandler) {
         String type = inputs.get(0);
         String username = inputs.get(1);
         String password = inputs.get(2);
@@ -821,31 +815,53 @@ public class SendAndReceive {
             account = signUpController.creatTheBaseOfAccount(accountType, username);
             signUpController.creatPasswordForAccount(account, password);
             signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+
 
         } catch (UserNameInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (UserNameTooShortException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (TypeInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
             canNotCreatMoreThanOneMangerBySignUp.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (ThisUserNameAlreadyExistsException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (PasswordInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (FirstNameInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (LastNameInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (EmailInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (PhoneNumberInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
     }
 
-    private static void addNewSeller(List<String> inputs) {
+    private static void addNewSeller(List<String> inputs,RequestHandler requestHandler) {
         String type = inputs.get(0);
         String username = inputs.get(1);
         String password = inputs.get(2);
@@ -863,34 +879,53 @@ public class SendAndReceive {
             signUpController.creatPasswordForAccount(account, password);
             signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
             signUpController.saveCompanyInfo(account, brand, companyPhoneNumber, companyEmail);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
 
 
         } catch (UserNameInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (UserNameTooShortException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (TypeInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
             canNotCreatMoreThanOneMangerBySignUp.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (ThisUserNameAlreadyExistsException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (PasswordInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (FirstNameInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (LastNameInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (EmailInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (PhoneNumberInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (CompanyNameInvalidException e) {
             e.printStackTrace();
-        } catch (PhoneNumberInvalidException e) {
-            e.printStackTrace();
-        } catch (EmailInvalidException e) {
-            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
     }
 
@@ -919,8 +954,7 @@ public class SendAndReceive {
                         logHistory.getAuctionDiscount() + "",
                         logHistory.getFieldList(),
                         logHistory.getProductLogList());
-                ////ishala farda
-
+                ///...
                 );
             } catch (LogHistoryDoesNotExistException e) {
                 e.printStackTrace();
@@ -941,7 +975,8 @@ public class SendAndReceive {
                 try {
                     discountCode = DiscountCode.getDiscountCodeById(id);
                     return new MiniDiscountCode(
-                            discountCode.getId(),
+                            discountCode.getId() + "",
+                            Integer.parseInt(String.valueOf(discountCode.getFrequentUse())),
                             discountCode.getDiscountCode(),
                             discountCode.getDiscount().getPercent(),
                             discountCode.getDiscount().getAmount(),
@@ -955,6 +990,8 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(miniDiscountCodes));
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
     }
 
@@ -967,12 +1004,20 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(miniAccount));
         } catch (PassIncorrectException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (UserNameInvalidException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (UserNameTooShortException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
     }
 
@@ -1010,7 +1055,8 @@ public class SendAndReceive {
                             product.getAuction().getId() + "",
                             product.getCategory().getId() + "",
                             product.getMediaId() + "",
-                            aveRate, product.getSellersOfProduct());
+                            product.getAverageScore() + "",
+                            product.getSellersOfProduct());
 
                 } catch (ProductDoesNotExistException e) {
                     e.printStackTrace();
@@ -1021,6 +1067,8 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(products));
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
     }
 
@@ -1062,18 +1110,24 @@ public class SendAndReceive {
             medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
         } catch (ProductMediaNotFoundException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
         BufferedImage image = null;
         try {
             image = ImageIO.read(new File(medias.getImageSrc()));
         } catch (IOException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
             ImageIO.write(image, "jpg", byteArrayOutputStream);
         } catch (IOException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
         String imageString = new YaGson().toJson(byteArrayOutputStream.toByteArray());
         requestHandler.sendMessage(yaGson.toJson(imageString));
@@ -1085,6 +1139,8 @@ public class SendAndReceive {
             auction = Auction.getAuctionById(Long.parseLong(inputs.get(0)));
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
         MiniAuction miniAuction = new MiniAuction(
                 auction.getId() + "",
@@ -1102,6 +1158,8 @@ public class SendAndReceive {
             category = Category.getCategoryById(Long.parseLong(inputs.get(0)));
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
         }
         MiniCate miniCate = new MiniCate(
                 category.getId() + "",
@@ -1117,6 +1175,7 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(miniAccount));
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
 
     }
@@ -1127,6 +1186,7 @@ public class SendAndReceive {
             product = Product.getProductById(Long.parseLong(inputs.get(0)));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
         requestHandler.sendMessage(yaGson.toJson(createMiniProducts((List<Product>) product)));
     }
@@ -1138,6 +1198,7 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(miniProducts));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
     }
 
@@ -1150,7 +1211,8 @@ public class SendAndReceive {
                         product.getAuction().getId() + "",
                         product.getCategory().getId() + "",
                         product.getMediaId() + "",
-                        aveRate, product.getSellersOfProduct()
+                        product.getAverageScore() + "",
+                        product.getSellersOfProduct()
                 )
         ).collect(Collectors.toList());
     }
@@ -1165,6 +1227,8 @@ public class SendAndReceive {
                 account.getMediaId() + "",
                 account.getUserName() + "",
                 account.getPassword() + "",
+                account.getId() +"",
+                account.getClass().getSimpleName(),
                 account.getPersonalInfo().getList(),
                 account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
                 account.getWallet()
@@ -1173,7 +1237,8 @@ public class SendAndReceive {
     @NotNull
     private static List<MiniDiscountCode> createMiniDiscountCode(List<DiscountCode> discountCodes) {
         return discountCodes.stream().map(discountCode -> new MiniDiscountCode(
-                discountCode.getId(),
+                discountCode.getId() + "",
+               Integer.parseInt(String.valueOf(discountCode.getFrequentUse())),
                 discountCode.getDiscountCode(),
                 discountCode.getDiscount().getPercent(),
                 discountCode.getDiscount().getAmount(),
@@ -1186,6 +1251,8 @@ public class SendAndReceive {
                 account.getMediaId() + "",
                 account.getUserName() + "",
                 account.getPassword() + "",
+                account.getPassword()+"",
+                account.getClass().getSimpleName(),
                 account.getPersonalInfo().getList(),
                 account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
                 account.getWallet()
