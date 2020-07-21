@@ -1,7 +1,9 @@
 package B_Server.Server.SendAndReceive;
 
 import A_Client.JsonHandler.JsonHandler;
+import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.*;
+import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
@@ -15,8 +17,6 @@ import Structs.*;
 import Structs.FieldAndFieldList.FieldList;
 import com.gilecode.yagson.YaGson;
 import org.jetbrains.annotations.NotNull;
-import sun.dc.pr.PRError;
-import sun.util.resources.cldr.xh.CurrencyNames_xh;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class SendAndReceive {
@@ -111,15 +112,7 @@ public class SendAndReceive {
                 addNewCategory(inputs, requestHandler);
                 break;
             case "EditCate":
-                ///????
-                String categoryName = inputs.get(0);
-                List<String> ids = yaGson.fromJson(inputs.get(1), List.class);
-                Category category = null;
-                ManagerController managerController = ManagerController.getInstance();
-                managerController.editCategory(category.getId() + "", "name", categoryName);
-                category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
-                category.setCategoryFields(new FieldList(str_feature.stream().map(Field::new).collect(Collectors.toList())));
-                DataBase.save(category);
+                EditCate(inputs, requestHandler);
                 break;
             case "addNewDiscountCode":
                 addNewDiscountCode(inputs, requestHandler);
@@ -177,7 +170,6 @@ public class SendAndReceive {
                 break;
             case "increaseProduct":
                 increaseProduct(inputs, requestHandler);
-
                 break;
             case "decreaseProduct":
                 decreaseProduct(inputs, requestHandler);
@@ -222,40 +214,111 @@ public class SendAndReceive {
             case "GetAllProductsPrime":
                 getAllProducts(requestHandler, ProductsController.getInstance().showProducts());
                 break;
-
             case "GetAllRequest":
-                List<Request> requests = Request.getList();
-                List<MiniRequest> miniRequests = requests.stream().map(reqPrime -> new MiniRequest(
-                        reqPrime.getId() + "",
-                        reqPrime.getTypeOfRequest() + "",
-                        reqPrime.getForPend().getClass().getSimpleName() + "",
-                        reqPrime.getForPend() instanceof Product ? ((Product) reqPrime.getForPend()).getName() : ((Auction) reqPrime.getForPend()).getName(),
-                        reqPrime.getForPend()));
-                requestHandler.sendMessage(yaGson.toJson(miniRequests));
-
+                GetAllRequest(requestHandler);
                 break;
-
             case "GetAllProductOfAuction":
-                String id = inputs.get(0);
-                Auction auction = null;
-                try {
-                    auction = Auction.getAuctionById(Long.parseLong(id));
-                    List<Long> productsIds= auction.getProductList();
-                    List<MiniProduct>
-                } catch (AuctionDoesNotExistException e) {
-                    e.printStackTrace();
-                }
-
-
+                GetAllProductOfAuction(inputs, requestHandler);
                 break;
             case "GetAllCommentOfProduct":
-
+                GetAllCommentOfProduct(inputs, requestHandler);
                 break;
             case "DeleteProductById":
-
+                DeleteProductById(inputs, requestHandler);
                 break;
+        }
+    }
 
+    private static void EditCate(List<String> inputs, RequestHandler requestHandler) {
+        String categoryName = inputs.get(0);
+        List<String> ids = yaGson.fromJson(inputs.get(1), List.class);
+        Category category = null;
+        ManagerController managerController = ManagerController.getInstance();
+        try {
+            managerController.editCategory(category.getId() + "", "name", categoryName);
+            category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
+            DataBase.save(category);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
 
+        } catch (CategoryDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+
+        }
+    }
+
+    private static void GetAllRequest(RequestHandler requestHandler) {
+        List<Request> requests = Request.getList();
+        List<MiniRequest> miniRequests = requests.stream().map(reqPrime -> new MiniRequest(
+                reqPrime.getId() + "",
+                reqPrime.getTypeOfRequest() + "",
+                reqPrime.getForPend().getClass().getSimpleName() + "",
+                reqPrime.getForPend() instanceof Product ? ((Product) reqPrime.getForPend()).getName() : ((Auction) reqPrime.getForPend()).getName(),
+                reqPrime.getForPend().toString())).collect(Collectors.toList());
+        requestHandler.sendMessage(yaGson.toJson(miniRequests));
+    }
+
+    private static void DeleteProductById(List<String> inputs, RequestHandler requestHandler) {
+        String productId = inputs.get(0);
+        Account account = ControllerUnit.getInstance().getAccount();
+        try {
+            Product product = Product.getProductById(Long.parseLong(productId));
+            new Request(account.getId(), "remove product", "remove", product);
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        }
+    }
+
+    private static void GetAllCommentOfProduct(List<String> inputs, RequestHandler requestHandler) {
+        String productId = inputs.get(0);
+        try {
+            Product product = Product.getProductById(Long.parseLong(productId));
+            List<Long> commetsIds = product.getCommentList();
+            List<Comment> comments = commetsIds.stream().map(commentId ->
+                    {
+                        try {
+                            return Comment.getCommentById(commentId);
+                        } catch (CommentDoesNotExistException e) {
+                            e.printStackTrace();
+                            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                            return null;
+
+                        }
+                    }
+            ).filter(Objects::nonNull).collect(Collectors.toList());
+            requestHandler.sendMessage(yaGson.toJson(comments));
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        }
+    }
+
+    private static void GetAllProductOfAuction(List<String> inputs, RequestHandler requestHandler) {
+        String id = inputs.get(0);
+        Auction auction = null;
+        try {
+            auction = Auction.getAuctionById(Long.parseLong(id));
+            List<Long> productsIds = auction.getProductList();
+            List<Product> products = productsIds.stream().map(productsId ->
+            {
+                try {
+                    return Product.getProductById(productsId);
+                } catch (ProductDoesNotExistException e) {
+                    e.printStackTrace();
+                    requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                    return null;
+                }
+            }).filter(Objects::nonNull).collect(Collectors.toList());
+            List<MiniProduct> miniProducts = createMiniProducts(products);
+            requestHandler.sendMessage(yaGson.toJson(miniProducts));
+        } catch (AuctionDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
     }
 
@@ -913,29 +976,15 @@ public class SendAndReceive {
         }
     }
 
-    @NotNull
-    private static MiniAccount getMiniAccount(Account account) {
-        return new MiniAccount(
-                account.getMediaId() + "",
-                account.getUserName() + "",
-                account.getPassword() + "",
-                account.getPersonalInfo().getList(),
-                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                account.getWallet()
-        );
-    }
+
 
     private static void getAllDiscountCodes(RequestHandler requestHandler) {
         List<DiscountCode> discountCodes = DiscountCode.getList();
-        List<MiniDiscountCode> miniDiscountCodes = discountCodes.stream().map(discountCode -> new MiniDiscountCode(
-                discountCode.getId(),
-                discountCode.getDiscountCode(),
-                discountCode.getDiscount().getPercent(),
-                discountCode.getDiscount().getAmount(),
-                discountCode.getStart(),
-                discountCode.getEnd())).collect(Collectors.toList());
+        List<MiniDiscountCode> miniDiscountCodes = createMiniDiscountCode(discountCodes);
         requestHandler.sendMessage(yaGson.toJson(miniDiscountCodes));
     }
+
+
 
     private static void getAllCategories(RequestHandler requestHandler) {
         List<Category> categories = Category.getList();
@@ -977,16 +1026,7 @@ public class SendAndReceive {
 
     private static void getAllPopularProducts(RequestHandler requestHandler) {
         List<Product> productList = Product.getList();
-        List<MiniProduct> miniProducts = productList.stream().map(product ->
-                new MiniProduct(
-                        product.getId() + "",
-                        product.getName(),
-                        product.getAuction().getId() + "",
-                        product.getCategory().getId() + "",
-                        product.getMediaId() + "",
-                        aveRate, product.getSellersOfProduct()
-                )
-        ).collect(Collectors.toList());
+        List<MiniProduct> miniProducts = createMiniProducts(productList);
         requestHandler.sendMessage(yaGson.toJson(miniProducts));
     }
 
@@ -1004,29 +1044,15 @@ public class SendAndReceive {
 
     private static void getAllAccounts(RequestHandler requestHandler) {
         List<Account> accountList = Account.getList();
-        List<MiniAccount> miniAccounts = accountList.stream().map(account -> new MiniAccount(
-                account.getMediaId() + "",
-                account.getUserName() + "",
-                account.getPassword() + "",
-                account.getPersonalInfo().getList(),
-                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                account.getWallet()
-        )).collect(Collectors.toList());
+        List<MiniAccount> miniAccounts = createMiniAccount(accountList);
         requestHandler.sendMessage(yaGson.toJson(miniAccounts));
     }
 
+
+
     private static void getAllProducts(RequestHandler requestHandler, List<Product> list) {
         List<Product> products = list;
-        List<MiniProduct> miniProducts = products.stream().map(product ->
-                new MiniProduct(
-                        product.getId() + "",
-                        product.getName(),
-                        product.getAuction().getId() + "",
-                        product.getCategory().getId() + "",
-                        product.getMediaId() + "",
-                        aveRate, product.getSellersOfProduct()
-                )
-        ).collect(Collectors.toList());
+        List<MiniProduct> miniProducts = createMiniProducts(products);
         requestHandler.sendMessage(yaGson.toJson(miniProducts));
     }
 
@@ -1102,37 +1128,67 @@ public class SendAndReceive {
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
         }
-        MiniProduct miniProduct = new MiniProduct(
-                product.getId() + "",
-                product.getName(),
-                product.getAuction().getId() + "",
-                product.getCategory().getId() + "",
-                product.getMediaId() + "",
-                aveRate, product.getSellersOfProduct());
-        requestHandler.sendMessage(yaGson.toJson(miniProduct));
+        requestHandler.sendMessage(yaGson.toJson(createMiniProducts((List<Product>) product)));
     }
 
     private static void getAllMyProducts(RequestHandler requestHandler) {
         try {
             List<Product> products = sellerController.showProducts();
-            List<MiniProduct> miniProducts = products.stream().map(product ->
-                    new MiniProduct(
-                            product.getId() + "",
-                            product.getName(),
-                            product.getAuction().getId() + "",
-                            product.getCategory().getId() + "",
-                            product.getMediaId() + "",
-                            aveRate, product.getSellersOfProduct()
-                    )
-            ).collect(Collectors.toList());
+            List<MiniProduct> miniProducts = createMiniProducts(products);
             requestHandler.sendMessage(yaGson.toJson(miniProducts));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
         }
     }
 
+    @NotNull
+    private static List<MiniProduct> createMiniProducts(List<Product> products) {
+        return products.stream().map(product ->
+                new MiniProduct(
+                        product.getId() + "",
+                        product.getName(),
+                        product.getAuction().getId() + "",
+                        product.getCategory().getId() + "",
+                        product.getMediaId() + "",
+                        aveRate, product.getSellersOfProduct()
+                )
+        ).collect(Collectors.toList());
+    }
+
     enum successOrFailMessage {
         SUCCESS,
         FAIL
+    }
+    @NotNull
+    private static List<MiniAccount> createMiniAccount(List<Account> accountList) {
+        return accountList.stream().map(account -> new MiniAccount(
+                account.getMediaId() + "",
+                account.getUserName() + "",
+                account.getPassword() + "",
+                account.getPersonalInfo().getList(),
+                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
+                account.getWallet()
+        )).collect(Collectors.toList());
+    }
+    @NotNull
+    private static List<MiniDiscountCode> createMiniDiscountCode(List<DiscountCode> discountCodes) {
+        return discountCodes.stream().map(discountCode -> new MiniDiscountCode(
+                discountCode.getId(),
+                discountCode.getDiscountCode(),
+                discountCode.getDiscount().getPercent(),
+                discountCode.getDiscount().getAmount(),
+                discountCode.getStart(),
+                discountCode.getEnd())).collect(Collectors.toList());
+    }
+    @NotNull
+    private static MiniAccount getMiniAccount(Account account) {
+        return new MiniAccount(
+                account.getMediaId() + "",
+                account.getUserName() + "",
+                account.getPassword() + "",
+                account.getPersonalInfo().getList(),
+                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
+                account.getWallet()
+        );
     }
 }

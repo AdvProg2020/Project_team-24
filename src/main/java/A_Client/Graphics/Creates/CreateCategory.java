@@ -123,10 +123,6 @@ public class CreateCategory implements SceneBuilder, Initializable {
         list.add(category_name);
         list.add(new YaGson().toJson(ids));
         SendAndReceive.EditCategory(list);
-//        managerController.editCategory(category.getId() + "", "name", category_name);
-//        category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
-//        category.setCategoryFields(new FieldList(str_feature.stream().map(Field::new).collect(Collectors.toList())));
-//        DataBase.save(category);
     }
 
     private void goMainMenu() {
