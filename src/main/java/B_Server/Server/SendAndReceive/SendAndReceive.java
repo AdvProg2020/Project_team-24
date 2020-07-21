@@ -100,10 +100,10 @@ public class SendAndReceive {
                 getLogsOfUserById(inputs);
                 break;
             case "addNewCustomerOrManager":
-                addNewCustomerOrManager(inputs);
+                addNewCustomerOrManager(inputs,requestHandler);
                 break;
             case "addNewSeller":
-                addNewSeller(inputs);
+                addNewSeller(inputs,requestHandler);
                 break;
             case "addNewAuction":
                 addNewAuction(inputs, requestHandler);
