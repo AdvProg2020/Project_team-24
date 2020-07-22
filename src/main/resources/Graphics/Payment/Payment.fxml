@@ -42,7 +42,7 @@
       <Image url="@icons8-pos-terminal-48.png" />
    </ImageView>
       <MediaView fx:id="paymentGif" fitHeight="100.0" fitWidth="100.0" layoutX="679.0" layoutY="541.0" />
-      <ChoiceBox layoutX="489.0" layoutY="591.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="chooseType" layoutX="489.0" layoutY="591.0" prefWidth="150.0" />
       <Label layoutX="493.0" layoutY="541.0" text="انتخاب روش پرداخت">
          <font>
             <Font size="18.0" />
