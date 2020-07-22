@@ -317,6 +317,11 @@ public class SendAndReceive {
                 Arrays.asList(client.getClientInfo().getToken(), accountId));
     }
 
+    public static void addChatMode(String accountId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addChatMode,
+                Arrays.asList(client.getClientInfo().getToken(), accountId));
+    }
+
     public static void DeleteProductById(String productId, String howDelete) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.DeleteProductById,
                 Arrays.asList(client.getClientInfo().getToken(), productId, howDelete));

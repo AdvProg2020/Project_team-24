@@ -10,7 +10,7 @@
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Pages.Payment">
 <AnchorPane prefHeight="745" prefWidth="1134" styleClass="backGround" stylesheets="@Payment.css">
    <Label layoutX="293.0" layoutY="39.0" prefHeight="655.0" prefWidth="529.0" styleClass="border" stylesheets="@Payment.css" />
-   <TextField fx:id="address" alignment="CENTER" layoutX="437.0" layoutY="314.0" prefHeight="105.0" prefWidth="274.0" promptText="لطفا آدرس تحویل گیرنده را وارد کنید">
+   <TextField fx:id="address" alignment="CENTER" layoutX="430.0" layoutY="314.0" prefHeight="105.0" prefWidth="274.0" promptText="لطفا آدرس تحویل گیرنده را وارد کنید">
          <font>
             <Font size="14.0" />
          </font></TextField>
@@ -18,11 +18,11 @@
          <font>
             <Font size="18.0" />
          </font></TextField>
-   <TextField fx:id="discountCode" alignment="CENTER" layoutX="437.0" layoutY="482.0" prefHeight="26.0" prefWidth="274.0" promptText="کد تخفیف%">
+   <TextField fx:id="discountCode" alignment="CENTER" layoutX="437.0" layoutY="471.0" prefHeight="26.0" prefWidth="274.0" promptText="کد تخفیف%">
          <font>
             <Font size="18.0" />
          </font></TextField>
-   <Button fx:id="payment_btn" layoutX="334.0" layoutY="611.0" mnemonicParsing="false" onAction="#pay" prefHeight="51.0" prefWidth="95.0" styleClass="payButton" stylesheets="@Payment.css" text="پرداخت" textFill="#18941d">
+   <Button fx:id="payment_btn" layoutX="331.0" layoutY="623.0" mnemonicParsing="false" onAction="#pay" prefHeight="51.0" prefWidth="95.0" styleClass="payButton" stylesheets="@Payment.css" text="پرداخت" textFill="#18941d">
       <font>
          <Font size="18.0" />
       </font>
@@ -41,6 +41,12 @@
    <ImageView fitHeight="65.0" fitWidth="69.0" layoutX="646.0" layoutY="146.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@icons8-pos-terminal-48.png" />
    </ImageView>
-      <MediaView fx:id="paymentGif" fitHeight="100.0" fitWidth="100.0" layoutX="524.0" layoutY="549.0" />
+      <MediaView fx:id="paymentGif" fitHeight="100.0" fitWidth="100.0" layoutX="679.0" layoutY="541.0" />
+      <ChoiceBox layoutX="489.0" layoutY="591.0" prefWidth="150.0" />
+      <Label layoutX="493.0" layoutY="541.0" text="انتخاب روش پرداخت">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
 </AnchorPane>
 </Scene>

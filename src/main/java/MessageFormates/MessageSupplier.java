@@ -170,6 +170,9 @@ public interface MessageSupplier {
 
         requestTypeSupplierHashMap.put(RequestType.Purchase, list -> list.get(0) + "::Purchase");
 
+        requestTypeSupplierHashMap.put(RequestType.addChatMode, list -> list.get(0) + "::addChatMode "
+                + list.get(1));
+
         requestTypeSupplierHashMap.put(RequestType.rate, list -> list.get(0) + "::rate "
                 + list.get(1) + " " + list.get(2));
 
@@ -255,5 +258,6 @@ public interface MessageSupplier {
         getProductInfoById,
         addCommentToProduct,
         rate,
+        addChatMode
     }
 }

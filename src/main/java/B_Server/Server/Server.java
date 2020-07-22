@@ -2,7 +2,7 @@ package B_Server.Server;
 
 import A_Client.Client.RequestHandler.RequestHandler;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.UUID;
@@ -35,19 +35,16 @@ public class Server {
 
     private void listener() {
 
-        while (true) {
-
-            try {
+        while (true) try {
 
                 Socket socket = mineServer.accept();
-                RequestHandler requestHandler = new RequestHandler(socket, createToken());
+                RequestHandler requestHandler = new RequestHandler(socket);
                 requestHandler.start();
 
             } catch (IOException e) {
                 e.printStackTrace();
                 errorInListeningRequest();
             }
-        }
     }
 
     private void errorInListeningRequest() {
