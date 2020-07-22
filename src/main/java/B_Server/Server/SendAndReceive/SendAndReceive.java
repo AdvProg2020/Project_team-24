@@ -192,7 +192,6 @@ public class SendAndReceive {
             case "addCommentToProduct":
                 addCommentToProduct(inputs, requestHandler);
                 break;
-
             case "rate":
                 rate(inputs, requestHandler);
                 break;
