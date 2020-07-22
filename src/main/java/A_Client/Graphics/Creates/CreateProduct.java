@@ -299,7 +299,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
 //                setMedia();
 //                medias.setPlayerSrc(selectedMedia.toURI().toString());
 //            }
-            SendAndReceive.setMedias(selectedImage, selectedMedia);
+            SendAndReceive.setMedias(,selectedImage, selectedMedia);
 
 //            DataBase.save(medias);
         }

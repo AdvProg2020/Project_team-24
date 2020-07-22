@@ -47,8 +47,8 @@ public interface MessageSupplier {
         requestTypeSupplierHashMap.put(RequestType.SetMovieById, list -> list.get(0) + "::SetMovieById "
                 + list.get(1) + " " + list.get(2));
 
-        requestTypeSupplierHashMap.put(RequestType.SetMedias, list -> list.get(0) + "::SetMedias "
-                + list.get(1) + " " + list.get(2));
+        requestTypeSupplierHashMap.put(RequestType.SetMediasOfProduct, list -> list.get(0) + "::SetMediasOfProduct "
+                + list.get(1) + " " + list.get(2) + " " + list.get(3));
 
         // Get All
         requestTypeSupplierHashMap.put(RequestType.GetAllAccounts, list -> list.get(0) + "::GetAllAccounts");
@@ -208,7 +208,7 @@ public interface MessageSupplier {
         GetMovieById,
         GetCodeById,
         SetImageById,
-        SetMedias,
+        SetMediasOfProduct,
         SetMovieById,
         GetAllProducts,
         GetAllProductsPrime,
