@@ -1,6 +1,6 @@
 package A_Client.ChatClient;
 
-import A_Client.JsonHandler.JsonHandler;
+import Toolkit.JsonHandler.JsonHandler;
 import Structs.MiniAccount;
 import Toolkit.Connection.Connection;
 import Toolkit.Connection.Message;

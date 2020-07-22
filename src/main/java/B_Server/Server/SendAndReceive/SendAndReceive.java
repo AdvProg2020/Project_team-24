@@ -1,6 +1,5 @@
 package B_Server.Server.SendAndReceive;
 
-import A_Client.JsonHandler.JsonHandler;
 import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.*;
 import B_Server.Model.DataBase.DataBase;
@@ -15,6 +14,7 @@ import B_Server.Server.RequestHandler.RequestHandler;
 import Exceptions.*;
 import Structs.*;
 import Structs.FieldAndFieldList.FieldList;
+import Toolkit.JsonHandler.JsonHandler;
 import com.gilecode.yagson.YaGson;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,8 +36,9 @@ public class SendAndReceive {
     public static void messageAnalyser(String request, List<String> inputs, RequestHandler requestHandler) {
 
         switch (request) {
+
             case "GetToken":
-                requestHandler.sendMessage(Server.createToken());
+                sendToken(requestHandler, Server.createToken());
                 break;
             case "GetAllMyProducts":
                 getAllMyProducts(requestHandler);
@@ -228,6 +229,10 @@ public class SendAndReceive {
         }
     }
 
+    private static void sendToken(RequestHandler requestHandler, String token) {
+        requestHandler.sendMessage(token);
+    }
+
     private static void EditCate(List<String> inputs, RequestHandler requestHandler) {
         String categoryName = inputs.get(0);
         List<String> ids = yaGson.fromJson(inputs.get(1), List.class);
@@ -238,14 +243,9 @@ public class SendAndReceive {
             category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
             DataBase.save(category);
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
-        } catch (FieldDoesNotExistException e) {
+        } catch (FieldDoesNotExistException | CategoryDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        } catch (CategoryDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL + "::" + e.getMessage()));
         }
     }
 

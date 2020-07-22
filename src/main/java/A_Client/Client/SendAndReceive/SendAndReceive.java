@@ -1,7 +1,7 @@
 package A_Client.Client.SendAndReceive;
 
 import A_Client.Client.Client;
-import A_Client.JsonHandler.JsonHandler;
+import Toolkit.JsonHandler.JsonHandler;
 import MessageFormates.MessageSupplier;
 import Structs.*;
 import Structs.FieldAndFieldList.Field;
@@ -338,7 +338,7 @@ public class SendAndReceive {
     }
 
     public static List<Field> getCateInfoOdProduct(String productId) {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getCateInfoOdProduct,
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getCateInfoOfProduct,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
         return new JsonHandler<Field>().JsonsToObjectList(answers, Field.class);
     }

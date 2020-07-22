@@ -1,4 +1,4 @@
-package A_Client.JsonHandler;
+package Toolkit.JsonHandler;
 
 import com.gilecode.yagson.YaGson;
 
