@@ -1,6 +1,7 @@
 package MessageFormates;
 
 import com.gilecode.yagson.YaGson;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ public interface MessageSupplier {
 
     Function<List<String>, String> messageSupplier = list -> String.format("%s::%s %s", list.get(0), list.get(1), list.get(2));
 
-    default String generateMessage(RequestType type, List<String> list) {
+    default String generateMessage(@NotNull RequestType type, List<String> list) {
         ArrayList<String> outputs = new ArrayList<>();
         outputs.add(list == null ? "@" : list.get(0));
         outputs.add(type.toString());

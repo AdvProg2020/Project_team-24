@@ -138,13 +138,13 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static List<MiniDiscountCode> getAllDiscountCodes() {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAuctions,
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllDiscountCodes,
                 Collections.singletonList(client.getClientInfo().getToken()));
         return new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answer, MiniDiscountCode.class);
     }
 
     public static List<MiniLogHistory> GetLogsOfUserById(String accountId) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAuctions,
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetLogsOfUserById,
                 Arrays.asList(client.getClientInfo().getToken(), accountId));
         return new JsonHandler<MiniLogHistory>().JsonsToObjectList(answer, MiniLogHistory.class);
     }
@@ -296,7 +296,7 @@ public class SendAndReceive implements MessagePattern {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewSellerOfPro, list);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.saveInfoOfProduct, list);
     }
 
     public static void addCommentToProduct(List<String> fields) {
@@ -383,7 +383,7 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static void rate(String productId, String accountId, String rate) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Logout,
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.rate,
                 Arrays.asList(client.getClientInfo().getToken(), productId, accountId, rate));
     }
 

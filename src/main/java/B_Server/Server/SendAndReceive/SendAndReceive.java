@@ -1,34 +1,36 @@
 package B_Server.Server.SendAndReceive;
 
-import B_Server.Controller.Controllers.*;
 import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import B_Server.Controller.Controllers.AccountControllers.SellerController;
+import B_Server.Controller.Controllers.FilterController;
 import B_Server.Controller.Controllers.LoginaAndRegister.LoginController;
 import B_Server.Controller.Controllers.LoginaAndRegister.SignUpController;
+import B_Server.Controller.Controllers.ProductsController;
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
-import B_Server.Server.InstantInfo.InstantInfo;
-import B_Server.Server.Server;
-import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.Medias;
+import B_Server.Model.Models.Structs.ProductLog;
+import B_Server.Server.InstantInfo.InstantInfo;
 import B_Server.Server.RequestHandler.RequestHandler;
+import B_Server.Server.Server;
 import Exceptions.*;
-import Structs.*;
+import MessageFormates.MessageSupplier;
+import Structs.FieldAndFieldList.Field;
 import Structs.FieldAndFieldList.FieldList;
+import Structs.*;
 import Toolkit.JsonHandler.JsonHandler;
 import com.gilecode.yagson.YaGson;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -41,32 +43,39 @@ public class SendAndReceive {
     private final static ManagerController managerController = ManagerController.getInstance();
     private final static YaGson yaGson = new YaGson();
 
-    public static void messageAnalyser(String token, String request, List<String> inputs, RequestHandler requestHandler) {
+    public static void messageAnalyser(@NotNull String token, String request, List<String> inputs, RequestHandler requestHandler) {
+
+        if (token.equals("@") && request.equals("GetToken")) {
+            OnlineNewClient(requestHandler);
+            return;
+        }
+
+        InstantInfo info = Server.getInfoByToken(token);
+        if (info == null) return;
+
+        LocalClientInfo.initControllers(info);
+
+        String newToken = Server.createToken();
+        info.setMy_Token(newToken);
 
         switch (request) {
-
-            case "GetToken":
-                String newToken = Server.createToken();
-                Server.addClient(new InstantInfo(newToken));
-                sendToken(newToken, requestHandler);
-                break;
             case "GetAllMyProducts":
-                getAllMyProducts(requestHandler);
+                getAllMyProducts(newToken, requestHandler);
                 break;
             case "GetProductById":
-                getProductById(inputs, requestHandler);
+                getProductById(newToken, inputs, requestHandler);
                 break;
             case "GetAccountById":
-                getAccountById(inputs, requestHandler);
+                getAccountById(newToken, inputs, requestHandler);
                 break;
             case "GetCateById":
-                getCategoryById(inputs, requestHandler);
+                getCategoryById(newToken, inputs, requestHandler);
                 break;
             case "GetAuctionById":
-                getAuctionById(inputs, requestHandler);
+                getAuctionById(newToken, inputs, requestHandler);
                 break;
             case "GetImageById":
-                getImageById(inputs, requestHandler);
+                getImageById(newToken, inputs, requestHandler);
                 break;
             case "GetMovieById":
                 //...
@@ -78,43 +87,43 @@ public class SendAndReceive {
                 //...
                 break;
             case "GetAllProducts":
-                getAllProducts(requestHandler, Product.getList());
+                getAllProducts(newToken, request, requestHandler, Product.getList());
                 break;
             case "GetAllAccounts":
-                getAllAccounts(requestHandler);
+                getAllAccounts(newToken, requestHandler);
                 break;
             case "GetAllAuctions":
-                getAllAuctions(requestHandler);
+                getAllAuctions(newToken, requestHandler);
                 break;
             case "GetAllDiscountCodes":
-                getAllDiscountCodes(requestHandler);
+                getAllDiscountCodes(newToken, requestHandler);
                 break;
             case "GetAllCate":
-                getAllCategories(requestHandler);
+                getAllCategories(newToken, requestHandler);
                 break;
             case "GetAllProductOfCate":
-                getAllProductOfCate(inputs, requestHandler);
+                getAllProductOfCate(newToken, inputs, requestHandler);
                 break;
             case "GetAllPopularProducts":
-                getAllPopularProducts(requestHandler);
+                getAllPopularProducts(newToken, requestHandler);
                 break;
             case "Login":
-                login(inputs, requestHandler);
+                login(newToken, inputs, requestHandler);
                 break;
             case "Logout":
                 //...
                 break;
             case "GetCodesOfUserById":
-                getCodesOfUsersById(inputs, requestHandler);
+                getCodesOfUsersById(newToken, inputs, requestHandler);
                 break;
             case "GetLogsOfUserById":
-                getLogsOfUserById(inputs);
+                getLogsOfUserById(newToken, inputs, requestHandler);
                 break;
             case "addNewCustomerOrManager":
-                addNewCustomerOrManager(inputs,requestHandler);
+                addNewCustomerOrManager(inputs, requestHandler);
                 break;
             case "addNewSeller":
-                addNewSeller(inputs,requestHandler);
+                addNewSeller(inputs, requestHandler);
                 break;
             case "addNewAuction":
                 addNewAuction(inputs, requestHandler);
@@ -194,8 +203,8 @@ public class SendAndReceive {
             case "addProductToCart":
                 addProductToCart(inputs, requestHandler);
                 break;
-            case "getCateInfoOdProduct":
-
+            case "getCateInfoOfProduct":
+                // ...
                 break;
             case "getProductInfoById":
                 getProductInfoById(inputs, requestHandler);
@@ -209,7 +218,6 @@ public class SendAndReceive {
             case "GetCodeById":
                 GetCodeById(inputs, requestHandler);
                 break;
-
             case "SetMediasOfProduct":
                 String ProductId = inputs.get(0);
                 String Str_Image = inputs.get(1);
@@ -222,10 +230,10 @@ public class SendAndReceive {
 //                File image = ;
                 break;
             case "GetAllProductsPrime":
-                getAllProducts(requestHandler, ProductsController.getInstance().showProducts());
+                getAllProducts(newToken, "GetAllProductsPrime", requestHandler, instance.showProducts());
                 break;
             case "GetAllRequest":
-                GetAllRequest(requestHandler);
+                GetAllRequest(newToken, requestHandler);
                 break;
             case "GetAllProductOfAuction":
                 GetAllProductOfAuction(inputs, requestHandler);
@@ -239,19 +247,298 @@ public class SendAndReceive {
         }
     }
 
-    private static void sendToken(String token, @NotNull RequestHandler requestHandler) {
-        requestHandler.sendMessage(token +"::@ @");
+    private static void OnlineNewClient(RequestHandler requestHandler) {
+        String newToken = Server.createToken();
+        Server.addClient(new InstantInfo(newToken));
+        sendToken(newToken, requestHandler);
     }
 
-    private static void getAllMyProducts(RequestHandler requestHandler) {
+    private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {
+        requestHandler.sendMessage(requestHandler.generateMessage(requestType, Arrays.asList(token, message)));
+    }
+
+    private static void sendToken(String token, @NotNull RequestHandler requestHandler) {
+        sender(token, MessageSupplier.RequestType.GetToken, "", requestHandler);
+    }
+
+    private static void getAllMyProducts(String token, RequestHandler requestHandler) {
         try {
             List<Product> products = sellerController.showProducts();
             List<MiniProduct> miniProducts = createMiniProducts(products);
-            requestHandler.sendMessage(yaGson.toJson(miniProducts));
+            sender(token, MessageSupplier.RequestType.GetAllMyProducts, yaGson.toJson(miniProducts), requestHandler);
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            sender(token, MessageSupplier.RequestType.GetAllMyProducts, SuccessOrFail.FAIL.toString(), requestHandler);
         }
+    }
+
+    private static void getProductById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Product product = Product.getProductById(Long.parseLong(inputs.get(0)));
+            sender(token, MessageSupplier.RequestType.GetProductById, yaGson.toJson(getMiniProduct(product)), requestHandler);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetProductById, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
+    private static void getAccountById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Account account = Account.getAccountById(Long.parseLong(inputs.get(0)));
+            sender(token, MessageSupplier.RequestType.GetAccountById, yaGson.toJson(getMiniAccount(account)), requestHandler);
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetAccountById, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
+    private static void getCategoryById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Category category = Category.getCategoryById(Long.parseLong(inputs.get(0)));
+            sender(token, MessageSupplier.RequestType.GetCateById, yaGson.toJson(getMiniCate(category)), requestHandler);
+        } catch (CategoryDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetCateById, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
+    private static void getAuctionById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Auction auction = Auction.getAuctionById(Long.parseLong(inputs.get(0)));
+            sender(token, MessageSupplier.RequestType.GetAuctionById, yaGson.toJson(yaGson.toJson(getMiniAuction(auction))), requestHandler);
+        } catch (AuctionDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetAuctionById, yaGson.toJson(SuccessOrFail.FAIL.toString()), requestHandler);
+        }
+    }
+
+    private static void getImageById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
+            File file = new File(medias.getImageSrc());
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            sender(token, MessageSupplier.RequestType.GetImageById, yaGson.toJson(bytes), requestHandler);
+        } catch (ProductMediaNotFoundException | IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetImageById, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
+    private static void getAllProducts(String token, String requestType, @NotNull RequestHandler requestHandler, List<Product> list) {
+        sender(token, MessageSupplier.RequestType.valueOf(requestType), yaGson.toJson(createMiniProducts(list)), requestHandler);
+    }
+
+    private static void getAllAccounts(String token, RequestHandler requestHandler) {
+        sender(token, MessageSupplier.RequestType.GetAllAccounts, yaGson.toJson(createMiniAccounts(Account.getList())), requestHandler);
+    }
+
+    private static void getAllAuctions(String token, RequestHandler requestHandler) {
+        List<MiniAuction> miniAuctions = Auction.getList().stream().map(SendAndReceive::getMiniAuction).collect(Collectors.toList());
+        sender(token, MessageSupplier.RequestType.GetAllAuctions, yaGson.toJson(miniAuctions), requestHandler);
+    }
+
+    private static void getAllDiscountCodes(String token, RequestHandler requestHandler) {
+        List<MiniDiscountCode> miniDiscountCodes = DiscountCode.getList().stream().map(SendAndReceive::getMiniDiscountCode).collect(Collectors.toList());
+        sender(token, MessageSupplier.RequestType.GetAllDiscountCodes, yaGson.toJson(miniDiscountCodes), requestHandler);
+    }
+
+    private static void getAllCategories(String token, RequestHandler requestHandler) {
+        List<MiniCate> miniCateList = Category.getList().stream().map(SendAndReceive::getMiniCate).collect(Collectors.toList());
+        sender(token, MessageSupplier.RequestType.GetAllCate, yaGson.toJson(miniCateList), requestHandler);
+    }
+
+    private static void getAllProductOfCate(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            List<MiniProduct> products = Category.getCategoryById(Integer.parseInt(inputs.get(0)))
+                    .getProductList().stream().map(id -> {
+                        try {
+                            Product product = Product.getProductById(id);
+                            return getMiniProduct(product);
+                        } catch (ProductDoesNotExistException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    }).filter(Objects::nonNull).collect(Collectors.toList());
+            sender(token, MessageSupplier.RequestType.GetAllProductOfCate, yaGson.toJson(products), requestHandler);
+
+        } catch (CategoryDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetAllProductOfCate, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
+    private static void getAllPopularProducts(String token, RequestHandler requestHandler) {
+        try {
+            ProductsController instance = ProductsController.getInstance();
+            instance.sort("NumberOfVisits");
+            sender(token, MessageSupplier.RequestType.GetAllPopularProducts, yaGson.toJson(createMiniProducts(instance.showProducts())), requestHandler);
+        } catch (NotAvailableSortException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetAllPopularProducts, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
+    private static void login(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            String username = inputs.get(0);
+            String password = inputs.get(1);
+            Account account = LoginController.getInstance().login(username, password);
+            sender(token, MessageSupplier.RequestType.Login, yaGson.toJson(getMiniAccount(account)), requestHandler);
+        } catch (PassIncorrectException | UserNameInvalidException | UserNameTooShortException | AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Login, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void GetAllRequest(String token, RequestHandler requestHandler) {
+        List<MiniRequest> miniRequests = Request.getList().stream().map(SendAndReceive::getMiniRequest).collect(Collectors.toList());
+        sender(token, MessageSupplier.RequestType.GetAllRequest, yaGson.toJson(miniRequests), requestHandler);
+    }
+
+    private static void getCodesOfUsersById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Customer account = (Customer) Account.getAccountById(Long.parseLong(inputs.get(0)));
+            List<Long> discountCodeIds = account.getDiscountCodeList();
+            List<MiniDiscountCode> miniDiscountCodes = discountCodeIds.stream().map(id -> {
+                try {
+                    return getMiniDiscountCode(DiscountCode.getDiscountCodeById(id));
+                } catch (DiscountCodeExpiredException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }).filter(Objects::nonNull).collect(Collectors.toList());
+            sender(token, MessageSupplier.RequestType.GetCodesOfUserById, yaGson.toJson(miniDiscountCodes), requestHandler);
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetCodesOfUserById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void getLogsOfUserById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Account account = Account.getAccountById(Long.parseLong(inputs.get(0)));
+
+            List<Long> logHistoriesIds;
+            if (account instanceof Customer)
+                logHistoriesIds = ((Customer) account).getLogHistoryList();
+            else logHistoriesIds = ((Seller) account).getLogHistoryList();
+
+            List<MiniLogHistory> logHistoryList = logHistoriesIds.stream().map(id -> {
+                try {
+                    LogHistory logHistory = LogHistory.getLogHistoryById(id);
+                    return getMiniLogHistory(logHistory);
+
+                } catch (LogHistoryDoesNotExistException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }).filter(Objects::nonNull).collect(Collectors.toList());
+            sender(token, MessageSupplier.RequestType.GetCodesOfUserById, yaGson.toJson(logHistoryList), requestHandler);
+
+        } catch (AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetCodesOfUserById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    @Contract("_ -> new")
+    @NotNull
+    private static MiniLogHistory getMiniLogHistory(@NotNull LogHistory logHistory) {
+        return new MiniLogHistory(
+                logHistory.getId() + "",
+                logHistory.getFinalAmount() + "",
+                logHistory.getDiscountAmount() + "",
+                logHistory.getAuctionDiscount() + "",
+                logHistory.getFieldList(),
+                logHistory.getProductLogList().stream()
+                        .map(SendAndReceive::getMiniProductLog)
+                        .collect(Collectors.toList()));
+    }
+
+    @Contract("_ -> new")
+    @NotNull
+    private static MiniProductLog getMiniProductLog(@NotNull ProductLog productLog) {
+        return new MiniProductLog(
+                productLog.getProductId() + "",
+                productLog.getProductName(),
+                productLog.getPrice() + "",
+                productLog.getAuctionDiscount() + "",
+                productLog.getFinalPrice() + "");
+    }
+
+    @Contract("_ -> new")
+    @NotNull
+    private static MiniAuction getMiniAuction(@NotNull Auction auction) {
+        return new MiniAuction(
+                auction.getId() + "",
+                auction.getName(),
+                auction.getDiscount().getPercent(),
+                auction.getDiscount().getAmount(),
+                auction.getStart(),
+                auction.getEnd());
+    }
+
+    @Contract("_ -> new")
+    @NotNull
+    private static MiniCate getMiniCate(@NotNull Category category) {
+        return new MiniCate(
+                category.getId() + "",
+                category.getName(),
+                category.getCategoryFields());
+    }
+
+    @NotNull
+    @Contract("_ -> new")
+    private static MiniProduct getMiniProduct(@NotNull Product product) {
+        return new MiniProduct(
+                product.getId() + "",
+                product.getName(),
+                product.getAuction().getId() + "",
+                product.getCategory().getId() + "",
+                product.getMediaId() + "",
+                product.getAverageScore() + "",
+                product.getSellersOfProduct()
+        );
+    }
+
+    @NotNull
+    private static List<MiniAccount> createMiniAccounts(@NotNull List<Account> accountList) {
+        return accountList.stream().map(account -> new MiniAccount(
+                account.getMediaId() + "",
+                account.getUserName() + "",
+                account.getPassword() + "",
+                account.getId() + "",
+                account.getClass().getSimpleName(),
+                account.getPersonalInfo().getList(),
+                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
+                account.getWallet()
+        )).collect(Collectors.toList());
+    }
+
+    @Contract("_ -> new")
+    @NotNull
+    private static MiniAccount getMiniAccount(@NotNull Account account) {
+        return new MiniAccount(
+                account.getMediaId() + "",
+                account.getUserName() + "",
+                account.getPassword() + "",
+                account.getPassword() + "",
+                account.getClass().getSimpleName(),
+                account.getPersonalInfo().getList(),
+                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
+                account.getWallet()
+        );
+    }
+
+    @Contract("_ -> new")
+    @NotNull
+    private static MiniRequest getMiniRequest(@NotNull Request reqPrime) {
+        return new MiniRequest(
+                reqPrime.getId() + "",
+                reqPrime.getTypeOfRequest() + "",
+                reqPrime.getForPend().getClass().getSimpleName() + "",
+                reqPrime.getForPend() instanceof Product ? ((Product) reqPrime.getForPend()).getName() : ((Auction) reqPrime.getForPend()).getName(),
+                reqPrime.getForPend().toString());
     }
 
     private static void EditCate(@NotNull List<String> inputs, @NotNull RequestHandler requestHandler) {
@@ -263,22 +550,11 @@ public class SendAndReceive {
             managerController.editCategory(category.getId() + "", "name", categoryName);
             category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
             DataBase.save(category);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (FieldDoesNotExistException | CategoryDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL + "::" + e.getMessage()));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL + "::" + e.getMessage()));
         }
-    }
-
-    private static void GetAllRequest(RequestHandler requestHandler) {
-        List<Request> requests = Request.getList();
-        List<MiniRequest> miniRequests = requests.stream().map(reqPrime -> new MiniRequest(
-                reqPrime.getId() + "",
-                reqPrime.getTypeOfRequest() + "",
-                reqPrime.getForPend().getClass().getSimpleName() + "",
-                reqPrime.getForPend() instanceof Product ? ((Product) reqPrime.getForPend()).getName() : ((Auction) reqPrime.getForPend()).getName(),
-                reqPrime.getForPend().toString())).collect(Collectors.toList());
-        requestHandler.sendMessage(yaGson.toJson(miniRequests));
     }
 
     private static void DeleteProductById(List<String> inputs, RequestHandler requestHandler) {
@@ -287,10 +563,10 @@ public class SendAndReceive {
         try {
             Product product = Product.getProductById(Long.parseLong(productId));
             new Request(account.getId(), "remove product", "remove", product);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -305,7 +581,7 @@ public class SendAndReceive {
                             return Comment.getCommentById(commentId);
                         } catch (CommentDoesNotExistException e) {
                             e.printStackTrace();
-                            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
                             return null;
 
                         }
@@ -314,7 +590,7 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(comments));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -330,7 +606,7 @@ public class SendAndReceive {
                     return Product.getProductById(productsId);
                 } catch (ProductDoesNotExistException e) {
                     e.printStackTrace();
-                    requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
                     return null;
                 }
             }).filter(Objects::nonNull).collect(Collectors.toList());
@@ -338,7 +614,7 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(miniProducts));
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -349,7 +625,7 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(discountCode));
         } catch (DiscountCodeExpiredException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -360,13 +636,13 @@ public class SendAndReceive {
         BuyerController buyerController = BuyerController.getInstance();
         try {
             buyerController.rate(productId, rate);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (CannotRateException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -384,14 +660,14 @@ public class SendAndReceive {
                 FieldList fieldList = new FieldList(fields);
                 Comment comment = new Comment("تایید شده", customer.getId(), Long.parseLong(productId), fieldList);
                 product.addComment(comment.getId());
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
             } catch (ProductDoesNotExistException e) {
                 e.printStackTrace();
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
             }
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         }
     }
@@ -404,7 +680,7 @@ public class SendAndReceive {
             requestHandler.sendMessage(yaGson.toJson(product_info));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -416,10 +692,10 @@ public class SendAndReceive {
             Customer account = (Customer) Account.getAccountById(Long.parseLong(accountId));
             Cart cart = account.getCart();
             cart.addProductToCart(Long.parseLong(sellerId), Long.parseLong(productId));
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -433,27 +709,27 @@ public class SendAndReceive {
             if (!discountCode.isEmpty()) {
                 try {
                     instance.discountCodeUse(discountCode);
-                    requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
                 } catch (InvalidDiscountCodeException e) {
                     e.printStackTrace();
-                    requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
                 } catch (DiscountCodeExpiredException e) {
                     e.printStackTrace();
-                    requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
                 } catch (AccountDoesNotExistException e) {
                     e.printStackTrace();
-                    requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
                 }
             }
         } catch (PostCodeInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (AddresInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -471,10 +747,10 @@ public class SendAndReceive {
         String sellerId = inputs.get(1);
         try {
             BuyerController.getInstance().decrease(productId, sellerId);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -483,16 +759,16 @@ public class SendAndReceive {
         String sellerId = inputs.get(1);
         try {
             BuyerController.getInstance().increase(productId, sellerId);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (ProductIsOutOfStockException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (SellerDoesNotSellOfThisProduct e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -504,10 +780,10 @@ public class SendAndReceive {
         try {
             Product product = Product.getProductById(Long.parseLong(productId));
             product.addSeller(Long.parseLong(sellerId), Long.parseLong(newPrice), Long.parseLong(numberOfProducts));
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -515,10 +791,10 @@ public class SendAndReceive {
         String sortElement = inputs.get(0);
         try {
             ProductsController.getInstance().sort(sortElement);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (NotAvailableSortException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -526,13 +802,13 @@ public class SendAndReceive {
         String id = inputs.get(0);
         try {
             ManagerController.getInstance().denyRequest(id);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (RequestDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -540,13 +816,13 @@ public class SendAndReceive {
         String id = inputs.get(0);
         try {
             ManagerController.getInstance().acceptRequest(id);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (RequestDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -557,10 +833,10 @@ public class SendAndReceive {
         try {
             account = (Customer) Account.getAccountById(Long.parseLong(accountId));
             account.addToDiscountCodeList(Long.parseLong(discountId));
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -577,16 +853,16 @@ public class SendAndReceive {
             sellerController.editAuction(seller.getId() + "", "end", endTime, "edit Auction");
             sellerController.editAuction(seller.getId() + "", "discountMaxAmount", auctionLimit, "edit Auction");
             sellerController.editAuction(seller.getId() + "", "discountPercent", auctionPercent, "edit Auction");
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (InvalidInputByUserException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -621,13 +897,13 @@ public class SendAndReceive {
                 seller.editField("CompanyName", companyName);
                 seller.editField("CompanyPhoneNumber", companyPhoneNumber);
                 seller.editField("CompanyEmail", companyEmail);
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
             } catch (AccountDoesNotExistException e) {
                 e.printStackTrace();
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
             } catch (FieldDoesNotExistException e) {
                 e.printStackTrace();
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
             }
 
 
@@ -644,10 +920,10 @@ public class SendAndReceive {
                 customer.editField("LastName", lastName);
                 customer.editField("Email", email);
                 customer.editField("PhoneNumber", phoneNumber);
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
             } catch (FieldDoesNotExistException e) {
                 e.printStackTrace();
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
             }
         }
     }
@@ -663,10 +939,10 @@ public class SendAndReceive {
                 manager.editField("LastName", lastName);
                 manager.editField("Email", email);
                 manager.editField("PhoneNumber", phoneNumber);
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
             } catch (FieldDoesNotExistException e) {
                 e.printStackTrace();
-                requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+                requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
             }
 
 
@@ -677,10 +953,10 @@ public class SendAndReceive {
         String id = inputs.get(0);
         try {
             ManagerController.getInstance().deleteAccount(id);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
         return;
     }
@@ -699,13 +975,13 @@ public class SendAndReceive {
             managerController.editDiscountCode(discountCode.getId() + "", "frequentUse", num);
             managerController.editDiscountCode(discountCode.getId() + "", "maxDiscountAmount", limit);
             managerController.editDiscountCode(discountCode.getId() + "", "discountPercent", percent);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (DiscountCodeExpiredException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         }
     }
@@ -721,19 +997,19 @@ public class SendAndReceive {
                 sellerController.editProduct(product.getId() + "", "category", productCategory, "edit product categpry");
             if (!productAction.equals("0"))
                 sellerController.editProduct(product.getId() + "", "Auction", productAction, "edit product auction");
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -742,10 +1018,10 @@ public class SendAndReceive {
         String filterValue = inputs.get(1);
         try {
             FilterController.getInstance().filter(filterName, filterValue);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (InvalidFilterException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -760,13 +1036,13 @@ public class SendAndReceive {
         try {
             Product product = SellerController.getInstance().createTheBaseOfProduct(productName, categoryId, auctionId, numberOfThis, price);
             SellerController.getInstance().saveProductInfo(product, fieldNames, values);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -778,10 +1054,10 @@ public class SendAndReceive {
         String frequentUse = inputs.get(4);
         try {
             ManagerController.getInstance().creatDiscountCode(start, end, percentage, max, frequentUse);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (InvalidStartAndEndDateForDiscountCodeException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -791,10 +1067,10 @@ public class SendAndReceive {
         List<String> subCategories = yaGson.fromJson(inputs.get(2), List.class);
         try {
             ManagerController.getInstance().createEmptyCategory(categoryName, features, subCategories);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (CategoryDoesNotExistException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
@@ -806,14 +1082,14 @@ public class SendAndReceive {
         String maxAmount = inputs.get(4);
         try {
             SellerController.getInstance().addOff(auctionName, start, end, percentage, maxAmount);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
         } catch (InvalidInputByUserException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
         }
     }
 
-    private static void addNewCustomerOrManager(List<String> inputs,RequestHandler requestHandler) {
+    private static void addNewCustomerOrManager(List<String> inputs, RequestHandler requestHandler) {
         String type = inputs.get(0);
         String username = inputs.get(1);
         String password = inputs.get(2);
@@ -835,53 +1111,53 @@ public class SendAndReceive {
             account = signUpController.creatTheBaseOfAccount(accountType, username);
             signUpController.creatPasswordForAccount(account, password);
             signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
 
 
         } catch (UserNameInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (UserNameTooShortException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (TypeInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
             canNotCreatMoreThanOneMangerBySignUp.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (ThisUserNameAlreadyExistsException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (PasswordInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (FirstNameInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (LastNameInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (EmailInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (PhoneNumberInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         }
     }
 
-    private static void addNewSeller(List<String> inputs,RequestHandler requestHandler) {
+    private static void addNewSeller(List<String> inputs, RequestHandler requestHandler) {
         String type = inputs.get(0);
         String username = inputs.get(1);
         String password = inputs.get(2);
@@ -899,372 +1175,77 @@ public class SendAndReceive {
             signUpController.creatPasswordForAccount(account, password);
             signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
             signUpController.saveCompanyInfo(account, brand, companyPhoneNumber, companyEmail);
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.SUCCESS));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
 
 
         } catch (UserNameInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (UserNameTooShortException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (TypeInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (CanNotCreatMoreThanOneMangerBySignUp canNotCreatMoreThanOneMangerBySignUp) {
             canNotCreatMoreThanOneMangerBySignUp.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (ThisUserNameAlreadyExistsException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (PasswordInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (FirstNameInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (LastNameInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (EmailInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (PhoneNumberInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         } catch (CompanyNameInvalidException e) {
             e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
 
         }
     }
 
-    private static void getLogsOfUserById(List<String> inputs) {
-        Account account = null;
-        try {
-            account = Account.getAccountById(Long.parseLong(inputs.get(0)));
-        } catch (AccountDoesNotExistException e) {
-            e.printStackTrace();
-        }
-        List<Long> logHistoriesIds = null;
-        if (account instanceof Customer) {
-            logHistoriesIds = ((Customer) account).getLogHistoryList();
-        }
-        if (account instanceof Seller) {
-            logHistoriesIds = ((Seller) account).getLogHistoryList();
-        }
-        List<MiniLogHistory> logHistoryList = logHistoriesIds.stream().map(id -> {
-
-            try {
-                LogHistory logHistory = LogHistory.getLogHistoryById(id);
-                return new MiniLogHistory(
-                        logHistory.getId() + "",
-                        logHistory.getFinalAmount() + "",
-                        logHistory.getDiscountAmount() + "",
-                        logHistory.getAuctionDiscount() + "",
-                        logHistory.getFieldList(),
-                        logHistory.getProductLogList());
-                ///...
-                );
-            } catch (LogHistoryDoesNotExistException e) {
-                e.printStackTrace();
-                return null;
-            }
-
-        }).collect(Collectors.toList());
-    }
-
-    private static void getCodesOfUsersById(List<String> inputs, RequestHandler requestHandler) {
-        Customer account = null;
-        try {
-            account = (Customer) Account.getAccountById(Long.parseLong(inputs.get(0)));
-            List<Long> discountCodeIds = account.getDiscountCodeList();
-            List<MiniDiscountCode> miniDiscountCodes = discountCodeIds.stream().map(id -> {
-
-                DiscountCode discountCode = null;
-                try {
-                    discountCode = DiscountCode.getDiscountCodeById(id);
-                    return new MiniDiscountCode(
-                            discountCode.getId() + "",
-                            Integer.parseInt(String.valueOf(discountCode.getFrequentUse())),
-                            discountCode.getDiscountCode(),
-                            discountCode.getDiscount().getPercent(),
-                            discountCode.getDiscount().getAmount(),
-                            discountCode.getStart(),
-                            discountCode.getEnd());
-                } catch (DiscountCodeExpiredException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }).collect(Collectors.toList());
-            requestHandler.sendMessage(yaGson.toJson(miniDiscountCodes));
-        } catch (AccountDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        }
-    }
-
-    private static void login(List<String> inputs, RequestHandler requestHandler) {
-        try {
-            String username = inputs.get(0);
-            String password = inputs.get(1);
-            Account account = LoginController.getInstance().login(username, password);
-            MiniAccount miniAccount = getMiniAccount(account);
-            requestHandler.sendMessage(yaGson.toJson(miniAccount));
-        } catch (PassIncorrectException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        } catch (UserNameInvalidException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        } catch (UserNameTooShortException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        } catch (AccountDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        }
-    }
-
-
-
-    private static void getAllDiscountCodes(RequestHandler requestHandler) {
-        List<DiscountCode> discountCodes = DiscountCode.getList();
-        List<MiniDiscountCode> miniDiscountCodes = createMiniDiscountCode(discountCodes);
-        requestHandler.sendMessage(yaGson.toJson(miniDiscountCodes));
-    }
-
-
-
-    private static void getAllCategories(RequestHandler requestHandler) {
-        List<Category> categories = Category.getList();
-        List<MiniCate> miniCateList = categories.stream().map(category -> new MiniCate(
-                category.getId() + "",
-                category.getName(),
-                category.getCategoryFields())).collect(Collectors.toList());
-        requestHandler.sendMessage(yaGson.toJson(miniCateList));
-    }
-
-    private static void getAllProductOfCate(List<String> inputs, RequestHandler requestHandler) {
-        int categoryId = Integer.parseInt(inputs.get(0));
-        try {
-            Category category = Category.getCategoryById(categoryId);
-            List<Long> productIds = category.getProductList();
-            List<MiniProduct> products = productIds.stream().map(id -> {
-
-                try {
-                    Product product = Product.getProductById(id);
-                    return new MiniProduct(
-                            product.getId() + "",
-                            product.getName(),
-                            product.getAuction().getId() + "",
-                            product.getCategory().getId() + "",
-                            product.getMediaId() + "",
-                            product.getAverageScore() + "",
-                            product.getSellersOfProduct());
-
-                } catch (ProductDoesNotExistException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            }).collect(Collectors.toList());
-
-            requestHandler.sendMessage(yaGson.toJson(products));
-        } catch (CategoryDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        }
-    }
-
-    private static void getAllPopularProducts(RequestHandler requestHandler) {
-        List<Product> productList = Product.getList();
-        List<MiniProduct> miniProducts = createMiniProducts(productList);
-        requestHandler.sendMessage(yaGson.toJson(miniProducts));
-    }
-
-    private static void getAllAuctions(RequestHandler requestHandler) {
-        List<Auction> auctionList = Auction.getList();
-        List<MiniAuction> miniAuctions = auctionList.stream().map(auction -> new MiniAuction(
-                auction.getId() + "",
-                auction.getName(),
-                auction.getDiscount().getPercent(),
-                auction.getDiscount().getAmount(),
-                auction.getStart(),
-                auction.getEnd())).collect(Collectors.toList());
-        requestHandler.sendMessage(yaGson.toJson(miniAuctions));
-    }
-
-    private static void getAllAccounts(RequestHandler requestHandler) {
-        List<Account> accountList = Account.getList();
-        List<MiniAccount> miniAccounts = createMiniAccount(accountList);
-        requestHandler.sendMessage(yaGson.toJson(miniAccounts));
-    }
-
-
-
-    private static void getAllProducts(RequestHandler requestHandler, List<Product> list) {
-        List<Product> products = list;
-        List<MiniProduct> miniProducts = createMiniProducts(products);
-        requestHandler.sendMessage(yaGson.toJson(miniProducts));
-    }
-
-    private static void getImageById(List<String> inputs, RequestHandler requestHandler) {
-        Medias medias = null;
-        try {
-            medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
-        } catch (ProductMediaNotFoundException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        }
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(medias.getImageSrc()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        }
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(image, "jpg", byteArrayOutputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        }
-        String imageString = new YaGson().toJson(byteArrayOutputStream.toByteArray());
-        requestHandler.sendMessage(yaGson.toJson(imageString));
-    }
-
-    private static void getAuctionById(List<String> inputs, RequestHandler requestHandler) {
-        Auction auction = null;
-        try {
-            auction = Auction.getAuctionById(Long.parseLong(inputs.get(0)));
-        } catch (AuctionDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        }
-        MiniAuction miniAuction = new MiniAuction(
-                auction.getId() + "",
-                auction.getName(),
-                auction.getDiscount().getPercent(),
-                auction.getDiscount().getAmount(),
-                auction.getStart(),
-                auction.getEnd());
-        requestHandler.sendMessage(yaGson.toJson(miniAuction));
-    }
-
-    private static void getCategoryById(List<String> inputs, RequestHandler requestHandler) {
-        Category category = null;
-        try {
-            category = Category.getCategoryById(Long.parseLong(inputs.get(0)));
-        } catch (CategoryDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-
-        }
-        MiniCate miniCate = new MiniCate(
-                category.getId() + "",
-                category.getName(),
-                category.getCategoryFields());
-        requestHandler.sendMessage(yaGson.toJson(miniCate));
-    }
-
-    private static void getAccountById(List<String> inputs, RequestHandler requestHandler) {
-        try {
-            Account account = Account.getAccountById(Long.parseLong(inputs.get(0)));
-            MiniAccount miniAccount = getMiniAccount(account);
-            requestHandler.sendMessage(yaGson.toJson(miniAccount));
-        } catch (AccountDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-        }
-
-    }
-
-    private static void getProductById(List<String> inputs, RequestHandler requestHandler) {
-        Product product = null;
-        try {
-            product = Product.getProductById(Long.parseLong(inputs.get(0)));
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-        }
-        requestHandler.sendMessage(yaGson.toJson(createMiniProducts((List<Product>) product)));
+    @NotNull
+    private static MiniDiscountCode getMiniDiscountCode(DiscountCode discountCode) {
+        return new MiniDiscountCode(
+                discountCode.getId() + "",
+                Integer.parseInt(String.valueOf(discountCode.getFrequentUse())),
+                discountCode.getDiscountCode(),
+                discountCode.getDiscount().getPercent(),
+                discountCode.getDiscount().getAmount(),
+                discountCode.getStart(),
+                discountCode.getEnd());
     }
 
     @NotNull
     private static List<MiniProduct> createMiniProducts(List<Product> products) {
         return products.stream().map(product ->
-                new MiniProduct(
-                        product.getId() + "",
-                        product.getName(),
-                        product.getAuction().getId() + "",
-                        product.getCategory().getId() + "",
-                        product.getMediaId() + "",
-                        product.getAverageScore() + "",
-                        product.getSellersOfProduct()
-                )
+                getMiniProduct(product)
         ).collect(Collectors.toList());
     }
 
-    enum successOrFailMessage {
+    enum SuccessOrFail {
         SUCCESS,
         FAIL
-    }
-    @NotNull
-    private static List<MiniAccount> createMiniAccount(List<Account> accountList) {
-        return accountList.stream().map(account -> new MiniAccount(
-                account.getMediaId() + "",
-                account.getUserName() + "",
-                account.getPassword() + "",
-                account.getId() +"",
-                account.getClass().getSimpleName(),
-                account.getPersonalInfo().getList(),
-                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                account.getWallet()
-        )).collect(Collectors.toList());
-    }
-    @NotNull
-    private static List<MiniDiscountCode> createMiniDiscountCode(List<DiscountCode> discountCodes) {
-        return discountCodes.stream().map(discountCode -> new MiniDiscountCode(
-                discountCode.getId() + "",
-               Integer.parseInt(String.valueOf(discountCode.getFrequentUse())),
-                discountCode.getDiscountCode(),
-                discountCode.getDiscount().getPercent(),
-                discountCode.getDiscount().getAmount(),
-                discountCode.getStart(),
-                discountCode.getEnd())).collect(Collectors.toList());
-    }
-    @NotNull
-    private static MiniAccount getMiniAccount(Account account) {
-        return new MiniAccount(
-                account.getMediaId() + "",
-                account.getUserName() + "",
-                account.getPassword() + "",
-                account.getPassword()+"",
-                account.getClass().getSimpleName(),
-                account.getPersonalInfo().getList(),
-                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                account.getWallet()
-        );
     }
 }

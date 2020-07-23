@@ -27,7 +27,7 @@ public class Server extends Thread {
         clients.remove(instantInfo);
     }
 
-    public InstantInfo getInfoByToken(String token) {
+    public static InstantInfo getInfoByToken(String token) {
         return clients.stream()
                 .filter(instantInfo -> token.equals(instantInfo.getMy_Token()))
                 .findFirst().orElse(null);
