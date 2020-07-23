@@ -1,0 +1,45 @@
+
+.navbar{
+    -fx-background-color: white;
+}
+.pane{
+    -fx-background-color: #f2f2f2;
+}
+.base{
+    -fx-background-color:  #e6e6e6;
+}
+.tabpane{
+    -fx-border-color: red;
+}
+
+.addToCart{
+    -fx-background-color: white;
+    -fx-border-color:  #e6e6e6;
+}
+.addToCart:hover{
+    -fx-background-color: #adebeb;
+}
+.featurePane{
+    -fx-background-color:  white;
+
+}
+.commentPane{
+    -fx-background-color: #eeba00;
+}
+.featureTable{
+    -fx-background-color: lightgrey;
+
+}
+.commentTable{
+    -fx-background-color: lightgrey;
+}
+.viewVideo{
+    -fx-border-color: #00cccc;
+    -fx-background-color: white;
+}
+.table{
+    -fx-border-color: #28a428;
+}
+.leftPane{
+    -fx-background-color: #d4ad00;
+}

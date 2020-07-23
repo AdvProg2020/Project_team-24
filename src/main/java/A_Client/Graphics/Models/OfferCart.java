@@ -2,39 +2,51 @@ package A_Client.Graphics.Models;
 
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
-import A_Client.Graphics.Accounts.Roles.Seller;
 import Structs.MiniAccount;
+import Structs.MiniOffer;
 import Structs.MiniProduct;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class OfferCart {
+public class OfferCart implements Initializable {
     private final Client client = SendAndReceive.getClient();
-    private static List<MiniProduct> productList = SendAndReceive.getAllMyProducts();
+    private static List<MiniOffer> offerList = SendAndReceive.getAllOffers();
     private MiniProduct product;
-    private MiniAccount seller;
+    private int sellerIndex;
 
-
+    @FXML
     public Label sellerOfProduct;
+    @FXML
     public ImageView productImage;
+    @FXML
     public Text product_name;
+    @FXML
     public Label discount;
+    @FXML
     public Text price_ltx;
+    @FXML
+    public AnchorPane mainPane;
 
-    private void setImage() {
-        Image image = SendAndReceive.getImageById(product.getMediasId());
-        this.productImage.setImage(image);
+    public static void setOfferList(List<MiniOffer> offerList){OfferCart.offerList = offerList}
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (offerList.isEmpty()) {
+            mainPane.setVisible(false);
+            mainPane.setDisable(true);
+            return;
+        }
+        init();
     }
-    private void setTexts() {
-        this.product_name.setText(product.getProductName());
-        this.price_ltx.setText(seller.getUsername());
-    }
+    private void init() {
 
-    public void viewOffer(ActionEvent event) {
     }
 }

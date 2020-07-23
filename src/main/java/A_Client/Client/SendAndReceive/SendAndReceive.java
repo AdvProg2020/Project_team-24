@@ -413,4 +413,9 @@ public class SendAndReceive implements MessagePattern {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentProduct,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
     }
+
+    public static List<MiniOffer> getAllOffers() {
+        //...
+        return null;
+    }
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Pages.Offer">
+
+<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
+        <AnchorPane focusTraversable="true" prefHeight="1206.0" prefWidth="1198.0">
+            <Pane layoutX="382.0" layoutY="7.0" prefHeight="336.0" prefWidth="816.0">
+
+                <Label fx:id="productName" alignment="CENTER" layoutX="176.0" layoutY="1.0" prefHeight="36.0" prefWidth="400.0" text="نام کالا " textFill="#716c6c">
+                    <font>
+                        <Font name="Algerian" size="33.0" />
+                    </font>
+                </Label>
+
+                <ImageView fitHeight="132.0" fitWidth="85.0" layoutX="653.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@icons8-split-transaction-48.png" />
+                </ImageView>
+
+                <Separator layoutX="221.0" layoutY="51.0" prefHeight="2.0" prefWidth="374.0" />
+
+                <ImageView fx:id="product_image" fitHeight="269.0" fitWidth="383.0" layoutX="218.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@kisspng-sports-shoes-adidas-ultraboost-uncaged-adidas-ultr-5b9a6582580752.2001169715368451863606.png" />
+                </ImageView>
+
+                <Pane layoutX="47.0" layoutY="181.0" prefHeight="30.0" prefWidth="149.0">
+                    <ImageView fx:id="star_01" fitHeight="29.0" fitWidth="22.0" layoutX="3.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@icons8-star-filled-16(1).png" />
+                    </ImageView>
+                    <ImageView fx:id="star_02" fitHeight="22.0" fitWidth="22.0" layoutX="34.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@icons8-star-filled-16(1).png" />
+                    </ImageView>
+                    <ImageView fx:id="star_03" fitHeight="22.0" fitWidth="22.0" layoutX="66.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@icons8-star-filled-16(1).png" />
+                    </ImageView>
+                    <ImageView fx:id="star_04" fitHeight="22.0" fitWidth="22.0" layoutX="96.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@icons8-star-filled-16(1).png" />
+                    </ImageView>
+                    <ImageView fx:id="star_05" fitHeight="22.0" fitWidth="22.0" layoutX="126.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@icons8-star-filled-16(1).png" />
+                    </ImageView>
+                </Pane>
+                <MediaView fx:id="gif" fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="1.0" />
+
+                <Label alignment="CENTER" layoutX="76.0" layoutY="123.0" prefHeight="38.0" prefWidth="90.0" text="امتیاز " textFill="#7f7979">
+                    <font>
+                        <Font name="Algerian" size="24.0" />
+                    </font>
+                </Label>
+            </Pane>
+
+
+            <Separator layoutX="465.0" layoutY="353.0" prefHeight="0.0" prefWidth="649.0" />
+            <Separator layoutX="465.0" layoutY="1154.0" prefHeight="0.0" prefWidth="675.0" />
+      <TableView layoutX="488.0" layoutY="415.0" prefHeight="380.0" prefWidth="604.0">
+        <columns>
+          <TableColumn fx:id="priceColumn" prefWidth="302.20001220703125" text="قیمت پیشنهادی" />
+          <TableColumn fx:id="usernameColumn" prefWidth="301.0" text="نام کاربر" />
+        </columns>
+      </TableView>
+      <TextField alignment="CENTER" layoutX="638.0" layoutY="953.0" prefHeight="51.0" prefWidth="304.0" promptText="مبلغ پیشنهادی" />
+      <Button layoutX="734.0" layoutY="1055.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="111.0" text="ثبت " textFill="#ff2626">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="649.0" layoutY="877.0" text="مبلغ پیشنهادی خود را وارد کنید" textFill="#17af00">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+        </AnchorPane>
+<!--    </ScrollPane>-->
+</Scene>
