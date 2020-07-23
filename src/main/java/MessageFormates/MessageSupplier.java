@@ -86,5 +86,7 @@ public interface MessageSupplier {
         rate,
         addChatMode,
         addNewBuyerToOfferById,
+        SetCurrentOffer,
+        GetAllOffers
     }
 }

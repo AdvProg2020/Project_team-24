@@ -5,6 +5,8 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.Roles.Customer;
 import A_Client.Graphics.Accounts.Roles.Manager;
 import A_Client.Graphics.Accounts.Roles.Seller;
+import A_Client.Graphics.Menus.OffersMenu;
+import A_Client.Graphics.Models.OfferCart;
 import MessageFormates.MessageSupplier;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
@@ -274,10 +276,12 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     
     private void setOffers(List<MiniOffer> list){
-        
-
+        OffersMenu.setList(list);
+        OfferCart.setOfferList(list);
     }
 
-    public void viewOffers(ActionEvent event) {
+    public void viewOffers() {
+        setOffers(SendAndReceive.getAllOffers());
+        MainMenu.change(new OffersMenu().sceneBuilder());
     }
 }

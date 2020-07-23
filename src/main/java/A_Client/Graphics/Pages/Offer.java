@@ -2,13 +2,10 @@ package A_Client.Graphics.Pages;
 
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
-import B_Server.Model.Models.Account;
-import Structs.MiniAccount;
 import Structs.MiniOffer;
 import Structs.MiniProduct;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;

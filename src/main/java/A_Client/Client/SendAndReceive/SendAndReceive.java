@@ -142,6 +142,11 @@ public class SendAndReceive implements MessagePattern {
                 Collections.singletonList(client.getClientInfo().getToken()));
         return new JsonHandler<MiniCate>().JsonsToObjectList(answer, MiniCate.class);
     }
+    public static List<MiniOffer> getAllOffers(){
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllOffers,
+                Collections.singletonList(client.getClientInfo().getToken()));
+        return new JsonHandler<MiniOffer>().JsonsToObjectList(answer, MiniOffer.class);
+    }
 
     public static List<MiniDiscountCode> getAllDiscountCodes() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAuctions,
@@ -427,9 +432,10 @@ public class SendAndReceive implements MessagePattern {
                 Arrays.asList(client.getClientInfo().getToken(), productId));
     }
 
-    public static List<MiniOffer> getAllOffers() {
-        //...
-        return null;
+    public static void setCurrentOffer(String offerId){
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentOffer,
+                Arrays.asList(client.getClientInfo().getToken(), offerId));
+
     }
 
 }
