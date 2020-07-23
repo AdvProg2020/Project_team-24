@@ -1068,7 +1068,7 @@ public class SendAndReceive {
                             product.getId() + "",
                             product.getName(),
                             product.getAuction().getId() + "",
-                            product.getCategory().getId() + "",
+                            offId, product.getCategory().getId() + "",
                             product.getMediaId() + "",
                             product.getAverageScore() + "",
                             product.getSellersOfProduct());
@@ -1213,7 +1213,7 @@ public class SendAndReceive {
                         product.getId() + "",
                         product.getName(),
                         product.getAuction().getId() + "",
-                        product.getCategory().getId() + "",
+                        offId, product.getCategory().getId() + "",
                         product.getMediaId() + "",
                         product.getAverageScore() + "",
                         product.getSellersOfProduct()

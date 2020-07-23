@@ -69,6 +69,12 @@ public class SendAndReceive implements MessagePattern {
         return new JsonHandler<MiniAuction>().JsonToObject(answer.get(0), MiniAuction.class);
     }
 
+    public static MiniOffer getOfferById(String offerId) {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetOfferById,
+                Arrays.asList(client.getClientInfo().getToken(), offerId));
+        return new JsonHandler<MiniOffer>().JsonToObject(answer.get(0), MiniOffer.class);
+    }
+
     // Get/Set image and Movie
     public static Image getImageById(String mediaId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetImageById,
@@ -212,6 +218,13 @@ public class SendAndReceive implements MessagePattern {
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewProduct, list);
+    }
+
+    public static void addNewBuyerToOfferById(List<String> fields) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(fields);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewBuyerToOfferById, list);
     }
 
     public static void addAuction(List<String> fields) {
@@ -418,4 +431,5 @@ public class SendAndReceive implements MessagePattern {
         //...
         return null;
     }
+
 }

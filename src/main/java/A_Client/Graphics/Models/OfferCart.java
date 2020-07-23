@@ -1,22 +1,19 @@
 package A_Client.Graphics.Models;
-
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
-import Structs.MiniAccount;
 import Structs.MiniOffer;
 import Structs.MiniProduct;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class OfferCart implements Initializable {
     private final Client client = SendAndReceive.getClient();

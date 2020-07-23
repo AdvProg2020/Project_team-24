@@ -57,14 +57,15 @@
 
             <Separator layoutX="465.0" layoutY="353.0" prefHeight="0.0" prefWidth="649.0" />
             <Separator layoutX="465.0" layoutY="1154.0" prefHeight="0.0" prefWidth="675.0" />
-      <TableView layoutX="488.0" layoutY="415.0" prefHeight="380.0" prefWidth="604.0">
+      <TableView fx:id="offerTable" layoutX="488.0" layoutY="415.0" prefHeight="380.0" prefWidth="604.0">
+
         <columns>
           <TableColumn fx:id="priceColumn" prefWidth="302.20001220703125" text="قیمت پیشنهادی" />
           <TableColumn fx:id="usernameColumn" prefWidth="301.0" text="نام کاربر" />
         </columns>
       </TableView>
       <TextField fx:id="price" alignment="CENTER" layoutX="638.0" layoutY="953.0" prefHeight="51.0" prefWidth="304.0" promptText="مبلغ پیشنهادی" />
-      <Button layoutX="734.0" layoutY="1055.0" mnemonicParsing="false" onAction="#submit" prefHeight="53.0" prefWidth="111.0" text="ثبت " textFill="#ff2626">
+      <Button layoutX="734.0" layoutY="1055.0" mnemonicParsing="false" onAction="#submitOffer" prefHeight="53.0" prefWidth="111.0" text="ثبت " textFill="#ff2626">
          <font>
             <Font size="18.0" />
          </font>
