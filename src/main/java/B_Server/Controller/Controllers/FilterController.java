@@ -17,7 +17,7 @@ public class FilterController extends LocalClientInfo {
 
     private static FilterController filterController = new FilterController();
 
-    private List<Filter> filterList = new ArrayList<>();
+    private ThreadLocal<List<Filter>> filterList = new ThreadLocal<>();
 
     /******************************************************singleTone***************************************************/
 
@@ -26,13 +26,14 @@ public class FilterController extends LocalClientInfo {
     }
 
     private FilterController() {
+        filterList.set(new ArrayList<>());
     }
 
     /****************************************************methods********************************************************/
 
     public List<String> showAvailableFilters() {
         List<String> strings = Arrays.asList("ProductName", "CategoryName");
-        Category currentCategory = controllerUnit.getCategory();
+        Category currentCategory = clientInfo.get().getCategory();
 
         if (currentCategory != null)
             strings.addAll(currentCategory.
@@ -47,15 +48,15 @@ public class FilterController extends LocalClientInfo {
 
     public void filter(String filterName, String filterValue) throws InvalidFilterException {
         checkFilterValid(filterName);
-        filterList.add(new Filter(filterName,filterValue));
+        filterList.get().add(new Filter(filterName,filterValue));
     }
 
     public List<Filter> currentFilters() {
-        return filterList;
+        return filterList.get();
     }
 
     public void disableFilter(String filterName) {
-        filterList.removeIf(filter -> filterName.equals(filter.getFieldName()));
+        filterList.get().removeIf(filter -> filterName.equals(filter.getFieldName()));
     }
 
     private void checkFilterValid(String filterName) throws InvalidFilterException {

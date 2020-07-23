@@ -1,7 +1,7 @@
 package Trash.View.Menus.ByManagers;
 
 import B_Server.Controller.Controllers.AccountControllers.ManagerController;
-import B_Server.Controller.Controllers.SignUpController;
+import B_Server.Controller.Controllers.LoginaAndRegister.SignUpController;
 import Exceptions.*;
 import B_Server.Model.Models.Account;
 import Trash.View.Menus.Menu;

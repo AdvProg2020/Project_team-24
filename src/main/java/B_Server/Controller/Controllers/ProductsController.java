@@ -48,8 +48,6 @@ public class ProductsController extends LocalClientInfo {
 
     private static ProductsController productsController = new ProductsController();
 
-    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
-
     /****************************************************singleTone***************************************************/
 
     public static ProductsController getInstance() {
@@ -120,7 +118,7 @@ public class ProductsController extends LocalClientInfo {
     public Product showProduct(String productIdString) throws ProductDoesNotExistException , NumberFormatException {
         long id = Long.parseLong(productIdString);
         Product product = Product.getProductById(id);
-        controllerUnit.setProduct(product);
+        clientInfo.get().setProduct(product);
         return product;
     }
 }

@@ -1,4 +1,4 @@
-package B_Server.Controller.Controllers;
+package B_Server.Controller.Controllers.LoginaAndRegister;
 
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
@@ -18,10 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SignUpController extends LocalClientInfo {
-
-    /****************************************************fields*********************************************************/
-
-    private static SignUpController registerController = new SignUpController();
 
     /**************************************************MainMethods******************************************************/
 
@@ -152,8 +148,10 @@ public class SignUpController extends LocalClientInfo {
 
     /****************************************************singleTone*****************************************************/
 
+    private static SignUpController signUpController = new SignUpController();
+
     public static SignUpController getInstance() {
-        return registerController;
+        return signUpController;
     }
 
     private SignUpController() {

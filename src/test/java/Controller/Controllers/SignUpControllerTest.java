@@ -1,6 +1,6 @@
 package Controller.Controllers;
 
-import B_Server.Controller.Controllers.SignUpController;
+import B_Server.Controller.Controllers.LoginaAndRegister.SignUpController;
 import Exceptions.*;
 import B_Server.Model.ModelUnit;
 import B_Server.Model.Models.Account;

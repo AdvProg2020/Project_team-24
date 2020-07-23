@@ -1,6 +1,6 @@
 package Controller.Controllers;
 
-import B_Server.Controller.Controllers.LoginController;
+import B_Server.Controller.Controllers.LoginaAndRegister.LoginController;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
 import Exceptions.UserNameInvalidException;

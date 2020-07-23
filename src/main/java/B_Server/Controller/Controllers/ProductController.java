@@ -22,12 +22,9 @@ import java.util.List;
 
 public class ProductController extends LocalClientInfo {
 
-    /******************************************************fields*******************************************************/
-
+    /*****************************************************singleTone****************************************************/
 
     private static ProductController productController = new ProductController();
-
-    /*****************************************************singleTone****************************************************/
 
     public static ProductController getInstance() {
         return productController;
@@ -39,12 +36,12 @@ public class ProductController extends LocalClientInfo {
     /****************************************************methods********************************************************/
 
     public Product digest() {
-        return controllerUnit.getProduct();
+        return clientInfo.get().getProduct();
     }
 
     public List<Seller> ListOfSellersOfChosenProduct() throws AccountDoesNotExistException {
         List<Seller> list = new ArrayList<>();
-        for (ProductOfSeller productOfSeller : controllerUnit.getProduct().getSellersOfProduct()) {
+        for (ProductOfSeller productOfSeller : clientInfo.get().getProduct().getSellersOfProduct()) {
             long sellerId = productOfSeller.getSellerId();
             Account accountById = Account.getAccountById(sellerId);
             list.add((Seller) accountById);
@@ -54,7 +51,7 @@ public class ProductController extends LocalClientInfo {
 
     public List<Comment> viewComments() throws CommentDoesNotExistException {
         List<Comment> list = new ArrayList<>();
-        for (Long aLong : controllerUnit.getProduct().getCommentList()) {
+        for (Long aLong : clientInfo.get().getProduct().getCommentList()) {
             Comment commentById = Comment.getCommentById(aLong);
             list.add(commentById);
         }
@@ -79,23 +76,23 @@ public class ProductController extends LocalClientInfo {
     public void addToCart(String sellerIdString) throws AccountHasNotLogin, ProductIsOutOfStockException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         long sellerId = Long.parseLong(sellerIdString);
 
-        if (controllerUnit.getAccount() instanceof Guest) {
+        if (clientInfo.get().getAccount() instanceof Guest) {
             throw new AccountHasNotLogin("Guest can't add to cart. Go to login menu ...");
         }
 
-        Customer customer = (Customer) controllerUnit.getAccount();
+        Customer customer = (Customer) clientInfo.get().getAccount();
 
-        ProductOfSeller productOfSellerById = Product.getProductById(controllerUnit.getProduct().getId()).getProductOfSellerById(sellerId);
+        ProductOfSeller productOfSellerById = Product.getProductById(clientInfo.get().getProduct().getId()).getProductOfSellerById(sellerId);
         if (productOfSellerById.getNumber() <= 0) {
             throw new ProductIsOutOfStockException("Product is out of stock.");
         }
         productOfSellerById.setNumber(productOfSellerById.getNumber() - 1);
-        customer.getCart().addProductToCart(sellerId, controllerUnit.getProduct().getId());
+        customer.getCart().addProductToCart(sellerId, clientInfo.get().getProduct().getId());
     }
 
     public void addComment(String title, String content) throws ProductDoesNotExistException, CannotRateException {
-        Account account = controllerUnit.getAccount();
-        Product product = controllerUnit.getProduct();
+        Account account = clientInfo.get().getAccount();
+        Product product = clientInfo.get().getProduct();
         List<Field> fields = Arrays.asList(new Field("Title", title), new Field("Content", content));
         FieldList fieldList = new FieldList(fields);
         BuyerController.getInstance().checkIfProductBoughtToRate(product.getId());

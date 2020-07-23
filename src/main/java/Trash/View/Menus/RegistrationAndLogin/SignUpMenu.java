@@ -1,6 +1,6 @@
 package Trash.View.Menus.RegistrationAndLogin;
 
-import B_Server.Controller.Controllers.SignUpController;
+import B_Server.Controller.Controllers.LoginaAndRegister.SignUpController;
 import Exceptions.*;
 import B_Server.Model.Models.Account;
 import Trash.View.MenuHandler;

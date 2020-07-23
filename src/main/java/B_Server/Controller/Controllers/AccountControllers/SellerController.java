@@ -4,7 +4,6 @@ import B_Server.Controller.Tools.AccountController;
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.Models.*;
 import Exceptions.*;
-import Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Seller;
 import Structs.FieldAndFieldList.Field;
@@ -49,11 +48,11 @@ public class  SellerController extends LocalClientInfo implements AccountControl
     }
 
     public Info viewCompanyInformation() {
-        return ((Seller) controllerUnit.getAccount()).getCompanyInfo();
+        return ((Seller) clientInfo.get().getAccount()).getCompanyInfo();
     }
 
     public double viewBalance() {
-        return ((Seller) controllerUnit.getAccount()).getBalance();
+        return ((Seller) clientInfo.get().getAccount()).getBalance();
     }
 
     public List<Category> showCategories() {
@@ -66,7 +65,7 @@ public class  SellerController extends LocalClientInfo implements AccountControl
 
     public List<LogHistory> viewSalesHistory() throws LogHistoryDoesNotExistException {
         List<LogHistory> list = new ArrayList<>();
-        for (Long aLong : ((Seller) controllerUnit.getAccount()).getLogHistoryList()) {
+        for (Long aLong : ((Seller) clientInfo.get().getAccount()).getLogHistoryList()) {
             LogHistory logHistoryById = LogHistory.getLogHistoryById(aLong);
             list.add(logHistoryById);
         }
@@ -75,7 +74,7 @@ public class  SellerController extends LocalClientInfo implements AccountControl
 
     public List<Product> showProducts() throws ProductDoesNotExistException {
         List<Product> list = new ArrayList<>();
-        for (Long aLong : ((Seller) controllerUnit.getAccount()).getProductList()) {
+        for (Long aLong : ((Seller) clientInfo.get().getAccount()).getProductList()) {
             Product productById = Product.getProductById(aLong);
             list.add(productById);
         }
@@ -100,7 +99,7 @@ public class  SellerController extends LocalClientInfo implements AccountControl
         double price = Double.parseDouble(priceString);
         Category category = categoryId == 0 ? null : Category.getCategoryById(categoryId);
         Auction auction = auctionId == 0 ? null : Auction.getAuctionById(auctionId);
-        ProductOfSeller productOfSeller = new ProductOfSeller(controllerUnit.getAccount().getId(), numberOfThis, price);
+        ProductOfSeller productOfSeller = new ProductOfSeller(clientInfo.get().getAccount().getId(), numberOfThis, price);
         return new Product(productName, category, auction, productOfSeller);
     }
 
@@ -115,8 +114,8 @@ public class  SellerController extends LocalClientInfo implements AccountControl
     }
 
     public void sendRequest(ForPend forPend, String information, String type) {
-        ((Seller) controllerUnit.getAccount()).addToPendList(forPend);
-        Request request = new Request(controllerUnit.getAccount().getId(), information, type, forPend);
+        ((Seller) clientInfo.get().getAccount()).addToPendList(forPend);
+        Request request = new Request(clientInfo.get().getAccount().getId(), information, type, forPend);
         Request.addRequest(request);
     }
 
@@ -156,7 +155,7 @@ public class  SellerController extends LocalClientInfo implements AccountControl
 
     public void editAuction(String strId, String fieldName, String newInfo, String information) throws AuctionDoesNotExistException, FieldDoesNotExistException, NumberFormatException, InvalidInputByUserException {
         long id = Long.parseLong(strId);
-        Auction.checkExistOfAuctionById(id, ((Seller) controllerUnit.getAccount()).getAuctionList(), controllerUnit.getAccount());
+        Auction.checkExistOfAuctionById(id, ((Seller) clientInfo.get().getAccount()).getAuctionList(), clientInfo.get().getAccount());
         try {
             Auction auction = (Auction) Auction.getAuctionById(id).clone();
             auction.editField(fieldName, newInfo);
@@ -171,7 +170,7 @@ public class  SellerController extends LocalClientInfo implements AccountControl
 
     public void editProduct(String strId, String fieldName, String newInfo, String information) throws AuctionDoesNotExistException, FieldDoesNotExistException, CategoryDoesNotExistException, ProductDoesNotExistException, NumberFormatException {
         long id = Long.parseLong(strId);
-        Product.checkExistOfProductById(id, ((Seller) controllerUnit.getAccount()).getProductList(), controllerUnit.getAccount());
+        Product.checkExistOfProductById(id, ((Seller) clientInfo.get().getAccount()).getProductList(), clientInfo.get().getAccount());
         try {
             Product product = (Product) Product.getProductById(id).clone();
             product.editField(fieldName, newInfo);

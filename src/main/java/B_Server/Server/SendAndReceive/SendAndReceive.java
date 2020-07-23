@@ -4,6 +4,8 @@ import B_Server.Controller.Controllers.*;
 import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import B_Server.Controller.Controllers.AccountControllers.SellerController;
+import B_Server.Controller.Controllers.LoginaAndRegister.LoginController;
+import B_Server.Controller.Controllers.LoginaAndRegister.SignUpController;
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;

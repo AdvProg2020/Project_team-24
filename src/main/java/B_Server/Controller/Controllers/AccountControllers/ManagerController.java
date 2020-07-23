@@ -20,11 +20,9 @@ import java.util.stream.Collectors;
 
 public class ManagerController extends LocalClientInfo implements AccountController {
 
-    /******************************************************fields*******************************************************/
+    /******************************************************singleTone***************************************************/
 
     private static ManagerController managerController = new ManagerController();
-
-    /******************************************************singleTone***************************************************/
 
     public static ManagerController getInstance() {
         return managerController;
@@ -145,12 +143,12 @@ public class ManagerController extends LocalClientInfo implements AccountControl
 
     public void acceptRequest(String strRequestId) throws RequestDoesNotExistException, AccountDoesNotExistException {
         long requestId = Long.parseLong(strRequestId);
-        ((Manager) controllerUnit.getAccount()).acceptRequest(Request.getRequestById(requestId));
+        ((Manager) clientInfo.get().getAccount()).acceptRequest(Request.getRequestById(requestId));
     }
 
     public void denyRequest(String strRequestId) throws RequestDoesNotExistException, AccountDoesNotExistException {
         long requestId = Long.parseLong(strRequestId);
-        ((Manager) controllerUnit.getAccount()).declineRequest(Request.getRequestById(requestId));
+        ((Manager) clientInfo.get().getAccount()).declineRequest(Request.getRequestById(requestId));
     }
 
     public void editCategory(String categoryId, String fieldName, String newField) throws FieldDoesNotExistException, CategoryDoesNotExistException, NumberFormatException {

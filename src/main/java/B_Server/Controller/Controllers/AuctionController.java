@@ -11,11 +11,9 @@ import java.util.List;
 
 public class AuctionController extends LocalClientInfo {
 
-    /******************************************************fields*******************************************************/
+    /******************************************************singleTone***************************************************/
 
     private static AuctionController auctionController = new AuctionController();
-
-    /******************************************************singleTone***************************************************/
 
     public static AuctionController getInstance() {
         return auctionController;
@@ -32,9 +30,9 @@ public class AuctionController extends LocalClientInfo {
 
     public Product showProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
         long productId = Long.parseLong(productIdString);
-        Product.checkExistOfProductById(productId, controllerUnit.getAuction().getProductList(), controllerUnit.getAuction());
+        Product.checkExistOfProductById(productId, clientInfo.get().getAuction().getProductList(), clientInfo.get().getAuction());
         Product product = Product.getProductById(productId);
-        controllerUnit.setProduct(product);
+        clientInfo.get().setProduct(product);
         return product;
     }
 
