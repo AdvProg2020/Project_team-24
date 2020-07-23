@@ -5,6 +5,7 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import Structs.MiniAccount;
 import Structs.MiniOffer;
 import Structs.MiniProduct;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -48,5 +49,8 @@ public class OfferCart implements Initializable {
     }
     private void init() {
 
+    }
+
+    public void viewOffer(ActionEvent event) {
     }
 }

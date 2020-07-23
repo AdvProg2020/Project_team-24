@@ -9,7 +9,7 @@
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Pages.Offer">
 
-<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
+    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
         <AnchorPane focusTraversable="true" prefHeight="1206.0" prefWidth="1198.0">
             <Pane layoutX="382.0" layoutY="7.0" prefHeight="336.0" prefWidth="816.0">
 
@@ -46,7 +46,6 @@
                         <Image url="@icons8-star-filled-16(1).png" />
                     </ImageView>
                 </Pane>
-                <MediaView fx:id="gif" fitHeight="150.0" fitWidth="200.0" layoutX="8.0" layoutY="1.0" />
 
                 <Label alignment="CENTER" layoutX="76.0" layoutY="123.0" prefHeight="38.0" prefWidth="90.0" text="امتیاز " textFill="#7f7979">
                     <font>
@@ -64,8 +63,8 @@
           <TableColumn fx:id="usernameColumn" prefWidth="301.0" text="نام کاربر" />
         </columns>
       </TableView>
-      <TextField alignment="CENTER" layoutX="638.0" layoutY="953.0" prefHeight="51.0" prefWidth="304.0" promptText="مبلغ پیشنهادی" />
-      <Button layoutX="734.0" layoutY="1055.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="111.0" text="ثبت " textFill="#ff2626">
+      <TextField fx:id="price" alignment="CENTER" layoutX="638.0" layoutY="953.0" prefHeight="51.0" prefWidth="304.0" promptText="مبلغ پیشنهادی" />
+      <Button layoutX="734.0" layoutY="1055.0" mnemonicParsing="false" onAction="#submit" prefHeight="53.0" prefWidth="111.0" text="ثبت " textFill="#ff2626">
          <font>
             <Font size="18.0" />
          </font>
@@ -76,5 +75,5 @@
          </font>
       </Label>
         </AnchorPane>
-<!--    </ScrollPane>-->
+    </ScrollPane>
 </Scene>
