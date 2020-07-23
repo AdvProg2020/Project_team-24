@@ -7,35 +7,13 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Menus.ProductsMenu">
-    <AnchorPane layoutX="500.0" prefHeight="745.0" prefWidth="1134">
-        <Pane layoutX="300.0" layoutY="33.0" prefHeight="745" prefWidth="1134">
-        <Label fx:id="title" alignment="CENTER" layoutX="140.0" layoutY="14.0" prefHeight="36.0" prefWidth="473.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه ی محصولات">
+    <AnchorPane layoutX="500.0" prefHeight="773.0" prefWidth="1206.0">
+        <Pane layoutX="300.0" layoutY="33.0" prefHeight="746.0" prefWidth="852.0">
+        <Label fx:id="title" alignment="CENTER" layoutX="140.0" layoutY="14.0" prefHeight="37.0" prefWidth="368.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه ی محصولات">
             <font>
                 <Font size="24.0" />
             </font>
         </Label>
-        <Button fx:id="next_btn" layoutX="862.0" layoutY="592.0" mnemonicParsing="false" onAction="#next" prefHeight="71.0" prefWidth="110.0" stylesheets="@ProductsMenuStyle.css" text=" بعدی">
-            <font>
-                <Font size="13.0" />
-            </font>
-        </Button>
-        <Button fx:id="previous_btn" alignment="CENTER" disable="true" layoutX="-200.0" layoutY="592.0" mnemonicParsing="false" onAction="#previous" prefHeight="68.0" prefWidth="101.0" stylesheets="@ProductsMenuStyle.css" text="قبلی ">
-            <font>
-                <Font size="13.0" />
-            </font>
-        </Button>
-        <ImageView fitHeight="80.0" fitWidth="102.0" layoutX="-240.0" layoutY="585.5" pickOnBounds="true" preserveRatio="true">
-            <Image url="@icons8-chevron-left-48.png" />
-        </ImageView>
-        <ImageView fitHeight="105.0" fitWidth="82.0" layoutX="930.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@icons8-chevron-right-48.png" />
-        </ImageView>
-        <ImageView fx:id="auctionImage_02" fitHeight="108.0" fitWidth="130.0" layoutX="610.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true" rotate="-45.0">
-            <Image url="@pngegg.png" />
-        </ImageView>
-        <ImageView fx:id="auctionImage_01" fitHeight="71.0" fitWidth="74.0" layoutX="70.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@birthday-whistle-png-14.png" />
-        </ImageView>
         <ScrollPane layoutX="-160.0" layoutY="73.0" prefHeight="460" prefWidth="1070">
             <AnchorPane layoutX="83.0" layoutY="76.0" minHeight="0.0" minWidth="0.0" prefHeight="1365.0" prefWidth="1070.0">
                 <VBox>
@@ -57,6 +35,28 @@
                 </VBox>
               </AnchorPane>
         </ScrollPane>
+            <Button fx:id="next_btn" layoutX="862.0" layoutY="592.0" mnemonicParsing="false" onAction="#next" prefHeight="71.0" prefWidth="110.0" stylesheets="@ProductsMenuStyle.css" text=" بعدی">
+                <font>
+                    <Font size="13.0" />
+                </font>
+            </Button>
+            <Button fx:id="previous_btn" alignment="CENTER" disable="true" layoutX="-200.0" layoutY="592.0" mnemonicParsing="false" onAction="#previous" prefHeight="68.0" prefWidth="101.0" stylesheets="@ProductsMenuStyle.css" text="قبلی ">
+                <font>
+                    <Font size="13.0" />
+                </font>
+            </Button>
+            <ImageView fitHeight="80.0" fitWidth="102.0" layoutX="-240.0" layoutY="585.5" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-chevron-left-48.png" />
+            </ImageView>
+            <ImageView fitHeight="105.0" fitWidth="82.0" layoutX="930.0" layoutY="587.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@icons8-chevron-right-48.png" />
+            </ImageView>
+            <ImageView fx:id="auctionImage_02" fitHeight="108.0" fitWidth="130.0" layoutX="610.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true" rotate="-45.0">
+                <Image url="@pngegg.png" />
+            </ImageView>
+            <ImageView fx:id="auctionImage_01" fitHeight="71.0" fitWidth="74.0" layoutX="70.0" layoutY="-12.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@birthday-whistle-png-14.png" />
+            </ImageView>
         </Pane>
     </AnchorPane>
 </Scene>
