@@ -1,44 +1,25 @@
 package B_Server.Server.RequestHandler;
 
+import B_Server.Server.SendAndReceive.SendAndReceive;
 import MessageFormates.MessagePattern;
 import MessageFormates.MessageSupplier;
-import org.codehaus.plexus.util.IOUtil;
+import Toolkit.JsonHandler.JsonHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
-public class RequestHandler extends Thread implements MessagePattern, MessageSupplier {
+public class RequestHandler extends Thread implements MessagePattern, MessageSupplier, AutoCloseable {
 
-    private final String token;
-    private CountDownLatch downLatch = new CountDownLatch(1);
-    private List<String> messages = new ArrayList<>();
     private Blabber blabber;
     private boolean goodBye;
 
-    public RequestHandler(Socket socket, String token) {
+    public RequestHandler(Socket socket) {
         blabber = new Blabber(socket);
-        this.token = token;
     }
 
-    public String getFirstElementAndRemove() {
-        try {
-            downLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        String mess = messages.get(0);
-        messages.remove(mess);
-
-        if (messages.isEmpty()) {
-            downLatch = new CountDownLatch(1);
-        }
-        return mess;
-    }
-
-    public synchronized void sendMessage(String message) {
+    public void sendMessage(String message) {
         try {
             blabber.sendMessage(message);
         } catch (IOException e) {
@@ -46,15 +27,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         }
     }
 
-    public synchronized void sendFile(File file) {
-        try {
-            InputStream inputStream = new FileInputStream(file);
-            blabber.sendFile(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    @Override
     public void close() {
         goodBye = true;
     }
@@ -62,23 +35,23 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
     @Override
     public void run() {
 
-        sendMessage(token);
-        while (true) {
+        while (true) try {
 
-            try {
+            List<String> readMessage = readMessage(blabber.receiveMessage());
+            SendAndReceive.messageAnalyser(
+                    readMessage.get(0),
+                    readMessage.get(1),
+                    new JsonHandler<List>().JsonToObject(readMessage.get(2), List.class),
+                    this
+            );
 
-                String input = blabber.receiveMessage();
-                messages.add(input);
-                downLatch.countDown();
-
-                if (goodBye) {
-                    blabber.close();
-                    break;
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (goodBye) {
+                blabber.close();
+                break;
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -87,7 +60,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         protected DataInputStream inputStream;
         protected DataOutputStream outputStream;
 
-        public Blabber(Socket socket) {
+        public Blabber(@NotNull Socket socket) {
 
             try {
                 this.inputStream = new DataInputStream(
@@ -108,16 +81,12 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
             outputStream.close();
         }
 
-        public synchronized void sendMessage(String message) throws IOException {
+        public void sendMessage(String message) throws IOException {
             outputStream.writeUTF(message);
             outputStream.flush();
         }
 
-        public synchronized void sendFile(InputStream inputStream) throws IOException {
-            IOUtil.copy(inputStream, outputStream);
-        }
-
-        public synchronized String receiveMessage() throws IOException {
+        public String receiveMessage() throws IOException {
             return inputStream.readUTF();
         }
     }

@@ -1,6 +1,5 @@
 package Trash.View.Menus;
 
-import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.ProductsController;
 import Exceptions.ProductDoesNotExistException;
 import B_Server.Model.Models.Product;

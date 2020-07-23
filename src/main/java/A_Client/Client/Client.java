@@ -1,10 +1,9 @@
 package A_Client.Client;
 
 import A_Client.Client.ClientInfo.ClientInfo;
-import MessageFormates.MessageSupplier;
 import A_Client.Client.RequestHandler.RequestHandler;
+import MessageFormates.MessageSupplier;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
@@ -31,7 +30,7 @@ public class Client {
     }
 
     public String receiveMessage() {
-        return requestHandler.getFirstElementAndRemove();
+        return requestHandler.receiveMessage();
     }
 
     public void sendMessage(String message) {
@@ -48,8 +47,9 @@ public class Client {
 
     public List<String> sendAndReceive(MessageSupplier.RequestType requestType, List<String> list) {
         sendMessage(generateMessage(requestType, list));
-        String answer = receiveMessage();
-        return readMessage(answer);
+        List<String> readMessage = readMessage(receiveMessage());
+        clientInfo.setToken(readMessage.get(0));
+        return readMessage;
     }
 
     @Override

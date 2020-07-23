@@ -1,7 +1,6 @@
 package Trash.View.Menus.RegistrationAndLogin;
 
 
-import B_Server.Controller.ControllerUnit;
 import B_Server.Model.Models.Accounts.Guest;
 import Trash.View.MenuHandler;
 import Trash.View.Menus.MainMenu;

@@ -2,17 +2,13 @@ package A_Client.Client.RequestHandler;
 
 import MessageFormates.MessagePattern;
 import MessageFormates.MessageSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
-public class RequestHandler extends Thread implements MessagePattern, MessageSupplier {
+public class RequestHandler extends Thread implements MessagePattern, MessageSupplier, AutoCloseable {
 
-    private CountDownLatch downLatch = new CountDownLatch(1);
-    private List<String> messages = new ArrayList<>();
     private Blabber blabber;
     private boolean goodBye;
 
@@ -20,22 +16,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         blabber = new Blabber(socket);
     }
 
-    public String getFirstElementAndRemove() {
-        try {
-            downLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        String mess = messages.get(0);
-        messages.remove(mess);
-
-        if (messages.isEmpty()) {
-            downLatch = new CountDownLatch(1);
-        }
-        return mess;
-    }
-
-    public synchronized void sendMessage(String message) {
+    public void sendMessage(String message) {
         try {
             blabber.sendMessage(message);
         } catch (IOException e) {
@@ -43,30 +24,35 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         }
     }
 
-    @Override
-    public void run() {
-
-        while (true) {
-
-            try {
-
-                String input = blabber.receiveMessage();
-                messages.add(input);
-                downLatch.countDown();
-
-                if (goodBye) {
-                    blabber.close();
-                    break;
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public String receiveMessage() {
+        try {
+            return blabber.receiveMessage();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
+    @Override
     public void close() {
         goodBye = true;
+    }
+
+    @Override
+    public void run() {
+
+        while (true) try {
+
+            String input = blabber.receiveMessage();
+
+            if (goodBye) {
+                blabber.close();
+                break;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static class Blabber {
@@ -74,7 +60,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         protected DataInputStream inputStream;
         protected DataOutputStream outputStream;
 
-        public Blabber(Socket socket) {
+        public Blabber(@NotNull Socket socket) {
 
             try {
                 this.inputStream = new DataInputStream(
@@ -95,12 +81,12 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
             outputStream.close();
         }
 
-        public synchronized void sendMessage(String message) throws IOException {
+        public void sendMessage(String message) throws IOException {
             outputStream.writeUTF(message);
             outputStream.flush();
         }
 
-        public synchronized String receiveMessage() throws IOException {
+        public String receiveMessage() throws IOException {
             return inputStream.readUTF();
         }
     }

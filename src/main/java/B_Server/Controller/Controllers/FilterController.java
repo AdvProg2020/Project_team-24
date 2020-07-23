@@ -1,6 +1,5 @@
 package B_Server.Controller.Controllers;
 
-import B_Server.Controller.ControllerUnit;
 import Exceptions.InvalidFilterException;
 import B_Server.Model.Models.Category;
 import Structs.FieldAndFieldList.Field;
@@ -14,8 +13,6 @@ import java.util.stream.Collectors;
 public class FilterController {
 
     /******************************************************fields*******************************************************/
-
-    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
     private static FilterController filterController = new FilterController();
 

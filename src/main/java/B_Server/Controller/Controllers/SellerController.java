@@ -1,5 +1,6 @@
 package B_Server.Controller.Controllers;
 
+import B_Server.Controller.Tools.AccountController;
 import B_Server.Model.Models.*;
 import Exceptions.*;
 import Model.Models.*;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class  SellerController extends AccountController {
+public class  SellerController implements AccountController {
 
     /****************************************************fields*******************************************************/
 

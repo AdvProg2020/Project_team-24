@@ -1,6 +1,5 @@
 package B_Server.Controller.Controllers;
 
-import B_Server.Controller.ControllerUnit;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import B_Server.Model.Models.Auction;
@@ -12,8 +11,6 @@ import java.util.List;
 public class AuctionController {
 
     /******************************************************fields*******************************************************/
-
-    private ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
     private static AuctionController auctionController = new AuctionController();
 

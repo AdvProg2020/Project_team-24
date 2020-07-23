@@ -14,9 +14,9 @@ public interface MessageSupplier {
 
     default String generateMessage(RequestType type, List<String> list) {
         ArrayList<String> outputs = new ArrayList<>();
-        outputs.add(list.get(0));
+        outputs.add(list == null ? "@" : list.get(0));
         outputs.add(type.toString());
-        outputs.add(yaGson.toJson(list.subList(1, list.size())));
+        outputs.add(list == null ? "@" : yaGson.toJson(list.subList(1, list.size())));
         return messageSupplier.apply(outputs);
     }
 

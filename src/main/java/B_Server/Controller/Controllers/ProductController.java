@@ -1,6 +1,5 @@
 package B_Server.Controller.Controllers;
 
-import B_Server.Controller.ControllerUnit;
 import B_Server.Model.Models.Account;
 import B_Server.Model.Models.Comment;
 import Structs.FieldAndFieldList.FieldList;
@@ -23,7 +22,6 @@ public class ProductController {
 
     /******************************************************fields*******************************************************/
 
-    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
     private static ProductController productController = new ProductController();
 

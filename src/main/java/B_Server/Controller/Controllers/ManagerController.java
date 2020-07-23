@@ -1,5 +1,6 @@
 package B_Server.Controller.Controllers;
 
+import B_Server.Controller.Tools.AccountController;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
 import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 import B_Server.Model.Models.*;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class ManagerController extends AccountController {
+public class ManagerController implements AccountController {
 
     /******************************************************fields*******************************************************/
 

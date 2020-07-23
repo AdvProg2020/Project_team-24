@@ -1,6 +1,5 @@
 package B_Server.Server.SendAndReceive;
 
-import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Controllers.*;
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.*;
@@ -33,15 +32,15 @@ public class SendAndReceive {
     private final static SellerController sellerController = SellerController.getInstance();
     private final static YaGson yaGson = new YaGson();
 
-    public static void messageAnalyser(String request, List<String> inputs, RequestHandler requestHandler) {
+    public static void messageAnalyser(String token, String request, List<String> inputs, RequestHandler requestHandler) {
 
         switch (request) {
 
             case "GetToken":
-                sendToken(requestHandler, Server.createToken());
+                sendToken(requestHandler);
                 break;
             case "GetAllMyProducts":
-                getAllMyProducts(requestHandler);
+                getAllMyProducts(token, requestHandler);
                 break;
             case "GetProductById":
                 getProductById(inputs, requestHandler);
@@ -229,11 +228,23 @@ public class SendAndReceive {
         }
     }
 
-    private static void sendToken(RequestHandler requestHandler, String token) {
-        requestHandler.sendMessage(token);
+
+    private static void sendToken(@NotNull RequestHandler requestHandler) {
+        requestHandler.sendMessage(Server.createToken() +"::@ @");
     }
 
-    private static void EditCate(List<String> inputs, RequestHandler requestHandler) {
+    private static void getAllMyProducts(String token, RequestHandler requestHandler) {
+        try {
+            List<Product> products = sellerController.showProducts();
+            List<MiniProduct> miniProducts = createMiniProducts(products);
+            requestHandler.sendMessage(yaGson.toJson(miniProducts));
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
+        }
+    }
+
+    private static void EditCate(@NotNull List<String> inputs, @NotNull RequestHandler requestHandler) {
         String categoryName = inputs.get(0);
         List<String> ids = yaGson.fromJson(inputs.get(1), List.class);
         Category category = null;
@@ -1188,17 +1199,6 @@ public class SendAndReceive {
             requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
         }
         requestHandler.sendMessage(yaGson.toJson(createMiniProducts((List<Product>) product)));
-    }
-
-    private static void getAllMyProducts(RequestHandler requestHandler) {
-        try {
-            List<Product> products = sellerController.showProducts();
-            List<MiniProduct> miniProducts = createMiniProducts(products);
-            requestHandler.sendMessage(yaGson.toJson(miniProducts));
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(successOrFailMessage.FAIL));
-        }
     }
 
     @NotNull

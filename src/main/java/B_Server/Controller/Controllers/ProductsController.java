@@ -1,6 +1,5 @@
 package B_Server.Controller.Controllers;
 
-import B_Server.Controller.ControllerUnit;
 import Exceptions.NotAvailableSortException;
 import Exceptions.ProductDoesNotExistException;
 import B_Server.Model.Models.Category;

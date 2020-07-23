@@ -1,6 +1,5 @@
 package B_Server.Controller.Controllers;
 
-import B_Server.Controller.ControllerUnit;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
@@ -11,8 +10,6 @@ import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
 public class LoginController {
     /******************************************************fields*******************************************************/
-
-    private static ControllerUnit controllerUnit = ControllerUnit.getInstance();
 
     private static LoginController loginController = new LoginController();
 

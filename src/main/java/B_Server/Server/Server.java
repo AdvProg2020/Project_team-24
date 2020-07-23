@@ -1,54 +1,54 @@
 package B_Server.Server;
 
-import A_Client.Client.RequestHandler.RequestHandler;
+import B_Server.Server.InstantInfo.InstantInfo;
+import B_Server.Server.RequestHandler.RequestHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class Server {
 
-    private ServerSocket mineServer;
+public class Server extends Thread {
 
-    public Server() {
-        try {
-            mineServer = new ServerSocket(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-            errorInServerSocket();
-        }
+    private static List<InstantInfo> clients = new ArrayList<>();
+    private ServerSocket mineServer = new ServerSocket(0);;
+
+    public Server() throws IOException {
     }
 
-    private void errorInServerSocket() {
-        // errorHandling
+    public synchronized void addClient(InstantInfo instantInfo) {
+        clients.add(instantInfo);
+    }
+
+    public synchronized void removeClient(InstantInfo instantInfo) {
+        clients.remove(instantInfo);
+    }
+
+    public InstantInfo getInfoByToken(String token) {
+        return clients.stream()
+                .filter(instantInfo -> token.equals(instantInfo.getMy_Token()))
+                .findFirst().orElse(null);
     }
 
     public ServerSocket getMineServer() {
         return mineServer;
     }
 
-    public void listen() {
-        Thread listener = new Thread(this::listener);
-        listener.start();
-    }
-
-    private void listener() {
+    @Override
+    public void run() {
 
         while (true) try {
 
-                Socket socket = mineServer.accept();
-                RequestHandler requestHandler = new RequestHandler(socket);
-                requestHandler.start();
+            Socket socket = mineServer.accept();
+            RequestHandler requestHandler = new RequestHandler(socket);
+            requestHandler.start();
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                errorInListeningRequest();
-            }
-    }
-
-    private void errorInListeningRequest() {
-        // errorHandling
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static String createToken() {
