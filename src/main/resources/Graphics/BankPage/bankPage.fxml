@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
+<Scene xmlns="http://javafx.com/javafx"
+       xmlns:fx="http://javafx.com/fxml"
+       fx:controller="A_Client.Graphics.Pages.bankPage">
+<AnchorPane
+        prefHeight="745" prefWidth="1134">
+
+</AnchorPane>
+</Scene>

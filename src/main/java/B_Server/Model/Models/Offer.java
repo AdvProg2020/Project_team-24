@@ -16,9 +16,9 @@ public class Offer {
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private LocalDate start;
     private LocalDate end;
-    private HashMap<Customer,Double> auctioneersPrices = new HashMap<>();
+    private HashMap<String,Double> auctioneersPrices = new HashMap<>();
 
-    public Offer(Product productOnOffer, LocalDate start, LocalDate end, HashMap<Customer, Double> auctioneersPrices) {
+    public Offer(Product productOnOffer, LocalDate start, LocalDate end, HashMap <String, Double> auctioneersPrices) {
         this.productOnOffer = productOnOffer;
         this.start = start;
         this.end = end;

@@ -18,6 +18,7 @@ import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -48,6 +49,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     private static MediaPlayer player;
     private static BorderPane center;
     private static Pane filter;
+
 
     @FXML
     private MenuButton category_select;
@@ -268,5 +270,14 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
             player.setCycleCount(Integer.MAX_VALUE);
             player.play();
         }).start();
+    }
+
+    
+    private void setOffers(List<MiniOffer> list){
+        
+
+    }
+
+    public void viewOffers(ActionEvent event) {
     }
 }

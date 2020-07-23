@@ -7,11 +7,13 @@ import A_Client.Graphics.Tools.SceneBuilder;
 import Exceptions.FieldDoesNotExistException;
 import Structs.FieldAndFieldList.FieldList;
 import Structs.MiniLogHistory;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.media.Media;
@@ -27,6 +29,7 @@ import java.util.ResourceBundle;
 public class Payment implements Initializable, SceneBuilder {
 
     private final Client client = SendAndReceive.getClient();
+    public ChoiceBox chooseType;
     private MiniLogHistory logHistory;
     public MediaView paymentGif;
     @FXML
@@ -54,6 +57,8 @@ public class Payment implements Initializable, SceneBuilder {
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
+        chooseType.getItems().addAll(FXCollections.observableArrayList("کیف پول", "درگاه بانکی"));
+
 
         MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Payment\\payment.mp4").toURI().toString()));
         paymentGif.setMediaPlayer(value);
@@ -80,7 +85,11 @@ public class Payment implements Initializable, SceneBuilder {
         String discountCode = this.discountCode.getText();
 
         reset();
+        if(chooseType.getValue().equals("درگاه بانکی")){
+            //charge wallet ...
+            MainMenu.change(new bankPage().sceneBuilder());
 
+        }
         SendAndReceive.sendPaymentInfo(Arrays.asList(postCode, address, discountCode));
         logHistory = SendAndReceive.Purchase();
 
