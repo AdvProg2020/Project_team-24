@@ -1,6 +1,6 @@
 package Trash.View.Menus;
 
-import B_Server.Controller.Controllers.ManagerController;
+import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import Exceptions.FieldDoesNotExistException;
 import org.jetbrains.annotations.NotNull;
 

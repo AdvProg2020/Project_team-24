@@ -1,6 +1,7 @@
-package B_Server.Controller.Controllers;
+package B_Server.Controller.Controllers.AccountControllers;
 
 import B_Server.Controller.Tools.AccountController;
+import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.Models.*;
 import Exceptions.*;
 import Model.Models.*;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class  SellerController implements AccountController {
+public class  SellerController extends LocalClientInfo implements AccountController {
 
     /****************************************************fields*******************************************************/
 
@@ -79,12 +80,6 @@ public class  SellerController implements AccountController {
             list.add(productById);
         }
         return list;
-    }
-
-    public Info viewProduct(String productIdString) throws ProductDoesNotExistException, NumberFormatException {
-        long productId = Long.parseLong(productIdString);
-        Product product = Product.getProductById(productId);
-        return product.getProduct_Info();
     }
 
     public List<Customer> viewBuyers(String productIdString) throws ProductDoesNotExistException, NumberFormatException, AccountDoesNotExistException {

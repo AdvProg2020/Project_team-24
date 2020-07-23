@@ -1,5 +1,7 @@
 package B_Server.Controller.Controllers;
 
+import B_Server.Controller.Controllers.AccountControllers.BuyerController;
+import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.Models.Account;
 import B_Server.Model.Models.Comment;
 import Structs.FieldAndFieldList.FieldList;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProductController {
+public class ProductController extends LocalClientInfo {
 
     /******************************************************fields*******************************************************/
 

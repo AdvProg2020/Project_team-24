@@ -1,5 +1,6 @@
 package B_Server.Controller.Controllers;
 
+import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
@@ -8,7 +9,7 @@ import Exceptions.UserNameTooShortException;
 import B_Server.Model.Models.Account;
 import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
-public class LoginController {
+public class LoginController extends LocalClientInfo {
     /******************************************************fields*******************************************************/
 
     private static LoginController loginController = new LoginController();

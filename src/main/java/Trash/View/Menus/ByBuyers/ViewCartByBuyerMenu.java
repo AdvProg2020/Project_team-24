@@ -1,6 +1,6 @@
 package Trash.View.Menus.ByBuyers;
 
-import B_Server.Controller.Controllers.BuyerController;
+import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import Exceptions.*;
 import Trash.View.MenuHandler;
 import Trash.View.Menus.Menu;

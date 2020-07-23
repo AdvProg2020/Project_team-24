@@ -1,5 +1,6 @@
 package B_Server.Controller.Controllers;
 
+import B_Server.Controller.Tools.LocalClientInfo;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import B_Server.Model.Models.Auction;
@@ -8,7 +9,7 @@ import B_Server.Model.Models.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuctionController {
+public class AuctionController extends LocalClientInfo {
 
     /******************************************************fields*******************************************************/
 

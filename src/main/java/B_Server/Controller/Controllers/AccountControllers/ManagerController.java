@@ -1,6 +1,7 @@
-package B_Server.Controller.Controllers;
+package B_Server.Controller.Controllers.AccountControllers;
 
 import B_Server.Controller.Tools.AccountController;
+import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
 import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 import B_Server.Model.Models.*;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class ManagerController implements AccountController {
+public class ManagerController extends LocalClientInfo implements AccountController {
 
     /******************************************************fields*******************************************************/
 

@@ -1,6 +1,6 @@
 package Trash.View.Menus.Roles;
 
-import B_Server.Controller.Controllers.BuyerController;
+import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.LogHistoryDoesNotExistException;
 import Trash.View.MenuHandler;

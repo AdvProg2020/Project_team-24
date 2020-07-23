@@ -1,6 +1,6 @@
 package Trash.View.Menus.Roles;
 
-import B_Server.Controller.Controllers.SellerController;
+import B_Server.Controller.Controllers.AccountControllers.SellerController;
 import Exceptions.AuctionDoesNotExistException;
 import Exceptions.CategoryDoesNotExistException;
 import Exceptions.LogHistoryDoesNotExistException;

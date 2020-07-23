@@ -1,6 +1,6 @@
 package Trash.View.Menus.ByManagers;
 
-import B_Server.Controller.Controllers.ManagerController;
+import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.FieldDoesNotExistException;
 import B_Server.Model.Models.DiscountCode;

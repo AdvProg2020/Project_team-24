@@ -1,6 +1,6 @@
 package Trash.View.Menus.ByManagers;
 
-import B_Server.Controller.Controllers.ManagerController;
+import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.RequestDoesNotExistException;
 import B_Server.Model.Models.Request;

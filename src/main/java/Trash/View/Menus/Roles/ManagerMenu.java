@@ -1,6 +1,6 @@
 package Trash.View.Menus.Roles;
 
-import B_Server.Controller.Controllers.ManagerController;
+import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.DiscountCodeExpiredException;
 import Exceptions.InvalidStartAndEndDateForDiscountCodeException;

@@ -1,5 +1,6 @@
 package B_Server.Controller.Controllers;
 
+import B_Server.Controller.Tools.LocalClientInfo;
 import Exceptions.InvalidFilterException;
 import B_Server.Model.Models.Category;
 import Structs.FieldAndFieldList.Field;
@@ -10,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FilterController {
+public class FilterController extends LocalClientInfo {
 
     /******************************************************fields*******************************************************/
 

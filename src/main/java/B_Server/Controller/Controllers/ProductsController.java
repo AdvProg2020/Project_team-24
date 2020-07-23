@@ -1,5 +1,6 @@
 package B_Server.Controller.Controllers;
 
+import B_Server.Controller.Tools.LocalClientInfo;
 import Exceptions.NotAvailableSortException;
 import Exceptions.ProductDoesNotExistException;
 import B_Server.Model.Models.Category;
@@ -13,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductsController {
+public class ProductsController extends LocalClientInfo {
 
     /******************************************************fields*******************************************************/
 

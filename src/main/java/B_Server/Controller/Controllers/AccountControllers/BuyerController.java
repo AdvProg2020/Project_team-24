@@ -1,6 +1,7 @@
-package B_Server.Controller.Controllers;
+package B_Server.Controller.Controllers.AccountControllers;
 
 import B_Server.Controller.Tools.AccountController;
+import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.Models.*;
 import Exceptions.*;
 import B_Server.Model.DataBase.DataBase;
@@ -18,15 +19,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BuyerController implements AccountController {
-
-    /****************************************************fields*******************************************************/
-
-    private static final BuyerController buyerController = new BuyerController();
-
-    private DiscountCode discountCodeEntered = null;
+public class BuyerController extends LocalClientInfo implements AccountController {
 
     /****************************************************singleTone***************************************************/
+
+    private static final BuyerController buyerController = new BuyerController();
 
     public static BuyerController getInstance() {
         return buyerController;
@@ -38,46 +35,46 @@ public class BuyerController implements AccountController {
     /**************************************************methods********************************************************/
 
     private void setDiscountCodeEntered(DiscountCode discountCodeEntered) {
-        this.discountCodeEntered = discountCodeEntered;
+        clientInfo.get().setCode(discountCodeEntered);
     }
 
     private void checkEnoughCredit() throws NotEnoughCreditException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         double price = viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount();
 
-        if (discountCodeEntered != null) {
-            price -= discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice());
+        if (clientInfo.get().getCode() != null) {
+            price -= clientInfo.get().getCode().getDiscountCodeDiscount(viewCart().getTotalPrice());
         }
 
-        if (((Customer) controllerUnit.getAccount()).getCredit() < price) {
+        if (((Customer) clientInfo.get().getAccount()).getCredit() < price) {
             throw new NotEnoughCreditException("Not Enough Credit.");
         }
     }
 
     private void saveFieldToFieldList(String name, String value) throws FieldDoesNotExistException {
-        FieldList fieldList = (controllerUnit.getAccount()).getPersonalInfo().getList();
+        FieldList fieldList = clientInfo.get().getAccount().getPersonalInfo().getList();
         if (!fieldList.isFieldWithThisName(name)) {
             fieldList.addFiled(new Field(name, value));
         } else {
             Field field = fieldList.getFieldByName(name);
             ( field).setString(value);
         }
-        DataBase.save(controllerUnit.getAccount());
+        DataBase.save(clientInfo.get().getAccount());
     }
-
 
     @NotNull
     private List<ProductLog> payment() throws AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
 
-        ((Customer) controllerUnit.getAccount()).setCredit(((Customer) controllerUnit.getAccount()).getCredit() - showTotalPrice());
+        ((Customer) clientInfo.get().getAccount())
+                .setCredit(((Customer) clientInfo.get()
+                        .getAccount()).getCredit() - showTotalPrice());
 
-        //adding to sellers balance :
         List<ProductLog> productLogs = new ArrayList<>();
         List<Product> listOfProduct = this.showProducts();
         List<Long> listOfSellers = viewCart().getProductSellers();
         for (int i = 0; i < showProducts().size(); i++) {
             Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
             Product product = listOfProduct.get(i);
-            product.addBuyer(controllerUnit.getAccount().getId());
+            product.addBuyer(clientInfo.get().getAccount().getId());
             double productPrice = product.getProductOfSellerById(listOfSellers.get(i)).getPrice();
             double productAuctionAmount = product.getAuction() == null ? 0 : product.getAuction().getAuctionDiscount(productPrice);
             double productFinalPrice = productPrice - productAuctionAmount;
@@ -91,33 +88,33 @@ public class BuyerController implements AccountController {
     }
 
     private void checkCartForProductId(long productId) throws ProductDoesNotExistException {
-        if (!((Customer) controllerUnit.getAccount()).getCart().isThereThisProductInCart(productId)) {
+        if (!((Customer) clientInfo.get().getAccount()).getCart().isThereThisProductInCart(productId)) {
             throw new ProductDoesNotExistException("product with the id:" + productId + " not exist in this cart.");
         }
     }
 
     public void checkIfProductBoughtToRate(long productId) throws CannotRateException, ProductDoesNotExistException, NumberFormatException {
         Product product = Product.getProductById(productId);
-        if (!product.getBuyerList().contains(controllerUnit.getAccount().getId())) {
+        if (!product.getBuyerList().contains(clientInfo.get().getAccount().getId())) {
             throw new CannotRateException("Cannot Rate. You must buy it first. ok?");
         }
     }
 
     public double showTotalPrice() throws ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         double price = viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount();
-        if (discountCodeEntered != null) {
-            price -= discountCodeEntered.getDiscountCodeDiscount(price);
+        if (clientInfo.get().getCode() != null) {
+            price -= clientInfo.get().getCode().getDiscountCodeDiscount(price);
         }
         return price;
     }
 
     public Cart viewCart() {
-        return ((Customer) controllerUnit.getAccount()).getCart();
+        return ((Customer) clientInfo.get().getAccount()).getCart();
     }
 
     public List<Product> showProducts() throws ProductDoesNotExistException {
         List<Product> list = new ArrayList<>();
-        for (Long aLong : ((Customer) controllerUnit.getAccount()).getCart().getProductList()) {
+        for (Long aLong : ((Customer) clientInfo.get().getAccount()).getCart().getProductList()) {
             Product productById = Product.getProductById(aLong);
             list.add(productById);
         }
@@ -125,12 +122,12 @@ public class BuyerController implements AccountController {
     }
 
     public double viewBalance() {
-        return ((Customer) controllerUnit.getAccount()).getCredit();
+        return ((Customer) clientInfo.get().getAccount()).getCredit();
     }
 
     public List<DiscountCode> viewDiscountCodes() throws DiscountCodeExpiredException {
         List<DiscountCode> list = new ArrayList<>();
-        for (Long aLong : ((Customer) controllerUnit.getAccount()).getDiscountCodeList()) {
+        for (Long aLong : ((Customer) clientInfo.get().getAccount()).getDiscountCodeList()) {
             DiscountCode discountCodeById = DiscountCode.getDiscountCodeById(aLong);
             list.add(discountCodeById);
         }
@@ -139,7 +136,7 @@ public class BuyerController implements AccountController {
 
     public List<LogHistory> viewOrders() throws LogHistoryDoesNotExistException {
         List<LogHistory> list = new ArrayList<>();
-        for (Long aLong : ((Customer) controllerUnit.getAccount()).getLogHistoryList()) {
+        for (Long aLong : ((Customer) clientInfo.get().getAccount()).getLogHistoryList()) {
             LogHistory logHistoryById = LogHistory.getLogHistoryById(aLong);
             list.add(logHistoryById);
         }
@@ -161,7 +158,7 @@ public class BuyerController implements AccountController {
             throw new ProductIsOutOfStockException("Product is out of stock. You can't increase number of the order whit id:" + productIdString + " .");
         } else {
             productOfSellerById.setNumber(productOfSellerById.getNumber() - 1);
-            ((Customer) controllerUnit.getAccount()).addToCart(productId, sellerId);
+            ((Customer) clientInfo.get().getAccount()).addToCart(productId, sellerId);
         }
     }
 
@@ -169,7 +166,7 @@ public class BuyerController implements AccountController {
         long productId = Long.parseLong(productIdString);
         long sellerId = Long.parseLong(sellerIdString);
         this.checkCartForProductId(productId);
-        ((Customer) controllerUnit.getAccount()).removeFromCart(productId, sellerId);
+        ((Customer) clientInfo.get().getAccount()).removeFromCart(productId, sellerId);
     }
 
     public void receiveInformation(@NotNull String postCode, String address) throws PostCodeInvalidException, AddresInvalidException, FieldDoesNotExistException {
@@ -185,7 +182,7 @@ public class BuyerController implements AccountController {
 
     public void discountCodeUse(String code) throws InvalidDiscountCodeException, DiscountCodeExpiredException, AccountDoesNotExistException {
         DiscountCode discountCode = DiscountCode.getDiscountCodeByCode(code);
-        if (!((Customer) controllerUnit.getAccount()).getDiscountCodeList().contains(discountCode.getId())) {
+        if (!((Customer) clientInfo.get().getAccount()).getDiscountCodeList().contains(discountCode.getId())) {
             throw new InvalidDiscountCodeException("Invalid discountCode whit id:" + discountCode.getId() + " .");
         }
         discountCode.checkExpiredDiscountCode(true);
@@ -194,11 +191,11 @@ public class BuyerController implements AccountController {
 
     public LogHistory buyProductsOfCart() throws NotEnoughCreditException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         this.checkEnoughCredit();
-        Customer customer = ((Customer) controllerUnit.getAccount());
+        Customer customer = ((Customer) clientInfo.get().getAccount());
         List<ProductLog> productLogs = this.payment();
         LogHistory logHistory = new LogHistory(
                 showTotalPrice(),
-                discountCodeEntered == null ? 0 : discountCodeEntered.getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
+                clientInfo.get().getCode() == null ? 0 : clientInfo.get().getCode().getDiscountCodeDiscount(viewCart().getTotalPrice() - viewCart().getTotalAuctionDiscount()),
                 viewCart().getTotalAuctionDiscount(),
                 new FieldList(Arrays.asList(new Field("customerName", customer.getUserName()), new Field("date", LocalDate.now().toString()))), // I don't know now. (for check)
                 productLogs
@@ -211,8 +208,8 @@ public class BuyerController implements AccountController {
         }
         Cart.removeCart(customer.getCart());
         customer.setCart(Cart.autoCreateCart());
-        if (discountCodeEntered != null) {
-            customer.removeFromDiscountCodeList(discountCodeEntered.getId());
+        if (clientInfo.get().getCode() != null) {
+            customer.removeFromDiscountCodeList(clientInfo.get().getCode().getId());
             this.setDiscountCodeEntered(null);
         }
         DataBase.save(customer);
@@ -221,7 +218,7 @@ public class BuyerController implements AccountController {
 
     public LogHistory showOrder(String orderIdString) throws NumberFormatException, LogHistoryDoesNotExistException {
         long orderId = Long.parseLong(orderIdString);
-        LogHistory.checkExistOfLogHistoryById(orderId, ((Customer) controllerUnit.getAccount()).getLogHistoryList(), controllerUnit.getAccount());
+        LogHistory.checkExistOfLogHistoryById(orderId, ((Customer) clientInfo.get().getAccount()).getLogHistoryList(), clientInfo.get().getAccount());
         return LogHistory.getLogHistoryById(orderId);
     }
 
@@ -233,7 +230,7 @@ public class BuyerController implements AccountController {
         long numberOfBuyer = product.getScoreList().size();
         long lastScore = (long) product.getAverageScore() * numberOfBuyer;
         int newScore = (int) ((lastScore + rateNumber) / (numberOfBuyer + 1));
-        Score score = new Score(controllerUnit.getAccount().getId(), productId, rateNumber);
+        Score score = new Score(clientInfo.get().getAccount().getId(), productId, rateNumber);
         Score.addScore(score);
         product.addScore(score.getId());
         product.setAverageScore(newScore);
@@ -241,7 +238,7 @@ public class BuyerController implements AccountController {
 
     public void chargeAccount(String amountString) throws NumberFormatException {
         double amount = Double.parseDouble(amountString);
-        Customer account = (Customer) controllerUnit.getAccount();
+        Customer account = (Customer) clientInfo.get().getAccount();
         account.setCredit(account.getCredit() + amount);
         DataBase.save(account);
     }
@@ -252,7 +249,7 @@ public class BuyerController implements AccountController {
     }
 
     public void chargeWallet(double addAmount){
-        Customer customer = (Customer) controllerUnit.getAccount();
+        Customer customer = (Customer) clientInfo.get().getAccount();
         Wallet wallet = customer.getWallet();
         wallet.setBalance(wallet.getBalance()+addAmount);
     }

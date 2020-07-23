@@ -1,5 +1,6 @@
 package B_Server.Controller.Controllers;
 
+import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
 import Exceptions.*;
 import B_Server.Model.Models.Account;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SignUpController {
+public class SignUpController extends LocalClientInfo {
 
     /****************************************************fields*********************************************************/
 

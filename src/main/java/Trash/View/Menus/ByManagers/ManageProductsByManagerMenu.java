@@ -1,6 +1,6 @@
 package Trash.View.Menus.ByManagers;
 
-import B_Server.Controller.Controllers.ManagerController;
+import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import Exceptions.ProductDoesNotExistException;
 import Trash.View.Menus.Menu;
 import org.jetbrains.annotations.NotNull;

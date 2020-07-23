@@ -1,7 +1,7 @@
 package Trash.View.Menus.BySellers;
 
 
-import B_Server.Controller.Controllers.SellerController;
+import B_Server.Controller.Controllers.AccountControllers.SellerController;
 import Exceptions.*;
 import Trash.View.Menus.Menu;
 import Trash.View.Tools.Shows;
@@ -36,7 +36,7 @@ public class ManageProductsBySellerMenu extends Menu {
         try {
 
             System.out.println(
-                    Shows.getShowInfo().apply(sellerController.viewProduct(id))
+                    Shows.getShowInfo().apply(sellerController.viewProductInfoById(id))
             );
 
         } catch (ProductDoesNotExistException e) {
