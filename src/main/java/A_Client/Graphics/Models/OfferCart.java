@@ -5,6 +5,7 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.Roles.Seller;
 import Structs.MiniAccount;
 import Structs.MiniProduct;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,7 +13,7 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 
-public class WageCart {
+public class OfferCart {
     private final Client client = SendAndReceive.getClient();
     private static List<MiniProduct> productList = SendAndReceive.getAllMyProducts();
     private MiniProduct product;
@@ -32,5 +33,8 @@ public class WageCart {
     private void setTexts() {
         this.product_name.setText(product.getProductName());
         this.price_ltx.setText(seller.getUsername());
+    }
+
+    public void viewOffer(ActionEvent event) {
     }
 }
