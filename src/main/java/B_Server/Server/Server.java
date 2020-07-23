@@ -14,16 +14,16 @@ import java.util.UUID;
 public class Server extends Thread {
 
     private static List<InstantInfo> clients = new ArrayList<>();
-    private ServerSocket mineServer = new ServerSocket(0);;
+    private ServerSocket mineServer = new ServerSocket(0);
 
     public Server() throws IOException {
     }
 
-    public synchronized void addClient(InstantInfo instantInfo) {
+    public static synchronized void addClient(InstantInfo instantInfo) {
         clients.add(instantInfo);
     }
 
-    public synchronized void removeClient(InstantInfo instantInfo) {
+    public static synchronized void removeClient(InstantInfo instantInfo) {
         clients.remove(instantInfo);
     }
 

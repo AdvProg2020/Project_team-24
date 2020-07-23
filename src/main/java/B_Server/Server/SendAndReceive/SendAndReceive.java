@@ -6,11 +6,13 @@ import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import B_Server.Controller.Controllers.AccountControllers.SellerController;
 import B_Server.Controller.Controllers.LoginaAndRegister.LoginController;
 import B_Server.Controller.Controllers.LoginaAndRegister.SignUpController;
+import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
+import B_Server.Server.InstantInfo.InstantInfo;
 import B_Server.Server.Server;
 import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.Medias;
@@ -34,7 +36,9 @@ import java.util.stream.Collectors;
 
 public class SendAndReceive {
 
+    private final static BuyerController buyerController = BuyerController.getInstance();
     private final static SellerController sellerController = SellerController.getInstance();
+    private final static ManagerController managerController = ManagerController.getInstance();
     private final static YaGson yaGson = new YaGson();
 
     public static void messageAnalyser(String token, String request, List<String> inputs, RequestHandler requestHandler) {
@@ -42,10 +46,12 @@ public class SendAndReceive {
         switch (request) {
 
             case "GetToken":
-                sendToken(requestHandler);
+                String newToken = Server.createToken();
+                Server.addClient(new InstantInfo(newToken));
+                sendToken(newToken, requestHandler);
                 break;
             case "GetAllMyProducts":
-                getAllMyProducts(token, requestHandler);
+                getAllMyProducts(requestHandler);
                 break;
             case "GetProductById":
                 getProductById(inputs, requestHandler);
@@ -233,12 +239,11 @@ public class SendAndReceive {
         }
     }
 
-
-    private static void sendToken(@NotNull RequestHandler requestHandler) {
-        requestHandler.sendMessage(Server.createToken() +"::@ @");
+    private static void sendToken(String token, @NotNull RequestHandler requestHandler) {
+        requestHandler.sendMessage(token +"::@ @");
     }
 
-    private static void getAllMyProducts(String token, RequestHandler requestHandler) {
+    private static void getAllMyProducts(RequestHandler requestHandler) {
         try {
             List<Product> products = sellerController.showProducts();
             List<MiniProduct> miniProducts = createMiniProducts(products);
