@@ -2,6 +2,7 @@ package A_Client.Graphics.Accounts.Roles;
 
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.BaseAccount;
+import A_Client.Graphics.Creates.CreateSupporter;
 import A_Client.Graphics.Pages.SignUp;
 import Exceptions.FieldDoesNotExistException;
 import A_Client.Graphics.Creates.CreateCategory;
@@ -13,10 +14,12 @@ import A_Client.Graphics.Lists.RequestList;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
@@ -26,6 +29,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Manager extends BaseAccount implements SceneBuilder, Initializable {
+
 
     @FXML
     private ImageView manager_image;
@@ -131,5 +135,9 @@ public class Manager extends BaseAccount implements SceneBuilder, Initializable 
 
     public void viewAuctions() {
         MainMenu.change(new AuctionsMenu().sceneBuilder());
+    }
+
+    public void createNewSupporter() {
+        MainMenu.change(new CreateSupporter().sceneBuilder());
     }
 }
