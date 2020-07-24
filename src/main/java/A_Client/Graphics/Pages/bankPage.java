@@ -51,7 +51,7 @@ public class bankPage implements SceneBuilder {
         }
     }
     public void payButton() {
-        SendAndReceive.createBankReceipt();
-        SendAndReceive.payWithBankAccount();
+//        SendAndReceive.createBankReceipt();
+//        SendAndReceive.payWithBankAccount();
     }
 }
