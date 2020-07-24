@@ -265,10 +265,6 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
             if (next_submit_newMode()) return;
 
-//            sellerController.saveProductInfo(product, str_f_p, str_v_p);
-//            sellerController.saveCategoryInfo(product, str_f_c, str_v_c);
-//            sellerController.sendRequest(product, "new Product", "new");
-
             YaGson yaGson = new YaGson();
             SendAndReceive.saveInfoOfProduct(Arrays.asList(yaGson.toJson(str_f_p),
                     yaGson.toJson(str_v_p),yaGson.toJson(str_f_c), yaGson.toJson(str_v_c)));

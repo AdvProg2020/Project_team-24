@@ -9,6 +9,7 @@ import Structs.FieldAndFieldList.Field;
 import com.gilecode.yagson.YaGson;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,7 +91,7 @@ public class SendAndReceive implements MessagePattern {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.SetImageById, list);
     }
 
-    private static String GetByteOfFile(File file) {
+    private static String GetByteOfFile(@NotNull File file) {
         byte[] bytes = new byte[0];
         try {
             bytes = Files.readAllBytes(file.toPath());
@@ -110,91 +111,91 @@ public class SendAndReceive implements MessagePattern {
     public static List<MiniAccount> getAllAccounts() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAccounts,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniAccount>().JsonsToObjectList(answer, MiniAccount.class);
+        return new JsonHandler<MiniAccount>().JsonsToObjectList(answer);
     }
 
     public static List<MiniProduct> getAllProducts() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProducts,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer);
     }
 
     public static List<MiniProduct> getAllProductsPrime() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductsPrime,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer);
     }
 
     public static List<MiniRequest> getAllRequest() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllRequest,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniRequest>().JsonsToObjectList(answer, MiniRequest.class);
+        return new JsonHandler<MiniRequest>().JsonsToObjectList(answer);
     }
 
     public static List<MiniCate> getAllCategories() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllCate,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniCate>().JsonsToObjectList(answer, MiniCate.class);
+        return new JsonHandler<MiniCate>().JsonsToObjectList(answer);
     }
 
     public static List<MiniDiscountCode> getAllDiscountCodes() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllDiscountCodes,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answer, MiniDiscountCode.class);
+        return new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answer);
     }
 
     public static List<MiniLogHistory> GetLogsOfUserById(String accountId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetLogsOfUserById,
                 Arrays.asList(client.getClientInfo().getToken(), accountId));
-        return new JsonHandler<MiniLogHistory>().JsonsToObjectList(answer, MiniLogHistory.class);
+        return new JsonHandler<MiniLogHistory>().JsonsToObjectList(answer);
     }
 
     public static List<MiniDiscountCode> GetCodesOfUserById(String accountId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetCodesOfUserById,
                 Arrays.asList(client.getClientInfo().getToken(), accountId));
-        return new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answer, MiniDiscountCode.class);
+        return new JsonHandler<MiniDiscountCode>().JsonsToObjectList(answer);
     }
 
     public static List<MiniComment> getAllCommentOfProduct(String productId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllCommentOfProduct,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
-        return new JsonHandler<MiniComment>().JsonsToObjectList(answer, MiniComment.class);
+        return new JsonHandler<MiniComment>().JsonsToObjectList(answer);
     }
 
     public static List<MiniAuction> getAllAuctions() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAuctions,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniAuction>().JsonsToObjectList(answer, MiniAuction.class);
+        return new JsonHandler<MiniAuction>().JsonsToObjectList(answer);
     }
 
     public static List<MiniProduct> getAllProductsOfCategoryById(String cateId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductOfCate,
                 Arrays.asList(client.getClientInfo().getToken(), cateId));
-        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer);
     }
 
     public static List<MiniProduct> getAllProductOfUserCart(String accountId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductOfCart,
                 Arrays.asList(client.getClientInfo().getToken(), accountId));
-        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer);
     }
 
     public static List<MiniProduct> getAllProductOfAuction(String auctionId) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllProductOfAuction,
                 Arrays.asList(client.getClientInfo().getToken(), auctionId));
-        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer);
     }
 
     public static List<MiniProduct> getAllMyProducts() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllMyProducts,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer);
     }
 
     public static List<MiniProduct> getAllPopularProducts() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllPopularProducts,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer, MiniProduct.class);
+        return new JsonHandler<MiniProduct>().JsonsToObjectList(answer);
     }
 
     // Add Or Edit
@@ -341,13 +342,13 @@ public class SendAndReceive implements MessagePattern {
     public static List<Field> getCateInfoOdProduct(String productId) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getCateInfoOfProduct,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
-        return new JsonHandler<Field>().JsonsToObjectList(answers, Field.class);
+        return new JsonHandler<Field>().JsonsToObjectList(answers);
     }
 
     public static List<Field> getProductInfoById(String productId) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getProductInfoById,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
-        return new JsonHandler<Field>().JsonsToObjectList(answers, Field.class);
+        return new JsonHandler<Field>().JsonsToObjectList(answers);
     }
 
     public static void addProductToCart(String productId, String sellerId) {

@@ -35,7 +35,6 @@ public interface MessageSupplier {
         GetCodeById,
         SetImageById,
         SetMediasOfProduct,
-        SetMovieById,
         GetAllProducts,
         GetAllProductsPrime,
         GetAllAccounts,

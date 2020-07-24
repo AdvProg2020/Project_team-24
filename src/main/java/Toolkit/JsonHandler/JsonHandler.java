@@ -1,18 +1,17 @@
 package Toolkit.JsonHandler;
 
 import com.gilecode.yagson.YaGson;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class JsonHandler <T> {
+public class JsonHandler<T> {
 
     public T JsonToObject(String json, Class<T> clazz) {
-        return new YaGson().fromJson(json,clazz);
+        return new YaGson().fromJson(json, clazz);
     }
 
-    public List<T> JsonsToObjectList(List<String> jsons, Class<T> clazz) {
-        return jsons.stream().map(s -> JsonToObject(s,clazz))
-                .collect(Collectors.toList());
+    public List<T> JsonsToObjectList(@NotNull List<String> jsons) {
+        return new YaGson().fromJson(jsons.get(0), List.class);
     }
 }

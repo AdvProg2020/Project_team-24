@@ -164,7 +164,7 @@ public class SendAndReceive {
                 addNewSellerOfPro(newToken, inputs, requestHandler);
                 break;
             case "saveInfoOfProduct":
-                //...
+                saveInfoOfProduct(newToken, inputs, requestHandler);
                 break;
             case "addToCodesList":
                 addToCodesList(newToken, inputs, requestHandler);
@@ -194,28 +194,28 @@ public class SendAndReceive {
                 decreaseProduct(newToken, inputs, requestHandler);
                 break;
             case "sendPaymentInfo":
-                sendPaymanetInfo(inputs, requestHandler);
+                sendPaymentInfo(newToken, inputs, requestHandler);
                 break;
             case "Purchase":
                 //...
                 break;
             case "addProductToCart":
-                addProductToCart(inputs, requestHandler);
+                addProductToCart(newToken, inputs, requestHandler);
                 break;
             case "getCateInfoOfProduct":
                 // ...
                 break;
             case "getProductInfoById":
-                getProductInfoById(inputs, requestHandler);
+                getProductInfoById(newToken, inputs, requestHandler);
                 break;
             case "addCommentToProduct":
-                addCommentToProduct(inputs, requestHandler);
+                addCommentToProduct(newToken, inputs, requestHandler);
                 break;
             case "rate":
-                rate(inputs, requestHandler);
+                rate(newToken, inputs, requestHandler);
                 break;
             case "GetCodeById":
-                GetCodeById(inputs, requestHandler);
+                getCodeById(newToken, inputs, requestHandler);
                 break;
             case "SetMediasOfProduct":
                 String ProductId = inputs.get(0);
@@ -229,19 +229,20 @@ public class SendAndReceive {
 //                File image = ;
                 break;
             case "GetAllProductsPrime":
-                getAllProducts(newToken, "GetAllProductsPrime", requestHandler, instance.showProducts());
+                getAllProducts(newToken, request, requestHandler,
+                        ProductsController.getInstance().showProducts());
                 break;
             case "GetAllRequest":
                 GetAllRequest(newToken, requestHandler);
                 break;
             case "GetAllProductOfAuction":
-                GetAllProductOfAuction(inputs, requestHandler);
+                getAllProductOfAuction(newToken, inputs, requestHandler);
                 break;
             case "GetAllCommentOfProduct":
-                GetAllCommentOfProduct(inputs, requestHandler);
+                getAllCommentOfProduct(newToken, inputs, requestHandler);
                 break;
             case "DeleteProductById":
-                DeleteProductById(inputs, requestHandler);
+                deleteProductById(newToken, inputs, requestHandler);
                 break;
         }
     }
@@ -505,16 +506,30 @@ public class SendAndReceive {
         String categoryId = inputs.get(1);
         String auctionId = inputs.get(2);
         String numberOfThis = inputs.get(3);
-        String price = inputs.get(4);
-        List<String> fieldNames = yaGson.fromJson(inputs.get(5), List.class);
-        List<String> values = yaGson.fromJson(inputs.get(6), List.class);
+        String priceOfThis = inputs.get(4);
+
         try {
-            Product product = SellerController.getInstance().createTheBaseOfProduct(productName, categoryId, auctionId, numberOfThis, price);
-            SellerController.getInstance().saveProductInfo(product, fieldNames, values);
+            SellerController.getInstance().createTheBaseOfProduct(productName, categoryId, auctionId, numberOfThis, priceOfThis);
             sender(token, MessageSupplier.RequestType.addNewProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (AuctionDoesNotExistException | CategoryDoesNotExistException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void saveInfoOfProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        List<String> fp = yaGson.fromJson(inputs.get(0), List.class);
+        List<String> vp = yaGson.fromJson(inputs.get(1), List.class);
+        List<String> fc = yaGson.fromJson(inputs.get(2), List.class);
+        List<String> vc = yaGson.fromJson(inputs.get(3), List.class);
+        try {
+            sellerController.saveProductInfo(fp, vp);
+            sellerController.saveCategoryInfo(fc, vc);
+            sellerController.sendRequest(sellerController.getInRegisteringProduct(), "new Product", "new");
+            sender(token, MessageSupplier.RequestType.saveInfoOfProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.saveInfoOfProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
     }
 
@@ -732,6 +747,150 @@ public class SendAndReceive {
         }
     }
 
+    private static void sendPaymentInfo(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        String postCode = inputs.get(0);
+        String address = inputs.get(1);
+        String discountCode = inputs.get(2);
+        try {
+            buyerController.receiveInformation(postCode, address);
+            if (!discountCode.isEmpty()) buyerController.discountCodeUse(discountCode);
+            sender(token, MessageSupplier.RequestType.sendPaymentInfo, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (PostCodeInvalidException | AddresInvalidException | FieldDoesNotExistException | AccountDoesNotExistException | InvalidDiscountCodeException | DiscountCodeExpiredException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.sendPaymentInfo, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void addProductToCart(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        String productId = inputs.get(0);
+        String sellerId = inputs.get(1);
+        Customer account = (Customer) buyerController.getClientInfo().get().getAccount();
+        Cart cart = account.getCart();
+        cart.addProductToCart(Long.parseLong(sellerId), Long.parseLong(productId));
+        sender(token, MessageSupplier.RequestType.addProductToCart, SuccessOrFail.SUCCESS.toString(), requestHandler);
+    }
+
+    private static void getProductInfoById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Product product = Product.getProductById(Long.parseLong(inputs.get(0)));
+            List<Field> product_info = product.getProduct_Info().getList().getFieldList();
+            sender(token, MessageSupplier.RequestType.getProductInfoById, yaGson.toJson(product_info), requestHandler);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.getProductInfoById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void addCommentToProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        String accountId = inputs.get(0);
+        String productId = inputs.get(1);
+        String title = inputs.get(2);
+        String content = inputs.get(3);
+        try {
+            Product product = Product.getProductById(Long.parseLong(productId));
+            FieldList fieldList = new FieldList(Arrays.asList(new Field("Title", title), new Field("Content", content)));
+            Comment comment = new Comment("تایید شده", Long.parseLong(accountId), Long.parseLong(productId), fieldList);
+            Comment.addComment(comment);
+            product.addComment(comment.getId());
+            sender(token, MessageSupplier.RequestType.addCommentToProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.addCommentToProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void rate(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        String productId = inputs.get(0);
+        String rate = inputs.get(2);
+        try {
+            buyerController.rate(productId, rate);
+            sender(token, MessageSupplier.RequestType.rate, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (ProductDoesNotExistException | CannotRateException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.rate, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void getCodeById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            DiscountCode discountCode = DiscountCode.getDiscountCodeById(Long.parseLong(inputs.get(0)));
+            sender(token, MessageSupplier.RequestType.GetCodeById, yaGson.toJson(discountCode), requestHandler);
+        } catch (DiscountCodeExpiredException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetCodeById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void getAllProductOfAuction(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Auction auction = Auction.getAuctionById(Long.parseLong(inputs.get(0)));
+            List<Long> productsIds = auction.getProductList();
+            List<Product> products = productsIds.stream().map(productsId -> {
+                try {
+                    return Product.getProductById(productsId);
+                } catch (ProductDoesNotExistException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }).filter(Objects::nonNull).collect(Collectors.toList());
+            List<MiniProduct> miniProducts = createMiniProducts(products);
+            sender(token, MessageSupplier.RequestType.GetAllProductOfAuction, yaGson.toJson(miniProducts), requestHandler);
+        } catch (AuctionDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetAllProductOfAuction, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void getAllCommentOfProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Product product = Product.getProductById(Long.parseLong(inputs.get(0)));
+            List<Comment> comments = product.getCommentList().stream().map(commentId -> {
+                        try {
+                            return Comment.getCommentById(commentId);
+                        } catch (CommentDoesNotExistException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    }
+            ).filter(Objects::nonNull).collect(Collectors.toList());
+            sender(token, MessageSupplier.RequestType.GetAllCommentOfProduct, yaGson.toJson(comments), requestHandler);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetAllCommentOfProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void deleteProductById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        String productId = inputs.get(0);
+        String accountId = inputs.get(1);
+        try {
+            Product product = Product.getProductById(Long.parseLong(productId));
+            new Request(Long.parseLong(accountId), "remove product", "remove", product);
+            sender(token, MessageSupplier.RequestType.DeleteProductById, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.DeleteProductById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    @Contract("_ -> new")
+    @NotNull
+    private static MiniDiscountCode getMiniDiscountCode(@NotNull DiscountCode discountCode) {
+        return new MiniDiscountCode(
+                discountCode.getId() + "",
+                Integer.parseInt(String.valueOf(discountCode.getFrequentUse())),
+                discountCode.getDiscountCode(),
+                discountCode.getDiscount().getPercent(),
+                discountCode.getDiscount().getAmount(),
+                discountCode.getStart(),
+                discountCode.getEnd());
+    }
+
+    @NotNull
+    private static List<MiniProduct> createMiniProducts(@NotNull List<Product> products) {
+        return products.stream().map(SendAndReceive::getMiniProduct).collect(Collectors.toList());
+    }
+
     @Contract("_ -> new")
     @NotNull
     private static MiniLogHistory getMiniLogHistory(@NotNull LogHistory logHistory) {
@@ -830,199 +989,6 @@ public class SendAndReceive {
                 reqPrime.getForPend().getClass().getSimpleName() + "",
                 reqPrime.getForPend() instanceof Product ? ((Product) reqPrime.getForPend()).getName() : ((Auction) reqPrime.getForPend()).getName(),
                 reqPrime.getForPend().toString());
-    }
-
-    private static void DeleteProductById(List<String> inputs, RequestHandler requestHandler) {
-        String productId = inputs.get(0);
-        Account account = ControllerUnit.getInstance().getAccount();
-        try {
-            Product product = Product.getProductById(Long.parseLong(productId));
-            new Request(account.getId(), "remove product", "remove", product);
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        }
-    }
-
-    private static void GetAllCommentOfProduct(List<String> inputs, RequestHandler requestHandler) {
-        String productId = inputs.get(0);
-        try {
-            Product product = Product.getProductById(Long.parseLong(productId));
-            List<Long> commetsIds = product.getCommentList();
-            List<Comment> comments = commetsIds.stream().map(commentId ->
-                    {
-                        try {
-                            return Comment.getCommentById(commentId);
-                        } catch (CommentDoesNotExistException e) {
-                            e.printStackTrace();
-                            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-                            return null;
-
-                        }
-                    }
-            ).filter(Objects::nonNull).collect(Collectors.toList());
-            requestHandler.sendMessage(yaGson.toJson(comments));
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        }
-    }
-
-    private static void GetAllProductOfAuction(List<String> inputs, RequestHandler requestHandler) {
-        String id = inputs.get(0);
-        Auction auction = null;
-        try {
-            auction = Auction.getAuctionById(Long.parseLong(id));
-            List<Long> productsIds = auction.getProductList();
-            List<Product> products = productsIds.stream().map(productsId ->
-            {
-                try {
-                    return Product.getProductById(productsId);
-                } catch (ProductDoesNotExistException e) {
-                    e.printStackTrace();
-                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-                    return null;
-                }
-            }).filter(Objects::nonNull).collect(Collectors.toList());
-            List<MiniProduct> miniProducts = createMiniProducts(products);
-            requestHandler.sendMessage(yaGson.toJson(miniProducts));
-        } catch (AuctionDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        }
-    }
-
-    private static void GetCodeById(List<String> inputs, RequestHandler requestHandler) {
-        String id = inputs.get(0);
-        try {
-            DiscountCode discountCode = DiscountCode.getDiscountCodeById(Long.parseLong(id));
-            requestHandler.sendMessage(yaGson.toJson(discountCode));
-        } catch (DiscountCodeExpiredException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        }
-    }
-
-    private static void rate(List<String> inputs, RequestHandler requestHandler) {
-        String productId = inputs.get(0);
-        String accountId = inputs.get(1);
-        String rate = inputs.get(2);
-        BuyerController buyerController = BuyerController.getInstance();
-        try {
-            buyerController.rate(productId, rate);
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        } catch (CannotRateException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        }
-    }
-
-    private static void addCommentToProduct(List<String> inputs, RequestHandler requestHandler) {
-        String accountId = inputs.get(0);
-        String productId = inputs.get(1);
-        String title = inputs.get(2);
-        String content = inputs.get(3);
-        Customer customer = null;
-        try {
-            customer = (Customer) Account.getAccountById(Long.parseLong(accountId));
-            try {
-                Product product = Product.getProductById(Long.parseLong(productId));
-                List<Field> fields = Arrays.asList(new Field("Title", title), new Field("Content", content));
-                FieldList fieldList = new FieldList(fields);
-                Comment comment = new Comment("تایید شده", customer.getId(), Long.parseLong(productId), fieldList);
-                product.addComment(comment.getId());
-                requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
-            } catch (ProductDoesNotExistException e) {
-                e.printStackTrace();
-                requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-            }
-        } catch (AccountDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-
-        }
-    }
-
-    private static void getProductInfoById(List<String> inputs, RequestHandler requestHandler) {
-        String productId = inputs.get(0);
-        try {
-            Product product = Product.getProductById(Long.parseLong(productId));
-            List<Field> product_info = (List<Field>) product.getProduct_Info();
-            requestHandler.sendMessage(yaGson.toJson(product_info));
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        }
-    }
-
-    private static void addProductToCart(List<String> inputs, RequestHandler requestHandler) {
-        String productId = inputs.get(0);
-        String sellerId = inputs.get(1);
-        String accountId = inputs.get(2);
-        try {
-            Customer account = (Customer) Account.getAccountById(Long.parseLong(accountId));
-            Cart cart = account.getCart();
-            cart.addProductToCart(Long.parseLong(sellerId), Long.parseLong(productId));
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
-        } catch (AccountDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        }
-    }
-
-    private static void sendPaymanetInfo(List<String> inputs, RequestHandler requestHandler) {
-        String address = inputs.get(0);
-        String postCode = inputs.get(1);
-        String discountCode = inputs.get(2);
-        BuyerController instance = BuyerController.getInstance();
-        try {
-            instance.receiveInformation(postCode, address);
-            if (!discountCode.isEmpty()) {
-                try {
-                    instance.discountCodeUse(discountCode);
-                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.SUCCESS));
-                } catch (InvalidDiscountCodeException e) {
-                    e.printStackTrace();
-                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-                } catch (DiscountCodeExpiredException e) {
-                    e.printStackTrace();
-                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-                } catch (AccountDoesNotExistException e) {
-                    e.printStackTrace();
-                    requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-                }
-            }
-        } catch (PostCodeInvalidException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        } catch (AddresInvalidException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        } catch (FieldDoesNotExistException e) {
-            e.printStackTrace();
-            requestHandler.sendMessage(String.valueOf(SuccessOrFail.FAIL));
-        }
-    }
-
-    @NotNull
-    private static MiniDiscountCode getMiniDiscountCode(DiscountCode discountCode) {
-        return new MiniDiscountCode(
-                discountCode.getId() + "",
-                Integer.parseInt(String.valueOf(discountCode.getFrequentUse())),
-                discountCode.getDiscountCode(),
-                discountCode.getDiscount().getPercent(),
-                discountCode.getDiscount().getAmount(),
-                discountCode.getStart(),
-                discountCode.getEnd());
-    }
-
-    @NotNull
-    private static List<MiniProduct> createMiniProducts(List<Product> products) {
-        return products.stream().map(product -> getMiniProduct(product)).collect(Collectors.toList());
     }
 
     enum SuccessOrFail {

@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class  SellerController extends LocalClientInfo implements AccountController {
+public class SellerController extends LocalClientInfo implements AccountController {
 
-    /****************************************************fields*******************************************************/
-
-    private static SellerController sellerController = new SellerController();
+    private ThreadLocal<Product> inRegisteringProduct = new ThreadLocal<>();
 
     /****************************************************singleTone***************************************************/
+
+    private static SellerController sellerController = new SellerController();
 
     public static SellerController getInstance() {
         return sellerController;
@@ -36,6 +36,10 @@ public class  SellerController extends LocalClientInfo implements AccountControl
     }
 
     /**************************************************methods********************************************************/
+
+    public Product getInRegisteringProduct() {
+        return inRegisteringProduct.get();
+    }
 
     @NotNull
     @Contract("_, _ -> new")
@@ -92,25 +96,37 @@ public class  SellerController extends LocalClientInfo implements AccountControl
         return list;
     }
 
-    public Product createTheBaseOfProduct(String productName, String strCategoryId, String strAuctionId, String strNumberOfThis, String priceString) throws AuctionDoesNotExistException, CategoryDoesNotExistException {
+    public void createTheBaseOfProduct(String productName, String strCategoryId, String strAuctionId, String strNumberOfThis, String priceString) throws AuctionDoesNotExistException, CategoryDoesNotExistException {
         long numberOfThis = Long.parseLong(strNumberOfThis);
         long categoryId = Long.parseLong(strCategoryId);
         long auctionId = Long.parseLong(strAuctionId);
         double price = Double.parseDouble(priceString);
-        Category category = categoryId == 0 ? null : Category.getCategoryById(categoryId);
-        Auction auction = auctionId == 0 ? null : Auction.getAuctionById(auctionId);
+
+        Category category = categoryId == 0 ?
+                null : Category.getCategoryById(categoryId);
+        Auction auction = auctionId == 0 ?
+                null : Auction.getAuctionById(auctionId);
+
         ProductOfSeller productOfSeller = new ProductOfSeller(clientInfo.get().getAccount().getId(), numberOfThis, price);
-        return new Product(productName, category, auction, productOfSeller);
+        inRegisteringProduct.set(new Product(productName, category, auction, productOfSeller));
     }
 
-    public void saveProductInfo(@NotNull Product product, List<String> fieldName, List<String> values) {
+    public void saveProductInfo(List<String> fieldName, List<String> values) throws NullPointerException {
         FieldList fieldList = createFieldList(fieldName, values);
-        product.setProduct_Info(new Info("ProductInfo", fieldList, LocalDate.now()));
+
+        if (inRegisteringProduct.get() == null)
+            throw new NullPointerException("Please set inRegistering product.");
+
+        inRegisteringProduct.get().setProduct_Info(new Info("ProductInfo", fieldList, LocalDate.now()));
     }
 
-    public void saveCategoryInfo(@NotNull Product product, List<String> fieldName, List<String> values) {
+    public void saveCategoryInfo(List<String> fieldName, List<String> values) throws NullPointerException {
         FieldList fieldList = createFieldList(fieldName, values);
-        product.setCategoryInfo(new Info("CategoryInfo", fieldList, LocalDate.now()));
+
+        if (inRegisteringProduct.get() == null)
+            throw new NullPointerException("Please set inRegistering product.");
+
+        inRegisteringProduct.get().setCategoryInfo(new Info("CategoryInfo", fieldList, LocalDate.now()));
     }
 
     public void sendRequest(ForPend forPend, String information, String type) {
