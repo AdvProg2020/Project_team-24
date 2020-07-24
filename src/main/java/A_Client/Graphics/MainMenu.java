@@ -5,22 +5,24 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.Roles.Customer;
 import A_Client.Graphics.Accounts.Roles.Manager;
 import A_Client.Graphics.Accounts.Roles.Seller;
-import A_Client.Graphics.Menus.OffersMenu;
-import A_Client.Graphics.Models.OfferCart;
-import MessageFormates.MessageSupplier;
 import A_Client.Graphics.Menus.AuctionsMenu;
+import A_Client.Graphics.Menus.OffersMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.AuctionCart;
+import A_Client.Graphics.Models.OfferCart;
 import A_Client.Graphics.Models.ProductCart;
 import A_Client.Graphics.Other.PopUp;
 import A_Client.Graphics.Pages.Cart;
 import A_Client.Graphics.Pages.CeSut;
 import A_Client.Graphics.Pages.Login;
 import A_Client.Graphics.Tools.SceneBuilder;
-import Structs.*;
+import MessageFormates.MessageSupplier;
+import Structs.MiniAuction;
+import Structs.MiniCate;
+import Structs.MiniOffer;
+import Structs.MiniProduct;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,18 +42,20 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 // MainMenu finished.
 public class MainMenu extends Application implements SceneBuilder, Initializable {
 
-    private static Client client = SendAndReceive.getClient();
+    private static Client client;
     private static Stage primaryStage;
     private static MediaPlayer player;
     private static BorderPane center;
     private static Pane filter;
-
 
     @FXML
     private MenuButton category_select;
@@ -71,6 +75,10 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     private Button back_btn;
     @FXML
     private Button login_logout_btn;
+
+    public static Client getClient() {
+        return client;
+    }
 
     @Override
     public void start(@NotNull Stage stage) {
@@ -115,6 +123,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         }
     }
 
+    @NotNull
     private MenuItem getCategorySelection(@NotNull MiniCate category) {
         MenuItem menuItem = new MenuItem();
         menuItem.setText(category.getCateName());
@@ -251,7 +260,15 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public static void main(String[] args) {
-        client.getClientInfo().setToken(SendAndReceive.getToken());
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter Host__Port: ");
+        String[] host_Port = scanner.nextLine().split(" ");
+
+        client = new Client(host_Port[0],
+                Integer.parseInt(host_Port[1]));
+
+        SendAndReceive.getToken();
         launch(args);
     }
 
@@ -274,8 +291,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         }).start();
     }
 
-    
-    private void setOffers(List<MiniOffer> list){
+    private void setOffers(List<MiniOffer> list) {
         OffersMenu.setList(list);
         OfferCart.setOfferList(list);
     }

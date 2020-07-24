@@ -12,6 +12,6 @@ public class JsonHandler<T> {
     }
 
     public List<T> JsonsToObjectList(@NotNull List<String> jsons) {
-        return new YaGson().fromJson(jsons.get(0), List.class);
+        return new YaGson().fromJson(jsons.get(2), List.class);
     }
 }

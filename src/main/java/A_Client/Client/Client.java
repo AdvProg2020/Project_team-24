@@ -56,10 +56,5 @@ public class Client {
         clientInfo.setToken(readMessage.get(0));
         return readMessage;
     }
-
-    @Override
-    protected void finalize() {
-        requestHandler.close();
-    }
 }
 

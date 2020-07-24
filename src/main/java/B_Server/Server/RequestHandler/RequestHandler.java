@@ -38,6 +38,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         while (true) try {
 
             List<String> readMessage = readMessage(blabber.receiveMessage());
+            System.out.println(readMessage);
             SendAndReceive.messageAnalyser(
                     readMessage.get(0),
                     readMessage.get(1),
@@ -52,6 +53,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
 
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(0);
         }
     }
 

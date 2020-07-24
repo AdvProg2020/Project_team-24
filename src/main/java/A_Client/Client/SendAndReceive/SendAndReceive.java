@@ -1,6 +1,7 @@
 package A_Client.Client.SendAndReceive;
 
 import A_Client.Client.Client;
+import A_Client.Graphics.MainMenu;
 import MessageFormates.MessagePattern;
 import Toolkit.JsonHandler.JsonHandler;
 import MessageFormates.MessageSupplier;
@@ -21,16 +22,15 @@ import java.util.List;
 
 public class SendAndReceive implements MessagePattern {
 
-    private final static Client client = new Client("localhost", 8013);
+    private final static Client client = MainMenu.getClient();
 
     public static Client getClient() {
         return client;
     }
 
     // GetToken
-    public static String getToken() {
+    public static void getToken() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetToken, null);
-        return answer.get(1);
     }
 
     // Single Object

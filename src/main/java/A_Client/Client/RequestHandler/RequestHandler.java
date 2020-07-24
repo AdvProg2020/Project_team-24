@@ -7,10 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.net.Socket;
 
-public class RequestHandler extends Thread implements MessagePattern, MessageSupplier, AutoCloseable {
+public class RequestHandler extends Thread implements MessagePattern, MessageSupplier {
 
     private Blabber blabber;
-    private boolean goodBye;
 
     public RequestHandler(Socket socket) {
         blabber = new Blabber(socket);
@@ -30,28 +29,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    @Override
-    public void close() {
-        goodBye = true;
-    }
-
-    @Override
-    public void run() {
-
-        while (true) try {
-
-            String input = blabber.receiveMessage();
-
-            if (goodBye) {
-                blabber.close();
-                break;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

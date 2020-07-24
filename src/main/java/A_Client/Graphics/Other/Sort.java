@@ -45,7 +45,9 @@ public class Sort implements Initializable {
         productInfo.getItems().setAll(infos);
         productInfo.setValue("Nothing");
 
-        MiniCate category = SendAndReceive.getCateById(client.getClientInfo().getCateId());
+
+        MiniCate category = client.getClientInfo().getCateId() == null ?
+                null : SendAndReceive.getCateById(client.getClientInfo().getCateId());
 
         if (category != null) {
 

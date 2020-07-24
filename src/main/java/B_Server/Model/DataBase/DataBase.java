@@ -55,7 +55,7 @@ public class DataBase {
         return list;
     }
 
-    public static void save(Packable<?> object, boolean New) {
+    public static synchronized void save(Packable<?> object, boolean New) {
 
         if (New) {
 
@@ -70,7 +70,7 @@ public class DataBase {
         save(object);
     }
 
-    public static void save(Packable<?> object) {
+    public static synchronized void save(Packable<?> object) {
 
         File file = new File(getStringObjPath(object));
 
@@ -90,7 +90,7 @@ public class DataBase {
         }
     }
 
-    public static void remove(Packable<?> object) {
+    public static synchronized void remove(Packable<?> object) {
 
         try {
             Files.delete(Paths.get(getStringObjPath(object)));

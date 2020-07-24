@@ -17,7 +17,7 @@ public interface MessageSupplier {
         ArrayList<String> outputs = new ArrayList<>();
         outputs.add(list == null ? "@" : list.get(0));
         outputs.add(type.toString());
-        outputs.add(list == null ? "@" : yaGson.toJson(list.subList(1, list.size())));
+        outputs.add((list == null || list.size() < 1) ? yaGson.toJson(new ArrayList<>()) : yaGson.toJson(list.subList(1, list.size())));
         return messageSupplier.apply(outputs);
     }
 
