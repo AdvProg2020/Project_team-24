@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.*?>
-<?import javafx.scene.layout.*?>
-<Scene xmlns="http://javafx.com/javafx"
-        xmlns:fx="http://javafx.com/fxml"
-        fx:controller="A_Client.Graphics.Creates.CreateSupporter">
-<AnchorPane  prefHeight="400.0" prefWidth="600.0">
 
-</AnchorPane>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Creates.CreateSupporter">
+<AnchorPane prefHeight="745" prefWidth="1134">
+      <children>
+         <ImageView fitHeight="634.0" fitWidth="503.0" layoutX="404.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@background.png" />
+            </image>
+         </ImageView>
+         <Label alignment="CENTER" layoutX="501.0" layoutY="99.0" prefHeight="91.0" prefWidth="281.0" text="ساخت اکانت پشتیبان">
+            <font>
+               <Font size="24.0" />
+            </font>
+         </Label>
+         <TextField fx:id="username" alignment="CENTER" layoutX="488.0" layoutY="247.0" prefHeight="63.0" prefWidth="308.0" promptText="نام کاربری" />
+         <TextField fx:id="password" alignment="CENTER" layoutX="488.0" layoutY="372.0" prefHeight="63.0" prefWidth="308.0" promptText="رمز عبور" />
+         <Button layoutX="597.0" layoutY="523.0" mnemonicParsing="false" onAction="#createSupporter" prefHeight="47.0" prefWidth="101.0" stylesheets="@../Register/ButtonStyle.css" text="ثبت" />
+      </children></AnchorPane>
 </Scene>
