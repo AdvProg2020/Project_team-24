@@ -84,9 +84,6 @@ public class SendAndReceive {
             case "SetImageById":
                 ///...
                 break;
-            case "SetMovieById":
-                //...
-                break;
             case "GetAllProducts":
                 getAllProducts(newToken, request, requestHandler, Product.getList());
                 break;
@@ -178,13 +175,13 @@ public class SendAndReceive {
                 declineRequest(newToken, inputs, requestHandler);
                 break;
             case "SetCurrentCate":
-                //...
+                setCurrentCate(newToken, inputs, requestHandler);
                 break;
             case "SetCurrentCode":
-                //...
+                setCurrentCode(newToken, inputs, requestHandler);
                 break;
             case "SetCurrentProduct":
-                //...
+                setCurrentProduct(newToken, inputs, requestHandler);
                 break;
             case "Sort":
                 sort(newToken, inputs, requestHandler);
@@ -241,7 +238,40 @@ public class SendAndReceive {
         }
     }
 
-    private static void setMediasOfProduct(String token, List<String> inputs, RequestHandler requestHandler) {
+    private static void setCurrentProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Product product = Product.getProductById(Long.parseLong(inputs.get(0)));
+            managerController.getClientInfo().get().setProduct(product);
+            sender(token, MessageSupplier.RequestType.SetCurrentProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.SetCurrentProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void setCurrentCode(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            DiscountCode discountCode = DiscountCode.getDiscountCodeById(Long.parseLong(inputs.get(0)));
+            managerController.getClientInfo().get().setCode(discountCode);
+            sender(token, MessageSupplier.RequestType.SetCurrentCode, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (DiscountCodeExpiredException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.SetCurrentCode, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void setCurrentCate(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Category category = Category.getCategoryById(Long.parseLong(inputs.get(0)));
+            managerController.getClientInfo().get().setCategory(category);
+            sender(token, MessageSupplier.RequestType.SetCurrentCate, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (CategoryDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.SetCurrentCate, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void setMediasOfProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         String Str_Image = inputs.get(0);
         String Str_Movie = inputs.get(1);
 
