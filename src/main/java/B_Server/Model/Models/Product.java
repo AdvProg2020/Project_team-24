@@ -25,6 +25,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     private Info product_Info;
     private Info categoryInfo;
     private Category category;
+    private Offer offer;
     private Auction auction;
     private long numberOfVisitors;
     private double averageScore;
@@ -120,6 +121,10 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         return Collections.unmodifiableList(buyerList);
     }
 
+    public Offer getOffer() {
+        return offer;
+    }
+
     /*****************************************************setters*******************************************************/
 
     public void setMediaId(long mediaId) {
@@ -134,6 +139,10 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     public Product setCategoryInfo(Info categoryInfo) {
         this.categoryInfo = categoryInfo;
         return this;
+    }
+
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 
     public void setProductName(String productName) {

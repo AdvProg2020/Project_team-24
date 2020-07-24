@@ -1024,6 +1024,7 @@ public class SendAndReceive {
                 product.getId() + "",
                 product.getName(),
                 product.getAuction().getId() + "",
+                product.getOffer() == null ? "0" : product.getOffer().getId() + "",
                 product.getCategory().getId() + "",
                 product.getMediaId() + "",
                 product.getAverageScore() + "",

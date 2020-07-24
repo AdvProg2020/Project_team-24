@@ -1,1 +1,0 @@
-{"@type":"Model.Models.Data.Data","@val":{"instance":{"@type":"Model.Models.Comment","@val":{"commentId":0,"userId":0,"goodId":0}},"fields":[1,"ziba bood",6,3,{"@type":"Model.Models.FieldList","@val":{"fieldList":{"@type":"java.util.Arrays$ArrayList","@val":{"a":[{"fieldName":"Title","string":"Test"},{"fieldName":"Content","string":"11111112222333"}]}}}}]}}

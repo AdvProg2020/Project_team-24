@@ -7,7 +7,6 @@ import B_Server.Model.Models.Comment;
 import Structs.FieldAndFieldList.FieldList;
 import B_Server.Model.Models.Product;
 import Exceptions.*;
-import Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Guest;
 import B_Server.Model.Models.Accounts.Seller;

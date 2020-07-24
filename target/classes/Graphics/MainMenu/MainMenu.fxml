@@ -17,7 +17,7 @@
                 <stylesheets>
                     <URL value="@MainMenu.css" />
                 </stylesheets>
-                <MenuButton fx:id="category_select" alignment="CENTER_RIGHT" layoutX="1167.0" layoutY="148.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="199.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="دسته بندی کالا ها" textFill="#646363">
+                <MenuButton fx:id="category_select" alignment="CENTER_RIGHT" layoutX="1196.0" layoutY="148.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="170.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="دسته بندی کالا ها" textFill="#646363">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -25,7 +25,7 @@
                 <ImageView fitHeight="600.0" fitWidth="471.0" layoutX="1405.0" layoutY="-92.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@1.png" />
                 </ImageView>
-                <Button fx:id="userArea_btn" alignment="CENTER" disable="true" layoutX="589.0" layoutY="149.0" mnemonicParsing="false" onAction="#goUserArea" prefHeight="50.0" prefWidth="198.0" stylesheets="@MainMenu.css" text="سه سوتی هستم  :)" textFill="#848484">
+                <Button fx:id="userArea_btn" alignment="CENTER" disable="true" layoutX="588.0" layoutY="149.0" mnemonicParsing="false" onAction="#goUserArea" prefHeight="49.0" prefWidth="151.0" stylesheets="@MainMenu.css" text="سه سوتی هستم  :)" textFill="#848484">
                     <styleClass>
                         <String fx:value="button2" />
                         <String fx:value="taskbarButtons" />
@@ -43,12 +43,12 @@
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button alignment="CENTER_RIGHT" layoutX="980.0" layoutY="148.0" mnemonicParsing="false" onAction="#goAuction" prefHeight="51.0" prefWidth="139.0" styleClass="taskbarButtons" text="حراج ها" textFill="#777575">
+                <Button alignment="CENTER_RIGHT" layoutX="1056.0" layoutY="147.0" mnemonicParsing="false" onAction="#goAuction" prefHeight="52.0" prefWidth="112.0" styleClass="taskbarButtons" text="حراج ها" textFill="#777575">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Button alignment="CENTER_RIGHT" layoutX="807.0" layoutY="147.0" mnemonicParsing="false" onAction="#goProducts" prefHeight="52.0" prefWidth="151.0" text="محصولات" textFill="#717171">
+                <Button alignment="CENTER_RIGHT" layoutX="901.0" layoutY="150.0" mnemonicParsing="false" onAction="#goProducts" prefHeight="50.0" prefWidth="142.0" text="محصولات" textFill="#717171">
                     <styleClass>
                         <String fx:value="button3" />
                         <String fx:value="taskbarButtons" />
@@ -57,16 +57,16 @@
                         <Font size="16.0" />
                     </font>
                 </Button>
-                <Separator layoutX="1142.0" layoutY="148.0" orientation="VERTICAL" prefHeight="51.0" prefWidth="6.0" />
+                <Separator layoutX="1179.0" layoutY="147.0" orientation="VERTICAL" prefHeight="51.0" prefWidth="6.0" />
                 <Separator layoutX="342.0" layoutY="149.0" orientation="VERTICAL" prefHeight="47.0" prefWidth="7.0" />
                 <Button fx:id="cart_btn" disable="true" layoutX="113.0" layoutY="54.0" mnemonicParsing="false" onAction="#goCart" prefHeight="86.0" prefWidth="89.0" styleClass="shoppingBag" stylesheets="@MainMenu.css" />
                 <ImageView fitHeight="38.0" fitWidth="48.0" layoutX="374.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-customer-64.png" />
                 </ImageView>
-                <ImageView fitHeight="45.0" fitWidth="50.0" layoutX="993.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="45.0" fitWidth="50.0" layoutX="1059.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-add-shopping-cart-48.png" />
                 </ImageView>
-                <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="819.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="912.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-sale-64.png" />
                 </ImageView>
                 <TextField fx:id="searchArea" alignment="CENTER_RIGHT" layoutX="346.0" layoutY="67.0" prefHeight="58.0" prefWidth="1018.0" promptText="          جست و جو در سه سوت ...">
@@ -83,6 +83,16 @@
                         <Font size="18.0" />
                     </font>
                 </Button>
+            <Button alignment="CENTER_RIGHT" layoutX="754.0" layoutY="149.0" mnemonicParsing="false" onAction="#viewOffers" prefHeight="51.0" prefWidth="130.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="مزایده ها" textFill="#646464">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="762.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons8-payroll-80.png" />
+               </image>
+            </ImageView>
             </AnchorPane>
         </top>
         <center>

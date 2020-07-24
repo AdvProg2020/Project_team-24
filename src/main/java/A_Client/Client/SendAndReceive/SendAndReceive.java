@@ -146,7 +146,7 @@ public class SendAndReceive implements MessagePattern {
     public static List<MiniOffer> getAllOffers(){
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllOffers,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<MiniOffer>().JsonsToObjectList(answer, MiniOffer.class);
+        return new JsonHandler<MiniOffer>().JsonsToObjectList(answer);
     }
 
     public static List<MiniDiscountCode> getAllDiscountCodes() {

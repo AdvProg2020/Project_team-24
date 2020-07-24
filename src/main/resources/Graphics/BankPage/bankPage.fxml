@@ -36,7 +36,7 @@
          </Label>
          <TextField fx:id="username" alignment="CENTER" layoutX="268.0" layoutY="140.0" prefHeight="45.0" prefWidth="298.0" promptText="نام کاربری" />
          <TextField fx:id="password" alignment="CENTER" layoutX="268.0" layoutY="233.0" prefHeight="45.0" prefWidth="298.0" promptText="رمز عبور" />
-         <Label fx:id="totelPrice" alignment="CENTER" layoutX="268.0" layoutY="325.0" prefHeight="40.0" prefWidth="298.0" text="\$$$$" />
+         <Label fx:id="totalPrice" alignment="CENTER" layoutX="268.0" layoutY="325.0" prefHeight="40.0" prefWidth="298.0" text="\$$$$" />
          <TextArea fx:id="description" layoutX="266.0" layoutY="442.0" prefHeight="132.0" prefWidth="301.0" />
          <Separator layoutX="239.0" layoutY="401.0" prefHeight="1.0" prefWidth="685.0" />
          <Button layoutX="482.0" layoutY="648.0" mnemonicParsing="false" onAction="#payButton" prefHeight="46.0" prefWidth="200.0" text="پرداخت" />

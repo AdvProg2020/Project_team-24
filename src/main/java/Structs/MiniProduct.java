@@ -47,11 +47,11 @@ public class MiniProduct {
         return offerId;
     }
 
-    public MiniProduct(String productId, String productName, String auctionId, String offId, String cateId, String mediasId, String aveRate, List<ProductOfSeller> profSell1) {
+    public MiniProduct(String productId, String productName, String auctionId, String offerId, String cateId, String mediasId, String aveRate, List<ProductOfSeller> profSell1) {
         this.productId = productId;
         this.productName = productName;
         this.auctionId = auctionId;
-        this.offerId = offId;
+        this.offerId = offerId;
         this.cateId = cateId;
         this.mediasId = mediasId;
         this.aveRate = aveRate;
