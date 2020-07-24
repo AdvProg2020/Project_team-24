@@ -51,10 +51,7 @@ public class bankPage implements SceneBuilder {
         }
     }
     public void payButton() {
-        String username1 = username.getText();
-        String password1 = password.getText();
-        String description1 = description.getText();
-        SendAndReceive
-        SendAndReceive.payWithBankAccount(username1,)
+        SendAndReceive.createBankReceipt();
+        SendAndReceive.payWithBankAccount();
     }
 }

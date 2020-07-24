@@ -438,4 +438,11 @@ public class SendAndReceive implements MessagePattern {
 
     }
 
+    public static void createBankReceipt(String token,String receipt_type,String money,String sourceId,String destId,String description) {
+        //...
+    }
+
+    public static void payWithBankAccount(String receiptId) {
+        //...
+    }
 }
