@@ -88,5 +88,6 @@ public interface MessageSupplier {
         addNewBuyerToOfferById,
         SetCurrentOffer,
         GetAllOffers
+
     }
 }
