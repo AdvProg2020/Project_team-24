@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Client {
 
+    private Socket socket;
     private ClientInfo clientInfo = new ClientInfo();
     private RequestHandler requestHandler;
 
@@ -17,12 +18,16 @@ public class Client {
 
         try {
 
-            Socket socket = new Socket(host, port);
+            socket = new Socket(host, port);
             requestHandler = new RequestHandler(socket);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Socket getSocket() {
+        return socket;
     }
 
     public ClientInfo getClientInfo() {

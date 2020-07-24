@@ -28,6 +28,10 @@ public class YacGram extends Connection implements AutoCloseable {
         return chatRoomList;
     }
 
+    public MiniAccount getMiniAccount() {
+        return miniAccount;
+    }
+
     public void online() {
 
         try {

@@ -6,6 +6,7 @@ import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Tools.AddingNew;
 import B_Server.Model.Tools.Packable;
 import Exceptions.*;
+import Toolkit.Connection.Message;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,15 +28,6 @@ public abstract class Account implements Packable<Account> {
         inRegistering.remove(account);
     }
 
-//    @Contract(pure = true)
-//    public static List<Account> getInRegistering() {
-//        return Collections.unmodifiableList(inRegistering);
-//    }
-//
-//    public static void setInRegistering(List<Account> inRegistering) {
-//        Account.inRegistering = inRegistering;
-//    }
-
     public static boolean isThereAnyInRegisteringWithThisUsername(String username) {
         return inRegistering.stream().anyMatch(account -> username.equals(account.getUserName()));
     }
@@ -49,8 +41,7 @@ public abstract class Account implements Packable<Account> {
     protected String userName;
     protected String password;
     protected Info personalInfo;
-    protected Wallet wallet;
-//    protected Boolean onlineOrNot;
+    protected Wallet wallet = new Wallet();
 
     /*****************************************************getters*******************************************************/
 
@@ -106,10 +97,6 @@ public abstract class Account implements Packable<Account> {
     public static void setList(List<Account> list) {
         Account.list = list;
     } // just for test.
-
-//    public void setWallet(Model.Models.Wallet wallet) {
-//        this.wallet = wallet;
-//    }
 
     /***************************************************packAndDpkg*****************************************************/
 

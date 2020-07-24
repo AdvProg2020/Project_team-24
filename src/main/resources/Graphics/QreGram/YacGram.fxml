@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.ChatArea.ChatArea">
+    <AnchorPane prefHeight="500.0" prefWidth="800.0">
+        <BorderPane prefHeight="500.0" prefWidth="800.0">
+           <left>
+               <TableView fx:id="contact_table" prefHeight="398.0" prefWidth="141.0" BorderPane.alignment="CENTER">
+                   <columns>
+                       <TableColumn fx:id="contacts" editable="false" prefWidth="150.0" sortable="false" text="Contact" />
+                   </columns>
+               </TableView>
+           </left>
+         <center>
+            <TableView fx:id="chatArea_table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="messages" prefWidth="600" text="Chat Area" />
+              </columns>
+            </TableView>
+         </center>
+         <bottom>
+            <AnchorPane prefHeight="102.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextArea fx:id="mess_Area" layoutX="162.0" layoutY="19.0" prefHeight="63.0" prefWidth="618.0" />
+                  <Button onAction="#submit" layoutX="41.0" layoutY="33.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="ارسال" />
+               </children></AnchorPane>
+         </bottom>
+         
+        </BorderPane>
+    </AnchorPane>
+</Scene>

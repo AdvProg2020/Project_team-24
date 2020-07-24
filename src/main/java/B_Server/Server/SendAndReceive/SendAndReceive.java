@@ -109,7 +109,7 @@ public class SendAndReceive {
                 login(newToken, inputs, requestHandler);
                 break;
             case "Logout":
-                //...
+                logout(requestHandler, newToken);
                 break;
             case "GetCodesOfUserById":
                 getCodesOfUsersById(newToken, inputs, requestHandler);
@@ -196,13 +196,13 @@ public class SendAndReceive {
                 sendPaymentInfo(newToken, inputs, requestHandler);
                 break;
             case "Purchase":
-                //...
+                purchase(newToken, requestHandler);
                 break;
             case "addProductToCart":
                 addProductToCart(newToken, inputs, requestHandler);
                 break;
             case "getCateInfoOfProduct":
-                // ...
+                getCateInfoById(newToken, inputs, requestHandler);
                 break;
             case "getProductInfoById":
                 getProductInfoById(newToken, inputs, requestHandler);
@@ -236,6 +236,22 @@ public class SendAndReceive {
                 deleteProductById(newToken, inputs, requestHandler);
                 break;
         }
+    }
+
+    private static void purchase(String token, RequestHandler requestHandler) {
+        try {
+            LogHistory logHistory = buyerController.buyProductsOfCart();
+            MiniLogHistory miniLogHistory = getMiniLogHistory(logHistory);
+            sender(token, MessageSupplier.RequestType.Purchase, yaGson.toJson(miniLogHistory), requestHandler);
+        } catch (NotEnoughCreditException | AccountDoesNotExistException | ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Purchase, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void logout(RequestHandler requestHandler, String newToken) {
+        managerController.getClientInfo().get().setAccount(null);
+        sender(newToken, MessageSupplier.RequestType.Logout, SuccessOrFail.SUCCESS.toString(), requestHandler);
     }
 
     private static void setCurrentProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
@@ -831,6 +847,17 @@ public class SendAndReceive {
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.getProductInfoById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void getCateInfoById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Product product = Product.getProductById(Long.parseLong(inputs.get(0)));
+            List<Field> cate_info = product.getCategoryInfo().getList().getFieldList();
+            sender(token, MessageSupplier.RequestType.getCateInfoOfProduct, yaGson.toJson(cate_info), requestHandler);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.getCateInfoOfProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
     }
 

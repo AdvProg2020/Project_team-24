@@ -17,11 +17,16 @@ public class ChatRoom extends Thread {
     private YaGson yaGson = new YaGson();
     private Connection connection;
     private MiniAccount me;
+    private String yarId;
     private List<Message> history = Collections.synchronizedList(new ArrayList<>());
 
     public ChatRoom(Connection connection, MiniAccount me) {
         this.connection = connection;
         this.me = me;
+    }
+
+    public String getYarId() {
+        return yarId;
     }
 
     public List<Message> getHistory() {

@@ -13,5 +13,4 @@ public interface AccountController {
     default Info viewProductInfoById(String id) throws ProductDoesNotExistException, NumberFormatException {
         return Product.getProductById(Long.parseLong(id)).getProduct_Info();
     }
-
 }

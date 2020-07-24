@@ -256,6 +256,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     public static void main(String[] args) {
         client.getClientInfo().setToken(SendAndReceive.getToken());
+
         launch(args);
     }
 
