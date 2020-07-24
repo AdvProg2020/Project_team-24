@@ -6,6 +6,7 @@ import B_Server.Controller.Controllers.AccountControllers.SellerController;
 import B_Server.Controller.Controllers.FilterController;
 import B_Server.Controller.Controllers.LoginaAndRegister.LoginController;
 import B_Server.Controller.Controllers.LoginaAndRegister.SignUpController;
+import B_Server.Controller.Controllers.ProductController;
 import B_Server.Controller.Controllers.ProductsController;
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.DataBase.DataBase;
@@ -43,6 +44,9 @@ public class SendAndReceive {
     private final static SellerController sellerController = SellerController.getInstance();
     private final static ManagerController managerController = ManagerController.getInstance();
     private final static YaGson yaGson = new YaGson();
+    private final static Object lockInDecreseProductNum = new Object();
+    private final static Object lockAcceptDeclineReq = new Object();
+    private final static Object lockAddNewAccount = new Object();
 
     public static void messageAnalyser(@NotNull String token, String request, List<String> inputs, RequestHandler requestHandler) {
 
@@ -519,15 +523,17 @@ public class SendAndReceive {
         String phoneNumber = inputs.get(5);
         String email = inputs.get(6);
         SignUpController signUpController = SignUpController.getInstance();
-        try {
-            Account account = signUpController.creatTheBaseOfAccount(accountType, username);
-            signUpController.creatPasswordForAccount(account, password);
-            signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
-            sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        synchronized (lockAddNewAccount) {
+            try {
+                Account account = signUpController.creatTheBaseOfAccount(accountType, username);
+                signUpController.creatPasswordForAccount(account, password);
+                signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
+                sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
 
-        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
+                e.printStackTrace();
+                sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            }
         }
     }
 
@@ -763,22 +769,26 @@ public class SendAndReceive {
     }
 
     private static void acceptRequest(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        try {
-            managerController.acceptRequest(inputs.get(0));
-            sender(token, MessageSupplier.RequestType.acceptRequest, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.acceptRequest, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        synchronized (lockAcceptDeclineReq) {
+            try {
+                managerController.acceptRequest(inputs.get(0));
+                sender(token, MessageSupplier.RequestType.acceptRequest, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
+                e.printStackTrace();
+                sender(token, MessageSupplier.RequestType.acceptRequest, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            }
         }
     }
 
     private static void declineRequest(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        try {
-            managerController.denyRequest(inputs.get(0));
-            sender(token, MessageSupplier.RequestType.declineRequest, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.declineRequest, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        synchronized (lockAcceptDeclineReq) {
+            try {
+                managerController.denyRequest(inputs.get(0));
+                sender(token, MessageSupplier.RequestType.declineRequest, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
+                e.printStackTrace();
+                sender(token, MessageSupplier.RequestType.declineRequest, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            }
         }
     }
 
@@ -795,24 +805,28 @@ public class SendAndReceive {
     private static void decreaseProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         String productId = inputs.get(0);
         String sellerId = inputs.get(1);
-        try {
-            buyerController.decrease(productId, sellerId);
-            sender(token, MessageSupplier.RequestType.decreaseProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.decreaseProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        synchronized (lockInDecreseProductNum) {
+            try {
+                buyerController.decrease(productId, sellerId);
+                sender(token, MessageSupplier.RequestType.decreaseProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            } catch (ProductDoesNotExistException e) {
+                e.printStackTrace();
+                sender(token, MessageSupplier.RequestType.decreaseProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            }
         }
     }
 
     private static void increaseProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         String productId = inputs.get(0);
         String sellerId = inputs.get(1);
-        try {
-            buyerController.increase(productId, sellerId);
-            sender(token, MessageSupplier.RequestType.increaseProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (ProductDoesNotExistException | ProductIsOutOfStockException | SellerDoesNotSellOfThisProduct e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.increaseProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        synchronized (lockInDecreseProductNum) {
+            try {
+                buyerController.increase(productId, sellerId);
+                sender(token, MessageSupplier.RequestType.increaseProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            } catch (ProductDoesNotExistException | ProductIsOutOfStockException | SellerDoesNotSellOfThisProduct e) {
+                e.printStackTrace();
+                sender(token, MessageSupplier.RequestType.increaseProduct, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            }
         }
     }
 
@@ -835,8 +849,13 @@ public class SendAndReceive {
         String sellerId = inputs.get(1);
         Customer account = (Customer) buyerController.getClientInfo().get().getAccount();
         Cart cart = account.getCart();
-        cart.addProductToCart(Long.parseLong(sellerId), Long.parseLong(productId));
-        sender(token, MessageSupplier.RequestType.addProductToCart, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        try {
+            ProductController.getInstance().addToCart(sellerId);
+            sender(token, MessageSupplier.RequestType.addProductToCart, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (AccountHasNotLogin | ProductIsOutOfStockException | ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.addProductToCart, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
     }
 
     private static void getProductInfoById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {

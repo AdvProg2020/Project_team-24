@@ -1,5 +1,4 @@
 package B_Server.Controller.Controllers.AccountControllers;
-
 import B_Server.Controller.Tools.AccountController;
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.Models.*;
@@ -8,12 +7,10 @@ import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Seller;
 import Structs.FieldAndFieldList.Field;
-
 import B_Server.Model.Models.Structs.ProductLog;
 import Structs.ProductVsSeller.ProductOfSeller;
 import Structs.FieldAndFieldList.FieldList;
 import org.jetbrains.annotations.NotNull;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
