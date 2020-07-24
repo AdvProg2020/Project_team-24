@@ -28,7 +28,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
@@ -218,15 +220,7 @@ public class SendAndReceive {
                 getCodeById(newToken, inputs, requestHandler);
                 break;
             case "SetMediasOfProduct":
-                String ProductId = inputs.get(0);
-                String Str_Image = inputs.get(1);
-                String Str_Movie = inputs.get(2);
-
-                JsonHandler<byte[]> jsonHandler = new JsonHandler<>();
-                byte[] image_bytes = jsonHandler.JsonToObject(Str_Image, byte[].class);
-                byte[] movie_bytes = jsonHandler.JsonToObject(Str_Movie, byte[].class);
-
-//                File image = ;
+                setMediasOfProduct(newToken, inputs, requestHandler);
                 break;
             case "GetAllProductsPrime":
                 getAllProducts(newToken, request, requestHandler,
@@ -245,6 +239,35 @@ public class SendAndReceive {
                 deleteProductById(newToken, inputs, requestHandler);
                 break;
         }
+    }
+
+    private static void setMediasOfProduct(String token, List<String> inputs, RequestHandler requestHandler) {
+        String Str_Image = inputs.get(0);
+        String Str_Movie = inputs.get(1);
+
+        Medias medias = new Medias();
+        Medias.addMedia(medias);
+
+        JsonHandler<byte[]> jsonHandler = new JsonHandler<>();
+
+        try {
+            image_write(Str_Image, medias, jsonHandler, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+            image_write(Str_Movie, medias, jsonHandler, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
+            sellerController.saveProductMedias(medias);
+            sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
+    private static void image_write(String str_Image, @NotNull Medias medias, @NotNull JsonHandler<byte[]> jsonHandler, String s, String s2) throws IOException {
+        byte[] image_bytes = jsonHandler.JsonToObject(str_Image, byte[].class);
+        File image = new File(s + medias.getId() + s2);
+        OutputStream osi = new FileOutputStream(image);
+        osi.write(image_bytes);
+        osi.close();
     }
 
     private static void OnlineNewClient(RequestHandler requestHandler) {

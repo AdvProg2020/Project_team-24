@@ -101,10 +101,10 @@ public class SendAndReceive implements MessagePattern {
         return new YaGson().toJson(bytes);
     }
 
-    public static void setMedias(String productId, File image, File movie) {
+    public static void setMedias(File image, File movie) {
         String s = GetByteOfFile(image);
         String o = GetByteOfFile(movie);
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct, Arrays.asList(client.getClientInfo().getToken(), productId, s, o));
+        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct, Arrays.asList(client.getClientInfo().getToken(), s, o));
     }
 
     // Get All

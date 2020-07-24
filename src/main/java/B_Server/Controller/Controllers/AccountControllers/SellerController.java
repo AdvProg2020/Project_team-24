@@ -3,6 +3,7 @@ package B_Server.Controller.Controllers.AccountControllers;
 import B_Server.Controller.Tools.AccountController;
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.Models.*;
+import B_Server.Model.Models.Structs.Medias;
 import Exceptions.*;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Seller;
@@ -127,6 +128,14 @@ public class SellerController extends LocalClientInfo implements AccountControll
             throw new NullPointerException("Please set inRegistering product.");
 
         inRegisteringProduct.get().setCategoryInfo(new Info("CategoryInfo", fieldList, LocalDate.now()));
+    }
+
+    public void saveProductMedias(Medias medias) throws NullPointerException {
+
+        if (inRegisteringProduct.get() == null)
+            throw new NullPointerException("Please set inRegistering product.");
+
+        inRegisteringProduct.get().setMediaId(medias.getId());
     }
 
     public void sendRequest(ForPend forPend, String information, String type) {

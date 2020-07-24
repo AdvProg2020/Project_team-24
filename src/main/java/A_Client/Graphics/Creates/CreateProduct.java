@@ -282,7 +282,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
         }
 
         if (selectedImage != null || selectedMedia != null)
-            SendAndReceive.setMedias(product.getProductId(),selectedImage, selectedMedia);
+            SendAndReceive.setMedias(selectedImage, selectedMedia);
 
         return true;
     }
