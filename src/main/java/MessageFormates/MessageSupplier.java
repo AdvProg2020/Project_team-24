@@ -33,6 +33,7 @@ public interface MessageSupplier {
         GetImageById,
         GetMovieById,
         GetCodeById,
+        GetOfferById,
         SetImageById,
         SetMediasOfProduct,
         GetAllProducts,
@@ -83,6 +84,9 @@ public interface MessageSupplier {
         getProductInfoById,
         addCommentToProduct,
         rate,
-        addChatMode
+        addChatMode,
+        addNewBuyerToOfferById,
+        SetCurrentOffer,
+        GetAllOffers
     }
 }
