@@ -8,6 +8,13 @@ public class Supporter extends Account {
         super(id, userName, password, personalInfo);
     }
 
+    public Supporter(String username) {
+        super(username);
+    }
+
+    public Supporter() {
+    }
+
     public void createGroupChat(){
         //...
     }

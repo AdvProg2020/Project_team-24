@@ -2,6 +2,7 @@ package B_Server.Controller.Controllers.LoginaAndRegister;
 
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
+import B_Server.Model.Models.Accounts.Supporter;
 import Exceptions.*;
 import B_Server.Model.Models.Account;
 import B_Server.Model.Models.Accounts.Customer;
@@ -54,6 +55,9 @@ public class SignUpController extends LocalClientInfo {
                 break;
             case "Customer":
                 account = new Customer(username);
+                break;
+            case "Supporter" :
+                account = new Supporter(username);
                 break;
             default:
                 throw new TypeInvalidException(type + " isn't a valid type. just 'Manager' , 'Seller' , 'Customer' are valid.");
