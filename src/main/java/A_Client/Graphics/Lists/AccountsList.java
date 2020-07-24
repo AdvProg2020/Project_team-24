@@ -92,10 +92,6 @@ public class AccountsList implements SceneBuilder, Initializable {
             MiniDiscountCode discountCode = SendAndReceive.getCodeById(client.getClientInfo().getCodeId());
             if (discountCode != null && account.getAccountT().equals("Customer")) {
                 SendAndReceive.addToCodesList(Arrays.asList(account.getAccountId(), discountCode.getId()));
-//                ((Customer) account).addToDiscountCodeList(discountCode.getId());
-//                discountCode.addAccount(account.getId());
-//                DataBase.save(discountCode);
-//                DataBase.save(account);
             }
             init();
         });

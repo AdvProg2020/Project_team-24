@@ -3,10 +3,10 @@ package A_Client.Graphics.Creates;
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
+import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.FieldAndFieldList.Field;
 import Structs.MiniCate;
 import Structs.MiniProduct;
-import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.ProductVsSeller.ProductOfSeller;
 import com.gilecode.yagson.YaGson;
 import javafx.collections.FXCollections;
@@ -26,7 +26,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class CreateProduct implements SceneBuilder, Initializable {
@@ -211,10 +214,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     private void submit_addSellerMode(String productPrice, String productNumber) {
-        SendAndReceive.addNewSellerOfPro(Arrays.asList(client.getClientInfo().getAccountId(), productPrice, productNumber));
-//        product.addSeller(account.getId(), Double.parseDouble(productPrice), Long.parseLong(productNumber));
-//        ((Seller) account).addToProductList(product.getId());
-//        DataBase.save(product);
+        SendAndReceive.addNewSellerOfPro(Arrays.asList(product.getProductId(), client.getClientInfo().getAccountId(), productPrice, productNumber));
         goMainMenu();
     }
 
@@ -282,28 +282,13 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
         if (str_v_c.size() != str_fcc.size()) {
             mustFillCategoryValues();
-            return true;
+            return false;
         }
 
-        if (selectedImage != null || selectedMedia != null) {
+        if (selectedImage != null || selectedMedia != null)
+            SendAndReceive.setMedias(product.getProductId(),selectedImage, selectedMedia);
 
-//            Medias medias = new Medias();
-//            Medias.addMedia(medias);
-//            product.setMediaId(medias.getId());
-//
-//            if (selectedImage != null) {
-//                setImage();
-//                medias.setImageSrc(selectedImage.toURI().toString());
-//            }
-//            if (selectedMedia != null) {
-//                setMedia();
-//                medias.setPlayerSrc(selectedMedia.toURI().toString());
-//            }
-            SendAndReceive.setMedias(,selectedImage, selectedMedia);
-
-//            DataBase.save(medias);
-        }
-        return false;
+        return true;
     }
 
     private void mustFillCategoryValues() {

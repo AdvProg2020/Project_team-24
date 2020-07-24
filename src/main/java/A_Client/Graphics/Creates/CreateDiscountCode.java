@@ -26,7 +26,6 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
 
     private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.New;
-
     @FXML
     private TextField start_date;
     @FXML

@@ -5,7 +5,6 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.Roles.Customer;
 import A_Client.Graphics.Accounts.Roles.Manager;
 import A_Client.Graphics.Accounts.Roles.Seller;
-import MessageFormates.MessageSupplier;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
 import A_Client.Graphics.Models.AuctionCart;
@@ -15,7 +14,11 @@ import A_Client.Graphics.Pages.Cart;
 import A_Client.Graphics.Pages.CeSut;
 import A_Client.Graphics.Pages.Login;
 import A_Client.Graphics.Tools.SceneBuilder;
-import Structs.*;
+import MessageFormates.MessageSupplier;
+import Structs.MiniAuction;
+import Structs.MiniCate;
+import Structs.MiniOffer;
+import Structs.MiniProduct;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -38,7 +41,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 // MainMenu finished.
@@ -245,7 +251,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     private void addFilter_search() {
         String filterStr = searchArea.getText();
-        SendAndReceive.addNewFilter(Collections.singletonList(filterStr));
+        SendAndReceive.addNewFilter(Arrays.asList("ProductName", filterStr));
     }
 
     public static void main(String[] args) {
@@ -272,9 +278,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         }).start();
     }
 
-    
-    private void setOffers(List<MiniOffer> list){
-        
+
+    private void setOffers(List<MiniOffer> list) {
+
 
     }
 
