@@ -82,10 +82,12 @@ public class ProductController extends LocalClientInfo {
         Customer customer = (Customer) clientInfo.get().getAccount();
 
         ProductOfSeller productOfSellerById = Product.getProductById(clientInfo.get().getProduct().getId()).getProductOfSellerById(sellerId);
-        if (productOfSellerById.getNumber() <= 0) {
-            throw new ProductIsOutOfStockException("Product is out of stock.");
+        synchronized (this) {
+            if (productOfSellerById.getNumber() <= 0) {
+                throw new ProductIsOutOfStockException("Product is out of stock.");
+            }
+            productOfSellerById.setNumber(productOfSellerById.getNumber() - 1);
         }
-        productOfSellerById.setNumber(productOfSellerById.getNumber() - 1);
         customer.getCart().addProductToCart(sellerId, clientInfo.get().getProduct().getId());
     }
 
