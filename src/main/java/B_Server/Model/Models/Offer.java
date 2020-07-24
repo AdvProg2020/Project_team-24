@@ -29,6 +29,10 @@ public class Offer implements Packable<Offer> {
         this.offerId = offerId;
     }
 
+    public static void setList(List<Offer> list) {
+        Offer.list = list;
+    }
+
     @Override
     public long getId() {
         return offerId;

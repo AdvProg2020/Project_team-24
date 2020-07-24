@@ -1,8 +1,8 @@
 package B_Server.Model.DataBase;
 
-import Exceptions.*;
 import B_Server.Model.Models.Data.Data;
 import B_Server.Model.Tools.Packable;
+import Exceptions.*;
 import com.gilecode.yagson.YaGson;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +27,8 @@ public class DataBase {
         String classSimpleName = clazz.getSimpleName();
 
         List<Packable<?>> list = new ArrayList<>();
+
+        createDirectory(clazz.getSimpleName());
 
         try (Stream<Path> pathStream = Files.walk(Paths.get(getStringPath(classSimpleName))).filter(Files::isRegularFile)) {
 
@@ -58,6 +60,7 @@ public class DataBase {
         if (New) {
 
             try {
+                createDirectory(object.getClass().getSimpleName());
                 Files.createFile(Paths.get(getStringObjPath(object)));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -97,6 +100,16 @@ public class DataBase {
     }
 
     /***************************************************otherMethods****************************************************/
+
+    private static void createDirectory(String className) {
+        try {
+            Path dir = Paths.get(String.format("src/main/resources/DataBase/%s-src", className));
+            if (!Files.exists(dir))
+                Files.createDirectory(dir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static String getStringPath(@NotNull String className) {
         return String.format("src/main/resources/DataBase/%s-src", (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className);

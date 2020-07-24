@@ -1,7 +1,9 @@
 package B_Server.Server;
 
+import B_Server.Model.ModelUnit;
 import B_Server.Server.InstantInfo.InstantInfo;
 import B_Server.Server.RequestHandler.RequestHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -51,7 +53,18 @@ public class Server extends Thread {
         }
     }
 
+    @NotNull
     public static String createToken() {
         return UUID.randomUUID().toString();
+    }
+
+    public static void main(String[] args) throws IOException {
+        ModelUnit.preprocess_loadLists();
+        Server server = new Server();
+        server.start();
+
+        ServerSocket mineServer = server.getMineServer();
+        System.out.println("Server: Host/" + mineServer.getInetAddress().getHostName()
+                + " Post/" + mineServer.getLocalPort());
     }
 }

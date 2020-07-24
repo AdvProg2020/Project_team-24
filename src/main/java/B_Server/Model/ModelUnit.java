@@ -32,5 +32,7 @@ public class ModelUnit {
                 DataBase.loadList(Score.class).stream().map(packable -> (Score) packable).collect(Collectors.toList())));
         Medias.setList(Collections.synchronizedList(
                 DataBase.loadList(Medias.class).stream().map(packable -> (Medias) packable).collect(Collectors.toList())));
+        Offer.setList(Collections.synchronizedList(
+                DataBase.loadList(Offer.class).stream().map(packable -> (Offer) packable).collect(Collectors.toList())));
     }
 }
