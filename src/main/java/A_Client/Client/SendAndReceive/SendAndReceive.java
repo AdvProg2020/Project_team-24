@@ -30,7 +30,7 @@ public class SendAndReceive implements MessagePattern {
 
     // GetToken
     public static void getToken() {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetToken, null);
+        client.sendAndReceive(MessageSupplier.RequestType.GetToken, null);
     }
 
     // Single Object
@@ -103,7 +103,7 @@ public class SendAndReceive implements MessagePattern {
         list.add(client.getClientInfo().getToken());
         list.add(mediasId);
         list.add(GetByteOfFile(file));
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.SetImageById, list);
+        client.sendAndReceive(MessageSupplier.RequestType.SetImageById, list);
     }
 
     private static String GetByteOfFile(@NotNull File file) {
@@ -119,7 +119,7 @@ public class SendAndReceive implements MessagePattern {
     public static void setMedias(File image, File movie) {
         String s = GetByteOfFile(image);
         String o = GetByteOfFile(movie);
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct, Arrays.asList(client.getClientInfo().getToken(), s, o));
+        client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct, Arrays.asList(client.getClientInfo().getToken(), s, o));
     }
 
     // Get All
@@ -229,11 +229,11 @@ public class SendAndReceive implements MessagePattern {
         return new JsonHandler<String>().JsonsToObjectList(answer, false).get(0);
     }
 
-    public static void addProduct(List<String> fields) {
+    public static List<String> addProduct(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewProduct, list);
+        return client.sendAndReceive(MessageSupplier.RequestType.addNewProduct, list);
     }
 
     public static void addNewBuyerToOfferById(List<String> fields) {
@@ -278,32 +278,32 @@ public class SendAndReceive implements MessagePattern {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditAccount, list);
     }
 
-    public static void EditProduct(List<String> fields) {
+    public static List<String> EditProduct(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditProduct, list);
+        return client.sendAndReceive(MessageSupplier.RequestType.EditProduct, list);
     }
 
-    public static void EditAuction(List<String> fields) {
+    public static List<String> EditAuction(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditAuction, list);
+        return client.sendAndReceive(MessageSupplier.RequestType.EditAuction, list);
     }
 
-    public static void EditCategory(List<String> fields) {
+    public static List<String> EditCategory(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditCate, list);
+        return client.sendAndReceive(MessageSupplier.RequestType.EditCate, list);
     }
 
-    public static void EditDiscountCode(List<String> fields) {
+    public static List<String> EditDiscountCode(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditDiscountCode, list);
+        return client.sendAndReceive(MessageSupplier.RequestType.EditDiscountCode, list);
     }
 
     // Others
@@ -385,17 +385,17 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static void acceptRequest(String requestId) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.acceptRequest,
+        client.sendAndReceive(MessageSupplier.RequestType.acceptRequest,
                 Arrays.asList(client.getClientInfo().getToken(), requestId));
     }
 
     public static void declineRequest(String requestId) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.declineRequest,
+        client.sendAndReceive(MessageSupplier.RequestType.declineRequest,
                 Arrays.asList(client.getClientInfo().getToken(), requestId));
     }
 
     public static void CheckMyDiscountCodes() {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.CheckDiscountCodes,
+        client.sendAndReceive(MessageSupplier.RequestType.CheckDiscountCodes,
                 Collections.singletonList(client.getClientInfo().getToken()));
     }
 
@@ -407,11 +407,12 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static void Logout() {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
+        client.sendAndReceive(MessageSupplier.RequestType.Logout,
+                Collections.singletonList(client.getClientInfo().getToken()));
     }
 
-    public static void rate(String productId, String accountId, String rate) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.rate,
+    public static List<String> rate(String productId, String accountId, String rate) {
+        return client.sendAndReceive(MessageSupplier.RequestType.rate,
                 Arrays.asList(client.getClientInfo().getToken(), productId, accountId, rate));
     }
 
@@ -422,33 +423,33 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static void ProductSort(String sort) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Sort,
+        client.sendAndReceive(MessageSupplier.RequestType.Sort,
                 Arrays.asList(client.getClientInfo().getToken(), sort));
     }
 
     public static void closeApp() {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Sort,
+        client.sendAndReceive(MessageSupplier.RequestType.Sort,
                 Collections.singletonList(client.getClientInfo().getToken()));
     }
 
     // Set Current
     public static void SetCurrentCate(String cateId) {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentCate,
+        client.sendAndReceive(MessageSupplier.RequestType.SetCurrentCate,
                 Arrays.asList(client.getClientInfo().getToken(), cateId));
     }
 
     public static void SetCurrentCode(String codeId) {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentCode,
+        client.sendAndReceive(MessageSupplier.RequestType.SetCurrentCode,
                 Arrays.asList(client.getClientInfo().getToken(), codeId));
     }
 
     public static void SetCurrentProduct(String productId) {
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentProduct,
+        client.sendAndReceive(MessageSupplier.RequestType.SetCurrentProduct,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
     }
 
     public static void setCurrentOffer(String offerId){
-        List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.SetCurrentOffer,
+        client.sendAndReceive(MessageSupplier.RequestType.SetCurrentOffer,
                 Arrays.asList(client.getClientInfo().getToken(), offerId));
 
     }

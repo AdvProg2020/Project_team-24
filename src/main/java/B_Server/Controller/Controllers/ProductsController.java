@@ -2,8 +2,6 @@ package B_Server.Controller.Controllers;
 
 import B_Server.Controller.Tools.LocalClientInfo;
 import Exceptions.NotAvailableSortException;
-import Exceptions.ProductDoesNotExistException;
-import B_Server.Model.Models.Category;
 import B_Server.Model.Models.Filter;
 import B_Server.Model.Models.Product;
 import B_Server.Model.Models.Sorter;
@@ -42,7 +40,7 @@ public class ProductsController extends LocalClientInfo {
         }
     }
 
-    private SortElement sortElement = SortElement.DEFAULT;
+    private ThreadLocal<SortElement> sortElement = new ThreadLocal<>();
 
     private static List<Product> productList = new ArrayList<>(Product.getList());
 
@@ -55,20 +53,13 @@ public class ProductsController extends LocalClientInfo {
     }
 
     private ProductsController() {
+        sortElement.set(SortElement.DEFAULT);
     }
 
     /****************************************************methods********************************************************/
 
-    public List<Category> viewCategories() {
-        return Category.getList();
-    }
-
-    public String showAvailableSorts() {
-        return "The available sort elements are : \"Time\" or \"Point\" or \"NumberOfVisits\" or \"Default\"";
-    }
-
     public SortElement currentSort() {
-        return sortElement;
+        return sortElement.get();
     }
 
     public List<Product> showProducts() {
@@ -88,37 +79,29 @@ public class ProductsController extends LocalClientInfo {
         return productList;
     }
 
-    public List<Product> sort(@NotNull String sortElement) throws NotAvailableSortException {
+    public void sort(@NotNull String sortElement) throws NotAvailableSortException {
 
         switch (sortElement) {
             case "Time":
-                this.sortElement = SortElement.TIME;
+                this.sortElement.set(SortElement.TIME);
                 break;
             case "Point":
-                this.sortElement = SortElement.POINT;
+                this.sortElement.set(SortElement.POINT);
                 break;
             case "NumberOfVisits":
-                this.sortElement = SortElement.NUMBER_OF_VISITS;
+                this.sortElement.set(SortElement.NUMBER_OF_VISITS);
                 break;
             case "Default":
-                this.sortElement = SortElement.DEFAULT;
+                this.sortElement.set(SortElement.DEFAULT);
                 break;
             default:
                 throw new NotAvailableSortException("this sort isn't an available Sort.");
         }
-        this.sortElement.getSorter().sorted(productList);
-        return productList;
+        this.sortElement.get().getSorter().sorted(productList);
     }
 
     public List<Product> disableSort() {
-        sortElement = SortElement.NUMBER_OF_VISITS;
+        sortElement.set(SortElement.NUMBER_OF_VISITS);
         return productList;
-    }
-
-    public Product showProduct(String productIdString) throws ProductDoesNotExistException , NumberFormatException {
-        long id = Long.parseLong(productIdString);
-        Product product = Product.getProductById(id);
-        clientInfo.get().setProduct(product);
-        return product;
     }
 }

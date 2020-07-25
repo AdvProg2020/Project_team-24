@@ -61,6 +61,10 @@ public class ChatArea implements Initializable {
         seeMessage();
     }
 
+    public static YacGram getYacGram() {
+        return yacGram;
+    }
+
     public void setChatRoom(int index) {
         chatRoom = yacGram.getChatRoomList().get(index);
     }

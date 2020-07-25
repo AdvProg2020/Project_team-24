@@ -48,9 +48,11 @@ public class SendAndReceive {
     private final static Object lockAcceptDeclineReq = new Object();
     private final static Object lockAddNewAccount = new Object();
     private final static Object loginUserLock = new Object();
+    private final static Object lockEditCategory = new Object();
     private final static Object lockAuctionCreating = new Object();
     private final static Object lockProductCreating = new Object();
     private final static Object lockAddDiscountCode = new Object();
+    private final static Object lockAddCommentToPro = new Object();
 
     public static void messageAnalyser(@NotNull String token, String request, List<String> inputs, RequestHandler requestHandler) {
 
@@ -666,9 +668,11 @@ public class SendAndReceive {
         List<String> ids = yaGson.fromJson(inputs.get(1), List.class);
         Category category = managerController.getClientInfo().get().getCategory();
         try {
-            managerController.editCategory(category.getId() + "", "name", categoryName);
-            category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
-            DataBase.save(category);
+            synchronized (lockEditCategory) {
+                managerController.editCategory(category.getId() + "", "name", categoryName);
+                category.setSubCategories(ids.stream().map(Long::parseLong).collect(Collectors.toList()));
+                DataBase.save(category);
+            }
             sender(token, MessageSupplier.RequestType.EditCate, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (FieldDoesNotExistException | CategoryDoesNotExistException e) {
             e.printStackTrace();
@@ -735,7 +739,9 @@ public class SendAndReceive {
 
     private static void deleteAccountById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         try {
-            managerController.deleteAccount(inputs.get(0));
+            synchronized (lockAddNewAccount) {
+                managerController.deleteAccount(inputs.get(0));
+            }
             sender(token, MessageSupplier.RequestType.DeleteAccountById, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
@@ -914,8 +920,10 @@ public class SendAndReceive {
             Product product = Product.getProductById(Long.parseLong(productId));
             FieldList fieldList = new FieldList(Arrays.asList(new Field("Title", title), new Field("Content", content)));
             Comment comment = new Comment("تایید شده", Long.parseLong(accountId), Long.parseLong(productId), fieldList);
-            Comment.addComment(comment);
-            product.addComment(comment.getId());
+            synchronized (lockAddCommentToPro) {
+                Comment.addComment(comment);
+                product.addComment(comment.getId());
+            }
             sender(token, MessageSupplier.RequestType.addCommentToProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();
@@ -931,7 +939,8 @@ public class SendAndReceive {
             sender(token, MessageSupplier.RequestType.rate, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (ProductDoesNotExistException | CannotRateException e) {
             e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.rate, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            sender(token, MessageSupplier.RequestType.rate,
+                    SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
         }
     }
 
@@ -986,10 +995,9 @@ public class SendAndReceive {
 
     private static void deleteProductById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         String productId = inputs.get(0);
-        String accountId = inputs.get(1);
         try {
             Product product = Product.getProductById(Long.parseLong(productId));
-            new Request(Long.parseLong(accountId), "remove product", "remove", product);
+            sellerController.sendRequest(product, "remove product", "remove");
             sender(token, MessageSupplier.RequestType.DeleteProductById, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (ProductDoesNotExistException e) {
             e.printStackTrace();

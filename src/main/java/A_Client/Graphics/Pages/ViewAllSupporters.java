@@ -1,9 +1,5 @@
 package A_Client.Graphics.Pages;
 
-import A_Client.ChatClient.ChatRoom;
-import A_Client.ChatClient.YacGram;
-import A_Client.Client.SendAndReceive.SendAndReceive;
-import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniAccount;
 import javafx.fxml.FXMLLoader;
@@ -30,8 +26,7 @@ public class ViewAllSupporters implements SceneBuilder {
     private Pane setChoicePane(MiniAccount account) {
         Button chatWithSupporter = new Button("گفت و گو");
         chatWithSupporter.setOnAction(event -> {
-            MainMenu.change(new ChatRoom());
         });
+        return null;
     }
-
 }

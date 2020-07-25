@@ -123,7 +123,20 @@ public class CreateAuction implements SceneBuilder, Initializable {
         objects.add(fieldName);
         objects.add(fieldValue);
         objects.add("edit Auction");
-        SendAndReceive.EditAuction(objects);
+        List<String> answers = SendAndReceive.EditAuction(objects);
+        errorHandler(answers);
+    }
+
+    private void errorHandler(List<String> answers) {
+        Matcher matcher = Pattern.compile("^FAIL/(.*)$")
+                .matcher(answers.get(2));
+
+        if (matcher.find()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(matcher.group(1));
+            alert.showAndWait();
+        }
     }
 
     private void submit_newMode(String start, String end, String name, String percent, String limit) {
@@ -149,15 +162,7 @@ public class CreateAuction implements SceneBuilder, Initializable {
 
         List<String> answers = SendAndReceive.addAuction(objects);
 
-        Matcher matcher = Pattern.compile("^FAIL/(.*)$")
-                .matcher(answers.get(2));
-
-        if (matcher.find()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText(matcher.group(1));
-            alert.showAndWait();
-        }
+        errorHandler(answers);
     }
 
     private void goMainMenu() {

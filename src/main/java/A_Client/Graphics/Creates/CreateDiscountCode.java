@@ -95,17 +95,7 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
         objects.add(limit);
         objects.add(num);
         List<String> answers = SendAndReceive.addDiscountCode(objects);
-
-        Matcher matcher = Pattern.compile("^FAIL/(.*)$")
-                .matcher(answers.get(2));
-
-        if (matcher.find()) {
-            InvalidEndAndStart();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText(matcher.group(1));
-            alert.showAndWait();
-        }
+        errorHandler(answers);
     }
 
     private void submit_editMode(String start, String end, String percent, String limit, String num) {
@@ -121,7 +111,22 @@ public class CreateDiscountCode implements SceneBuilder, Initializable {
         objects.add(client.getClientInfo().getCodeId());
         objects.add(fieldName);
         objects.add(fieldValue);
-        SendAndReceive.EditDiscountCode(objects);
+        List<String> answers = SendAndReceive.EditDiscountCode(objects);
+        errorHandler(answers);
+    }
+
+    private void errorHandler(List<String> answers) {
+
+        Matcher matcher = Pattern.compile("^FAIL/(.*)$")
+                .matcher(answers.get(2));
+
+        if (matcher.find()) {
+            InvalidEndAndStart();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(matcher.group(1));
+            alert.showAndWait();
+        }
     }
 
     private void init_editMode() {

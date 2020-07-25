@@ -16,6 +16,9 @@ import java.util.List;
 
 public class Category implements Packable<Category> , Cloneable {
 
+    private static final Object staticLock = new Object();
+    private final Object lock = new Object();
+
     /******************************************************fields*******************************************************/
 
     private static List<Category> list;
@@ -94,9 +97,11 @@ public class Category implements Packable<Category> , Cloneable {
     }
 
     public static void addCategory(@NotNull Category category) {
-        category.setCategoryId(AddingNew.getRegisteringId().apply(Category.getList()));
-        list.add(category);
-        DataBase.save(category, true);
+        synchronized (staticLock) {
+            category.setCategoryId(AddingNew.getRegisteringId().apply(Category.getList()));
+            list.add(category);
+            DataBase.save(category, true);
+        }
     }
 
     public static void removeCategory(Category category) {
@@ -125,11 +130,14 @@ public class Category implements Packable<Category> , Cloneable {
 
     public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException {
 
-        if (fieldName.equals("name")) {
-            setName(value);
-        } else {
-            Field field = categoryFields.getFieldByName(fieldName);
-            field.setString(value);
+        synchronized (lock) {
+
+            if (fieldName.equals("name")) {
+                setName(value);
+            } else {
+                Field field = categoryFields.getFieldByName(fieldName);
+                field.setString(value);
+            }
         }
     }
 

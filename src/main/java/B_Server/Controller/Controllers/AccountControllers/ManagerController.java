@@ -178,7 +178,6 @@ public class ManagerController extends LocalClientInfo implements AccountControl
         Category category = new Category(categoryName, fieldList, subCategory);
 
         Category.addCategory(category);
-
     }
 
     public Manager createManagerProfileBaseAccount(String username) throws UserNameInvalidException, UserNameTooShortException, ThisUserNameAlreadyExistsException {

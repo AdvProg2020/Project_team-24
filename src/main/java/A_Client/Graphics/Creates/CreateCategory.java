@@ -119,6 +119,19 @@ public class CreateCategory implements SceneBuilder, Initializable {
         list.add(new YaGson().toJson(ids));
         List<String> answers = SendAndReceive.addCategory(list);
 
+        errorHandler(answers);
+    }
+
+    private void submit_editMode(String category_name, @NotNull List<String> ids) {
+        List<String> list = new ArrayList<>();
+        list.add(category_name);
+        list.add(new YaGson().toJson(ids));
+        List<String> answers = SendAndReceive.EditCategory(list);
+
+        errorHandler(answers);
+    }
+
+    private void errorHandler(List<String> answers) {
         Matcher matcher = Pattern.compile("^FAIL/(.*)$")
                 .matcher(answers.get(2));
 
@@ -128,13 +141,6 @@ public class CreateCategory implements SceneBuilder, Initializable {
             alert.setContentText(matcher.group(1));
             alert.showAndWait();
         }
-    }
-
-    private void submit_editMode(String category_name, @NotNull List<String> ids) {
-        List<String> list = new ArrayList<>();
-        list.add(category_name);
-        list.add(new YaGson().toJson(ids));
-        SendAndReceive.EditCategory(list);
     }
 
     private void goMainMenu() {
