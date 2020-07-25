@@ -13,8 +13,10 @@ public class Guest extends Account {
 
     @NotNull
     public static Guest autoCreateGuest() {
-        long id = AddingNew.getRegisteringId().apply(getList());
-        return new Guest(id,"guest " + id, "", new Info("guestInfo", null, LocalDate.now()));
+        synchronized (staticLock) {
+            long id = AddingNew.getRegisteringId().apply(getList());
+            return new Guest(id, "guest " + id, "", new Info("guestInfo", null, LocalDate.now()));
+        }
     }
 
     /**************************************************constructors*****************************************************/

@@ -2,11 +2,10 @@ package B_Server.Model.Models;
 
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.Data.Data;
-import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Tools.AddingNew;
 import B_Server.Model.Tools.Packable;
 import Exceptions.*;
-import Toolkit.Connection.Message;
+import Structs.FieldAndFieldList.Field;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +14,9 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class Account implements Packable<Account> {
+
+    protected static final Object staticLock = new Object();
+    protected final Object lock = new Object();
 
     /***************************************************inRegistering***************************************************/
 
@@ -126,7 +128,7 @@ public abstract class Account implements Packable<Account> {
 
         if ("password".equals(fieldName)) {
             setPassword(value);
-        } else {
+        } else synchronized (lock) {
             Field field = personalInfo.getList().getFieldByName(fieldName);
             field.setString(value);
         }
@@ -159,9 +161,11 @@ public abstract class Account implements Packable<Account> {
     /**************************************************addAndRemove*****************************************************/
 
     public static void addAccount(@NotNull Account account) {
-        account.setId(AddingNew.getRegisteringId().apply(getList()));
-        list.add(account);
-        DataBase.save(account, true);
+        synchronized (staticLock) {
+            account.setId(AddingNew.getRegisteringId().apply(getList()));
+            list.add(account);
+            DataBase.save(account, true);
+        }
     }
 
     public static void deleteAccount(Account account) {

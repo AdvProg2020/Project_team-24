@@ -16,6 +16,9 @@ import java.util.*;
 
 public class Product implements Packable<Product>, ForPend, Filterable, Cloneable {
 
+    private static final Object staticLock = new Object();
+    private final Object lock = new Object();
+
     /*****************************************************fields*******************************************************/
 
     private static List<Product> list;
@@ -225,9 +228,11 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 //    }
 
     public static void addProduct(@NotNull Product product, boolean New) {
-        if (New) product.setProductId(AddingNew.getRegisteringId().apply(getList()));
-        list.add(product);
-        DataBase.save(product, true);
+        synchronized (staticLock) {
+            if (New) product.setProductId(AddingNew.getRegisteringId().apply(getList()));
+            list.add(product);
+            DataBase.save(product, true);
+        }
     }
 
     public static void removeProduct(Product product) {
@@ -244,27 +249,30 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 
     public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, AuctionDoesNotExistException, NumberFormatException, CategoryDoesNotExistException {
 
-        switch (fieldName) {
-            case "productName":
-                setProductName(value);
-                break;
-            case "category":
-                setCategory(Category.getCategoryById(Long.parseLong(value)));
-                break;
-            case "Auction":
-                setAuction(Auction.getAuctionById(Long.parseLong(value)));
-                break;
-            case "stateForPend":
-                setStateForPend(value);
-                break;
-            default:
-                Field field;
-                if (product_Info.getList().isFieldWithThisName(fieldName)) {
-                    field = product_Info.getList().getFieldByName(fieldName);
-                } else
-                    field = categoryInfo.getList().getFieldByName(fieldName);
+        synchronized (lock) {
 
-                field.setString(value);
+            switch (fieldName) {
+                case "productName":
+                    setProductName(value);
+                    break;
+                case "category":
+                    setCategory(Category.getCategoryById(Long.parseLong(value)));
+                    break;
+                case "Auction":
+                    setAuction(Auction.getAuctionById(Long.parseLong(value)));
+                    break;
+                case "stateForPend":
+                    setStateForPend(value);
+                    break;
+                default:
+                    Field field;
+                    if (product_Info.getList().isFieldWithThisName(fieldName)) {
+                        field = product_Info.getList().getFieldByName(fieldName);
+                    } else
+                        field = categoryInfo.getList().getFieldByName(fieldName);
+
+                    field.setString(value);
+            }
         }
     }
 
@@ -341,7 +349,10 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         this.productName = name;
         this.category = category;
         this.auction = auction;
-        this.sellersOfProduct = new ArrayList<>();
+
+        this.sellersOfProduct = Collections
+                .synchronizedList(new ArrayList<>());
+
         sellersOfProduct.add(productOfSeller);
     }
 

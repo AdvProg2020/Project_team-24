@@ -15,6 +15,7 @@ import java.util.List;
 
 public class Medias implements Packable<Medias> {
 
+    private static final Object staticLock = new Object();
     private static List<Medias> list;
 
     private long id;
@@ -29,13 +30,15 @@ public class Medias implements Packable<Medias> {
         return list.stream()
                 .filter(productMedia -> id == productMedia.getId())
                 .findFirst()
-                .orElseThrow(() -> new ProductMediaNotFoundException("Medias with id:" + id + " not found."));
+                .orElseThrow(() -> new ProductMediaNotFoundException("Medias with the id:" + id + " not found."));
     }
 
     public static void addMedia(@NotNull Medias medias) {
-        medias.setId(AddingNew.getRegisteringId().apply(list));
-        list.add(medias);
-        DataBase.save(medias,true);
+        synchronized (staticLock) {
+            medias.setId(AddingNew.getRegisteringId().apply(list));
+            list.add(medias);
+            DataBase.save(medias, true);
+        }
     }
 
     public static void removeMedia(Medias medias) {

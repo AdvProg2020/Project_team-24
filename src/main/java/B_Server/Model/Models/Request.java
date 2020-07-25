@@ -16,6 +16,9 @@ import java.util.Objects;
 
 public class Request implements Packable<Request> {
 
+    private static final Object staticLock = new Object();
+    private final Object lock = new Object();
+
     /*****************************************************fields*******************************************************/
 
     private static List<Request> list;
@@ -70,21 +73,27 @@ public class Request implements Packable<Request> {
 
         Seller seller = (Seller) Account.getAccountById(accountId);
 
-        switch (typeOfRequest) {
-            case "new":
-                accept_new(true);
-                break;
-            case "remove":
-                accept_remove();
-                break;
-            case "edit":
-                accept_edit();
+        synchronized (lock) {
+
+            if (list.contains(this)) {
+
+                switch (typeOfRequest) {
+                    case "new":
+                        accept_new(true);
+                        break;
+                    case "remove":
+                        accept_remove();
+                        break;
+                    case "edit":
+                        accept_edit();
+                }
+
+                seller.removeFromPendList(forPend);
+
+                list.remove(this);
+                DataBase.remove(this);
+            }
         }
-
-        seller.removeFromPendList(forPend);
-
-        list.remove(this);
-        DataBase.remove(this);
 
         forPend.setStateForPend("Accepted");
     }
@@ -153,10 +162,16 @@ public class Request implements Packable<Request> {
 
         Seller seller = (Seller) Account.getAccountById(accountId);
 
-        seller.removeFromPendList(forPend);
+        synchronized (lock) {
 
-        list.remove(this);
-        DataBase.remove(this);
+            if (list.contains(this)) {
+
+                seller.removeFromPendList(forPend);
+
+                list.remove(this);
+                DataBase.remove(this);
+            }
+        }
 
         forPend.setStateForPend("Declined");
 
@@ -165,9 +180,11 @@ public class Request implements Packable<Request> {
     /**************************************************addAndRemove*****************************************************/
 
     public static void addRequest(@NotNull Request request) {
-        request.setRequestId(AddingNew.getRegisteringId().apply(Request.getList()));
-        list.add(request);
-        DataBase.save(request, true);
+        synchronized (staticLock) {
+            request.setRequestId(AddingNew.getRegisteringId().apply(Request.getList()));
+            list.add(request);
+            DataBase.save(request, true);
+        }
     }
 
     public static void removeRequest(Request request) {

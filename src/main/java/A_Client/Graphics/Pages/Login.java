@@ -4,6 +4,7 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniAccount;
+import Toolkit.JsonHandler.JsonHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,7 +17,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Login implements SceneBuilder, Initializable {
 
@@ -63,13 +67,48 @@ public class Login implements SceneBuilder, Initializable {
 
         remember.isSelected();
 
-        MiniAccount miniAccount = SendAndReceive.Login(Arrays.asList(username, password));
-        SendAndReceive.getClient().getClientInfo()
-                .setAccountId(miniAccount.getAccountId());
-        SendAndReceive.getClient().getClientInfo()
-                .setAccountTy(miniAccount.getAccountT());
+        List<String> answer = SendAndReceive.Login(Arrays.asList(username, password));
 
-        goMainMenu();
+        if (errorHandler(answer.get(2))) {
+
+            List<String> jsons = new JsonHandler<String>().JsonsToObjectList(answer, false);
+            MiniAccount miniAccount = new JsonHandler<MiniAccount>().JsonToObject(jsons.get(0), MiniAccount.class);
+
+            SendAndReceive.getClient().getClientInfo()
+                    .setAccountId(miniAccount.getAccountId());
+            SendAndReceive.getClient().getClientInfo()
+                    .setAccountTy(miniAccount.getAccountT());
+
+            goMainMenu();
+        }
+    }
+
+    private boolean errorHandler(String message) {
+
+        Matcher matcher = Pattern.compile("^FAIL/(.+)/(.*)$").matcher(message);
+        if (matcher.find()) {
+
+            switch (matcher.group(1)) {
+                case "UserNameInvalidException":
+                    usernameInvalid();
+                    break;
+                case "UserNameTooShortException":
+                    usernameTooShort();
+                    break;
+                case "PasswordInvalidException":
+                    passwordInvalid();
+                    break;
+                case "AccountDoesNotExistException":
+                    accountNotExist();
+            }
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(matcher.group(2));
+            alert.showAndWait();
+
+            return false;
+        } else return true;
     }
 
     public void goMainMenu() {

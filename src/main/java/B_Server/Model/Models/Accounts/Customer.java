@@ -3,8 +3,8 @@ package B_Server.Model.Models.Accounts;
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.Account;
 import B_Server.Model.Models.Cart;
-import Exceptions.*;
 import B_Server.Model.Models.Data.Data;
+import Exceptions.*;
 import Structs.FieldAndFieldList.Field;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +25,7 @@ public class Customer extends Account {
 
     /**************************************************addAndRemove*****************************************************/
 
-    public void addToCart(long productId, long sellerId)  {
+    public void addToCart(long productId, long sellerId) {
         cart.addProductToCart(sellerId, productId);
     }
 
@@ -129,20 +129,24 @@ public class Customer extends Account {
     @Override
     public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
 
-        switch (fieldName) {
-            case "password":
-                setPassword(value);
-                break;
-            case "credit":
-                setCredit(Double.parseDouble(value));
-                break;
-            case "balance":
-                setCredit(Double.parseDouble(value));
-                break;
-            default:
-                Field field = personalInfo.getList().getFieldByName(fieldName);
-                field.setString(value);
+        synchronized (lock) {
+
+            switch (fieldName) {
+                case "password":
+                    setPassword(value);
+                    break;
+                case "credit":
+                    setCredit(Double.parseDouble(value));
+                    break;
+                case "balance":
+                    setCredit(Double.parseDouble(value));
+                    break;
+                default:
+                    Field field = personalInfo.getList().getFieldByName(fieldName);
+                    field.setString(value);
+            }
         }
+
 
         DataBase.save(this);
     }

@@ -29,6 +29,10 @@ public class Server extends Thread {
         clients.remove(instantInfo);
     }
 
+    public static List<InstantInfo> getClients() {
+        return clients;
+    }
+
     public static InstantInfo getInfoByToken(String token) {
         return clients.stream()
                 .filter(instantInfo -> token.equals(instantInfo.getMy_Token()))

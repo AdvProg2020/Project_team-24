@@ -30,6 +30,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Product implements Initializable, SceneBuilder {
 
@@ -299,14 +301,23 @@ public class Product implements Initializable, SceneBuilder {
 
     public void PointButton() {
         String accountId = client.getClientInfo().getAccountId();
-        SendAndReceive.rate(productObject.getProductId(), accountId, pointArea.getText());
+        List<String> answers = SendAndReceive.rate(productObject.getProductId(),
+                accountId, pointArea.getText());
+
+        errorHandler(answers);
         setStars();
     }
 
-    private void alertError(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void errorHandler(List<String> answers) {
+
+        Matcher matcher = Pattern.compile("^FAIL/(.+)/(.*)$")
+                .matcher(answers.get(2));
+
+        if (matcher.find()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(matcher.group(1));
+            alert.setContentText(matcher.group(2));
+            alert.showAndWait();
+        }
     }
 }

@@ -31,11 +31,6 @@ public class Seller extends Account {
         DataBase.save(this);
     }
 
-    public void removeFromLogHistoryList(long logHistoryId) {
-        logHistoryList.remove(logHistoryId);
-        DataBase.save(this);
-    }
-
     public void addToAuctionList(long auctionId) {
         auctionList.add(auctionId);
         DataBase.save(this);
@@ -87,10 +82,6 @@ public class Seller extends Account {
         return companyInfo;
     }
 
-//    public List<ForPend> getForPendList() {
-//        return Collections.unmodifiableList(forPendList);
-//    }
-
     public List<Long> getAuctionList() {
         return Collections.unmodifiableList(auctionList);
     }
@@ -108,19 +99,22 @@ public class Seller extends Account {
     @Override
     public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException {
 
-        switch (fieldName) {
-            case "password":
-                setPassword(value);
-                break;
-            case "balance":
-                setBalance(Double.parseDouble(value));
-                break;
-            default:
-                Field field;
-                if (personalInfo.getList().isFieldWithThisName(fieldName)) {
-                    field = personalInfo.getList().getFieldByName(fieldName);
-                } else field = companyInfo.getList().getFieldByName(fieldName);
-                field.setString(value);
+        synchronized (lock) {
+
+            switch (fieldName) {
+                case "password":
+                    setPassword(value);
+                    break;
+                case "balance":
+                    setBalance(Double.parseDouble(value));
+                    break;
+                default:
+                    Field field;
+                    if (personalInfo.getList().isFieldWithThisName(fieldName)) {
+                        field = personalInfo.getList().getFieldByName(fieldName);
+                    } else field = companyInfo.getList().getFieldByName(fieldName);
+                    field.setString(value);
+            }
         }
 
         DataBase.save(this);

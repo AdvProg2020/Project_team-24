@@ -17,6 +17,9 @@ import java.util.*;
 
 public class DiscountCode implements Packable<DiscountCode>, Cloneable {
 
+    private static final Object staticLock = new Object();
+    private final Object lock = new Object();
+
     /*****************************************************fields*******************************************************/
 
     private static List<DiscountCode> list;
@@ -111,9 +114,11 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
     }
 
     public static void addDiscountCode(@NotNull DiscountCode discountCode) {
-        discountCode.setId(AddingNew.getRegisteringId().apply(DiscountCode.getList()));
-        list.add(discountCode);
-        DataBase.save(discountCode, true);
+        synchronized (staticLock) {
+            discountCode.setId(AddingNew.getRegisteringId().apply(DiscountCode.getList()));
+            list.add(discountCode);
+            DataBase.save(discountCode, true);
+        }
     }
 
     public static void removeFromDiscountCode(DiscountCode discountCode) {
@@ -178,24 +183,27 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
 
     public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException, DateTimeParseException {
 
-        switch (fieldName) {
-            case "start":
-                setStart(LocalDate.parse(value, formatter));
-                break;
-            case "end":
-                setEnd(LocalDate.parse(value, formatter));
-                break;
-            case "frequentUse":
-                setFrequentUse(Long.parseLong(value));
-                break;
-            case "maxDiscountAmount":
-                discount.setAmount(Double.parseDouble(value));
-                break;
-            case "discountPercent":
-                discount.setPercent(Double.parseDouble(value));
-                break;
-            default:
-                throw new FieldDoesNotExistException("Not such a field in DiscountCode");
+        synchronized (lock) {
+
+            switch (fieldName) {
+                case "start":
+                    setStart(LocalDate.parse(value, formatter));
+                    break;
+                case "end":
+                    setEnd(LocalDate.parse(value, formatter));
+                    break;
+                case "frequentUse":
+                    setFrequentUse(Long.parseLong(value));
+                    break;
+                case "maxDiscountAmount":
+                    discount.setAmount(Double.parseDouble(value));
+                    break;
+                case "discountPercent":
+                    discount.setPercent(Double.parseDouble(value));
+                    break;
+                default:
+                    throw new FieldDoesNotExistException("Not such a field in DiscountCode");
+            }
         }
     }
 
@@ -206,7 +214,7 @@ public class DiscountCode implements Packable<DiscountCode>, Cloneable {
                 ((Customer) Account.getAccountById(aLong)).removeFromDiscountCodeList(id);
             }
             if (exception) {
-                throw new DiscountCodeExpiredException("DiscountCode with id:" + id + " expired.");
+                throw new DiscountCodeExpiredException("DiscountCode with the id:" + id + " expired.");
             }
         }
     }

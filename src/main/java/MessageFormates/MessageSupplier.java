@@ -91,7 +91,7 @@ public interface MessageSupplier {
         addChatMode,
         addNewBuyerToOfferById,
         SetCurrentOffer,
-        GetAllOffers
-
+        GetAllOffers,
+        Kill,
     }
 }

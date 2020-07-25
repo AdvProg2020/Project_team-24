@@ -127,6 +127,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
             if (client.getClientInfo()
                     .getAccountTy().equals("Customer")) cart_btn.setDisable(false);
         }
+
+        primaryStage.setOnCloseRequest(event -> SendAndReceive.closeApp());
     }
 
     @NotNull
@@ -228,6 +230,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
             case "Customer":
                 MainMenu.change(new Customer().sceneBuilder());
                 break;
+            case "Supporter":
+//                MainMenu.change();
             default:
                 return;
         }
@@ -307,6 +311,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void viewOffers() {
         setOffers(SendAndReceive.getAllOffers());
         MainMenu.change(new OffersMenu().sceneBuilder());
+        enableBack();
     }
 
     public void viewSupporters(ActionEvent event) {

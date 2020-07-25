@@ -3,18 +3,23 @@ package B_Server.Model.Models;
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.Data.Data;
 import B_Server.Model.Models.Structs.Discount;
-import Exceptions.*;
 import B_Server.Model.Tools.AddingNew;
 import B_Server.Model.Tools.ForPend;
 import B_Server.Model.Tools.Packable;
+import Exceptions.AuctionDoesNotExistException;
+import Exceptions.FieldDoesNotExistException;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 public class Auction implements Packable<Auction>, ForPend, Cloneable {
+
+    private static final Object staticLock = new Object();
+    private final Object lock = new Object();
 
     /*****************************************************fields*******************************************************/
 
@@ -103,9 +108,11 @@ public class Auction implements Packable<Auction>, ForPend, Cloneable {
     /**************************************************addAndRemove*****************************************************/
 
     public static void addAuction(@NotNull Auction auction, boolean New) {
-        if (New) auction.setAuctionId(AddingNew.getRegisteringId().apply(getList()));
-        list.add(auction);
-        DataBase.save(auction, true);
+        synchronized (staticLock) {
+            if (New) auction.setAuctionId(AddingNew.getRegisteringId().apply(getList()));
+            list.add(auction);
+            DataBase.save(auction, true);
+        }
     }
 
     public static void removeAuction(Auction auction) {
@@ -134,10 +141,10 @@ public class Auction implements Packable<Auction>, ForPend, Cloneable {
                 ));
     }
 
-    public static void checkExistOfAuctionById(long id , @NotNull List<Long> longList, Packable<?> packable) throws AuctionDoesNotExistException {
+    public static void checkExistOfAuctionById(long id, @NotNull List<Long> longList, Packable<?> packable) throws AuctionDoesNotExistException {
         if (longList.stream().noneMatch(Id -> id == Id)) {
             throw new AuctionDoesNotExistException(
-                    "In the " + packable.getClass().getSimpleName() + " with id:" + packable.getId() + " the Auction with id:"+  id + " does not exist."
+                    "In the " + packable.getClass().getSimpleName() + " with id:" + packable.getId() + " the Auction with id:" + id + " does not exist."
             );
         }
     }
@@ -147,28 +154,30 @@ public class Auction implements Packable<Auction>, ForPend, Cloneable {
     }
 
     public void editField(@NotNull String fieldName, String value) throws FieldDoesNotExistException, NumberFormatException {
+        synchronized (lock) {
 
-        switch (fieldName) {
-            case "auctionName":
-                setAuctionName(value);
-                break;
-            case "start":
-                setStart(LocalDate.parse(value, formatter));
-                break;
-            case "end":
-                setEnd((LocalDate.parse(value, formatter)));
-                break;
-            case "stateForPend":
-                setStateForPend(value);
-                break;
-            case "discountMaxAmount":
-                discount.setAmount(Double.parseDouble(value));
-                break;
-            case "discountPercent":
-                discount.setPercent(Double.parseDouble(value));
-                break;
-            default:
-                throw new FieldDoesNotExistException("Field with the name:" + fieldName + " doesn't exist.");
+            switch (fieldName) {
+                case "auctionName":
+                    setAuctionName(value);
+                    break;
+                case "start":
+                    setStart(LocalDate.parse(value, formatter));
+                    break;
+                case "end":
+                    setEnd((LocalDate.parse(value, formatter)));
+                    break;
+                case "stateForPend":
+                    setStateForPend(value);
+                    break;
+                case "discountMaxAmount":
+                    discount.setAmount(Double.parseDouble(value));
+                    break;
+                case "discountPercent":
+                    discount.setPercent(Double.parseDouble(value));
+                    break;
+                default:
+                    throw new FieldDoesNotExistException("Field with the name:" + fieldName + " doesn't exist.");
+            }
         }
     }
 
