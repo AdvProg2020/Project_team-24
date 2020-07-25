@@ -15,13 +15,12 @@
         </Label>
         <TableView fx:id="accountTableView" layoutX="166.0" layoutY="155.0" prefHeight="480.0" prefWidth="828.0" stylesheets="@TableStyle.css">
             <columns>
-                <TableColumn fx:id="buttons" prefWidth="412.1999969482422" text="انتخاب کد تخفیف / حذف کاربر" />
-                <TableColumn fx:id="username" prefWidth="410.79998779296875" text="نام کاربری" />
+                <TableColumn fx:id="buttons" editable="false" prefWidth="412.1999969482422" sortable="false" text="انتخاب کد تخفیف / حذف کاربر" />
+                <TableColumn fx:id="username" editable="false" prefWidth="410.79998779296875" sortable="false" text="نام کاربری" />
             </columns>
         </TableView>
-        <ImageView fitHeight="119.0" fitWidth="87.0" layoutX="409.0" layoutY="53.0" pickOnBounds="true"
-                   preserveRatio="true">
-            <Image url="@icons8-google-classroom-48.png"/>
+        <ImageView fitHeight="119.0" fitWidth="87.0" layoutX="409.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@icons8-google-classroom-48.png" />
         </ImageView>
     </AnchorPane>
 </Scene>

@@ -9,7 +9,7 @@
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Menus.ProductsMenu">
     <AnchorPane prefHeight="745.0" prefWidth="1516.0">
         <Pane layoutX="-200.0" prefHeight="740.0" prefWidth="1437.0">
-            <Label alignment="CENTER" layoutX="804.0" layoutY="28.0" prefHeight="24.0" prefWidth="391.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه محصولات">
+            <Label fx:id="title" alignment="CENTER" layoutX="804.0" layoutY="28.0" prefHeight="24.0" prefWidth="391.0" styleClass="title" stylesheets="@ProductsMenuStyle.css" text="صفحه محصولات">
                 <font>
                     <Font size="24.0" />
                 </font>
@@ -37,10 +37,10 @@
             </ScrollPane>
             <Button fx:id="next_btn" layoutX="1241.0" layoutY="665.0" mnemonicParsing="false" onAction="#nextPage" prefHeight="44.0" prefWidth="70.0" stylesheets="@ProductsMenuStyle.css" text="بعدی" />
             <Button fx:id="previous_btn" layoutX="677.0" layoutY="665.0" mnemonicParsing="false" onAction="#previousPage" prefHeight="44.0" prefWidth="72.0" stylesheets="@ProductsMenuStyle.css" text="قبلی" />
-            <ImageView fitHeight="64.0" fitWidth="53.0" layoutX="651.0" layoutY="661.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="auctionImage_01" fitHeight="64.0" fitWidth="53.0" layoutX="651.0" layoutY="661.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@icons8-chevron-left-48.png" />
             </ImageView>
-            <ImageView fitHeight="52.0" fitWidth="54.0" layoutX="1285.0" layoutY="661.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="auctionImage_02" fitHeight="52.0" fitWidth="54.0" layoutX="1285.0" layoutY="661.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@icons8-chevron-right-48.png" />
             </ImageView>
              </Pane>

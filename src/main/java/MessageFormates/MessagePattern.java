@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public interface MessagePattern {
 
-    Pattern splitTypeRequest = Pattern.compile("^" + "(.+)::(.+) (.*)" + "$");
+    Pattern splitTypeRequest = Pattern.compile("^" + "(.+)::(.+)::(.*)" + "$");
 
     Function<String, Matcher> messageMatcher = splitTypeRequest::matcher;
 

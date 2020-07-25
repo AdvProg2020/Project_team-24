@@ -88,11 +88,10 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="762.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@icons8-payroll-80.png" />
-               </image>
-            </ImageView>
+                <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="762.0" layoutY="153.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@icons8-payroll-80.png"/>
+                </ImageView>
             </AnchorPane>
         </top>
         <center>

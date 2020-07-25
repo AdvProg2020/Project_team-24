@@ -3,7 +3,6 @@ package A_Client.Graphics.Pages;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
-import Structs.MiniAccount;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,13 +18,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUp implements SceneBuilder, Initializable {
 
-    private List<String> inputs;
+    private static List<String> inputs;
     private static Mode mode;
     private static boolean state = true;
-    private static MiniAccount account = null;
 
     @FXML
     private ChoiceBox<String> chooseType;
@@ -239,10 +239,58 @@ public class SignUp implements SceneBuilder, Initializable {
 
         reset_next();
 
-        if (!(inputs.get(0).equals("Seller"))) {
-            SendAndReceive.addAccount(inputs, inputs.get(0));
-            goMainMenu();
-        }
+        if (!(inputs.get(0).equals("Seller")) &&
+                errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
+    }
+
+    private boolean errorHandler(String message) {
+
+        Matcher matcher = Pattern.compile("^FAIL/(.+)/(.*)$").matcher(message);
+        if (matcher.find()) {
+
+            switch (matcher.group(1)) {
+                case "UserNameInvalidException":
+                    usernameInvalid();
+                    break;
+                case "TypeInvalidException":
+                case "CanNotCreatMoreThanOneMangerBySignUp":
+                    typeInvalid();
+                    break;
+                case "UserNameTooShortException":
+                    usernameTooShort();
+                    break;
+                case "ThisUserNameAlreadyExistsException":
+                    duplicatedUsername();
+                    break;
+                case "PasswordInvalidException":
+                    passwordInvalid();
+                    break;
+                case "FirstNameInvalidException":
+                    firstNameInvalid();
+                    break;
+                case "LastNameInvalidException":
+                    lastNameInvalid();
+                    break;
+                case "EmailInvalidException":
+                    if (ComEmail == null) emailInvalid();
+                    else comEmailInvalid();
+                    break;
+                case "PhoneNumberInvalidException":
+                    if (ComPhone == null) phoneInvalid();
+                    else comPhoneInvalid();
+                    break;
+                case "CompanyNameInvalidException":
+                    companyNameInvalid();
+
+            }
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(matcher.group(2));
+            alert.showAndWait();
+
+            return false;
+        } else return true;
     }
 
     private void firstNameInvalid() {
@@ -308,10 +356,10 @@ public class SignUp implements SceneBuilder, Initializable {
 
         reset_next();
         reset_seller();
-
         submitNext();
-        SendAndReceive.addAccount(inputs, inputs.get(0));
-        goMainMenu();
+
+        if (!(inputs.get(0).equals("Seller")) &&
+                errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
     }
 
     private void reset_seller() {

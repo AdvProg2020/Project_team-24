@@ -65,6 +65,6 @@ public class Server extends Thread {
 
         ServerSocket mineServer = server.getMineServer();
         System.out.println("Server: Host/" + mineServer.getInetAddress().getHostName()
-                + " Post/" + mineServer.getLocalPort());
+                + " Port/" + mineServer.getLocalPort());
     }
 }

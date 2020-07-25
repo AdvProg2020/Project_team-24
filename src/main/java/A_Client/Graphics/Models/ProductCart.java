@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class ProductCart implements Initializable {
 
     private final Client client = SendAndReceive.getClient();
-    private static List<MiniProduct> productList = SendAndReceive.getAllMyProducts();
+    private static List<MiniProduct> productList = SendAndReceive.getAllProducts();
     private MiniProduct product;
     private int sellerIndex;
     @FXML
