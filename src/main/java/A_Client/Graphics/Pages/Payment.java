@@ -87,14 +87,15 @@ public class Payment implements Initializable, SceneBuilder {
         reset();
         if(chooseType.getValue().equals("درگاه بانکی")){
             //charge wallet ...
+            SendAndReceive.sendPaymentInfo(Arrays.asList(postCode, address, discountCode));
             MainMenu.change(new bankPage().sceneBuilder());
 
         }
-        SendAndReceive.sendPaymentInfo(Arrays.asList(postCode, address, discountCode));
-        logHistory = SendAndReceive.Purchase();
-
-        PaymentInformation.setLogHistory(logHistory);
-        MainMenu.change(new PaymentInformation().sceneBuilder());
+        if(chooseType.getValue().equals("کیف پول")){
+            logHistory = SendAndReceive.Purchase();
+            PaymentInformation.setLogHistory(logHistory);
+            MainMenu.change(new PaymentInformation().sceneBuilder());
+        }
     }
 
     private void reset() {

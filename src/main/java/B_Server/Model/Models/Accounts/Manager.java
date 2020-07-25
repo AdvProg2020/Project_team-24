@@ -1,15 +1,13 @@
 package B_Server.Model.Models.Accounts;
 
 import B_Server.Model.DataBase.DataBase;
-import B_Server.Model.Models.Account;
-import B_Server.Model.Models.Category;
-import B_Server.Model.Models.DiscountCode;
-import B_Server.Model.Models.Request;
+import B_Server.Model.Models.*;
 import Exceptions.AccountDoesNotExistException;
 import B_Server.Model.Models.Data.Data;
 import org.jetbrains.annotations.NotNull;
 
 public class Manager extends Account {
+
 
     /**************************************************addAndRemove*****************************************************/
 
@@ -51,6 +49,7 @@ public class Manager extends Account {
     public static boolean isThereAnyManager() {
         return list.stream().anyMatch(account -> account instanceof Manager);
     }
+
 
     /***************************************************packAndDpkg*****************************************************/
 

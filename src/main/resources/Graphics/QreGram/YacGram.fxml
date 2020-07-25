@@ -33,7 +33,7 @@
                         <String fx:value="sentButton" />
                      </styleClass></Button>
                   <ImageView fitHeight="76.0" fitWidth="87.0" layoutX="26.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fitHeight="78.0" fitWidth="86.0" layoutX="35.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="78.0" fitWidth="92.0" layoutX="35.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icons8-contacts-48.png" />
                      </image>

@@ -1,16 +1,22 @@
 package B_Server.Model.Models;
 
+import Exceptions.InvalidWagePercentageExeption;
+
 public class Wage {
     /*****************************************************fields*******************************************************/
-    protected double wagePercentage;
+    protected static double wagePercentage;
 
     /*****************************************************getters*******************************************************/
-    public double getWagePercentage() {
+    public static double getWagePercentage() {
         return wagePercentage;
     }
 
     /*****************************************************setters*******************************************************/
-    public void setWagePercentage(double wagePercentage) {
-        this.wagePercentage = wagePercentage;
+    public static void setWagePercentage(double wagePercentage) throws InvalidWagePercentageExeption {
+        if(wagePercentage<=100){
+            Wage.wagePercentage = wagePercentage;
+        }else{
+            throw new InvalidWagePercentageExeption("InvalidWagePercentageExeption");
+        }
     }
 }

@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="745.0" prefWidth="2000" styleClass="button" stylesheets="@AccountStyle.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <Pane layoutX="18.0" layoutY="19.0" prefHeight="707.0" prefWidth="1838.0">
         <Separator layoutX="1590.0" layoutY="390.0" prefHeight="0.0" prefWidth="239.0" />
-        <Button layoutX="176.0" layoutY="620.0" mnemonicParsing="false" onAction="#BackToMainMenu" prefHeight="39.0" prefWidth="319.0" text="بازگشت به صفحه ی اصلی">
+        <Button layoutX="172.0" layoutY="638.0" mnemonicParsing="false" onAction="#BackToMainMenu" prefHeight="39.0" prefWidth="319.0" text="بازگشت به صفحه ی اصلی">
             <font>
                 <Font size="18.0" />
             </font>
@@ -30,32 +30,32 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <Label alignment="CENTER" layoutX="285.0" layoutY="48.0" prefHeight="29.0" prefWidth="83.0" text="(( کاربران ))">
+        <Label alignment="CENTER" layoutX="285.0" layoutY="38.0" prefHeight="29.0" prefWidth="83.0" text="(( کاربران ))">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button layoutX="211.0" layoutY="229.0" mnemonicParsing="false" onAction="#CreateManager" prefHeight="39.0" prefWidth="231.0" text="ایجاد مدیر جدید">
+        <Button layoutX="211.0" layoutY="190.0" mnemonicParsing="false" onAction="#CreateManager" prefHeight="39.0" prefWidth="231.0" text="ایجاد مدیر جدید">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button layoutX="213.0" layoutY="99.0" mnemonicParsing="false" onAction="#UserList" prefHeight="41.0" prefWidth="227.0" text="لیست کاربران">
+        <Button layoutX="213.0" layoutY="86.0" mnemonicParsing="false" onAction="#UserList" prefHeight="41.0" prefWidth="227.0" text="لیست کاربران">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Label alignment="CENTER" layoutX="278.0" layoutY="369.0" prefHeight="27.0" prefWidth="96.0" text="(( دسته ها ))">
+        <Label alignment="CENTER" layoutX="278.0" layoutY="309.0" prefHeight="27.0" prefWidth="96.0" text="(( دسته ها ))">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button layoutX="214.0" layoutY="420.0" mnemonicParsing="false" onAction="#CategoryList" prefHeight="22.0" prefWidth="241.0" text="لیست دسته ها">
+        <Button layoutX="206.0" layoutY="340.0" mnemonicParsing="false" onAction="#CategoryList" prefHeight="22.0" prefWidth="241.0" text="لیست دسته ها">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button layoutX="216.0" layoutY="484.0" mnemonicParsing="false" onAction="#AddCategory" prefHeight="41.0" prefWidth="238.0" text="افزودن دسته">
+        <Button layoutX="207.0" layoutY="391.0" mnemonicParsing="false" onAction="#AddCategory" prefHeight="42.0" prefWidth="243.0" text="افزودن دسته">
             <font>
                 <Font size="18.0" />
             </font>
@@ -110,7 +110,7 @@
             </font>
         </Label>
         <Separator layoutX="1502.0" layoutY="52.0" orientation="VERTICAL" prefHeight="606.0" prefWidth="1.0" />
-        <Separator layoutX="185.0" layoutY="355.0" prefHeight="4.0" prefWidth="299.0" />
+        <Separator layoutX="177.0" layoutY="296.0" prefHeight="4.0" prefWidth="299.0" />
         <Separator layoutX="583.0" layoutY="62.0" orientation="VERTICAL" prefHeight="576.0" prefWidth="3.0" />
         <Separator layoutX="649.0" layoutY="319.0" prefHeight="7.0" prefWidth="604.0" />
         <TextField fx:id="UserName" alignment="CENTER" layoutX="759.0" layoutY="85.0" prefHeight="44.0" prefWidth="443.0" />
@@ -128,21 +128,29 @@
                <Font size="18.0" />
             </font>
          </Button>
-         <Button layoutX="212.0" layoutY="549.0" mnemonicParsing="false" onAction="#submit" prefHeight="41.0" prefWidth="245.0" text="ثبت تغییرات">
+         <Button layoutX="213.0" layoutY="579.0" mnemonicParsing="false" onAction="#submit" prefHeight="41.0" prefWidth="245.0" text="ثبت تغییرات">
             <font>
                <Font size="18.0" />
             </font>
          </Button>
-         <Button layoutX="211.0" layoutY="166.0" mnemonicParsing="false" onAction="#viewAuctions" prefHeight="39.0" prefWidth="231.0" text="مشاهده ی حراج ها">
+         <Button layoutX="211.0" layoutY="137.0" mnemonicParsing="false" onAction="#viewAuctions" prefHeight="39.0" prefWidth="231.0" text="مشاهده ی حراج ها">
             <font>
                <Font size="18.0" />
             </font>
          </Button>
-         <Button layoutX="211.0" layoutY="296.0" mnemonicParsing="false" onAction="#createNewSupporter" prefHeight="39.0" prefWidth="231.0" text="ایجاد پشتیبان جدید">
+         <Button layoutX="211.0" layoutY="241.0" mnemonicParsing="false" onAction="#createNewSupporter" prefHeight="39.0" prefWidth="231.0" text="ایجاد پشتیبان جدید">
             <font>
                <Font size="18.0" />
             </font>
          </Button>
+         <Separator layoutX="168.0" layoutY="447.0" prefHeight="2.0" prefWidth="335.0" />
+         <Label layoutX="265.0" layoutY="463.0" text="(( تعیین کارمزد ))">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+         <TextField fx:id="wage" layoutX="225.0" layoutY="502.0" prefHeight="43.0" prefWidth="202.0" />
+         <Separator layoutX="158.0" layoutY="558.0" prefHeight="0.0" prefWidth="346.0" />
     </Pane>
 
 </AnchorPane>
