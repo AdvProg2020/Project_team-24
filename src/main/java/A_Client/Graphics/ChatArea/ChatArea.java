@@ -3,6 +3,7 @@ package A_Client.Graphics.ChatArea;
 import A_Client.ChatClient.ChatRoom;
 import A_Client.ChatClient.YacGram;
 import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniAccount;
 import Toolkit.Connection.Message;
 import javafx.animation.KeyFrame;
@@ -10,8 +11,10 @@ import javafx.animation.Timeline;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -24,13 +27,14 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class ChatArea implements Initializable {
+public class ChatArea implements Initializable, SceneBuilder {
 
     private static YacGram yacGram;
     private static ChatRoom chatRoom;
@@ -133,4 +137,14 @@ public class ChatArea implements Initializable {
     }
 
 
+    @Override
+    public Scene sceneBuilder() {
+        try {
+            return FXMLLoader.load(new File("C:\\Users\\ASUS\\IdeaProjects\\Project_team-24\\src\\main\\resources\\Graphics\\QreGram\\YacGram.fxml").toURI().toURL());
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        return null;
+    }
 }
