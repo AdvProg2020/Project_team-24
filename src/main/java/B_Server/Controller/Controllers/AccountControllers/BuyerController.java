@@ -1,7 +1,9 @@
 package B_Server.Controller.Controllers.AccountControllers;
+
 import B_Server.Controller.Tools.AccountController;
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.Models.*;
+import B_Server.Model.Models.Accounts.Manager;
 import Exceptions.*;
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.Accounts.Customer;
@@ -11,6 +13,7 @@ import B_Server.Model.Models.Structs.ProductLog;
 import Structs.ProductVsSeller.ProductOfSeller;
 import Structs.FieldAndFieldList.FieldList;
 import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +56,7 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
             fieldList.addFiled(new Field(name, value));
         } else {
             Field field = fieldList.getFieldByName(name);
-            ( field).setString(value);
+            (field).setString(value);
         }
         DataBase.save(clientInfo.get().getAccount());
     }
@@ -78,7 +81,9 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
 
             productLogs.add(new ProductLog(product.getId(), product.getName(), productPrice, productAuctionAmount, productFinalPrice));
 
-            seller.setBalance(seller.getBalance() + productFinalPrice);
+            seller.setBalance(seller.getBalance() + (productFinalPrice * (100 - Wage.getWagePercentage()) / 100));
+            Manager.setBankPropertyOfAllManagers(Manager.getBankPropertyOfAllManagers() + productFinalPrice * Wage.getWagePercentage() / 100);
+
 
         }
         return productLogs;
@@ -241,13 +246,13 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
     }
 
     // wallet
-    public void payByWallet(){
+    public void payByWallet() {
 
     }
 
-    public void chargeWallet(double addAmount){
+    public void chargeWallet(double addAmount) {
         Customer customer = (Customer) clientInfo.get().getAccount();
         Wallet wallet = customer.getWallet();
-        wallet.setBalance(wallet.getBalance()+addAmount);
+        wallet.setBalance(wallet.getBalance() + addAmount);
     }
 }

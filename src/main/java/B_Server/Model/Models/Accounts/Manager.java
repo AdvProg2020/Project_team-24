@@ -7,7 +7,15 @@ import B_Server.Model.Models.Data.Data;
 import org.jetbrains.annotations.NotNull;
 
 public class Manager extends Account {
+    private static Double bankPropertyOfAllManagers;
 
+    public static Double getBankPropertyOfAllManagers() {
+        return bankPropertyOfAllManagers;
+    }
+
+    public static void setBankPropertyOfAllManagers(Double bankPropertyOfAllManagers) {
+        Manager.bankPropertyOfAllManagers = bankPropertyOfAllManagers;
+    }
 
     /**************************************************addAndRemove*****************************************************/
 

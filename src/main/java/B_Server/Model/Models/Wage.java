@@ -4,7 +4,7 @@ import Exceptions.InvalidWagePercentageExeption;
 
 public class Wage {
     /*****************************************************fields*******************************************************/
-    protected static double wagePercentage;
+    protected static double wagePercentage = 0;
 
     /*****************************************************getters*******************************************************/
     public static double getWagePercentage() {
