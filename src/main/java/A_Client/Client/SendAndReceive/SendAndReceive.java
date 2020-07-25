@@ -464,4 +464,8 @@ public class SendAndReceive implements MessagePattern {
     public static void payWithBankAccount(String receiptId) {
         //...
     }
+
+    public static List<MiniAccount> getAllSupporters() {
+        return null;
+    }
 }

@@ -131,10 +131,4 @@ public class ChatArea implements Initializable {
         m.setTextAlignment(right);
         vBox.setAlignment(centerRight);
     }
-
-    public static YacGram getYacGram() {
-        return yacGram;
-    }
-
-
 }

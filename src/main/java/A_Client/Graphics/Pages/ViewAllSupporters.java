@@ -1,10 +1,7 @@
 package A_Client.Graphics.Pages;
 
-import A_Client.ChatClient.ChatRoom;
-import A_Client.ChatClient.YacGram;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.ChatArea.ChatArea;
-import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniAccount;
 import javafx.beans.property.SimpleObjectProperty;
