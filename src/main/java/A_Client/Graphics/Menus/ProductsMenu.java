@@ -62,26 +62,6 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         MainMenu.FilterEnable();
     }
 
-    public void next() {
-        List<MiniProduct> list = new ArrayList<>();
-        for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
-            list.add(ProductsMenu.list.get(i));
-        }
-        checkButtons();
-        ProductCart.setProductList(list);
-        MainMenu.change(new ProductsMenu().sceneBuilder());
-    }
-
-    public void previous() {
-        List<MiniProduct> list = new ArrayList<>();
-        for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
-            list.add(ProductsMenu.list.get(i));
-        }
-        checkButtons();
-        ProductCart.setProductList(list);
-        MainMenu.change(new ProductsMenu().sceneBuilder());
-    }
-
     private void setAuctionMode() {
         auctionImage_01.setVisible(true);
         auctionImage_02.setVisible(true);
@@ -108,6 +88,26 @@ public class ProductsMenu implements Initializable, SceneBuilder {
         }
         next_btn.setDisable(false);
         previous_btn.setDisable(false);
+    }
+
+    public void nextPage() {
+        List<MiniProduct> list = new ArrayList<>();
+        for (int i = (++pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
+            list.add(ProductsMenu.list.get(i));
+        }
+        checkButtons();
+        ProductCart.setProductList(list);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
+    }
+
+    public void previousPage() {
+        List<MiniProduct> list = new ArrayList<>();
+        for (int i = (--pageNum - 1) * 9; i < pageNum * 9 && i < ProductsMenu.list.size(); i++) {
+            list.add(ProductsMenu.list.get(i));
+        }
+        checkButtons();
+        ProductCart.setProductList(list);
+        MainMenu.change(new ProductsMenu().sceneBuilder());
     }
 
     public enum Modes {

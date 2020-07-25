@@ -3,6 +3,7 @@ package A_Client.Graphics.Pages;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
+import Structs.MiniAccount;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -62,8 +63,11 @@ public class Login implements SceneBuilder, Initializable {
 
         remember.isSelected();
 
-        String accountId = SendAndReceive.Login(Arrays.asList(username, password));
-        SendAndReceive.getClient().getClientInfo().setAccountId(accountId);
+        MiniAccount miniAccount = SendAndReceive.Login(Arrays.asList(username, password));
+        SendAndReceive.getClient().getClientInfo()
+                .setAccountId(miniAccount.getAccountId());
+        SendAndReceive.getClient().getClientInfo()
+                .setAccountTy(miniAccount.getAccountT());
 
         goMainMenu();
     }

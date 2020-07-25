@@ -11,13 +11,17 @@ public interface MessageSupplier {
 
     YaGson yaGson = new YaGson();
 
-    Function<List<String>, String> messageSupplier = list -> String.format("%s::%s %s", list.get(0), list.get(1), list.get(2));
+    Function<List<String>, String> messageSupplier = list -> String.format("%s::%s::%s", list.get(0), list.get(1), list.get(2));
 
     default String generateMessage(@NotNull RequestType type, List<String> list) {
         ArrayList<String> outputs = new ArrayList<>();
         outputs.add(list == null ? "@" : list.get(0));
         outputs.add(type.toString());
-        outputs.add((list == null || list.size() < 1) ? yaGson.toJson(new ArrayList<>()) : yaGson.toJson(list.subList(1, list.size())));
+
+        ArrayList<Object> src = list == null || list.size() < 1 ?
+                new ArrayList<>() : new ArrayList<>(list.subList(1,list.size()));
+
+        outputs.add(yaGson.toJson(src));
         return messageSupplier.apply(outputs);
     }
 

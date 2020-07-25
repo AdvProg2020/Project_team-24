@@ -11,7 +11,11 @@ public class JsonHandler<T> {
         return new YaGson().fromJson(json, clazz);
     }
 
-    public List<T> JsonsToObjectList(@NotNull List<String> jsons) {
-        return new YaGson().fromJson(jsons.get(2), List.class);
+    public List<T> JsonsToObjectList(@NotNull List<String> jsons, boolean DoubleChange) {
+        if (DoubleChange) {
+            List<String> strings = new JsonHandler<String>().JsonsToObjectList(jsons, false);
+            return new YaGson().fromJson(strings.get(0), List.class);
+        }
+            return new YaGson().fromJson(jsons.get(2), List.class);
     }
 }

@@ -108,7 +108,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     public void initialize(URL location, ResourceBundle resources) {
         setCenter(changeable);
         setFilter(filterArea);
-        List<MenuItem> collect = SendAndReceive.getAllCategories().stream().map(this::getCategorySelection).collect(Collectors.toList());
+        List<MiniCate> allCategories = SendAndReceive.getAllCategories();
+        List<MenuItem> collect = allCategories.stream().map(this::getCategorySelection).collect(Collectors.toList());
         category_select.getItems().addAll(FXCollections.observableArrayList(collect));
 
         gif.getMediaPlayer().play();
@@ -119,7 +120,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
             userArea_btn.setDisable(false);
             login_logout_btn.setText("خروج ...");
             login_logout_btn.setOnAction(event -> logout());
-            if (client.getClientInfo().getAccountTy().equals("Customer")) cart_btn.setDisable(false);
+
+            if (client.getClientInfo()
+                    .getAccountTy().equals("Customer")) cart_btn.setDisable(false);
         }
     }
 
@@ -141,6 +144,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
     private void logout() {
         client.sendAndReceive(MessageSupplier.RequestType.Logout, Collections.singletonList(client.getClientInfo().getToken()));
+        client.getClientInfo().setAccountTy(null);
+        client.getClientInfo().setAccountId(null);
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 

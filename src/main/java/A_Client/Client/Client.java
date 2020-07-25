@@ -23,6 +23,7 @@ public class Client {
 
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(0);
         }
     }
 

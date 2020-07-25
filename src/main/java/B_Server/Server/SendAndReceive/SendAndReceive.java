@@ -44,7 +44,7 @@ public class SendAndReceive {
     private final static SellerController sellerController = SellerController.getInstance();
     private final static ManagerController managerController = ManagerController.getInstance();
     private final static YaGson yaGson = new YaGson();
-    private final static Object lockInDecreseProductNum = new Object();
+    private final static Object lockInDecreeProductNums = new Object();
     private final static Object lockAcceptDeclineReq = new Object();
     private final static Object lockAddNewAccount = new Object();
 
@@ -331,18 +331,7 @@ public class SendAndReceive {
     }
 
     private static void sendToken(String token, @NotNull RequestHandler requestHandler) {
-        sender(token, MessageSupplier.RequestType.GetToken, "", requestHandler);
-    }
-
-    private static void getAllMyProducts(String token, RequestHandler requestHandler) {
-        try {
-            List<Product> products = sellerController.showProducts();
-            List<MiniProduct> miniProducts = createMiniProducts(products);
-            sender(token, MessageSupplier.RequestType.GetAllMyProducts, yaGson.toJson(miniProducts), requestHandler);
-        } catch (ProductDoesNotExistException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.GetAllMyProducts, SuccessOrFail.FAIL.toString(), requestHandler);
-        }
+        sender(token, MessageSupplier.RequestType.GetToken, "Slm Slm!", requestHandler);
     }
 
     private static void getProductById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
@@ -394,6 +383,17 @@ public class SendAndReceive {
         } catch (ProductMediaNotFoundException | IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.GetImageById, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
+    private static void getAllMyProducts(String token, RequestHandler requestHandler) {
+        try {
+            List<Product> products = sellerController.showProducts();
+            List<MiniProduct> miniProducts = createMiniProducts(products);
+            sender(token, MessageSupplier.RequestType.GetAllMyProducts, yaGson.toJson(miniProducts), requestHandler);
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetAllMyProducts, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 
@@ -518,46 +518,49 @@ public class SendAndReceive {
         String accountType = inputs.get(0);
         String username = inputs.get(1);
         String password = inputs.get(2);
-        String firstName = inputs.get(3);
-        String lastName = inputs.get(4);
-        String phoneNumber = inputs.get(5);
+        String firstName = inputs.get(4);
+        String lastName = inputs.get(5);
         String email = inputs.get(6);
+        String phoneNumber = inputs.get(7);
+
         SignUpController signUpController = SignUpController.getInstance();
-        synchronized (lockAddNewAccount) {
-            try {
+        try {
+            synchronized (lockAddNewAccount) {
                 Account account = signUpController.creatTheBaseOfAccount(accountType, username);
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
                 sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
-
-            } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
-                e.printStackTrace();
-                sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
             }
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
+                    SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
         }
     }
 
     private static void addNewSeller(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         String username = inputs.get(1);
         String password = inputs.get(2);
-        String firstName = inputs.get(3);
-        String lastName = inputs.get(4);
-        String phoneNumber = inputs.get(5);
-        String email = inputs.get(6);
-        String brand = inputs.get(7);
-        String companyPhoneNumber = inputs.get(8);
-        String companyEmail = inputs.get(9);
+        String com_name = inputs.get(3);
+        String companyEmail = inputs.get(4);
+        String companyPhoneNumber = inputs.get(5);
+        String firstName = inputs.get(6);
+        String lastName = inputs.get(7);
+        String email = inputs.get(8);
+        String phoneNumber = inputs.get(9);
+
         SignUpController signUpController = SignUpController.getInstance();
         try {
             Account account = signUpController.creatTheBaseOfAccount("Seller", username);
             signUpController.creatPasswordForAccount(account, password);
             signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
-            signUpController.saveCompanyInfo(account, brand, companyPhoneNumber, companyEmail);
+            signUpController.saveCompanyInfo(account, com_name, companyPhoneNumber, companyEmail);
             sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
 
         } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException e) {
             e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            sender(token, MessageSupplier.RequestType.addNewSeller,
+                    SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
         }
     }
 
@@ -805,7 +808,7 @@ public class SendAndReceive {
     private static void decreaseProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         String productId = inputs.get(0);
         String sellerId = inputs.get(1);
-        synchronized (lockInDecreseProductNum) {
+        synchronized (lockInDecreeProductNums) {
             try {
                 buyerController.decrease(productId, sellerId);
                 sender(token, MessageSupplier.RequestType.decreaseProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
@@ -819,7 +822,7 @@ public class SendAndReceive {
     private static void increaseProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         String productId = inputs.get(0);
         String sellerId = inputs.get(1);
-        synchronized (lockInDecreseProductNum) {
+        synchronized (lockInDecreeProductNums) {
             try {
                 buyerController.increase(productId, sellerId);
                 sender(token, MessageSupplier.RequestType.increaseProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
@@ -845,12 +848,8 @@ public class SendAndReceive {
     }
 
     private static void addProductToCart(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        String productId = inputs.get(0);
-        String sellerId = inputs.get(1);
-        Customer account = (Customer) buyerController.getClientInfo().get().getAccount();
-        Cart cart = account.getCart();
         try {
-            ProductController.getInstance().addToCart(sellerId);
+            ProductController.getInstance().addToCart(inputs.get(1));
             sender(token, MessageSupplier.RequestType.addProductToCart, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (AccountHasNotLogin | ProductIsOutOfStockException | ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
             e.printStackTrace();
@@ -1053,25 +1052,16 @@ public class SendAndReceive {
 
     @NotNull
     private static List<MiniAccount> createMiniAccounts(@NotNull List<Account> accountList) {
-        return accountList.stream().map(account -> new MiniAccount(
-                account.getMediaId() + "",
-                account.getUserName() + "",
-                account.getPassword() + "",
-                account.getId() + "",
-                account.getClass().getSimpleName(),
-                account.getPersonalInfo().getList(),
-                account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                account.getWallet()
-        )).collect(Collectors.toList());
+        return accountList.stream().map(SendAndReceive::getMiniAccount).collect(Collectors.toList());
     }
 
     @Contract("_ -> new")
     @NotNull
     private static MiniAccount getMiniAccount(@NotNull Account account) {
         return new MiniAccount(
+                account.getId()+ "",
                 account.getMediaId() + "",
                 account.getUserName() + "",
-                account.getPassword() + "",
                 account.getPassword() + "",
                 account.getClass().getSimpleName(),
                 account.getPersonalInfo().getList(),
