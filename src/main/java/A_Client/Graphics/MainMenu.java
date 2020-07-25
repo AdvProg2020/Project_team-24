@@ -5,6 +5,7 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.Roles.Customer;
 import A_Client.Graphics.Accounts.Roles.Manager;
 import A_Client.Graphics.Accounts.Roles.Seller;
+import A_Client.Graphics.Accounts.Roles.Supporter;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Menus.OffersMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
@@ -15,6 +16,7 @@ import A_Client.Graphics.Other.PopUp;
 import A_Client.Graphics.Pages.Cart;
 import A_Client.Graphics.Pages.CeSut;
 import A_Client.Graphics.Pages.Login;
+import A_Client.Graphics.Pages.ViewAllSupporters;
 import A_Client.Graphics.Tools.SceneBuilder;
 import MessageFormates.MessageSupplier;
 import Structs.MiniAuction;
@@ -23,6 +25,7 @@ import Structs.MiniOffer;
 import Structs.MiniProduct;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -309,5 +312,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         setOffers(SendAndReceive.getAllOffers());
         MainMenu.change(new OffersMenu().sceneBuilder());
         enableBack();
+    }
+
+    public void viewSupporters(ActionEvent event) {
+        MainMenu.change(new ViewAllSupporters().sceneBuilder());
     }
 }

@@ -38,6 +38,7 @@ import java.util.ResourceBundle;
 
 public class Seller extends BaseAccount implements SceneBuilder, Initializable {
 
+    public TextField deposit;
     @FXML
     private ImageView seller_image;
     @FXML
@@ -150,6 +151,8 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
         RequestForEdit("CompanyName", bran_txt.getText());
         RequestForEdit("CompanyPhoneNumber", comPhone_txt.getText());
         RequestForEdit("CompanyEmail", comEmail_txt.getText());
+        //deposit and withdraw
+
     }
 
     private void setImage() {

@@ -4,6 +4,7 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.BaseAccount;
 import A_Client.Graphics.Creates.CreateSupporter;
 import A_Client.Graphics.Pages.SignUp;
+import B_Server.Model.Models.Wage;
 import Exceptions.FieldDoesNotExistException;
 import A_Client.Graphics.Creates.CreateCategory;
 import A_Client.Graphics.Creates.CreateDiscountCode;
@@ -14,6 +15,7 @@ import A_Client.Graphics.Lists.RequestList;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
+import Exceptions.InvalidWagePercentageExeption;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +33,7 @@ import java.util.ResourceBundle;
 public class Manager extends BaseAccount implements SceneBuilder, Initializable {
 
 
+    public TextField wage;
     @FXML
     private ImageView manager_image;
     @FXML
@@ -126,6 +129,12 @@ public class Manager extends BaseAccount implements SceneBuilder, Initializable 
         RequestForEdit("LastName", LastName.getText());
         RequestForEdit("Email", Email.getText());
         RequestForEdit("PhoneNumber", PhoneNum.getText());
+        ///tabdil be shabake
+        try {
+            Wage.setWagePercentage(Double.parseDouble(wage.getText()));
+        } catch (InvalidWagePercentageExeption invalidWagePercentageExeption) {
+            invalidWagePercentageExeption.printStackTrace();
+        }
     }
 
     private void setImage() {

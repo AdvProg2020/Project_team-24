@@ -452,6 +452,9 @@ public class SendAndReceive implements MessagePattern {
                 Arrays.asList(client.getClientInfo().getToken(), offerId));
 
     }
+    public static void setWage(String wagePercentage){
+        //...
+    }
 
     public static void createBankReceipt(String token,String receipt_type,String money,String sourceId,String destId,String description) {
         //...
