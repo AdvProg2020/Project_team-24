@@ -47,6 +47,10 @@ public class SendAndReceive {
     private final static Object lockInDecreeProductNums = new Object();
     private final static Object lockAcceptDeclineReq = new Object();
     private final static Object lockAddNewAccount = new Object();
+    private final static Object loginUserLock = new Object();
+    private final static Object lockAuctionCreating = new Object();
+    private final static Object lockProductCreating = new Object();
+    private final static Object lockAddDiscountCode = new Object();
 
     public static void messageAnalyser(@NotNull String token, String request, List<String> inputs, RequestHandler requestHandler) {
 
@@ -239,7 +243,15 @@ public class SendAndReceive {
             case "DeleteProductById":
                 deleteProductById(newToken, inputs, requestHandler);
                 break;
+            case "Kill":
+                Offline(requestHandler, info, newToken);
         }
+    }
+
+    private static void Offline(RequestHandler requestHandler, InstantInfo info, String newToken) {
+        logout(requestHandler, newToken);
+        Server.removeClient(info);
+        sender(newToken, MessageSupplier.RequestType.Kill, SuccessOrFail.SUCCESS.toString(), requestHandler);
     }
 
     private static void purchase(String token, RequestHandler requestHandler) {
@@ -251,6 +263,12 @@ public class SendAndReceive {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.Purchase, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
+    }
+
+    private static void OnlineNewClient(RequestHandler requestHandler) {
+        String newToken = Server.createToken();
+        Server.addClient(new InstantInfo(newToken));
+        sendToken(newToken, requestHandler);
     }
 
     private static void logout(RequestHandler requestHandler, String newToken) {
@@ -318,12 +336,6 @@ public class SendAndReceive {
         OutputStream osi = new FileOutputStream(image);
         osi.write(image_bytes);
         osi.close();
-    }
-
-    private static void OnlineNewClient(RequestHandler requestHandler) {
-        String newToken = Server.createToken();
-        Server.addClient(new InstantInfo(newToken));
-        sendToken(newToken, requestHandler);
     }
 
     private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {
@@ -455,7 +467,10 @@ public class SendAndReceive {
         try {
             String username = inputs.get(0);
             String password = inputs.get(1);
-            Account account = LoginController.getInstance().login(username, password);
+            Account account;
+            synchronized (loginUserLock) {
+                account = LoginController.getInstance().login(username, password);
+            }
             sender(token, MessageSupplier.RequestType.Login, yaGson.toJson(getMiniAccount(account)), requestHandler);
         } catch (PassIncorrectException | UserNameInvalidException | UserNameTooShortException | AccountDoesNotExistException e) {
             e.printStackTrace();
@@ -529,8 +544,8 @@ public class SendAndReceive {
                 Account account = signUpController.creatTheBaseOfAccount(accountType, username);
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
-                sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
             }
+            sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
@@ -551,12 +566,13 @@ public class SendAndReceive {
 
         SignUpController signUpController = SignUpController.getInstance();
         try {
-            Account account = signUpController.creatTheBaseOfAccount("Seller", username);
-            signUpController.creatPasswordForAccount(account, password);
-            signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
-            signUpController.saveCompanyInfo(account, com_name, companyPhoneNumber, companyEmail);
+            synchronized (lockAddNewAccount) {
+                Account account = signUpController.creatTheBaseOfAccount("Seller", username);
+                signUpController.creatPasswordForAccount(account, password);
+                signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
+                signUpController.saveCompanyInfo(account, com_name, companyPhoneNumber, companyEmail);
+            }
             sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
-
         } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewSeller,
@@ -570,10 +586,15 @@ public class SendAndReceive {
         String end = inputs.get(2);
         String percentage = inputs.get(3);
         String maxAmount = inputs.get(4);
+        List<String> ids = new JsonHandler<List>().JsonToObject(inputs.get(5), List.class);
         try {
-            SellerController.getInstance().addOff(auctionName, start, end, percentage, maxAmount);
+            synchronized (lockAuctionCreating) {
+                Auction auction = SellerController.getInstance().addOff(auctionName, start, end, percentage, maxAmount);
+                sellerController.addProductsToAuction(auction, ids);
+                sellerController.sendRequest(auction, "new Auction", "new");
+            }
             sender(token, MessageSupplier.RequestType.addNewAuction, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (InvalidInputByUserException e) {
+        } catch (InvalidInputByUserException | ProductCantBeInMoreThanOneAuction | ProductDoesNotExistException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewAuction, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
@@ -585,9 +606,10 @@ public class SendAndReceive {
         String auctionId = inputs.get(2);
         String numberOfThis = inputs.get(3);
         String priceOfThis = inputs.get(4);
-
         try {
-            SellerController.getInstance().createTheBaseOfProduct(productName, categoryId, auctionId, numberOfThis, priceOfThis);
+            synchronized (lockProductCreating) {
+                SellerController.getInstance().createTheBaseOfProduct(productName, categoryId, auctionId, numberOfThis, priceOfThis);
+            }
             sender(token, MessageSupplier.RequestType.addNewProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (AuctionDoesNotExistException | CategoryDoesNotExistException e) {
             e.printStackTrace();
@@ -762,36 +784,40 @@ public class SendAndReceive {
         String accountId = inputs.get(0);
         String discountId = inputs.get(1);
         try {
-            Customer account = (Customer) Account.getAccountById(Long.parseLong(accountId));
-            account.addToDiscountCodeList(Long.parseLong(discountId));
+            synchronized (lockAddDiscountCode) {
+                Customer account = (Customer) Account.getAccountById(Long.parseLong(accountId));
+                account.addToDiscountCodeList(Long.parseLong(discountId));
+                DiscountCode discountCode = DiscountCode.getDiscountCodeById(Long.parseLong(discountId));
+                discountCode.addAccount(Long.parseLong(accountId));
+            }
             sender(token, MessageSupplier.RequestType.addToCodesList, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (AccountDoesNotExistException e) {
+        } catch (AccountDoesNotExistException | DiscountCodeExpiredException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addToCodesList, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
     }
 
     private static void acceptRequest(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        synchronized (lockAcceptDeclineReq) {
-            try {
+        try {
+            synchronized (lockAcceptDeclineReq) {
                 managerController.acceptRequest(inputs.get(0));
-                sender(token, MessageSupplier.RequestType.acceptRequest, SuccessOrFail.SUCCESS.toString(), requestHandler);
-            } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
-                e.printStackTrace();
-                sender(token, MessageSupplier.RequestType.acceptRequest, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
             }
+            sender(token, MessageSupplier.RequestType.acceptRequest, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.acceptRequest, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
     }
 
     private static void declineRequest(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        synchronized (lockAcceptDeclineReq) {
-            try {
+        try {
+            synchronized (lockAcceptDeclineReq) {
                 managerController.denyRequest(inputs.get(0));
-                sender(token, MessageSupplier.RequestType.declineRequest, SuccessOrFail.SUCCESS.toString(), requestHandler);
-            } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
-                e.printStackTrace();
-                sender(token, MessageSupplier.RequestType.declineRequest, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
             }
+            sender(token, MessageSupplier.RequestType.declineRequest, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (RequestDoesNotExistException | AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.declineRequest, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
     }
 
@@ -1059,7 +1085,7 @@ public class SendAndReceive {
     @NotNull
     private static MiniAccount getMiniAccount(@NotNull Account account) {
         return new MiniAccount(
-                account.getId()+ "",
+                account.getId() + "",
                 account.getMediaId() + "",
                 account.getUserName() + "",
                 account.getPassword() + "",

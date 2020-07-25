@@ -281,7 +281,6 @@ public class SignUp implements SceneBuilder, Initializable {
                     break;
                 case "CompanyNameInvalidException":
                     companyNameInvalid();
-
             }
 
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -243,25 +243,25 @@ public class SendAndReceive implements MessagePattern {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewBuyerToOfferById, list);
     }
 
-    public static void addAuction(List<String> fields) {
+    public static List<String> addAuction(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewAuction, list);
+        return client.sendAndReceive(MessageSupplier.RequestType.addNewAuction, list);
     }
 
-    public static void addCategory(List<String> fields) {
+    public static List<String> addCategory(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewCate, list);
+        return client.sendAndReceive(MessageSupplier.RequestType.addNewCate, list);
     }
 
-    public static void addDiscountCode(List<String> fields) {
+    public static List<String> addDiscountCode(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addNewDiscountCode, list);
+        return client.sendAndReceive(MessageSupplier.RequestType.addNewDiscountCode, list);
     }
 
     public static void addToCodesList(List<String> fields) {
@@ -399,13 +399,11 @@ public class SendAndReceive implements MessagePattern {
                 Collections.singletonList(client.getClientInfo().getToken()));
     }
 
-    public static MiniAccount Login(List<String> fields) {
+    public static List<String> Login(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Login, list);
-        List<String> jsons = new JsonHandler<String>().JsonsToObjectList(answer, false);
-        return new JsonHandler<MiniAccount>().JsonToObject(jsons.get(0), MiniAccount.class);
+        return client.sendAndReceive(MessageSupplier.RequestType.Login, list);
     }
 
     public static void Logout() {
@@ -426,6 +424,11 @@ public class SendAndReceive implements MessagePattern {
     public static void ProductSort(String sort) {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Sort,
                 Arrays.asList(client.getClientInfo().getToken(), sort));
+    }
+
+    public static void closeApp() {
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Sort,
+                Collections.singletonList(client.getClientInfo().getToken()));
     }
 
     // Set Current

@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class CreateCategory implements SceneBuilder, Initializable {
@@ -115,7 +117,17 @@ public class CreateCategory implements SceneBuilder, Initializable {
         list.add(category_name);
         list.add(new YaGson().toJson(str_feature));
         list.add(new YaGson().toJson(ids));
-        SendAndReceive.addCategory(list);
+        List<String> answers = SendAndReceive.addCategory(list);
+
+        Matcher matcher = Pattern.compile("^FAIL/(.*)$")
+                .matcher(answers.get(2));
+
+        if (matcher.find()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(matcher.group(1));
+            alert.showAndWait();
+        }
     }
 
     private void submit_editMode(String category_name, @NotNull List<String> ids) {

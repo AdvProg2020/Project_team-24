@@ -21,6 +21,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class CreateAuction implements SceneBuilder, Initializable {
@@ -133,11 +135,7 @@ public class CreateAuction implements SceneBuilder, Initializable {
                     return units[units.length - 1];
 
                 }).collect(Collectors.toList());
-
         requestForAdd(start, end, name, percent, limit, ids);
-//        Auction auction = sellerController.addOff(name, start, end, percent, limit);
-//        sellerController.addProductsToAuction(auction, ids);
-//        sellerController.sendRequest(auction, "new Auction", "new");
     }
 
     private void requestForAdd(String start, String end, String name, String percent, String limit, List<String> ids) {
@@ -148,7 +146,18 @@ public class CreateAuction implements SceneBuilder, Initializable {
         objects.add(percent);
         objects.add(limit);
         objects.add(new YaGson().toJson(ids));
-        SendAndReceive.addAuction(objects);
+
+        List<String> answers = SendAndReceive.addAuction(objects);
+
+        Matcher matcher = Pattern.compile("^FAIL/(.*)$")
+                .matcher(answers.get(2));
+
+        if (matcher.find()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(matcher.group(1));
+            alert.showAndWait();
+        }
     }
 
     private void goMainMenu() {
