@@ -1,5 +1,6 @@
 package B_Server.Server.SendAndReceive;
 
+import B_Server.Bank.BankAPI;
 import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import B_Server.Controller.Controllers.AccountControllers.SellerController;
@@ -33,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -546,9 +548,11 @@ public class SendAndReceive {
                 Account account = signUpController.creatTheBaseOfAccount(accountType, username);
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
+                List<String> list = Arrays.asList(firstName,lastName,username,password,password);
+                BankAPI.sendAndReceive("create_account",list);
             }
             sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
@@ -573,6 +577,12 @@ public class SendAndReceive {
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
                 signUpController.saveCompanyInfo(account, com_name, companyPhoneNumber, companyEmail);
+                List<String> list = Arrays.asList(firstName,lastName,username,password,password);
+                try {
+                    BankAPI.sendAndReceive("create_account",list);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException e) {
