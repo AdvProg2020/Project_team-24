@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
 
 public class RequestHandler extends Thread implements MessagePattern, MessageSupplier, AutoCloseable {
@@ -31,7 +32,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         try {
             blabber.receiveByteArray(fileOutputStream);
         } catch (IOException e) {
-            e.printStackTrace();
             blabber.close();
         }
     }
@@ -115,9 +115,10 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
 
         public void receiveByteArray(OutputStream fileOutputStream) throws IOException {
             byte[] bytes = new byte[500000];
-            for (int count; (count = inputStream.read(bytes)) > 0; ) {
-                fileOutputStream.write(bytes, 0, count);
+            for (int i = inputStream.read(bytes); i > 0; i = inputStream.read(bytes)) {
+                fileOutputStream.write(bytes, 0, i);
             }
+            fileOutputStream.close();
         }
 
         public void writeByteArray(byte[] bytes) throws IOException {

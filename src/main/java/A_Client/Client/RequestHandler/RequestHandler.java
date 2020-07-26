@@ -106,6 +106,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
             for (int count; (count = inputStream.read(bytes)) > 0; ) {
                 fileOutputStream.write(bytes, 0, count);
             }
+            fileOutputStream.close();
         }
 
         public ByteArrayInputStream receiveByteArrayInput() throws IOException {

@@ -45,6 +45,7 @@ public class SendAndReceive {
     private final static SellerController sellerController = SellerController.getInstance();
     private final static ManagerController managerController = ManagerController.getInstance();
     private final static YaGson yaGson = new YaGson();
+    private final static Object lockWageEditing = new Object();
     private final static Object lockInDecreeProductNums = new Object();
     private final static Object lockAcceptDeclineReq = new Object();
     private final static Object lockAddNewAccount = new Object();
@@ -238,6 +239,12 @@ public class SendAndReceive {
             case "GetAllRequest":
                 GetAllRequest(newToken, requestHandler);
                 break;
+            case "SetPercentOfWage":
+                SetPercentOfWage(newToken, inputs, requestHandler);
+                break;
+            case "GetPercentOfWage":
+                GetPercentOfWage(newToken, requestHandler);
+                break;
             case "GetAllProductOfAuction":
                 getAllProductOfAuction(newToken, inputs, requestHandler);
                 break;
@@ -249,6 +256,22 @@ public class SendAndReceive {
                 break;
             case "Kill":
                 Offline(requestHandler, info, newToken);
+        }
+    }
+
+    private static void GetPercentOfWage(String token, RequestHandler requestHandler) {
+        sender(token, MessageSupplier.RequestType.SetPercentOfWage, Wage.getWagePercentage() + "", requestHandler);
+    }
+
+    private static void SetPercentOfWage(String token, List<String> inputs, RequestHandler requestHandler) {
+        try {
+            synchronized (lockWageEditing) {
+                Wage.setWagePercentage(Double.parseDouble(inputs.get(0)));
+            }
+            sender(token, MessageSupplier.RequestType.SetPercentOfWage, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (InvalidWagePercentageExeption e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.SetPercentOfWage, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
     }
 
@@ -287,8 +310,7 @@ public class SendAndReceive {
         Medias.addMedia(medias);
 
         try {
-            file_write(requestHandler,medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
-            requestHandler.sendMessage("Success");
+            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
             Account account = Account.getAccountById(Long.parseLong(accountId));
             account.setMediaId(medias.getId());
             DataBase.save(medias);
@@ -367,9 +389,9 @@ public class SendAndReceive {
         try {
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
 
-            file_write(requestHandler,medias,"src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
             requestHandler.sendMessage("Success");
-            file_write(requestHandler,medias,"src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
+            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
             requestHandler.sendMessage("Success");
 
             sellerController.saveProductMedias(medias);
@@ -384,7 +406,6 @@ public class SendAndReceive {
         Files.createFile(file.toPath());
         OutputStream outputStream = new FileOutputStream(file);
         requestHandler.receiveByteArray(outputStream);
-        outputStream.close();
     }
 
     private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {

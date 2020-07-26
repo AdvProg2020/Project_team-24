@@ -10,7 +10,10 @@ import Toolkit.JsonHandler.JsonHandler;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -110,16 +113,27 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static void setImageById(String accountId, File image) {
-        client.sendAndReceive(MessageSupplier.RequestType.SetImageById,
-                Arrays.asList(client.getClientInfo().getToken(), accountId));
         try {
 
+            client.sendAndReceive(MessageSupplier.RequestType.SetImageById,
+                    Arrays.asList(client.getClientInfo().getToken(), accountId));
+
             client.sendFile(image);
-            client.receiveMessage();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void setPercentOfWage(String percent) {
+        client.sendAndReceive(MessageSupplier.RequestType.SetPercentOfWage,
+                Arrays.asList(client.getClientInfo().getToken(), percent));
+    }
+
+    public static String getPercentOfWage() {
+        List<String> answer =  client.sendAndReceive(MessageSupplier.RequestType.GetPercentOfWage,
+                Collections.singletonList(client.getClientInfo().getToken()));
+        return new JsonHandler<String>().JsonsToObjectList(answer,false).get(0);
     }
 
     public static void setMedias(File image, File movie) {

@@ -36,6 +36,8 @@ public interface MessageSupplier {
         GetAuctionById,
         GetImageById,
         GetMovieById,
+        SetPercentOfWage,
+        GetPercentOfWage,
         GetCodeById,
         GetOfferById,
         SetImageById,
