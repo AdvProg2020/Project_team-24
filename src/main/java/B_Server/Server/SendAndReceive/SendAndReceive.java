@@ -33,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -68,6 +69,7 @@ public class SendAndReceive {
 
         String newToken = Server.createToken();
         info.setMy_Token(newToken);
+        info.setTmo(LocalTime.now());
 
         switch (request) {
             case "GetAllMyProducts":
@@ -89,10 +91,10 @@ public class SendAndReceive {
                 getImageById(newToken, inputs, requestHandler);
                 break;
             case "GetMovieById":
-                //...
+                getMediaById(newToken, inputs, requestHandler);
                 break;
             case "SetImageById":
-                ///...
+                setAccountImage(token, inputs, requestHandler);
                 break;
             case "GetAllProducts":
                 getAllProducts(newToken, request, requestHandler, Product.getList());
@@ -250,6 +252,52 @@ public class SendAndReceive {
         }
     }
 
+    private static void getMediaById(String token, List<String> inputs, RequestHandler requestHandler) {
+        try {
+            sender(token, MessageSupplier.RequestType.GetMovieById, "Ok", requestHandler);
+            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
+            File file = new File(medias.getImageSrc());
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            requestHandler.writeByteArray(bytes);
+        } catch (ProductMediaNotFoundException | IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetMovieById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void getImageById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            sender(token, MessageSupplier.RequestType.GetImageById, "Ok", requestHandler);
+            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
+            File file = new File(medias.getImageSrc());
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            requestHandler.writeByteArray(bytes);
+        } catch (ProductMediaNotFoundException | IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetImageById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void setAccountImage(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
+        sender(token, MessageSupplier.RequestType.SetImageById,
+                SuccessOrFail.SUCCESS.toString(), requestHandler);
+
+        String accountId = inputs.get(0);
+        Medias medias = new Medias();
+        Medias.addMedia(medias);
+
+        try {
+            file_write(requestHandler,medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+            requestHandler.sendMessage("Success");
+            Account account = Account.getAccountById(Long.parseLong(accountId));
+            account.setMediaId(medias.getId());
+            DataBase.save(medias);
+        } catch (IOException | AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.SetImageById, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
+    }
+
     private static void Offline(RequestHandler requestHandler, InstantInfo info, String newToken) {
         logout(requestHandler, newToken);
         Server.removeClient(info);
@@ -312,32 +360,31 @@ public class SendAndReceive {
     }
 
     private static void setMediasOfProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        String Str_Image = inputs.get(0);
-        String Str_Movie = inputs.get(1);
 
         Medias medias = new Medias();
         Medias.addMedia(medias);
 
-        JsonHandler<byte[]> jsonHandler = new JsonHandler<>();
-
         try {
-            image_write(Str_Image, medias, jsonHandler, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
-            image_write(Str_Movie, medias, jsonHandler, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
-            sellerController.saveProductMedias(medias);
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
 
+            file_write(requestHandler,medias,"src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+            requestHandler.sendMessage("Success");
+            file_write(requestHandler,medias,"src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
+            requestHandler.sendMessage("Success");
+
+            sellerController.saveProductMedias(medias);
         } catch (IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 
-    private static void image_write(String str_Image, @NotNull Medias medias, @NotNull JsonHandler<byte[]> jsonHandler, String s, String s2) throws IOException {
-        byte[] image_bytes = jsonHandler.JsonToObject(str_Image, byte[].class);
-        File image = new File(s + medias.getId() + s2);
-        OutputStream osi = new FileOutputStream(image);
-        osi.write(image_bytes);
-        osi.close();
+    private static void file_write(@NotNull RequestHandler requestHandler, @NotNull Medias medias, String address, String ex) throws IOException {
+        File file = new File(address + medias.getId() + ex);
+        Files.createFile(file.toPath());
+        OutputStream outputStream = new FileOutputStream(file);
+        requestHandler.receiveByteArray(outputStream);
+        outputStream.close();
     }
 
     private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {
@@ -385,18 +432,6 @@ public class SendAndReceive {
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.GetAuctionById, yaGson.toJson(SuccessOrFail.FAIL.toString()), requestHandler);
-        }
-    }
-
-    private static void getImageById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        try {
-            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
-            File file = new File(medias.getImageSrc());
-            byte[] bytes = Files.readAllBytes(file.toPath());
-            sender(token, MessageSupplier.RequestType.GetImageById, yaGson.toJson(bytes), requestHandler);
-        } catch (ProductMediaNotFoundException | IOException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.GetImageById, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 

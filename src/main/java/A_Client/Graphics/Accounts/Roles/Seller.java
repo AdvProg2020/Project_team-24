@@ -155,11 +155,6 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
 
     }
 
-    private void setImage() {
-        String first = "src/main/resources/DataBase/Images/" + account.getMediasId() + ".jpg";
-        super.setImage(first);
-    }
-
     public void newCategory() {
         CreateCategory.setMode(CreateCategory.Mode.New);
         MainMenu.change(new CreateCategory().sceneBuilder());

@@ -2,6 +2,8 @@ package B_Server.Server.InstantInfo;
 
 import B_Server.Model.Models.*;
 
+import java.time.LocalTime;
+
 public class InstantInfo {
 
     private String my_Token;
@@ -10,6 +12,7 @@ public class InstantInfo {
     private Auction auction;
     private DiscountCode code;
     private Category category;
+    private LocalTime tmo;
 
     public String getMy_Token() {
         return my_Token;
@@ -17,6 +20,14 @@ public class InstantInfo {
 
     public void setMy_Token(String my_Token) {
         this.my_Token = my_Token;
+    }
+
+    public LocalTime getTmo() {
+        return tmo;
+    }
+
+    public void setTmo(LocalTime tmo) {
+        this.tmo = tmo;
     }
 
     public Account getAccount() {

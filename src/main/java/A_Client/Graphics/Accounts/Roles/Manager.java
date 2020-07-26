@@ -129,17 +129,12 @@ public class Manager extends BaseAccount implements SceneBuilder, Initializable 
         RequestForEdit("LastName", LastName.getText());
         RequestForEdit("Email", Email.getText());
         RequestForEdit("PhoneNumber", PhoneNum.getText());
-        ///tabdil be shabake
+
         try {
             Wage.setWagePercentage(Double.parseDouble(wage.getText()));
         } catch (InvalidWagePercentageExeption invalidWagePercentageExeption) {
             invalidWagePercentageExeption.printStackTrace();
         }
-    }
-
-    private void setImage() {
-        String first = "src/main/resources/DataBase/Images/" + account.getMediasId() + ".jpg";
-        super.setImage(first);
     }
 
     public void viewAuctions() {

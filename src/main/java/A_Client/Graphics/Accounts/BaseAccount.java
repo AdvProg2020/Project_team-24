@@ -20,8 +20,8 @@ public class BaseAccount {
         SendAndReceive.EditAccount(Arrays.asList(fieldName, fieldValue));
     }
 
-    protected void setImage(String first) {
-        SendAndReceive.setImageById(client.getClientInfo().getMedias_Id(), new File(first));
+    protected void setImage() {
+        SendAndReceive.setImageById(client.getClientInfo().getAccountId(), selectedImage);
     }
 
     protected void selectFile(ImageView imageView) {

@@ -3,17 +3,14 @@ package A_Client.Client.SendAndReceive;
 import A_Client.Client.Client;
 import A_Client.Graphics.MainMenu;
 import MessageFormates.MessagePattern;
-import Toolkit.JsonHandler.JsonHandler;
 import MessageFormates.MessageSupplier;
-import Structs.*;
 import Structs.FieldAndFieldList.Field;
-import com.gilecode.yagson.YaGson;
+import Structs.*;
+import Toolkit.JsonHandler.JsonHandler;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,41 +82,59 @@ public class SendAndReceive implements MessagePattern {
 
     // Get/Set image and Movie
     public static Image getImageById(String mediaId) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetImageById,
+        client.sendAndReceive(MessageSupplier.RequestType.GetImageById,
                 Arrays.asList(client.getClientInfo().getToken(), mediaId));
-        List<String> jsons = new JsonHandler<String>().JsonsToObjectList(answer, false);
-        return new JsonHandler<Image>().JsonToObject(jsons.get(0), Image.class);
+        return new Image(client.receiveFileBytes());
     }
 
     public static Media getMediaById(String mediaId) {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetMovieById,
+        client.sendAndReceive(MessageSupplier.RequestType.GetMovieById,
                 Arrays.asList(client.getClientInfo().getToken(), mediaId));
-        List<String> jsons = new JsonHandler<String>().JsonsToObjectList(answer, false);
-        return new JsonHandler<Media>().JsonToObject(jsons.get(0), Media.class);
-    }
-
-    public static void setImageById(String mediasId, File file) {
-        List<String> list = new ArrayList<>();
-        list.add(client.getClientInfo().getToken());
-        list.add(mediasId);
-        list.add(GetByteOfFile(file));
-        client.sendAndReceive(MessageSupplier.RequestType.SetImageById, list);
-    }
-
-    private static String GetByteOfFile(@NotNull File file) {
-        byte[] bytes = new byte[0];
         try {
-            bytes = Files.readAllBytes(file.toPath());
+            String path = downloadFile("src/main/java/A_Client/Client/Nmidoooonm/movie/", ".mp4", mediaId);
+            return new Media(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static String downloadFile(String addr, String ex, String mediaId) throws IOException {
+        String pathname = addr + mediaId + ex;
+        File file = new File(pathname);
+        Files.createFile(file.toPath());
+        OutputStream outputStream = new FileOutputStream(file);
+        client.receiveFile(outputStream);
+        outputStream.close();
+        return pathname;
+    }
+
+    public static void setImageById(String accountId, File image) {
+        client.sendAndReceive(MessageSupplier.RequestType.SetImageById,
+                Arrays.asList(client.getClientInfo().getToken(), accountId));
+        try {
+
+            client.sendFile(image);
+            client.receiveMessage();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new YaGson().toJson(bytes);
     }
 
     public static void setMedias(File image, File movie) {
-        String s = GetByteOfFile(image);
-        String o = GetByteOfFile(movie);
-        client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct, Arrays.asList(client.getClientInfo().getToken(), s, o));
+        client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct,
+                Collections.singletonList(client.getClientInfo().getToken()));
+        try {
+
+            client.sendFile(image);
+            client.receiveMessage();
+            client.sendFile(movie);
+            client.receiveMessage();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Get All
@@ -152,7 +167,8 @@ public class SendAndReceive implements MessagePattern {
                 Collections.singletonList(client.getClientInfo().getToken()));
         return new JsonHandler<MiniCate>().JsonsToObjectList(answer, true);
     }
-    public static List<MiniOffer> getAllOffers(){
+
+    public static List<MiniOffer> getAllOffers() {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllOffers,
                 Collections.singletonList(client.getClientInfo().getToken()));
         return new JsonHandler<MiniOffer>().JsonsToObjectList(answer, true);
@@ -448,16 +464,17 @@ public class SendAndReceive implements MessagePattern {
                 Arrays.asList(client.getClientInfo().getToken(), productId));
     }
 
-    public static void setCurrentOffer(String offerId){
+    public static void setCurrentOffer(String offerId) {
         client.sendAndReceive(MessageSupplier.RequestType.SetCurrentOffer,
                 Arrays.asList(client.getClientInfo().getToken(), offerId));
 
     }
-    public static void setWage(String wagePercentage){
+
+    public static void setWage(String wagePercentage) {
         //...
     }
 
-    public static void createBankReceipt(String token,String receipt_type,String money,String sourceId,String destId,String description) {
+    public static void createBankReceipt(String token, String receipt_type, String money, String sourceId, String destId, String description) {
         //...
     }
 

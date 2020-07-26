@@ -3,9 +3,14 @@ package A_Client.Client;
 import A_Client.Client.ClientInfo.ClientInfo;
 import A_Client.Client.RequestHandler.RequestHandler;
 import MessageFormates.MessageSupplier;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Files;
 import java.util.List;
 
 public class Client {
@@ -56,6 +61,19 @@ public class Client {
         List<String> readMessage = readMessage(receiveMessage());
         clientInfo.setToken(readMessage.get(0));
         return readMessage;
+    }
+
+    public void sendFile(@NotNull File file) throws IOException {
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        requestHandler.writeByteArray(bytes);
+    }
+
+    public void receiveFile(OutputStream outputStream) {
+        requestHandler.receiveOutput(outputStream);
+    }
+
+    public ByteArrayInputStream receiveFileBytes() {
+        return requestHandler.receiveByteArrayInput();
     }
 }
 

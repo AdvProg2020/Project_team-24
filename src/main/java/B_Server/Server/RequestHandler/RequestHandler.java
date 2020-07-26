@@ -23,7 +23,25 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         try {
             blabber.sendMessage(message);
         } catch (IOException e) {
+            close();
+        }
+    }
+
+    public void receiveByteArray(OutputStream fileOutputStream) {
+        try {
+            blabber.receiveByteArray(fileOutputStream);
+        } catch (IOException e) {
             e.printStackTrace();
+            blabber.close();
+        }
+    }
+
+    public void writeByteArray(byte[] bytes) {
+        try {
+            blabber.writeByteArray(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            blabber.close();
         }
     }
 
@@ -52,7 +70,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
             );
 
         } catch (IOException e) {
-            e.printStackTrace();
             close();
         }
     }
@@ -78,9 +95,13 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
             }
         }
 
-        public void close() throws IOException {
-            inputStream.close();
-            outputStream.close();
+        public void close() {
+            try {
+                inputStream.close();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         public void sendMessage(String message) throws IOException {
@@ -90,6 +111,18 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
 
         public String receiveMessage() throws IOException {
             return inputStream.readUTF();
+        }
+
+        public void receiveByteArray(OutputStream fileOutputStream) throws IOException {
+            byte[] bytes = new byte[500000];
+            for (int count; (count = inputStream.read(bytes)) > 0; ) {
+                fileOutputStream.write(bytes, 0, count);
+            }
+        }
+
+        public void writeByteArray(byte[] bytes) throws IOException {
+            outputStream.write(bytes, 0, bytes.length);
+            outputStream.flush();
         }
     }
 }
