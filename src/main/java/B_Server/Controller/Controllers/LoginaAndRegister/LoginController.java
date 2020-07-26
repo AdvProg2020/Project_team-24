@@ -2,13 +2,13 @@ package B_Server.Controller.Controllers.LoginaAndRegister;
 
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
+import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
+import B_Server.Model.Models.Account;
 import B_Server.Server.Server;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.PassIncorrectException;
 import Exceptions.UserNameInvalidException;
 import Exceptions.UserNameTooShortException;
-import B_Server.Model.Models.Account;
-import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
 public class LoginController extends LocalClientInfo {
 
@@ -27,7 +27,7 @@ public class LoginController extends LocalClientInfo {
         }
 
         if (Server.getClients().parallelStream().anyMatch(instantInfo ->
-                        instantInfo.getAccount().getUserName().equals(username)))
+                instantInfo.getAccount() != null && instantInfo.getAccount().getUserName().equals(username)))
             throw new UserNameInvalidException("A client with this username is online");
 
         Account account = Account.getAccountByUserName(username);

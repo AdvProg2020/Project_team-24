@@ -128,7 +128,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
                     .getAccountTy().equals("Customer")) cart_btn.setDisable(false);
         }
 
-        primaryStage.setOnCloseRequest(event -> SendAndReceive.closeApp());
+//        primaryStage.setOnCloseRequest(event -> SendAndReceive.closeApp());
     }
 
     @NotNull
