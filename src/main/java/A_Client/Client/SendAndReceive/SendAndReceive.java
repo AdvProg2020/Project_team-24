@@ -116,10 +116,11 @@ public class SendAndReceive implements MessagePattern {
         return new YaGson().toJson(bytes);
     }
 
-    public static void setMedias(File image, File movie) {
+    public static void setMedias(File image, File movie,File file) {
         String s = GetByteOfFile(image);
         String o = GetByteOfFile(movie);
-        client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct, Arrays.asList(client.getClientInfo().getToken(), s, o));
+        String f = GetByteOfFile(file);
+        client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct, Arrays.asList(client.getClientInfo().getToken(), s, o,f));
     }
 
     // Get All
@@ -457,12 +458,10 @@ public class SendAndReceive implements MessagePattern {
         //...
     }
 
-    public static void createBankReceipt(String token,String receipt_type,String money,String sourceId,String destId,String description) {
-        //...
-    }
 
-    public static void payWithBankAccount(String receiptId) {
-        //...
+
+    public static void payWithBankAccount(List<String> list) {
+        client.sendAndReceive(MessageSupplier.RequestType.)
     }
 
     public static List<MiniAccount> getAllSupporters() {

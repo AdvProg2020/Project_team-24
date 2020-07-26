@@ -93,5 +93,6 @@ public interface MessageSupplier {
         SetCurrentOffer,
         GetAllOffers,
         Kill,
+
     }
 }

@@ -12,6 +12,7 @@ import B_Server.Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.*;
 
 public class Product implements Packable<Product>, ForPend, Filterable, Cloneable {
