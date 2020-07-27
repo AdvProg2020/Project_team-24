@@ -538,4 +538,13 @@ public class SendAndReceive implements MessagePattern {
         return client.sendAndReceive(MessageSupplier.RequestType.addNewOffer, list);
 
     }
+
+    public static List<String> Deposite(String depositAmount) {
+        return client.sendAndReceive(MessageSupplier.RequestType.Deposite,
+                Arrays.asList(client.getClientInfo().getToken(), depositAmount));
+    }
+    public static List<String> WithDraw(String withDrawAmount) {
+        return client.sendAndReceive(MessageSupplier.RequestType.WithDraw,
+                Arrays.asList(client.getClientInfo().getToken(), withDrawAmount));
+    }
 }

@@ -1,5 +1,6 @@
 package B_Server.Server.SendAndReceive;
 
+import B_Server.Bank.BankAPI;
 import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import B_Server.Controller.Controllers.AccountControllers.SellerController;
@@ -259,6 +260,59 @@ public class SendAndReceive {
             case "addNewOffer" :
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
+            case "Deposite" :
+                deposit(token, inputs, requestHandler);
+
+                break;
+            case "WithDraw" :
+                withdraw(token, inputs, requestHandler);
+                break;
+
+        }
+    }
+
+    private static void withdraw(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
+        String amount = inputs.get(0);
+        Account account = buyerController.getClientInfo().get().getAccount();
+        String usename = account.getUserName();
+        String password = account.getPassword();
+        String bankAccountId = null;
+        try {
+            bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+            List<String> list = Arrays.asList(usename,password,"withdraw", amount,bankAccountId,"-1", "info");
+            BankAPI.pay(list);
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+
+        }
+        return;
+    }
+
+    private static void deposit(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
+        String amount = inputs.get(0);
+        Account account = buyerController.getClientInfo().get().getAccount();
+        String usename = account.getUserName();
+        String password = account.getPassword();
+        String bankAccountId = null;
+        try {
+            bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+            List<String> list = Arrays.asList(usename,password,"deposit", amount, "-1",bankAccountId, "info");
+            BankAPI.pay(list);
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+
         }
     }
 
