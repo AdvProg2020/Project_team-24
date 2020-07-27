@@ -527,8 +527,11 @@ public class SendAndReceive implements MessagePattern {
 
 
 
-    public static void payWithBankAccount(List<String> list) {
-
+    public static List<String> payWithBankAccount(List<String> listPrime) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(listPrime);
+        return client.sendAndReceive(MessageSupplier.RequestType.payWithBankAccount, list);
     }
 
     public static List<MiniAccount> getAllSupporters() {

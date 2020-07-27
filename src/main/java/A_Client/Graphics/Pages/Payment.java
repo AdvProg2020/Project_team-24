@@ -87,8 +87,6 @@ public class Payment implements Initializable, SceneBuilder {
         reset();
         SendAndReceive.sendPaymentInfo(Arrays.asList(postCode, address, discountCode));
         if(chooseType.getValue().equals("درگاه بانکی")){
-            //charge wallet ...
-
             MainMenu.change(new bankPage().sceneBuilder());
 
         }

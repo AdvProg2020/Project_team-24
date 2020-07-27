@@ -12,9 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class bankPage implements SceneBuilder {
     private final Client client = SendAndReceive.getClient();
@@ -41,14 +43,20 @@ public class bankPage implements SceneBuilder {
             try {
                 Double totalPrice = account.getCart().getTotalPrice();
                 totelPrice.setText(String.valueOf(totalPrice));
-            } catch (ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
+            } catch (ProductDoesNotExistException e) {
                 e.printStackTrace();
+            } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
+                sellerDoesNotSellOfThisProduct.printStackTrace();
             }
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
         }
     }
     public void payButton() {
-//        SendAndReceive.payWithBankAccount();
+        List<String> list =  Arrays.asList(username.getText(),password.getText(),"move",totelPrice.toString(),description.getText());
+        List<String> payWithBankAccount = SendAndReceive.payWithBankAccount(list);
+
+        //.. handle exceptions as alert
+
     }
 }

@@ -259,7 +259,13 @@ public class SendAndReceive {
             case "addNewOffer" :
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
+            case "payWithBankAccount":
+                payWithBankAccount(newToken, inputs, requestHandler);
+                break;
         }
+    }
+
+    private static void payWithBankAccount(String token, List<String> inputs, RequestHandler requestHandler) {
     }
 
     private static void addNewOffer(List<String> inputs, RequestHandler requestHandler, String newToken) {

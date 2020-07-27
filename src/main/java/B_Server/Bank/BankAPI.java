@@ -4,10 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,7 +18,7 @@ public class BankAPI {
     private static DataOutputStream outputStream;
     private static DataInputStream inputStream;
 
-    List<String> exceptionList = Arrays.asList("invalid username or password", "invalid receipt type", "invalid money",
+    private static List<String> exceptionList = Arrays.asList("invalid username or password", "invalid receipt type", "invalid money",
             "invalid parameters passed", "token is invalid", "token expired", "source account id is invalid",
             "dest account id is invalid", "equal source and dest account", "invalid account id",
             "your input contains invalid characters", "invalid receipt id", "receipt is paid before",
@@ -54,7 +51,7 @@ public class BankAPI {
         return inputStream.readUTF();
     }
 
-    public String pay(@NotNull List<String> list) throws IOException {
+    public static String pay(@NotNull List<String> list) throws IOException {
 
         String tokenOutput = sendAndReceive("get_token", list.subList(0, 2));
         if (exceptionList.contains(tokenOutput)) return tokenOutput;
@@ -65,13 +62,37 @@ public class BankAPI {
         String createReceipt = sendAndReceive("create_receipt", rec);
         if (exceptionList.contains(createReceipt)) return createReceipt;
 
-        return sendAndReceive("pay", Collections.singletonList(createReceipt));
+        List<String> list2 = Collections.singletonList(createReceipt);
+        return sendAndReceive("pay", list2);
     }
 
-    public String getBalance(@NotNull List<String> list) throws IOException {
+    public static String getBalance(@NotNull List<String> list) throws IOException {
         String getToken = sendAndReceive("get_token", list.subList(0, 2));
         if (exceptionList.contains(getToken)) return getToken;
         List<String> rec = Collections.singletonList(getToken);
         return sendAndReceive("get_balance", rec);
+    }
+
+    public static void main(String[] args) {
+
+//        while (true) try {
+//            System.out.println("Bank Server: Enter 'host' and 'usePort' ...");
+//            String[] inputs = scanner.nextLine().split(" ");
+//            BankAPI.ConnectToBankServer(inputs[0], Integer.parseInt(inputs[1]));
+//            break;
+//        } catch (IOException | NumberFormatException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            String s = sendAndReceive("create_account", Arrays.asList("Yac", "Yac", "Yac", "Yac", "Yac"));
+//            System.out.println(s);
+//            String pay = pay(Arrays.asList("Yac", "Yac", "deposit", "78888", "-1","10001", "info"));
+//            System.out.println(pay);
+//            getBalance(Arrays.asList("Yac","Yac"));
+//            System.out.println(getBalance(Arrays.asList("Yac","Yac")));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

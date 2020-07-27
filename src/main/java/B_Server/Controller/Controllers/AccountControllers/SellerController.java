@@ -158,6 +158,7 @@ public class SellerController extends LocalClientInfo implements AccountControll
     }
 
     public Offer addOffer(String start, String end, String productId, String sellerId) {
+
         try {
             Product product = Product.getProductById(Long.parseLong(productId));
             Seller seller = (Seller) Seller.getAccountById(Long.parseLong(sellerId));
