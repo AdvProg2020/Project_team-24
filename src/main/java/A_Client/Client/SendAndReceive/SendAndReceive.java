@@ -85,12 +85,25 @@ public class SendAndReceive implements MessagePattern {
 
     // Get/Set image and Movie
     public static Image getImageById(String mediaId) {
+
+        //..
+
         client.sendAndReceive(MessageSupplier.RequestType.GetImageById,
                 Arrays.asList(client.getClientInfo().getToken(), mediaId));
-        return new Image(client.receiveFileBytes());
+
+        try {
+            String path = downloadFile("src/main/java/A_Client/Client/Nmidoooonm/Image/", ".jpg", mediaId);
+            return new Image(new File(path).toURI().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static Media getMediaById(String mediaId) {
+
+        //..
+
         client.sendAndReceive(MessageSupplier.RequestType.GetMovieById,
                 Arrays.asList(client.getClientInfo().getToken(), mediaId));
         try {
@@ -113,12 +126,16 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static void setImageById(String accountId, File image) {
+
+        client.sendAndReceive(MessageSupplier.RequestType.SetImageById,
+                Arrays.asList(client.getClientInfo().getToken(), accountId));
+
         try {
 
-            client.sendAndReceive(MessageSupplier.RequestType.SetImageById,
-                    Arrays.asList(client.getClientInfo().getToken(), accountId));
-
             client.sendFile(image);
+
+            List<String> readMessage = client.readMessage(client.receiveMessage());
+            client.getClientInfo().setToken(readMessage.get(0));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -259,11 +276,11 @@ public class SendAndReceive implements MessagePattern {
         return new JsonHandler<String>().JsonsToObjectList(answer, false).get(0);
     }
 
-    public static List<String> addProduct(List<String> fields) {
+    public static void addProduct(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        return client.sendAndReceive(MessageSupplier.RequestType.addNewProduct, list);
+        client.sendAndReceive(MessageSupplier.RequestType.addNewProduct, list);
     }
 
     public static void addNewBuyerToOfferById(List<String> fields) {
@@ -305,14 +322,14 @@ public class SendAndReceive implements MessagePattern {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.EditAccount, list);
+        client.sendAndReceive(MessageSupplier.RequestType.EditAccount, list);
     }
 
-    public static List<String> EditProduct(List<String> fields) {
+    public static void EditProduct(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        return client.sendAndReceive(MessageSupplier.RequestType.EditProduct, list);
+        client.sendAndReceive(MessageSupplier.RequestType.EditProduct, list);
     }
 
     public static List<String> EditAuction(List<String> fields) {

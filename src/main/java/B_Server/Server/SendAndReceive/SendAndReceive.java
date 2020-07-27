@@ -230,7 +230,7 @@ public class SendAndReceive {
                 getCodeById(newToken, inputs, requestHandler);
                 break;
             case "SetMediasOfProduct":
-                setMediasOfProduct(newToken, inputs, requestHandler);
+                setMediasOfProduct(newToken, requestHandler);
                 break;
             case "GetAllProductsPrime":
                 getAllProducts(newToken, request, requestHandler,
@@ -290,7 +290,7 @@ public class SendAndReceive {
 
     private static void getImageById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
         try {
-            sender(token, MessageSupplier.RequestType.GetImageById, "Ok", requestHandler);
+            sender(token, MessageSupplier.RequestType.GetImageById, SuccessOrFail.CONNECT.toString(), requestHandler);
             Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
             File file = new File(medias.getImageSrc());
             byte[] bytes = Files.readAllBytes(file.toPath());
@@ -303,17 +303,23 @@ public class SendAndReceive {
 
     private static void setAccountImage(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
         sender(token, MessageSupplier.RequestType.SetImageById,
-                SuccessOrFail.SUCCESS.toString(), requestHandler);
+                SuccessOrFail.CONNECT.toString(), requestHandler);
 
         String accountId = inputs.get(0);
         Medias medias = new Medias();
         Medias.addMedia(medias);
 
         try {
-            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+
+            String path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
             Account account = Account.getAccountById(Long.parseLong(accountId));
             account.setMediaId(medias.getId());
+            medias.setImageSrc(path);
             DataBase.save(medias);
+
+            sender(token, MessageSupplier.RequestType.SetImageById,
+                    SuccessOrFail.SUCCESS.toString(), requestHandler);
+
         } catch (IOException | AccountDoesNotExistException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.SetImageById, SuccessOrFail.FAIL.toString(), requestHandler);
@@ -381,19 +387,24 @@ public class SendAndReceive {
         }
     }
 
-    private static void setMediasOfProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+    private static void setMediasOfProduct(String token, RequestHandler requestHandler) {
+
+        sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
+                SuccessOrFail.CONNECT.toString(), requestHandler);
 
         Medias medias = new Medias();
         Medias.addMedia(medias);
 
         try {
-            sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            String path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+            sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
+                    SuccessOrFail.SUCCESS.toString(), requestHandler);
+            medias.setImageSrc(path);
 
-            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
-            requestHandler.sendMessage("Success");
-            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
-            requestHandler.sendMessage("Success");
-
+            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
+            sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
+                    SuccessOrFail.SUCCESS.toString(), requestHandler);
+            medias.setPlayerSrc(path);
             sellerController.saveProductMedias(medias);
         } catch (IOException e) {
             e.printStackTrace();
@@ -401,11 +412,13 @@ public class SendAndReceive {
         }
     }
 
-    private static void file_write(@NotNull RequestHandler requestHandler, @NotNull Medias medias, String address, String ex) throws IOException {
-        File file = new File(address + medias.getId() + ex);
+    private static String file_write(@NotNull RequestHandler requestHandler, @NotNull Medias medias, String address, String ex) throws IOException {
+        String pathname = address + medias.getId() + ex;
+        File file = new File(pathname);
         Files.createFile(file.toPath());
         OutputStream outputStream = new FileOutputStream(file);
         requestHandler.receiveByteArray(outputStream);
+        return pathname;
     }
 
     private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {
@@ -591,10 +604,10 @@ public class SendAndReceive {
         String accountType = inputs.get(0);
         String username = inputs.get(1);
         String password = inputs.get(2);
-        String firstName = inputs.get(4);
-        String lastName = inputs.get(5);
-        String email = inputs.get(6);
-        String phoneNumber = inputs.get(7);
+        String firstName = inputs.get(3);
+        String lastName = inputs.get(4);
+        String email = inputs.get(5);
+        String phoneNumber = inputs.get(6);
 
         SignUpController signUpController = SignUpController.getInstance();
         try {
@@ -1173,6 +1186,7 @@ public class SendAndReceive {
 
     enum SuccessOrFail {
         SUCCESS,
-        FAIL
+        FAIL,
+        CONNECT
     }
 }

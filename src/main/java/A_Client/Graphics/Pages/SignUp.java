@@ -3,6 +3,7 @@ package A_Client.Graphics.Pages;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
+import com.gilecode.yagson.YaGson;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -357,8 +358,7 @@ public class SignUp implements SceneBuilder, Initializable {
         reset_seller();
         submitNext();
 
-        if (!(inputs.get(0).equals("Seller")) &&
-                errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
+        if (errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
     }
 
     private void reset_seller() {

@@ -62,7 +62,7 @@ public class Manager extends BaseAccount implements SceneBuilder, Initializable 
     public void initialize(URL location, ResourceBundle resources) {
 
         account = SendAndReceive.getAccountById(client.getClientInfo().getAccountId());
-
+        client.getClientInfo().setMedias_Id(account.getMediasId());
         try {
 
             UserName.setText(account.getUsername());
@@ -73,7 +73,7 @@ public class Manager extends BaseAccount implements SceneBuilder, Initializable 
             Email.setText(account.getPersonalInfo().getFieldByName("Email").getString());
             wage.setText(SendAndReceive.getPercentOfWage());
 
-            if (account.getMediasId() == null) ImageInit(manager_image);
+            if (!account.getMediasId().equals("0")) ImageInit(manager_image);
 
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();

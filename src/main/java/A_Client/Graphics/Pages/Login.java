@@ -1,10 +1,12 @@
 package A_Client.Graphics.Pages;
 
+import A_Client.ChatClient.YacGram;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniAccount;
 import Toolkit.JsonHandler.JsonHandler;
+import com.gilecode.yagson.YaGson;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -85,7 +87,8 @@ public class Login implements SceneBuilder, Initializable {
 
     private boolean errorHandler(String message) {
 
-        Matcher matcher = Pattern.compile("^FAIL/(.+)/(.*)$").matcher(message);
+        String o = (String) new YaGson().fromJson(message, List.class).get(0);
+        Matcher matcher = Pattern.compile("^FAIL/(.+)/(.*)$").matcher(o);
         if (matcher.find()) {
 
             switch (matcher.group(1)) {
