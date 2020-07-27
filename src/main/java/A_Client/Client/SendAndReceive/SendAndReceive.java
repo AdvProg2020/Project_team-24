@@ -507,7 +507,7 @@ public class SendAndReceive implements MessagePattern {
 
 
     public static void payWithBankAccount(List<String> list) {
-        client.sendAndReceive(MessageSupplier.RequestType.)
+
     }
 
     public static List<MiniAccount> getAllSupporters() {
