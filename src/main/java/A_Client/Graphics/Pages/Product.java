@@ -124,7 +124,7 @@ public class Product implements Initializable, SceneBuilder {
 
         if (productObject == null) return;
 
-        if (productObject.getMediasId() != null) {
+        if (!productObject.getMediasId().equals("0")) {
             Media media = SendAndReceive
                     .getMediaById(productObject.getMediasId());
             Image image = SendAndReceive
@@ -139,31 +139,36 @@ public class Product implements Initializable, SceneBuilder {
         setPrice();
         setName();
 
-        MiniAccount account = SendAndReceive
-                .getAccountById(client.getClientInfo().getAccountId());
+        String accountId = client.getClientInfo().getAccountId();
 
-        bought = productObject.getBuyers()
-                .contains(Long.parseLong(account.getAccountId()));
+        if (accountId != null) {
 
-        if (account.getAccountT().equals("Seller")) {
+            MiniAccount account = SendAndReceive
+                    .getAccountById(accountId);
 
-            boolean anyMatch = SendAndReceive.getAllMyProducts().stream()
-                    .anyMatch(miniProduct -> miniProduct.getProductId().equals(productObject.getProductId()));
+            bought = productObject.getBuyers()
+                    .contains(Long.parseLong(account.getAccountId()));
 
-            if (anyMatch) {
-                edit_btn.setDisable(false);
-                deleteProduct_btn.setDisable(false);
-                createOffer.setDisable(false);
-            } else addMe_btn.setDisable(false);
-        }
+            if (account.getAccountT().equals("Seller")) {
 
-        if (account.getAccountT().equals("Customer")) {
-            addToCart_btn.setDisable(false);
-            sender.setText(account.getUsername());
-            if (bought) {
-                pointArea.setDisable(false);
-                setPoint_btn.setDisable(false);
-                download.setDisable(false);
+                boolean anyMatch = SendAndReceive.getAllMyProducts().stream()
+                        .anyMatch(miniProduct -> miniProduct.getProductId().equals(productObject.getProductId()));
+
+                if (anyMatch) {
+                    edit_btn.setDisable(false);
+                    deleteProduct_btn.setDisable(false);
+                    createOffer.setDisable(false);
+                } else addMe_btn.setDisable(false);
+            }
+
+            if (account.getAccountT().equals("Customer")) {
+                addToCart_btn.setDisable(false);
+                sender.setText(account.getUsername());
+                if (bought) {
+                    pointArea.setDisable(false);
+                    setPoint_btn.setDisable(false);
+                    download.setDisable(false);
+                }
             }
         }
 
@@ -230,7 +235,7 @@ public class Product implements Initializable, SceneBuilder {
     private void setStars() {
         Image filled = new Image(
                 new File("src/main/resources/Graphics/Product/icons8-star-filled-16.png").toURI().toString());
-        for (int i = 0; i < Integer.parseInt(productObject.getAveRate()); i++) {
+        for (int i = 0; i < Double.parseDouble(productObject.getAveRate()); i++) {
             stars.get(i).setImage(filled);
         }
     }

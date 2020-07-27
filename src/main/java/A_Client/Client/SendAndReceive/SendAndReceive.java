@@ -136,14 +136,17 @@ public class SendAndReceive implements MessagePattern {
         }
     }
 
-    public static File getFileById(String mediaId) {
+    public static void getFileById(String mediaId) {
 
         try (Stream<Path> pathStream = Files.walk(Paths.get("src/main/java/A_Client/Client/Nmidoooonm/File")).filter(Files::isRegularFile)) {
 
             Path orElse = pathStream.filter(path -> path.toFile().getName().equals(mediaId + ".txt"))
                     .findFirst().orElse(null);
 
-            if (orElse != null) return new File(orElse.toFile().toURI().toString());
+            if (orElse != null) {
+                new File(orElse.toFile().toURI().toString());
+                return;
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -153,10 +156,9 @@ public class SendAndReceive implements MessagePattern {
                 Arrays.asList(client.getClientInfo().getToken(), mediaId));
         try {
             String path = downloadFile("src/main/java/A_Client/Client/Nmidoooonm/File/", ".txt", mediaId);
-            return new File(path);
+            new File(path);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 

@@ -68,7 +68,7 @@ public class ProductsController extends LocalClientInfo {
 
         List<Filter> filters = FilterController.getInstance().currentFilters();
 
-        filters.sort(Collections.reverseOrder());
+        if (!filters.isEmpty()) filters.sort(Collections.reverseOrder());
 
         for (Filter filter : filters) {
             productList = productList.stream().filter(filter).collect(Collectors.toList());

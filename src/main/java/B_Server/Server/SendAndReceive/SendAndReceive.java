@@ -1184,9 +1184,9 @@ public class SendAndReceive {
         return new MiniProduct(
                 product.getId() + "",
                 product.getName(),
-                product.getAuction().getId() + "",
+                product.getAuction() == null ? "0" :product.getAuction().getId() + "",
                 product.getOffer() == null ? "0" : product.getOffer().getId() + "",
-                product.getCategory().getId() + "",
+                product.getCategory() == null ? "0" : product.getCategory().getId() + "",
                 product.getMediaId() + "",
                 product.getAverageScore() + "",
                 product.getSellersOfProduct(),

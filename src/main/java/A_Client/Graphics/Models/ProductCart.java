@@ -66,7 +66,7 @@ public class ProductCart implements Initializable {
         if (sellerIndex + 1 < product.getProfSell().size())
             this.price_ftx.setText(product.getProfSell().get(++sellerIndex).getPrice() + "");
 
-        if (product.getAuctionId() != null) newPrice(SendAndReceive
+        if (!product.getAuctionId().equals("0")) newPrice(SendAndReceive
                 .getAuctionById(product.getAuctionId()));
 
         checkButtons();
@@ -77,14 +77,14 @@ public class ProductCart implements Initializable {
         if (sellerIndex > 0)
             this.price_ftx.setText(product.getProfSell().get(--sellerIndex).getPrice() + "");
 
-        if (product.getAuctionId() != null) newPrice(SendAndReceive
+        if (!product.getAuctionId().equals("0")) newPrice(SendAndReceive
                 .getAuctionById(product.getAuctionId()));
 
         checkButtons();
     }
 
     public void gotoProduct() {
-        if (product.getCateId() != null)
+        if (!product.getCateId().equals("0"))
             ProductCart.setProductList(getSimilar());
 
         MiniProduct first_compare = Product.getFirst_Compare();
@@ -120,9 +120,9 @@ public class ProductCart implements Initializable {
 
     private void setProductCart() {
         if (product != null) {
-            if (product.getMediasId() != null) setImage();
+            if (!product.getMediasId().equals("0")) setImage();
             setTexts();
-            if (product.getAuctionId() != null) newPrice(SendAndReceive.getAuctionById(product.getAuctionId()));
+            if (!product.getAuctionId().equals("0")) newPrice(SendAndReceive.getAuctionById(product.getAuctionId()));
         }
     }
 
