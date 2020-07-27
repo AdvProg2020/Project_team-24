@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Pages.Product">
-    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">
+<!--    <ScrollPane prefHeight="433" prefWidth="800" styleClass="base" stylesheets="@Product.css">-->
         <AnchorPane focusTraversable="true" prefHeight="1347.0" prefWidth="1198.0">
             <Pane layoutX="382.0" layoutY="7.0" prefHeight="336.0" prefWidth="816.0">
 
@@ -73,6 +73,7 @@
                         <Font name="Algerian" size="24.0" />
                     </font>
                 </Label>
+         <Button fx:id="download" disable="true" layoutX="37.0" layoutY="289.0" mnemonicParsing="false" onAction="#downloadFile" prefHeight="24.0" prefWidth="169.0" text="دانلود" />
             </Pane>
 
             <Pane layoutX="401.0" layoutY="355.0" prefHeight="333.0" prefWidth="778.0">
@@ -177,23 +178,24 @@
                 </Tab>
             </TabPane>
             <Pane layoutX="73.0" layoutY="-1.0" prefHeight="1350.0" prefWidth="230.0" styleClass="leftPane" stylesheets="@Product.css">
-                <Button fx:id="addMe_btn" disable="true" layoutX="8.0" layoutY="1226.0" mnemonicParsing="false" onAction="#AddMeAsSeller" prefHeight="62.0" prefWidth="211.0" text="میخواهم فروشنده این کالا باشم">
+                <Button fx:id="addMe_btn" disable="true" layoutX="9.0" layoutY="1234.0" mnemonicParsing="false" onAction="#AddMeAsSeller" prefHeight="62.0" prefWidth="211.0" text="میخواهم فروشنده این کالا باشم">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Button>
-                <Button fx:id="edit_btn" disable="true" layoutX="8.0" layoutY="1081.0" mnemonicParsing="false" onAction="#editProduct" prefHeight="61.0" prefWidth="214.0" text="ویرایش" />
-                <Button fx:id="deleteProduct_btn" disable="true" layoutX="9.0" layoutY="1154.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="59.0" prefWidth="212.0" text="حذف این محصول">
+                <Button fx:id="edit_btn" disable="true" layoutX="8.0" layoutY="1007.0" mnemonicParsing="false" onAction="#editProduct" prefHeight="61.0" prefWidth="214.0" text="ویرایش" />
+                <Button fx:id="deleteProduct_btn" disable="true" layoutX="9.0" layoutY="1161.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="59.0" prefWidth="212.0" text="حذف این محصول">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Button>
                 <MediaView fx:id="leftGif" fitHeight="200.0" fitWidth="200.0" layoutX="12.0" layoutY="398.0" />
-                <Button fx:id="setPoint_btn" disable="true" layoutX="59.0" layoutY="991.0" mnemonicParsing="false" onAction="#PointButton" prefHeight="31.0" prefWidth="113.0" text="ثبت امتیاز" />
-                <TextField fx:id="pointArea" alignment="CENTER" disable="true" layoutX="26.0" layoutY="910.0" prefHeight="64.0" prefWidth="179.0" promptText="امتیاز 1-5" />
+                <Button fx:id="setPoint_btn" disable="true" layoutX="56.0" layoutY="844.0" mnemonicParsing="false" onAction="#PointButton" prefHeight="31.0" prefWidth="113.0" text="ثبت امتیاز" />
+                <TextField fx:id="pointArea" alignment="CENTER" disable="true" layoutX="23.0" layoutY="756.0" prefHeight="64.0" prefWidth="179.0" promptText="امتیاز 1-5" />
+         <Button fx:id="createOffer" disable="true" layoutX="7.0" layoutY="1085.0" mnemonicParsing="false" onAction="#CreateOffer" prefHeight="61.0" prefWidth="214.0" text="افزودن محصول به یک مزایده" />
             </Pane>
             <Separator layoutX="465.0" layoutY="353.0" prefHeight="0.0" prefWidth="649.0" />
             <Separator layoutX="368.0" layoutY="922.0" prefHeight="0.0" prefWidth="807.0" />
         </AnchorPane>
-   </ScrollPane>
+<!--   </ScrollPane>-->
 </Scene>

@@ -34,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -259,7 +260,13 @@ public class SendAndReceive {
             case "addNewOffer" :
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
+            case "payWithBankAccount":
+                payWithBankAccount(newToken, inputs, requestHandler);
+                break;
         }
+    }
+
+    private static void payWithBankAccount(String token, List<String> inputs, RequestHandler requestHandler) {
     }
 
     private static void addNewOffer(List<String> inputs, RequestHandler requestHandler, String newToken) {

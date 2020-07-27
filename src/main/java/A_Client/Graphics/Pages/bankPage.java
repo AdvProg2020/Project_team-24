@@ -12,9 +12,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class bankPage implements SceneBuilder {
     private final Client client = SendAndReceive.getClient();
@@ -34,7 +36,7 @@ public class bankPage implements SceneBuilder {
         return null;
     }
 
-    public void setTotelPrice(){
+    public void setTotalPrice(){
         String id = client.getClientInfo().getAccountId();
         try {
             Customer account = (Customer) Account.getAccountById(Long.parseLong(id));
@@ -51,6 +53,10 @@ public class bankPage implements SceneBuilder {
         }
     }
     public void payButton() {
-        SendAndReceive.payWithBankAccount();
+        List<String> list =  Arrays.asList(username.getText(),password.getText(),"move",totelPrice.toString(),description.getText());
+        List<String> payWithBankAccount = SendAndReceive.payWithBankAccount(list);
+
+        //.. handle exceptions as alert
+
     }
 }
