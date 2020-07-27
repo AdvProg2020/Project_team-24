@@ -467,4 +467,12 @@ public class SendAndReceive implements MessagePattern {
     public static List<MiniAccount> getAllSupporters() {
         return null;
     }
+
+    public static List<String> addOffer(ArrayList<String> objects) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(objects);
+        return client.sendAndReceive(MessageSupplier.RequestType.addNewOffer, list);
+
+    }
 }

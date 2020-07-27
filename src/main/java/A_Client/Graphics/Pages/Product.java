@@ -2,6 +2,7 @@ package A_Client.Graphics.Pages;
 
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.Creates.CreatOffer;
 import A_Client.Graphics.Creates.CreateProduct;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.ProductsMenu;
@@ -15,6 +16,7 @@ import Structs.MiniProduct;
 import Structs.ProductVsSeller.ProductOfSeller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,6 +40,7 @@ public class Product implements Initializable, SceneBuilder {
     private static MiniProduct First_Compare;
     private static MiniProduct productObject;
     private final Client client = SendAndReceive.getClient();
+    public Button createOffer;
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
@@ -144,6 +147,8 @@ public class Product implements Initializable, SceneBuilder {
             if (anyMatch) {
                 edit_btn.setDisable(false);
                 deleteProduct_btn.setDisable(false);
+                createOffer.setDisable(false);
+
             } else addMe_btn.setDisable(false);
         }
 
@@ -319,5 +324,10 @@ public class Product implements Initializable, SceneBuilder {
             alert.setContentText(matcher.group(2));
             alert.showAndWait();
         }
+    }
+
+    public void CreateOffer() {
+        CreatOffer.setMiniProduct(productObject);
+        MainMenu.change(new CreatOffer().sceneBuilder());
     }
 }

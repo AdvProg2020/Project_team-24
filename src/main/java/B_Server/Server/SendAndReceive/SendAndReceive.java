@@ -168,6 +168,9 @@ public class SendAndReceive {
             case "addNewFilter":
                 addNewFilter(newToken, inputs, requestHandler);
                 break;
+            case "addNewOffer":
+                //...
+                break;
             case "CheckDiscountCodes":
                 checkAllDiscountCodes(newToken, requestHandler);
                 break;
