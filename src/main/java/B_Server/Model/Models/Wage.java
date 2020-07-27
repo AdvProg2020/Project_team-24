@@ -6,7 +6,7 @@ public class Wage {
 
     /*****************************************************fields*******************************************************/
 
-    protected static double wagePercentage = 0;
+    protected static double wagePercentage = 10;
 
     /*****************************************************getters*******************************************************/
 
@@ -15,6 +15,7 @@ public class Wage {
     }
 
     /*****************************************************setters*******************************************************/
+
     public static void setWagePercentage(double wagePercentage) throws InvalidWagePercentageExeption {
         if (wagePercentage <= 100) {
             Wage.wagePercentage = wagePercentage;

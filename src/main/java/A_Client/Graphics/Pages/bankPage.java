@@ -34,23 +34,21 @@ public class bankPage implements SceneBuilder {
         return null;
     }
 
-    public void setTotelPrice(){
+    public void setTotalPrice(){
         String id = client.getClientInfo().getAccountId();
         try {
             Customer account = (Customer) Account.getAccountById(Long.parseLong(id));
             try {
                 Double totalPrice = account.getCart().getTotalPrice();
                 totelPrice.setText(String.valueOf(totalPrice));
-            } catch (ProductDoesNotExistException e) {
+            } catch (ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
                 e.printStackTrace();
-            } catch (SellerDoesNotSellOfThisProduct sellerDoesNotSellOfThisProduct) {
-                sellerDoesNotSellOfThisProduct.printStackTrace();
             }
         } catch (AccountDoesNotExistException e) {
             e.printStackTrace();
         }
     }
     public void payButton() {
-        SendAndReceive.payWithBankAccount();
+//        SendAndReceive.payWithBankAccount();
     }
 }

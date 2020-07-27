@@ -71,9 +71,5 @@ public class Client {
     public void receiveFile(OutputStream outputStream) {
         requestHandler.receiveOutput(outputStream);
     }
-
-    public ByteArrayInputStream receiveFileBytes() {
-        return requestHandler.receiveByteArrayInput();
-    }
 }
 

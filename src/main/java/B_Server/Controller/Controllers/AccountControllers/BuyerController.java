@@ -1,17 +1,19 @@
 package B_Server.Controller.Controllers.AccountControllers;
+
 import B_Server.Controller.Tools.AccountController;
 import B_Server.Controller.Tools.LocalClientInfo;
-import B_Server.Model.Models.*;
-import B_Server.Model.Models.Accounts.Manager;
-import Exceptions.*;
 import B_Server.Model.DataBase.DataBase;
+import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
+import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
-import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.ProductLog;
-import Structs.ProductVsSeller.ProductOfSeller;
+import Exceptions.*;
+import Structs.FieldAndFieldList.Field;
 import Structs.FieldAndFieldList.FieldList;
+import Structs.ProductVsSeller.ProductOfSeller;
 import org.jetbrains.annotations.NotNull;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,31 +88,32 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
         }
         return productLogs;
     }
+
     @NotNull
     private List<ProductLog> paymentByBankAccount() {
 
-        ((Customer) clientInfo.get().getAccount())- showTotalPrice());
-
-        List<ProductLog> productLogs = new ArrayList<>();
-        List<Product> listOfProduct = this.showProducts();
-        List<Long> listOfSellers = viewCart().getProductSellers();
-        for (int i = 0; i < showProducts().size(); i++) {
-            Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
-            Product product = listOfProduct.get(i);
-            product.addBuyer(clientInfo.get().getAccount().getId());
-            double productPrice = product.getProductOfSellerById(listOfSellers.get(i)).getPrice();
-            double productAuctionAmount = product.getAuction() == null ? 0 : product.getAuction().getAuctionDiscount(productPrice);
-            double productFinalPrice = productPrice - productAuctionAmount;
-
-            productLogs.add(new ProductLog(product.getId(), product.getName(), productPrice, productAuctionAmount, productFinalPrice));
-
-            seller.setBalance(seller.getBalance() + (productFinalPrice * (100 - Wage.getWagePercentage()) / 100));
-            Manager.setBankPropertyOfAllManagers(Manager.getBankPropertyOfAllManagers() + productFinalPrice * Wage.getWagePercentage() / 100);
-
-
-        }
-        return productLogs;
-
+//        ((Customer) clientInfo.get().getAccount())- showTotalPrice());
+//
+//        List<ProductLog> productLogs = new ArrayList<>();
+//        List<Product> listOfProduct = this.showProducts();
+//        List<Long> listOfSellers = viewCart().getProductSellers();
+//        for (int i = 0; i < showProducts().size(); i++) {
+//            Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
+//            Product product = listOfProduct.get(i);
+//            product.addBuyer(clientInfo.get().getAccount().getId());
+//            double productPrice = product.getProductOfSellerById(listOfSellers.get(i)).getPrice();
+//            double productAuctionAmount = product.getAuction() == null ? 0 : product.getAuction().getAuctionDiscount(productPrice);
+//            double productFinalPrice = productPrice - productAuctionAmount;
+//
+//            productLogs.add(new ProductLog(product.getId(), product.getName(), productPrice, productAuctionAmount, productFinalPrice));
+//
+//            seller.setBalance(seller.getBalance() + (productFinalPrice * (100 - Wage.getWagePercentage()) / 100));
+//            Manager.setBankPropertyOfAllManagers(Manager.getBankPropertyOfAllManagers() + productFinalPrice * Wage.getWagePercentage() / 100);
+//
+//
+//        }
+//        return productLogs;
+        return null;
 
     }
 

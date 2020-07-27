@@ -158,22 +158,17 @@ public class SellerController extends LocalClientInfo implements AccountControll
     }
 
     public Offer addOffer(String start, String end, String productId, String sellerId) {
-        Product product = null;
         try {
-            product = Product.getProductById(Long.parseLong(productId));
-            try {
-                Seller seller = (Seller) Seller.getAccountById(Long.parseLong(sellerId));
-                LocalDate start1 = LocalDate.parse(start, formatter);
-                LocalDate end1 = LocalDate.parse(end, formatter);
-                Offer offer = new Offer(product, start1, end1, seller);
-                DataBase.save(offer,true);
-
-            } catch (AccountDoesNotExistException e) {
-                e.printStackTrace();
-            }
-
-        } catch (ProductDoesNotExistException e) {
+            Product product = Product.getProductById(Long.parseLong(productId));
+            Seller seller = (Seller) Seller.getAccountById(Long.parseLong(sellerId));
+            LocalDate start1 = LocalDate.parse(start, formatter);
+            LocalDate end1 = LocalDate.parse(end, formatter);
+            Offer offer = new Offer(product, start1, end1, seller);
+            DataBase.save(offer,true);
+            return offer;
+        } catch (ProductDoesNotExistException | AccountDoesNotExistException e) {
             e.printStackTrace();
+            return null;
         }
     }
 

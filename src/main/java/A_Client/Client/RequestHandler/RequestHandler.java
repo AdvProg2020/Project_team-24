@@ -52,16 +52,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         }
     }
 
-    public ByteArrayInputStream receiveByteArrayInput() {
-        try {
-            return blabber.receiveByteArrayInput();
-        } catch (IOException e) {
-            e.printStackTrace();
-            blabber.close();
-            return null;
-        }
-    }
-
     private static class Blabber {
 
         protected DataInputStream inputStream;
@@ -106,12 +96,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
             int count = inputStream.read(bytes);
             fileOutputStream.write(bytes, 0, count);
             fileOutputStream.close();
-        }
-
-        public ByteArrayInputStream receiveByteArrayInput() throws IOException {
-            byte[] bytes = new byte[500000];
-            inputStream.readFully(bytes);
-            return new ByteArrayInputStream(bytes);
         }
 
         public void writeByteArray(byte[] bytes) throws IOException {
