@@ -5,10 +5,6 @@ import Exceptions.ProductMediaNotFoundException;
 import B_Server.Model.Models.Data.Data;
 import B_Server.Model.Tools.AddingNew;
 import B_Server.Model.Tools.Packable;
-import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -20,7 +16,7 @@ public class Medias implements Packable<Medias> {
 
     private long id;
     private String imageSrc;
-    private String playerSrc;
+    private String mediaSrc;
     private String fileSrc;
 
     public static void setList(List<Medias> list) {
@@ -48,17 +44,6 @@ public class Medias implements Packable<Medias> {
     }
 
     // Others
-    @NotNull
-    @Contract("_ -> new")
-    public static Image getImage(String src) {
-        return new Image(src);
-    }
-
-    @NotNull
-    @Contract("_ -> new")
-    public static MediaPlayer getMediaPlayer(String src) {
-        return new MediaPlayer(new Media(src));
-    }
 
     // Setter and Getter
     public String getImageSrc() {
@@ -69,12 +54,20 @@ public class Medias implements Packable<Medias> {
         this.imageSrc = imageSrc;
     }
 
-    public String getPlayerSrc() {
-        return playerSrc;
+    public String getMediaSrc() {
+        return mediaSrc;
     }
 
-    public void setPlayerSrc(String playerSrc) {
-        this.playerSrc = playerSrc;
+    public void setMediaSrc(String mediaSrc) {
+        this.mediaSrc = mediaSrc;
+    }
+
+    public String getFileSrc() {
+        return fileSrc;
+    }
+
+    public void setFileSrc(String fileSrc) {
+        this.fileSrc = fileSrc;
     }
 
     // Override
@@ -83,7 +76,7 @@ public class Medias implements Packable<Medias> {
         return new Data<Medias>()
                 .addField(id)
                 .addField(imageSrc)
-                .addField(playerSrc)
+                .addField(mediaSrc)
                 .addField(fileSrc)
                 .setInstance(new Medias());
     }
@@ -92,7 +85,7 @@ public class Medias implements Packable<Medias> {
     public Medias dpkg(@NotNull Data<Medias> data) {
         this.id = (long) data.getFields().get(0);
         this.imageSrc = (String) data.getFields().get(1);
-        this.playerSrc = (String) data.getFields().get(2);
+        this.mediaSrc = (String) data.getFields().get(2);
         this.fileSrc = (String) data.getFields().get(3);
         return this;
     }

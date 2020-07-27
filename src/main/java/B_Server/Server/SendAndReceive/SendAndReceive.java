@@ -262,6 +262,21 @@ public class SendAndReceive {
             case "payWithBankAccount":
                 payWithBankAccount(newToken, inputs, requestHandler);
                 break;
+            case "getFileById":
+                getFileById(newToken, inputs, requestHandler);
+        }
+    }
+
+    private static void getFileById(String token, List<String> inputs, RequestHandler requestHandler) {
+        try {
+            sender(token, MessageSupplier.RequestType.getFileById, "Ok", requestHandler);
+            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
+            File file = new File(medias.getImageSrc());
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            requestHandler.writeByteArray(bytes);
+        } catch (ProductMediaNotFoundException | IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.getFileById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
         }
     }
 
@@ -422,8 +437,15 @@ public class SendAndReceive {
             path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
                     SuccessOrFail.SUCCESS.toString(), requestHandler);
-            medias.setPlayerSrc(path);
+            medias.setMediaSrc(path);
+
+            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/File/", ".txt");
+            sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
+                    SuccessOrFail.SUCCESS.toString(), requestHandler);
+            medias.setFileSrc(path);
+
             sellerController.saveProductMedias(medias);
+
         } catch (IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.FAIL.toString(), requestHandler);
@@ -1167,7 +1189,8 @@ public class SendAndReceive {
                 product.getCategory().getId() + "",
                 product.getMediaId() + "",
                 product.getAverageScore() + "",
-                product.getSellersOfProduct()
+                product.getSellersOfProduct(),
+                product.getBuyerList()
         );
     }
 

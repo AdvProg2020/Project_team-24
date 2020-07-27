@@ -130,7 +130,7 @@
             <TableColumn fx:id="feature_product_column" prefWidth="249.5999755859375" text="ویژگی" />
          </columns>
       </TableView>
-      <Button layoutX="356.0" layoutY="616.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="66.0" prefWidth="124.0" text="انتخاب فایل">
+      <Button fx:id="s_file" disable="true" layoutX="356.0" layoutY="616.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="66.0" prefWidth="124.0" text="انتخاب فایل">
          <font>
             <Font size="18.0" />
          </font>

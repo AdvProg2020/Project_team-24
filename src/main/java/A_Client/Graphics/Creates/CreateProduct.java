@@ -10,7 +10,6 @@ import Structs.MiniProduct;
 import Structs.ProductVsSeller.ProductOfSeller;
 import com.gilecode.yagson.YaGson;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,10 +36,11 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.New;
-    
+
     private MiniProduct product;
     private File selectedImage;
     private File selectedMedia;
+    private File selectedFile;
     private int category_f_index;
     private FileChooser fc = new FileChooser();
     private List<String> str_f_c = new ArrayList<>();
@@ -79,6 +79,8 @@ public class CreateProduct implements SceneBuilder, Initializable {
     @FXML
     private Button s_movie;
     @FXML
+    private Button s_file;
+    @FXML
     private ImageView Icon_product;
     @FXML
     private Label text_category;
@@ -100,7 +102,6 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private TableColumn<Field, String> value_product_column;
     @FXML
     private TableColumn<Field, String> feature_product_column;
-    private File selectedFile;
 
     public static void setMode(Mode mode) {
         CreateProduct.mode = mode;
@@ -120,8 +121,6 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        product = SendAndReceive
-                .getProductById(client.getClientInfo().getProductId());
 
         init_newMode();
         if (mode == Mode.Edit) init_editMode();
@@ -129,6 +128,9 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     private void init_editMode() {
+        product = SendAndReceive
+                .getProductById(client.getClientInfo().getProductId());
+
         product_name.setText(product.getProductName());
         long accountId = Long.parseLong(
                 client.getClientInfo().getAccountId());
@@ -265,14 +267,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
         }
 
         f_submit.setOnAction(event -> {
-
-            if (next_submit_newMode()) return;
-
-            YaGson yaGson = new YaGson();
-            SendAndReceive.saveInfoOfProduct(Arrays.asList(yaGson.toJson(str_f_p),
-                    yaGson.toJson(str_v_p),yaGson.toJson(str_f_c), yaGson.toJson(str_v_c)));
-
-            goMainMenu();
+            if (next_submit_newMode()) goMainMenu();
         });
     }
 
@@ -284,8 +279,12 @@ public class CreateProduct implements SceneBuilder, Initializable {
             return false;
         }
 
-        if (selectedImage != null || selectedMedia != null || selectedFile !=null)
-            SendAndReceive.setMedias(selectedImage, selectedMedia,selectedFile);
+        YaGson yaGson = new YaGson();
+        SendAndReceive.saveInfoOfProduct(Arrays.asList(yaGson.toJson(str_f_p),
+                yaGson.toJson(str_v_p), yaGson.toJson(str_f_c), yaGson.toJson(str_v_c)));
+
+        if (selectedImage != null || selectedMedia != null || selectedFile != null)
+            SendAndReceive.setMedias(selectedImage, selectedMedia, selectedFile);
 
         return true;
     }
@@ -305,7 +304,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     public void select_image() {
-        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg", "*.png"));
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("image", "*.jpg"));
         selectedImage = fc.showOpenDialog(null);
         if (selectedImage == null) return;
         Image value = new Image(selectedImage.toURI().toString());
@@ -315,6 +314,11 @@ public class CreateProduct implements SceneBuilder, Initializable {
     public void select_movie() {
         fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("movie", "*.mp4"));
         selectedMedia = fc.showOpenDialog(null);
+    }
+
+    public void chooseFile() {
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("file", "*.txt"));
+        selectedFile = fc.showOpenDialog(null);
     }
 
     public void product_submit() {
@@ -386,6 +390,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     }
 
     private void afterFirstSubmit() {
+        s_file.setDisable(false);
         s_image.setDisable(false);
         s_movie.setDisable(false);
         product_image.setDisable(false);
@@ -413,11 +418,6 @@ public class CreateProduct implements SceneBuilder, Initializable {
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
                 )).play()
         ).start();
-    }
-
-    public void chooseFile() {
-        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("file", "*.txt"));
-        selectedFile = fc.showOpenDialog(null);
     }
 
     public enum Mode {

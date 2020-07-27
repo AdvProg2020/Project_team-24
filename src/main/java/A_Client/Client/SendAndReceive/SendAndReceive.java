@@ -136,6 +136,30 @@ public class SendAndReceive implements MessagePattern {
         }
     }
 
+    public static File getFileById(String mediaId) {
+
+        try (Stream<Path> pathStream = Files.walk(Paths.get("src/main/java/A_Client/Client/Nmidoooonm/File")).filter(Files::isRegularFile)) {
+
+            Path orElse = pathStream.filter(path -> path.toFile().getName().equals(mediaId + ".txt"))
+                    .findFirst().orElse(null);
+
+            if (orElse != null) return new File(orElse.toFile().toURI().toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        client.sendAndReceive(MessageSupplier.RequestType.getFileById,
+                Arrays.asList(client.getClientInfo().getToken(), mediaId));
+        try {
+            String path = downloadFile("src/main/java/A_Client/Client/Nmidoooonm/File/", ".txt", mediaId);
+            return new File(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private static String downloadFile(String addr, String ex, String mediaId) throws IOException {
         String pathname = addr + mediaId + ex;
         File file = new File(pathname);
@@ -174,15 +198,22 @@ public class SendAndReceive implements MessagePattern {
         return new JsonHandler<String>().JsonsToObjectList(answer,false).get(0);
     }
 
-    public static void setMedias(File image, File movie, File selectedFile) {
+    public static void setMedias(File image, File movie, File file) {
         client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct,
                 Collections.singletonList(client.getClientInfo().getToken()));
         try {
 
             client.sendFile(image);
-            client.receiveMessage();
+            List<String> readMessage = client.readMessage(client.receiveMessage());
+            client.getClientInfo().setToken(readMessage.get(0));
+
             client.sendFile(movie);
-            client.receiveMessage();
+            readMessage = client.readMessage(client.receiveMessage());
+            client.getClientInfo().setToken(readMessage.get(0));
+
+            client.sendFile(file);
+            readMessage = client.readMessage(client.receiveMessage());
+            client.getClientInfo().setToken(readMessage.get(0));
 
         } catch (IOException e) {
             e.printStackTrace();

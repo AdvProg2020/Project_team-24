@@ -4,6 +4,7 @@ import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import Structs.MiniAccount;
+import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -46,6 +47,7 @@ public class BaseAccount {
         SendAndReceive.Logout();
     }
 
+    @FXML
     protected void back() {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }

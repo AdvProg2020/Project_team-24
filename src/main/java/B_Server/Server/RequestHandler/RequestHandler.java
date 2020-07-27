@@ -23,7 +23,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         try {
             blabber.sendMessage(message);
         } catch (IOException e) {
-            close();
+            e.printStackTrace();
         }
     }
 
@@ -31,7 +31,7 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         try {
             blabber.receiveByteArray(fileOutputStream);
         } catch (IOException e) {
-            blabber.close();
+            e.printStackTrace();
         }
     }
 
@@ -40,7 +40,6 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
             blabber.writeByteArray(bytes);
         } catch (IOException e) {
             e.printStackTrace();
-            blabber.close();
         }
     }
 

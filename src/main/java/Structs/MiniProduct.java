@@ -14,6 +14,11 @@ public class MiniProduct {
     private final String mediasId;
     private final String aveRate;
     private final List<ProductOfSeller> profSell;
+    private final List<Long> buyers;
+
+    public List<Long> getBuyers() {
+        return buyers;
+    }
 
     public String getAuctionId() {
         return auctionId;
@@ -47,7 +52,7 @@ public class MiniProduct {
         return offerId;
     }
 
-    public MiniProduct(String productId, String productName, String auctionId, String offerId, String cateId, String mediasId, String aveRate, List<ProductOfSeller> profSell1) {
+    public MiniProduct(String productId, String productName, String auctionId, String offerId, String cateId, String mediasId, String aveRate, List<ProductOfSeller> profSell1, List<Long> buyers) {
         this.productId = productId;
         this.productName = productName;
         this.auctionId = auctionId;
@@ -56,5 +61,6 @@ public class MiniProduct {
         this.mediasId = mediasId;
         this.aveRate = aveRate;
         this.profSell = profSell1;
+        this.buyers = buyers;
     }
 }

@@ -3,7 +3,6 @@ package A_Client.Graphics.Pages;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
-import com.gilecode.yagson.YaGson;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

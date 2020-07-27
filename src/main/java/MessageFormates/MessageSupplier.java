@@ -94,8 +94,9 @@ public interface MessageSupplier {
         addNewBuyerToOfferById,
         SetCurrentOffer,
         GetAllOffers,
-        Kill, addNewOffer,
-        payWithBankAccount
-
+        Kill,
+        addNewOffer,
+        payWithBankAccount,
+        getFileById,
     }
 }

@@ -48,8 +48,6 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
     @FXML
     private TextField bran_txt;
     @FXML
-    private TextField balance_txt;
-    @FXML
     private TextField email_txt;
     @FXML
     private TextField phone_txt;
@@ -83,6 +81,10 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        account = SendAndReceive.getAccountById(client.getClientInfo().getAccountId());
+        client.getClientInfo().setMedias_Id(account.getMediasId());
+
         try {
             username_txt.setText(account.getUsername());
             password_txt.setText(account.getPassword());
@@ -93,9 +95,9 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
             bran_txt.setText(account.getCompanyInfo().getFieldByName("CompanyName").getString());
             comEmail_txt.setText(account.getCompanyInfo().getFieldByName("CompanyEmail").getString());
             comPhone_txt.setText(account.getCompanyInfo().getFieldByName("CompanyPhoneNumber").getString());
-            balance_txt.setText(account.getWallet().getBalance() + "");
+//            balance_txt.setText(account.getWallet().getBalance() + "");
 
-            if (account.getMediasId() != null) ImageInit(seller_image);
+            if (!account.getMediasId().equals("0")) ImageInit(seller_image);
 
             ArrayList<MiniProductLog> miniProductLogs = new ArrayList<>();
             SendAndReceive.GetLogsOfUserById(client.getClientInfo().getAccountId())
@@ -143,7 +145,7 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
     public void submit() {
         if (selectedImage != null) setImage();
         RequestForEdit("password", password_txt.getText());
-        RequestForEdit("balance", balance_txt.getText());
+//        RequestForEdit("balance", balance_txt.getText());
         RequestForEdit("FirstName", fName_txt.getText());
         RequestForEdit("LastName", lName_txt.getText());
         RequestForEdit("Email", email_txt.getText());

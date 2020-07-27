@@ -16,7 +16,6 @@ import Structs.MiniProduct;
 import Structs.ProductVsSeller.ProductOfSeller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,10 +39,13 @@ public class Product implements Initializable, SceneBuilder {
     private static MiniProduct First_Compare;
     private static MiniProduct productObject;
     private final Client client = SendAndReceive.getClient();
-    public Button createOffer;
-    public Button download;
     private List<ImageView> stars = new ArrayList<>();
+    private boolean bought = false;
     private int sellerIndex = 0;
+    @FXML
+    private Button createOffer;
+    @FXML
+    private Button download;
     @FXML
     private Button setPoint_btn;
     @FXML
@@ -140,6 +142,9 @@ public class Product implements Initializable, SceneBuilder {
         MiniAccount account = SendAndReceive
                 .getAccountById(client.getClientInfo().getAccountId());
 
+        bought = productObject.getBuyers()
+                .contains(Long.parseLong(account.getAccountId()));
+
         if (account.getAccountT().equals("Seller")) {
 
             boolean anyMatch = SendAndReceive.getAllMyProducts().stream()
@@ -149,16 +154,17 @@ public class Product implements Initializable, SceneBuilder {
                 edit_btn.setDisable(false);
                 deleteProduct_btn.setDisable(false);
                 createOffer.setDisable(false);
-
             } else addMe_btn.setDisable(false);
         }
 
         if (account.getAccountT().equals("Customer")) {
             addToCart_btn.setDisable(false);
             sender.setText(account.getUsername());
-            pointArea.setDisable(false);
-            setPoint_btn.setDisable(false);
-            download.setDisable(false);
+            if (bought) {
+                pointArea.setDisable(false);
+                setPoint_btn.setDisable(false);
+                download.setDisable(false);
+            }
         }
 
         MediaPlayer value = new MediaPlayer(
@@ -334,6 +340,7 @@ public class Product implements Initializable, SceneBuilder {
     }
 
     public void downloadFile() {
-        //...
+        if (!productObject.getMediasId().equals("0"))
+            SendAndReceive.getFileById(productObject.getMediasId());
     }
 }
