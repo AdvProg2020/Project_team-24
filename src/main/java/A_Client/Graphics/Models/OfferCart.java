@@ -4,6 +4,7 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Pages.Product;
 import Structs.MiniOffer;
+import Structs.MiniProduct;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -18,10 +19,10 @@ import java.util.ResourceBundle;
 
 
 public class OfferCart implements Initializable {
+
     private final Client client = SendAndReceive.getClient();
     private static List<MiniOffer> offerList = SendAndReceive.getAllOffers();
     private MiniOffer offer;
-    private int sellerIndex;
 
     @FXML
     public Label sellerOfProduct;
@@ -46,6 +47,7 @@ public class OfferCart implements Initializable {
         }
         init();
     }
+
     public void gotoOffer() {
         setCurrentOffer(offer);
         MainMenu.change(new Product().sceneBuilder());
@@ -57,7 +59,6 @@ public class OfferCart implements Initializable {
         client.getClientInfo().setProductId(miniOffer.getProductId());
     }
 
-
     private void init() {
         this.offer = offerList.get(0);
         offerList.remove(0);
@@ -66,7 +67,8 @@ public class OfferCart implements Initializable {
 
     private void setOfferCart() {
         if (offer != null) {
-            if (offer.getMediasId() != null) setImage();
+            MiniProduct miniProduct = SendAndReceive.getProductById(offer.getProductId());
+            if (!miniProduct.getMediasId().equals("0")) setImage(miniProduct.getMediasId());
             setTexts();
         }
     }
@@ -77,10 +79,9 @@ public class OfferCart implements Initializable {
         this.sellerOfProduct.setText(sellerName);
     }
 
-    private void setImage() {
-        Image image = SendAndReceive.getImageById(offer.getMediasId());
+    private void setImage(String mediasId) {
+        Image image = SendAndReceive.getImageById(mediasId);
         this.productImage.setImage(image);
     }
-
 }
 

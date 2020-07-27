@@ -15,7 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -28,8 +28,6 @@ public class Offer implements Initializable {
     public TableView<String> offerTable;
     public ImageView product_image;
     public Label productName;
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +58,7 @@ public class Offer implements Initializable {
     }
     public void setTable(TableView<String> offerTable, TableColumn<String,String> usernameColumn, TableColumn<String,String> priceColumn ){
         MiniOffer offerById = SendAndReceive.getOfferById(productObject.getOfferId());
-        HashMap<String, Double> auctioneersPrices = offerById.getAuctioneersPrices();
+        Map<String, Double> auctioneersPrices = offerById.getAuctioneersPrices();
         offerTable.setItems(FXCollections.observableList(auctioneersPrices.entrySet()
                 .stream().map(entry -> entry.getKey() + "#" + entry.getValue()).collect(Collectors.toList())));
         usernameColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().split("#")[0]));
