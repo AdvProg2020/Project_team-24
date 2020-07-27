@@ -96,7 +96,8 @@ public interface MessageSupplier {
         GetAllOffers,
         Kill,
         addNewOffer,
-        payWithBankAccount,
         getFileById,
+        Deposit,
+        WithDraw
     }
 }

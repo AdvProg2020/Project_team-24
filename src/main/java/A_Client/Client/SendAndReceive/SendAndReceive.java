@@ -195,9 +195,9 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static String getPercentOfWage() {
-        List<String> answer =  client.sendAndReceive(MessageSupplier.RequestType.GetPercentOfWage,
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetPercentOfWage,
                 Collections.singletonList(client.getClientInfo().getToken()));
-        return new JsonHandler<String>().JsonsToObjectList(answer,false).get(0);
+        return new JsonHandler<String>().JsonsToObjectList(answer, false).get(0);
     }
 
     public static void setMedias(File image, File movie, File file) {
@@ -551,17 +551,18 @@ public class SendAndReceive implements MessagePattern {
                 Arrays.asList(client.getClientInfo().getToken(), productId));
     }
 
-    public static void setCurrentOffer(String offerId){
+    public static void setCurrentOffer(String offerId) {
         client.sendAndReceive(MessageSupplier.RequestType.SetCurrentOffer,
                 Arrays.asList(client.getClientInfo().getToken(), offerId));
 
     }
-    public static void setWage(String wagePercentage){
+
+    public static void setWage(String wagePercentage) {
         //...
     }
 
     public static List<MiniAccount> getAllSupporters() {
-
+        return null;
     }
 
     public static List<String> addOffer(ArrayList<String> objects) {
@@ -572,10 +573,11 @@ public class SendAndReceive implements MessagePattern {
 
     }
 
-    public static List<String> Deposite(String depositAmount) {
-        return client.sendAndReceive(MessageSupplier.RequestType.Deposite,
+    public static List<String> Deposit(String depositAmount) {
+        return client.sendAndReceive(MessageSupplier.RequestType.Deposit,
                 Arrays.asList(client.getClientInfo().getToken(), depositAmount));
     }
+
     public static List<String> WithDraw(String withDrawAmount) {
         return client.sendAndReceive(MessageSupplier.RequestType.WithDraw,
                 Arrays.asList(client.getClientInfo().getToken(), withDrawAmount));

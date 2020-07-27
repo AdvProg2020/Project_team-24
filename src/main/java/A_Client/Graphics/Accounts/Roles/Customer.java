@@ -105,7 +105,7 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
 
         //deposit....
         String depositAmount = deposit.getText();
-        SendAndReceive.Deposite(depositAmount);
+        SendAndReceive.Deposit(depositAmount);
     }
 
     public void goCart() {

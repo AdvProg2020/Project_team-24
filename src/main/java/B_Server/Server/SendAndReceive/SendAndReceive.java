@@ -257,14 +257,14 @@ public class SendAndReceive {
                 break;
             case "Kill":
                 Offline(requestHandler, info, newToken);
-            case "addNewOffer" :
+            case "addNewOffer":
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
-            case "Deposite" :
+            case "Deposit":
                 deposit(token, inputs, requestHandler);
 
                 break;
-            case "WithDraw" :
+            case "WithDraw":
                 withdraw(token, inputs, requestHandler);
                 break;
         }
@@ -273,24 +273,18 @@ public class SendAndReceive {
     private static void withdraw(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
         String amount = inputs.get(0);
         Account account = buyerController.getClientInfo().get().getAccount();
-        String usename = account.getUserName();
+        String username = account.getUserName();
         String password = account.getPassword();
-        String bankAccountId = null;
         try {
-            bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
-            List<String> list = Arrays.asList(usename,password,"withdraw", amount,bankAccountId,"-1", "info");
+            String bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+            List<String> list = Arrays.asList(username, password, "withdraw", amount, bankAccountId, "-1", "info");
             BankAPI.pay(list);
-            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (FieldDoesNotExistException e) {
+            sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (IOException | FieldDoesNotExistException e) {
             e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+            sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
 
         }
-        return;
     }
 
     private static void deposit(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
@@ -298,20 +292,14 @@ public class SendAndReceive {
         Account account = buyerController.getClientInfo().get().getAccount();
         String username = account.getUserName();
         String password = account.getPassword();
-        String bankAccountId = null;
         try {
-            bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
-            List<String> list = Arrays.asList(username,password,"deposit", amount, "-1",bankAccountId, "info");
+            String bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+            List<String> list = Arrays.asList(username, password, "deposit", amount, "-1", bankAccountId, "info");
             BankAPI.pay(list);
-            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (FieldDoesNotExistException e) {
+            sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (IOException | FieldDoesNotExistException e) {
             e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
-
+            sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 
@@ -319,9 +307,9 @@ public class SendAndReceive {
         String start = inputs.get(0);
         String end = inputs.get(1);
         String productId = inputs.get(2);
-        String sellerId  = inputs.get(3);
-        SellerController.getInstance().addOffer(start,end,productId,sellerId);
-        sender(newToken, MessageSupplier.RequestType.addNewOffer, SuccessOrFail.SUCCESS.toString(),requestHandler);
+        String sellerId = inputs.get(3);
+        SellerController.getInstance().addOffer(start, end, productId, sellerId);
+        sender(newToken, MessageSupplier.RequestType.addNewOffer, SuccessOrFail.SUCCESS.toString(), requestHandler);
     }
 
     private static void GetPercentOfWage(String token, RequestHandler requestHandler) {
@@ -469,8 +457,15 @@ public class SendAndReceive {
             path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
                     SuccessOrFail.SUCCESS.toString(), requestHandler);
-            medias.setPlayerSrc(path);
+            medias.setMediaSrc(path);
+
+            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/File/", ".txt");
+            sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
+                    SuccessOrFail.SUCCESS.toString(), requestHandler);
+            medias.setFileSrc(path);
+
             sellerController.saveProductMedias(medias);
+
         } catch (IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.FAIL.toString(), requestHandler);
@@ -680,15 +675,15 @@ public class SendAndReceive {
                 Account account = signUpController.creatTheBaseOfAccount(accountType, username);
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
-                List<String> list = Arrays.asList(firstName,lastName,username,password,password);
-                String bankAccountId = BankAPI.sendAndReceive("create_account",list);
-                if(BankAPI.successOrFail(bankAccountId)){
+                List<String> list = Arrays.asList(firstName, lastName, username, password, password);
+                String bankAccountId = BankAPI.sendAndReceive("create_account", list);
+                if (BankAPI.successOrFail(bankAccountId)) {
                     account.getPersonalInfo().getList()
                             .addFiled(new Field("bank_accountId", bankAccountId));
                     sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
 
-                }else {
-                 Account.deleteAccount(account);
+                } else {
+                    Account.deleteAccount(account);
                     sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
                             SuccessOrFail.FAIL + "/" + bankAccountId, requestHandler);
                 }
@@ -729,7 +724,7 @@ public class SendAndReceive {
                 }
             }
 
-        } catch (IOException | UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException e) {
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException | IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewSeller,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
@@ -1229,7 +1224,7 @@ public class SendAndReceive {
         return new MiniProduct(
                 product.getId() + "",
                 product.getName(),
-                product.getAuction() == null ? "0" :product.getAuction().getId() + "",
+                product.getAuction() == null ? "0" : product.getAuction().getId() + "",
                 product.getOffer() == null ? "0" : product.getOffer().getId() + "",
                 product.getCategory() == null ? "0" : product.getCategory().getId() + "",
                 product.getMediaId() + "",
