@@ -72,6 +72,9 @@ public class BankAPI {
         List<String> rec = Collections.singletonList(getToken);
         return sendAndReceive("get_balance", rec);
     }
+    public static boolean successOrFail(String input) {
+        return !exceptionList.contains(input);
+    }
 
     public static void main(String[] args) {
 

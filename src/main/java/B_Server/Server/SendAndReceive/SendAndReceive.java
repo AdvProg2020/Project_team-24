@@ -210,7 +210,7 @@ public class SendAndReceive {
                 sendPaymentInfo(newToken, inputs, requestHandler);
                 break;
             case "Purchase":
-                purchase(newToken, requestHandler);
+                purchase(newToken, inputs, requestHandler);
                 break;
             case "addProductToCart":
                 addProductToCart(newToken, inputs, requestHandler);
@@ -260,21 +260,15 @@ public class SendAndReceive {
             case "addNewOffer" :
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
-            case "payWithBankAccount":
-                payWithBankAccount(newToken, inputs, requestHandler);
-                break;
         }
-    }
-
-    private static void payWithBankAccount(String token, List<String> inputs, RequestHandler requestHandler) {
     }
 
     private static void addNewOffer(List<String> inputs, RequestHandler requestHandler, String newToken) {
         String start = inputs.get(0);
         String end = inputs.get(1);
-        String productid = inputs.get(2);
+        String productId = inputs.get(2);
         String sellerId  = inputs.get(3);
-        SellerController.getInstance().addOffer(start,end,productid,sellerId);
+        SellerController.getInstance().addOffer(start,end,productId,sellerId);
         sender(newToken, MessageSupplier.RequestType.addNewOffer, SuccessOrFail.SUCCESS.toString(),requestHandler);
     }
 
@@ -351,9 +345,9 @@ public class SendAndReceive {
         sender(newToken, MessageSupplier.RequestType.Kill, SuccessOrFail.SUCCESS.toString(), requestHandler);
     }
 
-    private static void purchase(String token, RequestHandler requestHandler) {
+    private static void purchase(String token, List<String> inputs, RequestHandler requestHandler) {
         try {
-            LogHistory logHistory = buyerController.buyProductsOfCart();
+            LogHistory logHistory = buyerController.buyProductsOfCart(inputs);
             MiniLogHistory miniLogHistory = getMiniLogHistory(logHistory);
             sender(token, MessageSupplier.RequestType.Purchase, yaGson.toJson(miniLogHistory), requestHandler);
         } catch (NotEnoughCreditException | AccountDoesNotExistException | ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
@@ -634,12 +628,25 @@ public class SendAndReceive {
                 Account account = signUpController.creatTheBaseOfAccount(accountType, username);
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
+                List<String> list = Arrays.asList(firstName,lastName,username,password,password);
+                String bankAccountId = BankAPI.sendAndReceive("create_account",list);
+                if(BankAPI.successOrFail(bankAccountId)){
+                    account.getPersonalInfo().getList()
+                            .addFiled(new Field("bank_accountId", bankAccountId));
+                    sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
+
+                }else {
+                 Account.deleteAccount(account);
+                    sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
+                            SuccessOrFail.FAIL + "/" + bankAccountId, requestHandler);
+                }
             }
-            sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -661,12 +668,23 @@ public class SendAndReceive {
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
                 signUpController.saveCompanyInfo(account, com_name, companyPhoneNumber, companyEmail);
+                List<String> list = Arrays.asList(firstName, lastName, username, password, password);
+                String bankAccountId = BankAPI.sendAndReceive("create_account", list);
+                if (BankAPI.successOrFail(bankAccountId)) {
+                    account.getPersonalInfo().getList()
+                            .addFiled(new Field("bank_accountId", bankAccountId));
+                    sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
+                } else {
+                    Account.deleteAccount(account);
+                }
             }
-            sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
+
         } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewSeller,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

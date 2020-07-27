@@ -463,9 +463,11 @@ public class SendAndReceive implements MessagePattern {
                 Arrays.asList(client.getClientInfo().getToken(), productId, accountId, rate));
     }
 
-    public static MiniLogHistory Purchase() {
-        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Purchase,
-                Collections.singletonList(client.getClientInfo().getToken()));
+    public static MiniLogHistory Purchase(List<String> listPrime) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(listPrime);
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Purchase, list);
         return new JsonHandler<MiniLogHistory>().JsonToObject(answer.get(0), MiniLogHistory.class);
     }
 
@@ -504,17 +506,8 @@ public class SendAndReceive implements MessagePattern {
         //...
     }
 
-
-
-    public static List<String> payWithBankAccount(List<String> listPrime) {
-        List<String> list = new ArrayList<>();
-        list.add(client.getClientInfo().getToken());
-        list.addAll(listPrime);
-        return client.sendAndReceive(MessageSupplier.RequestType.payWithBankAccount, list);
-    }
-
     public static List<MiniAccount> getAllSupporters() {
-        return null;
+
     }
 
     public static List<String> addOffer(ArrayList<String> objects) {

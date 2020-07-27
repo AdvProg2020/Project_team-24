@@ -95,7 +95,5 @@ public interface MessageSupplier {
         SetCurrentOffer,
         GetAllOffers,
         Kill, addNewOffer,
-        payWithBankAccount
-
     }
 }
