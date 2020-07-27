@@ -677,12 +677,12 @@ public class SendAndReceive {
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
                 List<String> list = Arrays.asList(firstName, lastName, username, password, password);
                 String bankAccountId = BankAPI.sendAndReceive("create_account", list);
-                if (BankAPI.successOrFail(bankAccountId)) {
+                /*if (BankAPI.successOrFail(bankAccountId)) {
                     account.getPersonalInfo().getList()
                             .addFiled(new Field("bank_accountId", bankAccountId));
                     sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
 
-                } else {
+                } else*/ {
                     Account.deleteAccount(account);
                     sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
                             SuccessOrFail.FAIL + "/" + bankAccountId, requestHandler);

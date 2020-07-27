@@ -62,8 +62,8 @@ public class BankAPI {
         String createReceipt = sendAndReceive("create_receipt", rec);
         if (exceptionList.contains(createReceipt)) return createReceipt;
 
-        List<String> list2 = Collections.singletonList(createReceipt);
-        return sendAndReceive("pay", list2);
+        List<String> listPrime = Collections.singletonList(createReceipt);
+        return sendAndReceive("pay", listPrime);
     }
 
     public static String getBalance(@NotNull List<String> list) throws IOException {
@@ -72,30 +72,8 @@ public class BankAPI {
         List<String> rec = Collections.singletonList(getToken);
         return sendAndReceive("get_balance", rec);
     }
+
     public static boolean successOrFail(String input) {
         return !exceptionList.contains(input);
-    }
-
-    public static void main(String[] args) {
-
-//        while (true) try {
-//            System.out.println("Bank Server: Enter 'host' and 'usePort' ...");
-//            String[] inputs = scanner.nextLine().split(" ");
-//            BankAPI.ConnectToBankServer(inputs[0], Integer.parseInt(inputs[1]));
-//            break;
-//        } catch (IOException | NumberFormatException e) {
-//            e.printStackTrace();
-//        }
-//
-//        try {
-//            String s = sendAndReceive("create_account", Arrays.asList("Yac", "Yac", "Yac", "Yac", "Yac"));
-//            System.out.println(s);
-//            String pay = pay(Arrays.asList("Yac", "Yac", "deposit", "78888", "-1","10001", "info"));
-//            System.out.println(pay);
-//            getBalance(Arrays.asList("Yac","Yac"));
-//            System.out.println(getBalance(Arrays.asList("Yac","Yac")));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 }

@@ -82,14 +82,14 @@ public class Server extends Thread {
     public static void main(String[] args) {
         ModelUnit.preprocess_loadLists();
 
-        while (true) try {
-            System.out.println("Bank Server: Enter 'host' and 'usePort' ...");
-            String[] inputs = scanner.nextLine().split(" ");
-            BankAPI.ConnectToBankServer(inputs[0], Integer.parseInt(inputs[1]));
-            break;
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
-        }
+//        while (true) try {
+//            System.out.println("Bank Server: Enter 'host' and 'usePort' ...");
+//            String[] inputs = scanner.nextLine().split(" ");
+//            BankAPI.ConnectToBankServer(inputs[0], Integer.parseInt(inputs[1]));
+//            break;
+//        } catch (IOException | NumberFormatException e) {
+//            e.printStackTrace();
+//        }
 
         while (true) try {
             Server server = new Server();

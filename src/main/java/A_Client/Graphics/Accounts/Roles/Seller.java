@@ -160,7 +160,6 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
         String withdrawAmount = withdraw.getText();
         SendAndReceive.Deposit(depositAmount);
         SendAndReceive.WithDraw(withdrawAmount);
-
     }
 
     public void newCategory() {

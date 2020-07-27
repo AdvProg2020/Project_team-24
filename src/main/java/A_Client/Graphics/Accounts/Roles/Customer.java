@@ -10,6 +10,8 @@ import A_Client.Graphics.Menus.LogHistoryMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniDiscountCode;
 import Structs.MiniLogHistory;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -64,28 +66,30 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        account = SendAndReceive.getAccountById(client.getClientInfo().getAccountId());
 
+        account = SendAndReceive.getAccountById(client.getClientInfo().getAccountId());
+        client.getClientInfo().setMedias_Id(account.getMediasId());
         try {
+
             username_txt.setText(account.getUsername());
             password_txt.setText(account.getPassword());
             lName_txt.setText(account.getPersonalInfo().getFieldByName("LastName").getString());
             fName_txt.setText(account.getPersonalInfo().getFieldByName("FirstName").getString());
             phone_txt.setText(account.getPersonalInfo().getFieldByName("PhoneNumber").getString());
             email_txt.setText(account.getPersonalInfo().getFieldByName("Email").getString());
+            balance_txt.setText(SendAndReceive.getPercentOfWage());
 
-            if (account.getMediasId() == null) ImageInit(customer_image);
+            if (!account.getMediasId().equals("0")) ImageInit(customer_image);
 
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-        balance_txt.setText(account.getWallet().getBalance() + "");
 
         SendAndReceive.CheckMyDiscountCodes();
 
         DiscountCodes_Table.setItems(FXCollections.observableArrayList(SendAndReceive.GetCodesOfUserById(client.getClientInfo().getAccountId())));
-        Codes.setCellValueFactory(new PropertyValueFactory<>("productId"));
-
+        Codes.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getDiscountCode()) {
+        });
     }
 
     public void logout() {
@@ -101,7 +105,6 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
         RequestForEdit("LastName", lName_txt.getText());
         RequestForEdit("Email", email_txt.getText());
         RequestForEdit("PhoneNumber", phone_txt.getText());
-
 
         //deposit....
         String depositAmount = deposit.getText();
