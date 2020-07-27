@@ -41,6 +41,7 @@ public class Product implements Initializable, SceneBuilder {
     private static MiniProduct productObject;
     private final Client client = SendAndReceive.getClient();
     public Button createOffer;
+    public Button download;
     private List<ImageView> stars = new ArrayList<>();
     private int sellerIndex = 0;
     @FXML
@@ -157,6 +158,7 @@ public class Product implements Initializable, SceneBuilder {
             sender.setText(account.getUsername());
             pointArea.setDisable(false);
             setPoint_btn.setDisable(false);
+            download.setDisable(false);
         }
 
         MediaPlayer value = new MediaPlayer(
@@ -329,5 +331,9 @@ public class Product implements Initializable, SceneBuilder {
     public void CreateOffer() {
         CreatOffer.setMiniProduct(productObject);
         MainMenu.change(new CreatOffer().sceneBuilder());
+    }
+
+    public void downloadFile() {
+        //...
     }
 }

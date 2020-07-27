@@ -256,7 +256,19 @@ public class SendAndReceive {
                 break;
             case "Kill":
                 Offline(requestHandler, info, newToken);
+            case "addNewOffer" :
+                addNewOffer(inputs, requestHandler, newToken);
+                break;
         }
+    }
+
+    private static void addNewOffer(List<String> inputs, RequestHandler requestHandler, String newToken) {
+        String start = inputs.get(0);
+        String end = inputs.get(1);
+        String productid = inputs.get(2);
+        String sellerId  = inputs.get(3);
+        SellerController.getInstance().addOffer(start,end,productid,sellerId);
+        sender(newToken, MessageSupplier.RequestType.addNewOffer, SuccessOrFail.SUCCESS.toString(),requestHandler);
     }
 
     private static void GetPercentOfWage(String token, RequestHandler requestHandler) {

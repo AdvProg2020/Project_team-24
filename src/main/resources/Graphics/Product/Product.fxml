@@ -73,6 +73,7 @@
                         <Font name="Algerian" size="24.0" />
                     </font>
                 </Label>
+         <Button fx:id="download" disable="true" layoutX="37.0" layoutY="289.0" mnemonicParsing="false" onAction="#downloadFile" prefHeight="24.0" prefWidth="169.0" text="دانلود" />
             </Pane>
 
             <Pane layoutX="401.0" layoutY="355.0" prefHeight="333.0" prefWidth="778.0">
