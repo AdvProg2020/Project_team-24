@@ -34,7 +34,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -46,6 +45,7 @@ public class SendAndReceive {
     private final static SellerController sellerController = SellerController.getInstance();
     private final static ManagerController managerController = ManagerController.getInstance();
     private final static YaGson yaGson = new YaGson();
+    private final static Object lockWageEditing = new Object();
     private final static Object lockInDecreeProductNums = new Object();
     private final static Object lockAcceptDeclineReq = new Object();
     private final static Object lockAddNewAccount = new Object();
@@ -70,6 +70,7 @@ public class SendAndReceive {
 
         String newToken = Server.createToken();
         info.setMy_Token(newToken);
+        info.setTmo(LocalTime.now());
 
         switch (request) {
             case "GetAllMyProducts":
@@ -91,10 +92,10 @@ public class SendAndReceive {
                 getImageById(newToken, inputs, requestHandler);
                 break;
             case "GetMovieById":
-                //...
+                getMediaById(newToken, inputs, requestHandler);
                 break;
             case "SetImageById":
-                ///...
+                setAccountImage(token, inputs, requestHandler);
                 break;
             case "GetAllProducts":
                 getAllProducts(newToken, request, requestHandler, Product.getList());
@@ -168,9 +169,6 @@ public class SendAndReceive {
             case "addNewFilter":
                 addNewFilter(newToken, inputs, requestHandler);
                 break;
-            case "addNewOffer":
-                //...
-                break;
             case "CheckDiscountCodes":
                 checkAllDiscountCodes(newToken, requestHandler);
                 break;
@@ -241,6 +239,12 @@ public class SendAndReceive {
             case "GetAllRequest":
                 GetAllRequest(newToken, requestHandler);
                 break;
+            case "SetPercentOfWage":
+                SetPercentOfWage(newToken, inputs, requestHandler);
+                break;
+            case "GetPercentOfWage":
+                GetPercentOfWage(newToken, requestHandler);
+                break;
             case "GetAllProductOfAuction":
                 getAllProductOfAuction(newToken, inputs, requestHandler);
                 break;
@@ -252,6 +256,67 @@ public class SendAndReceive {
                 break;
             case "Kill":
                 Offline(requestHandler, info, newToken);
+        }
+    }
+
+    private static void GetPercentOfWage(String token, RequestHandler requestHandler) {
+        sender(token, MessageSupplier.RequestType.SetPercentOfWage, Wage.getWagePercentage() + "", requestHandler);
+    }
+
+    private static void SetPercentOfWage(String token, List<String> inputs, RequestHandler requestHandler) {
+        try {
+            synchronized (lockWageEditing) {
+                Wage.setWagePercentage(Double.parseDouble(inputs.get(0)));
+            }
+            sender(token, MessageSupplier.RequestType.SetPercentOfWage, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (InvalidWagePercentageExeption e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.SetPercentOfWage, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void getMediaById(String token, List<String> inputs, RequestHandler requestHandler) {
+        try {
+            sender(token, MessageSupplier.RequestType.GetMovieById, "Ok", requestHandler);
+            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
+            File file = new File(medias.getImageSrc());
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            requestHandler.writeByteArray(bytes);
+        } catch (ProductMediaNotFoundException | IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetMovieById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void getImageById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
+        try {
+            sender(token, MessageSupplier.RequestType.GetImageById, "Ok", requestHandler);
+            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
+            File file = new File(medias.getImageSrc());
+            byte[] bytes = Files.readAllBytes(file.toPath());
+            requestHandler.writeByteArray(bytes);
+        } catch (ProductMediaNotFoundException | IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetImageById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+        }
+    }
+
+    private static void setAccountImage(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
+        sender(token, MessageSupplier.RequestType.SetImageById,
+                SuccessOrFail.SUCCESS.toString(), requestHandler);
+
+        String accountId = inputs.get(0);
+        Medias medias = new Medias();
+        Medias.addMedia(medias);
+
+        try {
+            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+            Account account = Account.getAccountById(Long.parseLong(accountId));
+            account.setMediaId(medias.getId());
+            DataBase.save(medias);
+        } catch (IOException | AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.SetImageById, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 
@@ -317,32 +382,30 @@ public class SendAndReceive {
     }
 
     private static void setMediasOfProduct(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        String Str_Image = inputs.get(0);
-        String Str_Movie = inputs.get(1);
 
         Medias medias = new Medias();
         Medias.addMedia(medias);
 
-        JsonHandler<byte[]> jsonHandler = new JsonHandler<>();
-
         try {
-            image_write(Str_Image, medias, jsonHandler, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
-            image_write(Str_Movie, medias, jsonHandler, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
-            sellerController.saveProductMedias(medias);
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.SUCCESS.toString(), requestHandler);
 
+            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+            requestHandler.sendMessage("Success");
+            file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
+            requestHandler.sendMessage("Success");
+
+            sellerController.saveProductMedias(medias);
         } catch (IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 
-    private static void image_write(String str_Image, @NotNull Medias medias, @NotNull JsonHandler<byte[]> jsonHandler, String s, String s2) throws IOException {
-        byte[] image_bytes = jsonHandler.JsonToObject(str_Image, byte[].class);
-        File image = new File(s + medias.getId() + s2);
-        OutputStream osi = new FileOutputStream(image);
-        osi.write(image_bytes);
-        osi.close();
+    private static void file_write(@NotNull RequestHandler requestHandler, @NotNull Medias medias, String address, String ex) throws IOException {
+        File file = new File(address + medias.getId() + ex);
+        Files.createFile(file.toPath());
+        OutputStream outputStream = new FileOutputStream(file);
+        requestHandler.receiveByteArray(outputStream);
     }
 
     private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {
@@ -390,18 +453,6 @@ public class SendAndReceive {
         } catch (AuctionDoesNotExistException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.GetAuctionById, yaGson.toJson(SuccessOrFail.FAIL.toString()), requestHandler);
-        }
-    }
-
-    private static void getImageById(String token, @NotNull List<String> inputs, RequestHandler requestHandler) {
-        try {
-            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
-            File file = new File(medias.getImageSrc());
-            byte[] bytes = Files.readAllBytes(file.toPath());
-            sender(token, MessageSupplier.RequestType.GetImageById, yaGson.toJson(bytes), requestHandler);
-        } catch (ProductMediaNotFoundException | IOException e) {
-            e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.GetImageById, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 
@@ -481,7 +532,7 @@ public class SendAndReceive {
             sender(token, MessageSupplier.RequestType.Login, yaGson.toJson(getMiniAccount(account)), requestHandler);
         } catch (PassIncorrectException | UserNameInvalidException | UserNameTooShortException | AccountDoesNotExistException e) {
             e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.Login, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            sender(token, MessageSupplier.RequestType.Login, SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
         }
     }
 
@@ -551,13 +602,9 @@ public class SendAndReceive {
                 Account account = signUpController.creatTheBaseOfAccount(accountType, username);
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
-                List<String> list = Arrays.asList(firstName,lastName,username,password,password);
-                String bankId = BankAPI.sendAndReceive("create_account",list);
-                account.getPersonalInfo().getList().addFiled(new Field("bankId", bankId));
-                DataBase.save(account);
             }
             sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | IOException e) {
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
@@ -582,13 +629,9 @@ public class SendAndReceive {
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
                 signUpController.saveCompanyInfo(account, com_name, companyPhoneNumber, companyEmail);
-                List<String> list = Arrays.asList(firstName,lastName,username,password,password);
-                String bankId = BankAPI.sendAndReceive("create_account",list);
-                account.getPersonalInfo().getList().addFiled(new Field("bankId", bankId));
-                DataBase.save(account);
             }
             sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException | IOException e) {
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewSeller,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);

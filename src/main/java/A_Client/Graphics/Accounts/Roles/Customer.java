@@ -123,10 +123,4 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
     public void DeleteAccount() {
         SendAndReceive.DeleteAccountById(client.getClientInfo().getAccountId());
     }
-
-    private void setImage() {
-        String first = "src/main/resources/DataBase/Images/"
-                + account.getMediasId() + ".jpg";
-        setImage(first);
-    }
 }

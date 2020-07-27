@@ -4,7 +4,6 @@ import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Accounts.BaseAccount;
 import A_Client.Graphics.Creates.CreateSupporter;
 import A_Client.Graphics.Pages.SignUp;
-import B_Server.Model.Models.Wage;
 import Exceptions.FieldDoesNotExistException;
 import A_Client.Graphics.Creates.CreateCategory;
 import A_Client.Graphics.Creates.CreateDiscountCode;
@@ -16,12 +15,10 @@ import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Exceptions.InvalidWagePercentageExeption;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
@@ -74,6 +71,7 @@ public class Manager extends BaseAccount implements SceneBuilder, Initializable 
             FirstName.setText(account.getPersonalInfo().getFieldByName("FirstName").getString());
             PhoneNum.setText(account.getPersonalInfo().getFieldByName("PhoneNumber").getString());
             Email.setText(account.getPersonalInfo().getFieldByName("Email").getString());
+            wage.setText(SendAndReceive.getPercentOfWage());
 
             if (account.getMediasId() == null) ImageInit(manager_image);
 
@@ -129,17 +127,11 @@ public class Manager extends BaseAccount implements SceneBuilder, Initializable 
         RequestForEdit("LastName", LastName.getText());
         RequestForEdit("Email", Email.getText());
         RequestForEdit("PhoneNumber", PhoneNum.getText());
-        ///tabdil be shabake
-        try {
-            Wage.setWagePercentage(Double.parseDouble(wage.getText()));
-        } catch (InvalidWagePercentageExeption invalidWagePercentageExeption) {
-            invalidWagePercentageExeption.printStackTrace();
-        }
+        setPercentOfWage();
     }
 
-    private void setImage() {
-        String first = "src/main/resources/DataBase/Images/" + account.getMediasId() + ".jpg";
-        super.setImage(first);
+    private void setPercentOfWage() {
+        SendAndReceive.setPercentOfWage(wage.getText());
     }
 
     public void viewAuctions() {
