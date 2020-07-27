@@ -13,17 +13,17 @@
                 <ImageView fx:id="seller_image" fitHeight="301.0" fitWidth="258.0" layoutX="1589.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-client-management-48.png" />
                 </ImageView>
-                <Label alignment="CENTER_RIGHT" layoutX="1753.0" layoutY="523.0" prefHeight="22.0" prefWidth="120.0" text="نام شرکت :">
+                <Label alignment="CENTER_RIGHT" layoutX="1760.0" layoutY="585.0" prefHeight="22.0" prefWidth="120.0" text="نام شرکت :">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label alignment="CENTER_RIGHT" layoutX="1699.0" layoutY="580.0" prefHeight="37.0" prefWidth="173.0" text="شماره تلفن:">
+                <Label alignment="CENTER_RIGHT" layoutX="1703.0" layoutY="626.0" prefHeight="37.0" prefWidth="173.0" text="شماره تلفن:">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Label alignment="CENTER_RIGHT" layoutX="1758.0" layoutY="643.0" prefHeight="24.0" prefWidth="122.0" text="ایمیل شرکت:">
+                <Label alignment="CENTER_RIGHT" layoutX="1759.0" layoutY="676.0" prefHeight="24.0" prefWidth="122.0" text="ایمیل شرکت:">
                     <font>
                         <Font size="18.0" />
                     </font>
@@ -54,22 +54,22 @@
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <TextField fx:id="comEmail_txt" alignment="CENTER" layoutX="1532.0" layoutY="637.0" prefHeight="35.0" prefWidth="227.0">
+                <TextField fx:id="comEmail_txt" alignment="CENTER" layoutX="1532.0" layoutY="670.0" prefHeight="35.0" prefWidth="227.0">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="comPhone_txt" alignment="CENTER" layoutX="1532.0" layoutY="579.0" prefHeight="35.0" prefWidth="227.0">
+                <TextField fx:id="comPhone_txt" alignment="CENTER" layoutX="1532.0" layoutY="625.0" prefHeight="39.0" prefWidth="229.0">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="bran_txt" alignment="CENTER" layoutX="1529.0" layoutY="524.0" prefHeight="40.0" prefWidth="232.0">
+                <TextField fx:id="bran_txt" alignment="CENTER" layoutX="1530.0" layoutY="579.0" prefHeight="40.0" prefWidth="232.0">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="withdraw" alignment="CENTER" layoutX="1532.0" layoutY="377.0" prefHeight="35.0" prefWidth="227.0">
+                <TextField fx:id="balance" alignment="CENTER" layoutX="1532.0" layoutY="377.0" prefHeight="35.0" prefWidth="227.0">
                     <font>
                         <Font size="18.0" />
                     </font>
@@ -195,9 +195,19 @@
                     <TableColumn fx:id="logId_column" prefWidth="50.0" text="شماره" />
                 </columns>
             </TableView>
-      <TextField fx:id="deposit" layoutX="1533.0" layoutY="431.0" prefHeight="34.0" prefWidth="147.0" />
-      <Separator layoutX="1518.0" layoutY="501.0" prefHeight="0.0" prefWidth="372.0" />
-      <Label layoutX="1690.0" layoutY="435.0" text="برداشت مبلغ از کیف پول :">
+      <TextField fx:id="deposit" layoutX="1535.0" layoutY="506.0" prefHeight="36.0" prefWidth="221.0" />
+      <Separator layoutX="1517.0" layoutY="563.0" prefHeight="0.0" prefWidth="372.0" />
+      <Label layoutX="1694.0" layoutY="449.0" text="برداشت مبلغ از کیف پول :">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="withdraw" alignment="CENTER" layoutX="1532.0" layoutY="443.0" prefHeight="36.0" prefWidth="156.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextField>
+      <Label layoutX="1764.0" layoutY="510.0" text="شارژ کیف پول :">
          <font>
             <Font size="18.0" />
          </font>

@@ -3,6 +3,7 @@ package A_Client.Graphics.Lists;
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Tools.SceneBuilder;
+import B_Server.Server.Server;
 import Structs.MiniAccount;
 import Structs.MiniDiscountCode;
 import javafx.beans.property.SimpleObjectProperty;
@@ -25,14 +26,17 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AccountsList implements SceneBuilder, Initializable {
 
+    private List<String> onlineList;
     private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.Normal;
     public TableView<MiniAccount> accountTableView;
     public TableColumn<MiniAccount, String> username;
     public TableColumn<MiniAccount, Pane> buttons;
+    public TableColumn<MiniAccount, String> onlineState;
 
     public static void setMode(Mode mode) {
         AccountsList.mode = mode;
@@ -51,6 +55,9 @@ public class AccountsList implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        onlineList = Server.getClients().stream()
+                .map(client -> client.getAccount()
+                        .getUserName()).collect(Collectors.toList());
         init();
     }
 
@@ -58,6 +65,8 @@ public class AccountsList implements SceneBuilder, Initializable {
         List<MiniAccount> list = SendAndReceive.getAllAccounts();
         accountTableView.setItems(FXCollections.observableList(list));
         username.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getUsername()));
+        onlineState.setCellValueFactory(param -> new SimpleStringProperty(
+                onlineList.contains(param.getValue().getUsername()) ? "ONLINE" : "OFFLINE"));
         buttons.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue())));
     }
 

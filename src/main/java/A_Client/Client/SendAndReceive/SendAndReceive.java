@@ -528,7 +528,7 @@ public class SendAndReceive implements MessagePattern {
     }
 
     public static List<MiniAccount> getAllSupporters() {
-
+return null;
     }
 
     public static List<String> addOffer(ArrayList<String> objects) {
