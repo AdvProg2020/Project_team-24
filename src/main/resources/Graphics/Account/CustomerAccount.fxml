@@ -49,12 +49,12 @@
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button layoutX="1612.0" layoutY="530.0" mnemonicParsing="false" onAction="#goCart" prefHeight="36.0" prefWidth="213.0" text="سبد خرید">
+        <Button layoutX="1612.0" layoutY="578.0" mnemonicParsing="false" onAction="#goCart" prefHeight="36.0" prefWidth="213.0" text="سبد خرید">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button layoutX="1612.0" layoutY="606.0" mnemonicParsing="false" onAction="#goLogHistory" prefHeight="35.0" prefWidth="214.0" text="سابقه ی خرید">
+        <Button layoutX="1611.0" layoutY="632.0" mnemonicParsing="false" onAction="#goLogHistory" prefHeight="35.0" prefWidth="214.0" text="سابقه ی خرید">
             <font>
                 <Font size="18.0" />
             </font>
@@ -79,12 +79,12 @@
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextField fx:id="balance_txt" alignment="CENTER" layoutX="1589.0" layoutY="443.0" prefHeight="39.0" prefWidth="142.0">
+        <TextField fx:id="balance_txt" alignment="CENTER" layoutX="1576.0" layoutY="443.0" prefHeight="39.0" prefWidth="142.0">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <Label alignment="CENTER_RIGHT" layoutX="1753.0" layoutY="449.0" prefHeight="21.0" prefWidth="93.0" text="کیف پول :">
+        <Label alignment="CENTER_RIGHT" layoutX="1753.0" layoutY="443.0" prefHeight="21.0" prefWidth="93.0" text="کیف پول :">
             <font>
                 <Font size="18.0" />
             </font>
@@ -141,6 +141,16 @@
                <Font size="18.0" />
             </font>
          </Button>
+         <TextField fx:id="deposit" alignment="CENTER" layoutX="1576.0" layoutY="503.0" prefHeight="39.0" prefWidth="142.0">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </TextField>
+         <Label alignment="CENTER_RIGHT" layoutX="1719.0" layoutY="503.0" prefHeight="27.0" prefWidth="127.0" text="شارژ کیف پول :">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
     </Pane>
 </AnchorPane>
 </Scene>

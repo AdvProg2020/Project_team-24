@@ -23,6 +23,7 @@ import javafx.scene.media.MediaView;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
@@ -88,10 +89,10 @@ public class Payment implements Initializable, SceneBuilder {
         SendAndReceive.sendPaymentInfo(Arrays.asList(postCode, address, discountCode));
         if(chooseType.getValue().equals("درگاه بانکی")){
             MainMenu.change(new bankPage().sceneBuilder());
-
         }
+
         if(chooseType.getValue().equals("کیف پول")){
-            logHistory = SendAndReceive.Purchase();
+            logHistory = SendAndReceive.Purchase(new ArrayList<>());
             PaymentInformation.setLogHistory(logHistory);
             MainMenu.change(new PaymentInformation().sceneBuilder());
         }

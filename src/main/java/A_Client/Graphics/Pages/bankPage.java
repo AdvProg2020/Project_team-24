@@ -7,18 +7,23 @@ import B_Server.Model.Models.Accounts.Customer;
 import Exceptions.AccountDoesNotExistException;
 import Exceptions.ProductDoesNotExistException;
 import Exceptions.SellerDoesNotSellOfThisProduct;
+import Structs.MiniAccount;
+import Structs.MiniLogHistory;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
-public class bankPage implements SceneBuilder {
+public class bankPage implements SceneBuilder, Initializable {
     private final Client client = SendAndReceive.getClient();
     public TextField username;
     public TextField password;
@@ -54,9 +59,16 @@ public class bankPage implements SceneBuilder {
     }
     public void payButton() {
         List<String> list =  Arrays.asList(username.getText(),password.getText(),"move",totelPrice.toString(),description.getText());
-        List<String> payWithBankAccount = SendAndReceive.payWithBankAccount(list);
+        MiniLogHistory payWithBankAccount = SendAndReceive.Purchase(list);
+        PaymentInformation.setLogHistory(payWithBankAccount);
+        //...... handle exceptions as alert......
 
-        //.. handle exceptions as alert
+    }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+       MiniAccount account = SendAndReceive.getAccountById(client.getClientInfo().getAccountId());
+        username.setText(account.getUsername());
+        password.setText(account.getPassword());
     }
 }

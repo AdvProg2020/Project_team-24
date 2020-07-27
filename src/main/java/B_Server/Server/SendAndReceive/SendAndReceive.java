@@ -1,5 +1,6 @@
 package B_Server.Server.SendAndReceive;
 
+import B_Server.Bank.BankAPI;
 import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import B_Server.Controller.Controllers.AccountControllers.SellerController;
@@ -209,7 +210,7 @@ public class SendAndReceive {
                 sendPaymentInfo(newToken, inputs, requestHandler);
                 break;
             case "Purchase":
-                purchase(newToken, requestHandler);
+                purchase(newToken, inputs, requestHandler);
                 break;
             case "addProductToCart":
                 addProductToCart(newToken, inputs, requestHandler);
@@ -259,28 +260,59 @@ public class SendAndReceive {
             case "addNewOffer" :
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
-            case "payWithBankAccount":
-                payWithBankAccount(newToken, inputs, requestHandler);
+            case "Deposite" :
+                deposit(token, inputs, requestHandler);
+
                 break;
-            case "getFileById":
-                getFileById(newToken, inputs, requestHandler);
+            case "WithDraw" :
+                withdraw(token, inputs, requestHandler);
+                break;
         }
     }
 
-    private static void getFileById(String token, List<String> inputs, RequestHandler requestHandler) {
+    private static void withdraw(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
+        String amount = inputs.get(0);
+        Account account = buyerController.getClientInfo().get().getAccount();
+        String usename = account.getUserName();
+        String password = account.getPassword();
+        String bankAccountId = null;
         try {
-            sender(token, MessageSupplier.RequestType.getFileById, "Ok", requestHandler);
-            Medias medias = Medias.getMediasById(Long.parseLong(inputs.get(0)));
-            File file = new File(medias.getImageSrc());
-            byte[] bytes = Files.readAllBytes(file.toPath());
-            requestHandler.writeByteArray(bytes);
-        } catch (ProductMediaNotFoundException | IOException e) {
+            bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+            List<String> list = Arrays.asList(usename,password,"withdraw", amount,bankAccountId,"-1", "info");
+            BankAPI.pay(list);
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.getFileById, SuccessOrFail.FAIL + "/" + e.getMessage(), requestHandler);
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+
         }
+        return;
     }
 
-    private static void payWithBankAccount(String token, List<String> inputs, RequestHandler requestHandler) {
+    private static void deposit(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
+        String amount = inputs.get(0);
+        Account account = buyerController.getClientInfo().get().getAccount();
+        String username = account.getUserName();
+        String password = account.getPassword();
+        String bankAccountId = null;
+        try {
+            bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+            List<String> list = Arrays.asList(username,password,"deposit", amount, "-1",bankAccountId, "info");
+            BankAPI.pay(list);
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (FieldDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.FAIL.toString(), requestHandler);
+
+        }
     }
 
     private static void addNewOffer(List<String> inputs, RequestHandler requestHandler, String newToken) {
@@ -365,9 +397,9 @@ public class SendAndReceive {
         sender(newToken, MessageSupplier.RequestType.Kill, SuccessOrFail.SUCCESS.toString(), requestHandler);
     }
 
-    private static void purchase(String token, RequestHandler requestHandler) {
+    private static void purchase(String token, List<String> inputs, RequestHandler requestHandler) {
         try {
-            LogHistory logHistory = buyerController.buyProductsOfCart();
+            LogHistory logHistory = buyerController.buyProductsOfCart(inputs);
             MiniLogHistory miniLogHistory = getMiniLogHistory(logHistory);
             sender(token, MessageSupplier.RequestType.Purchase, yaGson.toJson(miniLogHistory), requestHandler);
         } catch (NotEnoughCreditException | AccountDoesNotExistException | ProductDoesNotExistException | SellerDoesNotSellOfThisProduct e) {
@@ -437,15 +469,8 @@ public class SendAndReceive {
             path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
                     SuccessOrFail.SUCCESS.toString(), requestHandler);
-            medias.setMediaSrc(path);
-
-            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/File/", ".txt");
-            sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
-                    SuccessOrFail.SUCCESS.toString(), requestHandler);
-            medias.setFileSrc(path);
-
+            medias.setPlayerSrc(path);
             sellerController.saveProductMedias(medias);
-
         } catch (IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct, SuccessOrFail.FAIL.toString(), requestHandler);
@@ -655,9 +680,20 @@ public class SendAndReceive {
                 Account account = signUpController.creatTheBaseOfAccount(accountType, username);
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
+                List<String> list = Arrays.asList(firstName,lastName,username,password,password);
+                String bankAccountId = BankAPI.sendAndReceive("create_account",list);
+                if(BankAPI.successOrFail(bankAccountId)){
+                    account.getPersonalInfo().getList()
+                            .addFiled(new Field("bank_accountId", bankAccountId));
+                    sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
+
+                }else {
+                 Account.deleteAccount(account);
+                    sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
+                            SuccessOrFail.FAIL + "/" + bankAccountId, requestHandler);
+                }
             }
-            sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException e) {
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | IOException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
@@ -682,9 +718,18 @@ public class SendAndReceive {
                 signUpController.creatPasswordForAccount(account, password);
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
                 signUpController.saveCompanyInfo(account, com_name, companyPhoneNumber, companyEmail);
+                List<String> list = Arrays.asList(firstName, lastName, username, password, password);
+                String bankAccountId = BankAPI.sendAndReceive("create_account", list);
+                if (BankAPI.successOrFail(bankAccountId)) {
+                    account.getPersonalInfo().getList()
+                            .addFiled(new Field("bank_accountId", bankAccountId));
+                    sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
+                } else {
+                    Account.deleteAccount(account);
+                }
             }
-            sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
-        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException e) {
+
+        } catch (IOException | UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewSeller,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
