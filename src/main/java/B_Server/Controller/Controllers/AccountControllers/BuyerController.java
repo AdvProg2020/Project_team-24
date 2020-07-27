@@ -114,9 +114,7 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
                         clientInfo.get().getAccount().getPassword(), "move", managerMovePrice, clientBankId, managerBankId, list.get(4));
                 BankAPI.pay(customerToManagerMoveList);
 
-            } catch (FieldDoesNotExistException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (FieldDoesNotExistException | IOException e) {
                 e.printStackTrace();
             }
         }

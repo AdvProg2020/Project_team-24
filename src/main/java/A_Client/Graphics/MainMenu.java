@@ -285,9 +285,9 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     private void popUp() {
-        Stage stage = new Stage();
-        stage.setScene(new PopUp().sceneBuilder());
-        stage.showAndWait();
+//        Stage stage = new Stage();
+//        stage.setScene(new PopUp().sceneBuilder());
+//        stage.showAndWait();
     }
 
     private void enableBack() {
@@ -295,12 +295,12 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     }
 
     public static void playMusic(String addr) {
-        if (player != null) player.dispose();
-        new Thread(() -> {
-            player = new MediaPlayer(new Media(new File(addr).toURI().toString()));
-            player.setCycleCount(Integer.MAX_VALUE);
-            player.play();
-        }).start();
+//        if (player != null) player.dispose();
+//        new Thread(() -> {
+//            player = new MediaPlayer(new Media(new File(addr).toURI().toString()));
+//            player.setCycleCount(Integer.MAX_VALUE);
+//            player.play();
+//        }).start();
     }
 
     private void setOffers(List<MiniOffer> list) {
@@ -314,7 +314,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         enableBack();
     }
 
-    public void viewSupporters(ActionEvent event) {
+    public void viewSupporters() {
         MainMenu.change(new ViewAllSupporters().sceneBuilder());
+        enableBack();
     }
 }

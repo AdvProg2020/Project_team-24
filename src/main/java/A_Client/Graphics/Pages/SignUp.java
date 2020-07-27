@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -26,6 +27,7 @@ public class SignUp implements SceneBuilder, Initializable {
     private static List<String> inputs;
     private static Mode mode;
     private static boolean state = true;
+    private static List<TextField> texts;
 
     @FXML
     private ChoiceBox<String> chooseType;
@@ -59,6 +61,9 @@ public class SignUp implements SceneBuilder, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (state) {
+            texts = Arrays.asList(username, passwordOne, passwordTow, firstName,
+                    lastName, Email, Phone, companyName, ComEmail, ComPhone);
+
             chooseType.getItems().addAll(FXCollections.observableArrayList("Manager", "Seller", "Customer"));
             chooseType.setValue("Customer");
             Tooltip toolTip_username = new Tooltip();
@@ -110,6 +115,7 @@ public class SignUp implements SceneBuilder, Initializable {
         if (!passOne.equals(passTwo)) {
             passwordNotMatch();
             return;
+
         } else if (mode == Mode.NormalMode) {
             inputs.add(typeMan);
             inputs.add(username);
@@ -119,6 +125,32 @@ public class SignUp implements SceneBuilder, Initializable {
         if (typeMan.equals("Seller")) {
             goSellerArea();
         } else goNextArea();
+    }
+
+    public void submitNext() {
+
+        inputs.add(this.firstName.getText());
+        inputs.add(this.lastName.getText());
+        inputs.add(this.Email.getText());
+        inputs.add(this.Phone.getText());
+
+        reset_next();
+
+        if (!(inputs.get(0).equals("Seller")) &&
+                errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
+    }
+
+    public void submitSeller() {
+
+        inputs.add(this.companyName.getText());
+        inputs.add(this.ComEmail.getText());
+        inputs.add(this.ComPhone.getText());
+
+        reset_next();
+        reset_seller();
+        submitNext();
+
+        if (errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
     }
 
     private void goSellerArea() {
@@ -230,59 +262,10 @@ public class SignUp implements SceneBuilder, Initializable {
         chooseType.setTooltip(null);
     }
 
-    public void submitNext() {
-
-        inputs.add(this.firstName.getText());
-        inputs.add(this.lastName.getText());
-        inputs.add(this.Email.getText());
-        inputs.add(this.Phone.getText());
-
-        reset_next();
-
-        if (!(inputs.get(0).equals("Seller")) &&
-                errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
-    }
-
-    private boolean errorHandler(String message) {
+    private static boolean errorHandler(String message) {
 
         Matcher matcher = Pattern.compile("^FAIL/(.+)/(.*)$").matcher(message);
         if (matcher.find()) {
-
-            switch (matcher.group(1)) {
-                case "UserNameInvalidException":
-                    usernameInvalid();
-                    break;
-                case "TypeInvalidException":
-                case "CanNotCreatMoreThanOneMangerBySignUp":
-                    typeInvalid();
-                    break;
-                case "UserNameTooShortException":
-                    usernameTooShort();
-                    break;
-                case "ThisUserNameAlreadyExistsException":
-                    duplicatedUsername();
-                    break;
-                case "PasswordInvalidException":
-                    passwordInvalid();
-                    break;
-                case "FirstNameInvalidException":
-                    firstNameInvalid();
-                    break;
-                case "LastNameInvalidException":
-                    lastNameInvalid();
-                    break;
-                case "EmailInvalidException":
-                    if (ComEmail == null) emailInvalid();
-                    else comEmailInvalid();
-                    break;
-                case "PhoneNumberInvalidException":
-                    if (ComPhone == null) phoneInvalid();
-                    else comPhoneInvalid();
-                    break;
-                case "CompanyNameInvalidException":
-                    companyNameInvalid();
-            }
-
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText(matcher.group(2));
@@ -292,117 +275,7 @@ public class SignUp implements SceneBuilder, Initializable {
         } else return true;
     }
 
-    private void firstNameInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("نام نامعتبر است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        firstName.setTooltip(toolTip_username);
-        firstName.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void lastNameInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("فامیلی نامعتبر است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        lastName.setTooltip(toolTip_username);
-        lastName.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void emailInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("ایمیل نامعتبر است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        Email.setTooltip(toolTip_username);
-        Email.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void phoneInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("شماره نامعتبر است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        Phone.setTooltip(toolTip_username);
-        Phone.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void reset_next() {
-
-        firstName.setStyle("-fx-border-color: white;");
-        firstName.setTooltip(null);
-
-        lastName.setStyle("-fx-border-color: white;");
-        lastName.setTooltip(null);
-
-        Phone.setStyle("-fx-border-color: white;");
-        Phone.setTooltip(null);
-
-        Email.setStyle("-fx-border-color: white;");
-        Email.setTooltip(null);
-    }
-
-    public void submitSeller() {
-
-        inputs.add(this.companyName.getText());
-        inputs.add(this.ComEmail.getText());
-        inputs.add(this.ComPhone.getText());
-
-        reset_next();
-        reset_seller();
-        submitNext();
-
-        if (errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
-    }
-
-    private void reset_seller() {
-
-        companyName.setStyle("-fx-border-color: white;");
-        companyName.setTooltip(null);
-
-        ComEmail.setStyle("-fx-border-color: white;");
-        ComEmail.setTooltip(null);
-
-        ComPhone.setStyle("-fx-border-color: white;");
-        ComPhone.setTooltip(null);
-    }
-
-    private void companyNameInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("نام شرکت نامعتبر است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        companyName.setTooltip(toolTip_username);
-        companyName.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void comEmailInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("ایمیل شرکت نامعتبر است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        ComEmail.setTooltip(toolTip_username);
-        ComEmail.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void comPhoneInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("شماره شرکت نامعتبر است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        ComPhone.setTooltip(toolTip_username);
-        ComPhone.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    public void failSound() {
+    public static void failSound() {
         new Thread(() -> {
             MediaPlayer m = new MediaPlayer(new Media(new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()));
             m.play();

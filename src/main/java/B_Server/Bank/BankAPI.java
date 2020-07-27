@@ -51,21 +51,22 @@ public class BankAPI {
         return inputStream.readUTF();
     }
 
-    public static String pay(@NotNull List<String> list) throws IOException {
+    public static void pay(@NotNull List<String> list) throws IOException {
 
         String tokenOutput = sendAndReceive("get_token", list.subList(0, 2));
-        if (exceptionList.contains(tokenOutput)) return tokenOutput;
+        if (exceptionList.contains(tokenOutput)) return;
 
         List<String> rec = Stream.concat(Stream.of(tokenOutput),
                 list.subList(2, 7).stream()).collect(Collectors.toList());
 
         String createReceipt = sendAndReceive("create_receipt", rec);
-        if (exceptionList.contains(createReceipt)) return createReceipt;
+        if (exceptionList.contains(createReceipt)) return;
 
         List<String> listPrime = Collections.singletonList(createReceipt);
-        return sendAndReceive("pay", listPrime);
+        sendAndReceive("pay", listPrime);
     }
 
+    @NotNull
     public static String getBalance(@NotNull List<String> list) throws IOException {
         String getToken = sendAndReceive("get_token", list.subList(0, 2));
         if (exceptionList.contains(getToken)) return getToken;

@@ -677,12 +677,11 @@ public class SendAndReceive {
                 signUpController.savePersonalInfo(account, firstName, lastName, phoneNumber, email);
                 List<String> list = Arrays.asList(firstName, lastName, username, password, password);
                 String bankAccountId = BankAPI.sendAndReceive("create_account", list);
-                /*if (BankAPI.successOrFail(bankAccountId)) {
+                if (BankAPI.successOrFail(bankAccountId)) {
                     account.getPersonalInfo().getList()
                             .addFiled(new Field("bank_accountId", bankAccountId));
                     sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
-
-                } else*/ {
+                } else {
                     Account.deleteAccount(account);
                     sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
                             SuccessOrFail.FAIL + "/" + bankAccountId, requestHandler);
@@ -708,6 +707,7 @@ public class SendAndReceive {
 
         SignUpController signUpController = SignUpController.getInstance();
         try {
+
             synchronized (lockAddNewAccount) {
                 Account account = signUpController.creatTheBaseOfAccount("Seller", username);
                 signUpController.creatPasswordForAccount(account, password);
@@ -721,6 +721,8 @@ public class SendAndReceive {
                     sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
                 } else {
                     Account.deleteAccount(account);
+                    sender(token, MessageSupplier.RequestType.addNewSeller,
+                            SuccessOrFail.FAIL + "/" + bankAccountId, requestHandler);
                 }
             }
 
