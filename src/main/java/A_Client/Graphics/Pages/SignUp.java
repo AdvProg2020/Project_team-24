@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -27,7 +26,6 @@ public class SignUp implements SceneBuilder, Initializable {
     private static List<String> inputs;
     private static Mode mode;
     private static boolean state = true;
-    private static List<TextField> texts;
 
     @FXML
     private ChoiceBox<String> chooseType;
@@ -61,8 +59,6 @@ public class SignUp implements SceneBuilder, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (state) {
-            texts = Arrays.asList(username, passwordOne, passwordTow, firstName,
-                    lastName, Email, Phone, companyName, ComEmail, ComPhone);
 
             chooseType.getItems().addAll(FXCollections.observableArrayList("Manager", "Seller", "Customer"));
             chooseType.setValue("Customer");
@@ -110,10 +106,8 @@ public class SignUp implements SceneBuilder, Initializable {
         String passTwo = this.passwordTow.getText();
         String typeMan = this.chooseType.getValue();
 
-        reset_Base();
-
         if (!passOne.equals(passTwo)) {
-            passwordNotMatch();
+            AlertError("Passwords", "Not matched passwords...!");
             return;
 
         } else if (mode == Mode.NormalMode) {
@@ -134,10 +128,10 @@ public class SignUp implements SceneBuilder, Initializable {
         inputs.add(this.Email.getText());
         inputs.add(this.Phone.getText());
 
-        reset_next();
+        if (!(inputs.get(0).equals("Seller")))
+            errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)));
 
-        if (!(inputs.get(0).equals("Seller")) &&
-                errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
+        goMainMenu();
     }
 
     public void submitSeller() {
@@ -146,11 +140,9 @@ public class SignUp implements SceneBuilder, Initializable {
         inputs.add(this.ComEmail.getText());
         inputs.add(this.ComPhone.getText());
 
-        reset_next();
-        reset_seller();
         submitNext();
-
-        if (errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)))) goMainMenu();
+        errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)));
+        goMainMenu();
     }
 
     private void goSellerArea() {
@@ -175,104 +167,19 @@ public class SignUp implements SceneBuilder, Initializable {
         }
     }
 
-    private void usernameTooShort() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("نام کاربری بیش از حد کوتاه است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        username.setTooltip(toolTip_username);
-        username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        status.setText("نام کاربری بیش از حد کوتاه است");
-        failSound();
-    }
-
-    private void usernameInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("از نام کاربریت خوشم نیومد.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        username.setTooltip(toolTip_username);
-        username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        status.setText("از نام کاربریت خوشم نیومد.");
-        failSound();
-    }
-
-    private void passwordNotMatch() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("دو پسورد یکسان نیستند.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        passwordOne.setTooltip(toolTip_username);
-        passwordOne.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        passwordTow.setTooltip(toolTip_username);
-        passwordTow.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        status.setText("دو پسورد یکسان نیستند.");
-        failSound();
-    }
-
-    private void typeInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("تایپ نامعتبر است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        chooseType.setTooltip(toolTip_username);
-        chooseType.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        status.setText("تایپ نامعتبر است.");
-        failSound();
-    }
-
-    private void duplicatedUsername() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("نام کاربری تکراری است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        username.setTooltip(toolTip_username);
-        username.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        status.setText("نام کاربری تکراری است.");
-        failSound();
-    }
-
-    private void passwordInvalid() {
-
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("پسورد نادرست است.");
-        toolTip_username.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        passwordOne.setTooltip(toolTip_username);
-        passwordOne.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        passwordTow.setTooltip(toolTip_username);
-        passwordTow.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        status.setText("پسورد نادرست است.");
-        failSound();
-    }
-
-    private void reset_Base() {
-
-        username.setStyle("-fx-border-color: white;");
-        Tooltip toolTip_username = new Tooltip();
-        toolTip_username.setText("Your username.");
-        username.setTooltip(toolTip_username);
-
-        passwordOne.setStyle("-fx-border-color: white;");
-        passwordOne.setTooltip(null);
-
-        passwordTow.setStyle("-fx-border-color: white;");
-        passwordTow.setTooltip(null);
-
-        chooseType.setStyle("-fx-border-color: white;");
-        chooseType.setTooltip(null);
-    }
-
-    private static boolean errorHandler(String message) {
-
+    private static void errorHandler(String message) {
         Matcher matcher = Pattern.compile("^FAIL/(.+)/(.*)$").matcher(message);
         if (matcher.find()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText(matcher.group(2));
-            alert.showAndWait();
+            AlertError(matcher.group(1), matcher.group(2));
+            failSound();
+        }
+    }
 
-            return false;
-        } else return true;
+    private static void AlertError(String s1, String s2) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(s1);
+        alert.setContentText(s2);
+        alert.showAndWait();
     }
 
     public static void failSound() {
