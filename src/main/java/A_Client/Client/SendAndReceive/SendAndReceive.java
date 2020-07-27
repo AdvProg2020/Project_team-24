@@ -15,10 +15,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class SendAndReceive implements MessagePattern {
 
@@ -86,7 +89,16 @@ public class SendAndReceive implements MessagePattern {
     // Get/Set image and Movie
     public static Image getImageById(String mediaId) {
 
-        //..
+        try (Stream<Path> pathStream = Files.walk(Paths.get("src/main/java/A_Client/Client/Nmidoooonm/Image")).filter(Files::isRegularFile)) {
+
+            Path orElse = pathStream.filter(path -> path.toFile().getName().equals(mediaId + ".jpg"))
+                    .findFirst().orElse(null);
+
+            if (orElse != null) return new Image(orElse.toFile().toURI().toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         client.sendAndReceive(MessageSupplier.RequestType.GetImageById,
                 Arrays.asList(client.getClientInfo().getToken(), mediaId));
@@ -102,7 +114,16 @@ public class SendAndReceive implements MessagePattern {
 
     public static Media getMediaById(String mediaId) {
 
-        //..
+        try (Stream<Path> pathStream = Files.walk(Paths.get("src/main/java/A_Client/Client/Nmidoooonm/movie")).filter(Files::isRegularFile)) {
+
+            Path orElse = pathStream.filter(path -> path.toFile().getName().equals(mediaId + ".mp4"))
+                    .findFirst().orElse(null);
+
+            if (orElse != null) return new Media(orElse.toFile().toURI().toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         client.sendAndReceive(MessageSupplier.RequestType.GetMovieById,
                 Arrays.asList(client.getClientInfo().getToken(), mediaId));

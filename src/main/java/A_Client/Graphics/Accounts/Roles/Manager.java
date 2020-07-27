@@ -14,7 +14,6 @@ import A_Client.Graphics.Lists.RequestList;
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Menus.AuctionsMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
-import Exceptions.InvalidWagePercentageExeption;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

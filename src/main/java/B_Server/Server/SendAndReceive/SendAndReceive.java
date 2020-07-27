@@ -1,6 +1,5 @@
 package B_Server.Server.SendAndReceive;
 
-import B_Server.Bank.BankAPI;
 import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import B_Server.Controller.Controllers.AccountControllers.SellerController;
