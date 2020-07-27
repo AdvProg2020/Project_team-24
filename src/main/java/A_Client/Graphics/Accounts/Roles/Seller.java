@@ -152,13 +152,12 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
         RequestForEdit("CompanyName", bran_txt.getText());
         RequestForEdit("CompanyPhoneNumber", comPhone_txt.getText());
         RequestForEdit("CompanyEmail", comEmail_txt.getText());
+
         //deposit and withdraw
         String depositAmount = deposit.getText();
-        String withdrawText = withdraw.getText();
+        String withdrawAmount = withdraw.getText();
         SendAndReceive.Deposite(depositAmount);
-        SendAndReceive.WithDraw(withdrawText);
-
-        String withDrawAmount = deposit.getText();
+        SendAndReceive.WithDraw(withdrawAmount);
 
     }
 

@@ -297,12 +297,12 @@ public class SendAndReceive {
     private static void deposit(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
         String amount = inputs.get(0);
         Account account = buyerController.getClientInfo().get().getAccount();
-        String usename = account.getUserName();
+        String username = account.getUserName();
         String password = account.getPassword();
         String bankAccountId = null;
         try {
             bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
-            List<String> list = Arrays.asList(usename,password,"deposit", amount, "-1",bankAccountId, "info");
+            List<String> list = Arrays.asList(username,password,"deposit", amount, "-1",bankAccountId, "info");
             BankAPI.pay(list);
             sender(token, MessageSupplier.RequestType.Deposite, SuccessOrFail.SUCCESS.toString(), requestHandler);
         } catch (FieldDoesNotExistException e) {

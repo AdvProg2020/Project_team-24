@@ -28,6 +28,7 @@ import java.util.*;
 
 public class Customer extends BaseAccount implements Initializable, SceneBuilder {
 
+    public TextField deposit;
     @FXML
     private ImageView customer_image;
     @FXML
@@ -100,6 +101,11 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
         RequestForEdit("LastName", lName_txt.getText());
         RequestForEdit("Email", email_txt.getText());
         RequestForEdit("PhoneNumber", phone_txt.getText());
+
+
+        //deposit....
+        String depositAmount = deposit.getText();
+        SendAndReceive.Deposite(depositAmount);
     }
 
     public void goCart() {
