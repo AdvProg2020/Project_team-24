@@ -11,6 +11,7 @@ import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.Discount;
 import Structs.ProductVsSeller.ProductOfSeller;
 import B_Server.Model.Tools.ForPend;
+import B_Server.Model.DataBase.DataBase;
 import Structs.FieldAndFieldList.FieldList;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -154,6 +155,26 @@ public class SellerController extends LocalClientInfo implements AccountControll
         double maxAmount = Double.parseDouble(strMaxAmount);
         Discount discount = new Discount(percent, maxAmount);
         return new Auction(auctionName, start, end, discount);
+    }
+
+    public Offer addOffer(String start, String end, String productId, String sellerId) {
+        Product product = null;
+        try {
+            product = Product.getProductById(Long.parseLong(productId));
+            try {
+                Seller seller = (Seller) Seller.getAccountById(Long.parseLong(sellerId));
+                LocalDate start1 = LocalDate.parse(start, formatter);
+                LocalDate end1 = LocalDate.parse(end, formatter);
+                Offer offer = new Offer(product, start1, end1, seller);
+                DataBase.save(offer,true);
+
+            } catch (AccountDoesNotExistException e) {
+                e.printStackTrace();
+            }
+
+        } catch (ProductDoesNotExistException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addProductsToAuction(@NotNull Auction auction, @NotNull List<String> productIdsString) throws ProductDoesNotExistException, ProductCantBeInMoreThanOneAuction, NumberFormatException {

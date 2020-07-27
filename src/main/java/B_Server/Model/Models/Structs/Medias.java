@@ -21,6 +21,7 @@ public class Medias implements Packable<Medias> {
     private long id;
     private String imageSrc;
     private String playerSrc;
+    private String fileSrc;
 
     public static void setList(List<Medias> list) {
         Medias.list = list;
@@ -83,6 +84,7 @@ public class Medias implements Packable<Medias> {
                 .addField(id)
                 .addField(imageSrc)
                 .addField(playerSrc)
+                .addField(fileSrc)
                 .setInstance(new Medias());
     }
 
@@ -91,6 +93,7 @@ public class Medias implements Packable<Medias> {
         this.id = (long) data.getFields().get(0);
         this.imageSrc = (String) data.getFields().get(1);
         this.playerSrc = (String) data.getFields().get(2);
+        this.fileSrc = (String) data.getFields().get(3);
         return this;
     }
 

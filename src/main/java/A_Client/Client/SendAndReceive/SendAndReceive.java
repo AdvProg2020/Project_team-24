@@ -495,25 +495,30 @@ public class SendAndReceive implements MessagePattern {
                 Arrays.asList(client.getClientInfo().getToken(), productId));
     }
 
-    public static void setCurrentOffer(String offerId) {
+    public static void setCurrentOffer(String offerId){
         client.sendAndReceive(MessageSupplier.RequestType.SetCurrentOffer,
                 Arrays.asList(client.getClientInfo().getToken(), offerId));
 
     }
-
-    public static void setWage(String wagePercentage) {
+    public static void setWage(String wagePercentage){
         //...
     }
 
-    public static void createBankReceipt(String token, String receipt_type, String money, String sourceId, String destId, String description) {
-        //...
-    }
 
-    public static void payWithBankAccount(String receiptId) {
-        //...
+
+    public static void payWithBankAccount(List<String> list) {
+        client.sendAndReceive(MessageSupplier.RequestType.)
     }
 
     public static List<MiniAccount> getAllSupporters() {
         return null;
+    }
+
+    public static List<String> addOffer(ArrayList<String> objects) {
+        List<String> list = new ArrayList<>();
+        list.add(client.getClientInfo().getToken());
+        list.addAll(objects);
+        return client.sendAndReceive(MessageSupplier.RequestType.addNewOffer, list);
+
     }
 }

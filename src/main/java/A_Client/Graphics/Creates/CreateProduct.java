@@ -10,6 +10,7 @@ import Structs.MiniProduct;
 import Structs.ProductVsSeller.ProductOfSeller;
 import com.gilecode.yagson.YaGson;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -36,6 +37,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
 
     private final Client client = SendAndReceive.getClient();
     private static Mode mode = Mode.New;
+    
     private MiniProduct product;
     private File selectedImage;
     private File selectedMedia;
@@ -98,6 +100,7 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private TableColumn<Field, String> value_product_column;
     @FXML
     private TableColumn<Field, String> feature_product_column;
+    private File selectedFile;
 
     public static void setMode(Mode mode) {
         CreateProduct.mode = mode;
@@ -281,8 +284,8 @@ public class CreateProduct implements SceneBuilder, Initializable {
             return false;
         }
 
-        if (selectedImage != null || selectedMedia != null)
-            SendAndReceive.setMedias(selectedImage, selectedMedia);
+        if (selectedImage != null || selectedMedia != null || selectedFile !=null)
+            SendAndReceive.setMedias(selectedImage, selectedMedia,selectedFile);
 
         return true;
     }
@@ -410,6 +413,11 @@ public class CreateProduct implements SceneBuilder, Initializable {
                         new File("src/main/resources/Graphics/SoundEffect/failSound.mp3").toURI().toString()
                 )).play()
         ).start();
+    }
+
+    public void chooseFile() {
+        fc.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("file", "*.txt"));
+        selectedFile = fc.showOpenDialog(null);
     }
 
     public enum Mode {

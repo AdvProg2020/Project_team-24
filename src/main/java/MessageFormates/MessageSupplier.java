@@ -94,6 +94,7 @@ public interface MessageSupplier {
         addNewBuyerToOfferById,
         SetCurrentOffer,
         GetAllOffers,
-        Kill,
+        Kill, addNewOffer,
+
     }
 }

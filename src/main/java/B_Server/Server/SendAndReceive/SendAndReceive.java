@@ -1,5 +1,6 @@
 package B_Server.Server.SendAndReceive;
 
+import B_Server.Bank.BankAPI;
 import B_Server.Controller.Controllers.AccountControllers.BuyerController;
 import B_Server.Controller.Controllers.AccountControllers.ManagerController;
 import B_Server.Controller.Controllers.AccountControllers.SellerController;
@@ -33,7 +34,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -256,7 +256,19 @@ public class SendAndReceive {
                 break;
             case "Kill":
                 Offline(requestHandler, info, newToken);
+            case "addNewOffer" :
+                addNewOffer(inputs, requestHandler, newToken);
+                break;
         }
+    }
+
+    private static void addNewOffer(List<String> inputs, RequestHandler requestHandler, String newToken) {
+        String start = inputs.get(0);
+        String end = inputs.get(1);
+        String productid = inputs.get(2);
+        String sellerId  = inputs.get(3);
+        SellerController.getInstance().addOffer(start,end,productid,sellerId);
+        sender(newToken, MessageSupplier.RequestType.addNewOffer, SuccessOrFail.SUCCESS.toString(),requestHandler);
     }
 
     private static void GetPercentOfWage(String token, RequestHandler requestHandler) {

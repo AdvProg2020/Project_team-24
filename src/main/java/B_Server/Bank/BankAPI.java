@@ -94,7 +94,7 @@ public class BankAPI {
     }
 
 
-    private String sendAndReceive(String command, List<String> list) throws IOException {
+    public static String sendAndReceive(String command, List<String> list) throws IOException {
         String message = list.stream()
                 .reduce(command, (s1, s2) -> s1 + " " + s2);
         System.out.println(message);
