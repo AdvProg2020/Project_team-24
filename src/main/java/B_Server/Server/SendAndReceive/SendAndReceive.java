@@ -275,6 +275,25 @@ public class SendAndReceive {
             case "GetAllOffers":
                 getAllOffers(newToken, requestHandler);
                 break;
+            case "GetAllProductOfCart" :
+                String cartId = inputs.get(0);
+                try {
+                    Cart cart = Cart.getCartById(Long.parseLong(cartId));
+                    List<MiniProduct> products = cart.getProductList().stream().map(id ->{
+                        try {
+                            Product product = Product.getProductById(id);
+                            return getMiniProduct(product);
+                        } catch (ProductDoesNotExistException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    }).filter(Objects::nonNull).collect(Collectors.toList());
+                    sender(token,MessageSupplier.RequestType.GetAllProductOfCart,yaGson.toJson(products),requestHandler);
+                } catch (CartDoesNotExistException e) {
+                    e.printStackTrace();
+                    sender(newToken, MessageSupplier.RequestType.GetAllProductOfCart, SuccessOrFail.FAIL.toString(), requestHandler);
+                }
+                break;
 
 
         }
