@@ -1,6 +1,7 @@
 package A_Client.Graphics.Creates;
 
 import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniProduct;
 import javafx.event.ActionEvent;
@@ -54,9 +55,9 @@ public class CreatOffer implements SceneBuilder {
 
         List<String> answers = SendAndReceive.addOffer(objects);
 
-        errorHandler(answers);
+        if(errorHandler(answers)) goMainMenu();
     }
-    private void errorHandler(List<String> answers) {
+    private boolean errorHandler(List<String> answers) {
         Matcher matcher = Pattern.compile("^FAIL/(.*)$")
                 .matcher(answers.get(2));
 
@@ -65,6 +66,12 @@ public class CreatOffer implements SceneBuilder {
             alert.setTitle("Error");
             alert.setContentText(matcher.group(1));
             alert.showAndWait();
+            return false;
         }
+        return true;
+    }
+
+    private void goMainMenu() {
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 }

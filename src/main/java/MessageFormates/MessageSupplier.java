@@ -99,6 +99,5 @@ public interface MessageSupplier {
         getFileById,
         Deposit,
         WithDraw,
-
     }
 }
