@@ -119,6 +119,7 @@ public class Product implements Initializable, SceneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         stars.addAll(Arrays.asList(star_01, star_02, star_03, star_04, star_05));
         productObject = SendAndReceive.getProductById(client.getClientInfo().getProductId());
 
@@ -141,13 +142,13 @@ public class Product implements Initializable, SceneBuilder {
 
         String accountId = client.getClientInfo().getAccountId();
 
-        if (accountId != null) {
+        if (!accountId.equals("0")) {
 
-            MiniAccount account = SendAndReceive
-                    .getAccountById(accountId);
+            MiniAccount account = SendAndReceive.getAccountById(accountId);
 
-            bought = productObject.getBuyers()
-                    .contains(Long.parseLong(account.getAccountId()));
+            if (account == null) return;
+
+            bought = productObject.getBuyers().contains(Long.parseLong(account.getAccountId()));
 
             if (account.getAccountT().equals("Seller")) {
 
