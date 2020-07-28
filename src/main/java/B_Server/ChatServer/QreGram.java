@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class QreGram extends Thread {
 
-    private ServerSocket serverSocket = new ServerSocket(0);
-    private List<Group> groupList = Collections.synchronizedList(new ArrayList<>());
-    private Map<String, String> onlineAccounts = new ConcurrentHashMap<>();
+    private final ServerSocket serverSocket = new ServerSocket(0);
+    private final List<Group> groupList = Collections.synchronizedList(new ArrayList<>());
+    private final Map<String, String> onlineAccounts = new ConcurrentHashMap<>();
 
     public QreGram() throws IOException {
     }

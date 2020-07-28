@@ -57,6 +57,8 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
     private static Pane filter;
 
     @FXML
+    private Button support_btn;
+    @FXML
     private MenuButton category_select;
     @FXML
     private Pane filterArea;
@@ -116,6 +118,7 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
         playMusic("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");
 
         if (client.getClientInfo().getAccountId() != null) {
+            support_btn.setDisable(false);
             userArea_btn.setDisable(false);
             login_logout_btn.setText("خروج ...");
             login_logout_btn.setOnAction(event -> logout());
@@ -123,8 +126,6 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
             if (client.getClientInfo()
                     .getAccountTy().equals("Customer")) cart_btn.setDisable(false);
         }
-
-//        primaryStage.setOnCloseRequest(event -> SendAndReceive.closeApp());
     }
 
     @NotNull

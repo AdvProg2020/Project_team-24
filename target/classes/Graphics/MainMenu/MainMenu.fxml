@@ -88,7 +88,7 @@
                 <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="799.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@icons8-payroll-80.png" />
                 </ImageView>
-            <Button layoutX="657.0" layoutY="149.0" mnemonicParsing="false" onAction="#viewSupporters" prefHeight="52.0" prefWidth="126.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="پشتیبان ها" textFill="#797979">
+            <Button fx:id="support_btn" disable="true" layoutX="657.0" layoutY="149.0" mnemonicParsing="false" onAction="#viewSupporters" prefHeight="52.0" prefWidth="126.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="پشتیبان ها" textFill="#797979">
                <font>
                   <Font size="18.0" />
                </font>

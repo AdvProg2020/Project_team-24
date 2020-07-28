@@ -1,6 +1,7 @@
 package B_Server.Server;
 
 import B_Server.Bank.BankAPI;
+import B_Server.ChatServer.QreGram;
 import B_Server.Model.ModelUnit;
 import B_Server.Server.InstantInfo.InstantInfo;
 import B_Server.Server.RequestHandler.RequestHandler;
@@ -22,9 +23,11 @@ import java.util.concurrent.TimeUnit;
 
 public class Server extends Thread {
 
-    private static List<InstantInfo> clients = new ArrayList<>();
-    private ServerSocket mineServer = new ServerSocket(0);
-    private static Scanner scanner = new Scanner(System.in);
+    private static final List<InstantInfo> clients = new ArrayList<>();
+    private final ServerSocket mineServer = new ServerSocket(0);
+    private static final Scanner scanner = new Scanner(System.in);
+    private static int qreGramPort;
+
     static {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(Server::checkClient,0,1, TimeUnit.MINUTES);
@@ -60,6 +63,10 @@ public class Server extends Thread {
         return mineServer;
     }
 
+    public static int getQreGramPort() {
+        return qreGramPort;
+    }
+
     @Override
     public void run() {
 
@@ -88,6 +95,18 @@ public class Server extends Thread {
             BankAPI.ConnectToBankServer(inputs[0], Integer.parseInt(inputs[1]));
             break;
         } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        while (true) try {
+            QreGram qreGram = new QreGram();
+            qreGram.start();
+            ServerSocket serverSocket = qreGram.getServerSocket();
+            qreGramPort = serverSocket.getLocalPort();
+            System.out.println("QreGram: Host/" + serverSocket.getInetAddress().getHostName()
+                    + " Port/" + serverSocket.getLocalPort());
+            break;
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

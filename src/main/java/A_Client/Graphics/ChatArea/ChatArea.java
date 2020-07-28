@@ -4,6 +4,7 @@ import A_Client.ChatClient.ChatRoom;
 import A_Client.ChatClient.YacGram;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.Tools.SceneBuilder;
+import B_Server.Server.Server;
 import Structs.MiniAccount;
 import Toolkit.Connection.Message;
 import javafx.animation.KeyFrame;
@@ -29,10 +30,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class ChatArea implements Initializable, SceneBuilder {
 
@@ -42,7 +43,7 @@ public class ChatArea implements Initializable, SceneBuilder {
     static {
         try {
             MiniAccount miniAccount = SendAndReceive.getAccountById(SendAndReceive.getClient().getClientInfo().getAccountId());
-            yacGram = new YacGram(miniAccount, SendAndReceive.getClient().getSocket());
+            yacGram = new YacGram(miniAccount, new Socket("localhost", Server.getQreGramPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -135,7 +136,6 @@ public class ChatArea implements Initializable, SceneBuilder {
     public static YacGram getYacGram() {
         return yacGram;
     }
-
 
     @Override
     public Scene sceneBuilder() {

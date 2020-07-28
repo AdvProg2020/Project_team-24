@@ -15,9 +15,9 @@ public class YacGram extends Connection implements AutoCloseable {
 
     private CountDownLatch RunLatch = new CountDownLatch(1);
     private boolean _online = false;
-    private MiniAccount miniAccount;
-    private ServerSocket serverSocket = new ServerSocket(0);
-    private List<ChatRoom> chatRoomList = Collections.synchronizedList(new ArrayList<>());
+    private final MiniAccount miniAccount;
+    private final ServerSocket serverSocket = new ServerSocket(0);
+    private final List<ChatRoom> chatRoomList = Collections.synchronizedList(new ArrayList<>());
 
     public YacGram(MiniAccount miniAccount, Socket mainServer) throws IOException {
         super(mainServer);

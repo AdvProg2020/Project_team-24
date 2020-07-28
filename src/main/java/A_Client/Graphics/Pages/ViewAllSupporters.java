@@ -49,6 +49,7 @@ public class ViewAllSupporters implements SceneBuilder, Initializable {
         username.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getUsername()));
         buttons.setCellValueFactory(param -> new SimpleObjectProperty<>(setChoicePane(param.getValue().getUsername())));
     }
+
     private Pane setChoicePane(String username) {
         Button chatWithSupporter = new Button("گفت و گو");
         chatWithSupporter.setOnAction(event -> {
