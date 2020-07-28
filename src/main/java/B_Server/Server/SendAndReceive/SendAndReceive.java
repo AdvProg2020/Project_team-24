@@ -296,7 +296,7 @@ public class SendAndReceive {
         String username = account.getUserName();
         String password = account.getPassword();
         try {
-            String bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+            String bankAccountId = account.getPersonalInfo().getList().getFieldByName("bank_accountId").getString();
             List<String> list = Arrays.asList(username, password, "withdraw", amount, bankAccountId, "-1", "info");
             String output = BankAPI.pay(list);
             if (BankAPI.successOrFail(output)) {

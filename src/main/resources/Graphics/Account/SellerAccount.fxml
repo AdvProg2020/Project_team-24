@@ -69,7 +69,7 @@
                         <Font size="18.0" />
                     </font>
                 </TextField>
-                <TextField fx:id="balance" alignment="CENTER" layoutX="1532.0" layoutY="377.0" prefHeight="35.0" prefWidth="227.0">
+                <TextField fx:id="balance_txt" alignment="CENTER" layoutX="1532.0" layoutY="377.0" prefHeight="35.0" prefWidth="227.0">
                     <font>
                         <Font size="18.0" />
                     </font>

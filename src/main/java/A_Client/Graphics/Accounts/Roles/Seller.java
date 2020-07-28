@@ -40,6 +40,7 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
 
     public TextField deposit;
     public TextField withdraw;
+    public TextField balance_txt;
     @FXML
     private ImageView seller_image;
     @FXML
@@ -100,7 +101,7 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
             bran_txt.setText(account.getCompanyInfo().getFieldByName("CompanyName").getString());
             comEmail_txt.setText(account.getCompanyInfo().getFieldByName("CompanyEmail").getString());
             comPhone_txt.setText(account.getCompanyInfo().getFieldByName("CompanyPhoneNumber").getString());
-//            balance_txt.setText(account.getWallet().getBalance() + "");
+            balance_txt.setText(account.getWallet().getBalance() + "");
 
             if (!account.getMediasId().equals("0")) ImageInit(seller_image);
 
