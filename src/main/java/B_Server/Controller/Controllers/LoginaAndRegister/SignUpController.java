@@ -77,6 +77,11 @@ public class SignUpController extends LocalClientInfo {
         }
 
         account.setPassword(password);
+
+        if ( account instanceof Supporter) {
+            Account.addAccount(account);
+            finishRegistering(account);
+        }
     }
 
     public void savePersonalInfo(Account account, String firstName, String lastName, String phoneNumber, String email) throws FirstNameInvalidException, LastNameInvalidException, EmailInvalidException, PhoneNumberInvalidException {

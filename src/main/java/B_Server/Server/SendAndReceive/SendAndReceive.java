@@ -34,7 +34,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -270,6 +269,26 @@ public class SendAndReceive {
                 break;
             case "GetAllOffers":
                 getAllOffers(newToken, requestHandler);
+            case "addNewSupporter":
+                addNewSupporter(newToken, inputs, requestHandler);
+        }
+    }
+
+    private static void addNewSupporter(String token, List<String> inputs, RequestHandler requestHandler) {
+        String username = inputs.get(0);
+        String password = inputs.get(1);
+
+        SignUpController signUpController = SignUpController.getInstance();
+        try {
+            synchronized (lockAddNewAccount) {
+                Account account = signUpController.creatTheBaseOfAccount("Supporter", username);
+                signUpController.creatPasswordForAccount(account, password);
+                sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            }
+        } catch (TypeInvalidException | UserNameTooShortException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | UserNameInvalidException | PasswordInvalidException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
+                    SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
         }
     }
 
@@ -333,7 +352,7 @@ public class SendAndReceive {
                 }
                 Account manager = Manager.getList().get(0);
                 String managerBankAccount = manager.getPersonalInfo().getList().getFieldByName("bank_accountId").getString();
-                List<String> chargingManagerAccount = Arrays.asList(manager.getUserName(),manager.getPassword(),"deposit",amount,"-1",managerBankAccount,"info");
+                List<String> chargingManagerAccount = Arrays.asList(manager.getUserName(), manager.getPassword(), "deposit", amount, "-1", managerBankAccount, "info");
                 BankAPI.pay(chargingManagerAccount);
 
                 sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
@@ -1300,7 +1319,7 @@ public class SendAndReceive {
                 account.getUserName() + "",
                 account.getPassword() + "",
                 account.getClass().getSimpleName(),
-                account.getPersonalInfo().getList(),
+                account.getPersonalInfo() == null ? null : account.getPersonalInfo().getList(),
                 account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
                 wallet
         );

@@ -334,8 +334,18 @@ public class SendAndReceive implements MessagePattern {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
-        MessageSupplier.RequestType addNewAccount = type.equals("Seller") ? MessageSupplier.RequestType.addNewSeller
-                : MessageSupplier.RequestType.addNewCustomerOrManager;
+        MessageSupplier.RequestType addNewAccount = MessageSupplier.RequestType.addNewCustomerOrManager;
+        switch (type) {
+            case "Manager":
+            case "Customer":
+                addNewAccount = MessageSupplier.RequestType.addNewCustomerOrManager;
+                break;
+            case "Seller":
+                addNewAccount = MessageSupplier.RequestType.addNewSeller;
+                break;
+            case "Supporter":
+                addNewAccount = MessageSupplier.RequestType.addNewSupporter;
+        }
         List<String> answer = client.sendAndReceive(addNewAccount, list);
         return new JsonHandler<String>().JsonsToObjectList(answer, false).get(0);
     }

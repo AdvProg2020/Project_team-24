@@ -118,7 +118,7 @@ public class DataBase {
     private static String getStringObjPath(@NotNull Packable<?> packable) {
         String className = packable.getClass().getSimpleName();
         return String.format("src/main/resources/DataBase/%s-src/%d.json"
-                , (className.matches("^(Seller|Customer|Manager)$")) ? "Account" : className
+                , (className.matches("^(Seller|Customer|Manager|Supporter)$")) ? "Account" : className
                 , packable.getId()
         );
     }
