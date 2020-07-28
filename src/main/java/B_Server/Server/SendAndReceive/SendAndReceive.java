@@ -91,6 +91,9 @@ public class SendAndReceive {
             case "GetAuctionById":
                 getAuctionById(newToken, inputs, requestHandler);
                 break;
+            case "GetCartByUserId" :
+                getCartByUserId(newToken, inputs, requestHandler);
+                break;
             case "GetImageById":
                 getImageById(newToken, inputs, requestHandler);
                 break;
@@ -259,6 +262,7 @@ public class SendAndReceive {
                 break;
             case "Kill":
                 Offline(requestHandler, info, newToken);
+                break;
             case "addNewOffer":
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
@@ -270,7 +274,31 @@ public class SendAndReceive {
                 break;
             case "GetAllOffers":
                 getAllOffers(newToken, requestHandler);
+                break;
+
+
         }
+    }
+
+    private static void getCartByUserId(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
+        try {
+            Cart cart = ((Customer) Account.getAccountById(Long.parseLong(inputs.get(0)))).getCart();
+            sender(token, MessageSupplier.RequestType.GetCartByUserId, yaGson.toJson(getMiniCart(cart)), requestHandler);
+
+        } catch (ProductDoesNotExistException | SellerDoesNotSellOfThisProduct | AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.GetCartByUserId, yaGson.toJson(SuccessOrFail.FAIL.toString()), requestHandler);
+        }
+    }
+
+    @NotNull
+    private static MiniCart getMiniCart(Cart cart) throws ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
+        return new MiniCart(
+                cart.getId() + "",
+                cart.getTotalPrice() + "",
+                cart.getProductSellers(),
+                cart.getProductList()
+        );
     }
 
     private static void getAllOffers(String token, RequestHandler requestHandler) {
