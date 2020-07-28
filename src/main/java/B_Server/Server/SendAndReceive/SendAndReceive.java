@@ -13,6 +13,7 @@ import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Model.DataBase.DataBase;
 import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
+import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
 import B_Server.Model.Models.Structs.Medias;
 import B_Server.Model.Models.Structs.ProductLog;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -329,6 +331,11 @@ public class SendAndReceive {
                     Seller seller = (Seller) account;
                     seller.setBalance(seller.getBalance() + Double.parseDouble(amount));
                 }
+                Account manager = Manager.getList().get(0);
+                String managerBankAccount = manager.getPersonalInfo().getList().getFieldByName("bank_accountId").getString();
+                List<String> chargingManagerAccount = Arrays.asList(manager.getUserName(),manager.getPassword(),"deposit",amount,"-1",managerBankAccount,"info");
+                BankAPI.pay(chargingManagerAccount);
+
                 sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
             } else sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
         } catch (IOException | FieldDoesNotExistException e) {
@@ -1283,6 +1290,10 @@ public class SendAndReceive {
     @Contract("_ -> new")
     @NotNull
     private static MiniAccount getMiniAccount(@NotNull Account account) {
+        Wallet wallet = null;
+        if (account instanceof Seller || account instanceof Customer)
+            wallet = new Wallet().setBalance(account instanceof Seller ? ((Seller) account).getBalance() : ((Customer) account).getCredit());
+
         return new MiniAccount(
                 account.getId() + "",
                 account.getMediaId() + "",
@@ -1291,8 +1302,7 @@ public class SendAndReceive {
                 account.getClass().getSimpleName(),
                 account.getPersonalInfo().getList(),
                 account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                new Wallet().setBalance(account instanceof Seller ?
-                        ((Seller) account).getBalance() : ((Customer) account).getCredit())
+                wallet
         );
     }
 
