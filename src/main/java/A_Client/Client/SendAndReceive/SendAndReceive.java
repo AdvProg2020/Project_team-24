@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SendAndReceive implements MessagePattern {
@@ -557,12 +558,13 @@ public class SendAndReceive implements MessagePattern {
 
     }
 
-    public static void setWage(String wagePercentage) {
-        //...
-    }
-
     public static List<MiniAccount> getAllSupporters() {
-        return null;
+        List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.GetAllAccounts,
+                Collections.singletonList(client.getClientInfo().getToken()));
+        return new JsonHandler<MiniAccount>().JsonsToObjectList(answer, true)
+                .stream().filter(miniAccount -> miniAccount.getAccountT().equals("Supporter"))
+                .collect(Collectors.toList());
+
     }
 
     public static List<String> addOffer(ArrayList<String> objects) {

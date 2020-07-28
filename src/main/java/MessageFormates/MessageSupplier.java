@@ -98,6 +98,7 @@ public interface MessageSupplier {
         addNewOffer,
         getFileById,
         Deposit,
-        WithDraw
+        WithDraw,
+
     }
 }
