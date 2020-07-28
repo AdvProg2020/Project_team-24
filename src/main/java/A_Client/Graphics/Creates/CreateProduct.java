@@ -148,12 +148,12 @@ public class CreateProduct implements SceneBuilder, Initializable {
     private void SomeOfSetting() {
 
         if (product.getCateId() != null)
-            category.setValue(SendAndReceive.getCateById(
-                    product.getCateId()).getCateName());
+//            category.setValue(SendAndReceive.getCateById(
+//                    product.getCateId()).getCateName());
 
-        if (product.getAuctionId() != null)
-            auction.setValue(SendAndReceive.getAuctionById(
-                    product.getAuctionId()).getAuctionName());
+//        if (product.getAuctionId() != null)
+//            auction.setValue(SendAndReceive.getAuctionById(
+//                    product.getAuctionId()).getAuctionName());
 
         if (product.getMediasId() != null)
             product_image.setImage(SendAndReceive.getImageById(
