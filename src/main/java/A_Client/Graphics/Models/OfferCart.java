@@ -2,7 +2,9 @@ package A_Client.Graphics.Models;
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
 import A_Client.Graphics.MainMenu;
+import A_Client.Graphics.Pages.Offer;
 import A_Client.Graphics.Pages.Product;
+import Structs.MiniAccount;
 import Structs.MiniOffer;
 import Structs.MiniProduct;
 import javafx.fxml.FXML;
@@ -50,7 +52,7 @@ public class OfferCart implements Initializable {
 
     public void gotoOffer() {
         setCurrentOffer(offer);
-        MainMenu.change(new Product().sceneBuilder());
+        MainMenu.change(new Offer().sceneBuilder());
         MainMenu.FilterDisable();
     }
 
@@ -68,15 +70,18 @@ public class OfferCart implements Initializable {
     private void setOfferCart() {
         if (offer != null) {
             MiniProduct miniProduct = SendAndReceive.getProductById(offer.getProductId());
-            if (!miniProduct.getMediasId().equals("0")) setImage(miniProduct.getMediasId());
+            if (miniProduct != null && !miniProduct.getMediasId().equals("0")) setImage(miniProduct.getMediasId());
             setTexts();
         }
     }
 
     private void setTexts() {
         this.product_name.setText(offer.getProductName());
-        String sellerName = SendAndReceive.getAccountById(String.valueOf(offer.getSellerId())).getUsername();
-        this.sellerOfProduct.setText(sellerName);
+        MiniAccount accountById = SendAndReceive.getAccountById(String.valueOf(offer.getSellerId()));
+        if (accountById != null) {
+            String sellerName = accountById.getUsername();
+            this.sellerOfProduct.setText(sellerName);
+        }
     }
 
     private void setImage(String mediasId) {
