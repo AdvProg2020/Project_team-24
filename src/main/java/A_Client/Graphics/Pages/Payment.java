@@ -12,10 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -23,15 +23,14 @@ import javafx.scene.media.MediaView;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Payment implements Initializable, SceneBuilder {
 
     private final Client client = SendAndReceive.getClient();
-    public ChoiceBox chooseType;
-    private MiniLogHistory logHistory;
+    public ChoiceBox<String> chooseType;
     public MediaView paymentGif;
     @FXML
     private TextField address;
@@ -44,8 +43,9 @@ public class Payment implements Initializable, SceneBuilder {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FieldList list = SendAndReceive
-                .getAccountById(client.getClientInfo().getAccountId())
+
+        FieldList list = Objects.requireNonNull(SendAndReceive
+                .getAccountById(client.getClientInfo().getAccountId()))
                 .getPersonalInfo();
         try {
 
@@ -58,8 +58,8 @@ public class Payment implements Initializable, SceneBuilder {
         } catch (FieldDoesNotExistException e) {
             e.printStackTrace();
         }
-        chooseType.getItems().addAll(FXCollections.observableArrayList("کیف پول", "درگاه بانکی"));
 
+        chooseType.getItems().addAll(FXCollections.observableArrayList("کیف پول", "درگاه بانکی"));
 
         MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Payment\\payment.mp4").toURI().toString()));
         paymentGif.setMediaPlayer(value);
@@ -86,16 +86,33 @@ public class Payment implements Initializable, SceneBuilder {
         String discountCode = this.discountCode.getText();
 
         reset();
-        SendAndReceive.sendPaymentInfo(Arrays.asList(postCode, address, discountCode));
+        String s = SendAndReceive.sendPaymentInfo(Arrays.asList(postCode, address, discountCode));
+        if (!errorHandler(s)) return;
+
         if(chooseType.getValue().equals("درگاه بانکی")){
+            bankPage.setCart(SendAndReceive.getCartByUserId(client.getClientInfo().getAccountId()));
             MainMenu.change(new bankPage().sceneBuilder());
         }
 
         if(chooseType.getValue().equals("کیف پول")){
-            logHistory = SendAndReceive.Purchase(new ArrayList<>());
+            MiniLogHistory logHistory = SendAndReceive.Purchase(new ArrayList<>());
             PaymentInformation.setLogHistory(logHistory);
             MainMenu.change(new PaymentInformation().sceneBuilder());
         }
+    }
+
+    private boolean errorHandler(String answer) {
+        Matcher matcher = Pattern.compile("^FAIL/(.*)$")
+                .matcher(answer);
+
+        if (matcher.find()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(matcher.group(1));
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 
     private void reset() {
@@ -109,51 +126,51 @@ public class Payment implements Initializable, SceneBuilder {
         payment_btn.setTooltip(null);
     }
 
-    private void invalidPostCode() {
-        Tooltip postCode_tooltip = new Tooltip();
-        postCode_tooltip.setText("کد پستی نامعتبر است");
-        postCode_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        postCode.setTooltip(postCode_tooltip);
-        postCode.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void invalidAddress() {
-        Tooltip address_tooltip = new Tooltip();
-        address_tooltip.setText("آدرس نامعتبر است");
-        address_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        address.setTooltip(address_tooltip);
-        address.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void invalidDiscountCode() {
-        Tooltip code_tooltip = new Tooltip();
-        code_tooltip.setText("کد تهفیف نامعتبر است");
-        code_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        discountCode.setTooltip(code_tooltip);
-        discountCode.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void discountCodeExpired() {
-        Tooltip code_tooltip = new Tooltip();
-        code_tooltip.setText("کد تهفیف منقضی شده است");
-        code_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        discountCode.setTooltip(code_tooltip);
-        discountCode.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        failSound();
-    }
-
-    private void notEnoughCredit() {
-        Tooltip pay_tooltip = new Tooltip();
-        pay_tooltip.setText("اخی ... پول نداری!");
-        pay_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
-        payment_btn.setTooltip(pay_tooltip);
-        payment_btn.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
-        payment_btn.setDisable(true);
-        failSound();
-    }
+//    private void invalidPostCode() {
+//        Tooltip postCode_tooltip = new Tooltip();
+//        postCode_tooltip.setText("کد پستی نامعتبر است");
+//        postCode_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+//        postCode.setTooltip(postCode_tooltip);
+//        postCode.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+//        failSound();
+//    }
+//
+//    private void invalidAddress() {
+//        Tooltip address_tooltip = new Tooltip();
+//        address_tooltip.setText("آدرس نامعتبر است");
+//        address_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+//        address.setTooltip(address_tooltip);
+//        address.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+//        failSound();
+//    }
+//
+//    private void invalidDiscountCode() {
+//        Tooltip code_tooltip = new Tooltip();
+//        code_tooltip.setText("کد تهفیف نامعتبر است");
+//        code_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+//        discountCode.setTooltip(code_tooltip);
+//        discountCode.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+//        failSound();
+//    }
+//
+//    private void discountCodeExpired() {
+//        Tooltip code_tooltip = new Tooltip();
+//        code_tooltip.setText("کد تهفیف منقضی شده است");
+//        code_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+//        discountCode.setTooltip(code_tooltip);
+//        discountCode.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+//        failSound();
+//    }
+//
+//    private void notEnoughCredit() {
+//        Tooltip pay_tooltip = new Tooltip();
+//        pay_tooltip.setText("اخی ... پول نداری!");
+//        pay_tooltip.setStyle("-fx-background-color: #C6C6C6;-fx-text-fill: #bf2021;");
+//        payment_btn.setTooltip(pay_tooltip);
+//        payment_btn.setStyle("-fx-border-color: #bf2021;-fx-border-width: 2px");
+//        payment_btn.setDisable(true);
+//        failSound();
+//    }
 
     private void failSound() {
         new Thread(() -> new MediaPlayer(

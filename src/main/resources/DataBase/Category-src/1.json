@@ -1,0 +1,1 @@
+{"@type":"B_Server.Model.Models.Data.Data","@val":{"instance":{"@type":"B_Server.Model.Models.Category","@val":{"lock":{},"categoryId":0,"productList":[]}},"fields":[1,"QreCate",{"@type":"Structs.FieldAndFieldList.FieldList","@val":{"fieldList":[{"fieldName":"????"},{"fieldName":"???"}]}},[],[]]}}

@@ -151,7 +151,6 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
     public void submit() {
         if (selectedImage != null) setImage();
         RequestForEdit("password", password_txt.getText());
-//        RequestForEdit("balance", balance_txt.getText());
         RequestForEdit("FirstName", fName_txt.getText());
         RequestForEdit("LastName", lName_txt.getText());
         RequestForEdit("Email", email_txt.getText());

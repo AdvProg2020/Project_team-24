@@ -3,16 +3,16 @@ package B_Server.Controller.Controllers.AccountControllers;
 import B_Server.Bank.BankAPI;
 import B_Server.Controller.Tools.AccountController;
 import B_Server.Controller.Tools.LocalClientInfo;
-import B_Server.Model.Models.*;
-import B_Server.Model.Models.Accounts.Manager;
-import Exceptions.*;
 import B_Server.Model.DataBase.DataBase;
+import B_Server.Model.Models.*;
 import B_Server.Model.Models.Accounts.Customer;
+import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
-import Structs.FieldAndFieldList.Field;
 import B_Server.Model.Models.Structs.ProductLog;
-import Structs.ProductVsSeller.ProductOfSeller;
+import Exceptions.*;
+import Structs.FieldAndFieldList.Field;
 import Structs.FieldAndFieldList.FieldList;
+import Structs.ProductVsSeller.ProductOfSeller;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -106,30 +106,28 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
                     double productFinalPrice = productPrice - productAuctionAmount;
 
                     productLogs.add(new ProductLog(product.getId(), product.getName(), productPrice, productAuctionAmount, productFinalPrice));
-                    try {
-                        String clientBankId = String.valueOf(clientInfo.get().getAccount().getPersonalInfo().getList().getFieldByName("bank_accountId"));
-                        String sellerBankId = String.valueOf(seller.getPersonalInfo().getList().getFieldByName("bank_accountId"));
-                        String sellerMovePrice = String.valueOf(productFinalPrice * (100 - Wage.getWagePercentage()) / 100);
-                        List<String> customerToSellerMoveList = Arrays.asList(clientInfo.get().getAccount().getUserName(),
-                                clientInfo.get().getAccount().getPassword(), "move", sellerMovePrice, clientBankId, sellerBankId, list.get(4));
-                        BankAPI.pay(customerToSellerMoveList);
-                        String managerBankId = String.valueOf(Manager.getList().get(0).getPersonalInfo().getList().getFieldByName("bank_accountId"));
-                        String managerMovePrice = String.valueOf(productFinalPrice * Wage.getWagePercentage() / 100);
-                        List<String> customerToManagerMoveList = Arrays.asList(clientInfo.get().getAccount().getUserName(),
-                                clientInfo.get().getAccount().getPassword(), "move", managerMovePrice, clientBankId, managerBankId, list.get(4));
-                        BankAPI.pay(customerToManagerMoveList);
 
-                    } catch (FieldDoesNotExistException | IOException e) {
-                        e.printStackTrace();
-                    }
+                    String clientBankId = String.valueOf(clientInfo.get().getAccount().getPersonalInfo().getList().getFieldByName("bank_accountId"));
+                    String sellerBankId = String.valueOf(seller.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+                    String sellerMovePrice = String.valueOf(productFinalPrice * (100 - Wage.getWagePercentage()) / 100);
+                    List<String> customerToSellerMoveList = Arrays.asList(clientInfo.get().getAccount().getUserName(),
+                            clientInfo.get().getAccount().getPassword(), "move", sellerMovePrice, clientBankId, sellerBankId, list.get(4));
+                    BankAPI.pay(customerToSellerMoveList);
+                    String managerBankId = String.valueOf(Manager.getList().get(0).getPersonalInfo().getList().getFieldByName("bank_accountId"));
+                    String managerMovePrice = String.valueOf(productFinalPrice * Wage.getWagePercentage() / 100);
+                    List<String> customerToManagerMoveList = Arrays.asList(clientInfo.get().getAccount().getUserName(),
+                            clientInfo.get().getAccount().getPassword(), "move", managerMovePrice, clientBankId, managerBankId, list.get(4));
+                    BankAPI.pay(customerToManagerMoveList);
                 }
                 return productLogs;
-            } else throw new NotEnoughCreditException("NotEnoughCreditException");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
 
+            } else
+                throw new NotEnoughCreditException("NotEnoughCreditException");
+
+        } catch (IOException | FieldDoesNotExistException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

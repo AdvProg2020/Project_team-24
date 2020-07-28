@@ -92,7 +92,7 @@ public class SendAndReceive {
             case "GetAuctionById":
                 getAuctionById(newToken, inputs, requestHandler);
                 break;
-            case "GetCartByUserId" :
+            case "GetCartByUserId":
                 getCartByUserId(newToken, inputs, requestHandler);
                 break;
             case "GetImageById":
@@ -276,27 +276,28 @@ public class SendAndReceive {
             case "GetAllOffers":
                 getAllOffers(newToken, requestHandler);
                 break;
-            case "GetAllProductOfCart" :
-                String cartId = inputs.get(0);
-                try {
-                    Cart cart = Cart.getCartById(Long.parseLong(cartId));
-                    List<MiniProduct> products = cart.getProductList().stream().map(id ->{
-                        try {
-                            Product product = Product.getProductById(id);
-                            return getMiniProduct(product);
-                        } catch (ProductDoesNotExistException e) {
-                            e.printStackTrace();
-                            return null;
-                        }
-                    }).filter(Objects::nonNull).collect(Collectors.toList());
-                    sender(token,MessageSupplier.RequestType.GetAllProductOfCart,yaGson.toJson(products),requestHandler);
-                } catch (CartDoesNotExistException e) {
-                    e.printStackTrace();
-                    sender(newToken, MessageSupplier.RequestType.GetAllProductOfCart, SuccessOrFail.FAIL.toString(), requestHandler);
-                }
+            case "GetAllProductOfCart":
+                getAllProductOfCart(newToken, inputs, requestHandler, newToken);
                 break;
+        }
+    }
 
-
+    private static void getAllProductOfCart(@NotNull String token, List<String> inputs, RequestHandler requestHandler, String newToken) {
+        try {
+            Cart cart = Cart.getCartById(Long.parseLong(inputs.get(0)));
+            List<MiniProduct> products = cart.getProductList().stream().map(id -> {
+                try {
+                    Product product = Product.getProductById(id);
+                    return getMiniProduct(product);
+                } catch (ProductDoesNotExistException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }).filter(Objects::nonNull).collect(Collectors.toList());
+            sender(token, MessageSupplier.RequestType.GetAllProductOfCart, yaGson.toJson(products), requestHandler);
+        } catch (CartDoesNotExistException e) {
+            e.printStackTrace();
+            sender(newToken, MessageSupplier.RequestType.GetAllProductOfCart, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 
@@ -352,12 +353,11 @@ public class SendAndReceive {
             if (BankAPI.successOrFail(output)) {
                 Seller seller = (Seller) account;
                 seller.setBalance(seller.getBalance() - Double.parseDouble(amount));
-                sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
-            } else sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
+                sender(token, MessageSupplier.RequestType.WithDraw, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            } else sender(token, MessageSupplier.RequestType.WithDraw, SuccessOrFail.FAIL.toString(), requestHandler);
         } catch (IOException | FieldDoesNotExistException e) {
             e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
-
+            sender(token, MessageSupplier.RequestType.WithDraw, SuccessOrFail.FAIL.toString(), requestHandler);
         }
     }
 
@@ -381,7 +381,7 @@ public class SendAndReceive {
                 }
                 Account manager = Manager.getList().get(0);
                 String managerBankAccount = manager.getPersonalInfo().getList().getFieldByName("bank_accountId").getString();
-                List<String> chargingManagerAccount = Arrays.asList(manager.getUserName(),manager.getPassword(),"deposit",amount,"-1",managerBankAccount,"info");
+                List<String> chargingManagerAccount = Arrays.asList(manager.getUserName(), manager.getPassword(), "deposit", amount, "-1", managerBankAccount, "info");
                 BankAPI.pay(chargingManagerAccount);
 
                 sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
@@ -787,7 +787,11 @@ public class SendAndReceive {
                             SuccessOrFail.FAIL + "/" + bankAccountId, requestHandler);
                 }
             }
-        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | IOException e) {
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException |
+                CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException |
+                PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException |
+                EmailInvalidException | PhoneNumberInvalidException | IOException e) {
+
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
@@ -826,7 +830,11 @@ public class SendAndReceive {
                 }
             }
 
-        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException | EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException | IOException e) {
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException |
+                CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException |
+                PasswordInvalidException | FirstNameInvalidException | LastNameInvalidException |
+                EmailInvalidException | PhoneNumberInvalidException | CompanyNameInvalidException | IOException e) {
+
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.addNewSeller,
                     SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);

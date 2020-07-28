@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 public class Cart implements Initializable, SceneBuilder {
 
     private final Client client = SendAndReceive.getClient();
+    public MediaView cartGif1;
     private MiniCart cart;
     @FXML
     private TableView<MiniProduct> cart_Table;

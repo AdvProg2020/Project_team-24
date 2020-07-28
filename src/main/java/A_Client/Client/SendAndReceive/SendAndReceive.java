@@ -456,11 +456,12 @@ public class SendAndReceive implements MessagePattern {
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.addCommentToProduct, list);
     }
 
-    public static void sendPaymentInfo(List<String> fields) {
+    public static String sendPaymentInfo(List<String> fields) {
         List<String> list = new ArrayList<>();
         list.add(client.getClientInfo().getToken());
         list.addAll(fields);
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.sendPaymentInfo, list);
+        return new JsonHandler<String>().JsonsToObjectList(answer, false).get(0);
     }
 
     public static void DeleteAccountById(String accountId) {
@@ -542,7 +543,9 @@ public class SendAndReceive implements MessagePattern {
         list.add(client.getClientInfo().getToken());
         list.addAll(listPrime);
         List<String> answer = client.sendAndReceive(MessageSupplier.RequestType.Purchase, list);
-        return new JsonHandler<MiniLogHistory>().JsonToObject(answer.get(0), MiniLogHistory.class);
+        List<String> jsons = new JsonHandler<String>().JsonsToObjectList(answer, false);
+        if (jsons.get(0).equals("FAIL")) return null;
+        return new JsonHandler<MiniLogHistory>().JsonToObject(jsons.get(0), MiniLogHistory.class);
     }
 
     public static void ProductSort(String sort) {
