@@ -35,6 +35,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
@@ -456,7 +458,7 @@ public class SendAndReceive {
 
         try {
 
-            String path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+            String path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images", ".jpg");
             Account account = Account.getAccountById(Long.parseLong(accountId));
             account.setMediaId(medias.getId());
             medias.setImageSrc(path);
@@ -541,17 +543,18 @@ public class SendAndReceive {
         Medias.addMedia(medias);
 
         try {
-            String path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images/", ".jpg");
+
+            String path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images", ".jpg");
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
                     SuccessOrFail.SUCCESS.toString(), requestHandler);
             medias.setImageSrc(path);
 
-            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies/", ".mp4");
+            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies", ".mp4");
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
                     SuccessOrFail.SUCCESS.toString(), requestHandler);
             medias.setMediaSrc(path);
 
-            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/File/", ".txt");
+            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/File", ".txt");
             sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
                     SuccessOrFail.SUCCESS.toString(), requestHandler);
             medias.setFileSrc(path);
@@ -565,7 +568,12 @@ public class SendAndReceive {
     }
 
     private static String file_write(@NotNull RequestHandler requestHandler, @NotNull Medias medias, String address, String ex) throws IOException {
-        String pathname = address + medias.getId() + ex;
+
+        Path dir = Paths.get(address);
+        if (!Files.exists(dir))
+            Files.createDirectory(dir);
+
+        String pathname = address + "/" + medias.getId() + ex;
         File file = new File(pathname);
         Files.createFile(file.toPath());
         OutputStream outputStream = new FileOutputStream(file);
