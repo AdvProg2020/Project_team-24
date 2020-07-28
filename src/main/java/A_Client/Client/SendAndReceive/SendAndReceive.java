@@ -481,7 +481,7 @@ public class SendAndReceive implements MessagePattern {
     public static List<Field> getCateInfoOdProduct(String productId) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getCateInfoOfProduct,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
-        return new JsonHandler<Field>().JsonsToObjectList(answers, false);
+        return new JsonHandler<Field>().JsonsToObjectList(answers, true);
     }
 
     public static List<Field> getProductInfoById(String productId) {
