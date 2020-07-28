@@ -8,13 +8,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * This class handles initiating connection to bankAPI ,sending requests to Bank server
- * and also responses from Bank server.
- */
 public class BankAPI {
 
-    private static final Scanner scanner = new Scanner(System.in);
     private static DataOutputStream outputStream;
     private static DataInputStream inputStream;
 
@@ -51,19 +46,19 @@ public class BankAPI {
         return inputStream.readUTF();
     }
 
-    public static void pay(@NotNull List<String> list) throws IOException {
+    public static String pay(@NotNull List<String> list) throws IOException {
 
         String tokenOutput = sendAndReceive("get_token", list.subList(0, 2));
-        if (exceptionList.contains(tokenOutput)) return;
+        if (exceptionList.contains(tokenOutput)) return tokenOutput;
 
         List<String> rec = Stream.concat(Stream.of(tokenOutput),
                 list.subList(2, 7).stream()).collect(Collectors.toList());
 
         String createReceipt = sendAndReceive("create_receipt", rec);
-        if (exceptionList.contains(createReceipt)) return;
+        if (exceptionList.contains(createReceipt)) return createReceipt;
 
         List<String> listPrime = Collections.singletonList(createReceipt);
-        sendAndReceive("pay", listPrime);
+        return sendAndReceive("pay", listPrime);
     }
 
     @NotNull

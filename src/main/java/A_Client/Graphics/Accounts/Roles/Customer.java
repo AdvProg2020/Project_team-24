@@ -107,8 +107,7 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
         RequestForEdit("PhoneNumber", phone_txt.getText());
 
         //deposit....
-        String depositAmount = deposit.getText();
-        SendAndReceive.Deposit(depositAmount);
+        SendAndReceive.Deposit(deposit.getText());
     }
 
     public void goCart() {

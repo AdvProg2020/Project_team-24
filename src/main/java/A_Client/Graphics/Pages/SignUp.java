@@ -58,10 +58,12 @@ public class SignUp implements SceneBuilder, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         if (state) {
 
             chooseType.getItems().addAll(FXCollections.observableArrayList("Manager", "Seller", "Customer"));
             chooseType.setValue("Customer");
+
             Tooltip toolTip_username = new Tooltip();
             toolTip_username.setText("اسمت چیه فرزندم ...؟");
             username.setTooltip(toolTip_username);
@@ -132,6 +134,7 @@ public class SignUp implements SceneBuilder, Initializable {
             errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)));
 
         goMainMenu();
+        state = true;
     }
 
     public void submitSeller() {
@@ -143,6 +146,7 @@ public class SignUp implements SceneBuilder, Initializable {
         submitNext();
         errorHandler(SendAndReceive.addAccount(inputs, inputs.get(0)));
         goMainMenu();
+        state = true;
     }
 
     private void goSellerArea() {

@@ -9,15 +9,29 @@ import Exceptions.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Offer implements Packable<Offer> {
 
+    private static List<Offer> list = new ArrayList<>();
+
+    static {
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(Offer::DeleteExpiredOffers, 0, 12, TimeUnit.HOURS);
+    }
+
+    private static void DeleteExpiredOffers() {
+        list.removeIf(offer -> offer.getEndTm().isAfter(LocalDate.now()));
+    }
+
     /*****************************************************fields*******************************************************/
 
-    private static List<Offer> list;
     private long offerId;
     private Product product;
     private LocalDate start;
@@ -31,6 +45,10 @@ public class Offer implements Packable<Offer> {
 
     public static void setList(List<Offer> list) {
         Offer.list = list;
+    }
+
+    public static List<Offer> getList() {
+        return list;
     }
 
     @Override
@@ -52,6 +70,10 @@ public class Offer implements Packable<Offer> {
 
     public Seller getSeller() {
         return seller;
+    }
+
+    public Map<String, Double> getAuctioneersPrices() {
+        return auctioneersPrices;
     }
 
     public static void addOffer(@NotNull Offer offer) {

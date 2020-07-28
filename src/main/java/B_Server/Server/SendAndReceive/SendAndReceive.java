@@ -96,7 +96,7 @@ public class SendAndReceive {
                 getMediaById(newToken, inputs, requestHandler);
                 break;
             case "SetImageById":
-                setAccountImage(token, inputs, requestHandler);
+                setAccountImage(newToken, inputs, requestHandler);
                 break;
             case "GetAllProducts":
                 getAllProducts(newToken, request, requestHandler, Product.getList());
@@ -261,16 +261,33 @@ public class SendAndReceive {
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
             case "Deposit":
-                deposit(token, inputs, requestHandler);
-
+                deposit(newToken, inputs, requestHandler);
                 break;
             case "WithDraw":
-                withdraw(token, inputs, requestHandler);
+                withdraw(newToken, inputs, requestHandler);
                 break;
-
-
-
+            case "GetAllOffers":
+                getAllOffers(newToken, requestHandler);
         }
+    }
+
+    private static void getAllOffers(String token, RequestHandler requestHandler) {
+        sender(token, MessageSupplier.RequestType.GetAllOffers, yaGson.toJson(createMiniOffers(Offer.getList())), requestHandler);
+    }
+
+    private static List<MiniOffer> createMiniOffers(List<Offer> list) {
+        return list.stream().map(SendAndReceive::getMiniOffer).collect(Collectors.toList());
+    }
+
+    @NotNull
+    private static MiniOffer getMiniOffer(Offer offer) {
+        return new MiniOffer(
+                offer.getProduct().getName(),
+                offer.getProduct().getId() + "",
+                offer.getSeller().getId(),
+                offer.getAuctioneersPrices(),
+                offer.getStart()
+        );
     }
 
     private static void withdraw(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
@@ -281,8 +298,10 @@ public class SendAndReceive {
         try {
             String bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
             List<String> list = Arrays.asList(username, password, "withdraw", amount, bankAccountId, "-1", "info");
-            BankAPI.pay(list);
-            sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            String output = BankAPI.pay(list);
+            if (BankAPI.successOrFail(output)) {
+                sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            } else sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
         } catch (IOException | FieldDoesNotExistException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
@@ -296,10 +315,12 @@ public class SendAndReceive {
         String username = account.getUserName();
         String password = account.getPassword();
         try {
-            String bankAccountId = String.valueOf(account.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+            String bankAccountId = account.getPersonalInfo().getList().getFieldByName("bank_accountId").getString();
             List<String> list = Arrays.asList(username, password, "deposit", amount, "-1", bankAccountId, "info");
-            BankAPI.pay(list);
-            sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            String output = BankAPI.pay(list);
+            if (BankAPI.successOrFail(output)) {
+                sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            } else sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
         } catch (IOException | FieldDoesNotExistException e) {
             e.printStackTrace();
             sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
@@ -681,8 +702,8 @@ public class SendAndReceive {
                 List<String> list = Arrays.asList(firstName, lastName, username, password, password);
                 String bankAccountId = BankAPI.sendAndReceive("create_account", list);
                 if (BankAPI.successOrFail(bankAccountId)) {
-                    account.getPersonalInfo().getList()
-                            .addFiled(new Field("bank_accountId", bankAccountId));
+                    account.getPersonalInfo().getList().addFiled(new Field("bank_accountId", bankAccountId));
+                    DataBase.save(account);
                     sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
                 } else {
                     Account.deleteAccount(account);
@@ -719,8 +740,8 @@ public class SendAndReceive {
                 List<String> list = Arrays.asList(firstName, lastName, username, password, password);
                 String bankAccountId = BankAPI.sendAndReceive("create_account", list);
                 if (BankAPI.successOrFail(bankAccountId)) {
-                    account.getPersonalInfo().getList()
-                            .addFiled(new Field("bank_accountId", bankAccountId));
+                    account.getPersonalInfo().getList().addFiled(new Field("bank_accountId", bankAccountId));
+                    DataBase.save(account);
                     sender(token, MessageSupplier.RequestType.addNewSeller, SuccessOrFail.SUCCESS.toString(), requestHandler);
                 } else {
                     Account.deleteAccount(account);

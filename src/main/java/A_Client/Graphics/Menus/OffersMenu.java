@@ -1,4 +1,5 @@
 package A_Client.Graphics.Menus;
+
 import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Models.OfferCart;
 import A_Client.Graphics.Tools.SceneBuilder;
@@ -6,20 +7,21 @@ import Structs.MiniOffer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class OffersMenu implements  SceneBuilder {
+public class OffersMenu implements SceneBuilder {
     private static List<MiniOffer> list = new ArrayList<>();
     private static int pageNum = 1;
     public Button next_btn;
     public Button previous_btn;
 
     @Override
-    public Scene sceneBuilder(){
+    public Scene sceneBuilder() {
         try {
             return FXMLLoader.load(new File("C:\\Users\\ASUS\\IdeaProjects\\Project_team-24\\src\\main\\resources\\Graphics\\Offer\\OffersPage.fxml").toURI().toURL());
         } catch (IOException e) {
@@ -28,7 +30,6 @@ public class OffersMenu implements  SceneBuilder {
         }
         return null;
     }
-
 
     public static void setList(List<MiniOffer> list) {
         OffersMenu.list = list;
@@ -53,6 +54,7 @@ public class OffersMenu implements  SceneBuilder {
         OfferCart.setOfferList(list);
         MainMenu.change(new ProductsMenu().sceneBuilder());
     }
+
     private void checkButtons() {
 
         if (pageNum == list.size() / 9 + 1) {

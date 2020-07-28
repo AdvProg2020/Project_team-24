@@ -1,6 +1,7 @@
 package B_Server.Server.RequestHandler;
 
 import B_Server.Server.SendAndReceive.SendAndReceive;
+import Coding.CodeMessage;
 import MessageFormates.MessagePattern;
 import MessageFormates.MessageSupplier;
 import Toolkit.JsonHandler.JsonHandler;
@@ -103,12 +104,12 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
         }
 
         public void sendMessage(String message) throws IOException {
-            outputStream.writeUTF(message);
+            outputStream.writeUTF(CodeMessage.code(message));
             outputStream.flush();
         }
 
         public String receiveMessage() throws IOException {
-            return inputStream.readUTF();
+            return CodeMessage.decode(inputStream.readUTF());
         }
 
         public void receiveByteArray(OutputStream fileOutputStream) throws IOException {

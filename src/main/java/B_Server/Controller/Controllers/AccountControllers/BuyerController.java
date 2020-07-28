@@ -81,8 +81,6 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
             ((Customer) clientInfo.get().getAccount()).setCredit(((Customer) clientInfo.get().getAccount()).getCredit() - productFinalPrice);
             seller.setBalance(seller.getBalance() + (productFinalPrice * (100 - Wage.getWagePercentage()) / 100));
             Manager.setBankPropertyOfAllManagers(Manager.getBankPropertyOfAllManagers() + productFinalPrice * Wage.getWagePercentage() / 100);
-
-
         }
         return productLogs;
     }
