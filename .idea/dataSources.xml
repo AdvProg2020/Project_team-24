@@ -7,5 +7,11 @@
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
       <jdbc-url>jdbc:sqlserver://localhost:1433;database=AdventureWorks2014</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="database" uuid="d21e616e-3972-456b-8060-660212764e82">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\ASUS\IdeaProjects\Project_team-24\src\main\java\B_Server\Bank\database.db</jdbc-url>
+    </data-source>
   </component>
 </project>
