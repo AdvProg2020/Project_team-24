@@ -328,12 +328,17 @@ public class SendAndReceive {
     }
 
     private static void addNewOffer(List<String> inputs, RequestHandler requestHandler, String newToken) {
-        String start = inputs.get(0);
-        String end = inputs.get(1);
-        String productId = inputs.get(2);
-        String sellerId = inputs.get(3);
-        SellerController.getInstance().addOffer(start, end, productId, sellerId);
-        sender(newToken, MessageSupplier.RequestType.addNewOffer, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        try {
+            String start = inputs.get(0);
+            String end = inputs.get(1);
+            String productId = inputs.get(2);
+            String sellerId = inputs.get(3);
+            SellerController.getInstance().addOffer(start, end, productId, sellerId);
+            sender(newToken, MessageSupplier.RequestType.addNewOffer, SuccessOrFail.SUCCESS.toString(), requestHandler);
+        } catch (ProductDoesNotExistException | AccountDoesNotExistException e) {
+            e.printStackTrace();
+            sender(newToken, MessageSupplier.RequestType.addNewOffer, SuccessOrFail.FAIL.toString(), requestHandler);
+        }
     }
 
     private static void GetPercentOfWage(String token, RequestHandler requestHandler) {

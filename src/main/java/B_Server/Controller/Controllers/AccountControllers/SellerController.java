@@ -157,20 +157,15 @@ public class SellerController extends LocalClientInfo implements AccountControll
         return new Auction(auctionName, start, end, discount);
     }
 
-    public Offer addOffer(String start, String end, String productId, String sellerId) {
-
-        try {
-            Product product = Product.getProductById(Long.parseLong(productId));
-            Seller seller = (Seller) Seller.getAccountById(Long.parseLong(sellerId));
-            LocalDate start1 = LocalDate.parse(start, formatter);
-            LocalDate end1 = LocalDate.parse(end, formatter);
-            Offer offer = new Offer(product, start1, end1, seller);
-            DataBase.save(offer,true);
-            return offer;
-        } catch (ProductDoesNotExistException | AccountDoesNotExistException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public void addOffer(String strStart, String strEnd, String productId, String sellerId) throws ProductDoesNotExistException, AccountDoesNotExistException {
+        Product product = Product.
+                getProductById(Long.parseLong(productId));
+        Seller seller = (Seller) Seller.
+                getAccountById(Long.parseLong(sellerId));
+        LocalDate start = LocalDate.parse(strStart, formatter);
+        LocalDate end = LocalDate.parse(strEnd, formatter);
+        Offer offer = new Offer(product, start, end, seller);
+        Offer.addOffer(offer);
     }
 
     public void addProductsToAuction(@NotNull Auction auction, @NotNull List<String> productIdsString) throws ProductDoesNotExistException, ProductCantBeInMoreThanOneAuction, NumberFormatException {

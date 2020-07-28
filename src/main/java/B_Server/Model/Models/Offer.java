@@ -30,6 +30,8 @@ public class Offer implements Packable<Offer> {
         list.removeIf(offer -> offer.getEndTm().isAfter(LocalDate.now()));
     }
 
+    private static final Object staticLock = new Object();
+
     /*****************************************************fields*******************************************************/
 
     private long offerId;
@@ -38,6 +40,10 @@ public class Offer implements Packable<Offer> {
     private LocalDate endTm;
     private Seller seller;
     private Map<String, Double> auctioneersPrices = new HashMap<>();
+
+    public static Offer getOfferById(long offerId) {
+        return list.stream().filter(offer -> offer.getId() == offerId).findFirst().orElse(null);
+    }
 
     private void setOfferId(long offerId) {
         this.offerId = offerId;
@@ -77,9 +83,11 @@ public class Offer implements Packable<Offer> {
     }
 
     public static void addOffer(@NotNull Offer offer) {
-        offer.setOfferId(AddingNew.getRegisteringId().apply(list));
-        list.add(offer);
-        DataBase.save(offer, true);
+        synchronized (staticLock) {
+            offer.setOfferId(AddingNew.getRegisteringId().apply(list));
+            list.add(offer);
+            DataBase.save(offer, true);
+        }
     }
 
     public static void removeOffer(Offer offer) {

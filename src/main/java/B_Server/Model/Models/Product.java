@@ -12,7 +12,6 @@ import B_Server.Model.Tools.Packable;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.*;
 
 public class Product implements Packable<Product>, ForPend, Filterable, Cloneable {
@@ -322,6 +321,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
                 .addField(scoreList)
                 .addField(sellersOfProduct)
                 .addField(mediaId)
+                .addField(offer == null ? 0 : offer.getId())
                 .setInstance(new Product());
     }
 
@@ -341,6 +341,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         this.scoreList = (List<Long>) data.getFields().get(11);
         this.sellersOfProduct = (List<ProductOfSeller>) data.getFields().get(12);
         this.mediaId = (long) data.getFields().get(13);
+        this.offer = Offer.getOfferById((long) data.getFields().get(14));
         return this;
     }
 
