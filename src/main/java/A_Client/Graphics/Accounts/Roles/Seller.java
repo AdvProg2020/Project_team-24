@@ -83,6 +83,10 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        init();
+    }
+
+    private void init() {
         account = SendAndReceive.getAccountById(client.getClientInfo().getAccountId());
         client.getClientInfo().setMedias_Id(account.getMediasId());
 
@@ -158,6 +162,7 @@ public class Seller extends BaseAccount implements SceneBuilder, Initializable {
         //deposit and withdraw
         SendAndReceive.Deposit(deposit.getText());
         SendAndReceive.WithDraw(withdraw.getText());
+        init();
     }
 
     public void newCategory() {

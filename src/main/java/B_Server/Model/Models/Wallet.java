@@ -24,8 +24,9 @@ public class Wallet {
         Wallet.lowerLimit = lowerLimit;
     }
 
-    public void setBalance(double balance) {
+    public Wallet setBalance(double balance) {
         this.balance = balance;
+        return this;
     }
 
     public void setMinBalance(double minBalance) {

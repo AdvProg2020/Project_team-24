@@ -300,6 +300,8 @@ public class SendAndReceive {
             List<String> list = Arrays.asList(username, password, "withdraw", amount, bankAccountId, "-1", "info");
             String output = BankAPI.pay(list);
             if (BankAPI.successOrFail(output)) {
+                Seller seller = (Seller) account;
+                seller.setBalance(seller.getBalance() - Double.parseDouble(amount));
                 sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
             } else sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
         } catch (IOException | FieldDoesNotExistException e) {
@@ -319,6 +321,14 @@ public class SendAndReceive {
             List<String> list = Arrays.asList(username, password, "deposit", amount, "-1", bankAccountId, "info");
             String output = BankAPI.pay(list);
             if (BankAPI.successOrFail(output)) {
+                if (account instanceof Customer) {
+                    Customer customer = (Customer) account;
+                    customer.setCredit(customer.getCredit() + Double.parseDouble(amount));
+                }
+                if (account instanceof Seller) {
+                    Seller seller = (Seller) account;
+                    seller.setBalance(seller.getBalance() + Double.parseDouble(amount));
+                }
                 sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
             } else sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.FAIL.toString(), requestHandler);
         } catch (IOException | FieldDoesNotExistException e) {
@@ -1276,7 +1286,8 @@ public class SendAndReceive {
                 account.getClass().getSimpleName(),
                 account.getPersonalInfo().getList(),
                 account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
-                account.getWallet()
+                new Wallet().setBalance(account instanceof Seller ?
+                        ((Seller) account).getBalance() : ((Customer) account).getCredit())
         );
     }
 

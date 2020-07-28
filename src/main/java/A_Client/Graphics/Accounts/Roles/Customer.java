@@ -65,8 +65,10 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        init();
+    }
 
-
+    private void init() {
         account = SendAndReceive.getAccountById(client.getClientInfo().getAccountId());
         client.getClientInfo().setMedias_Id(account.getMediasId());
         try {
@@ -77,7 +79,7 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
             fName_txt.setText(account.getPersonalInfo().getFieldByName("FirstName").getString());
             phone_txt.setText(account.getPersonalInfo().getFieldByName("PhoneNumber").getString());
             email_txt.setText(account.getPersonalInfo().getFieldByName("Email").getString());
-            balance_txt.setText(SendAndReceive.getPercentOfWage());
+            balance_txt.setText(account.getWallet().getBalance() + "");
 
             if (!account.getMediasId().equals("0")) ImageInit(customer_image);
 
@@ -108,6 +110,7 @@ public class Customer extends BaseAccount implements Initializable, SceneBuilder
 
         //deposit....
         SendAndReceive.Deposit(deposit.getText());
+        init();
     }
 
     public void goCart() {
