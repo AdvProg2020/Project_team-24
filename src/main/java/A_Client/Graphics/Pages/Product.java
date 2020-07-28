@@ -142,7 +142,7 @@ public class Product implements Initializable, SceneBuilder {
 
         String accountId = client.getClientInfo().getAccountId();
 
-        if (!accountId.equals("0")) {
+        if (accountId != null && !accountId.equals("0")) {
 
             MiniAccount account = SendAndReceive.getAccountById(accountId);
 

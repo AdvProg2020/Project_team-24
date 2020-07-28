@@ -40,11 +40,11 @@ public class ProductsController extends LocalClientInfo {
         }
     }
 
-    private ThreadLocal<SortElement> sortElement = new ThreadLocal<>();
+    private final ThreadLocal<SortElement> sortElement = new ThreadLocal<>();
 
     private static List<Product> productList = new ArrayList<>(Product.getList());
 
-    private static ProductsController productsController = new ProductsController();
+    private static final ProductsController productsController = new ProductsController();
 
     /****************************************************singleTone***************************************************/
 
@@ -68,13 +68,14 @@ public class ProductsController extends LocalClientInfo {
 
         List<Filter> filters = FilterController.getInstance().currentFilters();
 
-        if (!filters.isEmpty()) filters.sort(Collections.reverseOrder());
+        if (filters != null) {
 
-        for (Filter filter : filters) {
-            productList = productList.stream().filter(filter).collect(Collectors.toList());
+            if (!filters.isEmpty()) filters.sort(Collections.reverseOrder());
+
+            for (Filter filter : filters) {
+                productList = productList.stream().filter(filter).collect(Collectors.toList());
+            }
         }
-
-        currentSort().getSorter().sorted(productList);
 
         return productList;
     }

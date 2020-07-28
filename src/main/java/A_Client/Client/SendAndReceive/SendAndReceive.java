@@ -487,7 +487,7 @@ public class SendAndReceive implements MessagePattern {
     public static List<Field> getProductInfoById(String productId) {
         List<String> answers = client.sendAndReceive(MessageSupplier.RequestType.getProductInfoById,
                 Arrays.asList(client.getClientInfo().getToken(), productId));
-        return new JsonHandler<Field>().JsonsToObjectList(answers, false);
+        return new JsonHandler<Field>().JsonsToObjectList(answers, true);
     }
 
     public static void addProductToCart(String productId, String sellerId) {
