@@ -90,6 +90,9 @@ public class SendAndReceive {
             case "GetAuctionById":
                 getAuctionById(newToken, inputs, requestHandler);
                 break;
+            case "GetCartByUserId" :
+                getCartByUserId(newToken, inputs, requestHandler);
+                break;
             case "GetImageById":
                 getImageById(newToken, inputs, requestHandler);
                 break;
@@ -258,6 +261,7 @@ public class SendAndReceive {
                 break;
             case "Kill":
                 Offline(requestHandler, info, newToken);
+                break;
             case "addNewOffer":
                 addNewOffer(inputs, requestHandler, newToken);
                 break;
@@ -269,27 +273,50 @@ public class SendAndReceive {
                 break;
             case "GetAllOffers":
                 getAllOffers(newToken, requestHandler);
-            case "addNewSupporter":
-                addNewSupporter(newToken, inputs, requestHandler);
+                break;
+            case "GetAllProductOfCart" :
+                String cartId = inputs.get(0);
+                try {
+                    Cart cart = Cart.getCartById(Long.parseLong(cartId));
+                    List<MiniProduct> products = cart.getProductList().stream().map(id ->{
+                        try {
+                            Product product = Product.getProductById(id);
+                            return getMiniProduct(product);
+                        } catch (ProductDoesNotExistException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    }).filter(Objects::nonNull).collect(Collectors.toList());
+                    sender(token,MessageSupplier.RequestType.GetAllProductOfCart,yaGson.toJson(products),requestHandler);
+                } catch (CartDoesNotExistException e) {
+                    e.printStackTrace();
+                    sender(newToken, MessageSupplier.RequestType.GetAllProductOfCart, SuccessOrFail.FAIL.toString(), requestHandler);
+                }
+                break;
+
+
         }
     }
 
-    private static void addNewSupporter(String token, List<String> inputs, RequestHandler requestHandler) {
-        String username = inputs.get(0);
-        String password = inputs.get(1);
-
-        SignUpController signUpController = SignUpController.getInstance();
+    private static void getCartByUserId(@NotNull String token, List<String> inputs, RequestHandler requestHandler) {
         try {
-            synchronized (lockAddNewAccount) {
-                Account account = signUpController.creatTheBaseOfAccount("Supporter", username);
-                signUpController.creatPasswordForAccount(account, password);
-                sender(token, MessageSupplier.RequestType.addNewCustomerOrManager, SuccessOrFail.SUCCESS.toString(), requestHandler);
-            }
-        } catch (TypeInvalidException | UserNameTooShortException | CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException | UserNameInvalidException | PasswordInvalidException e) {
+            Cart cart = ((Customer) Account.getAccountById(Long.parseLong(inputs.get(0)))).getCart();
+            sender(token, MessageSupplier.RequestType.GetCartByUserId, yaGson.toJson(getMiniCart(cart)), requestHandler);
+
+        } catch (ProductDoesNotExistException | SellerDoesNotSellOfThisProduct | AccountDoesNotExistException e) {
             e.printStackTrace();
-            sender(token, MessageSupplier.RequestType.addNewCustomerOrManager,
-                    SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
+            sender(token, MessageSupplier.RequestType.GetCartByUserId, yaGson.toJson(SuccessOrFail.FAIL.toString()), requestHandler);
         }
+    }
+
+    @NotNull
+    private static MiniCart getMiniCart(Cart cart) throws ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
+        return new MiniCart(
+                cart.getId() + "",
+                cart.getTotalPrice() + "",
+                cart.getProductSellers(),
+                cart.getProductList()
+        );
     }
 
     private static void getAllOffers(String token, RequestHandler requestHandler) {
@@ -352,7 +379,7 @@ public class SendAndReceive {
                 }
                 Account manager = Manager.getList().get(0);
                 String managerBankAccount = manager.getPersonalInfo().getList().getFieldByName("bank_accountId").getString();
-                List<String> chargingManagerAccount = Arrays.asList(manager.getUserName(), manager.getPassword(), "deposit", amount, "-1", managerBankAccount, "info");
+                List<String> chargingManagerAccount = Arrays.asList(manager.getUserName(),manager.getPassword(),"deposit",amount,"-1",managerBankAccount,"info");
                 BankAPI.pay(chargingManagerAccount);
 
                 sender(token, MessageSupplier.RequestType.Deposit, SuccessOrFail.SUCCESS.toString(), requestHandler);
@@ -1319,7 +1346,7 @@ public class SendAndReceive {
                 account.getUserName() + "",
                 account.getPassword() + "",
                 account.getClass().getSimpleName(),
-                account.getPersonalInfo() == null ? null : account.getPersonalInfo().getList(),
+                account.getPersonalInfo().getList(),
                 account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
                 wallet
         );

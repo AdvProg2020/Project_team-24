@@ -71,8 +71,10 @@ public class Cart implements Initializable, SceneBuilder {
 
         cart = SendAndReceive.getCartByUserId(client.getClientInfo().getAccountId());
 
-        List<MiniProduct> list = SendAndReceive
-                .getAllProductOfUserCart(client.getClientInfo().getAccountId());
+        if (cart == null) return;
+
+        List<MiniProduct> list = SendAndReceive.getAllProductOfUserCart(cart.getId());
+
         cart_Table.setItems(FXCollections.observableList(list));
 
         setProductsName();
@@ -102,8 +104,8 @@ public class Cart implements Initializable, SceneBuilder {
         inc_dec_product.setCellValueFactory(param -> {
 
             MiniProduct value = param.getValue();
-            long sellerId = cart.getProductsId()
-                    .get(cart.getSellersId().indexOf(Long.parseLong(value.getProductId())));
+            long sellerId = cart.getSellersId()
+                    .get(cart.getProductsId().indexOf(Long.parseLong(value.getProductId())));
 
             HBox hBox = new HBox();
             Button increase = new Button("+");
