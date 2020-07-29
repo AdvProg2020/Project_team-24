@@ -40,14 +40,14 @@ public class ChatArea implements Initializable, SceneBuilder {
     private static YacGram yacGram;
     private static ChatRoom chatRoom;
 
-    static {
-        try {
-            MiniAccount miniAccount = SendAndReceive.getAccountById(SendAndReceive.getClient().getClientInfo().getAccountId());
-            yacGram = new YacGram(miniAccount, new Socket("localhost", Server.getQreGramPort()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    static {
+//        try {
+//            MiniAccount miniAccount = SendAndReceive.getAccountById(SendAndReceive.getClient().getClientInfo().getAccountId());
+//            yacGram = new YacGram(miniAccount, new Socket("localhost", Server.getQreGramPort()));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @FXML
     private TextArea mess_Area;

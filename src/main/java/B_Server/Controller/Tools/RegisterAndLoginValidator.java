@@ -39,7 +39,7 @@ public interface RegisterAndLoginValidator extends Supplier<RegisterAndLoginVali
     }
 
     static RegisterAndLoginValidator isPassword(String pass) {
-        return () -> pass.matches("^(\\w+)$")
+        return () -> pass.matches("^(\\w{6}\\w*)$")
                 ? RegisterValidation.IS_VALID : RegisterValidation.IS_NOT_A_VALID_PASS;
     }
 

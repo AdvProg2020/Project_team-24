@@ -298,9 +298,10 @@ public class SendAndReceive {
 
     private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {
         requestHandler.sendMessage(requestHandler.generateMessage(requestType, Arrays.asList(token, message)));
-        Matcher matcher = Pattern.compile("^FAIL/(.*)$").matcher(message);
+        Matcher matcher = Pattern.compile("^FAIL(.*)$").matcher(message);
         if (matcher.find()) managerController.getClientInfo().get().error();
-        else  managerController.getClientInfo().get().resetErrors();
+        else if (managerController.getClientInfo().get() != null)managerController.getClientInfo().get().resetErrors();
+        if (managerController.getClientInfo().get() != null) System.out.println("Num Of Error: " + managerController.getClientInfo().get().getNumOfError());
     }
 
     private static void GetOfferById(String token, List<String> inputs, RequestHandler requestHandler) {
@@ -335,7 +336,6 @@ public class SendAndReceive {
             offerById.getAuctioneersPrices().put(username, Double.parseDouble(newPrice));
         }
         sender(token, MessageSupplier.RequestType.addNewBuyerToOfferById, SuccessOrFail.SUCCESS.toString(), requestHandler);
-
     }
 
     private static void addNewSupporter(String token, List<String> inputs, RequestHandler requestHandler) {
