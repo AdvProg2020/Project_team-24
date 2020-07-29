@@ -279,6 +279,33 @@ public class SendAndReceive {
             case "GetAllProductOfCart":
                 getAllProductOfCart(newToken, inputs, requestHandler, newToken);
                 break;
+            case "addNewSupporter":
+                addNewSupporter(newToken, inputs, requestHandler);
+                break;
+        }
+    }
+
+    private static void addNewSupporter(String token, List<String> inputs, RequestHandler requestHandler) {
+
+        String username = inputs.get(0);
+        String password = inputs.get(1);
+
+        SignUpController signUpController = SignUpController.getInstance();
+        try {
+
+            synchronized (lockAddNewAccount) {
+                Account account = signUpController.creatTheBaseOfAccount("Seller", username);
+                signUpController.creatPasswordForAccount(account, password);
+                sender(token, MessageSupplier.RequestType.addNewSupporter, SuccessOrFail.SUCCESS.toString(), requestHandler);
+            }
+
+        } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException |
+                CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException |
+                PasswordInvalidException e) {
+
+            e.printStackTrace();
+            sender(token, MessageSupplier.RequestType.addNewSupporter,
+                    SuccessOrFail.FAIL + "/" + e.getClass().getSimpleName() + "/" + e.getMessage(), requestHandler);
         }
     }
 

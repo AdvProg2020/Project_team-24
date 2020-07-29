@@ -60,6 +60,7 @@ public class Payment implements Initializable, SceneBuilder {
         }
 
         chooseType.getItems().addAll(FXCollections.observableArrayList("کیف پول", "درگاه بانکی"));
+        chooseType.setValue("کیف پول");
 
         MediaPlayer value = new MediaPlayer(new Media(new File("src\\main\\resources\\Graphics\\Payment\\payment.mp4").toURI().toString()));
         paymentGif.setMediaPlayer(value);

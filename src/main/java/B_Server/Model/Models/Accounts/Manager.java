@@ -7,13 +7,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class Manager extends Account {
 
-    private static Double bankPropertyOfAllManagers;
+    private static double bankPropertyOfAllManagers;
 
-    public static Double getBankPropertyOfAllManagers() {
+    public static double getBankPropertyOfAllManagers() {
         return bankPropertyOfAllManagers;
     }
 
-    public static void setBankPropertyOfAllManagers(Double bankPropertyOfAllManagers) {
+    public static void setBankPropertyOfAllManagers(double bankPropertyOfAllManagers) {
         Manager.bankPropertyOfAllManagers = bankPropertyOfAllManagers;
     }
 

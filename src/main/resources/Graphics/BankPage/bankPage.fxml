@@ -7,74 +7,71 @@
 <?import javafx.scene.text.*?>
 
 <Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.Pages.bankPage">
-<AnchorPane prefHeight="745" prefWidth="1134">
-      <children>
-         <Label alignment="CENTER" layoutX="447.0" layoutY="14.0" prefHeight="89.0" prefWidth="269.0" text="(( درگاه بانکی ))">
-            <font>
-               <Font size="36.0" />
-            </font>
-         </Label>
-         <Label layoutX="701.0" layoutY="151.0" text="نام کاربری : ">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </Label>
-         <Label layoutX="708.0" layoutY="233.0" text="رمز عبور : ">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </Label>
-         <Label layoutX="740.0" layoutY="325.0" text="مبلغ :  ">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </Label>
-         <Label layoutX="705.0" layoutY="490.0" text="توضیحات :">
-            <font>
-               <Font size="24.0" />
-            </font>
-         </Label>
-         <TextField fx:id="username" alignment="CENTER" editable="false" layoutX="268.0" layoutY="140.0" prefHeight="45.0" prefWidth="298.0" promptText="نام کاربری" />
-         <TextField fx:id="password" alignment="CENTER" editable="false" layoutX="268.0" layoutY="233.0" prefHeight="45.0" prefWidth="298.0" promptText="رمز عبور" />
-         <Label fx:id="totalPrice" alignment="CENTER" layoutX="268.0" layoutY="325.0" prefHeight="40.0" prefWidth="298.0" text="\$$$$" />
-         <TextArea fx:id="description" layoutX="266.0" layoutY="442.0" prefHeight="132.0" prefWidth="301.0" />
-         <Separator layoutX="239.0" layoutY="401.0" prefHeight="1.0" prefWidth="685.0" />
-         <Button layoutX="482.0" layoutY="648.0" mnemonicParsing="false" onAction="#payButton" prefHeight="46.0" prefWidth="200.0" text="پرداخت" />
-         <Separator layoutX="239.0" layoutY="102.0" prefHeight="1.0" prefWidth="685.0" />
-         <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="705.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-bank-building-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="393.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-payment-history-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="837.0" layoutY="224.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-grand-master-key-48(1).png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="837.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-test-account-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="837.0" layoutY="316.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-cash-counter-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="705.0" layoutY="645.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-exchange-48.png" />
-            </image>
-         </ImageView>
-         <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="393.0" layoutY="645.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@icons8-exchange-48.png" />
-            </image>
-         </ImageView>
-      </children></AnchorPane>
+   <AnchorPane prefHeight="745" prefWidth="1134">
+      <Label alignment="CENTER" layoutX="447.0" layoutY="14.0" prefHeight="89.0" prefWidth="269.0"
+             text="(( درگاه بانکی ))">
+         <font>
+            <Font size="36.0"/>
+         </font>
+      </Label>
+      <Label layoutX="701.0" layoutY="151.0" text="نام کاربری : ">
+         <font>
+            <Font size="24.0"/>
+         </font>
+      </Label>
+      <Label layoutX="708.0" layoutY="233.0" text="رمز عبور : ">
+         <font>
+            <Font size="24.0"/>
+         </font>
+      </Label>
+      <Label layoutX="740.0" layoutY="325.0" text="مبلغ :  ">
+         <font>
+            <Font size="24.0"/>
+         </font>
+      </Label>
+      <Label layoutX="705.0" layoutY="490.0" text="توضیحات :">
+         <font>
+            <Font size="24.0"/>
+         </font>
+      </Label>
+      <TextField fx:id="username" alignment="CENTER" editable="false" layoutX="268.0" layoutY="140.0" prefHeight="45.0"
+                 prefWidth="298.0" promptText="نام کاربری"/>
+      <TextField fx:id="password" alignment="CENTER" editable="false" layoutX="268.0" layoutY="233.0" prefHeight="45.0"
+                 prefWidth="298.0" promptText="رمز عبور"/>
+      <Label fx:id="totalPrice" alignment="CENTER" layoutX="268.0" layoutY="325.0" prefHeight="40.0" prefWidth="298.0"
+             text="\$$$$"/>
+      <TextArea fx:id="description" layoutX="266.0" layoutY="442.0" prefHeight="132.0" prefWidth="301.0"/>
+      <Separator layoutX="239.0" layoutY="401.0" prefHeight="1.0" prefWidth="685.0"/>
+      <Button layoutX="482.0" layoutY="648.0" mnemonicParsing="false" onAction="#payButton" prefHeight="46.0"
+              prefWidth="200.0" text="پرداخت"/>
+      <Separator layoutX="239.0" layoutY="102.0" prefHeight="1.0" prefWidth="685.0"/>
+      <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="705.0" layoutY="32.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-bank-building-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="393.0" layoutY="32.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-payment-history-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="837.0" layoutY="224.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-grand-master-key-48(1).png"/>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="837.0" layoutY="136.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-test-account-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="837.0" layoutY="316.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-cash-counter-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="705.0" layoutY="645.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-exchange-48.png"/>
+      </ImageView>
+      <ImageView fitHeight="54.0" fitWidth="56.0" layoutX="393.0" layoutY="645.0" pickOnBounds="true"
+                 preserveRatio="true">
+         <Image url="@icons8-exchange-48.png"/>
+      </ImageView>
+   </AnchorPane>
 </Scene>

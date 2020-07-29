@@ -87,42 +87,45 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
 
 
     private List<ProductLog> paymentByBankAccount(List<String> list) throws ProductDoesNotExistException, AccountDoesNotExistException, SellerDoesNotSellOfThisProduct, NotEnoughCreditException {
-        //...
+
         String username = clientInfo.get().getAccount().getUserName();
         String password = clientInfo.get().getAccount().getPassword();
         List<String> balanceCheckList = Arrays.asList(username, password);
         try {
-            Long balance = Long.valueOf(BankAPI.getBalance(balanceCheckList));
-            if (balance >= showTotalPrice()) {
-                List<ProductLog> productLogs = new ArrayList<>();
-                List<Product> listOfProduct = this.showProducts();
-                List<Long> listOfSellers = viewCart().getProductSellers();
-                for (int i = 0; i < showProducts().size(); i++) {
-                    Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
-                    Product product = listOfProduct.get(i);
-                    product.addBuyer(clientInfo.get().getAccount().getId());
-                    double productPrice = product.getProductOfSellerById(listOfSellers.get(i)).getPrice();
-                    double productAuctionAmount = product.getAuction() == null ? 0 : product.getAuction().getAuctionDiscount(productPrice);
-                    double productFinalPrice = productPrice - productAuctionAmount;
 
-                    productLogs.add(new ProductLog(product.getId(), product.getName(), productPrice, productAuctionAmount, productFinalPrice));
+            long balance = Long.parseLong(BankAPI.getBalance(balanceCheckList));
 
-                    String clientBankId = String.valueOf(clientInfo.get().getAccount().getPersonalInfo().getList().getFieldByName("bank_accountId"));
-                    String sellerBankId = String.valueOf(seller.getPersonalInfo().getList().getFieldByName("bank_accountId"));
-                    String sellerMovePrice = String.valueOf(productFinalPrice * (100 - Wage.getWagePercentage()) / 100);
-                    List<String> customerToSellerMoveList = Arrays.asList(clientInfo.get().getAccount().getUserName(),
-                            clientInfo.get().getAccount().getPassword(), "move", sellerMovePrice, clientBankId, sellerBankId, list.get(4));
-                    BankAPI.pay(customerToSellerMoveList);
-                    String managerBankId = String.valueOf(Manager.getList().get(0).getPersonalInfo().getList().getFieldByName("bank_accountId"));
-                    String managerMovePrice = String.valueOf(productFinalPrice * Wage.getWagePercentage() / 100);
-                    List<String> customerToManagerMoveList = Arrays.asList(clientInfo.get().getAccount().getUserName(),
-                            clientInfo.get().getAccount().getPassword(), "move", managerMovePrice, clientBankId, managerBankId, list.get(4));
-                    BankAPI.pay(customerToManagerMoveList);
-                }
-                return productLogs;
-
-            } else
+            if (!(balance >= showTotalPrice())) {
                 throw new NotEnoughCreditException("NotEnoughCreditException");
+            }
+
+            List<ProductLog> productLogs = new ArrayList<>();
+            List<Product> listOfProduct = this.showProducts();
+            List<Long> listOfSellers = viewCart().getProductSellers();
+            for (int i = 0; i < showProducts().size(); i++) {
+                Seller seller = (Seller) Account.getAccountById(listOfSellers.get(i));
+                Product product = listOfProduct.get(i);
+                product.addBuyer(clientInfo.get().getAccount().getId());
+                double productPrice = product.getProductOfSellerById(listOfSellers.get(i)).getPrice();
+                double productAuctionAmount = product.getAuction() == null ? 0 : product.getAuction().getAuctionDiscount(productPrice);
+                double productFinalPrice = productPrice - productAuctionAmount;
+
+                productLogs.add(new ProductLog(product.getId(), product.getName(), productPrice, productAuctionAmount, productFinalPrice));
+
+                String clientBankId = String.valueOf(clientInfo.get().getAccount().getPersonalInfo().getList().getFieldByName("bank_accountId"));
+                String sellerBankId = String.valueOf(seller.getPersonalInfo().getList().getFieldByName("bank_accountId"));
+                String sellerMovePrice = String.valueOf(productFinalPrice * (100 - Wage.getWagePercentage()) / 100);
+                List<String> customerToSellerMoveList = Arrays.asList(clientInfo.get().getAccount().getUserName(),
+                        clientInfo.get().getAccount().getPassword(), "move", sellerMovePrice, clientBankId, sellerBankId, list.get(4));
+                BankAPI.pay(customerToSellerMoveList);
+                String managerBankId = String.valueOf(Manager.getList().get(0).getPersonalInfo().getList().getFieldByName("bank_accountId"));
+                String managerMovePrice = String.valueOf(productFinalPrice * Wage.getWagePercentage() / 100);
+                List<String> customerToManagerMoveList = Arrays.asList(clientInfo.get().getAccount().getUserName(),
+                        clientInfo.get().getAccount().getPassword(), "move", managerMovePrice, clientBankId, managerBankId, list.get(4));
+                BankAPI.pay(customerToManagerMoveList);
+            }
+            return productLogs;
+
 
         } catch (IOException | FieldDoesNotExistException e) {
             e.printStackTrace();
@@ -236,7 +239,12 @@ public class BuyerController extends LocalClientInfo implements AccountControlle
     public LogHistory buyProductsOfCart(List<String> list) throws NotEnoughCreditException, AccountDoesNotExistException, ProductDoesNotExistException, SellerDoesNotSellOfThisProduct {
         Customer customer = ((Customer) clientInfo.get().getAccount());
         if (list.isEmpty()) checkEnoughCredit();
-        List<ProductLog> productLogs = list.isEmpty() ? paymentByBalance() : paymentByBankAccount(list);
+        List<ProductLog> productLogs;
+        if (list.isEmpty()) {
+            productLogs = paymentByBalance();
+        } else
+            productLogs = paymentByBankAccount(list);
+
         return buyMethod(customer, productLogs);
     }
 

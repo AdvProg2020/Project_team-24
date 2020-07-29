@@ -2,6 +2,7 @@ package A_Client.Graphics.Pages;
 
 import A_Client.Client.Client;
 import A_Client.Client.SendAndReceive.SendAndReceive;
+import A_Client.Graphics.MainMenu;
 import A_Client.Graphics.Tools.SceneBuilder;
 import Structs.MiniAccount;
 import Structs.MiniCart;
@@ -9,6 +10,7 @@ import Structs.MiniLogHistory;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -50,7 +52,21 @@ public class bankPage implements SceneBuilder, Initializable {
                 "move", totalPrice.toString(), description.getText());
 
         MiniLogHistory payWithBankAccount = SendAndReceive.Purchase(list);
+
+        if (payWithBankAccount == null) {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You ... can't!");
+            alert.showAndWait();
+        }
+
         PaymentInformation.setLogHistory(payWithBankAccount);
+
+        goMainMenu();
+    }
+
+    private void goMainMenu() {
+        MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
     }
 
     @Override

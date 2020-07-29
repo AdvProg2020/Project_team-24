@@ -2,17 +2,17 @@ package B_Server.Controller.Controllers.LoginaAndRegister;
 
 import B_Server.Controller.Tools.LocalClientInfo;
 import B_Server.Controller.Tools.RegisterAndLoginValidator;
-import B_Server.Model.Models.Accounts.Supporter;
-import Exceptions.*;
+import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 import B_Server.Model.Models.Account;
 import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Manager;
 import B_Server.Model.Models.Accounts.Seller;
+import B_Server.Model.Models.Accounts.Supporter;
 import B_Server.Model.Models.Cart;
+import B_Server.Model.Models.Info;
+import Exceptions.*;
 import Structs.FieldAndFieldList.Field;
 import Structs.FieldAndFieldList.FieldList;
-import B_Server.Model.Models.Info;
-import B_Server.Controller.Tools.RegisterAndLoginValidator.RegisterValidation;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class SignUpController extends LocalClientInfo {
             case "Customer":
                 account = new Customer(username);
                 break;
-            case "Supporter" :
+            case "Supporter":
                 account = new Supporter(username);
                 break;
             default:
@@ -78,7 +78,7 @@ public class SignUpController extends LocalClientInfo {
 
         account.setPassword(password);
 
-        if ( account instanceof Supporter) {
+        if (account instanceof Supporter) {
             Account.addAccount(account);
             finishRegistering(account);
         }
@@ -113,12 +113,12 @@ public class SignUpController extends LocalClientInfo {
 
         account.setPersonalInfo(info);
 
-        if ( account instanceof Manager) {
+        if (account instanceof Manager) {
             Account.addAccount(account);
             finishRegistering(account);
         }
 
-        if ( account instanceof Customer) {
+        if (account instanceof Customer) {
             ((Customer) account).setCart(Cart.autoCreateCart());
             Account.addAccount(account);
             finishRegistering(account);
@@ -148,7 +148,7 @@ public class SignUpController extends LocalClientInfo {
 
         Info info = new Info(account.getClass().getSimpleName(), companyInfo, LocalDate.now());
 
-        ((Seller)account).setCompanyInfo(info);
+        ((Seller) account).setCompanyInfo(info);
 
         finishRegistering(account);
 
