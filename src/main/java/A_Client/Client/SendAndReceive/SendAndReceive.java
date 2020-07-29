@@ -212,7 +212,12 @@ public class SendAndReceive implements MessagePattern {
 
     public static void setMedias(File image, File movie, File file) {
         client.sendAndReceive(MessageSupplier.RequestType.SetMediasOfProduct,
-                Collections.singletonList(client.getClientInfo().getToken()));
+                Arrays.asList(
+                        client.getClientInfo().getToken(),
+                        image == null ? "N" : "R",
+                        movie == null ? "N" : "R",
+                        file  == null ? "N" : "R"
+                ));
         try {
 
             client.sendFile(image);

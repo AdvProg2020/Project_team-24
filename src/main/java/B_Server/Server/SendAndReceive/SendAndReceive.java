@@ -238,7 +238,7 @@ public class SendAndReceive {
                 getCodeById(newToken, inputs, requestHandler);
                 break;
             case "SetMediasOfProduct":
-                setMediasOfProduct(newToken, requestHandler);
+                setMediasOfProduct(newToken, requestHandler, inputs);
                 break;
             case "GetAllProductsPrime":
                 getAllProducts(newToken, request, requestHandler,
@@ -583,7 +583,7 @@ public class SendAndReceive {
         }
     }
 
-    private static void setMediasOfProduct(String token, RequestHandler requestHandler) {
+    private static void setMediasOfProduct(String token, RequestHandler requestHandler, List<String> inputs) {
 
         sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
                 SuccessOrFail.CONNECT.toString(), requestHandler);
@@ -592,21 +592,29 @@ public class SendAndReceive {
         Medias.addMedia(medias);
 
         try {
+            String path;
 
-            String path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images", ".jpg");
-            sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
-                    SuccessOrFail.SUCCESS.toString(), requestHandler);
-            medias.setImageSrc(path);
+            if (inputs.get(0).equals("R")) {
+                path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Images", ".jpg");
+                sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
+                        SuccessOrFail.SUCCESS.toString(), requestHandler);
+                medias.setImageSrc(path);
+            }
 
-            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies", ".mp4");
-            sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
-                    SuccessOrFail.SUCCESS.toString(), requestHandler);
-            medias.setMediaSrc(path);
+            if (inputs.get(0).equals("R")) {
 
-            path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/File", ".txt");
-            sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
-                    SuccessOrFail.SUCCESS.toString(), requestHandler);
-            medias.setFileSrc(path);
+                path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/Movies", ".mp4");
+                sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
+                        SuccessOrFail.SUCCESS.toString(), requestHandler);
+                medias.setMediaSrc(path);
+            }
+            if (inputs.get(0).equals("R")) {
+
+                path = file_write(requestHandler, medias, "src/main/resources/DataBase/MediasContent-src/File", ".txt");
+                sender(token, MessageSupplier.RequestType.SetMediasOfProduct,
+                        SuccessOrFail.SUCCESS.toString(), requestHandler);
+                medias.setFileSrc(path);
+            }
 
             sellerController.saveProductMedias(medias);
 

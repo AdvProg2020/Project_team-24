@@ -23,7 +23,7 @@ public class OffersMenu implements SceneBuilder {
     @Override
     public Scene sceneBuilder() {
         try {
-            return FXMLLoader.load(new File("C:\\Users\\ASUS\\IdeaProjects\\Project_team-24\\src\\main\\resources\\Graphics\\Offer\\OffersPage.fxml").toURI().toURL());
+            return FXMLLoader.load(new File("src/main/resources/Graphics/Offer/OffersPage.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);
