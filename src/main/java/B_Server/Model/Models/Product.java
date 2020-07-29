@@ -34,6 +34,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
     private double averageScore;
     private String stateForPend;
     private long mediaId;
+    private double init_Price;
     private List<ProductOfSeller> sellersOfProduct;
     private List<Long> scoreList = new ArrayList<>();
     private List<Long> buyerList = new ArrayList<>();
@@ -182,6 +183,14 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
 
     /**************************************************addAndRemove*****************************************************/
 
+    public void setInit_Price(double init_Price) {
+        this.init_Price = init_Price;
+    }
+
+    public double getInit_Price() {
+        return init_Price;
+    }
+
     public void increaseNumberOfVisitors() {
         numberOfVisitors++;
         DataBase.save(this);
@@ -322,6 +331,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
                 .addField(sellersOfProduct)
                 .addField(mediaId)
                 .addField(offer == null ? 0 : offer.getId())
+                .addField(init_Price)
                 .setInstance(new Product());
     }
 
@@ -342,6 +352,7 @@ public class Product implements Packable<Product>, ForPend, Filterable, Cloneabl
         this.sellersOfProduct = (List<ProductOfSeller>) data.getFields().get(12);
         this.mediaId = (long) data.getFields().get(13);
         this.offer = Offer.getOfferById((long) data.getFields().get(14));
+        this.init_Price = (double) data.getFields().get(15);
         return this;
     }
 

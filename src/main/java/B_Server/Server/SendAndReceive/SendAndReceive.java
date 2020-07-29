@@ -59,6 +59,7 @@ public class SendAndReceive {
     private final static Object lockProductCreating = new Object();
     private final static Object lockAddDiscountCode = new Object();
     private final static Object lockAddCommentToPro = new Object();
+    private final static Object lockAddNewOfferPrice = new Object();
 
     public static void messageAnalyser(@NotNull String token, String request, List<String> inputs, RequestHandler requestHandler) {
 
@@ -282,7 +283,28 @@ public class SendAndReceive {
             case "addNewSupporter":
                 addNewSupporter(newToken, inputs, requestHandler);
                 break;
+            case "addNewBuyerToOfferById":
+                addNewBuyerToOfferById(newToken, inputs, requestHandler);
         }
+    }
+
+    private static void addNewBuyerToOfferById(String token, List<String> inputs, RequestHandler requestHandler) {
+
+        String offer_Id = inputs.get(0);
+        String username = inputs.get(1);
+        String newPrice = inputs.get(2);
+
+        Offer offerById = Offer.getOfferById(Long.parseLong(offer_Id));
+        synchronized (lockAddNewOfferPrice) {
+
+            if (offerById == null) {
+                sender(token, MessageSupplier.RequestType.addNewBuyerToOfferById, SuccessOrFail.FAIL + "/OfferId invalid...", requestHandler);
+                return;
+            }
+            offerById.getAuctioneersPrices().put(username, Double.parseDouble(newPrice));
+        }
+        sender(token, MessageSupplier.RequestType.addNewBuyerToOfferById, SuccessOrFail.SUCCESS.toString(), requestHandler);
+
     }
 
     private static void addNewSupporter(String token, List<String> inputs, RequestHandler requestHandler) {
@@ -296,8 +318,8 @@ public class SendAndReceive {
             synchronized (lockAddNewAccount) {
                 Account account = signUpController.creatTheBaseOfAccount("Seller", username);
                 signUpController.creatPasswordForAccount(account, password);
-                sender(token, MessageSupplier.RequestType.addNewSupporter, SuccessOrFail.SUCCESS.toString(), requestHandler);
             }
+            sender(token, MessageSupplier.RequestType.addNewSupporter, SuccessOrFail.SUCCESS.toString(), requestHandler);
 
         } catch (UserNameInvalidException | UserNameTooShortException | TypeInvalidException |
                 CanNotCreatMoreThanOneMangerBySignUp | ThisUserNameAlreadyExistsException |

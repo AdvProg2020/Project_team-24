@@ -1,6 +1,7 @@
 package B_Server.Model.Models;
 
 import B_Server.Model.DataBase.DataBase;
+import B_Server.Model.Models.Accounts.Customer;
 import B_Server.Model.Models.Accounts.Seller;
 import B_Server.Model.Models.Data.Data;
 import B_Server.Model.Tools.AddingNew;
@@ -26,7 +27,39 @@ public class Offer implements Packable<Offer> {
         service.scheduleAtFixedRate(Offer::DeleteExpiredOffers, 0, 12, TimeUnit.HOURS);
     }
 
+    private static ThreadLocal<String> bestOffer_User = new ThreadLocal<>();
+    private static ThreadLocal<Double> bestOfferPrice = new ThreadLocal<>();
+
     private static void DeleteExpiredOffers() {
+        list.forEach(offer -> {
+
+            if (!offer.getEndTm().isAfter(LocalDate.now())) return;
+
+            Map<String, Double> auctioneersPrices = offer.getAuctioneersPrices();
+            auctioneersPrices.forEach((key, value) -> {
+
+                if(bestOfferPrice.get() < value) {
+                    bestOffer_User.set(key);
+                    bestOfferPrice.set(value);
+                }
+            });
+
+            try {
+
+                offer.getProduct().setInit_Price(offer.getProduct().getProductOfSellerById(offer.getSeller().getId()).getPrice());
+                offer.getProduct().getProductOfSellerById(offer.getSeller().getId()).setPrice(bestOfferPrice.get());
+                Customer customer = (Customer) Account.getAccountByUserName(bestOffer_User.get());
+                customer.getCart().addProductToCart(offer.getSeller().getId(),
+                        offer.getProduct().getId());
+
+                DataBase.save(customer.getCart());
+                DataBase.save(offer.getProduct());
+
+            } catch (AccountDoesNotExistException | SellerDoesNotSellOfThisProduct ignore) { }
+
+            bestOfferPrice.set(0D);
+        });
+
         list.removeIf(offer -> offer.getEndTm().isAfter(LocalDate.now()));
     }
 
@@ -42,7 +75,8 @@ public class Offer implements Packable<Offer> {
     private Map<String, Double> auctioneersPrices = new HashMap<>();
 
     public static Offer getOfferById(long offerId) {
-        return list.stream().filter(offer -> offer.getId() == offerId).findFirst().orElse(null);
+        return list.stream().filter(offer -> offer.getId() == offerId)
+                .findFirst().orElse(null);
     }
 
     private void setOfferId(long offerId) {
@@ -88,11 +122,6 @@ public class Offer implements Packable<Offer> {
             list.add(offer);
             DataBase.save(offer, true);
         }
-    }
-
-    public static void removeOffer(Offer offer) {
-        list.removeIf(off -> off.getId() == offer.getId());
-        DataBase.remove(offer);
     }
 
     @Override
