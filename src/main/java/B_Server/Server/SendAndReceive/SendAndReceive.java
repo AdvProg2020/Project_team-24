@@ -41,6 +41,10 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -63,7 +67,30 @@ public class SendAndReceive {
     private final static Object lockAddCommentToPro = new Object();
     private final static Object lockAddNewOfferPrice = new Object();
 
-    public static void messageAnalyser(@NotNull String token, String request, List<String> inputs, RequestHandler requestHandler) {
+    private static ThreadLocal<Integer> numOfMessageInMin = new ThreadLocal<>();
+    private static ThreadLocal<CountDownLatch> latch = new ThreadLocal<>();
+
+    static {
+        resetNumOfMess();
+        // numOfMessageInMin: At the time of sending the answer, this has increase
+        resetLatch();
+        ScheduledExecutorService resetService = Executors.newSingleThreadScheduledExecutor();
+        resetService.scheduleAtFixedRate(SendAndReceive::resetNumOfMess, 0, 1, TimeUnit.MINUTES);
+    }
+    private static void resetNumOfMess() {
+        numOfMessageInMin.set(0);
+        latch.get().countDown();
+    }
+    private static void resetLatch() {
+        latch.set(new CountDownLatch(1));
+    }
+
+    public static void messageAnalyser(@NotNull String token, String request, List<String> inputs, RequestHandler requestHandler) throws InterruptedException {
+
+        if (numOfMessageInMin.get() > 100) {
+            latch.wait();
+            resetLatch();
+        }
 
         if (token.equals("@") && request.equals("GetToken")) {
             OnlineNewClient(requestHandler);
@@ -300,8 +327,9 @@ public class SendAndReceive {
         requestHandler.sendMessage(requestHandler.generateMessage(requestType, Arrays.asList(token, message)));
         Matcher matcher = Pattern.compile("^FAIL(.*)$").matcher(message);
         if (matcher.find()) managerController.getClientInfo().get().error();
-        else if (managerController.getClientInfo().get() != null)managerController.getClientInfo().get().resetErrors();
-        if (managerController.getClientInfo().get() != null) System.out.println("Num Of Error: " + managerController.getClientInfo().get().getNumOfError());
+        else if (managerController.getClientInfo().get() != null) managerController.getClientInfo().get().resetErrors();
+        Integer integer = numOfMessageInMin.get();
+        numOfMessageInMin.set(integer + 1);
     }
 
     private static void GetOfferById(String token, List<String> inputs, RequestHandler requestHandler) {
