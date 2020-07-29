@@ -91,17 +91,17 @@ public class SignUp implements SceneBuilder, Initializable {
 
     public void goLogin() {
         MainMenu.change(new Login().sceneBuilder());
-        state = false;
+        state = true;
     }
 
     public void goMainMenu() {
         MainMenu.getPrimaryStage().setScene(new MainMenu().sceneBuilder());
-        state = false;
+        state = true;
     }
 
     public void back() {
         MainMenu.change(new SignUp().sceneBuilder());
-        state = false;
+        state = true;
     }
 
     public void goNext() {

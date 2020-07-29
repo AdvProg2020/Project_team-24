@@ -13,6 +13,20 @@ public class InstantInfo {
     private DiscountCode code;
     private Category category;
     private LocalTime tmo;
+    private Offer offer;
+    private int numOfError;
+
+    public void resetErrors() {
+        numOfError = 0;
+    }
+
+    public void error() {
+        numOfError++;
+    }
+
+    public int getNumOfError() {
+        return numOfError;
+    }
 
     public String getMy_Token() {
         return my_Token;
@@ -36,6 +50,14 @@ public class InstantInfo {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Offer getOffer() {
+        return offer;
+    }
+
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 
     public Product getProduct() {

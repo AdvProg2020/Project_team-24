@@ -41,6 +41,8 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SendAndReceive {
@@ -285,7 +287,36 @@ public class SendAndReceive {
                 break;
             case "addNewBuyerToOfferById":
                 addNewBuyerToOfferById(newToken, inputs, requestHandler);
+                break;
+            case "SetCurrentOffer":
+                SetCurrentOffer(newToken, inputs, requestHandler);
+                break;
+            case "GetOfferById":
+                GetOfferById(newToken, inputs, requestHandler);
         }
+    }
+
+    private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {
+        requestHandler.sendMessage(requestHandler.generateMessage(requestType, Arrays.asList(token, message)));
+        Matcher matcher = Pattern.compile("^FAIL/(.*)$").matcher(message);
+        if (matcher.find()) managerController.getClientInfo().get().error();
+        else  managerController.getClientInfo().get().resetErrors();
+    }
+
+    private static void GetOfferById(String token, List<String> inputs, RequestHandler requestHandler) {
+        Offer offer = Offer.getOfferById(Long.parseLong(inputs.get(0)));
+        sender(token, MessageSupplier.RequestType.GetOfferById, yaGson.toJson(getMiniOffer(offer)), requestHandler);
+    }
+
+    private static void SetCurrentOffer(String token, List<String> inputs, RequestHandler requestHandler) {
+
+        Offer offer = Offer.getOfferById(Long.parseLong(inputs.get(0)));
+        if (offer == null) {
+            sender(token, MessageSupplier.RequestType.SetCurrentOffer, SuccessOrFail.FAIL + "/Offer Not Exist...", requestHandler);
+            return;
+        }
+        managerController.getClientInfo().get().setOffer(offer);
+        sender(token, MessageSupplier.RequestType.SetCurrentOffer, SuccessOrFail.SUCCESS.toString(), requestHandler);
     }
 
     private static void addNewBuyerToOfferById(String token, List<String> inputs, RequestHandler requestHandler) {
@@ -316,7 +347,7 @@ public class SendAndReceive {
         try {
 
             synchronized (lockAddNewAccount) {
-                Account account = signUpController.creatTheBaseOfAccount("Seller", username);
+                Account account = signUpController.creatTheBaseOfAccount("Supporter", username);
                 signUpController.creatPasswordForAccount(account, password);
             }
             sender(token, MessageSupplier.RequestType.addNewSupporter, SuccessOrFail.SUCCESS.toString(), requestHandler);
@@ -382,6 +413,7 @@ public class SendAndReceive {
     @NotNull
     private static MiniOffer getMiniOffer(Offer offer) {
         return new MiniOffer(
+                offer.getId() + "",
                 offer.getProduct().getName(),
                 offer.getProduct().getId() + "",
                 offer.getSeller().getId(),
@@ -636,10 +668,6 @@ public class SendAndReceive {
         OutputStream outputStream = new FileOutputStream(file);
         requestHandler.receiveByteArray(outputStream);
         return pathname;
-    }
-
-    private static void sender(String token, MessageSupplier.RequestType requestType, String message, @NotNull RequestHandler requestHandler) {
-        requestHandler.sendMessage(requestHandler.generateMessage(requestType, Arrays.asList(token, message)));
     }
 
     private static void sendToken(String token, @NotNull RequestHandler requestHandler) {
@@ -1419,7 +1447,7 @@ public class SendAndReceive {
                 account.getUserName() + "",
                 account.getPassword() + "",
                 account.getClass().getSimpleName(),
-                account.getPersonalInfo().getList(),
+                account.getPersonalInfo() == null ? null : account.getPersonalInfo().getList(),
                 account instanceof Seller ? ((Seller) account).getCompanyInfo().getList() : null,
                 wallet
         );

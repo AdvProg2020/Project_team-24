@@ -57,7 +57,7 @@ public class OfferCart implements Initializable {
     }
 
     private void setCurrentOffer(MiniOffer miniOffer) {
-        SendAndReceive.setCurrentOffer(miniOffer.getProductId());
+        SendAndReceive.setCurrentOffer(miniOffer.getOfferId());
         client.getClientInfo().setProductId(miniOffer.getProductId());
     }
 

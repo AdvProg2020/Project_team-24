@@ -62,7 +62,7 @@ public class Offer implements Initializable, SceneBuilder {
 
         if (productObject == null) return;
 
-        if (client.getClientInfo().getAccountTy().equals("Customer")) {
+        if (client.getClientInfo().getAccountTy() != null && client.getClientInfo().getAccountTy().equals("Customer")) {
             submit_btn.setDisable(false);
             price.setDisable(false);
         }

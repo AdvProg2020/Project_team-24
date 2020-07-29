@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class MiniOffer {
+    private final String offerId;
     private final String productName;
     private final String productId;
     private final Long sellerId;
@@ -22,6 +23,10 @@ public class MiniOffer {
         return sellerId;
     }
 
+    public String getOfferId() {
+        return offerId;
+    }
+
     public Map<String, Double> getAuctioneersPrices() {
         return auctioneersPrices;
     }
@@ -30,7 +35,8 @@ public class MiniOffer {
         return start;
     }
 
-    public MiniOffer(String productName, String productId, Long sellerId, Map<String, Double> auctioneersPrices, LocalDate start) {
+    public MiniOffer(String offerId, String productName, String productId, Long sellerId, Map<String, Double> auctioneersPrices, LocalDate start) {
+        this.offerId = offerId;
         this.productName = productName;
         this.productId = productId;
         this.sellerId = sellerId;

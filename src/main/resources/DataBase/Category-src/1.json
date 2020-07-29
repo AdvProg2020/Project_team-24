@@ -1,1 +1,1 @@
-{"@type":"B_Server.Model.Models.Data.Data","@val":{"instance":{"@type":"B_Server.Model.Models.Category","@val":{"lock":{},"categoryId":0,"productList":[]}},"fields":[1,"Glich",{"@type":"Structs.FieldAndFieldList.FieldList","@val":{"fieldList":[{"fieldName":"Punch"}]}},[],[]]}}
+{"@type":"B_Server.Model.Models.Data.Data","@val":{"instance":{"@type":"B_Server.Model.Models.Category","@val":{"lock":{},"categoryId":0,"productList":[]}},"fields":[1,"Glich_1",{"@type":"Structs.FieldAndFieldList.FieldList","@val":{"fieldList":[{"fieldName":"Punch"}]}},[0,0,2,1],[]]}}

@@ -216,21 +216,28 @@ public class SendAndReceive implements MessagePattern {
                         client.getClientInfo().getToken(),
                         image == null ? "N" : "R",
                         movie == null ? "N" : "R",
-                        file  == null ? "N" : "R"
+                        file == null ? "N" : "R"
                 ));
         try {
 
-            client.sendFile(image);
-            List<String> readMessage = client.readMessage(client.receiveMessage());
-            client.getClientInfo().setToken(readMessage.get(0));
+            List<String> readMessage;
 
-            client.sendFile(movie);
-            readMessage = client.readMessage(client.receiveMessage());
-            client.getClientInfo().setToken(readMessage.get(0));
+            if (image != null) {
+                client.sendFile(image);
+                readMessage = client.readMessage(client.receiveMessage());
+                client.getClientInfo().setToken(readMessage.get(0));
+            }
 
-            client.sendFile(file);
-            readMessage = client.readMessage(client.receiveMessage());
-            client.getClientInfo().setToken(readMessage.get(0));
+            if (movie != null) {
+                client.sendFile(movie);
+                readMessage = client.readMessage(client.receiveMessage());
+                client.getClientInfo().setToken(readMessage.get(0));
+            }
+            if (file != null) {
+                client.sendFile(file);
+                readMessage = client.readMessage(client.receiveMessage());
+                client.getClientInfo().setToken(readMessage.get(0));
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

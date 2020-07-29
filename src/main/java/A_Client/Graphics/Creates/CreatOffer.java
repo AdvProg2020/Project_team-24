@@ -32,7 +32,7 @@ public class CreatOffer implements SceneBuilder {
     @Override
     public Scene sceneBuilder() {
         try {
-            return FXMLLoader.load(new File("C:\\Users\\ASUS\\IdeaProjects\\Project_team-24\\src\\main\\resources\\Graphics\\Offer\\CreateOffer.fxml").toURI().toURL());
+            return FXMLLoader.load(new File("src\\main\\resources\\Graphics\\Offer\\CreateOffer.fxml").toURI().toURL());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(0);

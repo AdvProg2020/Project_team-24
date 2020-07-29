@@ -166,6 +166,8 @@ public class SellerController extends LocalClientInfo implements AccountControll
         LocalDate end = LocalDate.parse(strEnd, formatter);
         Offer offer = new Offer(product, start, end, seller);
         Offer.addOffer(offer);
+        product.setOffer(offer);
+        DataBase.save(product);
     }
 
     public void addProductsToAuction(@NotNull Auction auction, @NotNull List<String> productIdsString) throws ProductDoesNotExistException, ProductCantBeInMoreThanOneAuction, NumberFormatException {

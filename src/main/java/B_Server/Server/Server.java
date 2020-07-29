@@ -1,7 +1,6 @@
 package B_Server.Server;
 
 import B_Server.Bank.BankAPI;
-import B_Server.ChatServer.QreGram;
 import B_Server.Model.ModelUnit;
 import B_Server.Server.InstantInfo.InstantInfo;
 import B_Server.Server.RequestHandler.RequestHandler;
@@ -26,7 +25,7 @@ public class Server extends Thread {
     private static final List<InstantInfo> clients = new ArrayList<>();
     private final ServerSocket mineServer = new ServerSocket(0);
     private static final Scanner scanner = new Scanner(System.in);
-    private static int qreGramPort;
+//    private static int qreGramPort;
 
     static {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
@@ -35,7 +34,9 @@ public class Server extends Thread {
 
     private static void checkClient() {
         clients.removeIf(instantInfo ->
-                ChronoUnit.MINUTES.between(instantInfo.getTmo(), LocalTime.now()) > 5);
+                ChronoUnit.MINUTES.between(instantInfo.getTmo(), LocalTime.now()) > 5 ||
+                        instantInfo.getNumOfError() > 10
+        );
     }
 
     public Server() throws IOException {
@@ -63,9 +64,9 @@ public class Server extends Thread {
         return mineServer;
     }
 
-    public static int getQreGramPort() {
-        return qreGramPort;
-    }
+//    public static int getQreGramPort() {
+//        return qreGramPort;
+//    }
 
     @Override
     public void run() {
@@ -98,17 +99,17 @@ public class Server extends Thread {
             e.printStackTrace();
         }
 
-        while (true) try {
-            QreGram qreGram = new QreGram();
-            qreGram.start();
-            ServerSocket serverSocket = qreGram.getServerSocket();
-            qreGramPort = serverSocket.getLocalPort();
-            System.out.println("QreGram: Host/" + serverSocket.getInetAddress().getHostName()
-                    + " Port/" + serverSocket.getLocalPort());
-            break;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        while (true) try {
+//            QreGram qreGram = new QreGram();
+//            qreGram.start();
+//            ServerSocket serverSocket = qreGram.getServerSocket();
+//            qreGramPort = serverSocket.getLocalPort();
+//            System.out.println("QreGram: Host/" + serverSocket.getInetAddress().getHostName()
+//                    + " Port/" + serverSocket.getLocalPort());
+//            break;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         while (true) try {
             Server server = new Server();

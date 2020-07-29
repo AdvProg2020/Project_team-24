@@ -1,0 +1,1 @@
+{"@type":"B_Server.Model.Models.Data.Data","@val":{"instance":{"@type":"B_Server.Model.Models.Accounts.Supporter","@val":{"lock":{},"mediaId":0,"id":0,"wallet":{"balance":0.0,"minBalance":0.0}}},"fields":[4,"Poshtiban","1",null,0]}}
