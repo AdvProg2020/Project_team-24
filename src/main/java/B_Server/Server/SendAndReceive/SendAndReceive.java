@@ -71,9 +71,9 @@ public class SendAndReceive {
     private static ThreadLocal<CountDownLatch> latch = new ThreadLocal<>();
 
     static {
-        resetNumOfMess();
-        // numOfMessageInMin: At the time of sending the answer, this has increase
         resetLatch();
+        // numOfMessageInMin: At the time of sending the answer, this has increase
+        resetNumOfMess();
         ScheduledExecutorService resetService = Executors.newSingleThreadScheduledExecutor();
         resetService.scheduleAtFixedRate(SendAndReceive::resetNumOfMess, 0, 1, TimeUnit.MINUTES);
     }

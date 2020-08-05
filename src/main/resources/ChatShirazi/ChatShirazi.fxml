@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="A_Client.Graphics.MainMenu">
+
+    <BorderPane fx:id="changeable" prefHeight="1000.0" prefWidth="2000.0">
+        <top>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="240.0" prefWidth="2000.0" styleClass="base1">
+                <stylesheets>
+                    <URL value="@MainMenu.css" />
+                </stylesheets>
+                <MenuButton fx:id="category_select" alignment="CENTER_RIGHT" layoutX="1225.0" layoutY="148.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="170.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="دسته بندی کالا ها" textFill="#646363">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </MenuButton>
+                <ImageView fitHeight="600.0" fitWidth="471.0" layoutX="1423.0" layoutY="-91.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@1.png" />
+                </ImageView>
+                <Button fx:id="userArea_btn" alignment="CENTER" disable="true" layoutX="496.0" layoutY="149.0" mnemonicParsing="false" onAction="#goUserArea" prefHeight="49.0" prefWidth="151.0" stylesheets="@MainMenu.css" text="سه سوتی هستم  :)" textFill="#848484">
+                    <styleClass>
+                        <String fx:value="button2" />
+                        <String fx:value="taskbarButtons" />
+                    </styleClass>
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+                <Button fx:id="login_logout_btn" alignment="CENTER_RIGHT" layoutX="294.0" layoutY="148.0" mnemonicParsing="false" onAction="#goLogin" prefHeight="49.0" prefWidth="193.0" stylesheets="@MainMenu.css" text="ورود به حساب کاربری" textFill="#8a8a8a">
+                    <styleClass>
+                        <String fx:value="button1" />
+                        <String fx:value="taskbarButtons" />
+                    </styleClass>
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+                <Button alignment="CENTER_RIGHT" layoutX="1088.0" layoutY="147.0" mnemonicParsing="false" onAction="#goAuction" prefHeight="52.0" prefWidth="112.0" styleClass="taskbarButtons" text="حراج ها" textFill="#777575">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+                <Button alignment="CENTER_RIGHT" layoutX="933.0" layoutY="150.0" mnemonicParsing="false" onAction="#goProducts" prefHeight="50.0" prefWidth="142.0" text="محصولات" textFill="#717171">
+                    <styleClass>
+                        <String fx:value="button3" />
+                        <String fx:value="taskbarButtons" />
+                    </styleClass>
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+                <Separator layoutX="1210.0" layoutY="147.0" orientation="VERTICAL" prefHeight="51.0" prefWidth="6.0" />
+                <Separator layoutX="283.0" layoutY="150.0" orientation="VERTICAL" prefHeight="47.0" prefWidth="7.0" />
+                <Button fx:id="cart_btn" disable="true" layoutX="113.0" layoutY="54.0" mnemonicParsing="false" onAction="#goCart" prefHeight="86.0" prefWidth="89.0" styleClass="shoppingBag" stylesheets="@MainMenu.css" />
+                <ImageView fitHeight="38.0" fitWidth="48.0" layoutX="301.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@icons8-customer-64.png" />
+                </ImageView>
+                <ImageView fitHeight="45.0" fitWidth="50.0" layoutX="1088.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@icons8-add-shopping-cart-48.png" />
+                </ImageView>
+                <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="945.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@icons8-sale-64.png" />
+                </ImageView>
+                <TextField fx:id="searchArea" alignment="CENTER_RIGHT" layoutX="287.0" layoutY="67.0" prefHeight="54.0" prefWidth="1109.0" promptText="          جست و جو در سه سوت ...">
+                    <font>
+                        <Font size="17.0" />
+                    </font>
+                </TextField>
+                <Button layoutX="1343.0" layoutY="70.0" mnemonicParsing="false" onAction="#goSearching" prefHeight="51.0" prefWidth="45.0" styleClass="searchButton" stylesheets="@MainMenu.css" />
+                <Button fx:id="back_btn" disable="true" layoutX="46.0" layoutY="150.0" mnemonicParsing="false" onAction="#goMainMenu" prefHeight="50.0" prefWidth="224.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="بازگشت به صفحه ی اصلی" textFill="#979797">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+                <Button alignment="CENTER_RIGHT" layoutX="793.0" layoutY="149.0" mnemonicParsing="false" onAction="#viewOffers" prefHeight="51.0" prefWidth="130.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="مزایده ها" textFill="#646464">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+                <ImageView fitHeight="43.0" fitWidth="45.0" layoutX="799.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@icons8-payroll-80.png" />
+                </ImageView>
+                <Button fx:id="support_btn" disable="true" layoutX="657.0" layoutY="149.0" mnemonicParsing="false" onAction="#viewSupporters" prefHeight="52.0" prefWidth="126.0" styleClass="taskbarButtons" stylesheets="@MainMenu.css" text="پشتیبان ها" textFill="#797979">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Button>
+            </AnchorPane>
+        </top>
+        <center>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="745.0" prefWidth="1134.0" styleClass="base2" stylesheets="@MainMenu.css">
+                <children>
+                    <GridPane layoutX="350.0" layoutY="-1.0" prefHeight="611.0" prefWidth="1191.0" style="-fx-background-color: #f8e643;">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                  <children>
+                     <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f843c5; -fx-shape: 'M 50 500 Q 150 500 200 450 L 800 450 L 800 100 L 100 100 L 100 400 Q 100 500 50 500 ';" GridPane.rowIndex="4">
+                        <children>
+                           <Label layoutX="47.0" layoutY="14.0" prefHeight="27.0" prefWidth="166.0" text="یاسمین گلزار">
+                              <font>
+                                 <Font size="18.0" />
+                              </font>
+                           </Label>
+                        </children></Pane>
+                     <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f843c5; -fx-shape: 'M 50 500 Q 150 500 200 450 L 800 450 L 800 100 L 100 100 L 100 400 Q 100 500 50 500 ';" GridPane.rowIndex="3">
+                        <children>
+                           <Label layoutX="49.0" layoutY="14.0" prefHeight="27.0" prefWidth="166.0" text="یاسمین گلزار">
+                              <font>
+                                 <Font size="18.0" />
+                              </font>
+                           </Label>
+                        </children></Pane>
+                     <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f843c5; -fx-shape: 'M 750 500 Q 650 500 600 450 L 350 450 L 0 450 L 0 250 L 0 50 L 350 50 L 700 50 L 700 250 L 700 400 Q 700 500 750 500 Z';" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <children>
+                           <Label layoutX="511.0" layoutY="17.0" prefHeight="30.0" prefWidth="36.0" text="you">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                        </children></Pane>
+                     <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f843c5; -fx-shape: 'M 50 500 Q 150 500 200 450 L 800 450 L 800 100 L 100 100 L 100 400 Q 100 500 50 500 ';" GridPane.rowIndex="1">
+                        <children>
+                           <Label layoutX="46.0" layoutY="14.0" prefHeight="27.0" prefWidth="166.0" text="یاسمین گلزار">
+                              <font>
+                                 <Font size="18.0" />
+                              </font>
+                           </Label>
+                        </children></Pane>
+                     <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f843c5; -fx-shape: 'M 750 500 Q 650 500 600 450 L 350 450 L 0 450 L 0 250 L 0 50 L 350 50 L 700 50 L 700 250 L 700 400 Q 700 500 750 500 Z';" GridPane.columnIndex="1">
+                        <children>
+                           <Label layoutX="513.0" layoutY="14.0" prefHeight="30.0" prefWidth="36.0" text="you">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                        </children></Pane>
+                  </children>
+                    </GridPane>
+                    <VBox layoutX="-2.0" layoutY="-2.0" prefHeight="609.0" prefWidth="350.0" style="-fx-background-color: #d15a32;">
+                        <Pane prefHeight="100.0" prefWidth="350.0" style="-fx-background-color: #43f8ec; -fx-border-width: 5; -fx-border-color: #d15a32;">
+                            <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="166.0" text="یاسمین گلزار">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <Label layoutX="16.0" layoutY="50.0" prefHeight="9.0" prefWidth="318.0" text="ایمان بیار فرزندم چراکه خداوند در شرایط ">
+                                <font>
+                                    <Font size="22.0" />
+                                </font>
+                            </Label>
+                        </Pane>
+                        <Pane prefHeight="100.0" prefWidth="350.0" style="-fx-background-color: #43f8ec; -fx-border-width: 5; -fx-border-color: #d15a32;">
+                            <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="162.0" text="سوگل صادقی">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <Label layoutX="16.0" layoutY="50.0" prefHeight="9.0" prefWidth="318.0" text="اگه نمیخری وقت ما رو هم نگیر ...">
+                                <font>
+                                    <Font size="22.0" />
+                                </font>
+                            </Label>
+                        </Pane>
+                        <Pane prefHeight="100.0" prefWidth="350.0" style="-fx-background-color: #43f8ec; -fx-border-width: 5; -fx-border-color: #d15a32;">
+                            <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="100.0" text="AlirezaQre">
+                                <font>
+                                    <Font size="18.0" />
+                                </font>
+                            </Label>
+                            <Label layoutX="16.0" layoutY="50.0" prefHeight="9.0" prefWidth="318.0" text="به من چه ...!">
+                                <font>
+                                    <Font size="22.0" />
+                                </font>
+                            </Label>
+                        </Pane>
+
+                    </VBox>
+                    <AnchorPane layoutY="608.0" prefHeight="152.0" prefWidth="1542.0" style="-fx-background-color: #a7f843;" BorderPane.alignment="CENTER">
+                        <TextArea layoutX="194.0" layoutY="33.0" prefHeight="82.0" prefWidth="1210.0" />
+                        <Button layoutX="1426.0" layoutY="34.0" mnemonicParsing="false" prefHeight="81.0" prefWidth="88.0" style="-fx-background-size: cover;" stylesheets="@yacGram.css">
+                            <styleClass>
+                                <String fx:value="sentButton" />
+                                <String fx:value="sentButton" />
+                            </styleClass>
+                        </Button>
+                        <ImageView fitHeight="76.0" fitWidth="87.0" layoutX="26.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="94.0" fitWidth="99.0" layoutX="23.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@icons8-contacts-48.png" />
+                        </ImageView>
+                        <Separator layoutX="141.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="153.0" prefWidth="6.0" />
+                    </AnchorPane>
+                </children>
+            </AnchorPane>
+        </center>
+        <right>
+            <StackPane>
+                <Pane prefHeight="760.0" prefWidth="458.0" styleClass="rightTab" stylesheets="@MainMenu.css" BorderPane.alignment="CENTER">
+                    <Label alignment="CENTER" layoutX="139.0" layoutY="26.0" prefHeight="124.0" prefWidth="280.0" text="بررسی" textFill="#6c6c6c">
+                        <font>
+                            <Font name="Arial" size="24.0" />
+                        </font>
+                    </Label>
+                    <Label alignment="CENTER" layoutX="139.0" layoutY="245.0" prefHeight="124.0" prefWidth="280.0" text="انتخاب" textFill="#6f6f6f">
+                        <font>
+                            <Font name="Arial" size="24.0" />
+                        </font>
+                    </Label>
+                    <Label alignment="CENTER" layoutX="139.0" layoutY="470.0" prefHeight="124.0" prefWidth="280.0" text="خرید آنلاین" textFill="#e80000">
+                        <font>
+                            <Font name="Arial" size="24.0" />
+                        </font>
+                    </Label>
+                    <ImageView fitHeight="134.0" fitWidth="120.0" layoutX="219.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@icons8-number-1-48.png" />
+                    </ImageView>
+                    <ImageView fitHeight="128.0" fitWidth="128.0" layoutX="215.0" layoutY="352.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@icons8-number-2-48.png" />
+                    </ImageView>
+                    <ImageView fitHeight="123.0" fitWidth="134.0" layoutX="218.0" layoutY="585.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@icons8-3-c-48.png" />
+                    </ImageView>
+                </Pane>
+            </StackPane>
+        </right>
+    </BorderPane>
+</Scene>
