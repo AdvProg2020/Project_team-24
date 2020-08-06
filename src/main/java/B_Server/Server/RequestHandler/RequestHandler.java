@@ -70,6 +70,8 @@ public class RequestHandler extends Thread implements MessagePattern, MessageSup
 
         } catch (IOException e) {
             close();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

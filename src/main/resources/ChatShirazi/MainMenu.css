@@ -56,3 +56,8 @@
 .button:hover{
     -fx-background-color: lightgrey;
 }
+.gridpane{
+    -fx-background-image: url("sky.jpg");
+    -fx-background-size: cover
+;
+}

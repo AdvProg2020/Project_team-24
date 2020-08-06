@@ -82,8 +82,8 @@ public class Cart implements Initializable, SceneBuilder {
         setProductsImage();
         setProductsPrice();
         setProductsNumber();
-        setProductFinalPrice();
         setProductsButton();
+        setProductFinalPrice();
         setTotalPrice();
 
         playMedia();
@@ -184,14 +184,6 @@ public class Cart implements Initializable, SceneBuilder {
 
     public void purchase() {
         MainMenu.change(new Payment().sceneBuilder());
-    }
-
-    private void productOutOfStack() {
-        alertError("productOutOfStack", "نداریم ...");
-    }
-
-    private void productDoesNotExist() {
-        alertError("productDoesNotExist", "محصول نامعتبر است");
     }
 
     private void alertError(String title, String message) {

@@ -115,10 +115,11 @@ public class MainMenu extends Application implements SceneBuilder, Initializable
 
         gif.getMediaPlayer().play();
         gif.getMediaPlayer().setCycleCount(Integer.MAX_VALUE);
-        playMusic("src/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");
+        playMusic("zsrc/main/resources/Graphics/SoundEffect/mainMenu_sound.mp3");
 
         if (client.getClientInfo().getAccountId() != null) {
-            support_btn.setDisable(false);
+            support_btn.setDisable(false
+            );
             userArea_btn.setDisable(false);
             login_logout_btn.setText("خروج ...");
             login_logout_btn.setOnAction(event -> logout());
